@@ -181,6 +181,9 @@ func _drop(scene: PackedScene, at: Vector2) -> void:
 
 
 func _draw() -> void:
+	# Düğüm _ready içinde kendini siliyor; o kareye denk gelen çizim boş veriyle çalışmasın.
+	if _data.is_empty():
+		return
 	var size := _size()
 	var body: Color = _data["body"]
 	var trim: Color = _data["trim"]

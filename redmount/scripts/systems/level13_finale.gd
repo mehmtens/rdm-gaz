@@ -4,7 +4,6 @@ extends "res://scripts/systems/level12_redesign.gd"
 const APPROACH := preload("res://assets/backgrounds/level13_final_approach_atlas.png")
 const MIDDLE := preload("res://assets/backgrounds/level13_middle_atlas.png")
 const LAST := preload("res://assets/backgrounds/level13_last_atlas.png")
-const THRONE := preload("res://assets/backgrounds/level05_throne_hall.png")
 const KARAHANLI := preload("res://scenes/enemies/Karahanli.tscn")
 const GAZELLE := preload("res://scenes/characters/Gazelle.tscn")
 
@@ -331,9 +330,8 @@ class _FinalBackdrop extends Node2D:
 
 	func _draw_scene(scene: int, alpha: float) -> void:
 		if scene == 12:
-			draw_texture_rect(THRONE, Rect2(-960, -540, 1920, 1080), false,
-				Color(1, 1, 1, alpha))
-			return
+			# Karahanlı düellosu da aynı Osmanlı taht salonunda geçer.
+			scene = 11
 		var atlas: Texture2D = APPROACH if scene < 4 else MIDDLE if scene < 8 else LAST
 		var local_scene := scene % 4
 		var half := atlas.get_size() * 0.5

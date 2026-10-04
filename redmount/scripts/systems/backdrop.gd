@@ -1,8 +1,9 @@
-## Backdrop — prosedürel çok katmanlı paralaks arka plan (Görev 17).
+## Backdrop — çok katmanlı paralaks arka plan (Görev 17).
 ##
-## Yeni sanat gerektirmez: gökyüzü gradyanı + 2 silüet katmanı + sis bandı +
-## sürüklenen zerreler, hepsi `_draw` ile çizilir ve aktif `Camera2D`'ye göre
-## paralaks kaydırılır. `biome` her bölümün ruh hâlini belirler. Level.gd bunu
+## En arkada biome'a göre seçilmiş İstanbul piksel sanatı panoraması (Haliç,
+## tersane, surlar, saray) yavaşça kayar; önünde sürüklenen zerreler. Eski
+## prosedürel dikdörtgen bina/üçgen dağ silüetleri kaldırıldı — bölümün kendi
+## mekân atlası çizilmeyen yerlerde de ekran İstanbul sanatıyla dolu kalır. `biome` her bölümün ruh hâlini belirler. Level.gd bunu
 ## bölüm yüklenince kendi altına ekler (en arkaya, z_index çok negatif).
 class_name Backdrop
 extends Node2D
@@ -24,10 +25,7 @@ func _ready() -> void:
 	var pal := _palette()
 
 	_add_layer(_SkyLayer.new(pal), 0.0, 0.0)
-	_add_layer(_SilhouetteLayer.new(biome, pal, world_left, world_right, 0), 0.12, 0.06)
-	_add_layer(_SilhouetteLayer.new(biome, pal, world_left, world_right, 1), 0.34, 0.16)
-	_add_layer(_HazeLayer.new(pal), 0.5, 0.36)
-	_add_layer(_SilhouetteLayer.new(biome, pal, world_left, world_right, 2), 0.56, 0.28)
+	_add_layer(_PanoramaLayer.new(biome), 0.06, 0.0)
 	_add_layer(_MoteLayer.new(biome, pal), 0.9, 0.9)
 
 
@@ -93,86 +91,44 @@ class _SkyLayer extends Node2D:
 			var t1 := float(i + 1) / steps
 			var col: Color = _pal.sky_top.lerp(_pal.sky_bot, ease(t0, 1.6))
 			draw_rect(Rect2(-w, -h + (h * 2.0) * t0, w * 2.0, (h * 2.0) / steps + 1.0), col)
-		# ufuk parıltısı
-		draw_circle(Vector2(0, h * 0.55), 520.0, Color(_pal.accent.r, _pal.accent.g, _pal.accent.b, 0.10))
 
 
-class _SilhouetteLayer extends Node2D:
-	var _biome: int
-	var _pal: Dictionary
-	var _l: float
-	var _r: float
-	var _tier: int  # 0 = uzak, 1 = orta
-	func _init(biome: int, pal: Dictionary, l: float, r: float, tier: int) -> void:
-		_biome = biome
-		_pal = pal
-		_l = l - 600.0
-		_r = r + 600.0
-		_tier = tier
+## Biome panoraması: mevcut İstanbul mekân sanatından bir kesit; yatayda
+## ayna-döşenir (kenarlar dikişsiz birleşir) ve kamerayla çok yavaş kayar.
+class _PanoramaLayer extends Node2D:
+	const ART := [
+		[preload("res://assets/backgrounds/level01_urban_dusk.png"), Rect2(0, 0, 1, 1)],
+		[preload("res://assets/backgrounds/level03_heavy_industry.png"), Rect2(0, 0, 1, 1)],
+		[preload("res://assets/backgrounds/level04_fortress_atlas.png"), Rect2(0, 0, 0.5, 0.39)],
+		[preload("res://assets/backgrounds/level13_last_atlas.png"), Rect2(0.0, 0.5, 0.5, 0.45)],
+	]
+	var _tex: Texture2D
+	var _src: Rect2
+
+	func _init(biome: int) -> void:
+		var entry: Array = ART[clampi(biome, 0, ART.size() - 1)]
+		_tex = entry[0]
+		var r: Rect2 = entry[1]
+		var size := _tex.get_size()
+		_src = Rect2(r.position * size, r.size * size)
+		texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+
 	func _draw() -> void:
-		var rng := RandomNumberGenerator.new()
-		rng.seed = hash("%d-%d" % [_biome, _tier])
-		var base_col: Color = _pal.far
-		var ground_y := 140.0
-		var sz := 1.0
-		match _tier:
-			1:
-				base_col = _pal.mid
-				ground_y = 90.0
-				sz = 0.85
-			2:
-				base_col = _pal.mid.darkened(0.35)
-				ground_y = 34.0
-				sz = 1.25
-		var x := _l
-		while x < _r:
-			var bw := rng.randf_range(70.0, 190.0) * sz
-			var bh := rng.randf_range(120.0, 460.0) * (0.7 if _tier == 0 else (1.0 if _tier == 1 else 0.7))
-			var col := base_col.lightened(rng.randf_range(-0.04, 0.06))
-			match _biome:
-				Backdrop.Biome.INDUSTRIAL:  # bacalar + tanklar
-					draw_rect(Rect2(x, ground_y - bh, bw, bh), col)
-					if rng.randf() < 0.3:
-						draw_rect(Rect2(x + bw * 0.3, ground_y - bh - 60.0, bw * 0.35, 60.0), col)
-				Backdrop.Biome.FORTRESS:  # dağ sırtı + kuleler
-					draw_colored_polygon(PackedVector2Array([
-						Vector2(x, ground_y), Vector2(x + bw * 0.5, ground_y - bh),
-						Vector2(x + bw, ground_y)]), col)
-					if rng.randf() < 0.25:
-						draw_rect(Rect2(x + bw * 0.4, ground_y - bh * 0.5, bw * 0.2, bh * 0.5), col)
-				Backdrop.Biome.KEEP:  # sur + mazgal
-					draw_rect(Rect2(x, ground_y - bh * 0.6, bw, bh * 0.6), col)
-					var mx := x
-					while mx < x + bw:
-						draw_rect(Rect2(mx, ground_y - bh * 0.6 - 16.0, 14.0, 16.0), col)
-						mx += 26.0
-				_:  # STREET — bina blokları + pencereler
-					draw_rect(Rect2(x, ground_y - bh, bw, bh), col)
-					if _tier >= 1 and rng.randf() < (0.7 if _tier == 1 else 0.4):
-						var wa := 0.5 if _tier == 1 else 0.32
-						var wy := ground_y - bh + 24.0
-						while wy < ground_y - 20.0:
-							var wx := x + 10.0
-							while wx < x + bw - 10.0:
-								if rng.randf() < (0.28 if _tier == 1 else 0.16):
-									draw_rect(Rect2(wx, wy, 7.0, 10.0),
-										Color(_pal.accent.r, _pal.accent.g, _pal.accent.b, wa))
-								wx += 18.0
-							wy += 22.0
-			x += bw + rng.randf_range(-30.0, 40.0)
+		# Ekranı (1280x720, geniş oranlarda daha fazlası) dikeyde dolduracak ölçek.
+		var h := 1180.0
+		var w := h * _src.size.x / _src.size.y
+		var cam := get_viewport().get_camera_2d()
+		var center_x: float = -position.x + (cam.get_screen_center_position().x if cam else 0.0)
+		var first := floori((center_x - 1600.0) / w)
+		for i in range(first, first + int(ceilf(3200.0 / w)) + 2):
+			var rect := Rect2(i * w, -h * 0.5 - 60.0, w, h)
+			if posmod(i, 2) == 1:
+				# Ayna kopya: sağ kenar bir öncekinin sağ kenarıyla birleşir.
+				rect = Rect2(rect.position.x + w, rect.position.y, -w, h)
+			draw_texture_rect_region(_tex, rect, _src)
 
-
-class _HazeLayer extends Node2D:
-	var _pal: Dictionary
-	func _init(pal: Dictionary) -> void:
-		_pal = pal
-	func _draw() -> void:
-		var w := 2600.0
-		for i in 10:
-			var t := float(i) / 10.0
-			var a: float = 0.06 + 0.10 * t
-			draw_rect(Rect2(-w, 40.0 + 120.0 * t, w * 2.0, 40.0),
-				Color(_pal.haze.r, _pal.haze.g, _pal.haze.b, a))
+	func _process(_delta: float) -> void:
+		queue_redraw()
 
 
 class _MoteLayer extends Node2D:

@@ -38,8 +38,6 @@ const BIOME_TINT := [
 
 var _tint: Color = Color.WHITE
 
-## Üretilen dokular bölümler arasında paylaşılır (bir kez üret).
-static var _tex_cache: Dictionary = {}
 
 
 func _ready() -> void:
@@ -157,118 +155,15 @@ func _dress_polygon(poly: Polygon2D, no_texture := false) -> void:
 		poly.add_child(lip)
 
 
+## Biome başına İstanbul piksel sanatı zemin dokusu (eski prosedürel asfalt/metal/
+## blok taş üreteçlerinin yerine). Dokular dünya hizalı UV ile döşenir.
+const GROUND_ART := [
+	preload("res://assets/environment/mahalle/stone_fill.png"),   # Street — Arnavut kaldırımı
+	preload("res://assets/environment/haddehane_ground.png"),     # Industrial — haddehane zemini
+	preload("res://assets/environment/fortress_stone.png"),       # Fortress — sur taşı
+	preload("res://assets/environment/corridor_ground.png"),      # Keep — saray koridoru
+]
+
+
 func _ground_texture() -> Texture2D:
-	var key := clampi(biome, 0, 3)
-	if _tex_cache.has(key):
-		return _tex_cache[key]
-	var img: Image
-	match key:
-		1:   img = _make_metal()
-		2, 3: img = _make_stone()
-		_:   img = _make_asphalt()
-	var tex := ImageTexture.create_from_image(img)
-	_tex_cache[key] = tex
-	return tex
-
-
-const _TS := 128
-
-func _make_asphalt() -> Image:
-	var img := Image.create(_TS, _TS, false, Image.FORMAT_RGB8)
-	var n := FastNoiseLite.new()
-	n.noise_type = FastNoiseLite.TYPE_SIMPLEX
-	n.frequency = 0.09
-	n.seed = 41
-	var grain := FastNoiseLite.new()
-	grain.noise_type = FastNoiseLite.TYPE_CELLULAR
-	grain.frequency = 0.22
-	grain.seed = 7
-	var base := Color(0.31, 0.315, 0.34)
-	for y in _TS:
-		for x in _TS:
-			var v := n.get_noise_2d(x, y) * 0.03
-			var s: float = maxf(grain.get_noise_2d(x, y), 0.0) * 0.05
-			var c := Color(base.r + v + s, base.g + v + s, base.b + v + s * 0.9)
-			img.set_pixel(x, y, c)
-	# birkaç ince çatlak (yumuşak)
-	var rng := RandomNumberGenerator.new()
-	rng.seed = 99
-	for i in 3:
-		var px := rng.randi_range(0, _TS - 1)
-		var py := rng.randi_range(0, _TS - 1)
-		var steps := rng.randi_range(20, 54)
-		var ang := rng.randf() * TAU
-		for _s in steps:
-			px = wrapi(px + int(round(cos(ang))), 0, _TS)
-			py = wrapi(py + int(round(sin(ang))), 0, _TS)
-			ang += rng.randf_range(-0.5, 0.5)
-			img.set_pixel(px, py, base.darkened(0.32))
-	return img
-
-
-func _make_metal() -> Image:
-	var img := Image.create(_TS, _TS, false, Image.FORMAT_RGB8)
-	var streak := FastNoiseLite.new()
-	streak.noise_type = FastNoiseLite.TYPE_SIMPLEX
-	streak.frequency = 0.015
-	streak.seed = 12
-	var rust := FastNoiseLite.new()
-	rust.noise_type = FastNoiseLite.TYPE_SIMPLEX
-	rust.frequency = 0.05
-	rust.seed = 88
-	var base := Color(0.33, 0.335, 0.36)
-	var rust_col := Color(0.45, 0.26, 0.15)
-	for y in _TS:
-		for x in _TS:
-			var br := streak.get_noise_2d(x * 4.0, y) * 0.05
-			var c := Color(base.r + br, base.g + br, base.b + br)
-			var r: float = rust.get_noise_2d(x, y)
-			if r > 0.35:
-				var amt: float = (r - 0.35) * 1.4
-				c = c.lerp(rust_col, clampf(amt, 0.0, 0.6))
-			# yatay plaka dikişi
-			if y % 32 == 0 or y % 32 == 1:
-				c = c.darkened(0.4)
-			img.set_pixel(x, y, c)
-	# perçinler
-	for sy in range(4, _TS, 32):
-		for sx in range(8, _TS, 24):
-			for dy in range(-1, 2):
-				for dx in range(-1, 2):
-					img.set_pixel(wrapi(sx + dx, 0, _TS), wrapi(sy + dy, 0, _TS),
-						Color(0.34, 0.35, 0.38))
-	return img
-
-
-func _make_stone() -> Image:
-	var img := Image.create(_TS, _TS, false, Image.FORMAT_RGB8)
-	var speck := FastNoiseLite.new()
-	speck.noise_type = FastNoiseLite.TYPE_SIMPLEX
-	speck.frequency = 0.14
-	speck.seed = 23
-	var base := Color(0.34, 0.34, 0.375)
-	var mortar := Color(0.19, 0.19, 0.22)
-	var bh := 32
-	var bw := 64
-	var rng := RandomNumberGenerator.new()
-	rng.seed = 5
-	# blok başı parlaklık sapması
-	var bright: Dictionary = {}
-	for y in _TS:
-		var row := y / bh
-		var off := (bw / 2) if row % 2 == 1 else 0
-		for x in _TS:
-			var col := (x + off) / bw
-			var bkey := "%d_%d" % [row, col]
-			if not bright.has(bkey):
-				bright[bkey] = rng.randf_range(-0.05, 0.05)
-			var bo: float = bright[bkey]
-			var c := Color(base.r, base.g, base.b).lightened(bo)
-			var sp := speck.get_noise_2d(x, y) * 0.05
-			c = Color(c.r + sp, c.g + sp, c.b + sp)
-			var lx := (x + off) % bw
-			var ly := y % bh
-			if ly <= 1 or lx <= 1:
-				c = mortar
-			img.set_pixel(x, y, c)
-	return img
+	return GROUND_ART[clampi(biome, 0, 3)]
