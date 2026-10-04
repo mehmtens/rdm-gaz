@@ -1,0 +1,11 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+  L1 t=4 x=399 maxx=399 hp=125 respawns=0
+  L1 t=8 x=1345 maxx=1345 hp=125 respawns=0
+  L1 t=12 x=2108 maxx=2108 hp=125 respawns=0
+  L1 t=16 x=2913 maxx=2913 hp=115 respawns=0
+  L1 t=20 x=2927 maxx=2981 hp=115 respawns=0
+  L1 t=24 x=2963 maxx=2981 hp=115 respawns=0
+PROBE Bölüm 1: TIMEOUT maxx=2981

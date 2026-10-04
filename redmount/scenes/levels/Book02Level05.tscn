@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/book02_level05.gd" id="1"]
+
+[node name="Book02Level05" type="Node2D"]
+script = ExtResource("1")
+display_name = "Beyazıt Posta Hattı"
+biome = 0
+chapter = 7
+par_time = 465.0
+camera_limit_left = -320
+camera_limit_right = 116400
+camera_limit_top = -720
+camera_limit_bottom = 620
+fall_respawn_y = 340.0

@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/shockwave.gd" id="1"]
+
+[sub_resource type="RectangleShape2D" id="s"]
+resource_local_to_scene = true
+size = Vector2(8, 44)
+
+[node name="Shockwave" type="Area2D"]
+collision_layer = 0
+monitorable = false
+script = ExtResource("1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -22)
+shape = SubResource("s")
+
+[node name="Vis" type="Polygon2D" parent="."]
+position = Vector2(0, -22)
+color = Color(0.95, 0.7, 0.35, 0.55)
+polygon = PackedVector2Array(0, -22, 40, -10, 40, 10, 0, 22)

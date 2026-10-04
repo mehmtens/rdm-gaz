@@ -1,0 +1,12 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+  L2 t=4 x=47198 y=-0 vx=620 floor=true hit=/root/Level02Play/Main/LevelHolder/Level06/Ground72 maxx=47198 hp=92 respawns=0
+  L2 t=8 x=47939 y=-0 vx=67 floor=true hit=/root/Level02Play/Main/LevelHolder/Level06/Ground72 maxx=47941 hp=92 respawns=0
+  L2 t=12 x=47866 y=-0 vx=67 floor=true hit=/root/Level02Play/Main/LevelHolder/Level06/Ground72 maxx=47969 hp=92 respawns=0
+  L2 t=16 x=47885 y=-0 vx=200 floor=true hit=/root/Level02Play/Main/LevelHolder/Level06/Ground72 maxx=48036 hp=82 respawns=0
+  L2 t=20 x=47961 y=-0 vx=620 floor=true hit=/root/Level02Play/Main/LevelHolder/Level06/Ground72 maxx=48036 hp=100 respawns=0
+PROBE Bölüm 2: CLEARED @48759  t=22.3s
+WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2535)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

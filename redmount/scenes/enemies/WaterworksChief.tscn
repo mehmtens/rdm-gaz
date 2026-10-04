@@ -1,0 +1,11 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/enemies/EnemyBase.tscn" id="1"]
+[ext_resource type="Resource" path="res://resources/enemies/waterworks_chief.tres" id="2"]
+[ext_resource type="SpriteFrames" path="res://resources/anim/mini_boss_frames.tres" id="3"]
+
+[node name="WaterworksChief" instance=ExtResource("1")]
+rig_style = "miniboss"
+config = ExtResource("2")
+frames = ExtResource("3")
+patrol_distance = 0.0

@@ -1,0 +1,1358 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+TextServer: Added interface "Dummy"
+TextServer: Added interface "ICU / HarfBuzz / Graphite (Built-in)"
+Using "default" pen tablet driver...
+
+TextServer: Primary interface set to: "ICU / HarfBuzz / Graphite (Built-in)".
+CORE API HASH: 3769296884
+EDITOR API HASH: 3146738256
+SceneTreeFTI: traversal method DEFAULT
+Loading resource: C:/Users/Mehmet enes ALDAĞ/AppData/Roaming/Godot/editor_settings-4.7.tres remapped: C:/Users/Mehmet enes ALDAĞ/AppData/Roaming/Godot/editor_settings-4.7.tres
+Completed load for: 'C:/Users/Mehmet enes ALDAĞ/AppData/Roaming/Godot/editor_settings-4.7.tres' remapped 'C:/Users/Mehmet enes ALDAĞ/AppData/Roaming/Godot/editor_settings-4.7.tres' at thread -1
+EditorSettings: Load OK!
+EditorTheme: Generating new theme for the config '3810048042'.
+EditorTheme: Generating new icons.
+EditorTheme: Generating new fonts.
+EditorTheme: Generating new styles.
+Loading resource: C:/Users/Mehmet enes ALDAĞ/AppData/Local/Godot/editor_doc_cache-4.7.res remapped: C:/Users/Mehmet enes ALDAĞ/AppData/Local/Godot/editor_doc_cache-4.7.res
+Loaded system CA certificates
+Completed load for: 'C:/Users/Mehmet enes ALDAĞ/AppData/Local/Godot/editor_doc_cache-4.7.res' remapped 'C:/Users/Mehmet enes ALDAĞ/AppData/Local/Godot/editor_doc_cache-4.7.res' at thread -1
+[   0% ] first_scan_filesystem | Started Projenin ilk başlatılması (5 steps)
+[   0% ] first_scan_filesystem | Dosya yapısı taranıyor...
+[  16% ] first_scan_filesystem | Genel sınıf isimleri yükleniyor...
+[  33% ] first_scan_filesystem | GDExtension'lar doğrulanıyor...
+[  50% ] first_scan_filesystem | Otomatik yükleme betikleri oluşturuluyor...
+Loading resource: res://scripts/systems/combat.gd remapped: res://scripts/systems/combat.gd
+Completed load for: 'res://scripts/systems/combat.gd' remapped 'res://scripts/systems/combat.gd' at thread -1
+Loading resource: res://scripts/systems/save_manager.gd remapped: res://scripts/systems/save_manager.gd
+Completed load for: 'res://scripts/systems/save_manager.gd' remapped 'res://scripts/systems/save_manager.gd' at thread -1
+Loading resource: res://scripts/systems/sfx.gd remapped: res://scripts/systems/sfx.gd
+Completed load for: 'res://scripts/systems/sfx.gd' remapped 'res://scripts/systems/sfx.gd' at thread -1
+Loading resource: res://scripts/systems/music.gd remapped: res://scripts/systems/music.gd
+Completed load for: 'res://scripts/systems/music.gd' remapped 'res://scripts/systems/music.gd' at thread -1
+Loading resource: res://scripts/systems/fx.gd remapped: res://scripts/systems/fx.gd
+Completed load for: 'res://scripts/systems/fx.gd' remapped 'res://scripts/systems/fx.gd' at thread -1
+Loading resource: res://scripts/systems/transition.gd remapped: res://scripts/systems/transition.gd
+Completed load for: 'res://scripts/systems/transition.gd' remapped 'res://scripts/systems/transition.gd' at thread -1
+[  66% ] first_scan_filesystem | Eklentiler başlatılıyor...
+[  83% ] first_scan_filesystem | Dosya taraması başlatılıyor...
+[ DONE ] first_scan_filesystem
+
+[   0% ] export | Started Android için dışa aktarılıyor (105 steps)
+Exporting for Android...
+- debug build: true
+- export path: C:\rdm-gaz\build\redmount-debug.apk
+- export format: 0
+- sign build: true
+- gradle build enabled: false
+- enabled abis: arm64-v8a
+- export filter: 0
+- include filter: 
+- exclude filter: screenshots/*,_showcase/*,assets/reference/*,tests/*
+Loading regular icon from 
+- falling back to project icon: res://icon.svg
+Loading resource: res://icon.svg remapped: res://icon.svg
+Loading resource: res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex remapped: res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex
+Completed load for: 'res://icon.svg' remapped 'res://icon.svg' at thread -1
+Loading adaptive foreground icon from 
+- falling back to using the regular icon
+Loading splash screen icon from 
+- falling back to using the adaptive foreground icon
+0 param: --xr_mode_regular
+1 param: --xr-mode
+2 param: off
+3 param: --fullscreen
+4 param: --background_color
+5 param: #000000
+Starting legacy build system...
+[   0% ] export | APK oluşturuluyor...
+ADDING: classes.dex
+ADDING: classes10.dex
+ADDING: classes11.dex
+ADDING: classes12.dex
+ADDING: classes13.dex
+ADDING: classes2.dex
+ADDING: classes3.dex
+ADDING: classes4.dex
+ADDING: classes5.dex
+ADDING: classes6.dex
+ADDING: classes7.dex
+ADDING: classes8.dex
+ADDING: classes9.dex
+ADDING: lib/arm64-v8a/libc++_shared.so
+ADDING: lib/arm64-v8a/libgodot_android.so
+Adding application metadata org.godotengine.rendering.method
+Adding application metadata org.godotengine.editor.version
+ADDING: AndroidManifest.xml
+ADDING: res/anim-v21/fragment_fast_out_extra_slow_in.xml
+ADDING: res/animator/fragment_close_enter.xml
+ADDING: res/animator/fragment_close_exit.xml
+ADDING: res/animator/fragment_fade_enter.xml
+ADDING: res/animator/fragment_fade_exit.xml
+ADDING: res/animator/fragment_open_enter.xml
+ADDING: res/animator/fragment_open_exit.xml
+ADDING: res/drawable-hdpi-v4/notification_bg_low_normal.9.png
+ADDING: res/drawable-hdpi-v4/notification_bg_low_pressed.9.png
+ADDING: res/drawable-hdpi-v4/notification_bg_normal.9.png
+ADDING: res/drawable-hdpi-v4/notification_bg_normal_pressed.9.png
+ADDING: res/drawable-hdpi-v4/notify_panel_notification_icon_bg.png
+ADDING: res/drawable-mdpi-v4/notification_bg_low_normal.9.png
+ADDING: res/drawable-mdpi-v4/notification_bg_low_pressed.9.png
+ADDING: res/drawable-mdpi-v4/notification_bg_normal.9.png
+ADDING: res/drawable-mdpi-v4/notification_bg_normal_pressed.9.png
+ADDING: res/drawable-mdpi-v4/notify_panel_notification_icon_bg.png
+ADDING: res/drawable-v21/notification_action_background.xml
+ADDING: res/drawable-v23/compat_splash_screen.xml
+ADDING: res/drawable-v23/compat_splash_screen_no_icon_background.xml
+ADDING: res/drawable-xhdpi-v4/notification_bg_low_normal.9.png
+ADDING: res/drawable-xhdpi-v4/notification_bg_low_pressed.9.png
+ADDING: res/drawable-xhdpi-v4/notification_bg_normal.9.png
+ADDING: res/drawable-xhdpi-v4/notification_bg_normal_pressed.9.png
+ADDING: res/drawable-xhdpi-v4/notify_panel_notification_icon_bg.png
+ADDING: res/drawable/icon_background.xml
+ADDING: res/drawable/notification_bg.xml
+ADDING: res/drawable/notification_bg_low.xml
+ADDING: res/drawable/notification_icon_background.xml
+ADDING: res/drawable/notification_tile_bg.xml
+ADDING: res/drawable/splash_branding_image.webp
+ADDING: res/drawable/splash_icon.webp
+ADDING: res/layout-v21/notification_action.xml
+ADDING: res/layout-v21/notification_action_tombstone.xml
+ADDING: res/layout-v21/notification_template_custom_big.xml
+ADDING: res/layout-v21/notification_template_icon_group.xml
+ADDING: res/layout/custom_dialog.xml
+ADDING: res/layout/godot_app_layout.xml
+ADDING: res/layout/notification_template_part_chronometer.xml
+ADDING: res/layout/notification_template_part_time.xml
+ADDING: res/layout/remote_godot_fragment_layout.xml
+ADDING: res/layout/snackbar.xml
+ADDING: res/layout/splash_screen_view.xml
+ADDING: res/mipmap-anydpi-v26/icon.xml
+ADDING: res/mipmap-hdpi-v4/icon.webp
+ADDING: res/mipmap-hdpi-v4/icon_background.webp
+ADDING: res/mipmap-hdpi-v4/icon_foreground.webp
+ADDING: res/mipmap-hdpi-v4/icon_monochrome.webp
+ADDING: res/mipmap-mdpi-v4/icon.webp
+ADDING: res/mipmap-mdpi-v4/icon_background.webp
+ADDING: res/mipmap-mdpi-v4/icon_foreground.webp
+ADDING: res/mipmap-mdpi-v4/icon_monochrome.webp
+ADDING: res/mipmap-xhdpi-v4/icon.webp
+ADDING: res/mipmap-xhdpi-v4/icon_background.webp
+ADDING: res/mipmap-xhdpi-v4/icon_foreground.webp
+ADDING: res/mipmap-xhdpi-v4/icon_monochrome.webp
+ADDING: res/mipmap-xxhdpi-v4/icon.webp
+ADDING: res/mipmap-xxhdpi-v4/icon_background.webp
+ADDING: res/mipmap-xxhdpi-v4/icon_foreground.webp
+ADDING: res/mipmap-xxhdpi-v4/icon_monochrome.webp
+ADDING: res/mipmap-xxxhdpi-v4/icon.webp
+ADDING: res/mipmap-xxxhdpi-v4/icon_background.webp
+ADDING: res/mipmap-xxxhdpi-v4/icon_foreground.webp
+ADDING: res/mipmap-xxxhdpi-v4/icon_monochrome.webp
+ADDING: res/mipmap/icon.webp
+ADDING: res/mipmap/icon_background.webp
+ADDING: res/mipmap/icon_foreground.webp
+ADDING: res/mipmap/icon_monochrome.webp
+ADDING: res/xml/godot_provider_paths.xml
+ADDING: resources.arsc
+ADDING: DebugProbesKt.bin
+ADDING: kotlin/annotation/annotation.kotlin_builtins
+ADDING: kotlin/collections/collections.kotlin_builtins
+ADDING: kotlin/concurrent/atomics/atomics.kotlin_builtins
+ADDING: kotlin/coroutines/coroutines.kotlin_builtins
+ADDING: kotlin/internal/internal.kotlin_builtins
+ADDING: kotlin/kotlin.kotlin_builtins
+ADDING: kotlin/ranges/ranges.kotlin_builtins
+ADDING: kotlin/reflect/reflect.kotlin_builtins
+[   0% ] export | Dosyalar ekleniyor...
+Saving project files from res://scripts/characters/blob_shadow.gdc into assets/scripts/characters/blob_shadow.gdc
+Saving project files from res://scripts/enemies/enemy_base.gdc into assets/scripts/enemies/enemy_base.gdc
+Saving project files from res://scripts/enemies/broadcast_director.gdc into assets/scripts/enemies/broadcast_director.gdc
+Saving project files from res://scripts/characters/weapon_visual.gdc into assets/scripts/characters/weapon_visual.gdc
+Saving project files from res://scripts/characters/redmount.gdc into assets/scripts/characters/redmount.gdc
+Saving project files from res://scripts/characters/player_sprite.gdc into assets/scripts/characters/player_sprite.gdc
+Saving project files from res://scripts/characters/gazelle.gdc into assets/scripts/characters/gazelle.gdc
+Saving project files from res://scripts/characters/enemy_sprite.gdc into assets/scripts/characters/enemy_sprite.gdc
+Saving project files from res://scripts/characters/char_rig.gdc into assets/scripts/characters/char_rig.gdc
+Saving project files from res://_autoplay.gdc into assets/_autoplay.gdc
+Saving project files from res://.godot/exported/133200997/export-f4e581e9b8c903bd931457e48a40a74b-_autoplay.scn into assets/.godot/exported/133200997/export-f4e581e9b8c903bd931457e48a40a74b-_autoplay.scn
+Saving project files from res://_menuprobe.gdc into assets/_menuprobe.gdc
+Saving project files from res://.godot/exported/133200997/export-bbef3d52cddb06d2b344ec0314b6a61b-_menuprobe.scn into assets/.godot/exported/133200997/export-bbef3d52cddb06d2b344ec0314b6a61b-_menuprobe.scn
+Saving project files from res://_probe.gdc into assets/_probe.gdc
+Saving project files from res://.godot/exported/133200997/export-e3dae842ab929084badfd3084e657080-_probe.scn into assets/.godot/exported/133200997/export-e3dae842ab929084badfd3084e657080-_probe.scn
+Saving project files from res://_sweep.gdc into assets/_sweep.gdc
+Saving project files from res://.godot/exported/133200997/export-9204a23f1b25591e9ebb8188bc5aa015-_sweep.scn into assets/.godot/exported/133200997/export-9204a23f1b25591e9ebb8188bc5aa015-_sweep.scn
+Saving project files from res://scripts/systems/level_shop.gdc into assets/scripts/systems/level_shop.gdc
+Saving project files from res://scripts/systems/main.gdc into assets/scripts/systems/main.gdc
+Saving project files from res://scripts/systems/movement_config.gdc into assets/scripts/systems/movement_config.gdc
+Saving project files from res://scripts/systems/moving_platform.gdc into assets/scripts/systems/moving_platform.gdc
+Saving project files from res://scripts/systems/music.gdc into assets/scripts/systems/music.gdc
+Saving project files from res://scripts/systems/one_way_platform.gdc into assets/scripts/systems/one_way_platform.gdc
+Saving project files from res://scripts/systems/powerup_config.gdc into assets/scripts/systems/powerup_config.gdc
+Saving project files from res://scripts/systems/projectile.gdc into assets/scripts/systems/projectile.gdc
+Saving project files from res://scripts/systems/save_manager.gdc into assets/scripts/systems/save_manager.gdc
+Saving project files from res://scripts/systems/screen_fx.gdc into assets/scripts/systems/screen_fx.gdc
+Saving project files from res://scripts/systems/shop.gdc into assets/scripts/systems/shop.gdc
+Saving project files from res://scripts/systems/story_blockout.gdc into assets/scripts/systems/story_blockout.gdc
+Saving project files from res://scripts/systems/sfx.gdc into assets/scripts/systems/sfx.gdc
+Saving project files from res://scripts/systems/shockwave.gdc into assets/scripts/systems/shockwave.gdc
+Saving project files from res://scripts/systems/transition.gdc into assets/scripts/systems/transition.gdc
+Saving project files from res://scripts/systems/weapon_config.gdc into assets/scripts/systems/weapon_config.gdc
+Saving project files from res://scripts/ui/dialogue_box.gdc into assets/scripts/ui/dialogue_box.gdc
+Saving project files from res://scripts/ui/hud.gdc into assets/scripts/ui/hud.gdc
+Saving project files from res://scripts/ui/main_menu.gdc into assets/scripts/ui/main_menu.gdc
+Saving project files from res://scripts/ui/pause_menu.gdc into assets/scripts/ui/pause_menu.gdc
+Saving project files from res://scripts/ui/shop_menu.gdc into assets/scripts/ui/shop_menu.gdc
+Saving project files from res://scripts/ui/touch_controls.gdc into assets/scripts/ui/touch_controls.gdc
+Saving project files from res://scripts/ui/ui_style.gdc into assets/scripts/ui/ui_style.gdc
+Saving project files from res://shaders/landmark_fade.gdshader into assets/shaders/landmark_fade.gdshader
+Saving project files from res://scripts/systems/level_goal.gdc into assets/scripts/systems/level_goal.gdc
+Saving project files from res://scripts/systems/level.gdc into assets/scripts/systems/level.gdc
+Saving project files from res://scripts/systems/level13_finale.gdc into assets/scripts/systems/level13_finale.gdc
+Saving project files from res://scripts/systems/level12_redesign.gdc into assets/scripts/systems/level12_redesign.gdc
+Saving project files from res://scripts/systems/level11_redesign.gdc into assets/scripts/systems/level11_redesign.gdc
+Saving project files from res://scripts/systems/level10_redesign.gdc into assets/scripts/systems/level10_redesign.gdc
+Saving project files from res://scripts/systems/level09_redesign.gdc into assets/scripts/systems/level09_redesign.gdc
+Saving project files from res://scripts/systems/level08_dressing.gdc into assets/scripts/systems/level08_dressing.gdc
+Saving project files from res://scripts/systems/level06_dressing.gdc into assets/scripts/systems/level06_dressing.gdc
+Saving project files from res://scripts/systems/level04_redesign.gdc into assets/scripts/systems/level04_redesign.gdc
+Saving project files from res://scripts/systems/level03_redesign.gdc into assets/scripts/systems/level03_redesign.gdc
+Saving project files from res://scripts/systems/level02_redesign.gdc into assets/scripts/systems/level02_redesign.gdc
+Saving project files from res://scripts/systems/level01_long_route.gdc into assets/scripts/systems/level01_long_route.gdc
+Saving project files from res://scripts/systems/level01_dressing.gdc into assets/scripts/systems/level01_dressing.gdc
+Saving project files from res://scripts/systems/hint_trigger.gdc into assets/scripts/systems/hint_trigger.gdc
+Saving project files from res://scripts/systems/hazard.gdc into assets/scripts/systems/hazard.gdc
+Saving project files from res://scripts/systems/gun_config.gdc into assets/scripts/systems/gun_config.gdc
+Saving project files from res://scripts/systems/game_state.gdc into assets/scripts/systems/game_state.gdc
+Saving project files from res://scripts/systems/game_camera.gdc into assets/scripts/systems/game_camera.gdc
+Saving project files from res://scripts/systems/fx.gdc into assets/scripts/systems/fx.gdc
+Saving project files from res://scripts/systems/flame_vent.gdc into assets/scripts/systems/flame_vent.gdc
+Saving project files from res://scripts/systems/dialogue_trigger.gdc into assets/scripts/systems/dialogue_trigger.gdc
+Saving project files from res://scripts/systems/crusher.gdc into assets/scripts/systems/crusher.gdc
+Saving project files from res://scripts/systems/combat_config.gdc into assets/scripts/systems/combat_config.gdc
+Saving project files from res://scripts/systems/combat.gdc into assets/scripts/systems/combat.gdc
+Saving project files from res://scripts/systems/collapsing_platform.gdc into assets/scripts/systems/collapsing_platform.gdc
+Saving project files from res://scripts/systems/checkpoint.gdc into assets/scripts/systems/checkpoint.gdc
+Saving project files from res://scripts/systems/breakable_wall.gdc into assets/scripts/systems/breakable_wall.gdc
+Saving project files from res://scripts/systems/breakable_prop.gdc into assets/scripts/systems/breakable_prop.gdc
+Saving project files from res://scripts/systems/book03_level12.gdc into assets/scripts/systems/book03_level12.gdc
+Saving project files from res://scripts/systems/book03_level11.gdc into assets/scripts/systems/book03_level11.gdc
+Saving project files from res://scripts/systems/book03_level10.gdc into assets/scripts/systems/book03_level10.gdc
+Saving project files from res://scripts/systems/book03_level09.gdc into assets/scripts/systems/book03_level09.gdc
+Saving project files from res://scripts/systems/book03_level08.gdc into assets/scripts/systems/book03_level08.gdc
+Saving project files from res://scripts/systems/book03_level07.gdc into assets/scripts/systems/book03_level07.gdc
+Saving project files from res://scripts/systems/book03_level06.gdc into assets/scripts/systems/book03_level06.gdc
+Saving project files from res://scripts/systems/book03_level05.gdc into assets/scripts/systems/book03_level05.gdc
+Saving project files from res://scripts/systems/book03_level04.gdc into assets/scripts/systems/book03_level04.gdc
+Saving project files from res://scripts/systems/book03_level03.gdc into assets/scripts/systems/book03_level03.gdc
+Saving project files from res://scripts/systems/book03_level02.gdc into assets/scripts/systems/book03_level02.gdc
+Saving project files from res://scripts/systems/book03_level01.gdc into assets/scripts/systems/book03_level01.gdc
+Saving project files from res://scripts/systems/book02_level12.gdc into assets/scripts/systems/book02_level12.gdc
+Saving project files from res://scripts/systems/book02_level11.gdc into assets/scripts/systems/book02_level11.gdc
+Saving project files from res://scripts/systems/book02_level10.gdc into assets/scripts/systems/book02_level10.gdc
+Saving project files from res://scripts/systems/book02_level09.gdc into assets/scripts/systems/book02_level09.gdc
+Saving project files from res://scripts/systems/book02_level08.gdc into assets/scripts/systems/book02_level08.gdc
+Saving project files from res://scripts/systems/book02_level07.gdc into assets/scripts/systems/book02_level07.gdc
+Saving project files from res://scripts/systems/book02_level06.gdc into assets/scripts/systems/book02_level06.gdc
+Saving project files from res://scripts/systems/book02_level05.gdc into assets/scripts/systems/book02_level05.gdc
+Saving project files from res://scripts/systems/book02_level04.gdc into assets/scripts/systems/book02_level04.gdc
+Saving project files from res://scripts/systems/book02_level03.gdc into assets/scripts/systems/book02_level03.gdc
+Saving project files from res://scripts/systems/book02_level02.gdc into assets/scripts/systems/book02_level02.gdc
+Saving project files from res://scripts/systems/book02_level01.gdc into assets/scripts/systems/book02_level01.gdc
+Saving project files from res://scripts/systems/battle_arena.gdc into assets/scripts/systems/battle_arena.gdc
+Saving project files from res://scripts/systems/backdrop.gdc into assets/scripts/systems/backdrop.gdc
+Saving project files from res://scripts/systems/armor_config.gdc into assets/scripts/systems/armor_config.gdc
+Saving project files from res://scripts/pickups/weapon_pickup.gdc into assets/scripts/pickups/weapon_pickup.gdc
+Saving project files from res://scripts/pickups/powerup_pickup.gdc into assets/scripts/pickups/powerup_pickup.gdc
+Saving project files from res://scripts/pickups/pickup_icon.gdc into assets/scripts/pickups/pickup_icon.gdc
+Saving project files from res://scripts/pickups/pickup_base.gdc into assets/scripts/pickups/pickup_base.gdc
+Saving project files from res://scripts/pickups/health_pickup.gdc into assets/scripts/pickups/health_pickup.gdc
+Saving project files from res://scripts/pickups/gun_pickup.gdc into assets/scripts/pickups/gun_pickup.gdc
+Saving project files from res://.godot/imported/attack.png-16560e629b1a8d22668c3bf42fa1a07f.ctex into assets/.godot/imported/attack.png-16560e629b1a8d22668c3bf42fa1a07f.ctex
+Saving project files from res://assets/anim/agile_assassin/attack.png.import into assets/assets/anim/agile_assassin/attack.png.import
+Saving project files from res://.godot/imported/dead.png-b8709dab2b2c0058ba7c8051ceef07ac.ctex into assets/.godot/imported/dead.png-b8709dab2b2c0058ba7c8051ceef07ac.ctex
+Saving project files from res://assets/anim/agile_assassin/dead.png.import into assets/assets/anim/agile_assassin/dead.png.import
+Saving project files from res://.godot/imported/evade.png-11a8d0d121e37483cf659cedf47f0d19.ctex into assets/.godot/imported/evade.png-11a8d0d121e37483cf659cedf47f0d19.ctex
+Saving project files from res://assets/anim/agile_assassin/evade.png.import into assets/assets/anim/agile_assassin/evade.png.import
+Saving project files from res://.godot/imported/hurt.png-de73e197bfc19d99c68d80ca096ce460.ctex into assets/.godot/imported/hurt.png-de73e197bfc19d99c68d80ca096ce460.ctex
+Saving project files from res://assets/anim/agile_assassin/hurt.png.import into assets/assets/anim/agile_assassin/hurt.png.import
+Saving project files from res://.godot/imported/idle.png-f037a5e33fc0f1e36a963e88b5f0d223.ctex into assets/.godot/imported/idle.png-f037a5e33fc0f1e36a963e88b5f0d223.ctex
+Saving project files from res://assets/anim/agile_assassin/idle.png.import into assets/assets/anim/agile_assassin/idle.png.import
+Saving project files from res://.godot/imported/leap.png-15673faa88a8ff33572829f5794afc83.ctex into assets/.godot/imported/leap.png-15673faa88a8ff33572829f5794afc83.ctex
+Saving project files from res://assets/anim/agile_assassin/leap.png.import into assets/assets/anim/agile_assassin/leap.png.import
+Saving project files from res://.godot/imported/walk.png-08a9f5cf141292b4ab1a9b36867124c0.ctex into assets/.godot/imported/walk.png-08a9f5cf141292b4ab1a9b36867124c0.ctex
+Saving project files from res://assets/anim/agile_assassin/walk.png.import into assets/assets/anim/agile_assassin/walk.png.import
+Saving project files from res://.godot/imported/attack.png-010b943e819415782fd3da31f87a57eb.ctex into assets/.godot/imported/attack.png-010b943e819415782fd3da31f87a57eb.ctex
+Saving project files from res://assets/anim/armored_bruiser/attack.png.import into assets/assets/anim/armored_bruiser/attack.png.import
+Saving project files from res://.godot/imported/attack_heavy.png-c9157837260d626268dd0a24a57094e4.ctex into assets/.godot/imported/attack_heavy.png-c9157837260d626268dd0a24a57094e4.ctex
+Saving project files from res://assets/anim/armored_bruiser/attack_heavy.png.import into assets/assets/anim/armored_bruiser/attack_heavy.png.import
+Saving project files from res://.godot/imported/block.png-c0785c11e82a43f3615b8e171ff30367.ctex into assets/.godot/imported/block.png-c0785c11e82a43f3615b8e171ff30367.ctex
+Saving project files from res://assets/anim/armored_bruiser/block.png.import into assets/assets/anim/armored_bruiser/block.png.import
+Saving project files from res://.godot/imported/dead.png-9f80201ab88988d068987e72d675aecc.ctex into assets/.godot/imported/dead.png-9f80201ab88988d068987e72d675aecc.ctex
+Saving project files from res://assets/anim/armored_bruiser/dead.png.import into assets/assets/anim/armored_bruiser/dead.png.import
+Saving project files from res://.godot/imported/guard_break.png-34885fab4a853e157e3bb8e8063f3628.ctex into assets/.godot/imported/guard_break.png-34885fab4a853e157e3bb8e8063f3628.ctex
+Saving project files from res://assets/anim/armored_bruiser/guard_break.png.import into assets/assets/anim/armored_bruiser/guard_break.png.import
+Saving project files from res://.godot/imported/hurt.png-c5c8be2a1846d082a43de193d0bb0c65.ctex into assets/.godot/imported/hurt.png-c5c8be2a1846d082a43de193d0bb0c65.ctex
+Saving project files from res://assets/anim/armored_bruiser/hurt.png.import into assets/assets/anim/armored_bruiser/hurt.png.import
+Saving project files from res://.godot/imported/idle.png-73391576aeb35720791e36e5d834b635.ctex into assets/.godot/imported/idle.png-73391576aeb35720791e36e5d834b635.ctex
+Saving project files from res://assets/anim/armored_bruiser/idle.png.import into assets/assets/anim/armored_bruiser/idle.png.import
+Saving project files from res://.godot/imported/walk.png-5da2b0ed29e30a25ddc80112883d99bb.ctex into assets/.godot/imported/walk.png-5da2b0ed29e30a25ddc80112883d99bb.ctex
+Saving project files from res://assets/anim/armored_bruiser/walk.png.import into assets/assets/anim/armored_bruiser/walk.png.import
+Saving project files from res://.godot/imported/attack2.png-d58dfa3f64a9b42ea095c95d1a41ff03.ctex into assets/.godot/imported/attack2.png-d58dfa3f64a9b42ea095c95d1a41ff03.ctex
+Saving project files from res://assets/anim/elite_guard/attack2.png.import into assets/assets/anim/elite_guard/attack2.png.import
+Saving project files from res://.godot/imported/attack.png-b6a52fb9f1b369aed99c57003291bbdc.ctex into assets/.godot/imported/attack.png-b6a52fb9f1b369aed99c57003291bbdc.ctex
+Saving project files from res://assets/anim/elite_guard/attack.png.import into assets/assets/anim/elite_guard/attack.png.import
+Saving project files from res://.godot/imported/block.png-5621d680035473a7010a4666e57e0b04.ctex into assets/.godot/imported/block.png-5621d680035473a7010a4666e57e0b04.ctex
+Saving project files from res://assets/anim/elite_guard/block.png.import into assets/assets/anim/elite_guard/block.png.import
+Saving project files from res://.godot/imported/dead.png-ad53cc1f71d1bb75c8363bf286f7be94.ctex into assets/.godot/imported/dead.png-ad53cc1f71d1bb75c8363bf286f7be94.ctex
+Saving project files from res://assets/anim/elite_guard/dead.png.import into assets/assets/anim/elite_guard/dead.png.import
+Saving project files from res://.godot/imported/hurt.png-3df9a81936489ee954306d8b6dd663ee.ctex into assets/.godot/imported/hurt.png-3df9a81936489ee954306d8b6dd663ee.ctex
+Saving project files from res://assets/anim/elite_guard/hurt.png.import into assets/assets/anim/elite_guard/hurt.png.import
+Saving project files from res://.godot/imported/idle.png-af471298c4530a243971f0482ec5da05.ctex into assets/.godot/imported/idle.png-af471298c4530a243971f0482ec5da05.ctex
+Saving project files from res://assets/anim/elite_guard/idle.png.import into assets/assets/anim/elite_guard/idle.png.import
+Saving project files from res://.godot/imported/walk.png-9e23b1a95c0f65e6e2508b78fec633a3.ctex into assets/.godot/imported/walk.png-9e23b1a95c0f65e6e2508b78fec633a3.ctex
+Saving project files from res://assets/anim/elite_guard/walk.png.import into assets/assets/anim/elite_guard/walk.png.import
+Saving project files from res://.godot/imported/attack.png-21cd38a47bb7e31fde4d3d3b35661999.ctex into assets/.godot/imported/attack.png-21cd38a47bb7e31fde4d3d3b35661999.ctex
+Saving project files from res://assets/anim/karahanli/attack.png.import into assets/assets/anim/karahanli/attack.png.import
+Saving project files from res://.godot/imported/attack_heavy.png-fc56ee8cf42cc02bedd919e9a1a00aeb.ctex into assets/.godot/imported/attack_heavy.png-fc56ee8cf42cc02bedd919e9a1a00aeb.ctex
+Saving project files from res://assets/anim/karahanli/attack_heavy.png.import into assets/assets/anim/karahanli/attack_heavy.png.import
+Saving project files from res://.godot/imported/hurt.png-2c830f73f96f3720a66174d0871386fb.ctex into assets/.godot/imported/hurt.png-2c830f73f96f3720a66174d0871386fb.ctex
+Saving project files from res://assets/anim/karahanli/hurt.png.import into assets/assets/anim/karahanli/hurt.png.import
+Saving project files from res://.godot/imported/idle.png-c04a996c3987303d695a1341e023d89c.ctex into assets/.godot/imported/idle.png-c04a996c3987303d695a1341e023d89c.ctex
+Saving project files from res://assets/anim/karahanli/idle.png.import into assets/assets/anim/karahanli/idle.png.import
+Saving project files from res://.godot/imported/walk.png-cda62b200e1ea5b205d4a7d90a02945f.ctex into assets/.godot/imported/walk.png-cda62b200e1ea5b205d4a7d90a02945f.ctex
+Saving project files from res://assets/anim/karahanli/walk.png.import into assets/assets/anim/karahanli/walk.png.import
+Saving project files from res://.godot/imported/attack2.png-f1cb31139449870ed5f9b05a35026723.ctex into assets/.godot/imported/attack2.png-f1cb31139449870ed5f9b05a35026723.ctex
+Saving project files from res://assets/anim/knife_agent/attack2.png.import into assets/assets/anim/knife_agent/attack2.png.import
+Saving project files from res://.godot/imported/attack.png-f3df375b13ca54b7f4ce33ef6d85f095.ctex into assets/.godot/imported/attack.png-f3df375b13ca54b7f4ce33ef6d85f095.ctex
+Saving project files from res://assets/anim/knife_agent/attack.png.import into assets/assets/anim/knife_agent/attack.png.import
+Saving project files from res://.godot/imported/dead.png-2f3c798bd7e4ed1cf3c3158abf64e8b2.ctex into assets/.godot/imported/dead.png-2f3c798bd7e4ed1cf3c3158abf64e8b2.ctex
+Saving project files from res://assets/anim/knife_agent/dead.png.import into assets/assets/anim/knife_agent/dead.png.import
+Saving project files from res://.godot/imported/idle.png-ca3260316cfbf9405bb91fb23b12fab7.ctex into assets/.godot/imported/idle.png-ca3260316cfbf9405bb91fb23b12fab7.ctex
+Saving project files from res://assets/anim/knife_agent/idle.png.import into assets/assets/anim/knife_agent/idle.png.import
+Saving project files from res://.godot/imported/knockdown.png-1fcc752f6a7feebee0e79b37353bfe18.ctex into assets/.godot/imported/knockdown.png-1fcc752f6a7feebee0e79b37353bfe18.ctex
+Saving project files from res://assets/anim/knife_agent/knockdown.png.import into assets/assets/anim/knife_agent/knockdown.png.import
+Saving project files from res://.godot/imported/walk.png-bbe9a59b92c9ca618abe2326f61325d8.ctex into assets/.godot/imported/walk.png-bbe9a59b92c9ca618abe2326f61325d8.ctex
+Saving project files from res://assets/anim/knife_agent/walk.png.import into assets/assets/anim/knife_agent/walk.png.import
+Saving project files from res://.godot/imported/attack.png-f4e04b27adad0a6d8b785619b80c4f1d.ctex into assets/.godot/imported/attack.png-f4e04b27adad0a6d8b785619b80c4f1d.ctex
+Saving project files from res://assets/anim/mini_boss/attack.png.import into assets/assets/anim/mini_boss/attack.png.import
+Saving project files from res://.godot/imported/attack_heavy.png-18ea40fd4cc5e39cffaa1a2bae0ecde4.ctex into assets/.godot/imported/attack_heavy.png-18ea40fd4cc5e39cffaa1a2bae0ecde4.ctex
+Saving project files from res://assets/anim/mini_boss/attack_heavy.png.import into assets/assets/anim/mini_boss/attack_heavy.png.import
+Saving project files from res://.godot/imported/dead.png-c5634fd56aa175ffd73638a52549d5a3.ctex into assets/.godot/imported/dead.png-c5634fd56aa175ffd73638a52549d5a3.ctex
+Saving project files from res://assets/anim/mini_boss/dead.png.import into assets/assets/anim/mini_boss/dead.png.import
+Saving project files from res://.godot/imported/hurt.png-960b54f0e744e2182594feb96764839c.ctex into assets/.godot/imported/hurt.png-960b54f0e744e2182594feb96764839c.ctex
+Saving project files from res://assets/anim/mini_boss/hurt.png.import into assets/assets/anim/mini_boss/hurt.png.import
+Saving project files from res://.godot/imported/idle.png-7365627a80a093398aa1242f0fd416e9.ctex into assets/.godot/imported/idle.png-7365627a80a093398aa1242f0fd416e9.ctex
+Saving project files from res://assets/anim/mini_boss/idle.png.import into assets/assets/anim/mini_boss/idle.png.import
+Saving project files from res://.godot/imported/special.png-dc5873c25ccdbaaf3970a0fde11157fd.ctex into assets/.godot/imported/special.png-dc5873c25ccdbaaf3970a0fde11157fd.ctex
+Saving project files from res://assets/anim/mini_boss/special.png.import into assets/assets/anim/mini_boss/special.png.import
+Saving project files from res://.godot/imported/walk.png-44586044bde6c107ebb86705677eefad.ctex into assets/.godot/imported/walk.png-44586044bde6c107ebb86705677eefad.ctex
+Saving project files from res://assets/anim/mini_boss/walk.png.import into assets/assets/anim/mini_boss/walk.png.import
+Saving project files from res://.godot/imported/airknee.png-3308cb71e3dc4366e67c0874952a997b.ctex into assets/.godot/imported/airknee.png-3308cb71e3dc4366e67c0874952a997b.ctex
+Saving project files from res://assets/anim/redmount/airknee.png.import into assets/assets/anim/redmount/airknee.png.import
+Saving project files from res://.godot/imported/bat_attack2.png-65270fe611e9ef188de2fe029868d75e.ctex into assets/.godot/imported/bat_attack2.png-65270fe611e9ef188de2fe029868d75e.ctex
+Saving project files from res://assets/anim/redmount/bat_attack2.png.import into assets/assets/anim/redmount/bat_attack2.png.import
+Saving project files from res://.godot/imported/bat_attack.png-ba014d10c1e2301a04cb18fc2db9fab0.ctex into assets/.godot/imported/bat_attack.png-ba014d10c1e2301a04cb18fc2db9fab0.ctex
+Saving project files from res://assets/anim/redmount/bat_attack.png.import into assets/assets/anim/redmount/bat_attack.png.import
+Saving project files from res://.godot/imported/bat_idle.png-a2ea1ec224548ef4563a06508541f11c.ctex into assets/.godot/imported/bat_idle.png-a2ea1ec224548ef4563a06508541f11c.ctex
+Saving project files from res://assets/anim/redmount/bat_idle.png.import into assets/assets/anim/redmount/bat_idle.png.import
+Saving project files from res://.godot/imported/bat_walk.png-42ab3a971802d257c3ab6a4c16a80e91.ctex into assets/.godot/imported/bat_walk.png-42ab3a971802d257c3ab6a4c16a80e91.ctex
+Saving project files from res://assets/anim/redmount/bat_walk.png.import into assets/assets/anim/redmount/bat_walk.png.import
+Saving project files from res://.godot/imported/combo_a.png-6d63283cf40584ab95e52a3290e06aa3.ctex into assets/.godot/imported/combo_a.png-6d63283cf40584ab95e52a3290e06aa3.ctex
+Saving project files from res://assets/anim/redmount/combo_a.png.import into assets/assets/anim/redmount/combo_a.png.import
+Saving project files from res://.godot/imported/combo_b.png-ecdd4930ce74a81fe532c6ecb0b03fe3.ctex into assets/.godot/imported/combo_b.png-ecdd4930ce74a81fe532c6ecb0b03fe3.ctex
+Saving project files from res://assets/anim/redmount/combo_b.png.import into assets/assets/anim/redmount/combo_b.png.import
+Saving project files from res://.godot/imported/crouch.png-e908e17928e69def8db0f71f3fc22f23.ctex into assets/.godot/imported/crouch.png-e908e17928e69def8db0f71f3fc22f23.ctex
+Saving project files from res://assets/anim/redmount/crouch.png.import into assets/assets/anim/redmount/crouch.png.import
+Saving project files from res://.godot/imported/fight.png-1d7fe97de178b5529a850635147ea1f6.ctex into assets/.godot/imported/fight.png-1d7fe97de178b5529a850635147ea1f6.ctex
+Saving project files from res://assets/anim/redmount/fight.png.import into assets/assets/anim/redmount/fight.png.import
+Saving project files from res://.godot/imported/idle.png-e3bec85ec39e5674d8fcdb2fbc3f3a9a.ctex into assets/.godot/imported/idle.png-e3bec85ec39e5674d8fcdb2fbc3f3a9a.ctex
+Saving project files from res://assets/anim/redmount/idle.png.import into assets/assets/anim/redmount/idle.png.import
+Saving project files from res://.godot/imported/jump.png-a188ed90ef4ccf8eb9c247d2d7ccff48.ctex into assets/.godot/imported/jump.png-a188ed90ef4ccf8eb9c247d2d7ccff48.ctex
+Saving project files from res://assets/anim/redmount/jump.png.import into assets/assets/anim/redmount/jump.png.import
+Saving project files from res://.godot/imported/knee.png-268bb8b8cb78a462938fde2a64329526.ctex into assets/.godot/imported/knee.png-268bb8b8cb78a462938fde2a64329526.ctex
+Saving project files from res://assets/anim/redmount/knee.png.import into assets/assets/anim/redmount/knee.png.import
+Saving project files from res://.godot/imported/knife_attack2.png-c404987fb89dd99854b85d0d39643f3f.ctex into assets/.godot/imported/knife_attack2.png-c404987fb89dd99854b85d0d39643f3f.ctex
+Saving project files from res://assets/anim/redmount/knife_attack2.png.import into assets/assets/anim/redmount/knife_attack2.png.import
+Saving project files from res://.godot/imported/knife_attack.png-9bff163957e3c0d1ecebcfa040904b4f.ctex into assets/.godot/imported/knife_attack.png-9bff163957e3c0d1ecebcfa040904b4f.ctex
+Saving project files from res://assets/anim/redmount/knife_attack.png.import into assets/assets/anim/redmount/knife_attack.png.import
+Saving project files from res://.godot/imported/knife_idle.png-004d71e5be524256a29344d4e300642f.ctex into assets/.godot/imported/knife_idle.png-004d71e5be524256a29344d4e300642f.ctex
+Saving project files from res://assets/anim/redmount/knife_idle.png.import into assets/assets/anim/redmount/knife_idle.png.import
+Saving project files from res://.godot/imported/knife_walk.png-fe2eb278fef5b6853920e5146d44baf1.ctex into assets/.godot/imported/knife_walk.png-fe2eb278fef5b6853920e5146d44baf1.ctex
+Saving project files from res://assets/anim/redmount/knife_walk.png.import into assets/assets/anim/redmount/knife_walk.png.import
+Saving project files from res://.godot/imported/pistol_aim.png-4e3b1fb0a3f443131ec873428da67480.ctex into assets/.godot/imported/pistol_aim.png-4e3b1fb0a3f443131ec873428da67480.ctex
+Saving project files from res://assets/anim/redmount/pistol_aim.png.import into assets/assets/anim/redmount/pistol_aim.png.import
+Saving project files from res://.godot/imported/pistol_idle.png-6a4883886317f76cd3bf3a4c032b8a7c.ctex into assets/.godot/imported/pistol_idle.png-6a4883886317f76cd3bf3a4c032b8a7c.ctex
+Saving project files from res://assets/anim/redmount/pistol_idle.png.import into assets/assets/anim/redmount/pistol_idle.png.import
+Saving project files from res://.godot/imported/pistol_reload.png-910040ec3bec7198e7bf0daca1cbc560.ctex into assets/.godot/imported/pistol_reload.png-910040ec3bec7198e7bf0daca1cbc560.ctex
+Saving project files from res://assets/anim/redmount/pistol_reload.png.import into assets/assets/anim/redmount/pistol_reload.png.import
+Saving project files from res://.godot/imported/pistol_shoot.png-0c804405b52b80c9b06803193308dcfb.ctex into assets/.godot/imported/pistol_shoot.png-0c804405b52b80c9b06803193308dcfb.ctex
+Saving project files from res://assets/anim/redmount/pistol_shoot.png.import into assets/assets/anim/redmount/pistol_shoot.png.import
+Saving project files from res://.godot/imported/pistol_walk.png-c6a239258c51c66cdeac304029a66d38.ctex into assets/.godot/imported/pistol_walk.png-c6a239258c51c66cdeac304029a66d38.ctex
+Saving project files from res://assets/anim/redmount/pistol_walk.png.import into assets/assets/anim/redmount/pistol_walk.png.import
+Saving project files from res://.godot/imported/punch.png-797699849ea38527a34cca937b434bc6.ctex into assets/.godot/imported/punch.png-797699849ea38527a34cca937b434bc6.ctex
+Saving project files from res://assets/anim/redmount/punch.png.import into assets/assets/anim/redmount/punch.png.import
+Saving project files from res://.godot/imported/rifle_aim.png-0d7ef36820b212b708c28e3da7fdf379.ctex into assets/.godot/imported/rifle_aim.png-0d7ef36820b212b708c28e3da7fdf379.ctex
+Saving project files from res://assets/anim/redmount/rifle_aim.png.import into assets/assets/anim/redmount/rifle_aim.png.import
+Saving project files from res://.godot/imported/rifle_idle.png-9231029300a2991ed162122046cd4c3d.ctex into assets/.godot/imported/rifle_idle.png-9231029300a2991ed162122046cd4c3d.ctex
+Saving project files from res://assets/anim/redmount/rifle_idle.png.import into assets/assets/anim/redmount/rifle_idle.png.import
+Saving project files from res://.godot/imported/rifle_reload.png-10730c06414422dc0593befbe54c4fbb.ctex into assets/.godot/imported/rifle_reload.png-10730c06414422dc0593befbe54c4fbb.ctex
+Saving project files from res://assets/anim/redmount/rifle_reload.png.import into assets/assets/anim/redmount/rifle_reload.png.import
+Saving project files from res://.godot/imported/rifle_shoot.png-61395ba36733e6b3fda16962e8452365.ctex into assets/.godot/imported/rifle_shoot.png-61395ba36733e6b3fda16962e8452365.ctex
+Saving project files from res://assets/anim/redmount/rifle_shoot.png.import into assets/assets/anim/redmount/rifle_shoot.png.import
+Saving project files from res://.godot/imported/rifle_walk.png-05e3db60613fc15b1bed9480194d4c58.ctex into assets/.godot/imported/rifle_walk.png-05e3db60613fc15b1bed9480194d4c58.ctex
+Saving project files from res://assets/anim/redmount/rifle_walk.png.import into assets/assets/anim/redmount/rifle_walk.png.import
+Saving project files from res://.godot/imported/run.png-69daa8ca02d5ee8aac00d51359eb6dbd.ctex into assets/.godot/imported/run.png-69daa8ca02d5ee8aac00d51359eb6dbd.ctex
+Saving project files from res://assets/anim/redmount/run.png.import into assets/assets/anim/redmount/run.png.import
+Saving project files from res://.godot/imported/walk.png-fb1d3431dd3c4bd3697d146d5dd40736.ctex into assets/.godot/imported/walk.png-fb1d3431dd3c4bd3697d146d5dd40736.ctex
+Saving project files from res://assets/anim/redmount/walk.png.import into assets/assets/anim/redmount/walk.png.import
+Saving project files from res://.godot/imported/aim.png-25bc31c0368591ee90a09fc68bdc3787.ctex into assets/.godot/imported/aim.png-25bc31c0368591ee90a09fc68bdc3787.ctex
+Saving project files from res://assets/anim/rifle_guard/aim.png.import into assets/assets/anim/rifle_guard/aim.png.import
+Saving project files from res://.godot/imported/dead.png-bd3624dffd599aee4ad3691bdf8c222b.ctex into assets/.godot/imported/dead.png-bd3624dffd599aee4ad3691bdf8c222b.ctex
+Saving project files from res://assets/anim/rifle_guard/dead.png.import into assets/assets/anim/rifle_guard/dead.png.import
+Saving project files from res://.godot/imported/hurt.png-a704a6c9a1de5c35819a49f76a46b69e.ctex into assets/.godot/imported/hurt.png-a704a6c9a1de5c35819a49f76a46b69e.ctex
+Saving project files from res://assets/anim/rifle_guard/hurt.png.import into assets/assets/anim/rifle_guard/hurt.png.import
+Saving project files from res://.godot/imported/idle.png-2b96a667545013b68c3ae5245ca40e2b.ctex into assets/.godot/imported/idle.png-2b96a667545013b68c3ae5245ca40e2b.ctex
+Saving project files from res://assets/anim/rifle_guard/idle.png.import into assets/assets/anim/rifle_guard/idle.png.import
+Saving project files from res://.godot/imported/reload.png-fa207dbab1c5fd950fcbde2ee1750f87.ctex into assets/.godot/imported/reload.png-fa207dbab1c5fd950fcbde2ee1750f87.ctex
+Saving project files from res://assets/anim/rifle_guard/reload.png.import into assets/assets/anim/rifle_guard/reload.png.import
+Saving project files from res://.godot/imported/shoot.png-be83a26640f58c4544f21c34e6829271.ctex into assets/.godot/imported/shoot.png-be83a26640f58c4544f21c34e6829271.ctex
+Saving project files from res://assets/anim/rifle_guard/shoot.png.import into assets/assets/anim/rifle_guard/shoot.png.import
+Saving project files from res://.godot/imported/walk.png-cf995d9b09ba460e88c11e2f7e4bace7.ctex into assets/.godot/imported/walk.png-cf995d9b09ba460e88c11e2f7e4bace7.ctex
+Saving project files from res://assets/anim/rifle_guard/walk.png.import into assets/assets/anim/rifle_guard/walk.png.import
+Saving project files from res://.godot/imported/attack2.png-69641f6c9b21f1b4170fcb7b809c6c65.ctex into assets/.godot/imported/attack2.png-69641f6c9b21f1b4170fcb7b809c6c65.ctex
+Saving project files from res://assets/anim/street_thug/attack2.png.import into assets/assets/anim/street_thug/attack2.png.import
+Saving project files from res://.godot/imported/attack.png-9d04583ec1e5298d4730ea05dbff4ac4.ctex into assets/.godot/imported/attack.png-9d04583ec1e5298d4730ea05dbff4ac4.ctex
+Saving project files from res://assets/anim/street_thug/attack.png.import into assets/assets/anim/street_thug/attack.png.import
+Saving project files from res://.godot/imported/dead.png-3ac425bfdaa9c4bf7603b3e9cd80daaf.ctex into assets/.godot/imported/dead.png-3ac425bfdaa9c4bf7603b3e9cd80daaf.ctex
+Saving project files from res://assets/anim/street_thug/dead.png.import into assets/assets/anim/street_thug/dead.png.import
+Saving project files from res://.godot/imported/hurt.png-b59dad25c028edb1e9e716ddeca42e8f.ctex into assets/.godot/imported/hurt.png-b59dad25c028edb1e9e716ddeca42e8f.ctex
+Saving project files from res://assets/anim/street_thug/hurt.png.import into assets/assets/anim/street_thug/hurt.png.import
+Saving project files from res://.godot/imported/idle.png-a7b46ac2ac9f9c83a4811931d53339d5.ctex into assets/.godot/imported/idle.png-a7b46ac2ac9f9c83a4811931d53339d5.ctex
+Saving project files from res://assets/anim/street_thug/idle.png.import into assets/assets/anim/street_thug/idle.png.import
+Saving project files from res://.godot/imported/knockdown.png-0a513486981e6b1b602f60f37464b2a0.ctex into assets/.godot/imported/knockdown.png-0a513486981e6b1b602f60f37464b2a0.ctex
+Saving project files from res://assets/anim/street_thug/knockdown.png.import into assets/assets/anim/street_thug/knockdown.png.import
+Saving project files from res://.godot/imported/walk.png-db4a79ca909cba670df805a81e1afc81.ctex into assets/.godot/imported/walk.png-db4a79ca909cba670df805a81e1afc81.ctex
+Saving project files from res://assets/anim/street_thug/walk.png.import into assets/assets/anim/street_thug/walk.png.import
+Saving project files from res://.godot/imported/armor_break.wav-e97661338fb1b8a1629d4da19b096a38.sample into assets/.godot/imported/armor_break.wav-e97661338fb1b8a1629d4da19b096a38.sample
+Saving project files from res://assets/audio/armor_break.wav.import into assets/assets/audio/armor_break.wav.import
+Saving project files from res://.godot/imported/boss_slam.wav-9e14e84c6f7be31ed0ee723806e23fff.sample into assets/.godot/imported/boss_slam.wav-9e14e84c6f7be31ed0ee723806e23fff.sample
+Saving project files from res://assets/audio/boss_slam.wav.import into assets/assets/audio/boss_slam.wav.import
+Saving project files from res://.godot/imported/checkpoint.wav-1d95640867fc13dc347187d497bb3d46.sample into assets/.godot/imported/checkpoint.wav-1d95640867fc13dc347187d497bb3d46.sample
+Saving project files from res://assets/audio/checkpoint.wav.import into assets/assets/audio/checkpoint.wav.import
+Saving project files from res://.godot/imported/coin.wav-e1bec9e9502a5df388e6fd33d4bb5689.sample into assets/.godot/imported/coin.wav-e1bec9e9502a5df388e6fd33d4bb5689.sample
+Saving project files from res://assets/audio/coin.wav.import into assets/assets/audio/coin.wav.import
+Saving project files from res://.godot/imported/dash.wav-c732fa599cfe157dd4267b88c75a825a.sample into assets/.godot/imported/dash.wav-c732fa599cfe157dd4267b88c75a825a.sample
+Saving project files from res://assets/audio/dash.wav.import into assets/assets/audio/dash.wav.import
+Saving project files from res://.godot/imported/enemy_down.wav-3ded856e02967eaef3161bdb329e756f.sample into assets/.godot/imported/enemy_down.wav-3ded856e02967eaef3161bdb329e756f.sample
+Saving project files from res://assets/audio/enemy_down.wav.import into assets/assets/audio/enemy_down.wav.import
+Saving project files from res://.godot/imported/enemy_hurt.wav-8a0396e92a2d27f7d28401a706d7595b.sample into assets/.godot/imported/enemy_hurt.wav-8a0396e92a2d27f7d28401a706d7595b.sample
+Saving project files from res://assets/audio/enemy_hurt.wav.import into assets/assets/audio/enemy_hurt.wav.import
+Saving project files from res://.godot/imported/goal.wav-415081e2acbd77eb907e00d378b10fb6.sample into assets/.godot/imported/goal.wav-415081e2acbd77eb907e00d378b10fb6.sample
+Saving project files from res://assets/audio/goal.wav.import into assets/assets/audio/goal.wav.import
+Saving project files from res://.godot/imported/heal.wav-931ca7a754542f5b94f13b00622da730.sample into assets/.godot/imported/heal.wav-931ca7a754542f5b94f13b00622da730.sample
+Saving project files from res://assets/audio/heal.wav.import into assets/assets/audio/heal.wav.import
+Saving project files from res://.godot/imported/heavy_hit.wav-b7f19baf8c6beb5f12a857fd43e482a7.sample into assets/.godot/imported/heavy_hit.wav-b7f19baf8c6beb5f12a857fd43e482a7.sample
+Saving project files from res://assets/audio/heavy_hit.wav.import into assets/assets/audio/heavy_hit.wav.import
+Saving project files from res://.godot/imported/hit.wav-96dc477cdf4a42f381370dba6e3f75ce.sample into assets/.godot/imported/hit.wav-96dc477cdf4a42f381370dba6e3f75ce.sample
+Saving project files from res://assets/audio/hit.wav.import into assets/assets/audio/hit.wav.import
+Saving project files from res://.godot/imported/jump.wav-7ea4d93114fa52c0b9979f6b2117f13f.sample into assets/.godot/imported/jump.wav-7ea4d93114fa52c0b9979f6b2117f13f.sample
+Saving project files from res://assets/audio/jump.wav.import into assets/assets/audio/jump.wav.import
+Saving project files from res://.godot/imported/land.wav-baef3c9f2a47922b496a826b5b8d32ac.sample into assets/.godot/imported/land.wav-baef3c9f2a47922b496a826b5b8d32ac.sample
+Saving project files from res://assets/audio/land.wav.import into assets/assets/audio/land.wav.import
+Saving project files from res://.godot/imported/player_death.wav-b5b253d768c6b41e0fd6f23e4be0aeb7.sample into assets/.godot/imported/player_death.wav-b5b253d768c6b41e0fd6f23e4be0aeb7.sample
+Saving project files from res://assets/audio/player_death.wav.import into assets/assets/audio/player_death.wav.import
+Saving project files from res://.godot/imported/player_hurt.wav-e76f2b424872d75af456fd06da721c72.sample into assets/.godot/imported/player_hurt.wav-e76f2b424872d75af456fd06da721c72.sample
+Saving project files from res://assets/audio/player_hurt.wav.import into assets/assets/audio/player_hurt.wav.import
+Saving project files from res://.godot/imported/powerup.wav-7591bd6e852991381dd14f8488ca481b.sample into assets/.godot/imported/powerup.wav-7591bd6e852991381dd14f8488ca481b.sample
+Saving project files from res://assets/audio/powerup.wav.import into assets/assets/audio/powerup.wav.import
+Saving project files from res://.godot/imported/reload.wav-50f2d65be979b5afe34a1e31b08f63e8.sample into assets/.godot/imported/reload.wav-50f2d65be979b5afe34a1e31b08f63e8.sample
+Saving project files from res://assets/audio/reload.wav.import into assets/assets/audio/reload.wav.import
+Saving project files from res://.godot/imported/shield.wav-28ce60ec10352f989ad5bbdcaa2a9611.sample into assets/.godot/imported/shield.wav-28ce60ec10352f989ad5bbdcaa2a9611.sample
+Saving project files from res://assets/audio/shield.wav.import into assets/assets/audio/shield.wav.import
+Saving project files from res://.godot/imported/shoot.wav-87079c2fcb36403855e4cbb1b77a9904.sample into assets/.godot/imported/shoot.wav-87079c2fcb36403855e4cbb1b77a9904.sample
+Saving project files from res://assets/audio/shoot.wav.import into assets/assets/audio/shoot.wav.import
+Saving project files from res://.godot/imported/step.wav-7c1afa4d3561f9fd67ecf320728c68cf.sample into assets/.godot/imported/step.wav-7c1afa4d3561f9fd67ecf320728c68cf.sample
+Saving project files from res://assets/audio/step.wav.import into assets/assets/audio/step.wav.import
+Saving project files from res://.godot/imported/swing.wav-794de6e16fd48d414e484bd2479a4c9c.sample into assets/.godot/imported/swing.wav-794de6e16fd48d414e484bd2479a4c9c.sample
+Saving project files from res://assets/audio/swing.wav.import into assets/assets/audio/swing.wav.import
+Saving project files from res://.godot/imported/weapon_break.wav-4f8fa1b4bbb8e7cb2e5eb2a01aaeed30.sample into assets/.godot/imported/weapon_break.wav-4f8fa1b4bbb8e7cb2e5eb2a01aaeed30.sample
+Saving project files from res://assets/audio/weapon_break.wav.import into assets/assets/audio/weapon_break.wav.import
+Saving project files from res://.godot/imported/book02_aksaray_approach_atlas.png-a746f85347a5c18b81b6cf0b9eb3f0ba.ctex into assets/.godot/imported/book02_aksaray_approach_atlas.png-a746f85347a5c18b81b6cf0b9eb3f0ba.ctex
+Saving project files from res://assets/backgrounds/book02_aksaray_approach_atlas.png.import into assets/assets/backgrounds/book02_aksaray_approach_atlas.png.import
+Saving project files from res://.godot/imported/book02_aksaray_pump_atlas.png-60e6608b812507541fcae44b02ba6b2e.ctex into assets/.godot/imported/book02_aksaray_pump_atlas.png-60e6608b812507541fcae44b02ba6b2e.ctex
+Saving project files from res://assets/backgrounds/book02_aksaray_pump_atlas.png.import into assets/assets/backgrounds/book02_aksaray_pump_atlas.png.import
+Saving project files from res://.godot/imported/book02_bazaar_han_atlas.png-4d7cfaed22c48e3c073e7e9abb142385.ctex into assets/.godot/imported/book02_bazaar_han_atlas.png-4d7cfaed22c48e3c073e7e9abb142385.ctex
+Saving project files from res://assets/backgrounds/book02_bazaar_han_atlas.png.import into assets/assets/backgrounds/book02_bazaar_han_atlas.png.import
+Saving project files from res://.godot/imported/book02_bazaar_streets_atlas.png-b51c33ec87535763e7ce023a973e5f84.ctex into assets/.godot/imported/book02_bazaar_streets_atlas.png-b51c33ec87535763e7ce023a973e5f84.ctex
+Saving project files from res://assets/backgrounds/book02_bazaar_streets_atlas.png.import into assets/assets/backgrounds/book02_bazaar_streets_atlas.png.import
+Saving project files from res://.godot/imported/book02_beyazit_post_atlas.png-2094ac2956eae7ab06283edbb4d850a2.ctex into assets/.godot/imported/book02_beyazit_post_atlas.png-2094ac2956eae7ab06283edbb4d850a2.ctex
+Saving project files from res://assets/backgrounds/book02_beyazit_post_atlas.png.import into assets/assets/backgrounds/book02_beyazit_post_atlas.png.import
+Saving project files from res://.godot/imported/book02_beyazit_streets_atlas.png-cf42241a81d412e7bcbfc7887cce0b4d.ctex into assets/.godot/imported/book02_beyazit_streets_atlas.png-cf42241a81d412e7bcbfc7887cce0b4d.ctex
+Saving project files from res://assets/backgrounds/book02_beyazit_streets_atlas.png.import into assets/assets/backgrounds/book02_beyazit_streets_atlas.png.import
+Saving project files from res://.godot/imported/book02_cibali_press_atlas.png-7d0c46c2a4af26e423d5dd175a97bc12.ctex into assets/.godot/imported/book02_cibali_press_atlas.png-7d0c46c2a4af26e423d5dd175a97bc12.ctex
+Saving project files from res://assets/backgrounds/book02_cibali_press_atlas.png.import into assets/assets/backgrounds/book02_cibali_press_atlas.png.import
+Saving project files from res://.godot/imported/book02_cibali_streets_atlas.png-8964655295a2d8e2dc811b3fce3b49ca.ctex into assets/.godot/imported/book02_cibali_streets_atlas.png-8964655295a2d8e2dc811b3fce3b49ca.ctex
+Saving project files from res://assets/backgrounds/book02_cibali_streets_atlas.png.import into assets/assets/backgrounds/book02_cibali_streets_atlas.png.import
+Saving project files from res://.godot/imported/book02_final_approach_atlas.png-b7b87decdc8ed66670e4f0dfd9eb6b0b.ctex into assets/.godot/imported/book02_final_approach_atlas.png-b7b87decdc8ed66670e4f0dfd9eb6b0b.ctex
+Saving project files from res://assets/backgrounds/book02_final_approach_atlas.png.import into assets/assets/backgrounds/book02_final_approach_atlas.png.import
+Saving project files from res://.godot/imported/book02_final_aqueduct_atlas.png-507db6384768e07b666a4a2eba4d6d3e.ctex into assets/.godot/imported/book02_final_aqueduct_atlas.png-507db6384768e07b666a4a2eba4d6d3e.ctex
+Saving project files from res://assets/backgrounds/book02_final_aqueduct_atlas.png.import into assets/assets/backgrounds/book02_final_aqueduct_atlas.png.import
+Saving project files from res://.godot/imported/book02_final_tower_atlas.png-2f8ea23a0f361f20082bcd066397854e.ctex into assets/.godot/imported/book02_final_tower_atlas.png-2f8ea23a0f361f20082bcd066397854e.ctex
+Saving project files from res://assets/backgrounds/book02_final_tower_atlas.png.import into assets/assets/backgrounds/book02_final_tower_atlas.png.import
+Saving project files from res://.godot/imported/book02_halij_final_atlas.png-414222c80f123ad0c45fc969051b6053.ctex into assets/.godot/imported/book02_halij_final_atlas.png-414222c80f123ad0c45fc969051b6053.ctex
+Saving project files from res://assets/backgrounds/book02_halij_final_atlas.png.import into assets/assets/backgrounds/book02_halij_final_atlas.png.import
+Saving project files from res://.godot/imported/book02_halij_opening_atlas.png-30d121ce5729d12076eab10aead59b7b.ctex into assets/.godot/imported/book02_halij_opening_atlas.png-30d121ce5729d12076eab10aead59b7b.ctex
+Saving project files from res://assets/backgrounds/book02_halij_opening_atlas.png.import into assets/assets/backgrounds/book02_halij_opening_atlas.png.import
+Saving project files from res://.godot/imported/book02_halij_registry_atlas.png-847011c02fceff6f227fa72aec4a4a48.ctex into assets/.godot/imported/book02_halij_registry_atlas.png-847011c02fceff6f227fa72aec4a4a48.ctex
+Saving project files from res://assets/backgrounds/book02_halij_registry_atlas.png.import into assets/assets/backgrounds/book02_halij_registry_atlas.png.import
+Saving project files from res://.godot/imported/book02_hamam_approach_atlas.png-e6e2c50e6330533f14ac0038369728f4.ctex into assets/.godot/imported/book02_hamam_approach_atlas.png-e6e2c50e6330533f14ac0038369728f4.ctex
+Saving project files from res://assets/backgrounds/book02_hamam_approach_atlas.png.import into assets/assets/backgrounds/book02_hamam_approach_atlas.png.import
+Saving project files from res://.godot/imported/book02_hamam_inner_atlas.png-4f0067ca767b0901d116f6891e6fa636.ctex into assets/.godot/imported/book02_hamam_inner_atlas.png-4f0067ca767b0901d116f6891e6fa636.ctex
+Saving project files from res://assets/backgrounds/book02_hamam_inner_atlas.png.import into assets/assets/backgrounds/book02_hamam_inner_atlas.png.import
+Saving project files from res://.godot/imported/book02_samatya_coast_atlas.png-6b39b3a929732f2b926b923231b49eb2.ctex into assets/.godot/imported/book02_samatya_coast_atlas.png-6b39b3a929732f2b926b923231b49eb2.ctex
+Saving project files from res://assets/backgrounds/book02_samatya_coast_atlas.png.import into assets/assets/backgrounds/book02_samatya_coast_atlas.png.import
+Saving project files from res://.godot/imported/book02_samatya_depot_atlas.png-0ed343899b4ae765f6d0e2cd9b557557.ctex into assets/.godot/imported/book02_samatya_depot_atlas.png-0ed343899b4ae765f6d0e2cd9b557557.ctex
+Saving project files from res://assets/backgrounds/book02_samatya_depot_atlas.png.import into assets/assets/backgrounds/book02_samatya_depot_atlas.png.import
+Saving project files from res://.godot/imported/book02_sarachane_streets_atlas.png-e109d7a8b5baed0039035ec9b5b76773.ctex into assets/.godot/imported/book02_sarachane_streets_atlas.png-e109d7a8b5baed0039035ec9b5b76773.ctex
+Saving project files from res://assets/backgrounds/book02_sarachane_streets_atlas.png.import into assets/assets/backgrounds/book02_sarachane_streets_atlas.png.import
+Saving project files from res://.godot/imported/book02_sarachane_valves_atlas.png-ba3087398085817ef62175eeb7d73895.ctex into assets/.godot/imported/book02_sarachane_valves_atlas.png-ba3087398085817ef62175eeb7d73895.ctex
+Saving project files from res://assets/backgrounds/book02_sarachane_valves_atlas.png.import into assets/assets/backgrounds/book02_sarachane_valves_atlas.png.import
+Saving project files from res://.godot/imported/book02_suleymaniye_archive_atlas.png-c3257d6fa57fbdbc5a53fab05ebf967d.ctex into assets/.godot/imported/book02_suleymaniye_archive_atlas.png-c3257d6fa57fbdbc5a53fab05ebf967d.ctex
+Saving project files from res://assets/backgrounds/book02_suleymaniye_archive_atlas.png.import into assets/assets/backgrounds/book02_suleymaniye_archive_atlas.png.import
+Saving project files from res://.godot/imported/book02_suleymaniye_streets_atlas.png-c1245c5f0c3201a8a67d15d4f8d0453a.ctex into assets/.godot/imported/book02_suleymaniye_streets_atlas.png-c1245c5f0c3201a8a67d15d4f8d0453a.ctex
+Saving project files from res://assets/backgrounds/book02_suleymaniye_streets_atlas.png.import into assets/assets/backgrounds/book02_suleymaniye_streets_atlas.png.import
+Saving project files from res://.godot/imported/book02_yenikapi_dispatch_atlas.png-576efd44a3cf37e27891dd134714fed4.ctex into assets/.godot/imported/book02_yenikapi_dispatch_atlas.png-576efd44a3cf37e27891dd134714fed4.ctex
+Saving project files from res://assets/backgrounds/book02_yenikapi_dispatch_atlas.png.import into assets/assets/backgrounds/book02_yenikapi_dispatch_atlas.png.import
+Saving project files from res://.godot/imported/book02_yenikapi_quay_atlas.png-3d6d88ef180ff4e68ae2a6c74c4de0e2.ctex into assets/.godot/imported/book02_yenikapi_quay_atlas.png-3d6d88ef180ff4e68ae2a6c74c4de0e2.ctex
+Saving project files from res://assets/backgrounds/book02_yenikapi_quay_atlas.png.import into assets/assets/backgrounds/book02_yenikapi_quay_atlas.png.import
+Saving project files from res://.godot/imported/book02_zeyrek_cistern_atlas.png-c93210ef001d0ad00a92b4f74b7268b5.ctex into assets/.godot/imported/book02_zeyrek_cistern_atlas.png-c93210ef001d0ad00a92b4f74b7268b5.ctex
+Saving project files from res://assets/backgrounds/book02_zeyrek_cistern_atlas.png.import into assets/assets/backgrounds/book02_zeyrek_cistern_atlas.png.import
+Saving project files from res://.godot/imported/book02_zeyrek_surface_atlas.png-46cadc7f88c6e6be9c34ce65927858b5.ctex into assets/.godot/imported/book02_zeyrek_surface_atlas.png-46cadc7f88c6e6be9c34ce65927858b5.ctex
+Saving project files from res://assets/backgrounds/book02_zeyrek_surface_atlas.png.import into assets/assets/backgrounds/book02_zeyrek_surface_atlas.png.import
+Saving project files from res://.godot/imported/book03_anadoluhisari_inner_atlas.png-f6ed38b981cb5f45803772ebd251b7cd.ctex into assets/.godot/imported/book03_anadoluhisari_inner_atlas.png-f6ed38b981cb5f45803772ebd251b7cd.ctex
+Saving project files from res://assets/backgrounds/book03_anadoluhisari_inner_atlas.png.import into assets/assets/backgrounds/book03_anadoluhisari_inner_atlas.png.import
+Saving project files from res://.godot/imported/book03_anadoluhisari_outer_atlas.png-f1737560646b3f065ca90dc428b9f37a.ctex into assets/.godot/imported/book03_anadoluhisari_outer_atlas.png-f1737560646b3f065ca90dc428b9f37a.ctex
+Saving project files from res://assets/backgrounds/book03_anadoluhisari_outer_atlas.png.import into assets/assets/backgrounds/book03_anadoluhisari_outer_atlas.png.import
+Saving project files from res://.godot/imported/book03_beylerbeyi_archive_atlas.png-34da7ed0c4d1eb5b09e3115b79582f95.ctex into assets/.godot/imported/book03_beylerbeyi_archive_atlas.png-34da7ed0c4d1eb5b09e3115b79582f95.ctex
+Saving project files from res://assets/backgrounds/book03_beylerbeyi_archive_atlas.png.import into assets/assets/backgrounds/book03_beylerbeyi_archive_atlas.png.import
+Saving project files from res://.godot/imported/book03_beylerbeyi_shore_atlas.png-3b8e3603d6b5fe11c2da948b6be7e137.ctex into assets/.godot/imported/book03_beylerbeyi_shore_atlas.png-3b8e3603d6b5fe11c2da948b6be7e137.ctex
+Saving project files from res://assets/backgrounds/book03_beylerbeyi_shore_atlas.png.import into assets/assets/backgrounds/book03_beylerbeyi_shore_atlas.png.import
+Saving project files from res://.godot/imported/book03_cagaloglu_press_atlas.png-af1e46a60f742f0cd8f3756e9f46f630.ctex into assets/.godot/imported/book03_cagaloglu_press_atlas.png-af1e46a60f742f0cd8f3756e9f46f630.ctex
+Saving project files from res://assets/backgrounds/book03_cagaloglu_press_atlas.png.import into assets/assets/backgrounds/book03_cagaloglu_press_atlas.png.import
+Saving project files from res://.godot/imported/book03_cagaloglu_streets_atlas.png-802b4ba3b3a2975e0e10fb0b855c3e6f.ctex into assets/.godot/imported/book03_cagaloglu_streets_atlas.png-802b4ba3b3a2975e0e10fb0b855c3e6f.ctex
+Saving project files from res://assets/backgrounds/book03_cagaloglu_streets_atlas.png.import into assets/assets/backgrounds/book03_cagaloglu_streets_atlas.png.import
+Saving project files from res://.godot/imported/book03_cengelkoy_mansion_atlas.png-03da62b846d78082386528f1fe85bc02.ctex into assets/.godot/imported/book03_cengelkoy_mansion_atlas.png-03da62b846d78082386528f1fe85bc02.ctex
+Saving project files from res://assets/backgrounds/book03_cengelkoy_mansion_atlas.png.import into assets/assets/backgrounds/book03_cengelkoy_mansion_atlas.png.import
+Saving project files from res://.godot/imported/book03_cengelkoy_shore_atlas.png-f242cca03315f2cd6dff27d9963f0822.ctex into assets/.godot/imported/book03_cengelkoy_shore_atlas.png-f242cca03315f2cd6dff27d9963f0822.ctex
+Saving project files from res://assets/backgrounds/book03_cengelkoy_shore_atlas.png.import into assets/assets/backgrounds/book03_cengelkoy_shore_atlas.png.import
+Saving project files from res://.godot/imported/book03_final_broadcast_atlas.png-6c9e11895a0d581a63de531c2f76a6c6.ctex into assets/.godot/imported/book03_final_broadcast_atlas.png-6c9e11895a0d581a63de531c2f76a6c6.ctex
+Saving project files from res://assets/backgrounds/book03_final_broadcast_atlas.png.import into assets/assets/backgrounds/book03_final_broadcast_atlas.png.import
+Saving project files from res://.godot/imported/book03_final_dawn_atlas.png-1e0537d19a3f3e6061b23bae8b51beb8.ctex into assets/.godot/imported/book03_final_dawn_atlas.png-1e0537d19a3f3e6061b23bae8b51beb8.ctex
+Saving project files from res://assets/backgrounds/book03_final_dawn_atlas.png.import into assets/assets/backgrounds/book03_final_dawn_atlas.png.import
+Saving project files from res://.godot/imported/book03_final_shore_atlas.png-0d08bc5341df75dc2bc07404c7ddc8e2.ctex into assets/.godot/imported/book03_final_shore_atlas.png-0d08bc5341df75dc2bc07404c7ddc8e2.ctex
+Saving project files from res://assets/backgrounds/book03_final_shore_atlas.png.import into assets/assets/backgrounds/book03_final_shore_atlas.png.import
+Saving project files from res://.godot/imported/book03_galata_streets_atlas.png-3331b304ba41b45397d8f5308bc71a04.ctex into assets/.godot/imported/book03_galata_streets_atlas.png-3331b304ba41b45397d8f5308bc71a04.ctex
+Saving project files from res://assets/backgrounds/book03_galata_streets_atlas.png.import into assets/assets/backgrounds/book03_galata_streets_atlas.png.import
+Saving project files from res://.godot/imported/book03_galata_telegraph_atlas.png-91f41c5a5a0bb02eeada932b9ce2b72f.ctex into assets/.godot/imported/book03_galata_telegraph_atlas.png-91f41c5a5a0bb02eeada932b9ce2b72f.ctex
+Saving project files from res://assets/backgrounds/book03_galata_telegraph_atlas.png.import into assets/assets/backgrounds/book03_galata_telegraph_atlas.png.import
+Saving project files from res://.godot/imported/book03_kandilli_ridge_atlas.png-90ffc9ebe86c1ee7b6e4b124af426d5a.ctex into assets/.godot/imported/book03_kandilli_ridge_atlas.png-90ffc9ebe86c1ee7b6e4b124af426d5a.ctex
+Saving project files from res://assets/backgrounds/book03_kandilli_ridge_atlas.png.import into assets/assets/backgrounds/book03_kandilli_ridge_atlas.png.import
+Saving project files from res://.godot/imported/book03_kandilli_transmitter_atlas.png-1126a55e67857757c518d38abf718d2f.ctex into assets/.godot/imported/book03_kandilli_transmitter_atlas.png-1126a55e67857757c518d38abf718d2f.ctex
+Saving project files from res://assets/backgrounds/book03_kandilli_transmitter_atlas.png.import into assets/assets/backgrounds/book03_kandilli_transmitter_atlas.png.import
+Saving project files from res://.godot/imported/book03_kuleli_shore_atlas.png-e8651dd526d447702a6fa8bdc8376a29.ctex into assets/.godot/imported/book03_kuleli_shore_atlas.png-e8651dd526d447702a6fa8bdc8376a29.ctex
+Saving project files from res://assets/backgrounds/book03_kuleli_shore_atlas.png.import into assets/assets/backgrounds/book03_kuleli_shore_atlas.png.import
+Saving project files from res://.godot/imported/book03_kuleli_signal_atlas.png-3bcbb6f3d795ea0558d8b407c45b3e07.ctex into assets/.godot/imported/book03_kuleli_signal_atlas.png-3bcbb6f3d795ea0558d8b407c45b3e07.ctex
+Saving project files from res://assets/backgrounds/book03_kuleli_signal_atlas.png.import into assets/assets/backgrounds/book03_kuleli_signal_atlas.png.import
+Saving project files from res://.godot/imported/book03_kuzguncuk_depot_atlas.png-13bc4921a38c5f15402de8fabc406073.ctex into assets/.godot/imported/book03_kuzguncuk_depot_atlas.png-13bc4921a38c5f15402de8fabc406073.ctex
+Saving project files from res://assets/backgrounds/book03_kuzguncuk_depot_atlas.png.import into assets/assets/backgrounds/book03_kuzguncuk_depot_atlas.png.import
+Saving project files from res://.godot/imported/book03_kuzguncuk_streets_atlas.png-5fbbf5e4c34a598253a57de43c520ed2.ctex into assets/.godot/imported/book03_kuzguncuk_streets_atlas.png-5fbbf5e4c34a598253a57de43c520ed2.ctex
+Saving project files from res://assets/backgrounds/book03_kuzguncuk_streets_atlas.png.import into assets/assets/backgrounds/book03_kuzguncuk_streets_atlas.png.import
+Saving project files from res://.godot/imported/book03_sirkeci_dispatch_atlas.png-7827372541fe685f3dd05371335d8a66.ctex into assets/.godot/imported/book03_sirkeci_dispatch_atlas.png-7827372541fe685f3dd05371335d8a66.ctex
+Saving project files from res://assets/backgrounds/book03_sirkeci_dispatch_atlas.png.import into assets/assets/backgrounds/book03_sirkeci_dispatch_atlas.png.import
+Saving project files from res://.godot/imported/book03_sirkeci_station_atlas.png-76aad2a2009c47b8e8f86211c82afcf6.ctex into assets/.godot/imported/book03_sirkeci_station_atlas.png-76aad2a2009c47b8e8f86211c82afcf6.ctex
+Saving project files from res://assets/backgrounds/book03_sirkeci_station_atlas.png.import into assets/assets/backgrounds/book03_sirkeci_station_atlas.png.import
+Saving project files from res://.godot/imported/book03_uskudar_relay_atlas.png-77d27b36a89afec3a60f382a5147062d.ctex into assets/.godot/imported/book03_uskudar_relay_atlas.png-77d27b36a89afec3a60f382a5147062d.ctex
+Saving project files from res://assets/backgrounds/book03_uskudar_relay_atlas.png.import into assets/assets/backgrounds/book03_uskudar_relay_atlas.png.import
+Saving project files from res://.godot/imported/book03_uskudar_shore_atlas.png-7198427d08f4c8d05d7d978c75581a07.ctex into assets/.godot/imported/book03_uskudar_shore_atlas.png-7198427d08f4c8d05d7d978c75581a07.ctex
+Saving project files from res://assets/backgrounds/book03_uskudar_shore_atlas.png.import into assets/assets/backgrounds/book03_uskudar_shore_atlas.png.import
+Saving project files from res://.godot/imported/book03_vanikoy_cargo_atlas.png-695d99a95cef96f53e46fd82d5382370.ctex into assets/.godot/imported/book03_vanikoy_cargo_atlas.png-695d99a95cef96f53e46fd82d5382370.ctex
+Saving project files from res://assets/backgrounds/book03_vanikoy_cargo_atlas.png.import into assets/assets/backgrounds/book03_vanikoy_cargo_atlas.png.import
+Saving project files from res://.godot/imported/book03_vanikoy_shore_atlas.png-ed7636f22430fcf38e9d7a9f4c37fc92.ctex into assets/.godot/imported/book03_vanikoy_shore_atlas.png-ed7636f22430fcf38e9d7a9f4c37fc92.ctex
+Saving project files from res://assets/backgrounds/book03_vanikoy_shore_atlas.png.import into assets/assets/backgrounds/book03_vanikoy_shore_atlas.png.import
+Saving project files from res://.godot/imported/level01_convoy_yard_v2.png-59144623083e39f49f33d34cda1a181f.ctex into assets/.godot/imported/level01_convoy_yard_v2.png-59144623083e39f49f33d34cda1a181f.ctex
+Saving project files from res://assets/backgrounds/level01_convoy_yard_v2.png.import into assets/assets/backgrounds/level01_convoy_yard_v2.png.import
+Saving project files from res://.godot/imported/level01_turkish_locations_atlas.png-da8fbbdaf4d044d83b3e5dbe07be664a.ctex into assets/.godot/imported/level01_turkish_locations_atlas.png-da8fbbdaf4d044d83b3e5dbe07be664a.ctex
+Saving project files from res://assets/backgrounds/level01_turkish_locations_atlas.png.import into assets/assets/backgrounds/level01_turkish_locations_atlas.png.import
+Saving project files from res://.godot/imported/level01_urban_dusk.png-2c848cffd9284c83f5cc91270aa9b3db.ctex into assets/.godot/imported/level01_urban_dusk.png-2c848cffd9284c83f5cc91270aa9b3db.ctex
+Saving project files from res://assets/backgrounds/level01_urban_dusk.png.import into assets/assets/backgrounds/level01_urban_dusk.png.import
+Saving project files from res://.godot/imported/level02_armed_checkpoint.png-a7252ec4bf5d61c4c7bb5853586cee49.ctex into assets/.godot/imported/level02_armed_checkpoint.png-a7252ec4bf5d61c4c7bb5853586cee49.ctex
+Saving project files from res://assets/backgrounds/level02_armed_checkpoint.png.import into assets/assets/backgrounds/level02_armed_checkpoint.png.import
+Saving project files from res://.godot/imported/level02_locations_atlas.png-23c46df2b4135602e8b811d8138d16ec.ctex into assets/.godot/imported/level02_locations_atlas.png-23c46df2b4135602e8b811d8138d16ec.ctex
+Saving project files from res://assets/backgrounds/level02_locations_atlas.png.import into assets/assets/backgrounds/level02_locations_atlas.png.import
+Saving project files from res://.godot/imported/level03_heavy_industry.png-9022d5858b618bd77819a266939d9372.ctex into assets/.godot/imported/level03_heavy_industry.png-9022d5858b618bd77819a266939d9372.ctex
+Saving project files from res://assets/backgrounds/level03_heavy_industry.png.import into assets/assets/backgrounds/level03_heavy_industry.png.import
+Saving project files from res://.godot/imported/level03_high_furnace.png-0d319326101cc53614f58f2281d36133.ctex into assets/.godot/imported/level03_high_furnace.png-0d319326101cc53614f58f2281d36133.ctex
+Saving project files from res://assets/backgrounds/level03_high_furnace.png.import into assets/assets/backgrounds/level03_high_furnace.png.import
+Saving project files from res://.godot/imported/level03_industry_atlas.png-881182cfcf6d3cbd21c10d23df6ab9ae.ctex into assets/.godot/imported/level03_industry_atlas.png-881182cfcf6d3cbd21c10d23df6ab9ae.ctex
+Saving project files from res://assets/backgrounds/level03_industry_atlas.png.import into assets/assets/backgrounds/level03_industry_atlas.png.import
+Saving project files from res://.godot/imported/level04_fortress_atlas.png-cd71d845dcfd6633ea5e52f8c15848be.ctex into assets/.godot/imported/level04_fortress_atlas.png-cd71d845dcfd6633ea5e52f8c15848be.ctex
+Saving project files from res://assets/backgrounds/level04_fortress_atlas.png.import into assets/assets/backgrounds/level04_fortress_atlas.png.import
+Saving project files from res://.godot/imported/level04_mountain_fortress.png-113a85208b1e4d92f685de1eac8ee65f.ctex into assets/.godot/imported/level04_mountain_fortress.png-113a85208b1e4d92f685de1eac8ee65f.ctex
+Saving project files from res://assets/backgrounds/level04_mountain_fortress.png.import into assets/assets/backgrounds/level04_mountain_fortress.png.import
+Saving project files from res://.godot/imported/level05_throne_hall.png-029cb32660cae24d7001c8317cc8a906.ctex into assets/.godot/imported/level05_throne_hall.png-029cb32660cae24d7001c8317cc8a906.ctex
+Saving project files from res://assets/backgrounds/level05_throne_hall.png.import into assets/assets/backgrounds/level05_throne_hall.png.import
+Saving project files from res://.godot/imported/level06_backstreets_atlas.png-36d0f125a01d812f2250fcc62d6635fc.ctex into assets/.godot/imported/level06_backstreets_atlas.png-36d0f125a01d812f2250fcc62d6635fc.ctex
+Saving project files from res://assets/backgrounds/level06_backstreets_atlas.png.import into assets/assets/backgrounds/level06_backstreets_atlas.png.import
+Saving project files from res://.godot/imported/level07_haddehane_atlas.png-c1d96762fd2d0ddcd7684e7dbe4054f0.ctex into assets/.godot/imported/level07_haddehane_atlas.png-c1d96762fd2d0ddcd7684e7dbe4054f0.ctex
+Saving project files from res://assets/backgrounds/level07_haddehane_atlas.png.import into assets/assets/backgrounds/level07_haddehane_atlas.png.import
+Saving project files from res://.godot/imported/level07_night_market_atlas.png-0e8d8002a5eca429ca335dd45f23eec0.ctex into assets/.godot/imported/level07_night_market_atlas.png-0e8d8002a5eca429ca335dd45f23eec0.ctex
+Saving project files from res://assets/backgrounds/level07_night_market_atlas.png.import into assets/assets/backgrounds/level07_night_market_atlas.png.import
+Saving project files from res://.godot/imported/level08_rail_atlas.png-6672c765e60a966e398e3da8aa68680d.ctex into assets/.godot/imported/level08_rail_atlas.png-6672c765e60a966e398e3da8aa68680d.ctex
+Saving project files from res://assets/backgrounds/level08_rail_atlas.png.import into assets/assets/backgrounds/level08_rail_atlas.png.import
+Saving project files from res://.godot/imported/level08_underground_atlas.png-25c2a9568c7cbc861a3287a1ad254f63.ctex into assets/.godot/imported/level08_underground_atlas.png-25c2a9568c7cbc861a3287a1ad254f63.ctex
+Saving project files from res://assets/backgrounds/level08_underground_atlas.png.import into assets/assets/backgrounds/level08_underground_atlas.png.import
+Saving project files from res://.godot/imported/level11_north_walls_atlas_v2.png-b07a07922e590c2e531cbabc91b0d38f.ctex into assets/.godot/imported/level11_north_walls_atlas_v2.png-b07a07922e590c2e531cbabc91b0d38f.ctex
+Saving project files from res://assets/backgrounds/level11_north_walls_atlas_v2.png.import into assets/assets/backgrounds/level11_north_walls_atlas_v2.png.import
+Saving project files from res://.godot/imported/level12_silent_corridor_atlas.png-a949b4cef9ff814db3e50b0ce78c394f.ctex into assets/.godot/imported/level12_silent_corridor_atlas.png-a949b4cef9ff814db3e50b0ce78c394f.ctex
+Saving project files from res://assets/backgrounds/level12_silent_corridor_atlas.png.import into assets/assets/backgrounds/level12_silent_corridor_atlas.png.import
+Saving project files from res://.godot/imported/level13_final_approach_atlas.png-a038a6e9ecabcb9a2549223243ab5d01.ctex into assets/.godot/imported/level13_final_approach_atlas.png-a038a6e9ecabcb9a2549223243ab5d01.ctex
+Saving project files from res://assets/backgrounds/level13_final_approach_atlas.png.import into assets/assets/backgrounds/level13_final_approach_atlas.png.import
+Saving project files from res://.godot/imported/level13_last_atlas.png-35d23f776233f5c96f50149e44198120.ctex into assets/.godot/imported/level13_last_atlas.png-35d23f776233f5c96f50149e44198120.ctex
+Saving project files from res://assets/backgrounds/level13_last_atlas.png.import into assets/assets/backgrounds/level13_last_atlas.png.import
+Saving project files from res://.godot/imported/level13_middle_atlas.png-b60f89c75415cf727e70889e4ab77d67.ctex into assets/.godot/imported/level13_middle_atlas.png-b60f89c75415cf727e70889e4ab77d67.ctex
+Saving project files from res://assets/backgrounds/level13_middle_atlas.png.import into assets/assets/backgrounds/level13_middle_atlas.png.import
+Saving project files from res://.godot/imported/placeholder_bound_idle.png-4cedce5b6d944ce92dcfa77626afff18.ctex into assets/.godot/imported/placeholder_bound_idle.png-4cedce5b6d944ce92dcfa77626afff18.ctex
+Saving project files from res://assets/characters/gazelle/placeholder_bound_idle.png.import into assets/assets/characters/gazelle/placeholder_bound_idle.png.import
+Saving project files from res://.godot/imported/placeholder_flinch.png-14a22dde8eec0cdc69b589725dc8bbaf.ctex into assets/.godot/imported/placeholder_flinch.png-14a22dde8eec0cdc69b589725dc8bbaf.ctex
+Saving project files from res://assets/characters/gazelle/placeholder_flinch.png.import into assets/assets/characters/gazelle/placeholder_flinch.png.import
+Saving project files from res://.godot/imported/placeholder_freed.png-56efaa694b8148655df0c40ce5f94464.ctex into assets/.godot/imported/placeholder_freed.png-56efaa694b8148655df0c40ce5f94464.ctex
+Saving project files from res://assets/characters/gazelle/placeholder_freed.png.import into assets/assets/characters/gazelle/placeholder_freed.png.import
+Saving project files from res://.godot/imported/placeholder_rescue_pose.png-a7a4bb98e126d736391f7ea3d5a239f0.ctex into assets/.godot/imported/placeholder_rescue_pose.png-a7a4bb98e126d736391f7ea3d5a239f0.ctex
+Saving project files from res://assets/characters/gazelle/placeholder_rescue_pose.png.import into assets/assets/characters/gazelle/placeholder_rescue_pose.png.import
+Saving project files from res://.godot/imported/placeholder_rescue_react.png-68ab1d59cbf3e927a042af55b13937ec.ctex into assets/.godot/imported/placeholder_rescue_react.png-68ab1d59cbf3e927a042af55b13937ec.ctex
+Saving project files from res://assets/characters/gazelle/placeholder_rescue_react.png.import into assets/assets/characters/gazelle/placeholder_rescue_react.png.import
+Saving project files from res://.godot/imported/karahanli_locomotion_atlas_v1.png-c5e955fcda5489a0a0d811bcc903658d.ctex into assets/.godot/imported/karahanli_locomotion_atlas_v1.png-c5e955fcda5489a0a0d811bcc903658d.ctex
+Saving project files from res://assets/characters/karahanli/karahanli_locomotion_atlas_v1.png.import into assets/assets/characters/karahanli/karahanli_locomotion_atlas_v1.png.import
+Saving project files from res://.godot/imported/karahanli_locomotion_atlas_v2.png-f768d3cb3856579b775d01759c9eaca2.ctex into assets/.godot/imported/karahanli_locomotion_atlas_v2.png-f768d3cb3856579b775d01759c9eaca2.ctex
+Saving project files from res://assets/characters/karahanli/karahanli_locomotion_atlas_v2.png.import into assets/assets/characters/karahanli/karahanli_locomotion_atlas_v2.png.import
+Saving project files from res://.godot/imported/placeholder_air_knee.png-8dc90b81540335f95ef32dc1c5db9289.ctex into assets/.godot/imported/placeholder_air_knee.png-8dc90b81540335f95ef32dc1c5db9289.ctex
+Saving project files from res://assets/characters/redmount/placeholder_air_knee.png.import into assets/assets/characters/redmount/placeholder_air_knee.png.import
+Saving project files from res://.godot/imported/placeholder_bat_idle.png-77ce4f8390b10c3b3fa217b7d124ca7b.ctex into assets/.godot/imported/placeholder_bat_idle.png-77ce4f8390b10c3b3fa217b7d124ca7b.ctex
+Saving project files from res://assets/characters/redmount/placeholder_bat_idle.png.import into assets/assets/characters/redmount/placeholder_bat_idle.png.import
+Saving project files from res://.godot/imported/placeholder_bat_swing.png-8c59a83ba2dace99bd98c0a64832362d.ctex into assets/.godot/imported/placeholder_bat_swing.png-8c59a83ba2dace99bd98c0a64832362d.ctex
+Saving project files from res://assets/characters/redmount/placeholder_bat_swing.png.import into assets/assets/characters/redmount/placeholder_bat_swing.png.import
+Saving project files from res://.godot/imported/placeholder_bat_walk.png-0ae2c4417a3c66b9605819c2c254d922.ctex into assets/.godot/imported/placeholder_bat_walk.png-0ae2c4417a3c66b9605819c2c254d922.ctex
+Saving project files from res://assets/characters/redmount/placeholder_bat_walk.png.import into assets/assets/characters/redmount/placeholder_bat_walk.png.import
+Saving project files from res://.godot/imported/placeholder_dead.png-8e13a2a25842314eaf7f38b013d98816.ctex into assets/.godot/imported/placeholder_dead.png-8e13a2a25842314eaf7f38b013d98816.ctex
+Saving project files from res://assets/characters/redmount/placeholder_dead.png.import into assets/assets/characters/redmount/placeholder_dead.png.import
+Saving project files from res://.godot/imported/placeholder_fall.png-1df2fa1aff1589aa11d5c7be46c71f28.ctex into assets/.godot/imported/placeholder_fall.png-1df2fa1aff1589aa11d5c7be46c71f28.ctex
+Saving project files from res://assets/characters/redmount/placeholder_fall.png.import into assets/assets/characters/redmount/placeholder_fall.png.import
+Saving project files from res://.godot/imported/placeholder_getup.png-23b77c7624de70ca6635e30d8468986a.ctex into assets/.godot/imported/placeholder_getup.png-23b77c7624de70ca6635e30d8468986a.ctex
+Saving project files from res://assets/characters/redmount/placeholder_getup.png.import into assets/assets/characters/redmount/placeholder_getup.png.import
+Saving project files from res://.godot/imported/placeholder_heavy.png-4c00d3db0099d2e41985d088669532fc.ctex into assets/.godot/imported/placeholder_heavy.png-4c00d3db0099d2e41985d088669532fc.ctex
+Saving project files from res://assets/characters/redmount/placeholder_heavy.png.import into assets/assets/characters/redmount/placeholder_heavy.png.import
+Saving project files from res://.godot/imported/placeholder_hit_heavy.png-8b877a6fea4648a305993305174815fb.ctex into assets/.godot/imported/placeholder_hit_heavy.png-8b877a6fea4648a305993305174815fb.ctex
+Saving project files from res://assets/characters/redmount/placeholder_hit_heavy.png.import into assets/assets/characters/redmount/placeholder_hit_heavy.png.import
+Saving project files from res://.godot/imported/placeholder_hit_light.png-6b0badf3fa2796c6d2728542e86b3c89.ctex into assets/.godot/imported/placeholder_hit_light.png-6b0badf3fa2796c6d2728542e86b3c89.ctex
+Saving project files from res://assets/characters/redmount/placeholder_hit_light.png.import into assets/assets/characters/redmount/placeholder_hit_light.png.import
+Saving project files from res://.godot/imported/placeholder_idle.png-654ed3054568a6fca8fa0a5a2180dd92.ctex into assets/.godot/imported/placeholder_idle.png-654ed3054568a6fca8fa0a5a2180dd92.ctex
+Saving project files from res://assets/characters/redmount/placeholder_idle.png.import into assets/assets/characters/redmount/placeholder_idle.png.import
+Saving project files from res://.godot/imported/placeholder_jump.png-20866c246349b2defd56c4f1344b25d9.ctex into assets/.godot/imported/placeholder_jump.png-20866c246349b2defd56c4f1344b25d9.ctex
+Saving project files from res://assets/characters/redmount/placeholder_jump.png.import into assets/assets/characters/redmount/placeholder_jump.png.import
+Saving project files from res://.godot/imported/placeholder_knife_idle.png-523a6d8819f3819309efcd9a1aa0f200.ctex into assets/.godot/imported/placeholder_knife_idle.png-523a6d8819f3819309efcd9a1aa0f200.ctex
+Saving project files from res://assets/characters/redmount/placeholder_knife_idle.png.import into assets/assets/characters/redmount/placeholder_knife_idle.png.import
+Saving project files from res://.godot/imported/placeholder_knife_swing.png-2c5317b7bb1221b04e2cbaba86fafe73.ctex into assets/.godot/imported/placeholder_knife_swing.png-2c5317b7bb1221b04e2cbaba86fafe73.ctex
+Saving project files from res://assets/characters/redmount/placeholder_knife_swing.png.import into assets/assets/characters/redmount/placeholder_knife_swing.png.import
+Saving project files from res://.godot/imported/placeholder_knife_walk.png-3e1c1a8544dde09acb92e7068f0ff5a5.ctex into assets/.godot/imported/placeholder_knife_walk.png-3e1c1a8544dde09acb92e7068f0ff5a5.ctex
+Saving project files from res://assets/characters/redmount/placeholder_knife_walk.png.import into assets/assets/characters/redmount/placeholder_knife_walk.png.import
+Saving project files from res://.godot/imported/placeholder_knockdown.png-7905c21e183980168209d8fa2adf4d83.ctex into assets/.godot/imported/placeholder_knockdown.png-7905c21e183980168209d8fa2adf4d83.ctex
+Saving project files from res://assets/characters/redmount/placeholder_knockdown.png.import into assets/assets/characters/redmount/placeholder_knockdown.png.import
+Saving project files from res://.godot/imported/placeholder_land.png-78bf7ed6519c1e01f6bcf2c1c08457a9.ctex into assets/.godot/imported/placeholder_land.png-78bf7ed6519c1e01f6bcf2c1c08457a9.ctex
+Saving project files from res://assets/characters/redmount/placeholder_land.png.import into assets/assets/characters/redmount/placeholder_land.png.import
+Saving project files from res://.godot/imported/placeholder_punch_1.png-7ccbf689fd22d067b1c74d60a40175a7.ctex into assets/.godot/imported/placeholder_punch_1.png-7ccbf689fd22d067b1c74d60a40175a7.ctex
+Saving project files from res://assets/characters/redmount/placeholder_punch_1.png.import into assets/assets/characters/redmount/placeholder_punch_1.png.import
+Saving project files from res://.godot/imported/placeholder_punch_2.png-28f0bb69e34532cf9e931f260b921ee6.ctex into assets/.godot/imported/placeholder_punch_2.png-28f0bb69e34532cf9e931f260b921ee6.ctex
+Saving project files from res://assets/characters/redmount/placeholder_punch_2.png.import into assets/assets/characters/redmount/placeholder_punch_2.png.import
+Saving project files from res://.godot/imported/placeholder_punch_3.png-8db0095895d18df7572eb90357ec90bc.ctex into assets/.godot/imported/placeholder_punch_3.png-8db0095895d18df7572eb90357ec90bc.ctex
+Saving project files from res://assets/characters/redmount/placeholder_punch_3.png.import into assets/assets/characters/redmount/placeholder_punch_3.png.import
+Saving project files from res://.godot/imported/placeholder_run.png-7ca5152485ea8634d70dc04370782bed.ctex into assets/.godot/imported/placeholder_run.png-7ca5152485ea8634d70dc04370782bed.ctex
+Saving project files from res://assets/characters/redmount/placeholder_run.png.import into assets/assets/characters/redmount/placeholder_run.png.import
+Saving project files from res://.godot/imported/placeholder_shoot.png-aeb11f1220bf87fff7b2035817d3509a.ctex into assets/.godot/imported/placeholder_shoot.png-aeb11f1220bf87fff7b2035817d3509a.ctex
+Saving project files from res://assets/characters/redmount/placeholder_shoot.png.import into assets/assets/characters/redmount/placeholder_shoot.png.import
+Saving project files from res://.godot/imported/placeholder_walk.png-eddac5bcb4ce9ff485533eb05e094c49.ctex into assets/.godot/imported/placeholder_walk.png-eddac5bcb4ce9ff485533eb05e094c49.ctex
+Saving project files from res://assets/characters/redmount/placeholder_walk.png.import into assets/assets/characters/redmount/placeholder_walk.png.import
+Saving project files from res://.godot/imported/redmount_bat_atlas_v1.png-8ffa1b10d831f8bee3e8430da52dc340.ctex into assets/.godot/imported/redmount_bat_atlas_v1.png-8ffa1b10d831f8bee3e8430da52dc340.ctex
+Saving project files from res://assets/characters/redmount/redmount_bat_atlas_v1.png.import into assets/assets/characters/redmount/redmount_bat_atlas_v1.png.import
+Saving project files from res://.godot/imported/redmount_handgun_atlas_v1.png-e756b8fa46219c3c64be94561a5f0539.ctex into assets/.godot/imported/redmount_handgun_atlas_v1.png-e756b8fa46219c3c64be94561a5f0539.ctex
+Saving project files from res://assets/characters/redmount/redmount_handgun_atlas_v1.png.import into assets/assets/characters/redmount/redmount_handgun_atlas_v1.png.import
+Saving project files from res://.godot/imported/redmount_knife_atlas_v1.png-f5c519744276cc495d6da9739ca9ef8e.ctex into assets/.godot/imported/redmount_knife_atlas_v1.png-f5c519744276cc495d6da9739ca9ef8e.ctex
+Saving project files from res://assets/characters/redmount/redmount_knife_atlas_v1.png.import into assets/assets/characters/redmount/redmount_knife_atlas_v1.png.import
+Saving project files from res://.godot/imported/redmount_locomotion_atlas_v2.png-148b2b5b9e078fa3adceca4f9d87428d.ctex into assets/.godot/imported/redmount_locomotion_atlas_v2.png-148b2b5b9e078fa3adceca4f9d87428d.ctex
+Saving project files from res://assets/characters/redmount/redmount_locomotion_atlas_v2.png.import into assets/assets/characters/redmount/redmount_locomotion_atlas_v2.png.import
+Saving project files from res://.godot/imported/redmount_rifle_atlas_v1.png-e0df30f5ee97299f726af0ddb9850ac5.ctex into assets/.godot/imported/redmount_rifle_atlas_v1.png-e0df30f5ee97299f726af0ddb9850ac5.ctex
+Saving project files from res://assets/characters/redmount/redmount_rifle_atlas_v1.png.import into assets/assets/characters/redmount/redmount_rifle_atlas_v1.png.import
+Saving project files from res://.godot/imported/redmount_unarmed_atlas_v1.png-0bd21c9668e986e6c1e76f495eb3efbd.ctex into assets/.godot/imported/redmount_unarmed_atlas_v1.png-0bd21c9668e986e6c1e76f495eb3efbd.ctex
+Saving project files from res://assets/characters/redmount/redmount_unarmed_atlas_v1.png.import into assets/assets/characters/redmount/redmount_unarmed_atlas_v1.png.import
+Saving project files from res://.godot/imported/tugrul_concept.png-eb105ea6e62bc16802586ae0dca14c9b.ctex into assets/.godot/imported/tugrul_concept.png-eb105ea6e62bc16802586ae0dca14c9b.ctex
+Saving project files from res://assets/characters/tugrul/tugrul_concept.png.import into assets/assets/characters/tugrul/tugrul_concept.png.import
+Saving project files from res://.godot/imported/vezir_concept.png-9e973cc9f1229f3a3504f430517c0655.ctex into assets/.godot/imported/vezir_concept.png-9e973cc9f1229f3a3504f430517c0655.ctex
+Saving project files from res://assets/characters/vezir/vezir_concept.png.import into assets/assets/characters/vezir/vezir_concept.png.import
+Saving project files from res://.godot/imported/agile_assassin_animation_atlas_v1.png-e64f8631fefb771e066bd345d0179d44.ctex into assets/.godot/imported/agile_assassin_animation_atlas_v1.png-e64f8631fefb771e066bd345d0179d44.ctex
+Saving project files from res://assets/enemies/agile_assassin/agile_assassin_animation_atlas_v1.png.import into assets/assets/enemies/agile_assassin/agile_assassin_animation_atlas_v1.png.import
+Saving project files from res://.godot/imported/placeholder_death.png-200b9ef9782c139639e1ee1da8ebe02b.ctex into assets/.godot/imported/placeholder_death.png-200b9ef9782c139639e1ee1da8ebe02b.ctex
+Saving project files from res://assets/enemies/agile_assassin/placeholder_death.png.import into assets/assets/enemies/agile_assassin/placeholder_death.png.import
+Saving project files from res://.godot/imported/placeholder_evade.png-41373cd4b2633547bea3d2cc01ac597e.ctex into assets/.godot/imported/placeholder_evade.png-41373cd4b2633547bea3d2cc01ac597e.ctex
+Saving project files from res://assets/enemies/agile_assassin/placeholder_evade.png.import into assets/assets/enemies/agile_assassin/placeholder_evade.png.import
+Saving project files from res://.godot/imported/placeholder_getup.png-78f279ca8693b4dd335253b6d4fec6a4.ctex into assets/.godot/imported/placeholder_getup.png-78f279ca8693b4dd335253b6d4fec6a4.ctex
+Saving project files from res://assets/enemies/agile_assassin/placeholder_getup.png.import into assets/assets/enemies/agile_assassin/placeholder_getup.png.import
+Saving project files from res://.godot/imported/placeholder_hit.png-483d8f7f6dc4e8db2f8dfa4d1d4988ab.ctex into assets/.godot/imported/placeholder_hit.png-483d8f7f6dc4e8db2f8dfa4d1d4988ab.ctex
+Saving project files from res://assets/enemies/agile_assassin/placeholder_hit.png.import into assets/assets/enemies/agile_assassin/placeholder_hit.png.import
+Saving project files from res://.godot/imported/placeholder_idle.png-9b94e1220acd75b43c88d1028d3d36e9.ctex into assets/.godot/imported/placeholder_idle.png-9b94e1220acd75b43c88d1028d3d36e9.ctex
+Saving project files from res://assets/enemies/agile_assassin/placeholder_idle.png.import into assets/assets/enemies/agile_assassin/placeholder_idle.png.import
+Saving project files from res://.godot/imported/placeholder_knockdown.png-9ef159a21dc3a6e1c04d75f05a4402c7.ctex into assets/.godot/imported/placeholder_knockdown.png-9ef159a21dc3a6e1c04d75f05a4402c7.ctex
+Saving project files from res://assets/enemies/agile_assassin/placeholder_knockdown.png.import into assets/assets/enemies/agile_assassin/placeholder_knockdown.png.import
+Saving project files from res://.godot/imported/placeholder_leap.png-881983879c8d6697cf2e9198923707be.ctex into assets/.godot/imported/placeholder_leap.png-881983879c8d6697cf2e9198923707be.ctex
+Saving project files from res://assets/enemies/agile_assassin/placeholder_leap.png.import into assets/assets/enemies/agile_assassin/placeholder_leap.png.import
+Saving project files from res://.godot/imported/placeholder_punch.png-4fe1df1196105b660326c4ddf9d06d33.ctex into assets/.godot/imported/placeholder_punch.png-4fe1df1196105b660326c4ddf9d06d33.ctex
+Saving project files from res://assets/enemies/agile_assassin/placeholder_punch.png.import into assets/assets/enemies/agile_assassin/placeholder_punch.png.import
+Saving project files from res://.godot/imported/placeholder_run.png-3a7e0a6f0ff37e30a2d1533272d866f4.ctex into assets/.godot/imported/placeholder_run.png-3a7e0a6f0ff37e30a2d1533272d866f4.ctex
+Saving project files from res://assets/enemies/agile_assassin/placeholder_run.png.import into assets/assets/enemies/agile_assassin/placeholder_run.png.import
+Saving project files from res://.godot/imported/placeholder_walk.png-44ac4253c24ccaf06de18ea1662a12f1.ctex into assets/.godot/imported/placeholder_walk.png-44ac4253c24ccaf06de18ea1662a12f1.ctex
+Saving project files from res://assets/enemies/agile_assassin/placeholder_walk.png.import into assets/assets/enemies/agile_assassin/placeholder_walk.png.import
+Saving project files from res://.godot/imported/armored_bruiser_animation_atlas_v1.png-55812c18e864c7ea1fc0b35f00624bbd.ctex into assets/.godot/imported/armored_bruiser_animation_atlas_v1.png-55812c18e864c7ea1fc0b35f00624bbd.ctex
+Saving project files from res://assets/enemies/armored_bruiser/armored_bruiser_animation_atlas_v1.png.import into assets/assets/enemies/armored_bruiser/armored_bruiser_animation_atlas_v1.png.import
+Saving project files from res://.godot/imported/placeholder_block.png-9be5f7f78656f4b0328c8a7b8f234da4.ctex into assets/.godot/imported/placeholder_block.png-9be5f7f78656f4b0328c8a7b8f234da4.ctex
+Saving project files from res://assets/enemies/armored_bruiser/placeholder_block.png.import into assets/assets/enemies/armored_bruiser/placeholder_block.png.import
+Saving project files from res://.godot/imported/placeholder_death.png-af2c941ad0bda4c1b063501225212591.ctex into assets/.godot/imported/placeholder_death.png-af2c941ad0bda4c1b063501225212591.ctex
+Saving project files from res://assets/enemies/armored_bruiser/placeholder_death.png.import into assets/assets/enemies/armored_bruiser/placeholder_death.png.import
+Saving project files from res://.godot/imported/placeholder_getup.png-a105eb8fbf058f8fd2af38e546fcfdc1.ctex into assets/.godot/imported/placeholder_getup.png-a105eb8fbf058f8fd2af38e546fcfdc1.ctex
+Saving project files from res://assets/enemies/armored_bruiser/placeholder_getup.png.import into assets/assets/enemies/armored_bruiser/placeholder_getup.png.import
+Saving project files from res://.godot/imported/placeholder_guard_break.png-052d186f98c41c6e28875c69f400a86f.ctex into assets/.godot/imported/placeholder_guard_break.png-052d186f98c41c6e28875c69f400a86f.ctex
+Saving project files from res://assets/enemies/armored_bruiser/placeholder_guard_break.png.import into assets/assets/enemies/armored_bruiser/placeholder_guard_break.png.import
+Saving project files from res://.godot/imported/placeholder_hit.png-6ebb4e4811d2b1b7bc2b286f7599d1ad.ctex into assets/.godot/imported/placeholder_hit.png-6ebb4e4811d2b1b7bc2b286f7599d1ad.ctex
+Saving project files from res://assets/enemies/armored_bruiser/placeholder_hit.png.import into assets/assets/enemies/armored_bruiser/placeholder_hit.png.import
+Saving project files from res://.godot/imported/placeholder_idle.png-7d348054b4fb95792f98e69576d07b3e.ctex into assets/.godot/imported/placeholder_idle.png-7d348054b4fb95792f98e69576d07b3e.ctex
+Saving project files from res://assets/enemies/armored_bruiser/placeholder_idle.png.import into assets/assets/enemies/armored_bruiser/placeholder_idle.png.import
+Saving project files from res://.godot/imported/placeholder_knockdown.png-7ce723328a692f9222684ff8e91a0207.ctex into assets/.godot/imported/placeholder_knockdown.png-7ce723328a692f9222684ff8e91a0207.ctex
+Saving project files from res://assets/enemies/armored_bruiser/placeholder_knockdown.png.import into assets/assets/enemies/armored_bruiser/placeholder_knockdown.png.import
+Saving project files from res://.godot/imported/placeholder_punch.png-fd7d83f46dba02c97f94e90f26f2e032.ctex into assets/.godot/imported/placeholder_punch.png-fd7d83f46dba02c97f94e90f26f2e032.ctex
+Saving project files from res://assets/enemies/armored_bruiser/placeholder_punch.png.import into assets/assets/enemies/armored_bruiser/placeholder_punch.png.import
+Saving project files from res://.godot/imported/placeholder_walk.png-a6c5d1fc128ab08cc36f1a2e46447b55.ctex into assets/.godot/imported/placeholder_walk.png-a6c5d1fc128ab08cc36f1a2e46447b55.ctex
+Saving project files from res://assets/enemies/armored_bruiser/placeholder_walk.png.import into assets/assets/enemies/armored_bruiser/placeholder_walk.png.import
+Saving project files from res://.godot/imported/elite_guard_animation_atlas_v1.png-2951eec385dcc212893b6646ffe96e5f.ctex into assets/.godot/imported/elite_guard_animation_atlas_v1.png-2951eec385dcc212893b6646ffe96e5f.ctex
+Saving project files from res://assets/enemies/elite_guard/elite_guard_animation_atlas_v1.png.import into assets/assets/enemies/elite_guard/elite_guard_animation_atlas_v1.png.import
+Saving project files from res://.godot/imported/placeholder_aim.png-9a7a899395f761341f7b6e2c73e83c6d.ctex into assets/.godot/imported/placeholder_aim.png-9a7a899395f761341f7b6e2c73e83c6d.ctex
+Saving project files from res://assets/enemies/elite_guard/placeholder_aim.png.import into assets/assets/enemies/elite_guard/placeholder_aim.png.import
+Saving project files from res://.godot/imported/placeholder_block.png-b1d3a4750b451be5e54de019839bfb0a.ctex into assets/.godot/imported/placeholder_block.png-b1d3a4750b451be5e54de019839bfb0a.ctex
+Saving project files from res://assets/enemies/elite_guard/placeholder_block.png.import into assets/assets/enemies/elite_guard/placeholder_block.png.import
+Saving project files from res://.godot/imported/placeholder_death.png-e9495ab0577cd4485dfb840ac64326fa.ctex into assets/.godot/imported/placeholder_death.png-e9495ab0577cd4485dfb840ac64326fa.ctex
+Saving project files from res://assets/enemies/elite_guard/placeholder_death.png.import into assets/assets/enemies/elite_guard/placeholder_death.png.import
+Saving project files from res://.godot/imported/placeholder_getup.png-c4daa56c70b84725f46ad533bb89ba63.ctex into assets/.godot/imported/placeholder_getup.png-c4daa56c70b84725f46ad533bb89ba63.ctex
+Saving project files from res://assets/enemies/elite_guard/placeholder_getup.png.import into assets/assets/enemies/elite_guard/placeholder_getup.png.import
+Saving project files from res://.godot/imported/placeholder_guard_break.png-6eb2b36c42bd7cda7413b49bfc34f0f1.ctex into assets/.godot/imported/placeholder_guard_break.png-6eb2b36c42bd7cda7413b49bfc34f0f1.ctex
+Saving project files from res://assets/enemies/elite_guard/placeholder_guard_break.png.import into assets/assets/enemies/elite_guard/placeholder_guard_break.png.import
+Saving project files from res://.godot/imported/placeholder_hit.png-920df5b84f81c746778309145e25413d.ctex into assets/.godot/imported/placeholder_hit.png-920df5b84f81c746778309145e25413d.ctex
+Saving project files from res://assets/enemies/elite_guard/placeholder_hit.png.import into assets/assets/enemies/elite_guard/placeholder_hit.png.import
+Saving project files from res://.godot/imported/placeholder_idle.png-05345998f8739795f11b49ace561bbcd.ctex into assets/.godot/imported/placeholder_idle.png-05345998f8739795f11b49ace561bbcd.ctex
+Saving project files from res://assets/enemies/elite_guard/placeholder_idle.png.import into assets/assets/enemies/elite_guard/placeholder_idle.png.import
+Saving project files from res://.godot/imported/placeholder_knockdown.png-b30b7882d7564f631aea87dae6428c7e.ctex into assets/.godot/imported/placeholder_knockdown.png-b30b7882d7564f631aea87dae6428c7e.ctex
+Saving project files from res://assets/enemies/elite_guard/placeholder_knockdown.png.import into assets/assets/enemies/elite_guard/placeholder_knockdown.png.import
+Saving project files from res://.godot/imported/placeholder_punch.png-c53be4f5edb777ecc9b98bbb9e538906.ctex into assets/.godot/imported/placeholder_punch.png-c53be4f5edb777ecc9b98bbb9e538906.ctex
+Saving project files from res://assets/enemies/elite_guard/placeholder_punch.png.import into assets/assets/enemies/elite_guard/placeholder_punch.png.import
+Saving project files from res://.godot/imported/placeholder_shoot.png-e4674f41011b777e58f1b89d03402d5a.ctex into assets/.godot/imported/placeholder_shoot.png-e4674f41011b777e58f1b89d03402d5a.ctex
+Saving project files from res://assets/enemies/elite_guard/placeholder_shoot.png.import into assets/assets/enemies/elite_guard/placeholder_shoot.png.import
+Saving project files from res://.godot/imported/placeholder_walk.png-d59c2e10034b5524afa4253758412751.ctex into assets/.godot/imported/placeholder_walk.png-d59c2e10034b5524afa4253758412751.ctex
+Saving project files from res://assets/enemies/elite_guard/placeholder_walk.png.import into assets/assets/enemies/elite_guard/placeholder_walk.png.import
+Saving project files from res://.godot/imported/placeholder_dash.png-9ee6fae29ea81c7ad3c3c9fb8794afd1.ctex into assets/.godot/imported/placeholder_dash.png-9ee6fae29ea81c7ad3c3c9fb8794afd1.ctex
+Saving project files from res://assets/enemies/karahanli/placeholder_dash.png.import into assets/assets/enemies/karahanli/placeholder_dash.png.import
+Saving project files from res://.godot/imported/placeholder_death.png-ad5d2ffb6533aba6051d79fc7e88e35e.ctex into assets/.godot/imported/placeholder_death.png-ad5d2ffb6533aba6051d79fc7e88e35e.ctex
+Saving project files from res://assets/enemies/karahanli/placeholder_death.png.import into assets/assets/enemies/karahanli/placeholder_death.png.import
+Saving project files from res://.godot/imported/placeholder_getup.png-e7f71757ff36290bd3da4c765eb1e8d7.ctex into assets/.godot/imported/placeholder_getup.png-e7f71757ff36290bd3da4c765eb1e8d7.ctex
+Saving project files from res://assets/enemies/karahanli/placeholder_getup.png.import into assets/assets/enemies/karahanli/placeholder_getup.png.import
+Saving project files from res://.godot/imported/placeholder_guard_break.png-bc6c78d7a63dedc04002a3691f843580.ctex into assets/.godot/imported/placeholder_guard_break.png-bc6c78d7a63dedc04002a3691f843580.ctex
+Saving project files from res://assets/enemies/karahanli/placeholder_guard_break.png.import into assets/assets/enemies/karahanli/placeholder_guard_break.png.import
+Saving project files from res://.godot/imported/placeholder_hit.png-afc19273b35f8284c5ce39464193d9d5.ctex into assets/.godot/imported/placeholder_hit.png-afc19273b35f8284c5ce39464193d9d5.ctex
+Saving project files from res://assets/enemies/karahanli/placeholder_hit.png.import into assets/assets/enemies/karahanli/placeholder_hit.png.import
+Saving project files from res://.godot/imported/placeholder_idle.png-48d13b40e4602c27b302d2e3bf903d25.ctex into assets/.godot/imported/placeholder_idle.png-48d13b40e4602c27b302d2e3bf903d25.ctex
+Saving project files from res://assets/enemies/karahanli/placeholder_idle.png.import into assets/assets/enemies/karahanli/placeholder_idle.png.import
+Saving project files from res://.godot/imported/placeholder_knockdown.png-a1069d3959f0956b82e5ea8fc5ac8265.ctex into assets/.godot/imported/placeholder_knockdown.png-a1069d3959f0956b82e5ea8fc5ac8265.ctex
+Saving project files from res://assets/enemies/karahanli/placeholder_knockdown.png.import into assets/assets/enemies/karahanli/placeholder_knockdown.png.import
+Saving project files from res://.godot/imported/placeholder_punch.png-c99e7932794f36130ab89e61a60fcf43.ctex into assets/.godot/imported/placeholder_punch.png-c99e7932794f36130ab89e61a60fcf43.ctex
+Saving project files from res://assets/enemies/karahanli/placeholder_punch.png.import into assets/assets/enemies/karahanli/placeholder_punch.png.import
+Saving project files from res://.godot/imported/placeholder_walk.png-08b9870c7d1a9d7b3088afd81a3f81ea.ctex into assets/.godot/imported/placeholder_walk.png-08b9870c7d1a9d7b3088afd81a3f81ea.ctex
+Saving project files from res://assets/enemies/karahanli/placeholder_walk.png.import into assets/assets/enemies/karahanli/placeholder_walk.png.import
+Saving project files from res://.godot/imported/knife_agent_animation_atlas_v1.png-9564f85a5a72d9e2e1ca65d6ad7cedcf.ctex into assets/.godot/imported/knife_agent_animation_atlas_v1.png-9564f85a5a72d9e2e1ca65d6ad7cedcf.ctex
+Saving project files from res://assets/enemies/knife_agent/knife_agent_animation_atlas_v1.png.import into assets/assets/enemies/knife_agent/knife_agent_animation_atlas_v1.png.import
+Saving project files from res://.godot/imported/placeholder_dash.png-11a87e37bcc7227a7ea872268d69022a.ctex into assets/.godot/imported/placeholder_dash.png-11a87e37bcc7227a7ea872268d69022a.ctex
+Saving project files from res://assets/enemies/knife_agent/placeholder_dash.png.import into assets/assets/enemies/knife_agent/placeholder_dash.png.import
+Saving project files from res://.godot/imported/placeholder_death.png-5559044ac8ee09b0bb168a4d0d860946.ctex into assets/.godot/imported/placeholder_death.png-5559044ac8ee09b0bb168a4d0d860946.ctex
+Saving project files from res://assets/enemies/knife_agent/placeholder_death.png.import into assets/assets/enemies/knife_agent/placeholder_death.png.import
+Saving project files from res://.godot/imported/placeholder_getup.png-2c347da4fcc7765d0167500d2ab6805e.ctex into assets/.godot/imported/placeholder_getup.png-2c347da4fcc7765d0167500d2ab6805e.ctex
+Saving project files from res://assets/enemies/knife_agent/placeholder_getup.png.import into assets/assets/enemies/knife_agent/placeholder_getup.png.import
+Saving project files from res://.godot/imported/placeholder_hit.png-bc2fbddc40a52c6ddea46c0ef20930c1.ctex into assets/.godot/imported/placeholder_hit.png-bc2fbddc40a52c6ddea46c0ef20930c1.ctex
+Saving project files from res://assets/enemies/knife_agent/placeholder_hit.png.import into assets/assets/enemies/knife_agent/placeholder_hit.png.import
+Saving project files from res://.godot/imported/placeholder_idle.png-52a1dd21432f427c800b17073f770e4c.ctex into assets/.godot/imported/placeholder_idle.png-52a1dd21432f427c800b17073f770e4c.ctex
+Saving project files from res://assets/enemies/knife_agent/placeholder_idle.png.import into assets/assets/enemies/knife_agent/placeholder_idle.png.import
+Saving project files from res://.godot/imported/placeholder_knockdown.png-eebd4e7a435aa1f4c1dc85055a30f931.ctex into assets/.godot/imported/placeholder_knockdown.png-eebd4e7a435aa1f4c1dc85055a30f931.ctex
+Saving project files from res://assets/enemies/knife_agent/placeholder_knockdown.png.import into assets/assets/enemies/knife_agent/placeholder_knockdown.png.import
+Saving project files from res://.godot/imported/placeholder_punch.png-0e03ca81eea3af22a193bd64973a8f51.ctex into assets/.godot/imported/placeholder_punch.png-0e03ca81eea3af22a193bd64973a8f51.ctex
+Saving project files from res://assets/enemies/knife_agent/placeholder_punch.png.import into assets/assets/enemies/knife_agent/placeholder_punch.png.import
+Saving project files from res://.godot/imported/placeholder_retreat.png-3ff693dc62b424f3ffd9f1ac2c33658a.ctex into assets/.godot/imported/placeholder_retreat.png-3ff693dc62b424f3ffd9f1ac2c33658a.ctex
+Saving project files from res://assets/enemies/knife_agent/placeholder_retreat.png.import into assets/assets/enemies/knife_agent/placeholder_retreat.png.import
+Saving project files from res://.godot/imported/placeholder_walk.png-0a55defbe2519effa755124c6418ee39.ctex into assets/.godot/imported/placeholder_walk.png-0a55defbe2519effa755124c6418ee39.ctex
+Saving project files from res://assets/enemies/knife_agent/placeholder_walk.png.import into assets/assets/enemies/knife_agent/placeholder_walk.png.import
+Saving project files from res://.godot/imported/mini_boss_animation_atlas_v1.png-f5ab668784ee3fba5036885616c3cdcc.ctex into assets/.godot/imported/mini_boss_animation_atlas_v1.png-f5ab668784ee3fba5036885616c3cdcc.ctex
+Saving project files from res://assets/enemies/mini_boss/mini_boss_animation_atlas_v1.png.import into assets/assets/enemies/mini_boss/mini_boss_animation_atlas_v1.png.import
+Saving project files from res://.godot/imported/placeholder_dash.png-b4df4cb92d01dce3e29452fc62c476f1.ctex into assets/.godot/imported/placeholder_dash.png-b4df4cb92d01dce3e29452fc62c476f1.ctex
+Saving project files from res://assets/enemies/mini_boss/placeholder_dash.png.import into assets/assets/enemies/mini_boss/placeholder_dash.png.import
+Saving project files from res://.godot/imported/placeholder_death.png-5f41342eebba0994b88d0f3132edf0b7.ctex into assets/.godot/imported/placeholder_death.png-5f41342eebba0994b88d0f3132edf0b7.ctex
+Saving project files from res://assets/enemies/mini_boss/placeholder_death.png.import into assets/assets/enemies/mini_boss/placeholder_death.png.import
+Saving project files from res://.godot/imported/placeholder_getup.png-ce8407e6f2c22a0229b5f1964bf5a0e5.ctex into assets/.godot/imported/placeholder_getup.png-ce8407e6f2c22a0229b5f1964bf5a0e5.ctex
+Saving project files from res://assets/enemies/mini_boss/placeholder_getup.png.import into assets/assets/enemies/mini_boss/placeholder_getup.png.import
+Saving project files from res://.godot/imported/placeholder_hammer.png-b3f81dadfd6fe49cfeccffe66b525c76.ctex into assets/.godot/imported/placeholder_hammer.png-b3f81dadfd6fe49cfeccffe66b525c76.ctex
+Saving project files from res://assets/enemies/mini_boss/placeholder_hammer.png.import into assets/assets/enemies/mini_boss/placeholder_hammer.png.import
+Saving project files from res://.godot/imported/placeholder_hit.png-30f33bb21b64c513ea6a3d98146fcd2a.ctex into assets/.godot/imported/placeholder_hit.png-30f33bb21b64c513ea6a3d98146fcd2a.ctex
+Saving project files from res://assets/enemies/mini_boss/placeholder_hit.png.import into assets/assets/enemies/mini_boss/placeholder_hit.png.import
+Saving project files from res://.godot/imported/placeholder_idle.png-a6f554de76409d417a1aff32904d2990.ctex into assets/.godot/imported/placeholder_idle.png-a6f554de76409d417a1aff32904d2990.ctex
+Saving project files from res://assets/enemies/mini_boss/placeholder_idle.png.import into assets/assets/enemies/mini_boss/placeholder_idle.png.import
+Saving project files from res://.godot/imported/placeholder_knockdown.png-f03e45f312e6fa15016c6a6924f75440.ctex into assets/.godot/imported/placeholder_knockdown.png-f03e45f312e6fa15016c6a6924f75440.ctex
+Saving project files from res://assets/enemies/mini_boss/placeholder_knockdown.png.import into assets/assets/enemies/mini_boss/placeholder_knockdown.png.import
+Saving project files from res://.godot/imported/placeholder_slam.png-27510d28e482f3bec03559abfb9c1f8e.ctex into assets/.godot/imported/placeholder_slam.png-27510d28e482f3bec03559abfb9c1f8e.ctex
+Saving project files from res://assets/enemies/mini_boss/placeholder_slam.png.import into assets/assets/enemies/mini_boss/placeholder_slam.png.import
+Saving project files from res://.godot/imported/placeholder_stagger.png-75b456d662d35c80a6aca9f60567bf8a.ctex into assets/.godot/imported/placeholder_stagger.png-75b456d662d35c80a6aca9f60567bf8a.ctex
+Saving project files from res://assets/enemies/mini_boss/placeholder_stagger.png.import into assets/assets/enemies/mini_boss/placeholder_stagger.png.import
+Saving project files from res://.godot/imported/placeholder_walk.png-dc7beda38b1e7bc37b6bd072e9cb290b.ctex into assets/.godot/imported/placeholder_walk.png-dc7beda38b1e7bc37b6bd072e9cb290b.ctex
+Saving project files from res://assets/enemies/mini_boss/placeholder_walk.png.import into assets/assets/enemies/mini_boss/placeholder_walk.png.import
+Saving project files from res://.godot/imported/placeholder_aim.png-327d0b8f86ae8682c510e002d6b549ad.ctex into assets/.godot/imported/placeholder_aim.png-327d0b8f86ae8682c510e002d6b549ad.ctex
+Saving project files from res://assets/enemies/rifle_guard/placeholder_aim.png.import into assets/assets/enemies/rifle_guard/placeholder_aim.png.import
+Saving project files from res://.godot/imported/placeholder_death.png-592a86d64ac21459e49a0f531c04ccf8.ctex into assets/.godot/imported/placeholder_death.png-592a86d64ac21459e49a0f531c04ccf8.ctex
+Saving project files from res://assets/enemies/rifle_guard/placeholder_death.png.import into assets/assets/enemies/rifle_guard/placeholder_death.png.import
+Saving project files from res://.godot/imported/placeholder_getup.png-601c44931c0ac67b9e71c0aed480d6cf.ctex into assets/.godot/imported/placeholder_getup.png-601c44931c0ac67b9e71c0aed480d6cf.ctex
+Saving project files from res://assets/enemies/rifle_guard/placeholder_getup.png.import into assets/assets/enemies/rifle_guard/placeholder_getup.png.import
+Saving project files from res://.godot/imported/placeholder_hit.png-8c4591926ab58e3d97a113531b81bf90.ctex into assets/.godot/imported/placeholder_hit.png-8c4591926ab58e3d97a113531b81bf90.ctex
+Saving project files from res://assets/enemies/rifle_guard/placeholder_hit.png.import into assets/assets/enemies/rifle_guard/placeholder_hit.png.import
+Saving project files from res://.godot/imported/placeholder_idle.png-d6f37b416f396c5ca8d185d0500cdaff.ctex into assets/.godot/imported/placeholder_idle.png-d6f37b416f396c5ca8d185d0500cdaff.ctex
+Saving project files from res://assets/enemies/rifle_guard/placeholder_idle.png.import into assets/assets/enemies/rifle_guard/placeholder_idle.png.import
+Saving project files from res://.godot/imported/placeholder_knockdown.png-38aa706208b48be21ecf0ff1c661418a.ctex into assets/.godot/imported/placeholder_knockdown.png-38aa706208b48be21ecf0ff1c661418a.ctex
+Saving project files from res://assets/enemies/rifle_guard/placeholder_knockdown.png.import into assets/assets/enemies/rifle_guard/placeholder_knockdown.png.import
+Saving project files from res://.godot/imported/placeholder_punch.png-222f4e478ceadc79834eda107523541e.ctex into assets/.godot/imported/placeholder_punch.png-222f4e478ceadc79834eda107523541e.ctex
+Saving project files from res://assets/enemies/rifle_guard/placeholder_punch.png.import into assets/assets/enemies/rifle_guard/placeholder_punch.png.import
+Saving project files from res://.godot/imported/placeholder_reload.png-8e3054b8dc6d4293e57329bf72fc63c9.ctex into assets/.godot/imported/placeholder_reload.png-8e3054b8dc6d4293e57329bf72fc63c9.ctex
+Saving project files from res://assets/enemies/rifle_guard/placeholder_reload.png.import into assets/assets/enemies/rifle_guard/placeholder_reload.png.import
+Saving project files from res://.godot/imported/placeholder_shoot.png-da767e9079b9f908faf89d39a0f9a119.ctex into assets/.godot/imported/placeholder_shoot.png-da767e9079b9f908faf89d39a0f9a119.ctex
+Saving project files from res://assets/enemies/rifle_guard/placeholder_shoot.png.import into assets/assets/enemies/rifle_guard/placeholder_shoot.png.import
+Saving project files from res://.godot/imported/placeholder_walk.png-d11a94341f7cfe0ceb312da20780c9f1.ctex into assets/.godot/imported/placeholder_walk.png-d11a94341f7cfe0ceb312da20780c9f1.ctex
+Saving project files from res://assets/enemies/rifle_guard/placeholder_walk.png.import into assets/assets/enemies/rifle_guard/placeholder_walk.png.import
+Saving project files from res://.godot/imported/rifle_guard_animation_atlas_v1.png-72b7633cdb12125ff6c469926ebdc359.ctex into assets/.godot/imported/rifle_guard_animation_atlas_v1.png-72b7633cdb12125ff6c469926ebdc359.ctex
+Saving project files from res://assets/enemies/rifle_guard/rifle_guard_animation_atlas_v1.png.import into assets/assets/enemies/rifle_guard/rifle_guard_animation_atlas_v1.png.import
+Saving project files from res://.godot/imported/placeholder_death.png-3824f932e12414f625008694b1eba119.ctex into assets/.godot/imported/placeholder_death.png-3824f932e12414f625008694b1eba119.ctex
+Saving project files from res://assets/enemies/street_thug/placeholder_death.png.import into assets/assets/enemies/street_thug/placeholder_death.png.import
+Saving project files from res://.godot/imported/placeholder_getup.png-e0ae3d4cc8925ce2994a92d2c39b1c1b.ctex into assets/.godot/imported/placeholder_getup.png-e0ae3d4cc8925ce2994a92d2c39b1c1b.ctex
+Saving project files from res://assets/enemies/street_thug/placeholder_getup.png.import into assets/assets/enemies/street_thug/placeholder_getup.png.import
+Saving project files from res://.godot/imported/placeholder_grab_attempt.png-4a9a41b3e19cc8c894608ca2e0f65499.ctex into assets/.godot/imported/placeholder_grab_attempt.png-4a9a41b3e19cc8c894608ca2e0f65499.ctex
+Saving project files from res://assets/enemies/street_thug/placeholder_grab_attempt.png.import into assets/assets/enemies/street_thug/placeholder_grab_attempt.png.import
+Saving project files from res://.godot/imported/placeholder_hit.png-315038b3d3498593a28764970453c012.ctex into assets/.godot/imported/placeholder_hit.png-315038b3d3498593a28764970453c012.ctex
+Saving project files from res://assets/enemies/street_thug/placeholder_hit.png.import into assets/assets/enemies/street_thug/placeholder_hit.png.import
+Saving project files from res://.godot/imported/placeholder_idle.png-95f9194ea0489e37e348294e64246974.ctex into assets/.godot/imported/placeholder_idle.png-95f9194ea0489e37e348294e64246974.ctex
+Saving project files from res://assets/enemies/street_thug/placeholder_idle.png.import into assets/assets/enemies/street_thug/placeholder_idle.png.import
+Saving project files from res://.godot/imported/placeholder_knockdown.png-516ed43153fd273059e52a20f93cf6a5.ctex into assets/.godot/imported/placeholder_knockdown.png-516ed43153fd273059e52a20f93cf6a5.ctex
+Saving project files from res://assets/enemies/street_thug/placeholder_knockdown.png.import into assets/assets/enemies/street_thug/placeholder_knockdown.png.import
+Saving project files from res://.godot/imported/placeholder_punch.png-1e18b8c08f74ddb4520b46cbba722f9d.ctex into assets/.godot/imported/placeholder_punch.png-1e18b8c08f74ddb4520b46cbba722f9d.ctex
+Saving project files from res://assets/enemies/street_thug/placeholder_punch.png.import into assets/assets/enemies/street_thug/placeholder_punch.png.import
+Saving project files from res://.godot/imported/placeholder_walk.png-14802b229ed9b93e62e3d761db3f3a4f.ctex into assets/.godot/imported/placeholder_walk.png-14802b229ed9b93e62e3d761db3f3a4f.ctex
+Saving project files from res://assets/enemies/street_thug/placeholder_walk.png.import into assets/assets/enemies/street_thug/placeholder_walk.png.import
+Saving project files from res://.godot/imported/street_thug_animation_atlas_v1.png-6df92500b90d9ffac06ade273ae23b44.ctex into assets/.godot/imported/street_thug_animation_atlas_v1.png-6df92500b90d9ffac06ade273ae23b44.ctex
+Saving project files from res://assets/enemies/street_thug/street_thug_animation_atlas_v1.png.import into assets/assets/enemies/street_thug/street_thug_animation_atlas_v1.png.import
+Saving project files from res://.godot/imported/bufe.png-90bde1e1e6d819d13c8345bd9f585172.ctex into assets/.godot/imported/bufe.png-90bde1e1e6d819d13c8345bd9f585172.ctex
+Saving project files from res://assets/environment/mahalle/bufe.png.import into assets/assets/environment/mahalle/bufe.png.import
+Saving project files from res://.godot/imported/bus.png-7000ab7f1e696e33d0af8a6953ce8566.ctex into assets/.godot/imported/bus.png-7000ab7f1e696e33d0af8a6953ce8566.ctex
+Saving project files from res://assets/environment/mahalle/bus.png.import into assets/assets/environment/mahalle/bus.png.import
+Saving project files from res://.godot/imported/chest_ottoman_v2.png-26e64c83efc40902c76f4571cf46b03c.ctex into assets/.godot/imported/chest_ottoman_v2.png-26e64c83efc40902c76f4571cf46b03c.ctex
+Saving project files from res://assets/environment/mahalle/chest_ottoman_v2.png.import into assets/assets/environment/mahalle/chest_ottoman_v2.png.import
+Saving project files from res://.godot/imported/cloud_puff.png-c20ea45b2c7cef6b7795f6dabc83ea69.ctex into assets/.godot/imported/cloud_puff.png-c20ea45b2c7cef6b7795f6dabc83ea69.ctex
+Saving project files from res://assets/environment/mahalle/cloud_puff.png.import into assets/assets/environment/mahalle/cloud_puff.png.import
+Saving project files from res://.godot/imported/crate_wood_v2.png-52155ed13ef30ab96051e8ed42f4ec77.ctex into assets/.godot/imported/crate_wood_v2.png-52155ed13ef30ab96051e8ed42f4ec77.ctex
+Saving project files from res://assets/environment/mahalle/crate_wood_v2.png.import into assets/assets/environment/mahalle/crate_wood_v2.png.import
+Saving project files from res://.godot/imported/freight_wagon.png-db98978b8360e2436c4c8e3b5e82a115.ctex into assets/.godot/imported/freight_wagon.png-db98978b8360e2436c4c8e3b5e82a115.ctex
+Saving project files from res://assets/environment/mahalle/freight_wagon.png.import into assets/assets/environment/mahalle/freight_wagon.png.import
+Saving project files from res://.godot/imported/ground_long.png-6290202ec58452f653fdab2f8977ebac.ctex into assets/.godot/imported/ground_long.png-6290202ec58452f653fdab2f8977ebac.ctex
+Saving project files from res://assets/environment/mahalle/ground_long.png.import into assets/assets/environment/mahalle/ground_long.png.import
+Saving project files from res://.godot/imported/house_a.png-d6a976f4d4d63bb7819405a758913c16.ctex into assets/.godot/imported/house_a.png-d6a976f4d4d63bb7819405a758913c16.ctex
+Saving project files from res://assets/environment/mahalle/house_a.png.import into assets/assets/environment/mahalle/house_a.png.import
+Saving project files from res://.godot/imported/house_b.png-f88b0eb2d350481a3493be8c4a11b8d6.ctex into assets/.godot/imported/house_b.png-f88b0eb2d350481a3493be8c4a11b8d6.ctex
+Saving project files from res://assets/environment/mahalle/house_b.png.import into assets/assets/environment/mahalle/house_b.png.import
+Saving project files from res://.godot/imported/house_c.png-88847710eafa7abd57cffc941da50879.ctex into assets/.godot/imported/house_c.png-88847710eafa7abd57cffc941da50879.ctex
+Saving project files from res://assets/environment/mahalle/house_c.png.import into assets/assets/environment/mahalle/house_c.png.import
+Saving project files from res://.godot/imported/ledge_l.png-d5cfcc7f93a97fde6eb66df9bd5e1a41.ctex into assets/.godot/imported/ledge_l.png-d5cfcc7f93a97fde6eb66df9bd5e1a41.ctex
+Saving project files from res://assets/environment/mahalle/ledge_l.png.import into assets/assets/environment/mahalle/ledge_l.png.import
+Saving project files from res://.godot/imported/market_awning_v2.png-eb7a4026ae0885894d36381823a14e9a.ctex into assets/.godot/imported/market_awning_v2.png-eb7a4026ae0885894d36381823a14e9a.ctex
+Saving project files from res://assets/environment/mahalle/market_awning_v2.png.import into assets/assets/environment/mahalle/market_awning_v2.png.import
+Saving project files from res://.godot/imported/plant_small.png-32dd0bc5dbc51624fb8f57aaef1ed5b0.ctex into assets/.godot/imported/plant_small.png-32dd0bc5dbc51624fb8f57aaef1ed5b0.ctex
+Saving project files from res://assets/environment/mahalle/plant_small.png.import into assets/assets/environment/mahalle/plant_small.png.import
+Saving project files from res://.godot/imported/portrait.png-7fb6d158a5ae298c1ce8cacd89f568f8.ctex into assets/.godot/imported/portrait.png-7fb6d158a5ae298c1ce8cacd89f568f8.ctex
+Saving project files from res://assets/environment/mahalle/portrait.png.import into assets/assets/environment/mahalle/portrait.png.import
+Saving project files from res://.godot/imported/roof_a.png-de045204551bd7c59fd30c637461642f.ctex into assets/.godot/imported/roof_a.png-de045204551bd7c59fd30c637461642f.ctex
+Saving project files from res://assets/environment/mahalle/roof_a.png.import into assets/assets/environment/mahalle/roof_a.png.import
+Saving project files from res://.godot/imported/scaffold_deck_v2.png-f29e2c41b0718944be6b3ef1f21ad5d9.ctex into assets/.godot/imported/scaffold_deck_v2.png-f29e2c41b0718944be6b3ef1f21ad5d9.ctex
+Saving project files from res://assets/environment/mahalle/scaffold_deck_v2.png.import into assets/assets/environment/mahalle/scaffold_deck_v2.png.import
+Saving project files from res://.godot/imported/shop_interior.png-b75c36471c952e51b7d53a4035bb7ff9.ctex into assets/.godot/imported/shop_interior.png-b75c36471c952e51b7d53a4035bb7ff9.ctex
+Saving project files from res://assets/environment/mahalle/shop_interior.png.import into assets/assets/environment/mahalle/shop_interior.png.import
+Saving project files from res://.godot/imported/stone_fill.png-7a6cf336aa5a7cbd99c838ad7555de48.ctex into assets/.godot/imported/stone_fill.png-7a6cf336aa5a7cbd99c838ad7555de48.ctex
+Saving project files from res://assets/environment/mahalle/stone_fill.png.import into assets/assets/environment/mahalle/stone_fill.png.import
+Saving project files from res://.godot/imported/tree_pot.png-746cdc16d1bfa8b5526c9cbf6b5bb495.ctex into assets/.godot/imported/tree_pot.png-746cdc16d1bfa8b5526c9cbf6b5bb495.ctex
+Saving project files from res://assets/environment/mahalle/tree_pot.png.import into assets/assets/environment/mahalle/tree_pot.png.import
+Saving project files from res://.godot/imported/vase_big.png-b4ac2bd2c860472609edf1d1c2a2004c.ctex into assets/.godot/imported/vase_big.png-b4ac2bd2c860472609edf1d1c2a2004c.ctex
+Saving project files from res://assets/environment/mahalle/vase_big.png.import into assets/assets/environment/mahalle/vase_big.png.import
+Saving project files from res://.godot/imported/vase_iznik_v2.png-bed609d4a6474469974a9fb00a5eddd0.ctex into assets/.godot/imported/vase_iznik_v2.png-bed609d4a6474469974a9fb00a5eddd0.ctex
+Saving project files from res://assets/environment/mahalle/vase_iznik_v2.png.import into assets/assets/environment/mahalle/vase_iznik_v2.png.import
+Saving project files from res://.godot/imported/vase_small.png-e479e0f0f7f5d62da9ea107d738bdde7.ctex into assets/.godot/imported/vase_small.png-e479e0f0f7f5d62da9ea107d738bdde7.ctex
+Saving project files from res://assets/environment/mahalle/vase_small.png.import into assets/assets/environment/mahalle/vase_small.png.import
+Saving project files from res://.godot/imported/wall_broken.png-0ff755694ba2ea96e0ab091b826683d0.ctex into assets/.godot/imported/wall_broken.png-0ff755694ba2ea96e0ab091b826683d0.ctex
+Saving project files from res://assets/environment/mahalle/wall_broken.png.import into assets/assets/environment/mahalle/wall_broken.png.import
+Saving project files from res://.godot/imported/wall_plain.png-e96bfb93fd2cb6241b9e3b9965e7a0cd.ctex into assets/.godot/imported/wall_plain.png-e96bfb93fd2cb6241b9e3b9965e7a0cd.ctex
+Saving project files from res://assets/environment/mahalle/wall_plain.png.import into assets/assets/environment/mahalle/wall_plain.png.import
+Saving project files from res://.godot/imported/window_balcony.png-54ffe5127c1cb22eb561012b5ccefd85.ctex into assets/.godot/imported/window_balcony.png-54ffe5127c1cb22eb561012b5ccefd85.ctex
+Saving project files from res://assets/environment/mahalle/window_balcony.png.import into assets/assets/environment/mahalle/window_balcony.png.import
+Saving project files from res://.godot/imported/book03_final_supplies.png-c694acff19be3a042c0cde4240ae2961.ctex into assets/.godot/imported/book03_final_supplies.png-c694acff19be3a042c0cde4240ae2961.ctex
+Saving project files from res://assets/environment/book03_final_supplies.png.import into assets/assets/environment/book03_final_supplies.png.import
+Saving project files from res://.godot/imported/book03_final_surfaces.png-b9e6fb969ada4bd1dfd051a666019c2a.ctex into assets/.godot/imported/book03_final_surfaces.png-b9e6fb969ada4bd1dfd051a666019c2a.ctex
+Saving project files from res://assets/environment/book03_final_surfaces.png.import into assets/assets/environment/book03_final_surfaces.png.import
+Saving project files from res://.godot/imported/corridor_ground.png-6cc383ba91c1af69a5e5505e49c0b413.ctex into assets/.godot/imported/corridor_ground.png-6cc383ba91c1af69a5e5505e49c0b413.ctex
+Saving project files from res://assets/environment/corridor_ground.png.import into assets/assets/environment/corridor_ground.png.import
+Saving project files from res://.godot/imported/fortress_platform.png-3c4b1e4262bb29600cfb6c232187df24.ctex into assets/.godot/imported/fortress_platform.png-3c4b1e4262bb29600cfb6c232187df24.ctex
+Saving project files from res://assets/environment/fortress_platform.png.import into assets/assets/environment/fortress_platform.png.import
+Saving project files from res://.godot/imported/fortress_stone.png-b913d602668cd31e9eddab1041e257f3.ctex into assets/.godot/imported/fortress_stone.png-b913d602668cd31e9eddab1041e257f3.ctex
+Saving project files from res://assets/environment/fortress_stone.png.import into assets/assets/environment/fortress_stone.png.import
+Saving project files from res://.godot/imported/haddehane_ground.png-6ca02a98627c24dead4adf032fc34dde.ctex into assets/.godot/imported/haddehane_ground.png-6ca02a98627c24dead4adf032fc34dde.ctex
+Saving project files from res://assets/environment/haddehane_ground.png.import into assets/assets/environment/haddehane_ground.png.import
+Saving project files from res://.godot/imported/level01_turkish_platform_kit_v1.png-f313c53f1898b729c026c0b8061aad2f.ctex into assets/.godot/imported/level01_turkish_platform_kit_v1.png-f313c53f1898b729c026c0b8061aad2f.ctex
+Saving project files from res://assets/environment/level01_turkish_platform_kit_v1.png.import into assets/assets/environment/level01_turkish_platform_kit_v1.png.import
+Saving project files from res://.godot/imported/shop_fortress.png-9ca397ea2b506483a3ca55b0357d9432.ctex into assets/.godot/imported/shop_fortress.png-9ca397ea2b506483a3ca55b0357d9432.ctex
+Saving project files from res://assets/environment/shop_fortress.png.import into assets/assets/environment/shop_fortress.png.import
+Saving project files from res://.godot/imported/shop_haddehane.png-e387a2f6adc661bbeb7243a7c7ec1914.ctex into assets/.godot/imported/shop_haddehane.png-e387a2f6adc661bbeb7243a7c7ec1914.ctex
+Saving project files from res://assets/environment/shop_haddehane.png.import into assets/assets/environment/shop_haddehane.png.import
+Saving project files from res://.godot/imported/shop_underground.png-b12fdd0496da9f62eeac3c1beee74ae8.ctex into assets/.godot/imported/shop_underground.png-b12fdd0496da9f62eeac3c1beee74ae8.ctex
+Saving project files from res://assets/environment/shop_underground.png.import into assets/assets/environment/shop_underground.png.import
+Saving project files from res://.godot/imported/underground_ground.png-b7c16ad401d71740fdf182eab2907065.ctex into assets/.godot/imported/underground_ground.png-b7c16ad401d71740fdf182eab2907065.ctex
+Saving project files from res://assets/environment/underground_ground.png.import into assets/assets/environment/underground_ground.png.import
+Saving project files from res://.godot/imported/mus_boss.wav-019933a834fe3a470f02c988be55d152.sample into assets/.godot/imported/mus_boss.wav-019933a834fe3a470f02c988be55d152.sample
+Saving project files from res://assets/music/mus_boss.wav.import into assets/assets/music/mus_boss.wav.import
+Saving project files from res://.godot/imported/mus_fortress.wav-1dad80cbb585e740759a5bd1abf4e447.sample into assets/.godot/imported/mus_fortress.wav-1dad80cbb585e740759a5bd1abf4e447.sample
+Saving project files from res://assets/music/mus_fortress.wav.import into assets/assets/music/mus_fortress.wav.import
+Saving project files from res://.godot/imported/mus_industrial.wav-011d7817355521243d47d529969a1bf7.sample into assets/.godot/imported/mus_industrial.wav-011d7817355521243d47d529969a1bf7.sample
+Saving project files from res://assets/music/mus_industrial.wav.import into assets/assets/music/mus_industrial.wav.import
+Saving project files from res://.godot/imported/mus_keep.wav-1fe764d8867bcd1b1e17b7f7c00eef8c.sample into assets/.godot/imported/mus_keep.wav-1fe764d8867bcd1b1e17b7f7c00eef8c.sample
+Saving project files from res://assets/music/mus_keep.wav.import into assets/assets/music/mus_keep.wav.import
+Saving project files from res://.godot/imported/mus_menu.wav-f2f9b79b4913af00f449833c73327faa.sample into assets/.godot/imported/mus_menu.wav-f2f9b79b4913af00f449833c73327faa.sample
+Saving project files from res://assets/music/mus_menu.wav.import into assets/assets/music/mus_menu.wav.import
+Saving project files from res://.godot/imported/mus_street.wav-1a0b0ee2b632f16281ade31e9f07bb38.sample into assets/.godot/imported/mus_street.wav-1a0b0ee2b632f16281ade31e9f07bb38.sample
+Saving project files from res://assets/music/mus_street.wav.import into assets/assets/music/mus_street.wav.import
+Saving project files from res://.godot/imported/mus_victory.wav-5530d2953c899880a7162820c597a3de.sample into assets/.godot/imported/mus_victory.wav-5530d2953c899880a7162820c597a3de.sample
+Saving project files from res://assets/music/mus_victory.wav.import into assets/assets/music/mus_victory.wav.import
+Saving project files from res://.godot/imported/placeholder_ammo.png-d9052eda11d8622442e31ca3861ca2e2.ctex into assets/.godot/imported/placeholder_ammo.png-d9052eda11d8622442e31ca3861ca2e2.ctex
+Saving project files from res://assets/pickups/placeholder_ammo.png.import into assets/assets/pickups/placeholder_ammo.png.import
+Saving project files from res://.godot/imported/placeholder_armor.png-98cf36a79fa3230ade2afcfb21787970.ctex into assets/.godot/imported/placeholder_armor.png-98cf36a79fa3230ade2afcfb21787970.ctex
+Saving project files from res://assets/pickups/placeholder_armor.png.import into assets/assets/pickups/placeholder_armor.png.import
+Saving project files from res://.godot/imported/placeholder_bat.png-f3b6f20f7bf5e3eed1268edadf773204.ctex into assets/.godot/imported/placeholder_bat.png-f3b6f20f7bf5e3eed1268edadf773204.ctex
+Saving project files from res://assets/pickups/placeholder_bat.png.import into assets/assets/pickups/placeholder_bat.png.import
+Saving project files from res://.godot/imported/placeholder_coin.png-8f21d446b2cf647fd59d4f98350350ba.ctex into assets/.godot/imported/placeholder_coin.png-8f21d446b2cf647fd59d4f98350350ba.ctex
+Saving project files from res://assets/pickups/placeholder_coin.png.import into assets/assets/pickups/placeholder_coin.png.import
+Saving project files from res://.godot/imported/placeholder_dmg2x.png-650341d7670ab51d1fcfd87e009a74a5.ctex into assets/.godot/imported/placeholder_dmg2x.png-650341d7670ab51d1fcfd87e009a74a5.ctex
+Saving project files from res://assets/pickups/placeholder_dmg2x.png.import into assets/assets/pickups/placeholder_dmg2x.png.import
+Saving project files from res://.godot/imported/placeholder_health.png-2e7fdeeab32eced964805d16727a2ce7.ctex into assets/.godot/imported/placeholder_health.png-2e7fdeeab32eced964805d16727a2ce7.ctex
+Saving project files from res://assets/pickups/placeholder_health.png.import into assets/assets/pickups/placeholder_health.png.import
+Saving project files from res://.godot/imported/placeholder_invis.png-92d6ca39f20baa765b9919a96dc8c1e7.ctex into assets/.godot/imported/placeholder_invis.png-92d6ca39f20baa765b9919a96dc8c1e7.ctex
+Saving project files from res://assets/pickups/placeholder_invis.png.import into assets/assets/pickups/placeholder_invis.png.import
+Saving project files from res://.godot/imported/placeholder_knife.png-cb2ac9e5c4baea1e378f27591a9bd107.ctex into assets/.godot/imported/placeholder_knife.png-cb2ac9e5c4baea1e378f27591a9bd107.ctex
+Saving project files from res://assets/pickups/placeholder_knife.png.import into assets/assets/pickups/placeholder_knife.png.import
+Saving project files from res://.godot/imported/placeholder_pistol.png-0604fbe0cd411116119e27bf96c97cd3.ctex into assets/.godot/imported/placeholder_pistol.png-0604fbe0cd411116119e27bf96c97cd3.ctex
+Saving project files from res://assets/pickups/placeholder_pistol.png.import into assets/assets/pickups/placeholder_pistol.png.import
+Saving project files from res://.godot/imported/placeholder_shield.png-c778359aa46f5527e81803bdb404d305.ctex into assets/.godot/imported/placeholder_shield.png-c778359aa46f5527e81803bdb404d305.ctex
+Saving project files from res://assets/pickups/placeholder_shield.png.import into assets/assets/pickups/placeholder_shield.png.import
+Saving project files from res://.godot/imported/placeholder_speed.png-0518d595447d3023182e605150315649.ctex into assets/.godot/imported/placeholder_speed.png-0518d595447d3023182e605150315649.ctex
+Saving project files from res://assets/pickups/placeholder_speed.png.import into assets/assets/pickups/placeholder_speed.png.import
+Saving project files from res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex into assets/.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex
+Saving project files from res://icon.svg.import into assets/icon.svg.import
+Saving project files from res://assets/ui/vignette.gdshader into assets/assets/ui/vignette.gdshader
+Saving project files from res://.godot/exported/133200997/export-9f2a010f3d2bab98726a45d69d97d92d-agile_assassin_frames.res into assets/.godot/exported/133200997/export-9f2a010f3d2bab98726a45d69d97d92d-agile_assassin_frames.res
+Saving project files from res://.godot/exported/133200997/export-e1bb8eb362c5252f16f720918ac1a81c-armored_bruiser_frames.res into assets/.godot/exported/133200997/export-e1bb8eb362c5252f16f720918ac1a81c-armored_bruiser_frames.res
+Saving project files from res://.godot/exported/133200997/export-de978a3567141f78edc660da59815a6e-elite_guard_frames.res into assets/.godot/exported/133200997/export-de978a3567141f78edc660da59815a6e-elite_guard_frames.res
+Saving project files from res://.godot/exported/133200997/export-f3023f4735d5558624d6d0f34aa048a0-karahanli_frames.res into assets/.godot/exported/133200997/export-f3023f4735d5558624d6d0f34aa048a0-karahanli_frames.res
+Saving project files from res://.godot/exported/133200997/export-8f467d428f8ed8a19594d7f2c53959b2-knife_agent_frames.res into assets/.godot/exported/133200997/export-8f467d428f8ed8a19594d7f2c53959b2-knife_agent_frames.res
+Saving project files from res://.godot/exported/133200997/export-99a491a1be792da0fe950819c764ce0f-mini_boss_frames.res into assets/.godot/exported/133200997/export-99a491a1be792da0fe950819c764ce0f-mini_boss_frames.res
+Saving project files from res://.godot/exported/133200997/export-a78230521153a0c75357e07c01300ecf-redmount_frames.res into assets/.godot/exported/133200997/export-a78230521153a0c75357e07c01300ecf-redmount_frames.res
+Saving project files from res://.godot/exported/133200997/export-7ef4ebaeed58f69b6c659a329093f8d5-rifle_guard_frames.res into assets/.godot/exported/133200997/export-7ef4ebaeed58f69b6c659a329093f8d5-rifle_guard_frames.res
+Saving project files from res://.godot/exported/133200997/export-c5ea9b80b49802ca04f60a0244b76fcc-street_thug_frames.res into assets/.godot/exported/133200997/export-c5ea9b80b49802ca04f60a0244b76fcc-street_thug_frames.res
+Saving project files from res://.godot/exported/133200997/export-8b71b06d2f27695658b52190cc9d61e5-body_armor.res into assets/.godot/exported/133200997/export-8b71b06d2f27695658b52190cc9d61e5-body_armor.res
+Saving project files from res://.godot/exported/133200997/export-b3760f64f4b0e6f42f2d888fd8841ffd-redmount_combat.res into assets/.godot/exported/133200997/export-b3760f64f4b0e6f42f2d888fd8841ffd-redmount_combat.res
+Saving project files from res://.godot/exported/133200997/export-ea5b6f00d91a245201334dd8717121ce-agile_assassin.res into assets/.godot/exported/133200997/export-ea5b6f00d91a245201334dd8717121ce-agile_assassin.res
+Saving project files from res://.godot/exported/133200997/export-4c3b55a2fc665848c4c4736ddb5052df-agile_assassin_frames.res into assets/.godot/exported/133200997/export-4c3b55a2fc665848c4c4736ddb5052df-agile_assassin_frames.res
+Saving project files from res://.godot/exported/133200997/export-358e5c508adcdd0b7900f34749e5383f-armored_bruiser.res into assets/.godot/exported/133200997/export-358e5c508adcdd0b7900f34749e5383f-armored_bruiser.res
+Saving project files from res://.godot/exported/133200997/export-851e7da7b41585fc03b3b37363ccc269-armored_bruiser_frames.res into assets/.godot/exported/133200997/export-851e7da7b41585fc03b3b37363ccc269-armored_bruiser_frames.res
+Saving project files from res://.godot/exported/133200997/export-eb059ee93f068cd2015ab8074b07fdba-broadcast_director.res into assets/.godot/exported/133200997/export-eb059ee93f068cd2015ab8074b07fdba-broadcast_director.res
+Saving project files from res://.godot/exported/133200997/export-867efbe537f1c0d16ccea7f374cb18d3-elite_guard.res into assets/.godot/exported/133200997/export-867efbe537f1c0d16ccea7f374cb18d3-elite_guard.res
+Saving project files from res://.godot/exported/133200997/export-2cb64b467c8fce3f01d1fb723bdd1c78-elite_guard_frames.res into assets/.godot/exported/133200997/export-2cb64b467c8fce3f01d1fb723bdd1c78-elite_guard_frames.res
+Saving project files from res://.godot/exported/133200997/export-702fa7f4320a0f00abd94664b754138f-karahanli.res into assets/.godot/exported/133200997/export-702fa7f4320a0f00abd94664b754138f-karahanli.res
+Saving project files from res://.godot/exported/133200997/export-f7a188e9973effffac21b62623a3a3fc-karahanli_frames.res into assets/.godot/exported/133200997/export-f7a188e9973effffac21b62623a3a3fc-karahanli_frames.res
+Saving project files from res://.godot/exported/133200997/export-2863532fd3bab95ad29a9b062db07984-knife_agent.res into assets/.godot/exported/133200997/export-2863532fd3bab95ad29a9b062db07984-knife_agent.res
+Saving project files from res://.godot/exported/133200997/export-7c63bf68dec03f2800211082e5290a1e-knife_agent_frames.res into assets/.godot/exported/133200997/export-7c63bf68dec03f2800211082e5290a1e-knife_agent_frames.res
+Saving project files from res://.godot/exported/133200997/export-b88b631a5b3655a8d999326e03958632-mini_boss.res into assets/.godot/exported/133200997/export-b88b631a5b3655a8d999326e03958632-mini_boss.res
+Saving project files from res://.godot/exported/133200997/export-da4b69791cdf100e143d297d75ed9135-mini_boss_frames.res into assets/.godot/exported/133200997/export-da4b69791cdf100e143d297d75ed9135-mini_boss_frames.res
+Saving project files from res://.godot/exported/133200997/export-fe8ac8eb94e6ce93e45d5051b668977b-rifle_guard.res into assets/.godot/exported/133200997/export-fe8ac8eb94e6ce93e45d5051b668977b-rifle_guard.res
+Saving project files from res://.godot/exported/133200997/export-55135b6a8ff47bf0a25d954f884271f1-rifle_guard_frames.res into assets/.godot/exported/133200997/export-55135b6a8ff47bf0a25d954f884271f1-rifle_guard_frames.res
+Saving project files from res://.godot/exported/133200997/export-30703342d790914350760a98f8735e31-street_thug.res into assets/.godot/exported/133200997/export-30703342d790914350760a98f8735e31-street_thug.res
+Saving project files from res://.godot/exported/133200997/export-d274a5920b2429cb10a1c77a0c8533e3-street_thug_frames.res into assets/.godot/exported/133200997/export-d274a5920b2429cb10a1c77a0c8533e3-street_thug_frames.res
+Saving project files from res://.godot/exported/133200997/export-813de6fb9fd430415977035464d5ad01-waterworks_chief.res into assets/.godot/exported/133200997/export-813de6fb9fd430415977035464d5ad01-waterworks_chief.res
+Saving project files from res://.godot/exported/133200997/export-8308f1b1e4eb5869e5286782b99383a0-redmount_movement.res into assets/.godot/exported/133200997/export-8308f1b1e4eb5869e5286782b99383a0-redmount_movement.res
+Saving project files from res://.godot/exported/133200997/export-bf2e75a0bb3cde202644dd6ccd39c784-damage_x2.res into assets/.godot/exported/133200997/export-bf2e75a0bb3cde202644dd6ccd39c784-damage_x2.res
+Saving project files from res://.godot/exported/133200997/export-90963073ee983e2a4fde677ccc0aae2b-invisibility.res into assets/.godot/exported/133200997/export-90963073ee983e2a4fde677ccc0aae2b-invisibility.res
+Saving project files from res://.godot/exported/133200997/export-12213917fefbd013ec5a54c96113bf38-shield.res into assets/.godot/exported/133200997/export-12213917fefbd013ec5a54c96113bf38-shield.res
+Saving project files from res://.godot/exported/133200997/export-b2d1ec429efbef85c9c570474aa3f990-speed.res into assets/.godot/exported/133200997/export-b2d1ec429efbef85c9c570474aa3f990-speed.res
+Saving project files from res://.godot/exported/133200997/export-dfeed02069e2e7eda792d0600ab35405-bat.res into assets/.godot/exported/133200997/export-dfeed02069e2e7eda792d0600ab35405-bat.res
+Saving project files from res://.godot/exported/133200997/export-4c7c6f8e1aaf4133737f6fdfcaf53fe2-knife.res into assets/.godot/exported/133200997/export-4c7c6f8e1aaf4133737f6fdfcaf53fe2-knife.res
+Saving project files from res://.godot/exported/133200997/export-8c74c786aa6f5677acb63f4b34e33b59-pistol.res into assets/.godot/exported/133200997/export-8c74c786aa6f5677acb63f4b34e33b59-pistol.res
+Saving project files from res://.godot/exported/133200997/export-cd8b220b46864ee19191c95e3dbfb785-rifle.res into assets/.godot/exported/133200997/export-cd8b220b46864ee19191c95e3dbfb785-rifle.res
+Saving project files from res://.godot/exported/133200997/export-01c57c9bde46fa90daa9bf08528eb727-gazelle_frames.res into assets/.godot/exported/133200997/export-01c57c9bde46fa90daa9bf08528eb727-gazelle_frames.res
+Saving project files from res://.godot/exported/133200997/export-d3697d3e6ab589bf5e614b442c8284a8-redmount_frames.res into assets/.godot/exported/133200997/export-d3697d3e6ab589bf5e614b442c8284a8-redmount_frames.res
+Saving project files from res://.godot/exported/133200997/export-944833f78e7fbab4c9cb6e19a17d131c-Gazelle.scn into assets/.godot/exported/133200997/export-944833f78e7fbab4c9cb6e19a17d131c-Gazelle.scn
+Saving project files from res://.godot/exported/133200997/export-900e637db7de103108e3cc846c515421-Redmount.scn into assets/.godot/exported/133200997/export-900e637db7de103108e3cc846c515421-Redmount.scn
+Saving project files from res://.godot/exported/133200997/export-c09b8719794d7dd9f8783ca8f85f363a-AgileAssassin.scn into assets/.godot/exported/133200997/export-c09b8719794d7dd9f8783ca8f85f363a-AgileAssassin.scn
+Saving project files from res://.godot/exported/133200997/export-286cff280de86949bb110a08bc29c929-ArmoredBruiser.scn into assets/.godot/exported/133200997/export-286cff280de86949bb110a08bc29c929-ArmoredBruiser.scn
+Saving project files from res://.godot/exported/133200997/export-d2e0e8438b08948fc2db871b413233e7-BroadcastDirector.scn into assets/.godot/exported/133200997/export-d2e0e8438b08948fc2db871b413233e7-BroadcastDirector.scn
+Saving project files from res://.godot/exported/133200997/export-84377ad4540f9c815ff3447f3aebf87c-EliteGuard.scn into assets/.godot/exported/133200997/export-84377ad4540f9c815ff3447f3aebf87c-EliteGuard.scn
+Saving project files from res://.godot/exported/133200997/export-f897cebeba337d1b3bfe12e2e5fd958a-EnemyBase.scn into assets/.godot/exported/133200997/export-f897cebeba337d1b3bfe12e2e5fd958a-EnemyBase.scn
+Saving project files from res://.godot/exported/133200997/export-c05eaee6c6607f0988bf9bc58398c457-Karahanli.scn into assets/.godot/exported/133200997/export-c05eaee6c6607f0988bf9bc58398c457-Karahanli.scn
+Saving project files from res://.godot/exported/133200997/export-c3928b067b75a835ad7166ccb5f00f40-KnifeAgent.scn into assets/.godot/exported/133200997/export-c3928b067b75a835ad7166ccb5f00f40-KnifeAgent.scn
+Saving project files from res://.godot/exported/133200997/export-9e2a629bcd8e0319a9148b180df2806f-MiniBoss.scn into assets/.godot/exported/133200997/export-9e2a629bcd8e0319a9148b180df2806f-MiniBoss.scn
+Saving project files from res://.godot/exported/133200997/export-b10e9f1c8fdeec8382b6c2eab22ad6d2-RifleGuard.scn into assets/.godot/exported/133200997/export-b10e9f1c8fdeec8382b6c2eab22ad6d2-RifleGuard.scn
+Saving project files from res://.godot/exported/133200997/export-a9930796e6f9a40d6f2ace8391167024-StreetThug.scn into assets/.godot/exported/133200997/export-a9930796e6f9a40d6f2ace8391167024-StreetThug.scn
+Saving project files from res://.godot/exported/133200997/export-22e6eb5ea1bba60bf3049b62bcf887eb-TrainingDummy.scn into assets/.godot/exported/133200997/export-22e6eb5ea1bba60bf3049b62bcf887eb-TrainingDummy.scn
+Saving project files from res://.godot/exported/133200997/export-59d6e982bd9a585bc6b822369a91d5d7-WaterworksChief.scn into assets/.godot/exported/133200997/export-59d6e982bd9a585bc6b822369a91d5d7-WaterworksChief.scn
+Saving project files from res://.godot/exported/133200997/export-21a1b38df42688195bfb08b8d2e013cc-Book02Level01.scn into assets/.godot/exported/133200997/export-21a1b38df42688195bfb08b8d2e013cc-Book02Level01.scn
+Saving project files from res://.godot/exported/133200997/export-ddc69bd117185cbb8d6e445ea22f3c14-Book02Level02.scn into assets/.godot/exported/133200997/export-ddc69bd117185cbb8d6e445ea22f3c14-Book02Level02.scn
+Saving project files from res://.godot/exported/133200997/export-eb368df88f7c8373281276b801f37f1f-Book02Level03.scn into assets/.godot/exported/133200997/export-eb368df88f7c8373281276b801f37f1f-Book02Level03.scn
+Saving project files from res://.godot/exported/133200997/export-1fb4c4f79e941d803bd51ea9c94e96cb-Book02Level04.scn into assets/.godot/exported/133200997/export-1fb4c4f79e941d803bd51ea9c94e96cb-Book02Level04.scn
+Saving project files from res://.godot/exported/133200997/export-695641579da0ab4800bb50aced63ecef-Book02Level05.scn into assets/.godot/exported/133200997/export-695641579da0ab4800bb50aced63ecef-Book02Level05.scn
+Saving project files from res://.godot/exported/133200997/export-1a7a0f60ce066055dea149ceef21715f-Book02Level06.scn into assets/.godot/exported/133200997/export-1a7a0f60ce066055dea149ceef21715f-Book02Level06.scn
+Saving project files from res://.godot/exported/133200997/export-7275923ac7ee7d89ea0ff98fc2d1e0f5-Book02Level07.scn into assets/.godot/exported/133200997/export-7275923ac7ee7d89ea0ff98fc2d1e0f5-Book02Level07.scn
+Saving project files from res://.godot/exported/133200997/export-06cce78e5f9c43020ff162941b2a5800-Book02Level08.scn into assets/.godot/exported/133200997/export-06cce78e5f9c43020ff162941b2a5800-Book02Level08.scn
+Saving project files from res://.godot/exported/133200997/export-d4f052370d97b33eef26de155df21c05-Book02Level09.scn into assets/.godot/exported/133200997/export-d4f052370d97b33eef26de155df21c05-Book02Level09.scn
+Saving project files from res://.godot/exported/133200997/export-d1a6a3b3563ef0b25adc00f5436836d6-Book02Level10.scn into assets/.godot/exported/133200997/export-d1a6a3b3563ef0b25adc00f5436836d6-Book02Level10.scn
+Saving project files from res://.godot/exported/133200997/export-271ea0e9a292fd791dd29cb35fbe70a6-Book02Level11.scn into assets/.godot/exported/133200997/export-271ea0e9a292fd791dd29cb35fbe70a6-Book02Level11.scn
+Saving project files from res://.godot/exported/133200997/export-f4f329fdefbd3a46f00e6df62dc99cdc-Book02Level12.scn into assets/.godot/exported/133200997/export-f4f329fdefbd3a46f00e6df62dc99cdc-Book02Level12.scn
+Saving project files from res://.godot/exported/133200997/export-5473675dd649887152c239e2cd335968-Book03Level01.scn into assets/.godot/exported/133200997/export-5473675dd649887152c239e2cd335968-Book03Level01.scn
+Saving project files from res://.godot/exported/133200997/export-3cfde96499287667e2919e642c9aa7ac-Book03Level02.scn into assets/.godot/exported/133200997/export-3cfde96499287667e2919e642c9aa7ac-Book03Level02.scn
+Saving project files from res://.godot/exported/133200997/export-769bcf15daf103c2ac76ab2378c83642-Book03Level03.scn into assets/.godot/exported/133200997/export-769bcf15daf103c2ac76ab2378c83642-Book03Level03.scn
+Saving project files from res://.godot/exported/133200997/export-5c810ec00abbabafd22cff4b87559629-Book03Level04.scn into assets/.godot/exported/133200997/export-5c810ec00abbabafd22cff4b87559629-Book03Level04.scn
+Saving project files from res://.godot/exported/133200997/export-3074a9cf3e334ac80fa94345b4601f9a-Book03Level05.scn into assets/.godot/exported/133200997/export-3074a9cf3e334ac80fa94345b4601f9a-Book03Level05.scn
+Saving project files from res://.godot/exported/133200997/export-c2970b30acc0d07ca0a820521df5156c-Book03Level06.scn into assets/.godot/exported/133200997/export-c2970b30acc0d07ca0a820521df5156c-Book03Level06.scn
+Saving project files from res://.godot/exported/133200997/export-b822403fecf81ee3edbd306c305d7a22-Book03Level07.scn into assets/.godot/exported/133200997/export-b822403fecf81ee3edbd306c305d7a22-Book03Level07.scn
+Saving project files from res://.godot/exported/133200997/export-518baece36c373332fe973d1a2d71599-Book03Level08.scn into assets/.godot/exported/133200997/export-518baece36c373332fe973d1a2d71599-Book03Level08.scn
+Saving project files from res://.godot/exported/133200997/export-77273d58311244b0a0b05fd9d1a5f4e9-Book03Level09.scn into assets/.godot/exported/133200997/export-77273d58311244b0a0b05fd9d1a5f4e9-Book03Level09.scn
+Saving project files from res://.godot/exported/133200997/export-0febc48dde60f5718b7f6cb785a39a94-Book03Level10.scn into assets/.godot/exported/133200997/export-0febc48dde60f5718b7f6cb785a39a94-Book03Level10.scn
+Saving project files from res://.godot/exported/133200997/export-13a6e97251518ab2d8fb958643cee160-Book03Level11.scn into assets/.godot/exported/133200997/export-13a6e97251518ab2d8fb958643cee160-Book03Level11.scn
+Saving project files from res://.godot/exported/133200997/export-a8f6c4c767b0effa1c5ddaf4edc2ed87-Book03Level12.scn into assets/.godot/exported/133200997/export-a8f6c4c767b0effa1c5ddaf4edc2ed87-Book03Level12.scn
+Saving project files from res://.godot/exported/133200997/export-207e5929531ad8653849519d75d2485f-Level01.scn into assets/.godot/exported/133200997/export-207e5929531ad8653849519d75d2485f-Level01.scn
+Saving project files from res://.godot/exported/133200997/export-c479b038280ff31731cc4ba8d645fefa-Level02.scn into assets/.godot/exported/133200997/export-c479b038280ff31731cc4ba8d645fefa-Level02.scn
+Saving project files from res://.godot/exported/133200997/export-cc767efe382bbf84f4745f47ab09c631-Level03.scn into assets/.godot/exported/133200997/export-cc767efe382bbf84f4745f47ab09c631-Level03.scn
+Saving project files from res://.godot/exported/133200997/export-e5e5f57421fe44f4d37b000fbc1b27fd-Level04.scn into assets/.godot/exported/133200997/export-e5e5f57421fe44f4d37b000fbc1b27fd-Level04.scn
+Saving project files from res://.godot/exported/133200997/export-a8db8a5cd187b04d29e9512686867332-Level05.scn into assets/.godot/exported/133200997/export-a8db8a5cd187b04d29e9512686867332-Level05.scn
+Saving project files from res://.godot/exported/133200997/export-c62705cde3ca024161dddaa1d544dbac-Level06.scn into assets/.godot/exported/133200997/export-c62705cde3ca024161dddaa1d544dbac-Level06.scn
+Saving project files from res://.godot/exported/133200997/export-6f9d4089475ecc18f11daa94bf8c1726-Level07.scn into assets/.godot/exported/133200997/export-6f9d4089475ecc18f11daa94bf8c1726-Level07.scn
+Saving project files from res://.godot/exported/133200997/export-8803cc7105a0a3e7e57c3bf37c28b23d-Level08.scn into assets/.godot/exported/133200997/export-8803cc7105a0a3e7e57c3bf37c28b23d-Level08.scn
+Saving project files from res://.godot/exported/133200997/export-ff95e974dda79fc2272078b31b9437a1-Level09.scn into assets/.godot/exported/133200997/export-ff95e974dda79fc2272078b31b9437a1-Level09.scn
+Saving project files from res://.godot/exported/133200997/export-6e50e4be8b958e9480ce02bb067dd517-Level10.scn into assets/.godot/exported/133200997/export-6e50e4be8b958e9480ce02bb067dd517-Level10.scn
+Saving project files from res://.godot/exported/133200997/export-ba37a1620036441733e4c1d405365515-Level11.scn into assets/.godot/exported/133200997/export-ba37a1620036441733e4c1d405365515-Level11.scn
+Saving project files from res://.godot/exported/133200997/export-0b3deb3c4ef830e48cfa3fa1efe68dce-Level12.scn into assets/.godot/exported/133200997/export-0b3deb3c4ef830e48cfa3fa1efe68dce-Level12.scn
+Saving project files from res://.godot/exported/133200997/export-6ae6bf25500da22a958eb5ae23e94bab-TestLevel.scn into assets/.godot/exported/133200997/export-6ae6bf25500da22a958eb5ae23e94bab-TestLevel.scn
+Saving project files from res://.godot/exported/133200997/export-598e3e21f456d4085e0fe38310cafa15-AmmoPickup.scn into assets/.godot/exported/133200997/export-598e3e21f456d4085e0fe38310cafa15-AmmoPickup.scn
+Saving project files from res://.godot/exported/133200997/export-9d4382bec649a021fd8792f00635fdba-ArmorPickup.scn into assets/.godot/exported/133200997/export-9d4382bec649a021fd8792f00635fdba-ArmorPickup.scn
+Saving project files from res://.godot/exported/133200997/export-07f1202ed651309a800e427c1cd2b6b0-BatPickup.scn into assets/.godot/exported/133200997/export-07f1202ed651309a800e427c1cd2b6b0-BatPickup.scn
+Saving project files from res://.godot/exported/133200997/export-2fc121c0442db8d5100989335c64361b-Coin.scn into assets/.godot/exported/133200997/export-2fc121c0442db8d5100989335c64361b-Coin.scn
+Saving project files from res://.godot/exported/133200997/export-3a58d9883f9f4ca5c6fe5d358be6e262-HealthPickup.scn into assets/.godot/exported/133200997/export-3a58d9883f9f4ca5c6fe5d358be6e262-HealthPickup.scn
+Saving project files from res://.godot/exported/133200997/export-5ef6807e68f69bbfd2e02187a5b7e57b-KnifePickup.scn into assets/.godot/exported/133200997/export-5ef6807e68f69bbfd2e02187a5b7e57b-KnifePickup.scn
+Saving project files from res://.godot/exported/133200997/export-d037580b515dea7cd9b5580b5ce24126-PickupBase.scn into assets/.godot/exported/133200997/export-d037580b515dea7cd9b5580b5ce24126-PickupBase.scn
+Saving project files from res://.godot/exported/133200997/export-c0acd72e7e72fac6a12f9b5f13aca71c-PistolPickup.scn into assets/.godot/exported/133200997/export-c0acd72e7e72fac6a12f9b5f13aca71c-PistolPickup.scn
+Saving project files from res://.godot/exported/133200997/export-a5267a4d9f87bf56b28e167e5855658d-PowerupPickup.scn into assets/.godot/exported/133200997/export-a5267a4d9f87bf56b28e167e5855658d-PowerupPickup.scn
+Saving project files from res://.godot/exported/133200997/export-c90956f4bcd316eeac8c2fcafc04be06-RiflePickup.scn into assets/.godot/exported/133200997/export-c90956f4bcd316eeac8c2fcafc04be06-RiflePickup.scn
+Saving project files from res://.godot/exported/133200997/export-6cd3453ab96c6ae648bd2d4785539876-BattleArena.scn into assets/.godot/exported/133200997/export-6cd3453ab96c6ae648bd2d4785539876-BattleArena.scn
+Saving project files from res://.godot/exported/133200997/export-44264f0fb9120ff0fbb51b82c00b8994-BreakableWall.scn into assets/.godot/exported/133200997/export-44264f0fb9120ff0fbb51b82c00b8994-BreakableWall.scn
+Saving project files from res://.godot/exported/133200997/export-4b20e03b9a6c71c709b1b553912687bd-Bullet.scn into assets/.godot/exported/133200997/export-4b20e03b9a6c71c709b1b553912687bd-Bullet.scn
+Saving project files from res://.godot/exported/133200997/export-a9aa41ec2f2986d7f7197004df4a5232-Checkpoint.scn into assets/.godot/exported/133200997/export-a9aa41ec2f2986d7f7197004df4a5232-Checkpoint.scn
+Saving project files from res://.godot/exported/133200997/export-15436ed9ffd7bbaf168010b02542586e-CollapsingPlatform.scn into assets/.godot/exported/133200997/export-15436ed9ffd7bbaf168010b02542586e-CollapsingPlatform.scn
+Saving project files from res://.godot/exported/133200997/export-d3d8156c7aa0464395965dc63883626b-Crusher.scn into assets/.godot/exported/133200997/export-d3d8156c7aa0464395965dc63883626b-Crusher.scn
+Saving project files from res://.godot/exported/133200997/export-e0a8c0e4f790bc9e697b8ccd39aec287-DialogueTrigger.scn into assets/.godot/exported/133200997/export-e0a8c0e4f790bc9e697b8ccd39aec287-DialogueTrigger.scn
+Saving project files from res://.godot/exported/133200997/export-132f4ee05303ec47fca34824a52b5c7c-FlameVent.scn into assets/.godot/exported/133200997/export-132f4ee05303ec47fca34824a52b5c7c-FlameVent.scn
+Saving project files from res://.godot/exported/133200997/export-d176be7b311e1fd5ffd49e2fbd8803de-HintTrigger.scn into assets/.godot/exported/133200997/export-d176be7b311e1fd5ffd49e2fbd8803de-HintTrigger.scn
+Saving project files from res://.godot/exported/133200997/export-10949ec5d754cd81f2adc780bcb3ac8e-LevelGoal.scn into assets/.godot/exported/133200997/export-10949ec5d754cd81f2adc780bcb3ac8e-LevelGoal.scn
+Saving project files from res://.godot/exported/133200997/export-156c621ecc470fafff8a6480a0ef7a1c-MovingPlatform.scn into assets/.godot/exported/133200997/export-156c621ecc470fafff8a6480a0ef7a1c-MovingPlatform.scn
+Saving project files from res://.godot/exported/133200997/export-4a656fa53299ec3e8bd0ca24da9c9d47-OneWayPlatform.scn into assets/.godot/exported/133200997/export-4a656fa53299ec3e8bd0ca24da9c9d47-OneWayPlatform.scn
+Saving project files from res://.godot/exported/133200997/export-d1725c7e4d44e5c049d5959c284ae32e-Shockwave.scn into assets/.godot/exported/133200997/export-d1725c7e4d44e5c049d5959c284ae32e-Shockwave.scn
+Saving project files from res://.godot/exported/133200997/export-025f6c94fdfedde696a2a0a7927853c4-Spikes.scn into assets/.godot/exported/133200997/export-025f6c94fdfedde696a2a0a7927853c4-Spikes.scn
+Saving project files from res://.godot/exported/133200997/export-408fe0e8827d2e3117f7a3499e6fad6e-DialogueBox.scn into assets/.godot/exported/133200997/export-408fe0e8827d2e3117f7a3499e6fad6e-DialogueBox.scn
+Saving project files from res://.godot/exported/133200997/export-74b5c9848938f4eb9ebaf6fab3809318-HUD.scn into assets/.godot/exported/133200997/export-74b5c9848938f4eb9ebaf6fab3809318-HUD.scn
+Saving project files from res://.godot/exported/133200997/export-f3a0254cbdab81d1efc5e42f39e19dcf-PauseMenu.scn into assets/.godot/exported/133200997/export-f3a0254cbdab81d1efc5e42f39e19dcf-PauseMenu.scn
+Saving project files from res://.godot/exported/133200997/export-4a24720ee5e787dbe30abc634fa3679d-Main.scn into assets/.godot/exported/133200997/export-4a24720ee5e787dbe30abc634fa3679d-Main.scn
+Saving project files from res://.godot/exported/133200997/export-23c8b2a48d59a0cd018bd8ad5ce7794c-MainMenu.scn into assets/.godot/exported/133200997/export-23c8b2a48d59a0cd018bd8ad5ce7794c-MainMenu.scn
+Saving project files from res://.godot/exported/133200997/export-6fc12e30b65226fff172c0c706c2e819-Shop.scn into assets/.godot/exported/133200997/export-6fc12e30b65226fff172c0c706c2e819-Shop.scn
+Saving project files from res://scripts/enemies/enemy_config.gdc into assets/scripts/enemies/enemy_config.gdc
+Saving project files from res://scripts/enemies/training_dummy.gdc into assets/scripts/enemies/training_dummy.gdc
+Saving project files from res://scripts/pickups/ammo_pickup.gdc into assets/scripts/pickups/ammo_pickup.gdc
+Saving project files from res://scripts/pickups/armor_pickup.gdc into assets/scripts/pickups/armor_pickup.gdc
+Saving project files from res://scripts/pickups/coin_pickup.gdc into assets/scripts/pickups/coin_pickup.gdc
+Saving project files from res://scripts/characters/blob_shadow.gd.remap into assets/scripts/characters/blob_shadow.gd.remap
+Saving project files from res://scripts/enemies/enemy_base.gd.remap into assets/scripts/enemies/enemy_base.gd.remap
+Saving project files from res://scripts/enemies/broadcast_director.gd.remap into assets/scripts/enemies/broadcast_director.gd.remap
+Saving project files from res://scripts/characters/weapon_visual.gd.remap into assets/scripts/characters/weapon_visual.gd.remap
+Saving project files from res://scripts/characters/redmount.gd.remap into assets/scripts/characters/redmount.gd.remap
+Saving project files from res://scripts/characters/player_sprite.gd.remap into assets/scripts/characters/player_sprite.gd.remap
+Saving project files from res://scripts/characters/gazelle.gd.remap into assets/scripts/characters/gazelle.gd.remap
+Saving project files from res://scripts/characters/enemy_sprite.gd.remap into assets/scripts/characters/enemy_sprite.gd.remap
+Saving project files from res://scripts/characters/char_rig.gd.remap into assets/scripts/characters/char_rig.gd.remap
+Saving project files from res://_autoplay.gd.remap into assets/_autoplay.gd.remap
+Saving project files from res://_autoplay.tscn.remap into assets/_autoplay.tscn.remap
+Saving project files from res://_menuprobe.gd.remap into assets/_menuprobe.gd.remap
+Saving project files from res://_menuprobe.tscn.remap into assets/_menuprobe.tscn.remap
+Saving project files from res://_probe.gd.remap into assets/_probe.gd.remap
+Saving project files from res://_probe.tscn.remap into assets/_probe.tscn.remap
+Saving project files from res://_sweep.gd.remap into assets/_sweep.gd.remap
+Saving project files from res://_sweep.tscn.remap into assets/_sweep.tscn.remap
+Saving project files from res://scripts/systems/level_shop.gd.remap into assets/scripts/systems/level_shop.gd.remap
+Saving project files from res://scripts/systems/main.gd.remap into assets/scripts/systems/main.gd.remap
+Saving project files from res://scripts/systems/movement_config.gd.remap into assets/scripts/systems/movement_config.gd.remap
+Saving project files from res://scripts/systems/moving_platform.gd.remap into assets/scripts/systems/moving_platform.gd.remap
+Saving project files from res://scripts/systems/music.gd.remap into assets/scripts/systems/music.gd.remap
+Saving project files from res://scripts/systems/one_way_platform.gd.remap into assets/scripts/systems/one_way_platform.gd.remap
+Saving project files from res://scripts/systems/powerup_config.gd.remap into assets/scripts/systems/powerup_config.gd.remap
+Saving project files from res://scripts/systems/projectile.gd.remap into assets/scripts/systems/projectile.gd.remap
+Saving project files from res://scripts/systems/save_manager.gd.remap into assets/scripts/systems/save_manager.gd.remap
+Saving project files from res://scripts/systems/screen_fx.gd.remap into assets/scripts/systems/screen_fx.gd.remap
+Saving project files from res://scripts/systems/shop.gd.remap into assets/scripts/systems/shop.gd.remap
+Saving project files from res://scripts/systems/story_blockout.gd.remap into assets/scripts/systems/story_blockout.gd.remap
+Saving project files from res://scripts/systems/sfx.gd.remap into assets/scripts/systems/sfx.gd.remap
+Saving project files from res://scripts/systems/shockwave.gd.remap into assets/scripts/systems/shockwave.gd.remap
+Saving project files from res://scripts/systems/transition.gd.remap into assets/scripts/systems/transition.gd.remap
+Saving project files from res://scripts/systems/weapon_config.gd.remap into assets/scripts/systems/weapon_config.gd.remap
+Saving project files from res://scripts/ui/dialogue_box.gd.remap into assets/scripts/ui/dialogue_box.gd.remap
+Saving project files from res://scripts/ui/hud.gd.remap into assets/scripts/ui/hud.gd.remap
+Saving project files from res://scripts/ui/main_menu.gd.remap into assets/scripts/ui/main_menu.gd.remap
+Saving project files from res://scripts/ui/pause_menu.gd.remap into assets/scripts/ui/pause_menu.gd.remap
+Saving project files from res://scripts/ui/shop_menu.gd.remap into assets/scripts/ui/shop_menu.gd.remap
+Saving project files from res://scripts/ui/touch_controls.gd.remap into assets/scripts/ui/touch_controls.gd.remap
+Saving project files from res://scripts/ui/ui_style.gd.remap into assets/scripts/ui/ui_style.gd.remap
+Saving project files from res://scripts/systems/level_goal.gd.remap into assets/scripts/systems/level_goal.gd.remap
+Saving project files from res://scripts/systems/level.gd.remap into assets/scripts/systems/level.gd.remap
+Saving project files from res://scripts/systems/level13_finale.gd.remap into assets/scripts/systems/level13_finale.gd.remap
+Saving project files from res://scripts/systems/level12_redesign.gd.remap into assets/scripts/systems/level12_redesign.gd.remap
+Saving project files from res://scripts/systems/level11_redesign.gd.remap into assets/scripts/systems/level11_redesign.gd.remap
+Saving project files from res://scripts/systems/level10_redesign.gd.remap into assets/scripts/systems/level10_redesign.gd.remap
+Saving project files from res://scripts/systems/level09_redesign.gd.remap into assets/scripts/systems/level09_redesign.gd.remap
+Saving project files from res://scripts/systems/level08_dressing.gd.remap into assets/scripts/systems/level08_dressing.gd.remap
+Saving project files from res://scripts/systems/level06_dressing.gd.remap into assets/scripts/systems/level06_dressing.gd.remap
+Saving project files from res://scripts/systems/level04_redesign.gd.remap into assets/scripts/systems/level04_redesign.gd.remap
+Saving project files from res://scripts/systems/level03_redesign.gd.remap into assets/scripts/systems/level03_redesign.gd.remap
+Saving project files from res://scripts/systems/level02_redesign.gd.remap into assets/scripts/systems/level02_redesign.gd.remap
+Saving project files from res://scripts/systems/level01_long_route.gd.remap into assets/scripts/systems/level01_long_route.gd.remap
+Saving project files from res://scripts/systems/level01_dressing.gd.remap into assets/scripts/systems/level01_dressing.gd.remap
+Saving project files from res://scripts/systems/hint_trigger.gd.remap into assets/scripts/systems/hint_trigger.gd.remap
+Saving project files from res://scripts/systems/hazard.gd.remap into assets/scripts/systems/hazard.gd.remap
+Saving project files from res://scripts/systems/gun_config.gd.remap into assets/scripts/systems/gun_config.gd.remap
+Saving project files from res://scripts/systems/game_state.gd.remap into assets/scripts/systems/game_state.gd.remap
+Saving project files from res://scripts/systems/game_camera.gd.remap into assets/scripts/systems/game_camera.gd.remap
+Saving project files from res://scripts/systems/fx.gd.remap into assets/scripts/systems/fx.gd.remap
+Saving project files from res://scripts/systems/flame_vent.gd.remap into assets/scripts/systems/flame_vent.gd.remap
+Saving project files from res://scripts/systems/dialogue_trigger.gd.remap into assets/scripts/systems/dialogue_trigger.gd.remap
+Saving project files from res://scripts/systems/crusher.gd.remap into assets/scripts/systems/crusher.gd.remap
+Saving project files from res://scripts/systems/combat_config.gd.remap into assets/scripts/systems/combat_config.gd.remap
+Saving project files from res://scripts/systems/combat.gd.remap into assets/scripts/systems/combat.gd.remap
+Saving project files from res://scripts/systems/collapsing_platform.gd.remap into assets/scripts/systems/collapsing_platform.gd.remap
+Saving project files from res://scripts/systems/checkpoint.gd.remap into assets/scripts/systems/checkpoint.gd.remap
+Saving project files from res://scripts/systems/breakable_wall.gd.remap into assets/scripts/systems/breakable_wall.gd.remap
+Saving project files from res://scripts/systems/breakable_prop.gd.remap into assets/scripts/systems/breakable_prop.gd.remap
+Saving project files from res://scripts/systems/book03_level12.gd.remap into assets/scripts/systems/book03_level12.gd.remap
+Saving project files from res://scripts/systems/book03_level11.gd.remap into assets/scripts/systems/book03_level11.gd.remap
+Saving project files from res://scripts/systems/book03_level10.gd.remap into assets/scripts/systems/book03_level10.gd.remap
+Saving project files from res://scripts/systems/book03_level09.gd.remap into assets/scripts/systems/book03_level09.gd.remap
+Saving project files from res://scripts/systems/book03_level08.gd.remap into assets/scripts/systems/book03_level08.gd.remap
+Saving project files from res://scripts/systems/book03_level07.gd.remap into assets/scripts/systems/book03_level07.gd.remap
+Saving project files from res://scripts/systems/book03_level06.gd.remap into assets/scripts/systems/book03_level06.gd.remap
+Saving project files from res://scripts/systems/book03_level05.gd.remap into assets/scripts/systems/book03_level05.gd.remap
+Saving project files from res://scripts/systems/book03_level04.gd.remap into assets/scripts/systems/book03_level04.gd.remap
+Saving project files from res://scripts/systems/book03_level03.gd.remap into assets/scripts/systems/book03_level03.gd.remap
+Saving project files from res://scripts/systems/book03_level02.gd.remap into assets/scripts/systems/book03_level02.gd.remap
+Saving project files from res://scripts/systems/book03_level01.gd.remap into assets/scripts/systems/book03_level01.gd.remap
+Saving project files from res://scripts/systems/book02_level12.gd.remap into assets/scripts/systems/book02_level12.gd.remap
+Saving project files from res://scripts/systems/book02_level11.gd.remap into assets/scripts/systems/book02_level11.gd.remap
+Saving project files from res://scripts/systems/book02_level10.gd.remap into assets/scripts/systems/book02_level10.gd.remap
+Saving project files from res://scripts/systems/book02_level09.gd.remap into assets/scripts/systems/book02_level09.gd.remap
+Saving project files from res://scripts/systems/book02_level08.gd.remap into assets/scripts/systems/book02_level08.gd.remap
+Saving project files from res://scripts/systems/book02_level07.gd.remap into assets/scripts/systems/book02_level07.gd.remap
+Saving project files from res://scripts/systems/book02_level06.gd.remap into assets/scripts/systems/book02_level06.gd.remap
+Saving project files from res://scripts/systems/book02_level05.gd.remap into assets/scripts/systems/book02_level05.gd.remap
+Saving project files from res://scripts/systems/book02_level04.gd.remap into assets/scripts/systems/book02_level04.gd.remap
+Saving project files from res://scripts/systems/book02_level03.gd.remap into assets/scripts/systems/book02_level03.gd.remap
+Saving project files from res://scripts/systems/book02_level02.gd.remap into assets/scripts/systems/book02_level02.gd.remap
+Saving project files from res://scripts/systems/book02_level01.gd.remap into assets/scripts/systems/book02_level01.gd.remap
+Saving project files from res://scripts/systems/battle_arena.gd.remap into assets/scripts/systems/battle_arena.gd.remap
+Saving project files from res://scripts/systems/backdrop.gd.remap into assets/scripts/systems/backdrop.gd.remap
+Saving project files from res://scripts/systems/armor_config.gd.remap into assets/scripts/systems/armor_config.gd.remap
+Saving project files from res://scripts/pickups/weapon_pickup.gd.remap into assets/scripts/pickups/weapon_pickup.gd.remap
+Saving project files from res://scripts/pickups/powerup_pickup.gd.remap into assets/scripts/pickups/powerup_pickup.gd.remap
+Saving project files from res://scripts/pickups/pickup_icon.gd.remap into assets/scripts/pickups/pickup_icon.gd.remap
+Saving project files from res://scripts/pickups/pickup_base.gd.remap into assets/scripts/pickups/pickup_base.gd.remap
+Saving project files from res://scripts/pickups/health_pickup.gd.remap into assets/scripts/pickups/health_pickup.gd.remap
+Saving project files from res://scripts/pickups/gun_pickup.gd.remap into assets/scripts/pickups/gun_pickup.gd.remap
+Saving project files from res://resources/anim/agile_assassin_frames.tres.remap into assets/resources/anim/agile_assassin_frames.tres.remap
+Saving project files from res://resources/anim/armored_bruiser_frames.tres.remap into assets/resources/anim/armored_bruiser_frames.tres.remap
+Saving project files from res://resources/anim/elite_guard_frames.tres.remap into assets/resources/anim/elite_guard_frames.tres.remap
+Saving project files from res://resources/anim/karahanli_frames.tres.remap into assets/resources/anim/karahanli_frames.tres.remap
+Saving project files from res://resources/anim/knife_agent_frames.tres.remap into assets/resources/anim/knife_agent_frames.tres.remap
+Saving project files from res://resources/anim/mini_boss_frames.tres.remap into assets/resources/anim/mini_boss_frames.tres.remap
+Saving project files from res://resources/anim/redmount_frames.tres.remap into assets/resources/anim/redmount_frames.tres.remap
+Saving project files from res://resources/anim/rifle_guard_frames.tres.remap into assets/resources/anim/rifle_guard_frames.tres.remap
+Saving project files from res://resources/anim/street_thug_frames.tres.remap into assets/resources/anim/street_thug_frames.tres.remap
+Saving project files from res://resources/armor/body_armor.tres.remap into assets/resources/armor/body_armor.tres.remap
+Saving project files from res://resources/combat/redmount_combat.tres.remap into assets/resources/combat/redmount_combat.tres.remap
+Saving project files from res://resources/enemies/agile_assassin.tres.remap into assets/resources/enemies/agile_assassin.tres.remap
+Saving project files from res://resources/enemies/agile_assassin_frames.tres.remap into assets/resources/enemies/agile_assassin_frames.tres.remap
+Saving project files from res://resources/enemies/armored_bruiser.tres.remap into assets/resources/enemies/armored_bruiser.tres.remap
+Saving project files from res://resources/enemies/armored_bruiser_frames.tres.remap into assets/resources/enemies/armored_bruiser_frames.tres.remap
+Saving project files from res://resources/enemies/broadcast_director.tres.remap into assets/resources/enemies/broadcast_director.tres.remap
+Saving project files from res://resources/enemies/elite_guard.tres.remap into assets/resources/enemies/elite_guard.tres.remap
+Saving project files from res://resources/enemies/elite_guard_frames.tres.remap into assets/resources/enemies/elite_guard_frames.tres.remap
+Saving project files from res://resources/enemies/karahanli.tres.remap into assets/resources/enemies/karahanli.tres.remap
+Saving project files from res://resources/enemies/karahanli_frames.tres.remap into assets/resources/enemies/karahanli_frames.tres.remap
+Saving project files from res://resources/enemies/knife_agent.tres.remap into assets/resources/enemies/knife_agent.tres.remap
+Saving project files from res://resources/enemies/knife_agent_frames.tres.remap into assets/resources/enemies/knife_agent_frames.tres.remap
+Saving project files from res://resources/enemies/mini_boss.tres.remap into assets/resources/enemies/mini_boss.tres.remap
+Saving project files from res://resources/enemies/mini_boss_frames.tres.remap into assets/resources/enemies/mini_boss_frames.tres.remap
+Saving project files from res://resources/enemies/rifle_guard.tres.remap into assets/resources/enemies/rifle_guard.tres.remap
+Saving project files from res://resources/enemies/rifle_guard_frames.tres.remap into assets/resources/enemies/rifle_guard_frames.tres.remap
+Saving project files from res://resources/enemies/street_thug.tres.remap into assets/resources/enemies/street_thug.tres.remap
+Saving project files from res://resources/enemies/street_thug_frames.tres.remap into assets/resources/enemies/street_thug_frames.tres.remap
+Saving project files from res://resources/enemies/waterworks_chief.tres.remap into assets/resources/enemies/waterworks_chief.tres.remap
+Saving project files from res://resources/movement/redmount_movement.tres.remap into assets/resources/movement/redmount_movement.tres.remap
+Saving project files from res://resources/powerups/damage_x2.tres.remap into assets/resources/powerups/damage_x2.tres.remap
+Saving project files from res://resources/powerups/invisibility.tres.remap into assets/resources/powerups/invisibility.tres.remap
+Saving project files from res://resources/powerups/shield.tres.remap into assets/resources/powerups/shield.tres.remap
+Saving project files from res://resources/powerups/speed.tres.remap into assets/resources/powerups/speed.tres.remap
+Saving project files from res://resources/weapons/bat.tres.remap into assets/resources/weapons/bat.tres.remap
+Saving project files from res://resources/weapons/knife.tres.remap into assets/resources/weapons/knife.tres.remap
+Saving project files from res://resources/weapons/pistol.tres.remap into assets/resources/weapons/pistol.tres.remap
+Saving project files from res://resources/weapons/rifle.tres.remap into assets/resources/weapons/rifle.tres.remap
+Saving project files from res://resources/gazelle_frames.tres.remap into assets/resources/gazelle_frames.tres.remap
+Saving project files from res://resources/redmount_frames.tres.remap into assets/resources/redmount_frames.tres.remap
+Saving project files from res://scenes/characters/Gazelle.tscn.remap into assets/scenes/characters/Gazelle.tscn.remap
+Saving project files from res://scenes/characters/Redmount.tscn.remap into assets/scenes/characters/Redmount.tscn.remap
+Saving project files from res://scenes/enemies/AgileAssassin.tscn.remap into assets/scenes/enemies/AgileAssassin.tscn.remap
+Saving project files from res://scenes/enemies/ArmoredBruiser.tscn.remap into assets/scenes/enemies/ArmoredBruiser.tscn.remap
+Saving project files from res://scenes/enemies/BroadcastDirector.tscn.remap into assets/scenes/enemies/BroadcastDirector.tscn.remap
+Saving project files from res://scenes/enemies/EliteGuard.tscn.remap into assets/scenes/enemies/EliteGuard.tscn.remap
+Saving project files from res://scenes/enemies/EnemyBase.tscn.remap into assets/scenes/enemies/EnemyBase.tscn.remap
+Saving project files from res://scenes/enemies/Karahanli.tscn.remap into assets/scenes/enemies/Karahanli.tscn.remap
+Saving project files from res://scenes/enemies/KnifeAgent.tscn.remap into assets/scenes/enemies/KnifeAgent.tscn.remap
+Saving project files from res://scenes/enemies/MiniBoss.tscn.remap into assets/scenes/enemies/MiniBoss.tscn.remap
+Saving project files from res://scenes/enemies/RifleGuard.tscn.remap into assets/scenes/enemies/RifleGuard.tscn.remap
+Saving project files from res://scenes/enemies/StreetThug.tscn.remap into assets/scenes/enemies/StreetThug.tscn.remap
+Saving project files from res://scenes/enemies/TrainingDummy.tscn.remap into assets/scenes/enemies/TrainingDummy.tscn.remap
+Saving project files from res://scenes/enemies/WaterworksChief.tscn.remap into assets/scenes/enemies/WaterworksChief.tscn.remap
+Saving project files from res://scenes/levels/Book02Level01.tscn.remap into assets/scenes/levels/Book02Level01.tscn.remap
+Saving project files from res://scenes/levels/Book02Level02.tscn.remap into assets/scenes/levels/Book02Level02.tscn.remap
+Saving project files from res://scenes/levels/Book02Level03.tscn.remap into assets/scenes/levels/Book02Level03.tscn.remap
+Saving project files from res://scenes/levels/Book02Level04.tscn.remap into assets/scenes/levels/Book02Level04.tscn.remap
+Saving project files from res://scenes/levels/Book02Level05.tscn.remap into assets/scenes/levels/Book02Level05.tscn.remap
+Saving project files from res://scenes/levels/Book02Level06.tscn.remap into assets/scenes/levels/Book02Level06.tscn.remap
+Saving project files from res://scenes/levels/Book02Level07.tscn.remap into assets/scenes/levels/Book02Level07.tscn.remap
+Saving project files from res://scenes/levels/Book02Level08.tscn.remap into assets/scenes/levels/Book02Level08.tscn.remap
+Saving project files from res://scenes/levels/Book02Level09.tscn.remap into assets/scenes/levels/Book02Level09.tscn.remap
+Saving project files from res://scenes/levels/Book02Level10.tscn.remap into assets/scenes/levels/Book02Level10.tscn.remap
+Saving project files from res://scenes/levels/Book02Level11.tscn.remap into assets/scenes/levels/Book02Level11.tscn.remap
+Saving project files from res://scenes/levels/Book02Level12.tscn.remap into assets/scenes/levels/Book02Level12.tscn.remap
+Saving project files from res://scenes/levels/Book03Level01.tscn.remap into assets/scenes/levels/Book03Level01.tscn.remap
+Saving project files from res://scenes/levels/Book03Level02.tscn.remap into assets/scenes/levels/Book03Level02.tscn.remap
+Saving project files from res://scenes/levels/Book03Level03.tscn.remap into assets/scenes/levels/Book03Level03.tscn.remap
+Saving project files from res://scenes/levels/Book03Level04.tscn.remap into assets/scenes/levels/Book03Level04.tscn.remap
+Saving project files from res://scenes/levels/Book03Level05.tscn.remap into assets/scenes/levels/Book03Level05.tscn.remap
+Saving project files from res://scenes/levels/Book03Level06.tscn.remap into assets/scenes/levels/Book03Level06.tscn.remap
+Saving project files from res://scenes/levels/Book03Level07.tscn.remap into assets/scenes/levels/Book03Level07.tscn.remap
+Saving project files from res://scenes/levels/Book03Level08.tscn.remap into assets/scenes/levels/Book03Level08.tscn.remap
+Saving project files from res://scenes/levels/Book03Level09.tscn.remap into assets/scenes/levels/Book03Level09.tscn.remap
+Saving project files from res://scenes/levels/Book03Level10.tscn.remap into assets/scenes/levels/Book03Level10.tscn.remap
+Saving project files from res://scenes/levels/Book03Level11.tscn.remap into assets/scenes/levels/Book03Level11.tscn.remap
+Saving project files from res://scenes/levels/Book03Level12.tscn.remap into assets/scenes/levels/Book03Level12.tscn.remap
+Saving project files from res://scenes/levels/Level01.tscn.remap into assets/scenes/levels/Level01.tscn.remap
+Saving project files from res://scenes/levels/Level02.tscn.remap into assets/scenes/levels/Level02.tscn.remap
+Saving project files from res://scenes/levels/Level03.tscn.remap into assets/scenes/levels/Level03.tscn.remap
+Saving project files from res://scenes/levels/Level04.tscn.remap into assets/scenes/levels/Level04.tscn.remap
+Saving project files from res://scenes/levels/Level05.tscn.remap into assets/scenes/levels/Level05.tscn.remap
+Saving project files from res://scenes/levels/Level06.tscn.remap into assets/scenes/levels/Level06.tscn.remap
+Saving project files from res://scenes/levels/Level07.tscn.remap into assets/scenes/levels/Level07.tscn.remap
+Saving project files from res://scenes/levels/Level08.tscn.remap into assets/scenes/levels/Level08.tscn.remap
+Saving project files from res://scenes/levels/Level09.tscn.remap into assets/scenes/levels/Level09.tscn.remap
+Saving project files from res://scenes/levels/Level10.tscn.remap into assets/scenes/levels/Level10.tscn.remap
+Saving project files from res://scenes/levels/Level11.tscn.remap into assets/scenes/levels/Level11.tscn.remap
+Saving project files from res://scenes/levels/Level12.tscn.remap into assets/scenes/levels/Level12.tscn.remap
+Saving project files from res://scenes/levels/TestLevel.tscn.remap into assets/scenes/levels/TestLevel.tscn.remap
+Saving project files from res://scenes/pickups/AmmoPickup.tscn.remap into assets/scenes/pickups/AmmoPickup.tscn.remap
+Saving project files from res://scenes/pickups/ArmorPickup.tscn.remap into assets/scenes/pickups/ArmorPickup.tscn.remap
+Saving project files from res://scenes/pickups/BatPickup.tscn.remap into assets/scenes/pickups/BatPickup.tscn.remap
+Saving project files from res://scenes/pickups/Coin.tscn.remap into assets/scenes/pickups/Coin.tscn.remap
+Saving project files from res://scenes/pickups/HealthPickup.tscn.remap into assets/scenes/pickups/HealthPickup.tscn.remap
+Saving project files from res://scenes/pickups/KnifePickup.tscn.remap into assets/scenes/pickups/KnifePickup.tscn.remap
+Saving project files from res://scenes/pickups/PickupBase.tscn.remap into assets/scenes/pickups/PickupBase.tscn.remap
+Saving project files from res://scenes/pickups/PistolPickup.tscn.remap into assets/scenes/pickups/PistolPickup.tscn.remap
+Saving project files from res://scenes/pickups/PowerupPickup.tscn.remap into assets/scenes/pickups/PowerupPickup.tscn.remap
+Saving project files from res://scenes/pickups/RiflePickup.tscn.remap into assets/scenes/pickups/RiflePickup.tscn.remap
+Saving project files from res://scenes/systems/BattleArena.tscn.remap into assets/scenes/systems/BattleArena.tscn.remap
+Saving project files from res://scenes/systems/BreakableWall.tscn.remap into assets/scenes/systems/BreakableWall.tscn.remap
+Saving project files from res://scenes/systems/Bullet.tscn.remap into assets/scenes/systems/Bullet.tscn.remap
+Saving project files from res://scenes/systems/Checkpoint.tscn.remap into assets/scenes/systems/Checkpoint.tscn.remap
+Saving project files from res://scenes/systems/CollapsingPlatform.tscn.remap into assets/scenes/systems/CollapsingPlatform.tscn.remap
+Saving project files from res://scenes/systems/Crusher.tscn.remap into assets/scenes/systems/Crusher.tscn.remap
+Saving project files from res://scenes/systems/DialogueTrigger.tscn.remap into assets/scenes/systems/DialogueTrigger.tscn.remap
+Saving project files from res://scenes/systems/FlameVent.tscn.remap into assets/scenes/systems/FlameVent.tscn.remap
+Saving project files from res://scenes/systems/HintTrigger.tscn.remap into assets/scenes/systems/HintTrigger.tscn.remap
+Saving project files from res://scenes/systems/LevelGoal.tscn.remap into assets/scenes/systems/LevelGoal.tscn.remap
+Saving project files from res://scenes/systems/MovingPlatform.tscn.remap into assets/scenes/systems/MovingPlatform.tscn.remap
+Saving project files from res://scenes/systems/OneWayPlatform.tscn.remap into assets/scenes/systems/OneWayPlatform.tscn.remap
+Saving project files from res://scenes/systems/Shockwave.tscn.remap into assets/scenes/systems/Shockwave.tscn.remap
+Saving project files from res://scenes/systems/Spikes.tscn.remap into assets/scenes/systems/Spikes.tscn.remap
+Saving project files from res://scenes/ui/DialogueBox.tscn.remap into assets/scenes/ui/DialogueBox.tscn.remap
+Saving project files from res://scenes/ui/HUD.tscn.remap into assets/scenes/ui/HUD.tscn.remap
+Saving project files from res://scenes/ui/PauseMenu.tscn.remap into assets/scenes/ui/PauseMenu.tscn.remap
+Saving project files from res://scenes/Main.tscn.remap into assets/scenes/Main.tscn.remap
+Saving project files from res://scenes/MainMenu.tscn.remap into assets/scenes/MainMenu.tscn.remap
+Saving project files from res://scenes/Shop.tscn.remap into assets/scenes/Shop.tscn.remap
+Saving project files from res://scripts/enemies/enemy_config.gd.remap into assets/scripts/enemies/enemy_config.gd.remap
+Saving project files from res://scripts/enemies/training_dummy.gd.remap into assets/scripts/enemies/training_dummy.gd.remap
+Saving project files from res://scripts/pickups/ammo_pickup.gd.remap into assets/scripts/pickups/ammo_pickup.gd.remap
+Saving project files from res://scripts/pickups/armor_pickup.gd.remap into assets/scripts/pickups/armor_pickup.gd.remap
+Saving project files from res://scripts/pickups/coin_pickup.gd.remap into assets/scripts/pickups/coin_pickup.gd.remap
+Saving project files from res://.godot/global_script_class_cache.cfg into assets/.godot/global_script_class_cache.cfg
+Saving project files from res://icon.svg into assets/icon.svg
+Saving project files from res://.godot/uid_cache.bin into assets/.godot/uid_cache.bin
+Saving project files from res://project.binary into assets/project.binary
+[  97% ] export | APK hizalanıyor ...
+[  98% ] export | APK hata ayıklama sürümü imzalanıyor...
+Starting signing of the APK binary using C:/rdm-gaz/.android-sdk/build-tools/36.0.0/apksigner.bat
+Signing debug binary using: 
+C:/rdm-gaz/.android-sdk/build-tools/36.0.0/apksigner.bat sign --verbose --ks C:/Users/Mehmet enes ALDAĞ/AppData/Roaming/Godot/keystores/debug.keystore --ks-pass pass:android --ks-key-alias androiddebugkey C:/rdm-gaz/build/redmount-debug.apk
+Signed
+
+[  99% ] export | APK doğrulanıyor...
+Verifying signed build using: 
+C:/rdm-gaz/.android-sdk/build-tools/36.0.0/apksigner.bat verify --verbose C:/rdm-gaz/build/redmount-debug.apk
+Verifies
+Verified using v1 scheme (JAR signing): false
+Verified using v2 scheme (APK Signature Scheme v2): true
+Verified using v3 scheme (APK Signature Scheme v3): true
+Verified using v3.1 scheme (APK Signature Scheme v3.1): false
+Verified using v4 scheme (APK Signature Scheme v4): false
+Verified for SourceStamp: false
+Number of signers: 1
+
+Successfully completed signing build.
+[ DONE ] export
+
+Script docs haven't been properly loaded or regenerated, so don't save them to disk.
+EditorSettings: Save OK!

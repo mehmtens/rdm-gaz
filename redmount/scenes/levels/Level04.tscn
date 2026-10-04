@@ -1,0 +1,337 @@
+[gd_scene load_steps=33 format=3]
+
+; ============================================================================
+; BÖLÜM 4 — Zırhlı Üs  (Görev 25c: parkur yeniden tasarımı)
+; ----------------------------------------------------------------------------
+; Karma düşman baskısı + süreli güçlendirmeler (2x hasar / kalkan) + Ağır Zırhlı
+; mini-boss. Güçlendirmeler geniş güvenli zeminde kolay erişilir; kalkan ise
+; OPSİYONEL duvar-zıplama bacasında (kırık duvar arkasında — 2. gizli).
+; Hedef oynanış ~125-135 sn.
+;
+;  A  Giriş           Çevik Suikastçı (callback) · tek-yön basamaklar · bonus dalı
+;  B  Yüksek kat       2 siper · Tüfekli + Zırhlı Vurucu BİRLİKTE + 2x hasar (kolay) · CP
+;  C  Geçiş            uzun dikenli çukur üstünde çift dönüşümlü vinç
+;  D  Karma dövüş      Suikastçı + Zırhlı düz zeminde · can · CP ·
+;                      OPSİYONEL duvar-zıplama bacası (kalkan, yukarıda — ana yolu kapatmaz)
+;  E  Çöken köprü       dikenli çukur üstünde 3'lü çöken platform
+;  F  Mini-boss arena  kilitli geniş düz alan · 2 can ödülü · Ağır Zırhlı mini-boss → çıkış
+;
+; TASARIM KURALLARI (ölçülmüş fizik):
+;   koşu 340px/sn · zıplama tepe ~120px · koşarak sıçrama ~260px · duvar-zıpla ~90px
+;   - Zorunlu boşluk yatayda <=120px / yukarı <=90px
+;   - Dövüş ASLA anında-ölüm üstünde geçmez — hep geniş katı zemin (+ siper)
+;   - Duvar-zıplama yalnız OPSİYONEL kalkan dalında (ana yolu kapatmaz)
+; ============================================================================
+
+[ext_resource type="Script" path="res://scripts/systems/level.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/RifleGuard.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/ArmoredBruiser.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/AgileAssassin.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/MiniBoss.tscn" id="5"]
+[ext_resource type="PackedScene" path="res://scenes/pickups/Coin.tscn" id="6"]
+[ext_resource type="PackedScene" path="res://scenes/pickups/HealthPickup.tscn" id="7"]
+[ext_resource type="PackedScene" path="res://scenes/pickups/AmmoPickup.tscn" id="8"]
+[ext_resource type="PackedScene" path="res://scenes/pickups/PowerupPickup.tscn" id="9"]
+[ext_resource type="Resource" path="res://resources/powerups/damage_x2.tres" id="10"]
+[ext_resource type="Resource" path="res://resources/powerups/shield.tres" id="11"]
+[ext_resource type="Texture2D" path="res://assets/pickups/placeholder_dmg2x.png" id="12"]
+[ext_resource type="Texture2D" path="res://assets/pickups/placeholder_shield.png" id="13"]
+[ext_resource type="PackedScene" path="res://scenes/systems/Checkpoint.tscn" id="14"]
+[ext_resource type="PackedScene" path="res://scenes/systems/LevelGoal.tscn" id="15"]
+[ext_resource type="PackedScene" path="res://scenes/systems/OneWayPlatform.tscn" id="16"]
+[ext_resource type="PackedScene" path="res://scenes/systems/MovingPlatform.tscn" id="17"]
+[ext_resource type="PackedScene" path="res://scenes/systems/Spikes.tscn" id="18"]
+[ext_resource type="PackedScene" path="res://scenes/systems/BreakableWall.tscn" id="19"]
+[ext_resource type="PackedScene" path="res://scenes/systems/BattleArena.tscn" id="20"]
+[ext_resource type="PackedScene" path="res://scenes/systems/CollapsingPlatform.tscn" id="21"]
+[ext_resource type="PackedScene" path="res://scenes/systems/DialogueTrigger.tscn" id="22"]
+[ext_resource type="Script" path="res://scripts/systems/level04_redesign.gd" id="23"]
+
+[sub_resource type="RectangleShape2D" id="gA"]
+size = Vector2(1100, 220)
+[sub_resource type="RectangleShape2D" id="gB"]
+size = Vector2(680, 220)
+[sub_resource type="RectangleShape2D" id="gD"]
+size = Vector2(680, 220)
+[sub_resource type="RectangleShape2D" id="gE1"]
+size = Vector2(240, 220)
+[sub_resource type="RectangleShape2D" id="gF"]
+size = Vector2(900, 220)
+[sub_resource type="RectangleShape2D" id="wall"]
+size = Vector2(60, 620)
+[sub_resource type="RectangleShape2D" id="cover"]
+size = Vector2(64, 84)
+[sub_resource type="RectangleShape2D" id="chimwall"]
+size = Vector2(44, 270)
+[sub_resource type="RectangleShape2D" id="ledge"]
+size = Vector2(160, 24)
+[sub_resource type="RectangleShape2D" id="secret"]
+size = Vector2(200, 180)
+
+[node name="Level04" type="Node2D"]
+script = ExtResource("1")
+display_name = "Zırhlı Üs"
+biome = 2
+par_time = 130.0
+camera_limit_left = -320
+camera_limit_right = 4800
+camera_limit_top = -780
+camera_limit_bottom = 620
+fall_respawn_y = 250.0
+
+[node name="PlayerSpawn" type="Marker2D" parent="."]
+position = Vector2(40, -40)
+
+[node name="RedesignLayer" type="Node2D" parent="."]
+script = ExtResource("23")
+
+[node name="IntroTalk" parent="." instance=ExtResource("22")]
+position = Vector2(150, -70)
+speakers = PackedStringArray("REDMOUNT")
+texts = PackedStringArray("Zırhlı üs. Buranın adamları bir yumrukla düşmez.", "Bıraktıkları güçlendiricileri kullanmam gerekecek.")
+
+; ===================== A: GİRİŞ =====================
+; GroundA tırmanış basamaklarının ALTINA kadar uzanır — kaçan zıplama = geri düş,
+; yeniden dene (respawn değil).
+[node name="GroundA" type="StaticBody2D" parent="."]
+position = Vector2(400, 110)
+[node name="Col" type="CollisionShape2D" parent="GroundA"]
+shape = SubResource("gA")
+[node name="Vis" type="Polygon2D" parent="GroundA"]
+color = Color(0.22, 0.24, 0.3, 1)
+polygon = PackedVector2Array(-550, -110, 550, -110, 550, 110, -550, 110)
+
+[node name="LeftWall" type="StaticBody2D" parent="."]
+position = Vector2(-330, -160)
+[node name="Col" type="CollisionShape2D" parent="LeftWall"]
+shape = SubResource("wall")
+[node name="Vis" type="Polygon2D" parent="LeftWall"]
+color = Color(0.32, 0.22, 0.28, 1)
+polygon = PackedVector2Array(-30, -310, 30, -310, 30, 310, -30, 310)
+
+[node name="Secret1" type="Node2D" parent="."]
+[node name="Floor" type="StaticBody2D" parent="Secret1"]
+position = Vector2(-230, 100)
+[node name="Col" type="CollisionShape2D" parent="Secret1/Floor"]
+shape = SubResource("secret")
+[node name="Vis" type="Polygon2D" parent="Secret1/Floor"]
+color = Color(0.19, 0.18, 0.22, 1)
+polygon = PackedVector2Array(-100, -90, 100, -90, 100, 90, -100, 90)
+[node name="Wall" parent="Secret1" instance=ExtResource("19")]
+position = Vector2(-140, 0)
+[node name="SC1" parent="Secret1" instance=ExtResource("6")]
+position = Vector2(-190, -44)
+value = 10
+[node name="SC2" parent="Secret1" instance=ExtResource("6")]
+position = Vector2(-230, -44)
+value = 10
+[node name="SC3" parent="Secret1" instance=ExtResource("6")]
+position = Vector2(-270, -44)
+value = 10
+
+; Section A dövüşsüz — ısınma parkuru. İlk dövüş B'de (Tüfek + Zırhlı).
+[node name="CoinA1" parent="." instance=ExtResource("6")]
+position = Vector2(340, -46)
+[node name="CoinA2" parent="." instance=ExtResource("6")]
+position = Vector2(560, -46)
+[node name="CoinA3" parent="." instance=ExtResource("6")]
+position = Vector2(650, -46)
+
+; tek-yön basamak tırmanışı → B yüksek katı (2 temiz basamak, seamless geçiş)
+[node name="StepA1" parent="." instance=ExtResource("16")]
+position = Vector2(820, -70)
+width = 150.0
+[node name="StepA2" parent="." instance=ExtResource("16")]
+position = Vector2(1010, -150)
+width = 160.0
+[node name="CoinSA1" parent="." instance=ExtResource("6")]
+position = Vector2(820, -110)
+[node name="CoinSA2" parent="." instance=ExtResource("6")]
+position = Vector2(1010, -190)
+
+; bonus dalı: StepA1'den yukarı-SOLA (ileri yoldan uzakta)
+[node name="BonusA" parent="." instance=ExtResource("16")]
+position = Vector2(690, -180)
+width = 110.0
+[node name="BonusA1" parent="." instance=ExtResource("6")]
+position = Vector2(670, -214)
+value = 10
+[node name="BonusA2" parent="." instance=ExtResource("6")]
+position = Vector2(712, -214)
+value = 15
+
+; ===================== B: YÜKSEK KAT — KARMA + 2x HASAR =====================
+; Enemiler sağ yarıda; sol üçte bir GÜVENLİ iniş alanı (siper + 2x hasar + cephane).
+[node name="GroundB" type="StaticBody2D" parent="."]
+position = Vector2(1400, -50)
+[node name="Col" type="CollisionShape2D" parent="GroundB"]
+shape = SubResource("gB")
+[node name="Vis" type="Polygon2D" parent="GroundB"]
+color = Color(0.22, 0.24, 0.3, 1)
+polygon = PackedVector2Array(-340, -110, 340, -110, 340, 110, -340, 110)
+
+; bel hizası siper (84px) — kolay atlanır, atış siper görevi görür
+[node name="Cover1" type="StaticBody2D" parent="."]
+position = Vector2(1440, -202)
+[node name="Col" type="CollisionShape2D" parent="Cover1"]
+shape = SubResource("cover")
+[node name="Vis" type="Polygon2D" parent="Cover1"]
+color = Color(0.42, 0.36, 0.24, 1)
+polygon = PackedVector2Array(-32, -42, 32, -42, 32, 42, -32, 42)
+
+[node name="Dmg2x" parent="." instance=ExtResource("9")]
+position = Vector2(1160, -206)
+powerup = ExtResource("10")
+icon = ExtResource("12")
+[node name="Ammo" parent="." instance=ExtResource("8")]
+position = Vector2(1120, -206)
+[node name="BruiserB" parent="." instance=ExtResource("3")]
+position = Vector2(1500, -190)
+[node name="RifleB" parent="." instance=ExtResource("2")]
+position = Vector2(1680, -190)
+[node name="CoinB1" parent="." instance=ExtResource("6")]
+position = Vector2(1400, -206)
+[node name="CoinB2" parent="." instance=ExtResource("6")]
+position = Vector2(1580, -206)
+
+[node name="CP1" parent="." instance=ExtResource("14")]
+position = Vector2(1710, -160)
+
+; ===================== C: ÇİFT VİNÇ =====================
+; GroundB sağ kenarı x1740 (yüzey -160). MoverC1 hemen bitişik.
+[node name="PitCSpikes" parent="." instance=ExtResource("18")]
+position = Vector2(2050, -30)
+width = 600.0
+[node name="MoverC1" parent="." instance=ExtResource("17")]
+position = Vector2(1830, -150)
+travel = Vector2(190, 0)
+period = 4.3
+width = 160.0
+[node name="MoverC2" parent="." instance=ExtResource("17")]
+position = Vector2(2090, -150)
+travel = Vector2(190, 0)
+period = 4.3
+width = 160.0
+phase_offset = 0.5
+[node name="BridgeCoinC" parent="." instance=ExtResource("6")]
+position = Vector2(2020, -200)
+
+; ===================== D: KARMA DÖVÜŞ + KALKAN BACASI =====================
+[node name="GroundD" type="StaticBody2D" parent="."]
+position = Vector2(2560, -50)
+[node name="Col" type="CollisionShape2D" parent="GroundD"]
+shape = SubResource("gD")
+[node name="Vis" type="Polygon2D" parent="GroundD"]
+color = Color(0.22, 0.24, 0.3, 1)
+polygon = PackedVector2Array(-340, -110, 340, -110, 340, 110, -340, 110)
+
+[node name="CP2" parent="." instance=ExtResource("14")]
+position = Vector2(2290, -160)
+[node name="AssassinD" parent="." instance=ExtResource("4")]
+position = Vector2(2420, -200)
+[node name="BruiserD" parent="." instance=ExtResource("3")]
+position = Vector2(2650, -200)
+[node name="HealthD" parent="." instance=ExtResource("7")]
+position = Vector2(2320, -206)
+[node name="CoinD1" parent="." instance=ExtResource("6")]
+position = Vector2(2500, -206)
+[node name="CoinD2" parent="." instance=ExtResource("6")]
+position = Vector2(2560, -206)
+
+; -- OPSİYONEL kalkan bacası: duvar-zıplayarak çık --
+; Bacanın duvarları zeminin ~130px ÜSTÜNDE yüzer — ana yatay yolu KAPATMAZ.
+[node name="ChimWallL" type="StaticBody2D" parent="."]
+position = Vector2(2720, -425)
+[node name="Col" type="CollisionShape2D" parent="ChimWallL"]
+shape = SubResource("chimwall")
+[node name="Vis" type="Polygon2D" parent="ChimWallL"]
+color = Color(0.28, 0.24, 0.22, 1)
+polygon = PackedVector2Array(-22, -135, 22, -135, 22, 135, -22, 135)
+
+[node name="ChimWallR" type="StaticBody2D" parent="."]
+position = Vector2(2850, -425)
+[node name="Col" type="CollisionShape2D" parent="ChimWallR"]
+shape = SubResource("chimwall")
+[node name="Vis" type="Polygon2D" parent="ChimWallR"]
+color = Color(0.28, 0.24, 0.22, 1)
+polygon = PackedVector2Array(-22, -135, 22, -135, 22, 135, -22, 135)
+
+[node name="ChimLedge" type="StaticBody2D" parent="."]
+position = Vector2(2880, -580)
+[node name="Col" type="CollisionShape2D" parent="ChimLedge"]
+shape = SubResource("ledge")
+[node name="Vis" type="Polygon2D" parent="ChimLedge"]
+color = Color(0.29, 0.353, 0.231, 1)
+polygon = PackedVector2Array(-80, -12, 80, -12, 80, 12, -80, 12)
+[node name="Shield" parent="." instance=ExtResource("9")]
+position = Vector2(2890, -616)
+powerup = ExtResource("11")
+icon = ExtResource("13")
+[node name="ChimCoin1" parent="." instance=ExtResource("6")]
+position = Vector2(2830, -616)
+value = 10
+[node name="ChimCoin2" parent="." instance=ExtResource("6")]
+position = Vector2(2785, -330)
+
+; ===================== E: ÇÖKEN KÖPRÜ =====================
+; GroundD sağ kenarı x2900 (yüzey -160).
+[node name="GroundE1" type="StaticBody2D" parent="."]
+position = Vector2(3020, -50)
+[node name="Col" type="CollisionShape2D" parent="GroundE1"]
+shape = SubResource("gE1")
+[node name="Vis" type="Polygon2D" parent="GroundE1"]
+color = Color(0.22, 0.24, 0.3, 1)
+polygon = PackedVector2Array(-120, -110, 120, -110, 120, 110, -120, 110)
+
+[node name="PitESpikes" parent="." instance=ExtResource("18")]
+position = Vector2(3380, -30)
+width = 480.0
+[node name="Fall1" parent="." instance=ExtResource("21")]
+position = Vector2(3220, -150)
+width = 140.0
+[node name="Fall2" parent="." instance=ExtResource("21")]
+position = Vector2(3390, -150)
+width = 140.0
+[node name="Fall3" parent="." instance=ExtResource("21")]
+position = Vector2(3560, -150)
+width = 140.0
+[node name="BridgeCoinE1" parent="." instance=ExtResource("6")]
+position = Vector2(3300, -194)
+[node name="BridgeCoinE2" parent="." instance=ExtResource("6")]
+position = Vector2(3470, -194)
+
+; ===================== F: MİNİ-BOSS ARENASI =====================
+[node name="GroundF" type="StaticBody2D" parent="."]
+position = Vector2(4150, -50)
+[node name="Col" type="CollisionShape2D" parent="GroundF"]
+shape = SubResource("gF")
+[node name="Vis" type="Polygon2D" parent="GroundF"]
+color = Color(0.2, 0.19, 0.24, 1)
+polygon = PackedVector2Array(-450, -110, 450, -110, 450, 110, -450, 110)
+
+[node name="CP3" parent="." instance=ExtResource("14")]
+position = Vector2(3770, -160)
+[node name="HealthArena1" parent="." instance=ExtResource("7")]
+position = Vector2(3840, -206)
+[node name="HealthArena2" parent="." instance=ExtResource("7")]
+position = Vector2(4500, -206)
+
+[node name="MiniBossArena" parent="." instance=ExtResource("20")]
+position = Vector2(4150, -160)
+gate_left_x = 3740.0
+gate_right_x = 4560.0
+floor_y = -160.0
+gate_height = 500.0
+wave1 = [ExtResource("5")]
+reward = ExtResource("7")
+
+[node name="RightWall" type="StaticBody2D" parent="."]
+position = Vector2(4680, -160)
+[node name="Col" type="CollisionShape2D" parent="RightWall"]
+shape = SubResource("wall")
+[node name="Vis" type="Polygon2D" parent="RightWall"]
+color = Color(0.32, 0.22, 0.28, 1)
+polygon = PackedVector2Array(-30, -310, 30, -310, 30, 310, -30, 310)
+
+[node name="LevelGoal" parent="." instance=ExtResource("15")]
+position = Vector2(4600, -160)

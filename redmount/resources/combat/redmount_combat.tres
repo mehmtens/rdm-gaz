@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="CombatConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/combat_config.gd" id="1_cbt"]
+
+[resource]
+script = ExtResource("1_cbt")
+max_health = 100
+combo_damage = PackedInt32Array(6, 6, 12)
+combo_windup = PackedFloat32Array(0.06, 0.06, 0.1)
+combo_active = PackedFloat32Array(0.05, 0.05, 0.06)
+combo_recovery = PackedFloat32Array(0.16, 0.18, 0.3)
+combo_knockback = PackedFloat32Array(120, 120, 300)
+combo_step_forward = 90.0
+heavy_damage = 18
+heavy_windup = 0.18
+heavy_active = 0.07
+heavy_recovery = 0.38
+heavy_knockback = 380.0
+heavy_step_forward = 60.0
+air_knee_damage = 10
+air_knee_windup = 0.05
+air_knee_active = 0.12
+air_knee_recovery = 0.1
+air_knee_knockback = 160.0
+hit_light_duration = 0.28
+knockdown_damage_threshold = 16
+knockdown_duration = 0.8
+getup_duration = 0.45
+invuln_after_hit = 0.6
+knockback_from_hit = 260.0
+knockback_up_from_hit = -170.0
+hitstop_seconds = 0.055
+shake_on_hit = 4.0
+shake_on_heavy = 7.5

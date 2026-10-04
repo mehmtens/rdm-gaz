@@ -1,0 +1,23 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+  L3 t=4 x=38094 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground49 maxx=38094 hp=125 respawns=0
+  L3 t=8 x=38863 y=-0 vx=284 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground49 maxx=38863 hp=115 respawns=0
+  L3 t=12 x=39567 y=-0 vx=284 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground49 maxx=39567 hp=115 respawns=0
+  L3 t=16 x=40431 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground50 maxx=40431 hp=105 respawns=0
+  L3 t=20 x=41295 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground50 maxx=41295 hp=95 respawns=0
+  L3 t=24 x=42075 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground50 maxx=42076 hp=125 respawns=0
+  L3 t=28 x=42422 y=-0 vx=47 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground50 maxx=42422 hp=125 respawns=0
+  L3 t=32 x=42369 y=-0 vx=-200 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground50 maxx=42423 hp=115 respawns=0
+  L3 t=36 x=41872 y=-0 vx=3 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground50 maxx=42423 hp=115 respawns=0
+  L3 t=40 x=43156 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground51 maxx=43156 hp=125 respawns=0
+  L3 t=44 x=44516 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground51 maxx=44516 hp=125 respawns=0
+  L3 t=48 x=45877 y=-60 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground54 maxx=45877 hp=125 respawns=0
+  L3 t=52 x=47068 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground57 maxx=47068 hp=125 respawns=0
+  L3 t=56 x=47763 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground57 maxx=47763 hp=115 respawns=0
+  L3 t=60 x=48005 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground57 maxx=48145 hp=115 respawns=0
+  L3 t=64 x=48209 y=-0 vx=620 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground57 maxx=48209 hp=115 respawns=0
+  L3 t=68 x=48147 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground57 maxx=48348 hp=105 respawns=0
+  L3 t=72 x=48198 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground57 maxx=48348 hp=125 respawns=0
+PROBE Bölüm 3: CLEARED @48955  t=74.4s

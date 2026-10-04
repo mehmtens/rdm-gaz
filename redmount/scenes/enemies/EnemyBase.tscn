@@ -1,0 +1,55 @@
+[gd_scene load_steps=6 format=3]
+
+; EnemyBase — tüm düşmanların ortak sahnesi (Görev 3 / Görev 21 rig).
+; Türe özel sahneler bunu miras alır: config + rig_style + patrol_distance verir.
+
+[ext_resource type="Script" path="res://scripts/enemies/enemy_base.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/characters/enemy_sprite.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/characters/blob_shadow.gd" id="3"]
+
+[sub_resource type="RectangleShape2D" id="s_body"]
+size = Vector2(34, 108)
+
+[sub_resource type="RectangleShape2D" id="s_hurt"]
+size = Vector2(38, 114)
+
+[sub_resource type="RectangleShape2D" id="s_hit"]
+size = Vector2(52, 58)
+
+[node name="EnemyBase" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 1
+script = ExtResource("1")
+
+[node name="BlobShadow" type="Node2D" parent="."]
+script = ExtResource("3")
+
+[node name="Rig" type="AnimatedSprite2D" parent="."]
+script = ExtResource("2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -54)
+shape = SubResource("s_body")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 64
+collision_mask = 8
+monitorable = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -57)
+shape = SubResource("s_hurt")
+
+[node name="AttackHitbox" type="Area2D" parent="."]
+position = Vector2(32, -60)
+collision_layer = 16
+collision_mask = 32
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackHitbox"]
+shape = SubResource("s_hit")
+disabled = true
+
+[node name="Muzzle" type="Marker2D" parent="."]
+position = Vector2(22, -62)

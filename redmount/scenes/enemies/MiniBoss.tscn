@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3]
+
+; Ağır Zırhlı — Bölüm 4 sonu mini-boss (Görev 10).
+; EnemyBase'i miras alır. Çok yüksek can, kalıcı ağır zırh, çekiç savuruşu +
+; yere vuruş (shockwave) + hücum (charge). 8 isabette zırhı kırılıp ~2.4 sn
+; savunmasız kalır -> bu pencerede yüklen (md. 10.6). `is_boss` -> HUD can barı.
+
+[ext_resource type="PackedScene" path="res://scenes/enemies/EnemyBase.tscn" id="1"]
+[ext_resource type="Resource" path="res://resources/enemies/mini_boss.tres" id="2"]
+[ext_resource type="SpriteFrames" path="res://resources/anim/mini_boss_frames.tres" id="3"]
+
+[node name="MiniBoss" instance=ExtResource("1")]
+rig_style = "miniboss"
+config = ExtResource("2")
+frames = ExtResource("3")
+patrol_distance = 0.0

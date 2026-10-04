@@ -1,0 +1,20 @@
+[gd_resource type="SpriteFrames" load_steps=6 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/characters/gazelle/placeholder_bound_idle.png" id="1"]
+[ext_resource type="Texture2D" path="res://assets/characters/gazelle/placeholder_flinch.png" id="2"]
+[ext_resource type="Texture2D" path="res://assets/characters/gazelle/placeholder_rescue_react.png" id="3"]
+[ext_resource type="Texture2D" path="res://assets/characters/gazelle/placeholder_freed.png" id="4"]
+[ext_resource type="Texture2D" path="res://assets/characters/gazelle/placeholder_rescue_pose.png" id="5"]
+
+[resource]
+animations = [{
+"frames": [{"duration": 1.0, "texture": ExtResource("1")}], "loop": true, "name": &"bound_idle", "speed": 4.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("2")}], "loop": false, "name": &"flinch", "speed": 10.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("3")}], "loop": false, "name": &"rescue_react", "speed": 8.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("4")}], "loop": false, "name": &"freed", "speed": 8.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("5")}], "loop": true, "name": &"rescue_pose", "speed": 4.0
+}]

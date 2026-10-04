@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="WeaponConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/weapon_config.gd" id="1_wpn"]
+
+[resource]
+script = ExtResource("1_wpn")
+display_name = "Bıçak"
+anim_prefix = "knife"
+damage = 11
+windup = 0.08
+active = 0.06
+recovery = 0.16
+knockback = 160.0
+step_forward = 110.0
+reach = Vector2(56, 50)
+reach_offset = 36.0
+durability = 20

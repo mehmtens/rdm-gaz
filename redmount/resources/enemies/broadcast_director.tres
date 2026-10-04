@@ -1,0 +1,45 @@
+[gd_resource type="Resource" script_class="EnemyConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/enemy_config.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+display_name = "YAYIN ŞEFİ"
+max_health = 420
+score_value = 3000
+move_speed = 80.0
+patrol_speed = 0.0
+sight_range = 1600.0
+sight_band = 260.0
+give_up_range = 2000.0
+attack_anim = &"hammer"
+attack_range = 90.0
+attack_band = 120.0
+attack_damage = 10
+attack_windup = 0.6
+attack_active = 0.12
+attack_recovery = 0.8
+attack_cooldown = 1.2
+attack_knockback = 280.0
+heavy_attack_anim = &"slam"
+heavy_attack_damage = 16
+heavy_attack_windup = 0.9
+heavy_attack_active = 0.14
+heavy_attack_recovery = 1.0
+heavy_attack_knockback = 380.0
+dash_trigger_range = 430.0
+retreat_range = 0.0
+dash_prepare_time = 0.7
+dash_speed = 480.0
+dash_duration = 0.38
+dash_cooldown = 2.0
+is_boss = true
+armor_break_hits = 5
+armor_break_duration = 2.7
+slam_on_heavy = true
+slam_damage = 8
+slam_knockback = 220.0
+damage_taken_mult = 0.7
+knockback_resist = 0.8
+knockdown_damage_threshold = 999
+hurt_duration = 0.18

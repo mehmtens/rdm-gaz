@@ -1,0 +1,505 @@
+[gd_scene load_steps=38 format=3]
+
+; ============================================================================
+; BÖLÜM 1 — Kayıp İz
+; ----------------------------------------------------------------------------
+; Sezon açılışı. Temiz koşu 5-7 dakika; ilk oynayışta öğretici etiketleri,
+; iki kısa arena, alternatif üst rota ve hikâye duraklarıyla daha uzun sürer.
+;
+;  A  Sokak girişi      açık başlangıç · ilk 2 eşkıya · devrilmiş kurye aracı
+;  B  Çatı sıçraması    ince çatılar + yangın merdivenli isteğe bağlı üst rota
+;  C  Dikenli hendekler  1) güvenli basamaklı çukur   2) çöken platform köprüsü
+;                        ("durma, ritimle koş") — her ikisinden HEMEN önce CP
+;  D  Ara düzlük         nefes alma + tek eşkıya + CP
+;  E  Hareketli platform  dikenli hendek üstünde tek yumuşak vinç (yeni mekanik)
+;  F  Mahalle kavgası    2 kısa dalga + can ödülü; ilk tempo zirvesi
+;  G  Pazar tenteleri    cezasız akış ve coin yayı; görsel nefes alanı
+;  H  Çift vinç          iki hareketli platformun buluşma ritmi
+;  I  Tamirhane          isteğe bağlı zırh rotası + 3 dalgalı final + hikâye izi
+;
+; TASARIM KURALLARI (ölçülmüş fizik):
+;   koşu 340px/sn · zıplama tepe ~120px · koşarak sıçrama menzili ~260px
+;   - Zorunlu boşluk yatayda <=130px (düz) / <=120px yatay + <=60px dikey (yukarı)
+;   - Katı çatılar 220-240px geniş: sıçrama fazla giderse yine platforma düşer
+;   - Dövüş ASLA anında-ölüm (diken/çukur) üstünde geçmez — sadece geniş katı zemin
+;   - Zorunlu dash / duvar-zıplama YOK (bunlar Bölüm 3+)
+; ============================================================================
+
+[ext_resource type="Script" path="res://scripts/systems/level.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/StreetThug.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/pickups/Coin.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://scenes/pickups/BatPickup.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://scenes/systems/Checkpoint.tscn" id="5"]
+[ext_resource type="PackedScene" path="res://scenes/systems/LevelGoal.tscn" id="6"]
+[ext_resource type="PackedScene" path="res://scenes/systems/OneWayPlatform.tscn" id="8"]
+[ext_resource type="PackedScene" path="res://scenes/systems/MovingPlatform.tscn" id="9"]
+[ext_resource type="PackedScene" path="res://scenes/systems/Spikes.tscn" id="10"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/KnifeAgent.tscn" id="11"]
+[ext_resource type="PackedScene" path="res://scenes/pickups/HealthPickup.tscn" id="12"]
+[ext_resource type="PackedScene" path="res://scenes/systems/BattleArena.tscn" id="13"]
+[ext_resource type="PackedScene" path="res://scenes/systems/DialogueTrigger.tscn" id="14"]
+[ext_resource type="PackedScene" path="res://scenes/systems/CollapsingPlatform.tscn" id="15"]
+[ext_resource type="PackedScene" path="res://scenes/systems/HintTrigger.tscn" id="16"]
+[ext_resource type="PackedScene" path="res://scenes/pickups/ArmorPickup.tscn" id="17"]
+[ext_resource type="Script" path="res://scripts/systems/level01_dressing.gd" id="18"]
+[ext_resource type="Script" path="res://scripts/systems/level01_long_route.gd" id="19"]
+[ext_resource type="PackedScene" path="res://scenes/pickups/KnifePickup.tscn" id="20"]
+[ext_resource type="PackedScene" path="res://scenes/pickups/PistolPickup.tscn" id="21"]
+
+[sub_resource type="RectangleShape2D" id="gA"]
+size = Vector2(960, 220)
+[sub_resource type="RectangleShape2D" id="r1"]
+size = Vector2(220, 40)
+[sub_resource type="RectangleShape2D" id="r2"]
+size = Vector2(230, 40)
+[sub_resource type="RectangleShape2D" id="r3"]
+size = Vector2(240, 40)
+[sub_resource type="RectangleShape2D" id="r4"]
+size = Vector2(230, 40)
+[sub_resource type="RectangleShape2D" id="gC1"]
+size = Vector2(320, 220)
+[sub_resource type="RectangleShape2D" id="step"]
+size = Vector2(90, 30)
+[sub_resource type="RectangleShape2D" id="gC2"]
+size = Vector2(280, 220)
+[sub_resource type="RectangleShape2D" id="gD"]
+size = Vector2(400, 220)
+[sub_resource type="RectangleShape2D" id="gE"]
+size = Vector2(300, 220)
+[sub_resource type="RectangleShape2D" id="gF"]
+size = Vector2(740, 220)
+[sub_resource type="RectangleShape2D" id="wall"]
+size = Vector2(60, 520)
+[sub_resource type="RectangleShape2D" id="van"]
+size = Vector2(180, 70)
+[sub_resource type="RectangleShape2D" id="awning"]
+size = Vector2(220, 30)
+[sub_resource type="RectangleShape2D" id="gG"]
+size = Vector2(600, 220)
+[sub_resource type="RectangleShape2D" id="gI"]
+size = Vector2(320, 220)
+[sub_resource type="RectangleShape2D" id="gJ"]
+size = Vector2(1420, 220)
+
+[node name="Level01" type="Node2D"]
+script = ExtResource("1")
+display_name = "Kayıp İz · Mahalle"
+biome = 0
+par_time = 360.0
+camera_limit_left = -320
+camera_limit_right = 68700
+camera_limit_top = -580
+camera_limit_bottom = 620
+fall_respawn_y = 300.0
+
+[node name="PlayerSpawn" type="Marker2D" parent="."]
+position = Vector2(40, -40)
+
+[node name="IntroTalk" parent="." instance=ExtResource("14")]
+position = Vector2(820, -70)
+speakers = PackedStringArray("REDMOUNT")
+texts = PackedStringArray("Gazelle'i alan minibüs kuzeye döndü. Sokağı tutan adamları aşıp izini bulmalıyım.")
+
+[node name="StreetDressing" type="Node2D" parent="."]
+script = ExtResource("18")
+
+[node name="LongRoute" type="Node2D" parent="."]
+script = ExtResource("19")
+
+; ===================== A: SOKAK GİRİŞİ =====================
+[node name="GroundA" type="StaticBody2D" parent="."]
+position = Vector2(300, 110)
+[node name="Col" type="CollisionShape2D" parent="GroundA"]
+shape = SubResource("gA")
+[node name="Vis" type="Polygon2D" parent="GroundA"]
+color = Color(0.231, 0.29, 0.353, 1)
+polygon = PackedVector2Array(-480, -110, 480, -110, 480, -52, -480, -52)
+
+[node name="Bat" parent="." instance=ExtResource("4")]
+position = Vector2(2520, -46)
+[node name="Thug1" parent="." instance=ExtResource("2")]
+position = Vector2(430, 0)
+patrol_distance = 70.0
+[node name="Thug2" parent="." instance=ExtResource("2")]
+position = Vector2(650, 0)
+patrol_distance = 90.0
+[node name="CoinA1" parent="." instance=ExtResource("3")]
+position = Vector2(470, -46)
+[node name="CoinA2" parent="." instance=ExtResource("3")]
+position = Vector2(540, -46)
+[node name="CoinA3" parent="." instance=ExtResource("3")]
+position = Vector2(700, -46)
+
+; --- öğretici ipuçları (engellemez, fade) ---
+[node name="Hint1" parent="." instance=ExtResource("16")]
+position = Vector2(330, 0)
+text = "A · D yürü      Shift koş      J saldır"
+[node name="Hint2" parent="." instance=ExtResource("16")]
+position = Vector2(900, 0)
+text = "Boşluk / W — zıpla
+(basılı tut → daha yüksek)"
+
+; Devrilmiş kurye aracı ilk boşluğu görsel bir rampaya dönüştürür.
+[node name="CrashedCourier" type="StaticBody2D" parent="."]
+position = Vector2(840, -8)
+rotation = -0.16
+[node name="Col" type="CollisionShape2D" parent="CrashedCourier"]
+shape = SubResource("van")
+[node name="Vis" type="Polygon2D" parent="CrashedCourier"]
+color = Color(0.78, 0.19, 0.24, 1)
+polygon = PackedVector2Array(-90, -35, 90, -35, 90, 35, -90, 35)
+[node name="Stripe" type="Line2D" parent="CrashedCourier"]
+points = PackedVector2Array(-72, -8, 72, -8)
+width = 8.0
+default_color = Color(0.96, 0.7, 0.23, 0.85)
+
+; ===================== B: ÇATI SIÇRAMASI =====================
+; GroundA sağ kenarı x780. Çatılar KATI ve geniş; her boşluk 120px.
+[node name="Roof1" type="StaticBody2D" parent="."]
+position = Vector2(1010, -40)
+[node name="Col" type="CollisionShape2D" parent="Roof1"]
+shape = SubResource("r1")
+[node name="Vis" type="Polygon2D" parent="Roof1"]
+color = Color(0.231, 0.29, 0.353, 1)
+polygon = PackedVector2Array(-110, -20, 110, -20, 110, 20, -110, 20)
+
+[node name="Roof2" type="StaticBody2D" parent="."]
+position = Vector2(1355, -90)
+[node name="Col" type="CollisionShape2D" parent="Roof2"]
+shape = SubResource("r2")
+[node name="Vis" type="Polygon2D" parent="Roof2"]
+color = Color(0.231, 0.29, 0.353, 1)
+polygon = PackedVector2Array(-115, -20, 115, -20, 115, 20, -115, 20)
+
+[node name="Roof3" type="StaticBody2D" parent="."]
+position = Vector2(1710, -130)
+[node name="Col" type="CollisionShape2D" parent="Roof3"]
+shape = SubResource("r3")
+[node name="Vis" type="Polygon2D" parent="Roof3"]
+color = Color(0.231, 0.29, 0.353, 1)
+polygon = PackedVector2Array(-120, -20, 120, -20, 120, 20, -120, 20)
+
+[node name="Roof4" type="StaticBody2D" parent="."]
+position = Vector2(2065, -70)
+[node name="Col" type="CollisionShape2D" parent="Roof4"]
+shape = SubResource("r4")
+[node name="Vis" type="Polygon2D" parent="Roof4"]
+color = Color(0.231, 0.29, 0.353, 1)
+polygon = PackedVector2Array(-115, -20, 115, -20, 115, 20, -115, 20)
+
+[node name="ThugRoof" parent="." instance=ExtResource("2")]
+position = Vector2(1710, -150)
+patrol_distance = 60.0
+
+; boşluk yaylarında coin (zıplama zamanlamasını öğretir)
+[node name="CoinB1" parent="." instance=ExtResource("3")]
+position = Vector2(895, -110)
+[node name="CoinB2" parent="." instance=ExtResource("3")]
+position = Vector2(1185, -170)
+[node name="CoinB3" parent="." instance=ExtResource("3")]
+position = Vector2(1535, -210)
+[node name="CoinB4" parent="." instance=ExtResource("3")]
+position = Vector2(1890, -170)
+
+; opsiyonel üst dal: Roof2 sağ kenarından yukarı sıçra
+[node name="BonusStep" parent="." instance=ExtResource("8")]
+position = Vector2(1540, -215)
+width = 150.0
+[node name="BonusC1" parent="." instance=ExtResource("3")]
+position = Vector2(1500, -260)
+[node name="BonusC2" parent="." instance=ExtResource("3")]
+position = Vector2(1580, -260)
+
+; Yangın merdiveni: güvenli ana rotadan ayrılan, hareketli tabelaya bağlanan üst yol.
+[node name="FireEscape1" parent="." instance=ExtResource("8")]
+position = Vector2(1120, -135)
+width = 120.0
+[node name="FireEscape2" parent="." instance=ExtResource("8")]
+position = Vector2(1315, -200)
+width = 140.0
+[node name="FireCoin1" parent="." instance=ExtResource("3")]
+position = Vector2(1120, -185)
+[node name="FireCoin2" parent="." instance=ExtResource("3")]
+position = Vector2(1315, -250)
+
+[node name="CP1" parent="." instance=ExtResource("5")]
+position = Vector2(2020, -90)
+
+; ===================== C: DİKENLİ HENDEKLER =====================
+; Roof4 sağ kenarı x2180 (yüzey -90). Aşağı in -> GroundC1.
+[node name="GroundC1" type="StaticBody2D" parent="."]
+position = Vector2(2480, 110)
+[node name="Col" type="CollisionShape2D" parent="GroundC1"]
+shape = SubResource("gC1")
+[node name="Vis" type="Polygon2D" parent="GroundC1"]
+color = Color(0.231, 0.29, 0.353, 1)
+polygon = PackedVector2Array(-160, -110, 160, -110, 160, -52, -160, -52)
+
+[node name="Hint3" parent="." instance=ExtResource("16")]
+position = Vector2(2420, 0)
+text = "Diken çukuru — güvenli taşa hopla, durma"
+
+; --- HENDEK 1: güvenli basamak ---  (GroundC1 x2640 -> GroundC2 x2900)
+[node name="Pit1Spikes" parent="." instance=ExtResource("10")]
+position = Vector2(2770, 130)
+width = 260.0
+[node name="StepStone" type="StaticBody2D" parent="."]
+position = Vector2(2785, 80)
+[node name="Col" type="CollisionShape2D" parent="StepStone"]
+shape = SubResource("step")
+[node name="Vis" type="Polygon2D" parent="StepStone"]
+color = Color(0.29, 0.353, 0.231, 1)
+polygon = PackedVector2Array(-45, -15, 45, -15, 45, 15, -45, 15)
+[node name="StepCoin" parent="." instance=ExtResource("3")]
+position = Vector2(2785, -40)
+
+[node name="GroundC2" type="StaticBody2D" parent="."]
+position = Vector2(3040, 110)
+[node name="Col" type="CollisionShape2D" parent="GroundC2"]
+shape = SubResource("gC2")
+[node name="Vis" type="Polygon2D" parent="GroundC2"]
+color = Color(0.231, 0.29, 0.353, 1)
+polygon = PackedVector2Array(-140, -110, 140, -110, 140, -52, -140, -52)
+
+[node name="CP2" parent="." instance=ExtResource("5")]
+position = Vector2(3010, 0)
+[node name="Health1" parent="." instance=ExtResource("12")]
+position = Vector2(3095, -46)
+
+[node name="Hint4" parent="." instance=ExtResource("16")]
+position = Vector2(3140, 0)
+text = "Çöken platformlar — RİTİMLE koş, durma!"
+
+; --- HENDEK 2: çöken platform köprüsü ---  (GroundC2 x3180 -> GroundD x3760)
+[node name="Pit2Spikes" parent="." instance=ExtResource("10")]
+position = Vector2(3470, 130)
+width = 580.0
+[node name="Fall1" parent="." instance=ExtResource("15")]
+position = Vector2(3270, 10)
+width = 150.0
+[node name="Fall2" parent="." instance=ExtResource("15")]
+position = Vector2(3450, 10)
+width = 150.0
+[node name="Fall3" parent="." instance=ExtResource("15")]
+position = Vector2(3630, 10)
+width = 150.0
+[node name="BridgeCoin1" parent="." instance=ExtResource("3")]
+position = Vector2(3360, -54)
+[node name="BridgeCoin2" parent="." instance=ExtResource("3")]
+position = Vector2(3540, -54)
+
+; ===================== D: ARA DÜZLÜK =====================
+[node name="GroundD" type="StaticBody2D" parent="."]
+position = Vector2(3960, 110)
+[node name="Col" type="CollisionShape2D" parent="GroundD"]
+shape = SubResource("gD")
+[node name="Vis" type="Polygon2D" parent="GroundD"]
+color = Color(0.231, 0.29, 0.353, 1)
+polygon = PackedVector2Array(-200, -110, 200, -110, 200, -52, -200, -52)
+
+[node name="CP3" parent="." instance=ExtResource("5")]
+position = Vector2(3810, 0)
+[node name="ThugD" parent="." instance=ExtResource("2")]
+position = Vector2(4010, 0)
+patrol_distance = 80.0
+[node name="CoinD1" parent="." instance=ExtResource("3")]
+position = Vector2(3900, -46)
+[node name="CoinD2" parent="." instance=ExtResource("3")]
+position = Vector2(4090, -46)
+
+[node name="Hint5" parent="." instance=ExtResource("16")]
+position = Vector2(4130, 0)
+text = "Vinç yaklaşınca üstüne atla — inişte zamanla"
+
+; ===================== E: HAREKETLİ PLATFORM =====================
+; GroundD x4160 -> GroundE x4520. Dikenli hendek üstünde tek yumuşak vinç.
+[node name="Pit3Spikes" parent="." instance=ExtResource("10")]
+position = Vector2(4340, 130)
+width = 360.0
+[node name="Mover" parent="." instance=ExtResource("9")]
+position = Vector2(4230, 10)
+travel = Vector2(240, 0)
+period = 4.2
+width = 170.0
+
+[node name="GroundE" type="StaticBody2D" parent="."]
+position = Vector2(4670, 110)
+[node name="Col" type="CollisionShape2D" parent="GroundE"]
+shape = SubResource("gE")
+[node name="Vis" type="Polygon2D" parent="GroundE"]
+color = Color(0.231, 0.29, 0.353, 1)
+polygon = PackedVector2Array(-150, -110, 150, -110, 150, -52, -150, -52)
+
+[node name="MoverCoin" parent="." instance=ExtResource("3")]
+position = Vector2(4340, -70)
+
+; ===================== F: KİLİTLİ ARENA =====================
+[node name="GroundF" type="StaticBody2D" parent="."]
+position = Vector2(5190, 110)
+[node name="Col" type="CollisionShape2D" parent="GroundF"]
+shape = SubResource("gF")
+[node name="Vis" type="Polygon2D" parent="GroundF"]
+color = Color(0.231, 0.29, 0.353, 1)
+polygon = PackedVector2Array(-370, -110, 370, -110, 370, -52, -370, -52)
+
+[node name="CP4" parent="." instance=ExtResource("5")]
+position = Vector2(4880, 0)
+[node name="CoinF1" parent="." instance=ExtResource("3")]
+position = Vector2(5000, -46)
+[node name="CoinF2" parent="." instance=ExtResource("3")]
+position = Vector2(5060, -46)
+
+[node name="MidArena" parent="." instance=ExtResource("13")]
+position = Vector2(5150, 0)
+gate_left_x = 4900.0
+gate_right_x = 5470.0
+floor_y = 0.0
+wave1 = [ExtResource("2"), ExtResource("2")]
+wave2 = [ExtResource("2"), ExtResource("11")]
+reward = ExtResource("12")
+use_gates = false
+lock_camera = false
+
+; ===================== G: PAZAR TENTELERİ =====================
+; İlk arena sonrası nefes: cezasız, üç vuruşluk çatı ritmi ve üst coin çizgisi.
+[node name="Awning1" type="StaticBody2D" parent="."]
+position = Vector2(5680, -15)
+[node name="Col" type="CollisionShape2D" parent="Awning1"]
+shape = SubResource("awning")
+[node name="Vis" type="Polygon2D" parent="Awning1"]
+color = Color(0.85, 0.22, 0.28, 1)
+polygon = PackedVector2Array(-110, -15, 110, -15, 110, 15, -110, 15)
+
+[node name="Awning2" type="StaticBody2D" parent="."]
+position = Vector2(6005, -65)
+[node name="Col" type="CollisionShape2D" parent="Awning2"]
+shape = SubResource("awning")
+[node name="Vis" type="Polygon2D" parent="Awning2"]
+color = Color(0.12, 0.62, 0.56, 1)
+polygon = PackedVector2Array(-110, -15, 110, -15, 110, 15, -110, 15)
+
+[node name="Awning3" type="StaticBody2D" parent="."]
+position = Vector2(6330, -20)
+[node name="Col" type="CollisionShape2D" parent="Awning3"]
+shape = SubResource("awning")
+[node name="Vis" type="Polygon2D" parent="Awning3"]
+color = Color(0.88, 0.58, 0.18, 1)
+polygon = PackedVector2Array(-110, -15, 110, -15, 110, 15, -110, 15)
+
+[node name="AwningCoin1" parent="." instance=ExtResource("3")]
+position = Vector2(5570, -115)
+[node name="AwningCoin2" parent="." instance=ExtResource("3")]
+position = Vector2(5845, -165)
+[node name="AwningCoin3" parent="." instance=ExtResource("3")]
+position = Vector2(6165, -180)
+[node name="AwningCoin4" parent="." instance=ExtResource("3")]
+position = Vector2(6440, -115)
+
+[node name="GroundG" type="StaticBody2D" parent="."]
+position = Vector2(6800, 110)
+[node name="Col" type="CollisionShape2D" parent="GroundG"]
+shape = SubResource("gG")
+[node name="Vis" type="Polygon2D" parent="GroundG"]
+color = Color(0.231, 0.29, 0.353, 1)
+polygon = PackedVector2Array(-300, -110, 300, -110, 300, -52, -300, -52)
+
+[node name="CP5" parent="." instance=ExtResource("5")]
+position = Vector2(6580, 0)
+[node name="ThugG1" parent="." instance=ExtResource("2")]
+position = Vector2(6760, 0)
+patrol_distance = 65.0
+[node name="ThugG2" parent="." instance=ExtResource("2")]
+position = Vector2(6970, 0)
+patrol_distance = 55.0
+
+[node name="KnifeReward" parent="." instance=ExtResource("20")]
+position = Vector2(6860, -46)
+
+[node name="ClueTalk" parent="." instance=ExtResource("14")]
+position = Vector2(7020, -60)
+speakers = PackedStringArray("REDMOUNT", "REDMOUNT")
+texts = PackedStringArray("Gazelle'in bana hazırladığı kaset... Kapağındaki turkuaz banttan tanırım.", "Bunu kendi isteğiyle bırakmazdı. Lastik izi kuzeydeki tamirhaneye gidiyor.")
+clue_visual = "cassette"
+
+; ===================== H: VİNÇ GEÇİŞİ =====================
+; İki platform birbirine yaklaşır; beklemek güvenli, ritmi yakalamak hızlıdır.
+[node name="CP6" parent="." instance=ExtResource("5")]
+position = Vector2(7050, 0)
+[node name="Hint6" parent="." instance=ExtResource("16")]
+position = Vector2(7110, 0)
+text = "İki vinç ortada buluşur — acele etme, ritmi oku"
+
+[node name="CranePit" parent="." instance=ExtResource("10")]
+position = Vector2(7380, 130)
+width = 560.0
+[node name="CraneA" parent="." instance=ExtResource("9")]
+position = Vector2(7180, 10)
+travel = Vector2(250, 0)
+period = 4.6
+width = 180.0
+[node name="CraneB" parent="." instance=ExtResource("9")]
+position = Vector2(7580, 10)
+travel = Vector2(-220, 0)
+period = 4.6
+width = 180.0
+phase_offset = 0.5
+[node name="CraneCoin1" parent="." instance=ExtResource("3")]
+position = Vector2(7280, -70)
+[node name="CraneCoin2" parent="." instance=ExtResource("3")]
+position = Vector2(7480, -105)
+
+[node name="GroundI" type="StaticBody2D" parent="."]
+position = Vector2(7820, 110)
+[node name="Col" type="CollisionShape2D" parent="GroundI"]
+shape = SubResource("gI")
+[node name="Vis" type="Polygon2D" parent="GroundI"]
+color = Color(0.231, 0.29, 0.353, 1)
+polygon = PackedVector2Array(-160, -110, 160, -110, 160, -52, -160, -52)
+
+[node name="Health2" parent="." instance=ExtResource("12")]
+position = Vector2(7850, -46)
+
+; ===================== I: TAMİRHANE AVLUSU =====================
+[node name="GroundJ" type="StaticBody2D" parent="."]
+position = Vector2(8690, 110)
+[node name="Col" type="CollisionShape2D" parent="GroundJ"]
+shape = SubResource("gJ")
+[node name="Vis" type="Polygon2D" parent="GroundJ"]
+color = Color(0.231, 0.29, 0.353, 1)
+polygon = PackedVector2Array(-710, -110, 710, -110, 710, -52, -710, -52)
+
+[node name="CP7" parent="." instance=ExtResource("5")]
+position = Vector2(8060, 0)
+
+; İsteğe bağlı üst rota: daha çok risk değil, ustalık karşılığı zırh.
+[node name="UpperStep1" parent="." instance=ExtResource("8")]
+position = Vector2(8100, -95)
+width = 150.0
+[node name="UpperStep2" parent="." instance=ExtResource("8")]
+position = Vector2(8260, -160)
+width = 170.0
+[node name="ArmorBonus" parent="." instance=ExtResource("17")]
+position = Vector2(8260, -215)
+[node name="ArmorHint" parent="." instance=ExtResource("16")]
+position = Vector2(8060, 0)
+text = "Zırh: hasarı %50 azaltır · 6 darbe dayanır · koşuyu %15 yavaşlatır"
+[node name="UpperCoin1" parent="." instance=ExtResource("3")]
+position = Vector2(8100, -150)
+[node name="UpperCoin2" parent="." instance=ExtResource("3")]
+position = Vector2(8205, -215)
+[node name="UpperCoin3" parent="." instance=ExtResource("3")]
+position = Vector2(8315, -215)
+
+[node name="FinalArena" parent="." instance=ExtResource("13")]
+position = Vector2(8740, 0)
+gate_left_x = 8380.0
+gate_right_x = 9200.0
+floor_y = 0.0
+wave1 = [ExtResource("2"), ExtResource("2")]
+wave2 = [ExtResource("2"), ExtResource("11")]
+wave3 = [ExtResource("11")]
+wave_delay = 0.7
+reward = ExtResource("12")
+
+[node name="LatePistol" parent="." instance=ExtResource("21")]
+position = Vector2(15350, -46)

@@ -1,0 +1,11 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/pickups/PickupBase.tscn" id="1"]
+[ext_resource type="Script" path="res://scripts/pickups/weapon_pickup.gd" id="2"]
+[ext_resource type="Texture2D" path="res://assets/pickups/placeholder_knife.png" id="3"]
+[ext_resource type="Resource" path="res://resources/weapons/knife.tres" id="4"]
+
+[node name="KnifePickup" instance=ExtResource("1")]
+script = ExtResource("2")
+kind = "knife"
+weapon = ExtResource("4")

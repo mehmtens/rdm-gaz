@@ -1,0 +1,36 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+  L4 t=4 x=9463 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround5 maxx=9463 hp=115 respawns=0
+  L4 t=8 x=10214 y=-0 vx=3 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround5 maxx=10214 hp=119 respawns=0
+  L4 t=12 x=10076 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround5 maxx=10250 hp=119 respawns=0
+  L4 t=16 x=10096 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround5 maxx=10250 hp=119 respawns=0
+  L4 t=20 x=9766 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround5 maxx=10250 hp=109 respawns=0
+  L4 t=24 x=11101 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround6 maxx=11101 hp=109 respawns=0
+  L4 t=28 x=12461 y=-110 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround8 maxx=12461 hp=109 respawns=0
+  L4 t=32 x=12833 y=-50 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround9 maxx=12833 hp=103 respawns=0
+  L4 t=36 x=14045 y=-0 vx=200 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround12 maxx=14045 hp=103 respawns=0
+  L4 t=40 x=14438 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround12 maxx=14499 hp=93 respawns=0
+  L4 t=44 x=15349 y=-0 vx=200 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround12 maxx=15349 hp=87 respawns=0
+  L4 t=48 x=16026 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround13 maxx=16026 hp=87 respawns=0
+  L4 t=52 x=16887 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround13 maxx=16887 hp=77 respawns=0
+  L4 t=56 x=17597 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround13 maxx=17597 hp=77 respawns=0
+  L4 t=60 x=18956 y=-122 vx=340 floor=false hit=- maxx=18956 hp=77 respawns=0
+  L4 t=64 x=19573 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround17 maxx=19573 hp=71 respawns=0
+  L4 t=68 x=20183 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround17 maxx=20183 hp=61 respawns=0
+  L4 t=72 x=21543 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround18 maxx=21543 hp=61 respawns=0
+  L4 t=76 x=22903 y=-110 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround20 maxx=22903 hp=61 respawns=0
+  L4 t=80 x=24262 y=-152 vx=340 floor=false hit=- maxx=24262 hp=61 respawns=0
+  L4 t=84 x=24702 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround24 maxx=24702 hp=55 respawns=0
+  L4 t=88 x=25504 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround24 maxx=25504 hp=45 respawns=0
+  L4 t=92 x=26214 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround24 maxx=26214 hp=45 respawns=0
+  L4 t=96 x=27306 y=-0 vx=200 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround25 maxx=27306 hp=69 respawns=0
+  L4 t=100 x=27952 y=-0 vx=307 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround25 maxx=27952 hp=69 respawns=0
+  L4 t=104 x=28332 y=-0 vx=250 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround25 maxx=28332 hp=63 respawns=0
+  L4 t=108 x=28340 y=-3 vx=217 floor=false hit=- maxx=28638 hp=51 respawns=0
+  L4 t=112 x=28053 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround25 maxx=28638 hp=51 respawns=0
+  L4 t=116 x=28592 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround25 maxx=28991 hp=125 respawns=1
+  L4 t=120 x=28308 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround25 maxx=28994 hp=125 respawns=3
+  L4 t=124 x=28846 y=-42 vx=340 floor=false hit=- maxx=28994 hp=125 respawns=4
+  L4 t=128 x=28563 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround25 maxx=28994 hp=125 respawns=6

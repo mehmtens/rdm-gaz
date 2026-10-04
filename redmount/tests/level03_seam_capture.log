@@ -1,0 +1,5 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 591.74 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 3050 Laptop GPU
+
+  L3 t=4 x=481 y=-0 vx=340 floor=true hit=/root/Level03Play/Main/LevelHolder/Level07/Ground1 maxx=481 hp=100 respawns=0
+  L3 t=8 x=1841 y=-19 vx=340 floor=false hit=- maxx=1841 hp=100 respawns=0

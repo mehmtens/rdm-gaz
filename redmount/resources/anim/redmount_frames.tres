@@ -1,0 +1,1301 @@
+[gd_resource type="SpriteFrames" load_steps=190 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/anim/redmount/idle.png" id="1_idle"]
+[ext_resource type="Texture2D" path="res://assets/anim/redmount/walk.png" id="2_walk"]
+[ext_resource type="Texture2D" path="res://assets/anim/redmount/run.png" id="3_run"]
+[ext_resource type="Texture2D" path="res://assets/anim/redmount/jump.png" id="4_jump"]
+[ext_resource type="Texture2D" path="res://assets/anim/redmount/crouch.png" id="5_crouch"]
+[ext_resource type="Texture2D" path="res://assets/anim/redmount/fight.png" id="6_fight"]
+[ext_resource type="Texture2D" path="res://assets/anim/redmount/combo_a.png" id="7_combo_a"]
+[ext_resource type="Texture2D" path="res://assets/anim/redmount/combo_b.png" id="8_combo_b"]
+[ext_resource type="Texture2D" path="res://assets/anim/redmount/knee.png" id="9_knee"]
+[ext_resource type="Texture2D" path="res://assets/anim/redmount/bat_idle.png" id="10_bat_idle"]
+[ext_resource type="Texture2D" path="res://assets/anim/redmount/bat_walk.png" id="11_bat_walk"]
+[ext_resource type="Texture2D" path="res://assets/anim/redmount/bat_attack.png" id="12_bat_attack"]
+[ext_resource type="Texture2D" path="res://assets/anim/redmount/bat_attack2.png" id="13_bat_attack2"]
+[ext_resource type="Texture2D" path="res://assets/anim/redmount/knife_idle.png" id="14_knife_idle"]
+[ext_resource type="Texture2D" path="res://assets/anim/redmount/knife_walk.png" id="15_knife_walk"]
+[ext_resource type="Texture2D" path="res://assets/anim/redmount/knife_attack.png" id="16_knife_attack"]
+[ext_resource type="Texture2D" path="res://assets/anim/redmount/knife_attack2.png" id="17_knife_attack2"]
+[ext_resource type="Texture2D" path="res://assets/anim/redmount/pistol_idle.png" id="18_pistol_idle"]
+[ext_resource type="Texture2D" path="res://assets/anim/redmount/pistol_walk.png" id="19_pistol_walk"]
+[ext_resource type="Texture2D" path="res://assets/anim/redmount/pistol_aim.png" id="20_pistol_aim"]
+[ext_resource type="Texture2D" path="res://assets/anim/redmount/pistol_shoot.png" id="21_pistol_shoot"]
+[ext_resource type="Texture2D" path="res://assets/anim/redmount/pistol_reload.png" id="22_pistol_reload"]
+[ext_resource type="Texture2D" path="res://assets/anim/redmount/rifle_idle.png" id="23_rifle_idle"]
+[ext_resource type="Texture2D" path="res://assets/anim/redmount/rifle_walk.png" id="24_rifle_walk"]
+[ext_resource type="Texture2D" path="res://assets/anim/redmount/rifle_aim.png" id="25_rifle_aim"]
+[ext_resource type="Texture2D" path="res://assets/anim/redmount/rifle_shoot.png" id="26_rifle_shoot"]
+[ext_resource type="Texture2D" path="res://assets/anim/redmount/rifle_reload.png" id="27_rifle_reload"]
+
+[sub_resource type="AtlasTexture" id="idle_0"]
+atlas = ExtResource("1_idle")
+region = Rect2(0, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="idle_1"]
+atlas = ExtResource("1_idle")
+region = Rect2(200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="idle_2"]
+atlas = ExtResource("1_idle")
+region = Rect2(400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="idle_3"]
+atlas = ExtResource("1_idle")
+region = Rect2(600, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="idle_4"]
+atlas = ExtResource("1_idle")
+region = Rect2(800, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="walk_0"]
+atlas = ExtResource("2_walk")
+region = Rect2(0, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="walk_1"]
+atlas = ExtResource("2_walk")
+region = Rect2(200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="walk_2"]
+atlas = ExtResource("2_walk")
+region = Rect2(400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="walk_3"]
+atlas = ExtResource("2_walk")
+region = Rect2(600, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="walk_4"]
+atlas = ExtResource("2_walk")
+region = Rect2(800, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="walk_5"]
+atlas = ExtResource("2_walk")
+region = Rect2(1000, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="walk_6"]
+atlas = ExtResource("2_walk")
+region = Rect2(1200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="walk_7"]
+atlas = ExtResource("2_walk")
+region = Rect2(1400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="run_0"]
+atlas = ExtResource("3_run")
+region = Rect2(0, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="run_1"]
+atlas = ExtResource("3_run")
+region = Rect2(200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="run_2"]
+atlas = ExtResource("3_run")
+region = Rect2(400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="run_3"]
+atlas = ExtResource("3_run")
+region = Rect2(600, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="run_4"]
+atlas = ExtResource("3_run")
+region = Rect2(800, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="run_5"]
+atlas = ExtResource("3_run")
+region = Rect2(1000, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="run_6"]
+atlas = ExtResource("3_run")
+region = Rect2(1200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="run_7"]
+atlas = ExtResource("3_run")
+region = Rect2(1400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="jump_0"]
+atlas = ExtResource("4_jump")
+region = Rect2(0, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="jump_1"]
+atlas = ExtResource("4_jump")
+region = Rect2(200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="jump_2"]
+atlas = ExtResource("4_jump")
+region = Rect2(400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="jump_3"]
+atlas = ExtResource("4_jump")
+region = Rect2(600, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="jump_4"]
+atlas = ExtResource("4_jump")
+region = Rect2(800, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="crouch_0"]
+atlas = ExtResource("5_crouch")
+region = Rect2(0, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="crouch_1"]
+atlas = ExtResource("5_crouch")
+region = Rect2(200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="crouch_2"]
+atlas = ExtResource("5_crouch")
+region = Rect2(400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="fight_0"]
+atlas = ExtResource("6_fight")
+region = Rect2(0, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="fight_1"]
+atlas = ExtResource("6_fight")
+region = Rect2(200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="fight_2"]
+atlas = ExtResource("6_fight")
+region = Rect2(400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="fight_3"]
+atlas = ExtResource("6_fight")
+region = Rect2(600, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="combo_a_0"]
+atlas = ExtResource("7_combo_a")
+region = Rect2(0, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="combo_a_1"]
+atlas = ExtResource("7_combo_a")
+region = Rect2(200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="combo_a_2"]
+atlas = ExtResource("7_combo_a")
+region = Rect2(400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="combo_a_3"]
+atlas = ExtResource("7_combo_a")
+region = Rect2(600, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="combo_a_4"]
+atlas = ExtResource("7_combo_a")
+region = Rect2(800, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="combo_a_5"]
+atlas = ExtResource("7_combo_a")
+region = Rect2(1000, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="combo_b_0"]
+atlas = ExtResource("8_combo_b")
+region = Rect2(0, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="combo_b_1"]
+atlas = ExtResource("8_combo_b")
+region = Rect2(200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="combo_b_2"]
+atlas = ExtResource("8_combo_b")
+region = Rect2(400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="combo_b_3"]
+atlas = ExtResource("8_combo_b")
+region = Rect2(600, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="combo_b_4"]
+atlas = ExtResource("8_combo_b")
+region = Rect2(800, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="combo_b_5"]
+atlas = ExtResource("8_combo_b")
+region = Rect2(1000, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="combo_b_6"]
+atlas = ExtResource("8_combo_b")
+region = Rect2(1200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="knee_0"]
+atlas = ExtResource("9_knee")
+region = Rect2(0, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="knee_1"]
+atlas = ExtResource("9_knee")
+region = Rect2(200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="knee_2"]
+atlas = ExtResource("9_knee")
+region = Rect2(400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="knee_3"]
+atlas = ExtResource("9_knee")
+region = Rect2(600, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="knee_4"]
+atlas = ExtResource("9_knee")
+region = Rect2(800, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="bat_idle_0"]
+atlas = ExtResource("10_bat_idle")
+region = Rect2(0, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="bat_idle_1"]
+atlas = ExtResource("10_bat_idle")
+region = Rect2(200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="bat_idle_2"]
+atlas = ExtResource("10_bat_idle")
+region = Rect2(400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="bat_idle_3"]
+atlas = ExtResource("10_bat_idle")
+region = Rect2(600, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="bat_walk_0"]
+atlas = ExtResource("11_bat_walk")
+region = Rect2(0, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="bat_walk_1"]
+atlas = ExtResource("11_bat_walk")
+region = Rect2(200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="bat_walk_2"]
+atlas = ExtResource("11_bat_walk")
+region = Rect2(400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="bat_walk_3"]
+atlas = ExtResource("11_bat_walk")
+region = Rect2(600, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="bat_walk_4"]
+atlas = ExtResource("11_bat_walk")
+region = Rect2(800, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="bat_walk_5"]
+atlas = ExtResource("11_bat_walk")
+region = Rect2(1000, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="bat_walk_6"]
+atlas = ExtResource("11_bat_walk")
+region = Rect2(1200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="bat_walk_7"]
+atlas = ExtResource("11_bat_walk")
+region = Rect2(1400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="bat_attack_0"]
+atlas = ExtResource("12_bat_attack")
+region = Rect2(0, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="bat_attack_1"]
+atlas = ExtResource("12_bat_attack")
+region = Rect2(200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="bat_attack_2"]
+atlas = ExtResource("12_bat_attack")
+region = Rect2(400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="bat_attack_3"]
+atlas = ExtResource("12_bat_attack")
+region = Rect2(600, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="bat_attack_4"]
+atlas = ExtResource("12_bat_attack")
+region = Rect2(800, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="bat_attack_5"]
+atlas = ExtResource("12_bat_attack")
+region = Rect2(1000, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="bat_attack_6"]
+atlas = ExtResource("12_bat_attack")
+region = Rect2(1200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="bat_attack_7"]
+atlas = ExtResource("12_bat_attack")
+region = Rect2(1400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="bat_attack2_0"]
+atlas = ExtResource("13_bat_attack2")
+region = Rect2(0, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="bat_attack2_1"]
+atlas = ExtResource("13_bat_attack2")
+region = Rect2(200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="bat_attack2_2"]
+atlas = ExtResource("13_bat_attack2")
+region = Rect2(400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="bat_attack2_3"]
+atlas = ExtResource("13_bat_attack2")
+region = Rect2(600, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="bat_attack2_4"]
+atlas = ExtResource("13_bat_attack2")
+region = Rect2(800, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="bat_attack2_5"]
+atlas = ExtResource("13_bat_attack2")
+region = Rect2(1000, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="bat_attack2_6"]
+atlas = ExtResource("13_bat_attack2")
+region = Rect2(1200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="bat_attack2_7"]
+atlas = ExtResource("13_bat_attack2")
+region = Rect2(1400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="knife_idle_0"]
+atlas = ExtResource("14_knife_idle")
+region = Rect2(0, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="knife_idle_1"]
+atlas = ExtResource("14_knife_idle")
+region = Rect2(200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="knife_idle_2"]
+atlas = ExtResource("14_knife_idle")
+region = Rect2(400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="knife_idle_3"]
+atlas = ExtResource("14_knife_idle")
+region = Rect2(600, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="knife_walk_0"]
+atlas = ExtResource("15_knife_walk")
+region = Rect2(0, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="knife_walk_1"]
+atlas = ExtResource("15_knife_walk")
+region = Rect2(200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="knife_walk_2"]
+atlas = ExtResource("15_knife_walk")
+region = Rect2(400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="knife_walk_3"]
+atlas = ExtResource("15_knife_walk")
+region = Rect2(600, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="knife_walk_4"]
+atlas = ExtResource("15_knife_walk")
+region = Rect2(800, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="knife_walk_5"]
+atlas = ExtResource("15_knife_walk")
+region = Rect2(1000, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="knife_walk_6"]
+atlas = ExtResource("15_knife_walk")
+region = Rect2(1200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="knife_walk_7"]
+atlas = ExtResource("15_knife_walk")
+region = Rect2(1400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="knife_attack_0"]
+atlas = ExtResource("16_knife_attack")
+region = Rect2(0, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="knife_attack_1"]
+atlas = ExtResource("16_knife_attack")
+region = Rect2(200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="knife_attack_2"]
+atlas = ExtResource("16_knife_attack")
+region = Rect2(400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="knife_attack_3"]
+atlas = ExtResource("16_knife_attack")
+region = Rect2(600, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="knife_attack_4"]
+atlas = ExtResource("16_knife_attack")
+region = Rect2(800, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="knife_attack_5"]
+atlas = ExtResource("16_knife_attack")
+region = Rect2(1000, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="knife_attack_6"]
+atlas = ExtResource("16_knife_attack")
+region = Rect2(1200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="knife_attack2_0"]
+atlas = ExtResource("17_knife_attack2")
+region = Rect2(0, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="knife_attack2_1"]
+atlas = ExtResource("17_knife_attack2")
+region = Rect2(200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="knife_attack2_2"]
+atlas = ExtResource("17_knife_attack2")
+region = Rect2(400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="knife_attack2_3"]
+atlas = ExtResource("17_knife_attack2")
+region = Rect2(600, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="knife_attack2_4"]
+atlas = ExtResource("17_knife_attack2")
+region = Rect2(800, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="pistol_idle_0"]
+atlas = ExtResource("18_pistol_idle")
+region = Rect2(0, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="pistol_idle_1"]
+atlas = ExtResource("18_pistol_idle")
+region = Rect2(200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="pistol_idle_2"]
+atlas = ExtResource("18_pistol_idle")
+region = Rect2(400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="pistol_idle_3"]
+atlas = ExtResource("18_pistol_idle")
+region = Rect2(600, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="pistol_idle_4"]
+atlas = ExtResource("18_pistol_idle")
+region = Rect2(800, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="pistol_walk_0"]
+atlas = ExtResource("19_pistol_walk")
+region = Rect2(0, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="pistol_walk_1"]
+atlas = ExtResource("19_pistol_walk")
+region = Rect2(200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="pistol_walk_2"]
+atlas = ExtResource("19_pistol_walk")
+region = Rect2(400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="pistol_walk_3"]
+atlas = ExtResource("19_pistol_walk")
+region = Rect2(600, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="pistol_walk_4"]
+atlas = ExtResource("19_pistol_walk")
+region = Rect2(800, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="pistol_walk_5"]
+atlas = ExtResource("19_pistol_walk")
+region = Rect2(1000, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="pistol_walk_6"]
+atlas = ExtResource("19_pistol_walk")
+region = Rect2(1200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="pistol_walk_7"]
+atlas = ExtResource("19_pistol_walk")
+region = Rect2(1400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="pistol_aim_0"]
+atlas = ExtResource("20_pistol_aim")
+region = Rect2(0, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="pistol_aim_1"]
+atlas = ExtResource("20_pistol_aim")
+region = Rect2(200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="pistol_aim_2"]
+atlas = ExtResource("20_pistol_aim")
+region = Rect2(400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="pistol_aim_3"]
+atlas = ExtResource("20_pistol_aim")
+region = Rect2(600, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="pistol_shoot_0"]
+atlas = ExtResource("21_pistol_shoot")
+region = Rect2(0, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="pistol_shoot_1"]
+atlas = ExtResource("21_pistol_shoot")
+region = Rect2(200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="pistol_shoot_2"]
+atlas = ExtResource("21_pistol_shoot")
+region = Rect2(400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="pistol_shoot_3"]
+atlas = ExtResource("21_pistol_shoot")
+region = Rect2(600, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="pistol_reload_0"]
+atlas = ExtResource("22_pistol_reload")
+region = Rect2(0, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="pistol_reload_1"]
+atlas = ExtResource("22_pistol_reload")
+region = Rect2(200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="pistol_reload_2"]
+atlas = ExtResource("22_pistol_reload")
+region = Rect2(400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="pistol_reload_3"]
+atlas = ExtResource("22_pistol_reload")
+region = Rect2(600, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="pistol_reload_4"]
+atlas = ExtResource("22_pistol_reload")
+region = Rect2(800, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="pistol_reload_5"]
+atlas = ExtResource("22_pistol_reload")
+region = Rect2(1000, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="pistol_reload_6"]
+atlas = ExtResource("22_pistol_reload")
+region = Rect2(1200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="pistol_reload_7"]
+atlas = ExtResource("22_pistol_reload")
+region = Rect2(1400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="rifle_idle_0"]
+atlas = ExtResource("23_rifle_idle")
+region = Rect2(0, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="rifle_idle_1"]
+atlas = ExtResource("23_rifle_idle")
+region = Rect2(200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="rifle_idle_2"]
+atlas = ExtResource("23_rifle_idle")
+region = Rect2(400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="rifle_idle_3"]
+atlas = ExtResource("23_rifle_idle")
+region = Rect2(600, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="rifle_idle_4"]
+atlas = ExtResource("23_rifle_idle")
+region = Rect2(800, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="rifle_walk_0"]
+atlas = ExtResource("24_rifle_walk")
+region = Rect2(0, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="rifle_walk_1"]
+atlas = ExtResource("24_rifle_walk")
+region = Rect2(200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="rifle_walk_2"]
+atlas = ExtResource("24_rifle_walk")
+region = Rect2(400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="rifle_walk_3"]
+atlas = ExtResource("24_rifle_walk")
+region = Rect2(600, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="rifle_walk_4"]
+atlas = ExtResource("24_rifle_walk")
+region = Rect2(800, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="rifle_walk_5"]
+atlas = ExtResource("24_rifle_walk")
+region = Rect2(1000, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="rifle_walk_6"]
+atlas = ExtResource("24_rifle_walk")
+region = Rect2(1200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="rifle_walk_7"]
+atlas = ExtResource("24_rifle_walk")
+region = Rect2(1400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="rifle_aim_0"]
+atlas = ExtResource("25_rifle_aim")
+region = Rect2(0, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="rifle_aim_1"]
+atlas = ExtResource("25_rifle_aim")
+region = Rect2(200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="rifle_aim_2"]
+atlas = ExtResource("25_rifle_aim")
+region = Rect2(400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="rifle_aim_3"]
+atlas = ExtResource("25_rifle_aim")
+region = Rect2(600, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="rifle_shoot_0"]
+atlas = ExtResource("26_rifle_shoot")
+region = Rect2(0, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="rifle_shoot_1"]
+atlas = ExtResource("26_rifle_shoot")
+region = Rect2(200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="rifle_shoot_2"]
+atlas = ExtResource("26_rifle_shoot")
+region = Rect2(400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="rifle_shoot_3"]
+atlas = ExtResource("26_rifle_shoot")
+region = Rect2(600, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="rifle_shoot_4"]
+atlas = ExtResource("26_rifle_shoot")
+region = Rect2(800, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="rifle_reload_0"]
+atlas = ExtResource("27_rifle_reload")
+region = Rect2(0, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="rifle_reload_1"]
+atlas = ExtResource("27_rifle_reload")
+region = Rect2(200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="rifle_reload_2"]
+atlas = ExtResource("27_rifle_reload")
+region = Rect2(400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="rifle_reload_3"]
+atlas = ExtResource("27_rifle_reload")
+region = Rect2(600, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="rifle_reload_4"]
+atlas = ExtResource("27_rifle_reload")
+region = Rect2(800, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="rifle_reload_5"]
+atlas = ExtResource("27_rifle_reload")
+region = Rect2(1000, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="rifle_reload_6"]
+atlas = ExtResource("27_rifle_reload")
+region = Rect2(1200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="rifle_reload_7"]
+atlas = ExtResource("27_rifle_reload")
+region = Rect2(1400, 0, 200, 240)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("idle_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("idle_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("idle_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("idle_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("idle_4")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 10
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("walk_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("walk_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("walk_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("walk_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("walk_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("walk_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("walk_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("walk_7")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 10
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("run_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("run_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("run_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("run_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("run_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("run_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("run_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("run_7")
+}],
+"loop": true,
+"name": &"run",
+"speed": 10
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("jump_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("jump_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("jump_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("jump_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("jump_4")
+}],
+"loop": false,
+"name": &"jump",
+"speed": 12
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("crouch_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("crouch_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("crouch_2")
+}],
+"loop": false,
+"name": &"crouch",
+"speed": 10
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("fight_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("fight_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("fight_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("fight_3")
+}],
+"loop": true,
+"name": &"fight",
+"speed": 8
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("combo_a_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("combo_a_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("combo_a_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("combo_a_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("combo_a_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("combo_a_5")
+}],
+"loop": false,
+"name": &"combo_a",
+"speed": 16
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("combo_b_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("combo_b_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("combo_b_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("combo_b_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("combo_b_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("combo_b_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("combo_b_6")
+}],
+"loop": false,
+"name": &"combo_b",
+"speed": 16
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("knee_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("knee_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("knee_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("knee_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("knee_4")
+}],
+"loop": false,
+"name": &"knee",
+"speed": 15
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("bat_idle_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("bat_idle_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("bat_idle_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("bat_idle_3")
+}],
+"loop": true,
+"name": &"bat_idle",
+"speed": 9
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("bat_walk_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("bat_walk_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("bat_walk_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("bat_walk_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("bat_walk_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("bat_walk_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("bat_walk_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("bat_walk_7")
+}],
+"loop": true,
+"name": &"bat_walk",
+"speed": 10
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("bat_attack_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("bat_attack_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("bat_attack_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("bat_attack_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("bat_attack_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("bat_attack_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("bat_attack_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("bat_attack_7")
+}],
+"loop": false,
+"name": &"bat_attack",
+"speed": 16
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("bat_attack2_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("bat_attack2_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("bat_attack2_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("bat_attack2_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("bat_attack2_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("bat_attack2_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("bat_attack2_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("bat_attack2_7")
+}],
+"loop": false,
+"name": &"bat_attack2",
+"speed": 16
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("knife_idle_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("knife_idle_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("knife_idle_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("knife_idle_3")
+}],
+"loop": true,
+"name": &"knife_idle",
+"speed": 9
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("knife_walk_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("knife_walk_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("knife_walk_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("knife_walk_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("knife_walk_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("knife_walk_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("knife_walk_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("knife_walk_7")
+}],
+"loop": true,
+"name": &"knife_walk",
+"speed": 10
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("knife_attack_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("knife_attack_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("knife_attack_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("knife_attack_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("knife_attack_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("knife_attack_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("knife_attack_6")
+}],
+"loop": false,
+"name": &"knife_attack",
+"speed": 16
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("knife_attack2_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("knife_attack2_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("knife_attack2_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("knife_attack2_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("knife_attack2_4")
+}],
+"loop": false,
+"name": &"knife_attack2",
+"speed": 16
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("pistol_idle_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("pistol_idle_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("pistol_idle_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("pistol_idle_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("pistol_idle_4")
+}],
+"loop": true,
+"name": &"pistol_idle",
+"speed": 9
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("pistol_walk_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("pistol_walk_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("pistol_walk_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("pistol_walk_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("pistol_walk_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("pistol_walk_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("pistol_walk_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("pistol_walk_7")
+}],
+"loop": true,
+"name": &"pistol_walk",
+"speed": 10
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("pistol_aim_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("pistol_aim_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("pistol_aim_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("pistol_aim_3")
+}],
+"loop": false,
+"name": &"pistol_aim",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("pistol_shoot_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("pistol_shoot_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("pistol_shoot_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("pistol_shoot_3")
+}],
+"loop": false,
+"name": &"pistol_shoot",
+"speed": 18
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("pistol_reload_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("pistol_reload_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("pistol_reload_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("pistol_reload_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("pistol_reload_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("pistol_reload_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("pistol_reload_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("pistol_reload_7")
+}],
+"loop": false,
+"name": &"pistol_reload",
+"speed": 12
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("rifle_idle_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("rifle_idle_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("rifle_idle_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("rifle_idle_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("rifle_idle_4")
+}],
+"loop": true,
+"name": &"rifle_idle",
+"speed": 9
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("rifle_walk_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("rifle_walk_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("rifle_walk_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("rifle_walk_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("rifle_walk_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("rifle_walk_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("rifle_walk_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("rifle_walk_7")
+}],
+"loop": true,
+"name": &"rifle_walk",
+"speed": 10
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("rifle_aim_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("rifle_aim_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("rifle_aim_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("rifle_aim_3")
+}],
+"loop": false,
+"name": &"rifle_aim",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("rifle_shoot_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("rifle_shoot_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("rifle_shoot_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("rifle_shoot_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("rifle_shoot_4")
+}],
+"loop": false,
+"name": &"rifle_shoot",
+"speed": 18
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("rifle_reload_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("rifle_reload_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("rifle_reload_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("rifle_reload_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("rifle_reload_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("rifle_reload_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("rifle_reload_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("rifle_reload_7")
+}],
+"loop": false,
+"name": &"rifle_reload",
+"speed": 12
+}]

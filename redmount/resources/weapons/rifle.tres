@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="GunConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/gun_config.gd" id="1_gun"]
+
+[resource]
+script = ExtResource("1_gun")
+display_name = "Tüfek"
+anim_prefix = "rifle"
+damage = 5
+projectile_speed = 1050.0
+projectile_knockback = 55.0
+fire_interval = 0.12
+mag_size = 18
+starting_reserve = 54
+reload_time = 1.35
+recoil = 34.0
+shoot_anim = &"shoot"

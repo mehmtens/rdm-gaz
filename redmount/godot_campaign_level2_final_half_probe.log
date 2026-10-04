@@ -1,0 +1,21 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+  L2 t=4 x=29899 y=-0 vx=-200 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground43 maxx=29960 hp=125 respawns=0
+  L2 t=8 x=30064 y=-0 vx=47 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground43 maxx=30064 hp=115 respawns=0
+  L2 t=12 x=30221 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground43 maxx=30236 hp=105 respawns=0
+  L2 t=16 x=29728 y=-0 vx=-200 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground43 maxx=30260 hp=105 respawns=0
+  L2 t=20 x=30610 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground43 maxx=30610 hp=95 respawns=0
+  L2 t=24 x=31976 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground45 maxx=31976 hp=95 respawns=0
+  L2 t=28 x=33336 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground45 maxx=33336 hp=95 respawns=0
+  L2 t=32 x=34652 y=-123 vx=340 floor=false hit=- maxx=34652 hp=95 respawns=0
+  L2 t=36 x=35862 y=-0 vx=3 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground51 maxx=35862 hp=95 respawns=0
+  L2 t=40 x=36214 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground51 maxx=36214 hp=85 respawns=0
+  L2 t=44 x=36924 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground51 maxx=36924 hp=85 respawns=0
+  L2 t=48 x=38284 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground52 maxx=38284 hp=85 respawns=0
+  L2 t=52 x=39641 y=-73 vx=0 floor=false hit=/root/Autoplay/Main/LevelHolder/Level06/Ground53 maxx=39641 hp=85 respawns=0
+  L2 t=56 x=40205 y=10 vx=-333 floor=false hit=- maxx=40211 hp=85 respawns=0
+  L2 t=60 x=38460 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground52 maxx=40318 hp=125 respawns=1
+  L2 t=64 x=39778 y=-70 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground53 maxx=40318 hp=125 respawns=1
+  L2 t=68 x=40166 y=-36 vx=260 floor=false hit=- maxx=40318 hp=125 respawns=1

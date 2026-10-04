@@ -1,0 +1,21 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+  L2 t=4 x=16322 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground27 maxx=16322 hp=125 respawns=0
+  L2 t=8 x=17294 y=-120 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground29 maxx=17294 hp=125 respawns=0
+  L2 t=12 x=18055 y=-130 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground31 maxx=18116 hp=115 respawns=0
+  L2 t=16 x=19247 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground33 maxx=19247 hp=115 respawns=0
+  L2 t=20 x=20607 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground33 maxx=20607 hp=115 respawns=0
+  L2 t=24 x=21320 y=-0 vx=620 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground34 maxx=21320 hp=115 respawns=0
+  L2 t=28 x=22183 y=-106 vx=340 floor=false hit=- maxx=22183 hp=105 respawns=0
+  L2 t=32 x=23543 y=-60 vx=340 floor=false hit=- maxx=23543 hp=105 respawns=0
+  L2 t=36 x=24405 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground40 maxx=24405 hp=95 respawns=0
+  L2 t=40 x=24988 y=-8 vx=-217 floor=false hit=- maxx=25031 hp=85 respawns=0
+  L2 t=44 x=25976 y=5 vx=340 floor=false hit=- maxx=25976 hp=85 respawns=0
+  L2 t=48 x=25971 y=186 vx=-184 floor=false hit=- maxx=26031 hp=85 respawns=0
+  L2 t=52 x=25985 y=219 vx=-277 floor=false hit=- maxx=26031 hp=125 respawns=0
+  L2 t=56 x=26009 y=281 vx=-312 floor=false hit=- maxx=26036 hp=125 respawns=0
+  L2 t=60 x=25900 y=0 vx=23 floor=false hit=- maxx=26036 hp=125 respawns=0
+  L2 t=64 x=25995 y=177 vx=-291 floor=false hit=- maxx=26036 hp=125 respawns=0
+  L2 t=68 x=26020 y=243 vx=-326 floor=false hit=- maxx=26036 hp=125 respawns=0

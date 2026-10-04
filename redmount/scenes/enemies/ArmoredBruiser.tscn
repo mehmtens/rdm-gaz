@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3]
+
+; Zırhlı Vurucu — Bölüm 3-4 (Görev 9).
+; EnemyBase'i miras alır. Yüksek can, gelen hasarı yarıya indiren zırh,
+; darbeye bloka geçme şansı, bazen ağır "guard_break" savuruşu (md. 10.4).
+
+[ext_resource type="PackedScene" path="res://scenes/enemies/EnemyBase.tscn" id="1"]
+[ext_resource type="Resource" path="res://resources/enemies/armored_bruiser.tres" id="2"]
+[ext_resource type="SpriteFrames" path="res://resources/anim/armored_bruiser_frames.tres" id="3"]
+
+[node name="ArmoredBruiser" instance=ExtResource("1")]
+rig_style = "bruiser"
+config = ExtResource("2")
+frames = ExtResource("3")
+patrol_distance = 0.0

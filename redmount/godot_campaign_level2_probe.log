@@ -1,0 +1,12 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+  L2 t=4 x=687 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground1 maxx=687 hp=125 respawns=0
+  L2 t=8 x=2036 y=-90 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground5 maxx=2036 hp=125 respawns=0
+  L2 t=12 x=2825 y=33 vx=0 floor=false hit=/root/Autoplay/Main/LevelHolder/Level06/MovingPlatform maxx=2826 hp=125 respawns=0
+  L2 t=16 x=3169 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground8 maxx=3239 hp=125 respawns=0
+  L2 t=20 x=3169 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground8 maxx=3239 hp=125 respawns=0
+  L2 t=24 x=4088 y=-185 vx=340 floor=false hit=- maxx=4088 hp=125 respawns=0
+  L2 t=28 x=5015 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground12 maxx=5015 hp=125 respawns=0
+PROBE Bölüm 2: CLEARED @5417  t=29.2s

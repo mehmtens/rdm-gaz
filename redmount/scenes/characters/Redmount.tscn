@@ -1,0 +1,71 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/characters/redmount.gd" id="1"]
+[ext_resource type="Resource" path="res://resources/movement/redmount_movement.tres" id="3"]
+[ext_resource type="Resource" path="res://resources/combat/redmount_combat.tres" id="4"]
+[ext_resource type="Script" path="res://scripts/systems/game_camera.gd" id="5"]
+[ext_resource type="Script" path="res://scripts/characters/player_sprite.gd" id="6"]
+[ext_resource type="SpriteFrames" path="res://resources/anim/redmount_frames.tres" id="7"]
+[ext_resource type="Script" path="res://scripts/characters/blob_shadow.gd" id="8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(38, 112)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hurt"]
+size = Vector2(42, 116)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hit"]
+size = Vector2(60, 62)
+
+[node name="Redmount" type="CharacterBody2D"]
+motion_mode = 0
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("1")
+movement = ExtResource("3")
+combat = ExtResource("4")
+
+[node name="BlobShadow" type="Node2D" parent="."]
+script = ExtResource("8")
+
+[node name="Rig" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.6, 0.6)
+sprite_frames = ExtResource("7")
+script = ExtResource("6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -56)
+shape = SubResource("RectangleShape2D_body")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 32
+collision_mask = 16
+monitorable = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -58)
+shape = SubResource("RectangleShape2D_hurt")
+
+[node name="Hitbox" type="Area2D" parent="."]
+position = Vector2(36, -58)
+collision_layer = 8
+collision_mask = 64
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("RectangleShape2D_hit")
+disabled = true
+
+[node name="Muzzle" type="Marker2D" parent="."]
+position = Vector2(30, -62)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, -95)
+position_smoothing_enabled = true
+position_smoothing_speed = 6.0
+limit_left = -64
+limit_top = -1200
+limit_right = 3200
+limit_bottom = 760
+script = ExtResource("5")

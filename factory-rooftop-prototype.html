@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fabrika Çatısı — Gri Kutu Prototipi</title>
+<style>
+  *{box-sizing:border-box}body{margin:0;background:#161a20;color:#edf2f7;font:15px system-ui,sans-serif}
+  main{max-width:1040px;margin:auto;padding:16px}h1{font-size:22px;margin:0 0 8px}
+  p{margin:5px 0 12px;color:#bac5d2}canvas{display:block;width:100%;aspect-ratio:16/9;background:#242b35;border:2px solid #667789}
+  .keys{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px}.keys span{background:#283341;padding:6px 10px;border-radius:4px}
+  button{margin-top:12px;background:#f7c65e;border:0;padding:9px 14px;font-weight:700;cursor:pointer}
+</style>
+</head>
+<body><main>
+<h1>Fabrika Çatısı — oynanabilir gri kutu</h1>
+<p>Soldan sağa ilerle. Sarı para üst rotayı ödüllendirir; ana yol çıkışa ulaşır. Gri kutu, mesafeleri ve ritmi denemek içindir.</p>
+<canvas id="game" width="960" height="540" aria-label="2D platform prototipi"></canvas>
+<div class="keys"><span>← → / A D: hareket</span><span>Boşluk / W / ↑: zıpla</span><span>J / X: vur</span><span>R: kontrol noktasına dön</span></div>
+<button id="restart">Yeniden başlat</button>
+</main><script>
+const canvas=document.getElementById('game'), c=canvas.getContext('2d');
+const W=960,H=540,gravity=1450, speed=265, jump=610;
+const keys=new Set(); let t=0,cam=0,last=0,won=false,coinCount=0,checkpoint=0,chase=false,chaseX=0;
+const staticPlatforms=[
+  [0,440,540,100],[640,440,330,100],[1070,440,280,100],
+  [1450,440,320,100],[1860,440,310,100],[2260,440,290,100],
+  [2650,440,450,100],[3200,440,360,100],[3650,440,360,100],
+  [4100,440,720,100],
+  // İsteğe bağlı üst rota; her iniş yaklaşırken görülebilir.
+  [2750,325,130,18],[2940,280,125,18],[3135,310,125,18],[3330,270,120,18]
+];
+const movers=[{x:980,y:390,w:85,h:16,base:980,axis:'x',amp:70,rate:1.5},
+  {x:1775,y:390,w:80,h:16,base:390,axis:'y',amp:45,rate:1.7},
+  {x:2170,y:385,w:85,h:16,base:2170,axis:'x',amp:65,rate:1.35}];
+const vents=[{x:1510,w:45,phase:0},{x:1920,w:45,phase:1.2},{x:2355,w:45,phase:2.1},
+  {x:4230,w:45,phase:0.7},{x:4540,w:45,phase:2.3}];
+const coins=[2775,2970,3160,3355].map((x,i)=>({x,y:[290,245,275,235][i],got:false}));
+const enemies=[{x:1230,home:1230,hp:2},{x:2470,home:2470,hp:2},
+  {x:2770,home:2770,hp:2},{x:3320,home:3320,hp:2},
+  {x:4350,home:4350,hp:5,boss:true}];
+const player={x:65,y:385,w:29,h:45,vx:0,vy:0,onGround:false,face:1,hp:4,inv:0,attack:0,attackLock:false};
+function reset(full=false){
+  if(full){checkpoint=0;coinCount=0;won=false;coins.forEach(o=>o.got=false);enemies.forEach(e=>e.hp=e.boss?5:2)}
+  player.x=checkpoint?2690:65;player.y=370;player.vx=player.vy=0;player.hp=4;player.inv=1;
+  chase=false;chaseX=0;cam=Math.max(0,player.x-230);
+}
+function hit(a,b){return a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y}
+function damage(source){if(player.inv>0||won)return;player.hp--;player.inv=1.2;
+  player.vy=-330;player.vx=player.x<source? -260:260;if(player.hp<=0)reset()}
+function update(dt){
+  if(won)return;t+=dt;player.inv=Math.max(0,player.inv-dt);player.attack=Math.max(0,player.attack-dt);
+  for(const m of movers){let v=Math.sin(t*m.rate)*m.amp;if(m.axis==='x')m.x=m.base+v;else m.y=m.base+v}
+  let dir=(keys.has('ArrowRight')||keys.has('KeyD')?1:0)-(keys.has('ArrowLeft')||keys.has('KeyA')?1:0);
+  player.vx=dir*speed;if(dir)player.face=dir;
+  let wantJump=keys.has('Space')||keys.has('KeyW')||keys.has('ArrowUp');
+  if(wantJump&&player.onGround){player.vy=-jump;player.onGround=false}
+  if((keys.has('KeyJ')||keys.has('KeyX'))&&!player.attackLock){
+    player.attack=.22;player.attackLock=true;
+    for(const e of enemies)if(e.hp>0&&Math.abs((e.x+15)-(player.x+player.w/2))<72&&Math.abs(player.y-395)<105&&Math.sign(e.x-player.x)===player.face)e.hp--;
+  }
+  if(!keys.has('KeyJ')&&!keys.has('KeyX'))player.attackLock=false;
+  player.x=Math.max(0,Math.min(4780,player.x+player.vx*dt));
+  let oldBottom=player.y+player.h;player.vy+=gravity*dt;player.y+=player.vy*dt;player.onGround=false;
+  for(const p of [...staticPlatforms.map(a=>({x:a[0],y:a[1],w:a[2],h:a[3]})),...movers]){
+    if(player.vy>=0&&oldBottom<=p.y+10&&player.y+player.h>=p.y&&player.x+player.w>p.x+3&&player.x<p.x+p.w-3){
+      player.y=p.y-player.h;player.vy=0;player.onGround=true;
+    }
+  }
+  if(player.y>H+80)reset();
+  if(player.x>2600&&checkpoint===0)checkpoint=1;
+  for(const o of coins)if(!o.got&&Math.abs(player.x-o.x)<24&&Math.abs(player.y-o.y)<38){o.got=true;coinCount++}
+  for(const v of vents)if(((t+v.phase)%3.2)<1.2&&player.x+player.w>v.x&&player.x<v.x+v.w&&player.y+player.h>365)damage(v.x);
+  for(const e of enemies){if(e.hp<=0)continue;
+    if(Math.abs(player.x-e.x)<180)e.x+=Math.sign(player.x-e.x)*(e.boss?62:48)*dt;
+    else e.x+=(e.home-e.x)*Math.min(1,dt);
+    if(hit(player,{x:e.x,y:e.boss?383:400,w:e.boss?48:31,h:e.boss?57:40}))damage(e.x);
+  }
+  if(player.x>3650&&player.x<4070&&!chase){chase=true;chaseX=player.x-230}
+  if(chase){chaseX+=175*dt;if(player.x<chaseX+32)damage(chaseX);if(player.x>4090)chase=false}
+  if(player.x>4700&&enemies.at(-1).hp<=0)won=true;
+  cam=Math.max(0,Math.min(3860,player.x-265));
+}
+function rect(x,y,w,h,color){c.fillStyle=color;c.fillRect(x-cam,y,w,h)}
+function draw(){
+  c.fillStyle='#26303b';c.fillRect(0,0,W,H);c.fillStyle='#344250';
+  for(let i=0;i<12;i++){let x=i*430-cam*.38;c.fillRect(x,210+(i%3)*30,220,320)}
+  for(const a of staticPlatforms)rect(a[0],a[1],a[2],a[3],a[1]<400?'#9c8b5c':'#8794a0');
+  for(const m of movers)rect(m.x,m.y,m.w,m.h,'#ddc46f');
+  for(const v of vents){let active=((t+v.phase)%3.2)<1.2;rect(v.x,425,v.w,15,'#59636d');
+    if(active){c.fillStyle='rgba(138,224,230,.65)';c.fillRect(v.x-cam,350,v.w,75)}
+    else{c.fillStyle='#f1ca73';c.fillRect(v.x-cam,415,v.w,5)}
+  }
+  for(const o of coins)if(!o.got){c.fillStyle='#f6c94d';c.beginPath();c.arc(o.x-cam,o.y,9,0,7);c.fill()}
+  for(const e of enemies)if(e.hp>0){rect(e.x,e.boss?383:400,e.boss?48:31,e.boss?57:40,e.boss?'#dc6a80':'#d97767');
+    c.fillStyle='#fff';c.font='12px system-ui';c.fillText('♥'.repeat(e.hp),e.x-cam,e.boss?374:390)}
+  if(checkpoint)rect(2650,370,8,70,'#81d4aa');
+  rect(4715,375,50,65,enemies.at(-1).hp<=0?'#75dca7':'#5a6570');
+  if(chase)rect(chaseX,0,30,H,'#e66d6d');
+  if(player.inv===0||Math.floor(t*12)%2===0)rect(player.x,player.y,player.w,player.h,'#78b8ef');
+  if(player.attack>0)rect(player.x+(player.face>0?player.w:-42),player.y+8,42,25,'#f1e38f');
+  c.fillStyle='#f3f5f7';c.font='bold 18px system-ui';
+  c.fillText(`Can: ${'♥'.repeat(player.hp)}   Para: ${coinCount}/4   Kontrol noktası: ${checkpoint?'aktif':'—'}`,20,30);
+  let labels=[[0,'Güvenli atlayışlar'],[920,'Hareketli platform'],[1430,'Buhar'],[2290,'Dar geçit'],[2700,'Üst ödül rotası'],[3660,'Kovalamaca'],[4180,'Son dövüş']];
+  for(const [x,s] of labels)if(x-cam>-100&&x-cam<W){c.font='14px system-ui';c.fillStyle='#fff';c.fillText(s,x-cam,120)}
+  if(won){c.fillStyle='rgba(10,18,25,.78)';c.fillRect(0,0,W,H);c.fillStyle='#fff';c.font='bold 34px system-ui';c.fillText('Bölüm tamamlandı!',300,245);c.font='20px system-ui';c.fillText(`Toplanan para: ${coinCount}/4`,360,280)}
+}
+function frame(ms){let dt=Math.min(.033,(ms-last)/1000||0);last=ms;update(dt);draw();requestAnimationFrame(frame)}
+window.addEventListener('keydown',e=>{if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code))e.preventDefault();keys.add(e.code);if(e.code==='KeyR')reset()});
+window.addEventListener('keyup',e=>keys.delete(e.code));
+document.getElementById('restart').onclick=()=>reset(true);
+reset(true);requestAnimationFrame(frame);
+</script></body></html>

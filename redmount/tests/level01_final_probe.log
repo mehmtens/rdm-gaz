@@ -1,0 +1,10 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 591.74 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 3050 Laptop GPU
+
+  L1 t=4 x=66555 y=-0 vx=0 floor=true hit=/root/Level01Play/Main/LevelHolder/@Node2D@1240/LongRoute/RouteSolid99 maxx=66664 hp=100 respawns=0
+  L1 t=8 x=66830 y=-0 vx=0 floor=true hit=/root/Level01Play/Main/LevelHolder/@Node2D@1240/LongRoute/RouteSolid99 maxx=66891 hp=90 respawns=0
+  L1 t=12 x=66774 y=-0 vx=-200 floor=true hit=/root/Level01Play/Main/LevelHolder/@Node2D@1240/LongRoute/RouteSolid99 maxx=67003 hp=90 respawns=0
+  L1 t=16 x=67050 y=-0 vx=0 floor=true hit=/root/Level01Play/Main/LevelHolder/@Node2D@1240/LongRoute/RouteSolid99 maxx=67050 hp=80 respawns=0
+  L1 t=20 x=66901 y=-0 vx=0 floor=true hit=/root/Level01Play/Main/LevelHolder/@Node2D@1240/LongRoute/RouteSolid99 maxx=67151 hp=70 respawns=0
+  L1 t=24 x=67906 y=-0 vx=340 floor=true hit=/root/Level01Play/Main/LevelHolder/@Node2D@1240/LongRoute/RouteSolid99 maxx=67906 hp=70 respawns=0
+PROBE Bölüm 1: CLEARED @68059  t=24.5s

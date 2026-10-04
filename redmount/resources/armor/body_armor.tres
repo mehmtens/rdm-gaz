@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ArmorConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/armor_config.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Zırh"
+damage_reduction = 0.5
+durability = 6
+speed_penalty = 0.15

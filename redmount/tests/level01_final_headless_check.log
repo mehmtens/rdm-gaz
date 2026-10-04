@@ -1,0 +1,9 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+  L1 t=4 x=66555 y=-0 vx=0 floor=true hit=/root/Level01Play/Main/LevelHolder/@Node2D@1240/LongRoute/RouteSolid99 maxx=66664 hp=100 respawns=0
+  L1 t=8 x=66830 y=-0 vx=0 floor=true hit=/root/Level01Play/Main/LevelHolder/@Node2D@1240/LongRoute/RouteSolid99 maxx=66891 hp=90 respawns=0
+  L1 t=12 x=66769 y=-0 vx=-200 floor=true hit=/root/Level01Play/Main/LevelHolder/@Node2D@1240/LongRoute/RouteSolid99 maxx=67008 hp=90 respawns=0
+  L1 t=16 x=67050 y=-0 vx=0 floor=true hit=/root/Level01Play/Main/LevelHolder/@Node2D@1240/LongRoute/RouteSolid99 maxx=67050 hp=80 respawns=0
+  L1 t=20 x=66904 y=-0 vx=-90 floor=true hit=/root/Level01Play/Main/LevelHolder/@Node2D@1240/LongRoute/RouteSolid99 maxx=67151 hp=70 respawns=0
+  L1 t=24 x=67915 y=-0 vx=340 floor=true hit=/root/Level01Play/Main/LevelHolder/@Node2D@1240/LongRoute/RouteSolid99 maxx=67915 hp=70 respawns=0
+PROBE Bölüm 1: CLEARED @68056  t=24.4s

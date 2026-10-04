@@ -1,0 +1,11 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/pickups/PickupBase.tscn" id="1"]
+[ext_resource type="Script" path="res://scripts/pickups/coin_pickup.gd" id="2"]
+[ext_resource type="Texture2D" path="res://assets/pickups/placeholder_coin.png" id="3"]
+
+[node name="Coin" instance=ExtResource("1")]
+script = ExtResource("2")
+kind = "coin"
+value = 1
+magnet_radius = 130.0

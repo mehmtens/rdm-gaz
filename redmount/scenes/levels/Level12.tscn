@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/level12_redesign.gd" id="1"]
+
+[node name="Level12" type="Node2D"]
+script = ExtResource("1")
+display_name = "Sessiz Koridor"
+chapter = 7
+biome = 3
+par_time = 560.0
+camera_limit_left = -260
+camera_limit_right = 50200
+camera_limit_top = -900
+camera_limit_bottom = 620
+fall_respawn_y = 340.0

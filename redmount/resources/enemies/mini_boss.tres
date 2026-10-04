@@ -1,0 +1,52 @@
+[gd_resource type="Resource" script_class="EnemyConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/enemy_config.gd" id="1_cfg"]
+
+[resource]
+script = ExtResource("1_cfg")
+display_name = "Ağır Zırhlı"
+max_health = 200
+score_value = 600
+move_speed = 65.0
+patrol_speed = 0.0
+gravity = 1400.0
+sight_range = 520.0
+sight_band = 220.0
+alert_time = 0.5
+give_up_range = 720.0
+attack_anim = &"hammer"
+attack_range = 90.0
+attack_band = 120.0
+attack_damage = 16
+attack_windup = 0.5
+attack_active = 0.12
+attack_recovery = 0.55
+attack_cooldown = 1.2
+attack_knockback = 360.0
+heavy_attack_chance = 0.5
+heavy_attack_anim = &"slam"
+heavy_attack_damage = 22
+heavy_attack_windup = 0.7
+heavy_attack_active = 0.14
+heavy_attack_recovery = 0.7
+heavy_attack_knockback = 500.0
+uses_dash = true
+dash_trigger_range = 360.0
+retreat_range = 0.0
+retreat_time = 0.1
+dash_prepare_time = 0.5
+dash_speed = 620.0
+dash_duration = 0.4
+dash_cooldown = 2.0
+is_boss = true
+armor_break_hits = 8
+armor_break_duration = 2.4
+slam_on_heavy = true
+slam_damage = 14
+slam_knockback = 320.0
+damage_taken_mult = 0.45
+knockback_resist = 0.8
+knockdown_damage_threshold = 999
+hurt_duration = 0.2
+knockdown_duration = 0.8
+getup_duration = 0.6

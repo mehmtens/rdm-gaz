@@ -1,0 +1,41 @@
+[gd_resource type="SpriteFrames" load_steps=10 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/enemies/armored_bruiser/placeholder_idle.png" id="1"]
+[ext_resource type="Texture2D" path="res://assets/enemies/armored_bruiser/placeholder_walk.png" id="2"]
+[ext_resource type="Texture2D" path="res://assets/enemies/armored_bruiser/placeholder_punch.png" id="3"]
+[ext_resource type="Texture2D" path="res://assets/enemies/armored_bruiser/placeholder_guard_break.png" id="4"]
+[ext_resource type="Texture2D" path="res://assets/enemies/armored_bruiser/placeholder_block.png" id="5"]
+[ext_resource type="Texture2D" path="res://assets/enemies/armored_bruiser/placeholder_hit.png" id="6"]
+[ext_resource type="Texture2D" path="res://assets/enemies/armored_bruiser/placeholder_knockdown.png" id="7"]
+[ext_resource type="Texture2D" path="res://assets/enemies/armored_bruiser/placeholder_getup.png" id="8"]
+[ext_resource type="Texture2D" path="res://assets/enemies/armored_bruiser/placeholder_death.png" id="9"]
+
+[resource]
+animations = [{
+"frames": [{"duration": 1.0, "texture": ExtResource("1")}],
+"loop": true, "name": &"idle", "speed": 4.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("2")}],
+"loop": true, "name": &"walk", "speed": 7.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("3")}],
+"loop": false, "name": &"punch", "speed": 10.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("4")}],
+"loop": false, "name": &"guard_break", "speed": 9.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("5")}],
+"loop": false, "name": &"block", "speed": 8.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("6")}],
+"loop": false, "name": &"hit", "speed": 10.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("7")}],
+"loop": false, "name": &"knockdown", "speed": 10.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("8")}],
+"loop": false, "name": &"getup", "speed": 10.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("9")}],
+"loop": false, "name": &"death", "speed": 10.0
+}]

@@ -1,0 +1,21 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+  L2 t=4 x=25669 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground40 maxx=25669 hp=125 respawns=0
+  L2 t=8 x=27029 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground41 maxx=27029 hp=125 respawns=0
+  L2 t=12 x=28383 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground43 maxx=28383 hp=125 respawns=0
+  L2 t=16 x=28893 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground43 maxx=28953 hp=115 respawns=0
+  L2 t=20 x=29952 y=-0 vx=273 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground43 maxx=29952 hp=115 respawns=0
+  L2 t=24 x=30024 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground43 maxx=30024 hp=105 respawns=0
+  L2 t=28 x=30218 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground43 maxx=30235 hp=95 respawns=0
+  L2 t=32 x=29813 y=-0 vx=-200 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground43 maxx=30259 hp=95 respawns=0
+  L2 t=36 x=30471 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground43 maxx=30471 hp=85 respawns=0
+  L2 t=40 x=26705 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground41 maxx=30998 hp=125 respawns=1
+  L2 t=44 x=28065 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground42 maxx=30998 hp=125 respawns=1
+  L2 t=48 x=29425 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground43 maxx=30998 hp=125 respawns=1
+  L2 t=52 x=30785 y=-102 vx=340 floor=false hit=- maxx=30998 hp=125 respawns=1
+  L2 t=56 x=27017 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground41 maxx=31000 hp=125 respawns=2
+  L2 t=60 x=28377 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground43 maxx=31000 hp=125 respawns=2
+  L2 t=64 x=29736 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground43 maxx=31000 hp=125 respawns=2
+  L2 t=68 x=25969 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground40 maxx=31000 hp=125 respawns=3

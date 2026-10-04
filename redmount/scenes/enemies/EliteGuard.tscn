@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3]
+
+; Elit Muhafız — Bölüm 5 (Görev 12). EnemyBase'i miras alır.
+; Yakın + uzak saldırıyı birleştirir: mesafeden seri ateş, yakında combo + blok.
+
+[ext_resource type="PackedScene" path="res://scenes/enemies/EnemyBase.tscn" id="1"]
+[ext_resource type="Resource" path="res://resources/enemies/elite_guard.tres" id="2"]
+[ext_resource type="SpriteFrames" path="res://resources/anim/elite_guard_frames.tres" id="3"]
+
+[node name="EliteGuard" instance=ExtResource("1")]
+rig_style = "elite"
+config = ExtResource("2")
+frames = ExtResource("3")
+patrol_distance = 0.0

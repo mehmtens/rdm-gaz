@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="WeaponConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/weapon_config.gd" id="1_wpn"]
+
+[resource]
+script = ExtResource("1_wpn")
+display_name = "Sopa"
+anim_prefix = "bat"
+damage = 16
+windup = 0.16
+active = 0.08
+recovery = 0.3
+knockback = 340.0
+step_forward = 70.0
+reach = Vector2(74, 60)
+reach_offset = 44.0
+durability = 12

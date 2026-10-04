@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3]
+
+; Çevik Suikastçı — Bölüm 3-4 (Görev 9).
+; EnemyBase'i miras alır. Düşük can, hızlı; menzile girince oyuncuya sıçrayıp
+; havadan iner (drop strike), darbe alınca sık sık geri kaçar (md. 10.5).
+
+[ext_resource type="PackedScene" path="res://scenes/enemies/EnemyBase.tscn" id="1"]
+[ext_resource type="Resource" path="res://resources/enemies/agile_assassin.tres" id="2"]
+[ext_resource type="SpriteFrames" path="res://resources/anim/agile_assassin_frames.tres" id="3"]
+
+[node name="AgileAssassin" instance=ExtResource("1")]
+rig_style = "assassin"
+config = ExtResource("2")
+frames = ExtResource("3")
+patrol_distance = 70.0

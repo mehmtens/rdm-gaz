@@ -1,0 +1,283 @@
+[gd_scene load_steps=37 format=3]
+
+; REDMOUNT test seviyesi — Görev 1-9
+; Icerik: zemin/yükseltiler/boşluk/platform/düşme testi/duvarlar/engel, tüm düşman
+; türleri (Sokak Eşkıyası, Bıçaklı Ajan, Tüfekli Muhafız, Zırhlı Vurucu, Çevik Suikastçı),
+; coin/can/silah/zırh/güçlendirme toplanabilirleri, kontrol noktası + bölüm sonu,
+; ve solda kırılabilir duvar ardında gizli coin'ler.
+; Görseller placeholder Polygon2D kutular / ikonlardır.
+
+[ext_resource type="PackedScene" path="res://scenes/enemies/TrainingDummy.tscn" id="1_dummy"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/StreetThug.tscn" id="2_thug"]
+[ext_resource type="PackedScene" path="res://scenes/pickups/Coin.tscn" id="3_coin"]
+[ext_resource type="PackedScene" path="res://scenes/pickups/HealthPickup.tscn" id="4_hp"]
+[ext_resource type="PackedScene" path="res://scenes/pickups/BatPickup.tscn" id="5_bat"]
+[ext_resource type="PackedScene" path="res://scenes/systems/Checkpoint.tscn" id="6_cp"]
+[ext_resource type="PackedScene" path="res://scenes/systems/LevelGoal.tscn" id="7_goal"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/KnifeAgent.tscn" id="8_knife"]
+[ext_resource type="PackedScene" path="res://scenes/pickups/KnifePickup.tscn" id="9_kpick"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/RifleGuard.tscn" id="10_rifle"]
+[ext_resource type="PackedScene" path="res://scenes/pickups/PistolPickup.tscn" id="11_pistol"]
+[ext_resource type="PackedScene" path="res://scenes/pickups/AmmoPickup.tscn" id="12_ammo"]
+[ext_resource type="PackedScene" path="res://scenes/pickups/ArmorPickup.tscn" id="13_armor"]
+[ext_resource type="PackedScene" path="res://scenes/pickups/PowerupPickup.tscn" id="14_pu"]
+[ext_resource type="Resource" path="res://resources/powerups/damage_x2.tres" id="15_dmg"]
+[ext_resource type="Resource" path="res://resources/powerups/speed.tres" id="16_spd"]
+[ext_resource type="Resource" path="res://resources/powerups/invisibility.tres" id="17_inv"]
+[ext_resource type="Resource" path="res://resources/powerups/shield.tres" id="18_shd"]
+[ext_resource type="Texture2D" path="res://assets/pickups/placeholder_dmg2x.png" id="19_dmgi"]
+[ext_resource type="Texture2D" path="res://assets/pickups/placeholder_speed.png" id="20_spdi"]
+[ext_resource type="Texture2D" path="res://assets/pickups/placeholder_invis.png" id="21_invi"]
+[ext_resource type="Texture2D" path="res://assets/pickups/placeholder_shield.png" id="22_shdi"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/ArmoredBruiser.tscn" id="23_bruiser"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/AgileAssassin.tscn" id="24_assassin"]
+[ext_resource type="PackedScene" path="res://scenes/systems/BreakableWall.tscn" id="25_wall"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/MiniBoss.tscn" id="26_boss"]
+
+[sub_resource type="RectangleShape2D" id="s_groundA"]
+size = Vector2(900, 120)
+
+[sub_resource type="RectangleShape2D" id="s_groundB"]
+size = Vector2(800, 120)
+
+[sub_resource type="RectangleShape2D" id="s_step1"]
+size = Vector2(180, 40)
+
+[sub_resource type="RectangleShape2D" id="s_step2"]
+size = Vector2(180, 40)
+
+[sub_resource type="RectangleShape2D" id="s_high"]
+size = Vector2(240, 40)
+
+[sub_resource type="RectangleShape2D" id="s_lower"]
+size = Vector2(700, 140)
+
+[sub_resource type="RectangleShape2D" id="s_farwall"]
+size = Vector2(60, 400)
+
+[sub_resource type="RectangleShape2D" id="s_leftwall"]
+size = Vector2(60, 600)
+
+[sub_resource type="RectangleShape2D" id="s_obstacle"]
+size = Vector2(80, 90)
+
+[node name="TestLevel" type="Node2D"]
+
+[node name="PlayerSpawn" type="Marker2D" parent="."]
+position = Vector2(120, -40)
+
+[node name="GroundA" type="StaticBody2D" parent="."]
+position = Vector2(400, 60)
+
+[node name="Col" type="CollisionShape2D" parent="GroundA"]
+shape = SubResource("s_groundA")
+
+[node name="Vis" type="Polygon2D" parent="GroundA"]
+color = Color(0.231, 0.29, 0.353, 1)
+polygon = PackedVector2Array(-450, -60, 450, -60, 450, 60, -450, 60)
+
+[node name="GroundB" type="StaticBody2D" parent="."]
+position = Vector2(1300, 60)
+
+[node name="Col" type="CollisionShape2D" parent="GroundB"]
+shape = SubResource("s_groundB")
+
+[node name="Vis" type="Polygon2D" parent="GroundB"]
+color = Color(0.231, 0.29, 0.353, 1)
+polygon = PackedVector2Array(-400, -60, 400, -60, 400, 60, -400, 60)
+
+[node name="Step1" type="StaticBody2D" parent="."]
+position = Vector2(300, -90)
+
+[node name="Col" type="CollisionShape2D" parent="Step1"]
+shape = SubResource("s_step1")
+
+[node name="Vis" type="Polygon2D" parent="Step1"]
+color = Color(0.29, 0.353, 0.231, 1)
+polygon = PackedVector2Array(-90, -20, 90, -20, 90, 20, -90, 20)
+
+[node name="Step2" type="StaticBody2D" parent="."]
+position = Vector2(520, -210)
+
+[node name="Col" type="CollisionShape2D" parent="Step2"]
+shape = SubResource("s_step2")
+
+[node name="Vis" type="Polygon2D" parent="Step2"]
+color = Color(0.29, 0.353, 0.231, 1)
+polygon = PackedVector2Array(-90, -20, 90, -20, 90, 20, -90, 20)
+
+[node name="HighPlatform" type="StaticBody2D" parent="."]
+position = Vector2(1150, -360)
+
+[node name="Col" type="CollisionShape2D" parent="HighPlatform"]
+shape = SubResource("s_high")
+
+[node name="Vis" type="Polygon2D" parent="HighPlatform"]
+color = Color(0.353, 0.29, 0.231, 1)
+polygon = PackedVector2Array(-120, -20, 120, -20, 120, 20, -120, 20)
+
+[node name="LowerGround" type="StaticBody2D" parent="."]
+position = Vector2(2150, 260)
+
+[node name="Col" type="CollisionShape2D" parent="LowerGround"]
+shape = SubResource("s_lower")
+
+[node name="Vis" type="Polygon2D" parent="LowerGround"]
+color = Color(0.231, 0.353, 0.353, 1)
+polygon = PackedVector2Array(-350, -70, 350, -70, 350, 70, -350, 70)
+
+[node name="Obstacle" type="StaticBody2D" parent="."]
+position = Vector2(1250, -45)
+
+[node name="Col" type="CollisionShape2D" parent="Obstacle"]
+shape = SubResource("s_obstacle")
+
+[node name="Vis" type="Polygon2D" parent="Obstacle"]
+color = Color(0.416, 0.353, 0.227, 1)
+polygon = PackedVector2Array(-40, -45, 40, -45, 40, 45, -40, 45)
+
+[node name="FarWall" type="StaticBody2D" parent="."]
+position = Vector2(2530, 0)
+
+[node name="Col" type="CollisionShape2D" parent="FarWall"]
+shape = SubResource("s_farwall")
+
+[node name="Vis" type="Polygon2D" parent="FarWall"]
+color = Color(0.353, 0.231, 0.29, 1)
+polygon = PackedVector2Array(-30, -200, 30, -200, 30, 200, -30, 200)
+
+[node name="LeftWall" type="StaticBody2D" parent="."]
+position = Vector2(-80, -100)
+
+[node name="Col" type="CollisionShape2D" parent="LeftWall"]
+shape = SubResource("s_leftwall")
+
+[node name="Vis" type="Polygon2D" parent="LeftWall"]
+color = Color(0.353, 0.231, 0.29, 1)
+polygon = PackedVector2Array(-30, -300, 30, -300, 30, 300, -30, 300)
+
+[node name="Dummies" type="Node2D" parent="."]
+
+[node name="DummyPassive" parent="Dummies" instance=ExtResource("1_dummy")]
+position = Vector2(520, 0)
+attacks_back = false
+
+[node name="Thugs" type="Node2D" parent="."]
+
+[node name="Thug1" parent="Thugs" instance=ExtResource("2_thug")]
+position = Vector2(700, 0)
+
+[node name="Thug2" parent="Thugs" instance=ExtResource("2_thug")]
+position = Vector2(820, 0)
+
+[node name="Thug3" parent="Thugs" instance=ExtResource("2_thug")]
+position = Vector2(1350, 0)
+patrol_distance = 180.0
+
+[node name="KnifeAgent1" parent="Thugs" instance=ExtResource("8_knife")]
+position = Vector2(1520, 0)
+
+[node name="KnifeAgent2" parent="Thugs" instance=ExtResource("8_knife")]
+position = Vector2(1640, 0)
+patrol_distance = 0.0
+
+[node name="RifleGuard1" parent="Thugs" instance=ExtResource("10_rifle")]
+position = Vector2(2000, 190)
+
+[node name="RifleGuard2" parent="Thugs" instance=ExtResource("10_rifle")]
+position = Vector2(2280, 190)
+
+[node name="AgileAssassin1" parent="Thugs" instance=ExtResource("24_assassin")]
+position = Vector2(1180, 0)
+
+[node name="AgileAssassin2" parent="Thugs" instance=ExtResource("24_assassin")]
+position = Vector2(1980, 190)
+patrol_distance = 0.0
+
+[node name="ArmoredBruiser1" parent="Thugs" instance=ExtResource("23_bruiser")]
+position = Vector2(2050, 190)
+
+[node name="MiniBoss" parent="Thugs" instance=ExtResource("26_boss")]
+position = Vector2(2300, 190)
+
+[node name="Pickups" type="Node2D" parent="."]
+
+[node name="BatPickup" parent="Pickups" instance=ExtResource("5_bat")]
+position = Vector2(360, 0)
+
+[node name="Coin1" parent="Pickups" instance=ExtResource("3_coin")]
+position = Vector2(470, -40)
+
+[node name="Coin2" parent="Pickups" instance=ExtResource("3_coin")]
+position = Vector2(520, -40)
+
+[node name="Coin3" parent="Pickups" instance=ExtResource("3_coin")]
+position = Vector2(570, -40)
+
+[node name="Coin4" parent="Pickups" instance=ExtResource("3_coin")]
+position = Vector2(300, -130)
+
+[node name="Coin5" parent="Pickups" instance=ExtResource("3_coin")]
+position = Vector2(520, -250)
+
+[node name="Coin6" parent="Pickups" instance=ExtResource("3_coin")]
+position = Vector2(980, 0)
+
+[node name="Coin7" parent="Pickups" instance=ExtResource("3_coin")]
+position = Vector2(1150, -400)
+
+[node name="HealthPickup" parent="Pickups" instance=ExtResource("4_hp")]
+position = Vector2(1050, 0)
+
+[node name="KnifePickup" parent="Pickups" instance=ExtResource("9_kpick")]
+position = Vector2(1240, 0)
+
+[node name="PistolPickup" parent="Pickups" instance=ExtResource("11_pistol")]
+position = Vector2(1420, 0)
+
+[node name="AmmoPickup" parent="Pickups" instance=ExtResource("12_ammo")]
+position = Vector2(1660, 0)
+
+[node name="ArmorPickup" parent="Pickups" instance=ExtResource("13_armor")]
+position = Vector2(1320, 0)
+
+[node name="PuDamage" parent="Pickups" instance=ExtResource("14_pu")]
+position = Vector2(600, -250)
+powerup = ExtResource("15_dmg")
+icon = ExtResource("19_dmgi")
+
+[node name="PuSpeed" parent="Pickups" instance=ExtResource("14_pu")]
+position = Vector2(980, 0)
+powerup = ExtResource("16_spd")
+icon = ExtResource("20_spdi")
+
+[node name="PuShield" parent="Pickups" instance=ExtResource("14_pu")]
+position = Vector2(1600, 0)
+powerup = ExtResource("18_shd")
+icon = ExtResource("22_shdi")
+
+[node name="PuInvis" parent="Pickups" instance=ExtResource("14_pu")]
+position = Vector2(1950, 190)
+powerup = ExtResource("17_inv")
+icon = ExtResource("21_invi")
+
+[node name="Checkpoint" parent="." instance=ExtResource("6_cp")]
+position = Vector2(960, 0)
+
+[node name="LevelGoal" parent="." instance=ExtResource("7_goal")]
+position = Vector2(2470, 190)
+
+; Gizli alan: spawn'ın solunda, kırılabilir duvarın ardında 3 coin.
+[node name="Secret" type="Node2D" parent="."]
+
+[node name="BreakableWall" parent="Secret" instance=ExtResource("25_wall")]
+position = Vector2(55, 0)
+
+[node name="SecretCoin1" parent="Secret" instance=ExtResource("3_coin")]
+position = Vector2(30, -40)
+
+[node name="SecretCoin2" parent="Secret" instance=ExtResource("3_coin")]
+position = Vector2(5, -40)
+
+[node name="SecretCoin3" parent="Secret" instance=ExtResource("3_coin")]
+position = Vector2(-20, -40)

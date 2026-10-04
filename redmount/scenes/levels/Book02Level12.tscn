@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/book02_level12.gd" id="1"]
+
+[node name="Book02Level12" type="Node2D"]
+script = ExtResource("1")
+display_name = "Bozdoğan Kemeri"
+biome = 0
+chapter = 12
+par_time = 1200.0
+camera_limit_left = -320
+camera_limit_right = 289000
+camera_limit_top = -720
+camera_limit_bottom = 620
+fall_respawn_y = 340.0

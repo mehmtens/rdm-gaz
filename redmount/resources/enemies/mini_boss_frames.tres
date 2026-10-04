@@ -1,0 +1,45 @@
+[gd_resource type="SpriteFrames" load_steps=11 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/enemies/mini_boss/placeholder_idle.png" id="1"]
+[ext_resource type="Texture2D" path="res://assets/enemies/mini_boss/placeholder_walk.png" id="2"]
+[ext_resource type="Texture2D" path="res://assets/enemies/mini_boss/placeholder_hammer.png" id="3"]
+[ext_resource type="Texture2D" path="res://assets/enemies/mini_boss/placeholder_slam.png" id="4"]
+[ext_resource type="Texture2D" path="res://assets/enemies/mini_boss/placeholder_dash.png" id="5"]
+[ext_resource type="Texture2D" path="res://assets/enemies/mini_boss/placeholder_stagger.png" id="6"]
+[ext_resource type="Texture2D" path="res://assets/enemies/mini_boss/placeholder_hit.png" id="7"]
+[ext_resource type="Texture2D" path="res://assets/enemies/mini_boss/placeholder_knockdown.png" id="8"]
+[ext_resource type="Texture2D" path="res://assets/enemies/mini_boss/placeholder_getup.png" id="9"]
+[ext_resource type="Texture2D" path="res://assets/enemies/mini_boss/placeholder_death.png" id="10"]
+
+[resource]
+animations = [{
+"frames": [{"duration": 1.0, "texture": ExtResource("1")}],
+"loop": true, "name": &"idle", "speed": 3.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("2")}],
+"loop": true, "name": &"walk", "speed": 6.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("3")}],
+"loop": false, "name": &"hammer", "speed": 9.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("4")}],
+"loop": false, "name": &"slam", "speed": 8.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("5")}],
+"loop": false, "name": &"dash", "speed": 10.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("6")}],
+"loop": false, "name": &"stagger", "speed": 8.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("7")}],
+"loop": false, "name": &"hit", "speed": 10.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("8")}],
+"loop": false, "name": &"knockdown", "speed": 10.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("9")}],
+"loop": false, "name": &"getup", "speed": 10.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("10")}],
+"loop": false, "name": &"death", "speed": 10.0
+}]

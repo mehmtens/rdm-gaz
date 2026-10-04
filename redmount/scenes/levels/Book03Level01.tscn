@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/book03_level01.gd" id="1"]
+
+[node name="Book03Level01" type="Node2D"]
+script = ExtResource("1")
+display_name = "Cağaloğlu'nda İlk Baskın"
+biome = 0
+chapter = 13
+par_time = 455.0
+camera_limit_left = -320
+camera_limit_right = 112400
+camera_limit_top = -720
+camera_limit_bottom = 620
+fall_respawn_y = 340.0

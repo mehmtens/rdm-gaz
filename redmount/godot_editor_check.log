@@ -1,0 +1,26 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+[   0% ] first_scan_filesystem | Started Projenin ilk başlatılması (5 steps)
+[   0% ] first_scan_filesystem | Dosya yapısı taranıyor...
+[  16% ] first_scan_filesystem | Genel sınıf isimleri yükleniyor...
+ERROR: Cannot create file 'C:/Users/Mehmet enes ALDAĞ/AppData/Local/Godot/editor_doc_cache-4.7.res'.
+   at: save (core/io/resource_format_binary.cpp:2117)
+ERROR: Cannot save editor help cache (C:/Users/Mehmet enes ALDAĞ/AppData/Local/Godot/editor_doc_cache-4.7.res).
+   at: _gen_doc_thread (editor/doc/editor_help.cpp:3071)
+[  33% ] first_scan_filesystem | GDExtension'lar doğrulanıyor...
+[  50% ] first_scan_filesystem | Otomatik yükleme betikleri oluşturuluyor...
+[  66% ] first_scan_filesystem | Eklentiler başlatılıyor...
+[  83% ] first_scan_filesystem | Dosya taraması başlatılıyor...
+[ DONE ] first_scan_filesystem
+
+[   0% ] loading_editor_layout | Started Düzenleyici yükleniyor (5 steps)
+[   0% ] loading_editor_layout | Düzenleyici yerleşim düzeni yükleniyor...
+[  16% ] loading_editor_layout | Yuvalar yükleniyor...
+[ DONE ] loading_editor_layout
+
+ERROR: Cannot save file 'C:/Users/Mehmet enes ALDAĞ/AppData/Roaming/Godot/editor_settings-4.7.tres'.
+   at: save (scene/resources/resource_format_text.cpp:1768)
+ERROR: Error saving editor settings to C:/Users/Mehmet enes ALDAĞ/AppData/Roaming/Godot/editor_settings-4.7.tres
+   at: save (editor/settings/editor_settings.cpp:1525)

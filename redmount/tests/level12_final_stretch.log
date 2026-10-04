@@ -1,0 +1,41 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+  L12 t=4 x=211323 y=-0 vx=340 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround53 maxx=211323 hp=100 respawns=0
+  L12 t=8 x=212684 y=-0 vx=340 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround54 maxx=212684 hp=100 respawns=0
+  L12 t=12 x=213407 y=-0 vx=0 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround54 maxx=213407 hp=100 respawns=0
+  L12 t=16 x=213891 y=-0 vx=340 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround54 maxx=213891 hp=100 respawns=0
+  L12 t=20 x=215185 y=-0 vx=340 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround54 maxx=215185 hp=100 respawns=0
+  L12 t=24 x=216552 y=-0 vx=340 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround55 maxx=216552 hp=100 respawns=0
+  L12 t=28 x=217913 y=-0 vx=340 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround55 maxx=217913 hp=100 respawns=0
+  L12 t=32 x=218472 y=-0 vx=-130 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround55 maxx=218665 hp=87 respawns=0
+  L12 t=36 x=218250 y=-0 vx=200 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround55 maxx=218665 hp=81 respawns=0
+  L12 t=40 x=218787 y=-0 vx=0 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround55 maxx=218787 hp=75 respawns=0
+  L12 t=44 x=219036 y=-0 vx=0 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround55 maxx=219060 hp=75 respawns=0
+  L12 t=48 x=218925 y=-0 vx=0 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround55 maxx=219060 hp=75 respawns=0
+  L12 t=52 x=218489 y=-0 vx=-200 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround55 maxx=219060 hp=68 respawns=0
+  L12 t=56 x=218119 y=-0 vx=0 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround55 maxx=219060 hp=61 respawns=0
+  L12 t=60 x=219071 y=-0 vx=340 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround55 maxx=219071 hp=91 respawns=0
+  L12 t=64 x=220433 y=75 vx=340 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround56 maxx=220433 hp=91 respawns=0
+  L12 t=68 x=221794 y=75 vx=340 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround56 maxx=221794 hp=91 respawns=0
+  L12 t=72 x=223155 y=75 vx=340 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround56 maxx=223155 hp=91 respawns=0
+  L12 t=76 x=224391 y=-0 vx=340 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround57 maxx=224391 hp=91 respawns=0
+  L12 t=80 x=225752 y=-0 vx=340 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround57 maxx=225752 hp=91 respawns=0
+  L12 t=84 x=226103 y=-0 vx=67 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround57 maxx=226103 hp=85 respawns=0
+  L12 t=88 x=227495 y=-0 vx=340 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround57 maxx=227495 hp=85 respawns=0
+  L12 t=92 x=228856 y=-0 vx=340 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround58 maxx=228856 hp=85 respawns=0
+  L12 t=96 x=230217 y=-0 vx=340 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround58 maxx=230217 hp=85 respawns=0
+  L12 t=100 x=230770 y=-0 vx=-200 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround58 maxx=230964 hp=78 respawns=0
+  L12 t=104 x=230596 y=-0 vx=-200 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround58 maxx=230964 hp=71 respawns=0
+  L12 t=108 x=230461 y=-0 vx=0 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround58 maxx=230964 hp=64 respawns=0
+  L12 t=112 x=230884 y=-0 vx=0 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround58 maxx=230964 hp=64 respawns=0
+  L12 t=116 x=230894 y=-0 vx=0 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround58 maxx=230964 hp=64 respawns=0
+  L12 t=120 x=231335 y=-0 vx=200 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround58 maxx=231359 hp=50 respawns=0
+  L12 t=124 x=231602 y=-0 vx=200 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround58 maxx=231602 hp=50 respawns=0
+  L12 t=128 x=233006 y=-0 vx=340 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround59 maxx=233006 hp=50 respawns=0
+  L12 t=132 x=234367 y=-0 vx=340 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround59 maxx=234367 hp=50 respawns=0
+  L12 t=136 x=235722 y=-0 vx=340 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround59 maxx=235722 hp=50 respawns=0
+  L12 t=140 x=237084 y=-0 vx=340 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround60 maxx=237084 hp=80 respawns=0
+  L12 t=144 x=238258 y=-0 vx=-3 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround60 maxx=238318 hp=87 respawns=0
+  L12 t=148 x=238248 y=-0 vx=0 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround60 maxx=238318 hp=87 respawns=0
+  L12 t=152 x=238228 y=-0 vx=-47 floor=true hit=/root/Level12Play/Main/LevelHolder/Level05/CorridorGround60 maxx=238318 hp=87 respawns=0
+PROBE Bölüm 12: CLEARED @238318  t=154.7s

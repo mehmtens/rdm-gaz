@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/level10_redesign.gd" id="1"]
+
+[node name="Level10" type="Node2D"]
+script = ExtResource("1")
+display_name = "Yeraltı Sevkiyatı"
+chapter = 5
+biome = 1
+par_time = 450.0
+camera_limit_left = -260
+camera_limit_right = 49800
+camera_limit_top = -860
+camera_limit_bottom = 620
+fall_respawn_y = 340.0

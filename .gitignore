@@ -1,0 +1,42 @@
+# Godot 4
+.godot/
+/redmount/.godot/
+*.tmp
+
+# Godot exports
+/build/
+*.exe
+*.pck
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+*.import.md5
+
+# Claude Code yerel ayarları (makineye özel)
+.claude/settings.local.json
+redmount/.claude/settings.local.json
+
+# geçici / büyük kaynak paketleri
+rdm-gaz-assets-*.zip
+asset-redesign-preview.png
+/tools/*.zip
+/redmount/*.log
+
+# geçici doğrulama probe (Görev 24)
+redmount/_probe*
+redmount/_autoplay*
+redmount/_menuprobe*
+redmount/_sweep*
+redmount/_pausetest*
+redmount/_menushot*
+redmount/_probe_shots/
+redmount/_showcase/
+
+# buyuk / makineye ozel (repo disi)
+outputs/
+.android-sdk/
+.godot-user/
+/tools/godot-4.7/
+*.avi
+*.mp4

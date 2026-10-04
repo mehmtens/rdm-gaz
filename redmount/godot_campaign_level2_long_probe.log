@@ -1,0 +1,39 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+  L2 t=4 x=687 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground1 maxx=687 hp=125 respawns=0
+  L2 t=8 x=2036 y=-90 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground5 maxx=2036 hp=125 respawns=0
+  L2 t=12 x=2825 y=33 vx=0 floor=false hit=/root/Autoplay/Main/LevelHolder/Level06/MovingPlatform maxx=2826 hp=125 respawns=0
+  L2 t=16 x=3169 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground8 maxx=3239 hp=125 respawns=0
+  L2 t=20 x=3165 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground8 maxx=3239 hp=125 respawns=0
+  L2 t=24 x=3874 y=-81 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground9 maxx=3874 hp=125 respawns=0
+  L2 t=28 x=4834 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground12 maxx=4867 hp=125 respawns=0
+  L2 t=32 x=5832 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground13 maxx=5832 hp=125 respawns=0
+  L2 t=36 x=6303 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground13 maxx=6365 hp=115 respawns=0
+  L2 t=40 x=7700 y=-100 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground16 maxx=7700 hp=115 respawns=0
+  L2 t=44 x=8695 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground19 maxx=8695 hp=115 respawns=0
+  L2 t=48 x=9137 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground19 maxx=9137 hp=115 respawns=0
+  L2 t=52 x=10135 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground20 maxx=10135 hp=115 respawns=0
+  L2 t=56 x=11495 y=-130 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground22 maxx=11495 hp=115 respawns=0
+  L2 t=60 x=12855 y=-85 vx=340 floor=false hit=- maxx=12855 hp=115 respawns=0
+  L2 t=64 x=13458 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground26 maxx=13458 hp=105 respawns=0
+  L2 t=68 x=13970 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground26 maxx=14164 hp=105 respawns=0
+  L2 t=72 x=14539 y=-0 vx=317 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground26 maxx=14539 hp=95 respawns=0
+  L2 t=76 x=14500 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground26 maxx=14751 hp=85 respawns=0
+  L2 t=80 x=13912 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground26 maxx=14751 hp=85 respawns=0
+  L2 t=84 x=15219 y=-45 vx=340 floor=false hit=- maxx=15219 hp=115 respawns=0
+  L2 t=88 x=16579 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground27 maxx=16579 hp=115 respawns=0
+  L2 t=92 x=16756 y=-49 vx=26 floor=false hit=- maxx=16826 hp=115 respawns=0
+  L2 t=96 x=15866 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground27 maxx=16916 hp=125 respawns=1
+  L2 t=100 x=16759 y=-124 vx=96 floor=false hit=- maxx=16916 hp=125 respawns=1
+  L2 t=104 x=16882 y=249 vx=340 floor=false hit=- maxx=16916 hp=125 respawns=1
+  L2 t=108 x=16512 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground27 maxx=16916 hp=125 respawns=2
+  L2 t=112 x=16776 y=-28 vx=-254 floor=false hit=- maxx=16916 hp=125 respawns=2
+  L2 t=116 x=15798 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground27 maxx=16916 hp=125 respawns=3
+  L2 t=120 x=16766 y=-125 vx=-184 floor=false hit=- maxx=16916 hp=125 respawns=3
+  L2 t=124 x=16814 y=96 vx=340 floor=false hit=- maxx=16916 hp=125 respawns=3
+  L2 t=128 x=16444 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground27 maxx=16916 hp=125 respawns=4
+  L2 t=132 x=16826 y=45 vx=0 floor=false hit=/root/Autoplay/Main/LevelHolder/Level06/Ground28 maxx=16916 hp=125 respawns=4
+  L2 t=136 x=15724 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level06/Ground27 maxx=16916 hp=125 respawns=5
+  L2 t=140 x=16826 y=-35 vx=-340 floor=false hit=/root/Autoplay/Main/LevelHolder/Level06/Ground28 maxx=16916 hp=125 respawns=5

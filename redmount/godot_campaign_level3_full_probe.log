@@ -1,0 +1,23 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+  L3 t=4 x=618 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground1 maxx=618 hp=125 respawns=0
+  L3 t=8 x=1978 y=-99 vx=340 floor=false hit=- maxx=1978 hp=125 respawns=0
+  L3 t=12 x=2284 y=-79 vx=317 floor=false hit=- maxx=2284 hp=125 respawns=0
+  L3 t=16 x=2865 y=-52 vx=340 floor=false hit=- maxx=2865 hp=115 respawns=0
+  L3 t=20 x=3484 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground5 maxx=3484 hp=107 respawns=0
+  L3 t=24 x=3711 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground5 maxx=3715 hp=107 respawns=0
+  L3 t=28 x=4483 y=-90 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground7 maxx=4483 hp=107 respawns=0
+  L3 t=32 x=5351 y=-172 vx=340 floor=false hit=- maxx=5351 hp=125 respawns=0
+  L3 t=36 x=6198 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground11 maxx=6198 hp=125 respawns=0
+  L3 t=40 x=6919 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground11 maxx=6919 hp=115 respawns=0
+  L3 t=44 x=8279 y=-154 vx=340 floor=false hit=- maxx=8279 hp=115 respawns=0
+  L3 t=48 x=9268 y=-0 vx=620 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground17 maxx=9268 hp=115 respawns=0
+  L3 t=52 x=10169 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground17 maxx=10169 hp=105 respawns=0
+  L3 t=56 x=11529 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground18 maxx=11529 hp=105 respawns=0
+  L3 t=60 x=12889 y=-129 vx=340 floor=false hit=- maxx=12889 hp=105 respawns=0
+  L3 t=64 x=11230 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground18 maxx=13291 hp=125 respawns=1
+  L3 t=68 x=12590 y=-261 vx=340 floor=false hit=- maxx=13291 hp=125 respawns=1
+  L3 t=72 x=10930 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground18 maxx=13293 hp=125 respawns=2
+  L3 t=76 x=12290 y=-289 vx=340 floor=false hit=- maxx=13293 hp=125 respawns=2

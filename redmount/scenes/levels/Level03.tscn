@@ -1,0 +1,377 @@
+[gd_scene load_steps=30 format=3]
+
+; ============================================================================
+; BÖLÜM 3 — Ağır Güvenlik Bölgesi  (Görev 25c: parkur yeniden tasarımı)
+; ----------------------------------------------------------------------------
+; MENZİLLİ katman burada açılır: tabanca + siper mekaniği + Tüfekli Muhafız.
+; Çevik Suikastçı de burada tanıtılır. Her düşman türü AYRI bir güvenli, geniş
+; zeminde tek başına tanıtılır (ana plan: aynı anda çok saldırı türü kullanma).
+; Bölüm 3 olduğu için OPSİYONEL bonus tırmanış dalları (zırh, coin) var.
+; Hedef oynanış ~110-120 sn.
+;
+;  A  Giriş            tabanca · sızmış Bıçaklı Ajan (yalnız melee) · gizli oda
+;  A→B Çatı hopu        2 katı çatı — sokaktan yüksek kata geçiş
+;  B  Siper hattı       2 siper bloğu · TEK Tüfekli Muhafız düz zeminde · CP
+;  B2 Bonus çatı        dövüşsüz tek-yön tırmanış → tepede coin (value 15)
+;  C  Hendek + vinç     dikenli hendek üstünde vinç → GroundC · CP ·
+;                       OPSİYONEL 3 basamaklı bonus tırmanış (zırh + coin)
+;  D  Suikastçı         Çevik Suikastçı GENİŞ düz zeminde · can · CP
+;  E  Çift vinç          uzun dikenli çukur üstünde 2 dönüşümlü vinç
+;  F  Kilitli arena      2 dalga (Tüfek+Suikastçı → Zırhlı Vurucu+Tüfek) + siper
+;                       blokları + can ödülü → çıkış
+;
+; TASARIM KURALLARI (ölçülmüş fizik):
+;   koşu 340px/sn · zıplama tepe ~120px · koşarak sıçrama ~260px · duvar-zıpla ~90px
+;   - Zorunlu boşluk yatayda <=120px / yukarı <=90px
+;   - Dövüş ASLA anında-ölüm üstünde geçmez — hep geniş katı zemin (+ siper)
+;   - Zorunlu duvar-zıplama YOK (L04+ tanıtır)
+; ============================================================================
+
+[ext_resource type="Script" path="res://scripts/systems/level.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/KnifeAgent.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/RifleGuard.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/AgileAssassin.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/ArmoredBruiser.tscn" id="5"]
+[ext_resource type="PackedScene" path="res://scenes/pickups/Coin.tscn" id="6"]
+[ext_resource type="PackedScene" path="res://scenes/pickups/PistolPickup.tscn" id="7"]
+[ext_resource type="PackedScene" path="res://scenes/pickups/AmmoPickup.tscn" id="8"]
+[ext_resource type="PackedScene" path="res://scenes/pickups/ArmorPickup.tscn" id="9"]
+[ext_resource type="PackedScene" path="res://scenes/pickups/HealthPickup.tscn" id="10"]
+[ext_resource type="PackedScene" path="res://scenes/systems/Checkpoint.tscn" id="11"]
+[ext_resource type="PackedScene" path="res://scenes/systems/LevelGoal.tscn" id="12"]
+[ext_resource type="PackedScene" path="res://scenes/systems/OneWayPlatform.tscn" id="13"]
+[ext_resource type="PackedScene" path="res://scenes/systems/MovingPlatform.tscn" id="14"]
+[ext_resource type="PackedScene" path="res://scenes/systems/Spikes.tscn" id="15"]
+[ext_resource type="PackedScene" path="res://scenes/systems/BreakableWall.tscn" id="16"]
+[ext_resource type="PackedScene" path="res://scenes/systems/BattleArena.tscn" id="17"]
+[ext_resource type="PackedScene" path="res://scenes/systems/DialogueTrigger.tscn" id="18"]
+[ext_resource type="Script" path="res://scripts/systems/level03_redesign.gd" id="19"]
+
+[sub_resource type="RectangleShape2D" id="gA"]
+size = Vector2(760, 220)
+[sub_resource type="RectangleShape2D" id="roof"]
+size = Vector2(220, 220)
+[sub_resource type="RectangleShape2D" id="gB"]
+size = Vector2(620, 220)
+[sub_resource type="RectangleShape2D" id="gC"]
+size = Vector2(640, 220)
+[sub_resource type="RectangleShape2D" id="gD"]
+size = Vector2(560, 220)
+[sub_resource type="RectangleShape2D" id="gArena"]
+size = Vector2(860, 220)
+[sub_resource type="RectangleShape2D" id="wall"]
+size = Vector2(60, 560)
+[sub_resource type="RectangleShape2D" id="cover"]
+size = Vector2(64, 120)
+[sub_resource type="RectangleShape2D" id="ledge"]
+size = Vector2(180, 24)
+[sub_resource type="RectangleShape2D" id="secret"]
+size = Vector2(200, 180)
+
+[node name="Level03" type="Node2D"]
+script = ExtResource("1")
+display_name = "Ağır Güvenlik Bölgesi"
+biome = 1
+par_time = 116.0
+camera_limit_left = -320
+camera_limit_right = 5160
+camera_limit_top = -700
+camera_limit_bottom = 640
+fall_respawn_y = 300.0
+
+[node name="PlayerSpawn" type="Marker2D" parent="."]
+position = Vector2(40, -40)
+
+[node name="RedesignLayer" type="Node2D" parent="."]
+script = ExtResource("19")
+
+[node name="IntroTalk" parent="." instance=ExtResource("18")]
+position = Vector2(150, -70)
+speakers = PackedStringArray("REDMOUNT")
+texts = PackedStringArray("Burası artık sokak değil. Tüfekli muhafızlar, siperler.", "Bir tabanca lazım — ve siperi iyi kullanmak.")
+
+; ===================== A: GİRİŞ + TABANCA (yalnız melee) =====================
+[node name="GroundA" type="StaticBody2D" parent="."]
+position = Vector2(300, 110)
+[node name="Col" type="CollisionShape2D" parent="GroundA"]
+shape = SubResource("gA")
+[node name="Vis" type="Polygon2D" parent="GroundA"]
+color = Color(0.24, 0.25, 0.3, 1)
+polygon = PackedVector2Array(-380, -110, 380, -110, 380, 110, -380, 110)
+
+[node name="LeftWall" type="StaticBody2D" parent="."]
+position = Vector2(-330, -120)
+[node name="Col" type="CollisionShape2D" parent="LeftWall"]
+shape = SubResource("wall")
+[node name="Vis" type="Polygon2D" parent="LeftWall"]
+color = Color(0.32, 0.22, 0.28, 1)
+polygon = PackedVector2Array(-30, -280, 30, -280, 30, 280, -30, 280)
+
+[node name="Secret1" type="Node2D" parent="."]
+[node name="Floor" type="StaticBody2D" parent="Secret1"]
+position = Vector2(-230, 100)
+[node name="Col" type="CollisionShape2D" parent="Secret1/Floor"]
+shape = SubResource("secret")
+[node name="Vis" type="Polygon2D" parent="Secret1/Floor"]
+color = Color(0.2, 0.18, 0.2, 1)
+polygon = PackedVector2Array(-100, -90, 100, -90, 100, 90, -100, 90)
+[node name="Wall" parent="Secret1" instance=ExtResource("16")]
+position = Vector2(-140, 0)
+[node name="SC1" parent="Secret1" instance=ExtResource("6")]
+position = Vector2(-190, -44)
+value = 5
+[node name="SC2" parent="Secret1" instance=ExtResource("6")]
+position = Vector2(-230, -44)
+value = 10
+[node name="SC3" parent="Secret1" instance=ExtResource("6")]
+position = Vector2(-270, -44)
+value = 10
+
+[node name="Pistol" parent="." instance=ExtResource("7")]
+position = Vector2(230, -40)
+[node name="KnifeAgentA" parent="." instance=ExtResource("2")]
+position = Vector2(470, 0)
+patrol_distance = 40.0
+[node name="CoinA1" parent="." instance=ExtResource("6")]
+position = Vector2(360, -46)
+[node name="CoinA2" parent="." instance=ExtResource("6")]
+position = Vector2(560, -46)
+
+; ===================== A→B: ÇATI HOPU =====================
+; GroundA sağ kenarı x680.
+[node name="RoofAB1" type="StaticBody2D" parent="."]
+position = Vector2(820, 40)
+[node name="Col" type="CollisionShape2D" parent="RoofAB1"]
+shape = SubResource("roof")
+[node name="Vis" type="Polygon2D" parent="RoofAB1"]
+color = Color(0.24, 0.25, 0.3, 1)
+polygon = PackedVector2Array(-110, -110, 110, -110, 110, 110, -110, 110)
+
+[node name="RoofAB2" type="StaticBody2D" parent="."]
+position = Vector2(1050, 0)
+[node name="Col" type="CollisionShape2D" parent="RoofAB2"]
+shape = SubResource("roof")
+[node name="Vis" type="Polygon2D" parent="RoofAB2"]
+color = Color(0.24, 0.25, 0.3, 1)
+polygon = PackedVector2Array(-110, -110, 110, -110, 110, 110, -110, 110)
+
+[node name="CoinAB1" parent="." instance=ExtResource("6")]
+position = Vector2(760, -110)
+[node name="CoinAB2" parent="." instance=ExtResource("6")]
+position = Vector2(940, -150)
+
+; ===================== B: SİPER HATTI + TEK TÜFEK =====================
+; RoofAB2 sağ kenarı x1160 (yüzey -110). Aşağı in -> GroundB.
+[node name="GroundB" type="StaticBody2D" parent="."]
+position = Vector2(1470, 110)
+[node name="Col" type="CollisionShape2D" parent="GroundB"]
+shape = SubResource("gB")
+[node name="Vis" type="Polygon2D" parent="GroundB"]
+color = Color(0.24, 0.25, 0.3, 1)
+polygon = PackedVector2Array(-310, -110, 310, -110, 310, 110, -310, 110)
+
+[node name="Cover1" type="StaticBody2D" parent="."]
+position = Vector2(1280, -60)
+[node name="Col" type="CollisionShape2D" parent="Cover1"]
+shape = SubResource("cover")
+[node name="Vis" type="Polygon2D" parent="Cover1"]
+color = Color(0.42, 0.36, 0.24, 1)
+polygon = PackedVector2Array(-32, -60, 32, -60, 32, 60, -32, 60)
+
+[node name="Cover2" type="StaticBody2D" parent="."]
+position = Vector2(1500, -60)
+[node name="Col" type="CollisionShape2D" parent="Cover2"]
+shape = SubResource("cover")
+[node name="Vis" type="Polygon2D" parent="Cover2"]
+color = Color(0.42, 0.36, 0.24, 1)
+polygon = PackedVector2Array(-32, -60, 32, -60, 32, 60, -32, 60)
+
+[node name="RifleB1" parent="." instance=ExtResource("3")]
+position = Vector2(1660, -30)
+[node name="Ammo" parent="." instance=ExtResource("8")]
+position = Vector2(1230, -46)
+[node name="CoinB1" parent="." instance=ExtResource("6")]
+position = Vector2(1360, -46)
+[node name="CoinB2" parent="." instance=ExtResource("6")]
+position = Vector2(1560, -46)
+
+[node name="CP1" parent="." instance=ExtResource("11")]
+position = Vector2(1710, 0)
+
+; ===================== B2: DÖVÜŞSÜZ BONUS ÇATI =====================
+[node name="BonusR1" parent="." instance=ExtResource("13")]
+position = Vector2(1330, -170)
+width = 140.0
+[node name="BonusR2" parent="." instance=ExtResource("13")]
+position = Vector2(1470, -260)
+width = 140.0
+[node name="BonusR3" parent="." instance=ExtResource("13")]
+position = Vector2(1340, -345)
+width = 140.0
+[node name="BonusRC1" parent="." instance=ExtResource("6")]
+position = Vector2(1330, -210)
+[node name="BonusRC2" parent="." instance=ExtResource("6")]
+position = Vector2(1470, -300)
+[node name="BonusRC3" parent="." instance=ExtResource("6")]
+position = Vector2(1340, -385)
+value = 15
+
+; ===================== C: HENDEK + VİNÇ + DUVAR-ZIPLAMA BACASI =====================
+; GroundB sağ kenarı x1780 (yüzey 0).
+[node name="PitCSpikes" parent="." instance=ExtResource("15")]
+position = Vector2(2060, 130)
+width = 440.0
+[node name="MoverC" parent="." instance=ExtResource("14")]
+position = Vector2(1900, 10)
+travel = Vector2(240, 0)
+period = 4.4
+width = 160.0
+[node name="MoverCCoin" parent="." instance=ExtResource("6")]
+position = Vector2(2060, -40)
+value = 5
+
+[node name="GroundC" type="StaticBody2D" parent="."]
+position = Vector2(2540, 110)
+[node name="Col" type="CollisionShape2D" parent="GroundC"]
+shape = SubResource("gC")
+[node name="Vis" type="Polygon2D" parent="GroundC"]
+color = Color(0.24, 0.25, 0.3, 1)
+polygon = PackedVector2Array(-320, -110, 320, -110, 320, 110, -320, 110)
+
+[node name="CP2" parent="." instance=ExtResource("11")]
+position = Vector2(2320, 0)
+
+; --- OPSİYONEL bonus tırmanış: 3 basamaklı tek-yön → zırh + coin (yukarıda) ---
+; Ana yatay yolu KAPATMAZ (GroundC düz devam eder); tırmanmak tercih.
+[node name="ShaftS1" parent="." instance=ExtResource("13")]
+position = Vector2(2640, -110)
+width = 130.0
+[node name="ShaftS2" parent="." instance=ExtResource("13")]
+position = Vector2(2780, -200)
+width = 130.0
+[node name="ShaftS3" parent="." instance=ExtResource("13")]
+position = Vector2(2650, -290)
+width = 130.0
+
+[node name="ShaftLedge" type="StaticBody2D" parent="."]
+position = Vector2(2800, -380)
+[node name="Col" type="CollisionShape2D" parent="ShaftLedge"]
+shape = SubResource("ledge")
+[node name="Vis" type="Polygon2D" parent="ShaftLedge"]
+color = Color(0.29, 0.353, 0.231, 1)
+polygon = PackedVector2Array(-90, -12, 90, -12, 90, 12, -90, 12)
+[node name="Armor" parent="." instance=ExtResource("9")]
+position = Vector2(2820, -416)
+[node name="ShaftCoin1" parent="." instance=ExtResource("6")]
+position = Vector2(2760, -416)
+value = 10
+[node name="ShaftCoin2" parent="." instance=ExtResource("6")]
+position = Vector2(2640, -150)
+[node name="ShaftCoin3" parent="." instance=ExtResource("6")]
+position = Vector2(2780, -240)
+
+; ===================== D: ÇEVİK SUİKASTÇI =====================
+; GroundC sağ kenarı x2860 (yüzey 0).
+[node name="StepD1" parent="." instance=ExtResource("13")]
+position = Vector2(2970, -10)
+width = 140.0
+
+[node name="GroundD" type="StaticBody2D" parent="."]
+position = Vector2(3300, 110)
+[node name="Col" type="CollisionShape2D" parent="GroundD"]
+shape = SubResource("gD")
+[node name="Vis" type="Polygon2D" parent="GroundD"]
+color = Color(0.24, 0.25, 0.3, 1)
+polygon = PackedVector2Array(-280, -110, 280, -110, 280, 110, -280, 110)
+
+[node name="CP3" parent="." instance=ExtResource("11")]
+position = Vector2(3060, 0)
+[node name="AssassinD" parent="." instance=ExtResource("4")]
+position = Vector2(3380, -40)
+[node name="HealthD" parent="." instance=ExtResource("10")]
+position = Vector2(3140, -46)
+[node name="CoinD1" parent="." instance=ExtResource("6")]
+position = Vector2(3260, -46)
+[node name="CoinD2" parent="." instance=ExtResource("6")]
+position = Vector2(3460, -46)
+
+; -- 2. bonus dalı: GroundD üstünde tek-yön saklı coin --
+[node name="BonusD" parent="." instance=ExtResource("13")]
+position = Vector2(3200, -150)
+width = 110.0
+[node name="BonusD1" parent="." instance=ExtResource("6")]
+position = Vector2(3180, -184)
+value = 10
+[node name="BonusD2" parent="." instance=ExtResource("6")]
+position = Vector2(3225, -184)
+value = 10
+
+; ===================== E: ÇİFT VİNÇ =====================
+; GroundD sağ kenarı x3580 (yüzey 0).
+[node name="PitESpikes" parent="." instance=ExtResource("15")]
+position = Vector2(3920, 130)
+width = 600.0
+[node name="MoverE1" parent="." instance=ExtResource("14")]
+position = Vector2(3760, 10)
+travel = Vector2(200, 0)
+period = 4.3
+width = 160.0
+[node name="MoverE2" parent="." instance=ExtResource("14")]
+position = Vector2(4030, 10)
+travel = Vector2(200, 0)
+period = 4.3
+width = 160.0
+phase_offset = 0.5
+[node name="BridgeCoinE" parent="." instance=ExtResource("6")]
+position = Vector2(3920, -40)
+
+; ===================== F: KİLİTLİ ARENA =====================
+[node name="GroundArena" type="StaticBody2D" parent="."]
+position = Vector2(4480, 110)
+[node name="Col" type="CollisionShape2D" parent="GroundArena"]
+shape = SubResource("gArena")
+[node name="Vis" type="Polygon2D" parent="GroundArena"]
+color = Color(0.21, 0.21, 0.27, 1)
+polygon = PackedVector2Array(-430, -110, 430, -110, 430, 110, -430, 110)
+
+[node name="CP4" parent="." instance=ExtResource("11")]
+position = Vector2(4110, 0)
+
+[node name="CoverArena1" type="StaticBody2D" parent="."]
+position = Vector2(4300, -60)
+[node name="Col" type="CollisionShape2D" parent="CoverArena1"]
+shape = SubResource("cover")
+[node name="Vis" type="Polygon2D" parent="CoverArena1"]
+color = Color(0.42, 0.36, 0.24, 1)
+polygon = PackedVector2Array(-32, -60, 32, -60, 32, 60, -32, 60)
+
+[node name="CoverArena2" type="StaticBody2D" parent="."]
+position = Vector2(4680, -60)
+[node name="Col" type="CollisionShape2D" parent="CoverArena2"]
+shape = SubResource("cover")
+[node name="Vis" type="Polygon2D" parent="CoverArena2"]
+color = Color(0.42, 0.36, 0.24, 1)
+polygon = PackedVector2Array(-32, -60, 32, -60, 32, 60, -32, 60)
+
+[node name="HealthArena" parent="." instance=ExtResource("10")]
+position = Vector2(4150, -46)
+
+[node name="FinalArena" parent="." instance=ExtResource("17")]
+position = Vector2(4480, 0)
+gate_left_x = 4070.0
+gate_right_x = 4880.0
+floor_y = 0.0
+wave1 = [ExtResource("3"), ExtResource("4")]
+wave2 = [ExtResource("5"), ExtResource("3")]
+reward = ExtResource("10")
+
+[node name="RightWall" type="StaticBody2D" parent="."]
+position = Vector2(4980, -120)
+[node name="Col" type="CollisionShape2D" parent="RightWall"]
+shape = SubResource("wall")
+[node name="Vis" type="Polygon2D" parent="RightWall"]
+color = Color(0.32, 0.22, 0.28, 1)
+polygon = PackedVector2Array(-30, -280, 30, -280, 30, 280, -30, 280)
+
+[node name="LevelGoal" parent="." instance=ExtResource("12")]
+position = Vector2(4900, 0)

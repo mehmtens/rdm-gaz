@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3]
+
+; Genel güçlendirme toplanabiliri. TestLevel'de her örnek kendi
+; `powerup` (.tres) + `icon` değerini verir.
+
+[ext_resource type="PackedScene" path="res://scenes/pickups/PickupBase.tscn" id="1"]
+[ext_resource type="Script" path="res://scripts/pickups/powerup_pickup.gd" id="2"]
+
+[node name="PowerupPickup" instance=ExtResource("1")]
+script = ExtResource("2")

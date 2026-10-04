@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="GunConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/gun_config.gd" id="1_gun"]
+
+[resource]
+script = ExtResource("1_gun")
+display_name = "Tabanca"
+damage = 7
+projectile_speed = 900.0
+projectile_knockback = 80.0
+fire_interval = 0.26
+mag_size = 8
+starting_reserve = 24
+reload_time = 1.1
+recoil = 60.0
+shoot_anim = &"shoot"

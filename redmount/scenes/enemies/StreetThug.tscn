@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3]
+
+; Sokak Eşkıyası — Bölüm 1 temel düşmanı (Görev 3).
+; EnemyBase'i miras alır; sadece config + frames + devriye yarıçapı verir.
+
+[ext_resource type="PackedScene" path="res://scenes/enemies/EnemyBase.tscn" id="1"]
+[ext_resource type="Resource" path="res://resources/enemies/street_thug.tres" id="2"]
+[ext_resource type="SpriteFrames" path="res://resources/anim/street_thug_frames.tres" id="3"]
+
+[node name="StreetThug" instance=ExtResource("1")]
+rig_style = "thug"
+config = ExtResource("2")
+frames = ExtResource("3")
+patrol_distance = 110.0

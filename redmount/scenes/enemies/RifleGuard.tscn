@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3]
+
+; Tüfekli Muhafız — Bölüm 2-3 (Görev 7).
+; EnemyBase'i miras alır; config'te is_ranged = true -> mesafe korur ve seri ateş açar,
+; çok yakında panikleyip dipçik atar.
+
+[ext_resource type="PackedScene" path="res://scenes/enemies/EnemyBase.tscn" id="1"]
+[ext_resource type="Resource" path="res://resources/enemies/rifle_guard.tres" id="2"]
+[ext_resource type="SpriteFrames" path="res://resources/anim/rifle_guard_frames.tres" id="3"]
+
+[node name="RifleGuard" instance=ExtResource("1")]
+rig_style = "rifle"
+config = ExtResource("2")
+frames = ExtResource("3")
+patrol_distance = 0.0

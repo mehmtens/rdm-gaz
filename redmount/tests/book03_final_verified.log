@@ -1,0 +1,1142 @@
+WorkerThreadPool: 12 threads, 3 max low-priority.
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+TextServer: Added interface "Dummy"
+TextServer: Added interface "ICU / HarfBuzz / Graphite (Built-in)"
+Using "default" pen tablet driver...
+
+TextServer: Primary interface set to: "ICU / HarfBuzz / Graphite (Built-in)".
+CORE API HASH: 3472268009
+EDITOR API HASH: 2212757246
+SceneTreeFTI: traversal method DEFAULT
+Loading resource: res://scripts/systems/combat.gd remapped: res://scripts/systems/combat.gd
+Completed load for: 'res://scripts/systems/combat.gd' remapped 'res://scripts/systems/combat.gd' at thread -1
+Loading resource: res://scripts/systems/save_manager.gd remapped: res://scripts/systems/save_manager.gd
+Completed load for: 'res://scripts/systems/save_manager.gd' remapped 'res://scripts/systems/save_manager.gd' at thread -1
+Loading resource: res://scripts/systems/sfx.gd remapped: res://scripts/systems/sfx.gd
+Completed load for: 'res://scripts/systems/sfx.gd' remapped 'res://scripts/systems/sfx.gd' at thread -1
+Loading resource: res://scripts/systems/music.gd remapped: res://scripts/systems/music.gd
+Completed load for: 'res://scripts/systems/music.gd' remapped 'res://scripts/systems/music.gd' at thread -1
+Loading resource: res://scripts/systems/fx.gd remapped: res://scripts/systems/fx.gd
+Completed load for: 'res://scripts/systems/fx.gd' remapped 'res://scripts/systems/fx.gd' at thread -1
+Loading resource: res://scripts/systems/transition.gd remapped: res://scripts/systems/transition.gd
+Completed load for: 'res://scripts/systems/transition.gd' remapped 'res://scripts/systems/transition.gd' at thread -1
+Loaded system CA certificates
+Loading resource: res://tests/book03_level12_play.tscn remapped: res://tests/book03_level12_play.tscn
+Loading resource: res://tests/book03_level12_play.gd remapped: res://tests/book03_level12_play.gd
+Completed load for: 'res://tests/book03_level12_play.gd' remapped 'res://tests/book03_level12_play.gd' at thread -1
+Completed load for: 'res://tests/book03_level12_play.tscn' remapped 'res://tests/book03_level12_play.tscn' at thread -1
+Loading resource: res://assets/audio/step.wav remapped: res://assets/audio/step.wav
+Loading resource: res://.godot/imported/step.wav-7c1afa4d3561f9fd67ecf320728c68cf.sample remapped: res://.godot/imported/step.wav-7c1afa4d3561f9fd67ecf320728c68cf.sample
+Completed load for: 'res://assets/audio/step.wav' remapped 'res://assets/audio/step.wav' at thread -1
+Loading resource: res://assets/audio/jump.wav remapped: res://assets/audio/jump.wav
+Loading resource: res://.godot/imported/jump.wav-7ea4d93114fa52c0b9979f6b2117f13f.sample remapped: res://.godot/imported/jump.wav-7ea4d93114fa52c0b9979f6b2117f13f.sample
+Completed load for: 'res://assets/audio/jump.wav' remapped 'res://assets/audio/jump.wav' at thread -1
+Loading resource: res://assets/audio/land.wav remapped: res://assets/audio/land.wav
+Loading resource: res://.godot/imported/land.wav-baef3c9f2a47922b496a826b5b8d32ac.sample remapped: res://.godot/imported/land.wav-baef3c9f2a47922b496a826b5b8d32ac.sample
+Completed load for: 'res://assets/audio/land.wav' remapped 'res://assets/audio/land.wav' at thread -1
+Loading resource: res://assets/audio/swing.wav remapped: res://assets/audio/swing.wav
+Loading resource: res://.godot/imported/swing.wav-794de6e16fd48d414e484bd2479a4c9c.sample remapped: res://.godot/imported/swing.wav-794de6e16fd48d414e484bd2479a4c9c.sample
+Completed load for: 'res://assets/audio/swing.wav' remapped 'res://assets/audio/swing.wav' at thread -1
+Loading resource: res://assets/audio/dash.wav remapped: res://assets/audio/dash.wav
+Loading resource: res://.godot/imported/dash.wav-c732fa599cfe157dd4267b88c75a825a.sample remapped: res://.godot/imported/dash.wav-c732fa599cfe157dd4267b88c75a825a.sample
+Completed load for: 'res://assets/audio/dash.wav' remapped 'res://assets/audio/dash.wav' at thread -1
+Loading resource: res://assets/audio/hit.wav remapped: res://assets/audio/hit.wav
+Loading resource: res://.godot/imported/hit.wav-96dc477cdf4a42f381370dba6e3f75ce.sample remapped: res://.godot/imported/hit.wav-96dc477cdf4a42f381370dba6e3f75ce.sample
+Completed load for: 'res://assets/audio/hit.wav' remapped 'res://assets/audio/hit.wav' at thread -1
+Loading resource: res://assets/audio/heavy_hit.wav remapped: res://assets/audio/heavy_hit.wav
+Loading resource: res://.godot/imported/heavy_hit.wav-b7f19baf8c6beb5f12a857fd43e482a7.sample remapped: res://.godot/imported/heavy_hit.wav-b7f19baf8c6beb5f12a857fd43e482a7.sample
+Completed load for: 'res://assets/audio/heavy_hit.wav' remapped 'res://assets/audio/heavy_hit.wav' at thread -1
+Loading resource: res://assets/audio/weapon_break.wav remapped: res://assets/audio/weapon_break.wav
+Loading resource: res://.godot/imported/weapon_break.wav-4f8fa1b4bbb8e7cb2e5eb2a01aaeed30.sample remapped: res://.godot/imported/weapon_break.wav-4f8fa1b4bbb8e7cb2e5eb2a01aaeed30.sample
+Completed load for: 'res://assets/audio/weapon_break.wav' remapped 'res://assets/audio/weapon_break.wav' at thread -1
+Loading resource: res://assets/audio/shoot.wav remapped: res://assets/audio/shoot.wav
+Loading resource: res://.godot/imported/shoot.wav-87079c2fcb36403855e4cbb1b77a9904.sample remapped: res://.godot/imported/shoot.wav-87079c2fcb36403855e4cbb1b77a9904.sample
+Completed load for: 'res://assets/audio/shoot.wav' remapped 'res://assets/audio/shoot.wav' at thread -1
+Loading resource: res://assets/audio/reload.wav remapped: res://assets/audio/reload.wav
+Loading resource: res://.godot/imported/reload.wav-50f2d65be979b5afe34a1e31b08f63e8.sample remapped: res://.godot/imported/reload.wav-50f2d65be979b5afe34a1e31b08f63e8.sample
+Completed load for: 'res://assets/audio/reload.wav' remapped 'res://assets/audio/reload.wav' at thread -1
+Loading resource: res://assets/audio/shield.wav remapped: res://assets/audio/shield.wav
+Loading resource: res://.godot/imported/shield.wav-28ce60ec10352f989ad5bbdcaa2a9611.sample remapped: res://.godot/imported/shield.wav-28ce60ec10352f989ad5bbdcaa2a9611.sample
+Completed load for: 'res://assets/audio/shield.wav' remapped 'res://assets/audio/shield.wav' at thread -1
+Loading resource: res://assets/audio/armor_break.wav remapped: res://assets/audio/armor_break.wav
+Loading resource: res://.godot/imported/armor_break.wav-e97661338fb1b8a1629d4da19b096a38.sample remapped: res://.godot/imported/armor_break.wav-e97661338fb1b8a1629d4da19b096a38.sample
+Completed load for: 'res://assets/audio/armor_break.wav' remapped 'res://assets/audio/armor_break.wav' at thread -1
+Loading resource: res://assets/audio/powerup.wav remapped: res://assets/audio/powerup.wav
+Loading resource: res://.godot/imported/powerup.wav-7591bd6e852991381dd14f8488ca481b.sample remapped: res://.godot/imported/powerup.wav-7591bd6e852991381dd14f8488ca481b.sample
+Completed load for: 'res://assets/audio/powerup.wav' remapped 'res://assets/audio/powerup.wav' at thread -1
+Loading resource: res://assets/audio/boss_slam.wav remapped: res://assets/audio/boss_slam.wav
+Loading resource: res://.godot/imported/boss_slam.wav-9e14e84c6f7be31ed0ee723806e23fff.sample remapped: res://.godot/imported/boss_slam.wav-9e14e84c6f7be31ed0ee723806e23fff.sample
+Completed load for: 'res://assets/audio/boss_slam.wav' remapped 'res://assets/audio/boss_slam.wav' at thread -1
+Loading resource: res://assets/audio/coin.wav remapped: res://assets/audio/coin.wav
+Loading resource: res://.godot/imported/coin.wav-e1bec9e9502a5df388e6fd33d4bb5689.sample remapped: res://.godot/imported/coin.wav-e1bec9e9502a5df388e6fd33d4bb5689.sample
+Completed load for: 'res://assets/audio/coin.wav' remapped 'res://assets/audio/coin.wav' at thread -1
+Loading resource: res://assets/audio/heal.wav remapped: res://assets/audio/heal.wav
+Loading resource: res://.godot/imported/heal.wav-931ca7a754542f5b94f13b00622da730.sample remapped: res://.godot/imported/heal.wav-931ca7a754542f5b94f13b00622da730.sample
+Completed load for: 'res://assets/audio/heal.wav' remapped 'res://assets/audio/heal.wav' at thread -1
+Loading resource: res://assets/audio/enemy_hurt.wav remapped: res://assets/audio/enemy_hurt.wav
+Loading resource: res://.godot/imported/enemy_hurt.wav-8a0396e92a2d27f7d28401a706d7595b.sample remapped: res://.godot/imported/enemy_hurt.wav-8a0396e92a2d27f7d28401a706d7595b.sample
+Completed load for: 'res://assets/audio/enemy_hurt.wav' remapped 'res://assets/audio/enemy_hurt.wav' at thread -1
+Loading resource: res://assets/audio/enemy_down.wav remapped: res://assets/audio/enemy_down.wav
+Loading resource: res://.godot/imported/enemy_down.wav-3ded856e02967eaef3161bdb329e756f.sample remapped: res://.godot/imported/enemy_down.wav-3ded856e02967eaef3161bdb329e756f.sample
+Completed load for: 'res://assets/audio/enemy_down.wav' remapped 'res://assets/audio/enemy_down.wav' at thread -1
+Loading resource: res://assets/audio/player_hurt.wav remapped: res://assets/audio/player_hurt.wav
+Loading resource: res://.godot/imported/player_hurt.wav-e76f2b424872d75af456fd06da721c72.sample remapped: res://.godot/imported/player_hurt.wav-e76f2b424872d75af456fd06da721c72.sample
+Completed load for: 'res://assets/audio/player_hurt.wav' remapped 'res://assets/audio/player_hurt.wav' at thread -1
+Loading resource: res://assets/audio/player_death.wav remapped: res://assets/audio/player_death.wav
+Loading resource: res://.godot/imported/player_death.wav-b5b253d768c6b41e0fd6f23e4be0aeb7.sample remapped: res://.godot/imported/player_death.wav-b5b253d768c6b41e0fd6f23e4be0aeb7.sample
+Completed load for: 'res://assets/audio/player_death.wav' remapped 'res://assets/audio/player_death.wav' at thread -1
+Loading resource: res://assets/audio/checkpoint.wav remapped: res://assets/audio/checkpoint.wav
+Loading resource: res://.godot/imported/checkpoint.wav-1d95640867fc13dc347187d497bb3d46.sample remapped: res://.godot/imported/checkpoint.wav-1d95640867fc13dc347187d497bb3d46.sample
+Completed load for: 'res://assets/audio/checkpoint.wav' remapped 'res://assets/audio/checkpoint.wav' at thread -1
+Loading resource: res://assets/audio/goal.wav remapped: res://assets/audio/goal.wav
+Loading resource: res://.godot/imported/goal.wav-415081e2acbd77eb907e00d378b10fb6.sample remapped: res://.godot/imported/goal.wav-415081e2acbd77eb907e00d378b10fb6.sample
+Completed load for: 'res://assets/audio/goal.wav' remapped 'res://assets/audio/goal.wav' at thread -1
+Loading resource: res://scenes/Main.tscn remapped: res://scenes/Main.tscn
+Loading resource: res://scripts/systems/main.gd remapped: res://scripts/systems/main.gd
+Loading resource: res://resources/weapons/bat.tres remapped: res://resources/weapons/bat.tres
+Loading resource: res://scripts/systems/weapon_config.gd remapped: res://scripts/systems/weapon_config.gd
+Completed load for: 'res://scripts/systems/weapon_config.gd' remapped 'res://scripts/systems/weapon_config.gd' at thread -1
+Completed load for: 'res://resources/weapons/bat.tres' remapped 'res://resources/weapons/bat.tres' at thread -1
+Loading resource: res://resources/weapons/knife.tres remapped: res://resources/weapons/knife.tres
+Completed load for: 'res://resources/weapons/knife.tres' remapped 'res://resources/weapons/knife.tres' at thread -1
+Loading resource: res://resources/weapons/pistol.tres remapped: res://resources/weapons/pistol.tres
+Loading resource: res://scripts/systems/gun_config.gd remapped: res://scripts/systems/gun_config.gd
+Completed load for: 'res://scripts/systems/gun_config.gd' remapped 'res://scripts/systems/gun_config.gd' at thread -1
+Completed load for: 'res://resources/weapons/pistol.tres' remapped 'res://resources/weapons/pistol.tres' at thread -1
+Loading resource: res://resources/weapons/rifle.tres remapped: res://resources/weapons/rifle.tres
+Completed load for: 'res://resources/weapons/rifle.tres' remapped 'res://resources/weapons/rifle.tres' at thread -1
+Loading resource: res://resources/armor/body_armor.tres remapped: res://resources/armor/body_armor.tres
+Loading resource: res://scripts/systems/armor_config.gd remapped: res://scripts/systems/armor_config.gd
+Completed load for: 'res://scripts/systems/armor_config.gd' remapped 'res://scripts/systems/armor_config.gd' at thread -1
+Completed load for: 'res://resources/armor/body_armor.tres' remapped 'res://resources/armor/body_armor.tres' at thread -1
+Completed load for: 'res://scripts/systems/main.gd' remapped 'res://scripts/systems/main.gd' at thread -1
+Loading resource: res://scenes/characters/Redmount.tscn remapped: res://scenes/characters/Redmount.tscn
+Loading resource: res://scripts/characters/redmount.gd remapped: res://scripts/characters/redmount.gd
+Completed load for: 'res://scripts/characters/redmount.gd' remapped 'res://scripts/characters/redmount.gd' at thread -1
+Loading resource: res://resources/movement/redmount_movement.tres remapped: res://resources/movement/redmount_movement.tres
+Completed load for: 'res://resources/movement/redmount_movement.tres' remapped 'res://resources/movement/redmount_movement.tres' at thread -1
+Loading resource: res://resources/combat/redmount_combat.tres remapped: res://resources/combat/redmount_combat.tres
+Completed load for: 'res://resources/combat/redmount_combat.tres' remapped 'res://resources/combat/redmount_combat.tres' at thread -1
+Loading resource: res://scripts/systems/game_camera.gd remapped: res://scripts/systems/game_camera.gd
+Completed load for: 'res://scripts/systems/game_camera.gd' remapped 'res://scripts/systems/game_camera.gd' at thread -1
+Loading resource: res://scripts/characters/player_sprite.gd remapped: res://scripts/characters/player_sprite.gd
+Completed load for: 'res://scripts/characters/player_sprite.gd' remapped 'res://scripts/characters/player_sprite.gd' at thread -1
+Loading resource: res://resources/anim/redmount_frames.tres remapped: res://resources/anim/redmount_frames.tres
+Loading resource: res://assets/anim/redmount/idle.png remapped: res://assets/anim/redmount/idle.png
+Loading resource: res://.godot/imported/idle.png-e3bec85ec39e5674d8fcdb2fbc3f3a9a.ctex remapped: res://.godot/imported/idle.png-e3bec85ec39e5674d8fcdb2fbc3f3a9a.ctex
+Completed load for: 'res://assets/anim/redmount/idle.png' remapped 'res://assets/anim/redmount/idle.png' at thread -1
+Loading resource: res://assets/anim/redmount/walk.png remapped: res://assets/anim/redmount/walk.png
+Loading resource: res://.godot/imported/walk.png-fb1d3431dd3c4bd3697d146d5dd40736.ctex remapped: res://.godot/imported/walk.png-fb1d3431dd3c4bd3697d146d5dd40736.ctex
+Completed load for: 'res://assets/anim/redmount/walk.png' remapped 'res://assets/anim/redmount/walk.png' at thread -1
+Loading resource: res://assets/anim/redmount/run.png remapped: res://assets/anim/redmount/run.png
+Loading resource: res://.godot/imported/run.png-69daa8ca02d5ee8aac00d51359eb6dbd.ctex remapped: res://.godot/imported/run.png-69daa8ca02d5ee8aac00d51359eb6dbd.ctex
+Completed load for: 'res://assets/anim/redmount/run.png' remapped 'res://assets/anim/redmount/run.png' at thread -1
+Loading resource: res://assets/anim/redmount/jump.png remapped: res://assets/anim/redmount/jump.png
+Loading resource: res://.godot/imported/jump.png-a188ed90ef4ccf8eb9c247d2d7ccff48.ctex remapped: res://.godot/imported/jump.png-a188ed90ef4ccf8eb9c247d2d7ccff48.ctex
+Completed load for: 'res://assets/anim/redmount/jump.png' remapped 'res://assets/anim/redmount/jump.png' at thread -1
+Loading resource: res://assets/anim/redmount/crouch.png remapped: res://assets/anim/redmount/crouch.png
+Loading resource: res://.godot/imported/crouch.png-e908e17928e69def8db0f71f3fc22f23.ctex remapped: res://.godot/imported/crouch.png-e908e17928e69def8db0f71f3fc22f23.ctex
+Completed load for: 'res://assets/anim/redmount/crouch.png' remapped 'res://assets/anim/redmount/crouch.png' at thread -1
+Loading resource: res://assets/anim/redmount/fight.png remapped: res://assets/anim/redmount/fight.png
+Loading resource: res://.godot/imported/fight.png-1d7fe97de178b5529a850635147ea1f6.ctex remapped: res://.godot/imported/fight.png-1d7fe97de178b5529a850635147ea1f6.ctex
+Completed load for: 'res://assets/anim/redmount/fight.png' remapped 'res://assets/anim/redmount/fight.png' at thread -1
+Loading resource: res://assets/anim/redmount/combo_a.png remapped: res://assets/anim/redmount/combo_a.png
+Loading resource: res://.godot/imported/combo_a.png-6d63283cf40584ab95e52a3290e06aa3.ctex remapped: res://.godot/imported/combo_a.png-6d63283cf40584ab95e52a3290e06aa3.ctex
+Completed load for: 'res://assets/anim/redmount/combo_a.png' remapped 'res://assets/anim/redmount/combo_a.png' at thread -1
+Loading resource: res://assets/anim/redmount/combo_b.png remapped: res://assets/anim/redmount/combo_b.png
+Loading resource: res://.godot/imported/combo_b.png-ecdd4930ce74a81fe532c6ecb0b03fe3.ctex remapped: res://.godot/imported/combo_b.png-ecdd4930ce74a81fe532c6ecb0b03fe3.ctex
+Completed load for: 'res://assets/anim/redmount/combo_b.png' remapped 'res://assets/anim/redmount/combo_b.png' at thread -1
+Loading resource: res://assets/anim/redmount/knee.png remapped: res://assets/anim/redmount/knee.png
+Loading resource: res://.godot/imported/knee.png-268bb8b8cb78a462938fde2a64329526.ctex remapped: res://.godot/imported/knee.png-268bb8b8cb78a462938fde2a64329526.ctex
+Completed load for: 'res://assets/anim/redmount/knee.png' remapped 'res://assets/anim/redmount/knee.png' at thread -1
+Loading resource: res://assets/anim/redmount/bat_idle.png remapped: res://assets/anim/redmount/bat_idle.png
+Loading resource: res://.godot/imported/bat_idle.png-a2ea1ec224548ef4563a06508541f11c.ctex remapped: res://.godot/imported/bat_idle.png-a2ea1ec224548ef4563a06508541f11c.ctex
+Completed load for: 'res://assets/anim/redmount/bat_idle.png' remapped 'res://assets/anim/redmount/bat_idle.png' at thread -1
+Loading resource: res://assets/anim/redmount/bat_walk.png remapped: res://assets/anim/redmount/bat_walk.png
+Loading resource: res://.godot/imported/bat_walk.png-42ab3a971802d257c3ab6a4c16a80e91.ctex remapped: res://.godot/imported/bat_walk.png-42ab3a971802d257c3ab6a4c16a80e91.ctex
+Completed load for: 'res://assets/anim/redmount/bat_walk.png' remapped 'res://assets/anim/redmount/bat_walk.png' at thread -1
+Loading resource: res://assets/anim/redmount/bat_attack.png remapped: res://assets/anim/redmount/bat_attack.png
+Loading resource: res://.godot/imported/bat_attack.png-ba014d10c1e2301a04cb18fc2db9fab0.ctex remapped: res://.godot/imported/bat_attack.png-ba014d10c1e2301a04cb18fc2db9fab0.ctex
+Completed load for: 'res://assets/anim/redmount/bat_attack.png' remapped 'res://assets/anim/redmount/bat_attack.png' at thread -1
+Loading resource: res://assets/anim/redmount/bat_attack2.png remapped: res://assets/anim/redmount/bat_attack2.png
+Loading resource: res://.godot/imported/bat_attack2.png-65270fe611e9ef188de2fe029868d75e.ctex remapped: res://.godot/imported/bat_attack2.png-65270fe611e9ef188de2fe029868d75e.ctex
+Completed load for: 'res://assets/anim/redmount/bat_attack2.png' remapped 'res://assets/anim/redmount/bat_attack2.png' at thread -1
+Loading resource: res://assets/anim/redmount/knife_idle.png remapped: res://assets/anim/redmount/knife_idle.png
+Loading resource: res://.godot/imported/knife_idle.png-004d71e5be524256a29344d4e300642f.ctex remapped: res://.godot/imported/knife_idle.png-004d71e5be524256a29344d4e300642f.ctex
+Completed load for: 'res://assets/anim/redmount/knife_idle.png' remapped 'res://assets/anim/redmount/knife_idle.png' at thread -1
+Loading resource: res://assets/anim/redmount/knife_walk.png remapped: res://assets/anim/redmount/knife_walk.png
+Loading resource: res://.godot/imported/knife_walk.png-fe2eb278fef5b6853920e5146d44baf1.ctex remapped: res://.godot/imported/knife_walk.png-fe2eb278fef5b6853920e5146d44baf1.ctex
+Completed load for: 'res://assets/anim/redmount/knife_walk.png' remapped 'res://assets/anim/redmount/knife_walk.png' at thread -1
+Loading resource: res://assets/anim/redmount/knife_attack.png remapped: res://assets/anim/redmount/knife_attack.png
+Loading resource: res://.godot/imported/knife_attack.png-9bff163957e3c0d1ecebcfa040904b4f.ctex remapped: res://.godot/imported/knife_attack.png-9bff163957e3c0d1ecebcfa040904b4f.ctex
+Completed load for: 'res://assets/anim/redmount/knife_attack.png' remapped 'res://assets/anim/redmount/knife_attack.png' at thread -1
+Loading resource: res://assets/anim/redmount/knife_attack2.png remapped: res://assets/anim/redmount/knife_attack2.png
+Loading resource: res://.godot/imported/knife_attack2.png-c404987fb89dd99854b85d0d39643f3f.ctex remapped: res://.godot/imported/knife_attack2.png-c404987fb89dd99854b85d0d39643f3f.ctex
+Completed load for: 'res://assets/anim/redmount/knife_attack2.png' remapped 'res://assets/anim/redmount/knife_attack2.png' at thread -1
+Loading resource: res://assets/anim/redmount/pistol_idle.png remapped: res://assets/anim/redmount/pistol_idle.png
+Loading resource: res://.godot/imported/pistol_idle.png-6a4883886317f76cd3bf3a4c032b8a7c.ctex remapped: res://.godot/imported/pistol_idle.png-6a4883886317f76cd3bf3a4c032b8a7c.ctex
+Completed load for: 'res://assets/anim/redmount/pistol_idle.png' remapped 'res://assets/anim/redmount/pistol_idle.png' at thread -1
+Loading resource: res://assets/anim/redmount/pistol_walk.png remapped: res://assets/anim/redmount/pistol_walk.png
+Loading resource: res://.godot/imported/pistol_walk.png-c6a239258c51c66cdeac304029a66d38.ctex remapped: res://.godot/imported/pistol_walk.png-c6a239258c51c66cdeac304029a66d38.ctex
+Completed load for: 'res://assets/anim/redmount/pistol_walk.png' remapped 'res://assets/anim/redmount/pistol_walk.png' at thread -1
+Loading resource: res://assets/anim/redmount/pistol_aim.png remapped: res://assets/anim/redmount/pistol_aim.png
+Loading resource: res://.godot/imported/pistol_aim.png-4e3b1fb0a3f443131ec873428da67480.ctex remapped: res://.godot/imported/pistol_aim.png-4e3b1fb0a3f443131ec873428da67480.ctex
+Completed load for: 'res://assets/anim/redmount/pistol_aim.png' remapped 'res://assets/anim/redmount/pistol_aim.png' at thread -1
+Loading resource: res://assets/anim/redmount/pistol_shoot.png remapped: res://assets/anim/redmount/pistol_shoot.png
+Loading resource: res://.godot/imported/pistol_shoot.png-0c804405b52b80c9b06803193308dcfb.ctex remapped: res://.godot/imported/pistol_shoot.png-0c804405b52b80c9b06803193308dcfb.ctex
+Completed load for: 'res://assets/anim/redmount/pistol_shoot.png' remapped 'res://assets/anim/redmount/pistol_shoot.png' at thread -1
+Loading resource: res://assets/anim/redmount/pistol_reload.png remapped: res://assets/anim/redmount/pistol_reload.png
+Loading resource: res://.godot/imported/pistol_reload.png-910040ec3bec7198e7bf0daca1cbc560.ctex remapped: res://.godot/imported/pistol_reload.png-910040ec3bec7198e7bf0daca1cbc560.ctex
+Completed load for: 'res://assets/anim/redmount/pistol_reload.png' remapped 'res://assets/anim/redmount/pistol_reload.png' at thread -1
+Loading resource: res://assets/anim/redmount/rifle_idle.png remapped: res://assets/anim/redmount/rifle_idle.png
+Loading resource: res://.godot/imported/rifle_idle.png-9231029300a2991ed162122046cd4c3d.ctex remapped: res://.godot/imported/rifle_idle.png-9231029300a2991ed162122046cd4c3d.ctex
+Completed load for: 'res://assets/anim/redmount/rifle_idle.png' remapped 'res://assets/anim/redmount/rifle_idle.png' at thread -1
+Loading resource: res://assets/anim/redmount/rifle_walk.png remapped: res://assets/anim/redmount/rifle_walk.png
+Loading resource: res://.godot/imported/rifle_walk.png-05e3db60613fc15b1bed9480194d4c58.ctex remapped: res://.godot/imported/rifle_walk.png-05e3db60613fc15b1bed9480194d4c58.ctex
+Completed load for: 'res://assets/anim/redmount/rifle_walk.png' remapped 'res://assets/anim/redmount/rifle_walk.png' at thread -1
+Loading resource: res://assets/anim/redmount/rifle_aim.png remapped: res://assets/anim/redmount/rifle_aim.png
+Loading resource: res://.godot/imported/rifle_aim.png-0d7ef36820b212b708c28e3da7fdf379.ctex remapped: res://.godot/imported/rifle_aim.png-0d7ef36820b212b708c28e3da7fdf379.ctex
+Completed load for: 'res://assets/anim/redmount/rifle_aim.png' remapped 'res://assets/anim/redmount/rifle_aim.png' at thread -1
+Loading resource: res://assets/anim/redmount/rifle_shoot.png remapped: res://assets/anim/redmount/rifle_shoot.png
+Loading resource: res://.godot/imported/rifle_shoot.png-61395ba36733e6b3fda16962e8452365.ctex remapped: res://.godot/imported/rifle_shoot.png-61395ba36733e6b3fda16962e8452365.ctex
+Completed load for: 'res://assets/anim/redmount/rifle_shoot.png' remapped 'res://assets/anim/redmount/rifle_shoot.png' at thread -1
+Loading resource: res://assets/anim/redmount/rifle_reload.png remapped: res://assets/anim/redmount/rifle_reload.png
+Loading resource: res://.godot/imported/rifle_reload.png-10730c06414422dc0593befbe54c4fbb.ctex remapped: res://.godot/imported/rifle_reload.png-10730c06414422dc0593befbe54c4fbb.ctex
+Completed load for: 'res://assets/anim/redmount/rifle_reload.png' remapped 'res://assets/anim/redmount/rifle_reload.png' at thread -1
+Completed load for: 'res://resources/anim/redmount_frames.tres' remapped 'res://resources/anim/redmount_frames.tres' at thread -1
+Loading resource: res://scripts/characters/blob_shadow.gd remapped: res://scripts/characters/blob_shadow.gd
+Completed load for: 'res://scripts/characters/blob_shadow.gd' remapped 'res://scripts/characters/blob_shadow.gd' at thread -1
+Completed load for: 'res://scenes/characters/Redmount.tscn' remapped 'res://scenes/characters/Redmount.tscn' at thread -1
+Loading resource: res://scenes/ui/HUD.tscn remapped: res://scenes/ui/HUD.tscn
+Loading resource: res://scripts/ui/hud.gd remapped: res://scripts/ui/hud.gd
+Loading resource: res://assets/environment/mahalle/portrait.png remapped: res://assets/environment/mahalle/portrait.png
+Loading resource: res://.godot/imported/portrait.png-7fb6d158a5ae298c1ce8cacd89f568f8.ctex remapped: res://.godot/imported/portrait.png-7fb6d158a5ae298c1ce8cacd89f568f8.ctex
+Completed load for: 'res://assets/environment/mahalle/portrait.png' remapped 'res://assets/environment/mahalle/portrait.png' at thread -1
+Completed load for: 'res://scripts/ui/hud.gd' remapped 'res://scripts/ui/hud.gd' at thread -1
+Completed load for: 'res://scenes/ui/HUD.tscn' remapped 'res://scenes/ui/HUD.tscn' at thread -1
+Loading resource: res://assets/ui/vignette.gdshader remapped: res://assets/ui/vignette.gdshader
+Completed load for: 'res://assets/ui/vignette.gdshader' remapped 'res://assets/ui/vignette.gdshader' at thread -1
+Loading resource: res://scripts/systems/screen_fx.gd remapped: res://scripts/systems/screen_fx.gd
+Completed load for: 'res://scripts/systems/screen_fx.gd' remapped 'res://scripts/systems/screen_fx.gd' at thread -1
+Loading resource: res://scenes/ui/DialogueBox.tscn remapped: res://scenes/ui/DialogueBox.tscn
+Loading resource: res://scripts/ui/dialogue_box.gd remapped: res://scripts/ui/dialogue_box.gd
+Completed load for: 'res://scripts/ui/dialogue_box.gd' remapped 'res://scripts/ui/dialogue_box.gd' at thread -1
+Completed load for: 'res://scenes/ui/DialogueBox.tscn' remapped 'res://scenes/ui/DialogueBox.tscn' at thread -1
+Loading resource: res://scenes/ui/PauseMenu.tscn remapped: res://scenes/ui/PauseMenu.tscn
+Completed load for: 'res://scenes/ui/PauseMenu.tscn' remapped 'res://scenes/ui/PauseMenu.tscn' at thread -1
+Completed load for: 'res://scenes/Main.tscn' remapped 'res://scenes/Main.tscn' at thread -1
+Loading resource: res://scenes/levels/Level01.tscn remapped: res://scenes/levels/Level01.tscn
+Loading resource: res://scenes/enemies/StreetThug.tscn remapped: res://scenes/enemies/StreetThug.tscn
+Loading resource: res://scenes/enemies/EnemyBase.tscn remapped: res://scenes/enemies/EnemyBase.tscn
+Loading resource: res://scripts/enemies/enemy_base.gd remapped: res://scripts/enemies/enemy_base.gd
+Completed load for: 'res://scripts/enemies/enemy_base.gd' remapped 'res://scripts/enemies/enemy_base.gd' at thread -1
+Loading resource: res://scripts/characters/enemy_sprite.gd remapped: res://scripts/characters/enemy_sprite.gd
+Completed load for: 'res://scripts/characters/enemy_sprite.gd' remapped 'res://scripts/characters/enemy_sprite.gd' at thread -1
+Completed load for: 'res://scenes/enemies/EnemyBase.tscn' remapped 'res://scenes/enemies/EnemyBase.tscn' at thread -1
+Loading resource: res://resources/enemies/street_thug.tres remapped: res://resources/enemies/street_thug.tres
+Completed load for: 'res://resources/enemies/street_thug.tres' remapped 'res://resources/enemies/street_thug.tres' at thread -1
+Loading resource: res://resources/anim/street_thug_frames.tres remapped: res://resources/anim/street_thug_frames.tres
+Loading resource: res://assets/anim/street_thug/idle.png remapped: res://assets/anim/street_thug/idle.png
+Loading resource: res://.godot/imported/idle.png-a7b46ac2ac9f9c83a4811931d53339d5.ctex remapped: res://.godot/imported/idle.png-a7b46ac2ac9f9c83a4811931d53339d5.ctex
+Completed load for: 'res://assets/anim/street_thug/idle.png' remapped 'res://assets/anim/street_thug/idle.png' at thread -1
+Loading resource: res://assets/anim/street_thug/walk.png remapped: res://assets/anim/street_thug/walk.png
+Loading resource: res://.godot/imported/walk.png-db4a79ca909cba670df805a81e1afc81.ctex remapped: res://.godot/imported/walk.png-db4a79ca909cba670df805a81e1afc81.ctex
+Completed load for: 'res://assets/anim/street_thug/walk.png' remapped 'res://assets/anim/street_thug/walk.png' at thread -1
+Loading resource: res://assets/anim/street_thug/attack.png remapped: res://assets/anim/street_thug/attack.png
+Loading resource: res://.godot/imported/attack.png-9d04583ec1e5298d4730ea05dbff4ac4.ctex remapped: res://.godot/imported/attack.png-9d04583ec1e5298d4730ea05dbff4ac4.ctex
+Completed load for: 'res://assets/anim/street_thug/attack.png' remapped 'res://assets/anim/street_thug/attack.png' at thread -1
+Loading resource: res://assets/anim/street_thug/attack2.png remapped: res://assets/anim/street_thug/attack2.png
+Loading resource: res://.godot/imported/attack2.png-69641f6c9b21f1b4170fcb7b809c6c65.ctex remapped: res://.godot/imported/attack2.png-69641f6c9b21f1b4170fcb7b809c6c65.ctex
+Completed load for: 'res://assets/anim/street_thug/attack2.png' remapped 'res://assets/anim/street_thug/attack2.png' at thread -1
+Loading resource: res://assets/anim/street_thug/hurt.png remapped: res://assets/anim/street_thug/hurt.png
+Loading resource: res://.godot/imported/hurt.png-b59dad25c028edb1e9e716ddeca42e8f.ctex remapped: res://.godot/imported/hurt.png-b59dad25c028edb1e9e716ddeca42e8f.ctex
+Completed load for: 'res://assets/anim/street_thug/hurt.png' remapped 'res://assets/anim/street_thug/hurt.png' at thread -1
+Loading resource: res://assets/anim/street_thug/knockdown.png remapped: res://assets/anim/street_thug/knockdown.png
+Loading resource: res://.godot/imported/knockdown.png-0a513486981e6b1b602f60f37464b2a0.ctex remapped: res://.godot/imported/knockdown.png-0a513486981e6b1b602f60f37464b2a0.ctex
+Completed load for: 'res://assets/anim/street_thug/knockdown.png' remapped 'res://assets/anim/street_thug/knockdown.png' at thread -1
+Loading resource: res://assets/anim/street_thug/dead.png remapped: res://assets/anim/street_thug/dead.png
+Loading resource: res://.godot/imported/dead.png-3ac425bfdaa9c4bf7603b3e9cd80daaf.ctex remapped: res://.godot/imported/dead.png-3ac425bfdaa9c4bf7603b3e9cd80daaf.ctex
+Completed load for: 'res://assets/anim/street_thug/dead.png' remapped 'res://assets/anim/street_thug/dead.png' at thread -1
+Completed load for: 'res://resources/anim/street_thug_frames.tres' remapped 'res://resources/anim/street_thug_frames.tres' at thread -1
+Completed load for: 'res://scenes/enemies/StreetThug.tscn' remapped 'res://scenes/enemies/StreetThug.tscn' at thread -1
+Loading resource: res://scenes/pickups/Coin.tscn remapped: res://scenes/pickups/Coin.tscn
+Loading resource: res://scenes/pickups/PickupBase.tscn remapped: res://scenes/pickups/PickupBase.tscn
+Loading resource: res://scripts/pickups/pickup_base.gd remapped: res://scripts/pickups/pickup_base.gd
+Completed load for: 'res://scripts/pickups/pickup_base.gd' remapped 'res://scripts/pickups/pickup_base.gd' at thread -1
+Loading resource: res://scripts/pickups/pickup_icon.gd remapped: res://scripts/pickups/pickup_icon.gd
+Completed load for: 'res://scripts/pickups/pickup_icon.gd' remapped 'res://scripts/pickups/pickup_icon.gd' at thread -1
+Completed load for: 'res://scenes/pickups/PickupBase.tscn' remapped 'res://scenes/pickups/PickupBase.tscn' at thread -1
+Loading resource: res://scripts/pickups/coin_pickup.gd remapped: res://scripts/pickups/coin_pickup.gd
+Completed load for: 'res://scripts/pickups/coin_pickup.gd' remapped 'res://scripts/pickups/coin_pickup.gd' at thread -1
+Loading resource: res://assets/pickups/placeholder_coin.png remapped: res://assets/pickups/placeholder_coin.png
+Loading resource: res://.godot/imported/placeholder_coin.png-8f21d446b2cf647fd59d4f98350350ba.ctex remapped: res://.godot/imported/placeholder_coin.png-8f21d446b2cf647fd59d4f98350350ba.ctex
+Completed load for: 'res://assets/pickups/placeholder_coin.png' remapped 'res://assets/pickups/placeholder_coin.png' at thread -1
+Completed load for: 'res://scenes/pickups/Coin.tscn' remapped 'res://scenes/pickups/Coin.tscn' at thread -1
+Loading resource: res://scenes/pickups/BatPickup.tscn remapped: res://scenes/pickups/BatPickup.tscn
+Loading resource: res://scripts/pickups/weapon_pickup.gd remapped: res://scripts/pickups/weapon_pickup.gd
+Completed load for: 'res://scripts/pickups/weapon_pickup.gd' remapped 'res://scripts/pickups/weapon_pickup.gd' at thread -1
+Loading resource: res://assets/pickups/placeholder_bat.png remapped: res://assets/pickups/placeholder_bat.png
+Loading resource: res://.godot/imported/placeholder_bat.png-f3b6f20f7bf5e3eed1268edadf773204.ctex remapped: res://.godot/imported/placeholder_bat.png-f3b6f20f7bf5e3eed1268edadf773204.ctex
+Completed load for: 'res://assets/pickups/placeholder_bat.png' remapped 'res://assets/pickups/placeholder_bat.png' at thread -1
+Completed load for: 'res://scenes/pickups/BatPickup.tscn' remapped 'res://scenes/pickups/BatPickup.tscn' at thread -1
+Loading resource: res://scenes/systems/Checkpoint.tscn remapped: res://scenes/systems/Checkpoint.tscn
+Loading resource: res://scripts/systems/checkpoint.gd remapped: res://scripts/systems/checkpoint.gd
+Completed load for: 'res://scripts/systems/checkpoint.gd' remapped 'res://scripts/systems/checkpoint.gd' at thread -1
+Completed load for: 'res://scenes/systems/Checkpoint.tscn' remapped 'res://scenes/systems/Checkpoint.tscn' at thread -1
+Loading resource: res://scenes/systems/LevelGoal.tscn remapped: res://scenes/systems/LevelGoal.tscn
+Loading resource: res://scripts/systems/level_goal.gd remapped: res://scripts/systems/level_goal.gd
+Completed load for: 'res://scripts/systems/level_goal.gd' remapped 'res://scripts/systems/level_goal.gd' at thread -1
+Completed load for: 'res://scenes/systems/LevelGoal.tscn' remapped 'res://scenes/systems/LevelGoal.tscn' at thread -1
+Loading resource: res://scenes/systems/OneWayPlatform.tscn remapped: res://scenes/systems/OneWayPlatform.tscn
+Loading resource: res://scripts/systems/one_way_platform.gd remapped: res://scripts/systems/one_way_platform.gd
+Loading resource: res://assets/environment/mahalle/cloud_puff.png remapped: res://assets/environment/mahalle/cloud_puff.png
+Loading resource: res://.godot/imported/cloud_puff.png-c20ea45b2c7cef6b7795f6dabc83ea69.ctex remapped: res://.godot/imported/cloud_puff.png-c20ea45b2c7cef6b7795f6dabc83ea69.ctex
+Completed load for: 'res://assets/environment/mahalle/cloud_puff.png' remapped 'res://assets/environment/mahalle/cloud_puff.png' at thread -1
+Loading resource: res://assets/environment/mahalle/ledge_l.png remapped: res://assets/environment/mahalle/ledge_l.png
+Loading resource: res://.godot/imported/ledge_l.png-d5cfcc7f93a97fde6eb66df9bd5e1a41.ctex remapped: res://.godot/imported/ledge_l.png-d5cfcc7f93a97fde6eb66df9bd5e1a41.ctex
+Completed load for: 'res://assets/environment/mahalle/ledge_l.png' remapped 'res://assets/environment/mahalle/ledge_l.png' at thread -1
+Loading resource: res://assets/environment/mahalle/roof_a.png remapped: res://assets/environment/mahalle/roof_a.png
+Loading resource: res://.godot/imported/roof_a.png-de045204551bd7c59fd30c637461642f.ctex remapped: res://.godot/imported/roof_a.png-de045204551bd7c59fd30c637461642f.ctex
+Completed load for: 'res://assets/environment/mahalle/roof_a.png' remapped 'res://assets/environment/mahalle/roof_a.png' at thread -1
+Loading resource: res://assets/environment/mahalle/market_awning_v2.png remapped: res://assets/environment/mahalle/market_awning_v2.png
+Loading resource: res://.godot/imported/market_awning_v2.png-eb7a4026ae0885894d36381823a14e9a.ctex remapped: res://.godot/imported/market_awning_v2.png-eb7a4026ae0885894d36381823a14e9a.ctex
+Completed load for: 'res://assets/environment/mahalle/market_awning_v2.png' remapped 'res://assets/environment/mahalle/market_awning_v2.png' at thread -1
+Loading resource: res://assets/environment/mahalle/scaffold_deck_v2.png remapped: res://assets/environment/mahalle/scaffold_deck_v2.png
+Loading resource: res://.godot/imported/scaffold_deck_v2.png-f29e2c41b0718944be6b3ef1f21ad5d9.ctex remapped: res://.godot/imported/scaffold_deck_v2.png-f29e2c41b0718944be6b3ef1f21ad5d9.ctex
+Completed load for: 'res://assets/environment/mahalle/scaffold_deck_v2.png' remapped 'res://assets/environment/mahalle/scaffold_deck_v2.png' at thread -1
+Loading resource: res://assets/environment/mahalle/crate_wood_v2.png remapped: res://assets/environment/mahalle/crate_wood_v2.png
+Loading resource: res://.godot/imported/crate_wood_v2.png-52155ed13ef30ab96051e8ed42f4ec77.ctex remapped: res://.godot/imported/crate_wood_v2.png-52155ed13ef30ab96051e8ed42f4ec77.ctex
+Completed load for: 'res://assets/environment/mahalle/crate_wood_v2.png' remapped 'res://assets/environment/mahalle/crate_wood_v2.png' at thread -1
+Loading resource: res://assets/environment/haddehane_ground.png remapped: res://assets/environment/haddehane_ground.png
+Loading resource: res://.godot/imported/haddehane_ground.png-6ca02a98627c24dead4adf032fc34dde.ctex remapped: res://.godot/imported/haddehane_ground.png-6ca02a98627c24dead4adf032fc34dde.ctex
+Completed load for: 'res://assets/environment/haddehane_ground.png' remapped 'res://assets/environment/haddehane_ground.png' at thread -1
+Loading resource: res://assets/environment/underground_ground.png remapped: res://assets/environment/underground_ground.png
+Loading resource: res://.godot/imported/underground_ground.png-b7c16ad401d71740fdf182eab2907065.ctex remapped: res://.godot/imported/underground_ground.png-b7c16ad401d71740fdf182eab2907065.ctex
+Completed load for: 'res://assets/environment/underground_ground.png' remapped 'res://assets/environment/underground_ground.png' at thread -1
+Loading resource: res://assets/environment/fortress_platform.png remapped: res://assets/environment/fortress_platform.png
+Loading resource: res://.godot/imported/fortress_platform.png-3c4b1e4262bb29600cfb6c232187df24.ctex remapped: res://.godot/imported/fortress_platform.png-3c4b1e4262bb29600cfb6c232187df24.ctex
+Completed load for: 'res://assets/environment/fortress_platform.png' remapped 'res://assets/environment/fortress_platform.png' at thread -1
+Loading resource: res://assets/environment/corridor_ground.png remapped: res://assets/environment/corridor_ground.png
+Loading resource: res://.godot/imported/corridor_ground.png-6cc383ba91c1af69a5e5505e49c0b413.ctex remapped: res://.godot/imported/corridor_ground.png-6cc383ba91c1af69a5e5505e49c0b413.ctex
+Completed load for: 'res://assets/environment/corridor_ground.png' remapped 'res://assets/environment/corridor_ground.png' at thread -1
+Completed load for: 'res://scripts/systems/one_way_platform.gd' remapped 'res://scripts/systems/one_way_platform.gd' at thread -1
+Completed load for: 'res://scenes/systems/OneWayPlatform.tscn' remapped 'res://scenes/systems/OneWayPlatform.tscn' at thread -1
+Loading resource: res://scenes/systems/MovingPlatform.tscn remapped: res://scenes/systems/MovingPlatform.tscn
+Loading resource: res://scripts/systems/moving_platform.gd remapped: res://scripts/systems/moving_platform.gd
+Completed load for: 'res://scripts/systems/moving_platform.gd' remapped 'res://scripts/systems/moving_platform.gd' at thread -1
+Completed load for: 'res://scenes/systems/MovingPlatform.tscn' remapped 'res://scenes/systems/MovingPlatform.tscn' at thread -1
+Loading resource: res://scenes/systems/Spikes.tscn remapped: res://scenes/systems/Spikes.tscn
+Loading resource: res://scripts/systems/hazard.gd remapped: res://scripts/systems/hazard.gd
+Completed load for: 'res://scripts/systems/hazard.gd' remapped 'res://scripts/systems/hazard.gd' at thread -1
+Completed load for: 'res://scenes/systems/Spikes.tscn' remapped 'res://scenes/systems/Spikes.tscn' at thread -1
+Loading resource: res://scenes/enemies/KnifeAgent.tscn remapped: res://scenes/enemies/KnifeAgent.tscn
+Loading resource: res://resources/enemies/knife_agent.tres remapped: res://resources/enemies/knife_agent.tres
+Completed load for: 'res://resources/enemies/knife_agent.tres' remapped 'res://resources/enemies/knife_agent.tres' at thread -1
+Loading resource: res://resources/anim/knife_agent_frames.tres remapped: res://resources/anim/knife_agent_frames.tres
+Loading resource: res://assets/anim/knife_agent/idle.png remapped: res://assets/anim/knife_agent/idle.png
+Loading resource: res://.godot/imported/idle.png-ca3260316cfbf9405bb91fb23b12fab7.ctex remapped: res://.godot/imported/idle.png-ca3260316cfbf9405bb91fb23b12fab7.ctex
+Completed load for: 'res://assets/anim/knife_agent/idle.png' remapped 'res://assets/anim/knife_agent/idle.png' at thread -1
+Loading resource: res://assets/anim/knife_agent/walk.png remapped: res://assets/anim/knife_agent/walk.png
+Loading resource: res://.godot/imported/walk.png-bbe9a59b92c9ca618abe2326f61325d8.ctex remapped: res://.godot/imported/walk.png-bbe9a59b92c9ca618abe2326f61325d8.ctex
+Completed load for: 'res://assets/anim/knife_agent/walk.png' remapped 'res://assets/anim/knife_agent/walk.png' at thread -1
+Loading resource: res://assets/anim/knife_agent/attack.png remapped: res://assets/anim/knife_agent/attack.png
+Loading resource: res://.godot/imported/attack.png-f3df375b13ca54b7f4ce33ef6d85f095.ctex remapped: res://.godot/imported/attack.png-f3df375b13ca54b7f4ce33ef6d85f095.ctex
+Completed load for: 'res://assets/anim/knife_agent/attack.png' remapped 'res://assets/anim/knife_agent/attack.png' at thread -1
+Loading resource: res://assets/anim/knife_agent/attack2.png remapped: res://assets/anim/knife_agent/attack2.png
+Loading resource: res://.godot/imported/attack2.png-f1cb31139449870ed5f9b05a35026723.ctex remapped: res://.godot/imported/attack2.png-f1cb31139449870ed5f9b05a35026723.ctex
+Completed load for: 'res://assets/anim/knife_agent/attack2.png' remapped 'res://assets/anim/knife_agent/attack2.png' at thread -1
+Loading resource: res://assets/anim/knife_agent/knockdown.png remapped: res://assets/anim/knife_agent/knockdown.png
+Loading resource: res://.godot/imported/knockdown.png-1fcc752f6a7feebee0e79b37353bfe18.ctex remapped: res://.godot/imported/knockdown.png-1fcc752f6a7feebee0e79b37353bfe18.ctex
+Completed load for: 'res://assets/anim/knife_agent/knockdown.png' remapped 'res://assets/anim/knife_agent/knockdown.png' at thread -1
+Loading resource: res://assets/anim/knife_agent/dead.png remapped: res://assets/anim/knife_agent/dead.png
+Loading resource: res://.godot/imported/dead.png-2f3c798bd7e4ed1cf3c3158abf64e8b2.ctex remapped: res://.godot/imported/dead.png-2f3c798bd7e4ed1cf3c3158abf64e8b2.ctex
+Completed load for: 'res://assets/anim/knife_agent/dead.png' remapped 'res://assets/anim/knife_agent/dead.png' at thread -1
+Completed load for: 'res://resources/anim/knife_agent_frames.tres' remapped 'res://resources/anim/knife_agent_frames.tres' at thread -1
+Completed load for: 'res://scenes/enemies/KnifeAgent.tscn' remapped 'res://scenes/enemies/KnifeAgent.tscn' at thread -1
+Loading resource: res://scenes/pickups/HealthPickup.tscn remapped: res://scenes/pickups/HealthPickup.tscn
+Loading resource: res://scripts/pickups/health_pickup.gd remapped: res://scripts/pickups/health_pickup.gd
+Completed load for: 'res://scripts/pickups/health_pickup.gd' remapped 'res://scripts/pickups/health_pickup.gd' at thread -1
+Loading resource: res://assets/pickups/placeholder_health.png remapped: res://assets/pickups/placeholder_health.png
+Loading resource: res://.godot/imported/placeholder_health.png-2e7fdeeab32eced964805d16727a2ce7.ctex remapped: res://.godot/imported/placeholder_health.png-2e7fdeeab32eced964805d16727a2ce7.ctex
+Completed load for: 'res://assets/pickups/placeholder_health.png' remapped 'res://assets/pickups/placeholder_health.png' at thread -1
+Completed load for: 'res://scenes/pickups/HealthPickup.tscn' remapped 'res://scenes/pickups/HealthPickup.tscn' at thread -1
+Loading resource: res://scenes/systems/BattleArena.tscn remapped: res://scenes/systems/BattleArena.tscn
+Loading resource: res://scripts/systems/battle_arena.gd remapped: res://scripts/systems/battle_arena.gd
+Completed load for: 'res://scripts/systems/battle_arena.gd' remapped 'res://scripts/systems/battle_arena.gd' at thread -1
+Completed load for: 'res://scenes/systems/BattleArena.tscn' remapped 'res://scenes/systems/BattleArena.tscn' at thread -1
+Loading resource: res://scenes/systems/DialogueTrigger.tscn remapped: res://scenes/systems/DialogueTrigger.tscn
+Loading resource: res://scripts/systems/dialogue_trigger.gd remapped: res://scripts/systems/dialogue_trigger.gd
+Completed load for: 'res://scripts/systems/dialogue_trigger.gd' remapped 'res://scripts/systems/dialogue_trigger.gd' at thread -1
+Completed load for: 'res://scenes/systems/DialogueTrigger.tscn' remapped 'res://scenes/systems/DialogueTrigger.tscn' at thread -1
+Loading resource: res://scenes/systems/CollapsingPlatform.tscn remapped: res://scenes/systems/CollapsingPlatform.tscn
+Loading resource: res://scripts/systems/collapsing_platform.gd remapped: res://scripts/systems/collapsing_platform.gd
+Completed load for: 'res://scripts/systems/collapsing_platform.gd' remapped 'res://scripts/systems/collapsing_platform.gd' at thread -1
+Completed load for: 'res://scenes/systems/CollapsingPlatform.tscn' remapped 'res://scenes/systems/CollapsingPlatform.tscn' at thread -1
+Loading resource: res://scenes/systems/HintTrigger.tscn remapped: res://scenes/systems/HintTrigger.tscn
+Loading resource: res://scripts/systems/hint_trigger.gd remapped: res://scripts/systems/hint_trigger.gd
+Completed load for: 'res://scripts/systems/hint_trigger.gd' remapped 'res://scripts/systems/hint_trigger.gd' at thread -1
+Completed load for: 'res://scenes/systems/HintTrigger.tscn' remapped 'res://scenes/systems/HintTrigger.tscn' at thread -1
+Loading resource: res://scenes/pickups/ArmorPickup.tscn remapped: res://scenes/pickups/ArmorPickup.tscn
+Loading resource: res://scripts/pickups/armor_pickup.gd remapped: res://scripts/pickups/armor_pickup.gd
+Completed load for: 'res://scripts/pickups/armor_pickup.gd' remapped 'res://scripts/pickups/armor_pickup.gd' at thread -1
+Loading resource: res://assets/pickups/placeholder_armor.png remapped: res://assets/pickups/placeholder_armor.png
+Loading resource: res://.godot/imported/placeholder_armor.png-98cf36a79fa3230ade2afcfb21787970.ctex remapped: res://.godot/imported/placeholder_armor.png-98cf36a79fa3230ade2afcfb21787970.ctex
+Completed load for: 'res://assets/pickups/placeholder_armor.png' remapped 'res://assets/pickups/placeholder_armor.png' at thread -1
+Completed load for: 'res://scenes/pickups/ArmorPickup.tscn' remapped 'res://scenes/pickups/ArmorPickup.tscn' at thread -1
+Loading resource: res://scripts/systems/level01_dressing.gd remapped: res://scripts/systems/level01_dressing.gd
+Loading resource: res://assets/backgrounds/level01_urban_dusk.png remapped: res://assets/backgrounds/level01_urban_dusk.png
+Loading resource: res://.godot/imported/level01_urban_dusk.png-2c848cffd9284c83f5cc91270aa9b3db.ctex remapped: res://.godot/imported/level01_urban_dusk.png-2c848cffd9284c83f5cc91270aa9b3db.ctex
+Completed load for: 'res://assets/backgrounds/level01_urban_dusk.png' remapped 'res://assets/backgrounds/level01_urban_dusk.png' at thread -1
+Loading resource: res://assets/environment/mahalle/house_a.png remapped: res://assets/environment/mahalle/house_a.png
+Loading resource: res://.godot/imported/house_a.png-d6a976f4d4d63bb7819405a758913c16.ctex remapped: res://.godot/imported/house_a.png-d6a976f4d4d63bb7819405a758913c16.ctex
+Completed load for: 'res://assets/environment/mahalle/house_a.png' remapped 'res://assets/environment/mahalle/house_a.png' at thread -1
+Loading resource: res://assets/environment/mahalle/house_b.png remapped: res://assets/environment/mahalle/house_b.png
+Loading resource: res://.godot/imported/house_b.png-f88b0eb2d350481a3493be8c4a11b8d6.ctex remapped: res://.godot/imported/house_b.png-f88b0eb2d350481a3493be8c4a11b8d6.ctex
+Completed load for: 'res://assets/environment/mahalle/house_b.png' remapped 'res://assets/environment/mahalle/house_b.png' at thread -1
+Loading resource: res://assets/environment/mahalle/house_c.png remapped: res://assets/environment/mahalle/house_c.png
+Loading resource: res://.godot/imported/house_c.png-88847710eafa7abd57cffc941da50879.ctex remapped: res://.godot/imported/house_c.png-88847710eafa7abd57cffc941da50879.ctex
+Completed load for: 'res://assets/environment/mahalle/house_c.png' remapped 'res://assets/environment/mahalle/house_c.png' at thread -1
+Loading resource: res://assets/environment/mahalle/shop_interior.png remapped: res://assets/environment/mahalle/shop_interior.png
+Loading resource: res://.godot/imported/shop_interior.png-b75c36471c952e51b7d53a4035bb7ff9.ctex remapped: res://.godot/imported/shop_interior.png-b75c36471c952e51b7d53a4035bb7ff9.ctex
+Completed load for: 'res://assets/environment/mahalle/shop_interior.png' remapped 'res://assets/environment/mahalle/shop_interior.png' at thread -1
+Loading resource: res://assets/environment/mahalle/tree_pot.png remapped: res://assets/environment/mahalle/tree_pot.png
+Loading resource: res://.godot/imported/tree_pot.png-746cdc16d1bfa8b5526c9cbf6b5bb495.ctex remapped: res://.godot/imported/tree_pot.png-746cdc16d1bfa8b5526c9cbf6b5bb495.ctex
+Completed load for: 'res://assets/environment/mahalle/tree_pot.png' remapped 'res://assets/environment/mahalle/tree_pot.png' at thread -1
+Completed load for: 'res://scripts/systems/level01_dressing.gd' remapped 'res://scripts/systems/level01_dressing.gd' at thread -1
+Loading resource: res://scripts/systems/level01_long_route.gd remapped: res://scripts/systems/level01_long_route.gd
+Loading resource: res://scenes/pickups/KnifePickup.tscn remapped: res://scenes/pickups/KnifePickup.tscn
+Loading resource: res://assets/pickups/placeholder_knife.png remapped: res://assets/pickups/placeholder_knife.png
+Loading resource: res://.godot/imported/placeholder_knife.png-cb2ac9e5c4baea1e378f27591a9bd107.ctex remapped: res://.godot/imported/placeholder_knife.png-cb2ac9e5c4baea1e378f27591a9bd107.ctex
+Completed load for: 'res://assets/pickups/placeholder_knife.png' remapped 'res://assets/pickups/placeholder_knife.png' at thread -1
+Completed load for: 'res://scenes/pickups/KnifePickup.tscn' remapped 'res://scenes/pickups/KnifePickup.tscn' at thread -1
+Loading resource: res://scenes/pickups/PistolPickup.tscn remapped: res://scenes/pickups/PistolPickup.tscn
+Loading resource: res://scripts/pickups/gun_pickup.gd remapped: res://scripts/pickups/gun_pickup.gd
+Completed load for: 'res://scripts/pickups/gun_pickup.gd' remapped 'res://scripts/pickups/gun_pickup.gd' at thread -1
+Loading resource: res://assets/pickups/placeholder_pistol.png remapped: res://assets/pickups/placeholder_pistol.png
+Loading resource: res://.godot/imported/placeholder_pistol.png-0604fbe0cd411116119e27bf96c97cd3.ctex remapped: res://.godot/imported/placeholder_pistol.png-0604fbe0cd411116119e27bf96c97cd3.ctex
+Completed load for: 'res://assets/pickups/placeholder_pistol.png' remapped 'res://assets/pickups/placeholder_pistol.png' at thread -1
+Completed load for: 'res://scenes/pickups/PistolPickup.tscn' remapped 'res://scenes/pickups/PistolPickup.tscn' at thread -1
+Loading resource: res://scenes/pickups/RiflePickup.tscn remapped: res://scenes/pickups/RiflePickup.tscn
+Completed load for: 'res://scenes/pickups/RiflePickup.tscn' remapped 'res://scenes/pickups/RiflePickup.tscn' at thread -1
+Loading resource: res://scenes/systems/BreakableWall.tscn remapped: res://scenes/systems/BreakableWall.tscn
+Loading resource: res://scripts/systems/breakable_wall.gd remapped: res://scripts/systems/breakable_wall.gd
+Loading resource: res://assets/environment/mahalle/wall_broken.png remapped: res://assets/environment/mahalle/wall_broken.png
+Loading resource: res://.godot/imported/wall_broken.png-0ff755694ba2ea96e0ab091b826683d0.ctex remapped: res://.godot/imported/wall_broken.png-0ff755694ba2ea96e0ab091b826683d0.ctex
+Completed load for: 'res://assets/environment/mahalle/wall_broken.png' remapped 'res://assets/environment/mahalle/wall_broken.png' at thread -1
+Completed load for: 'res://scripts/systems/breakable_wall.gd' remapped 'res://scripts/systems/breakable_wall.gd' at thread -1
+Completed load for: 'res://scenes/systems/BreakableWall.tscn' remapped 'res://scenes/systems/BreakableWall.tscn' at thread -1
+Loading resource: res://assets/environment/mahalle/ground_long.png remapped: res://assets/environment/mahalle/ground_long.png
+Loading resource: res://.godot/imported/ground_long.png-6290202ec58452f653fdab2f8977ebac.ctex remapped: res://.godot/imported/ground_long.png-6290202ec58452f653fdab2f8977ebac.ctex
+Completed load for: 'res://assets/environment/mahalle/ground_long.png' remapped 'res://assets/environment/mahalle/ground_long.png' at thread -1
+Loading resource: res://assets/environment/mahalle/stone_fill.png remapped: res://assets/environment/mahalle/stone_fill.png
+Loading resource: res://.godot/imported/stone_fill.png-7a6cf336aa5a7cbd99c838ad7555de48.ctex remapped: res://.godot/imported/stone_fill.png-7a6cf336aa5a7cbd99c838ad7555de48.ctex
+Completed load for: 'res://assets/environment/mahalle/stone_fill.png' remapped 'res://assets/environment/mahalle/stone_fill.png' at thread -1
+Loading resource: res://assets/environment/mahalle/bus.png remapped: res://assets/environment/mahalle/bus.png
+Loading resource: res://.godot/imported/bus.png-7000ab7f1e696e33d0af8a6953ce8566.ctex remapped: res://.godot/imported/bus.png-7000ab7f1e696e33d0af8a6953ce8566.ctex
+Completed load for: 'res://assets/environment/mahalle/bus.png' remapped 'res://assets/environment/mahalle/bus.png' at thread -1
+Loading resource: res://shaders/landmark_fade.gdshader remapped: res://shaders/landmark_fade.gdshader
+Completed load for: 'res://shaders/landmark_fade.gdshader' remapped 'res://shaders/landmark_fade.gdshader' at thread -1
+Loading resource: res://assets/backgrounds/level01_turkish_locations_atlas.png remapped: res://assets/backgrounds/level01_turkish_locations_atlas.png
+Loading resource: res://.godot/imported/level01_turkish_locations_atlas.png-da8fbbdaf4d044d83b3e5dbe07be664a.ctex remapped: res://.godot/imported/level01_turkish_locations_atlas.png-da8fbbdaf4d044d83b3e5dbe07be664a.ctex
+Completed load for: 'res://assets/backgrounds/level01_turkish_locations_atlas.png' remapped 'res://assets/backgrounds/level01_turkish_locations_atlas.png' at thread -1
+Loading resource: res://assets/backgrounds/level01_convoy_yard_v2.png remapped: res://assets/backgrounds/level01_convoy_yard_v2.png
+Loading resource: res://.godot/imported/level01_convoy_yard_v2.png-59144623083e39f49f33d34cda1a181f.ctex remapped: res://.godot/imported/level01_convoy_yard_v2.png-59144623083e39f49f33d34cda1a181f.ctex
+Completed load for: 'res://assets/backgrounds/level01_convoy_yard_v2.png' remapped 'res://assets/backgrounds/level01_convoy_yard_v2.png' at thread -1
+Loading resource: res://assets/environment/mahalle/plant_small.png remapped: res://assets/environment/mahalle/plant_small.png
+Loading resource: res://.godot/imported/plant_small.png-32dd0bc5dbc51624fb8f57aaef1ed5b0.ctex remapped: res://.godot/imported/plant_small.png-32dd0bc5dbc51624fb8f57aaef1ed5b0.ctex
+Completed load for: 'res://assets/environment/mahalle/plant_small.png' remapped 'res://assets/environment/mahalle/plant_small.png' at thread -1
+Loading resource: res://assets/environment/mahalle/vase_small.png remapped: res://assets/environment/mahalle/vase_small.png
+Loading resource: res://.godot/imported/vase_small.png-e479e0f0f7f5d62da9ea107d738bdde7.ctex remapped: res://.godot/imported/vase_small.png-e479e0f0f7f5d62da9ea107d738bdde7.ctex
+Completed load for: 'res://assets/environment/mahalle/vase_small.png' remapped 'res://assets/environment/mahalle/vase_small.png' at thread -1
+Loading resource: res://assets/environment/mahalle/vase_big.png remapped: res://assets/environment/mahalle/vase_big.png
+Loading resource: res://.godot/imported/vase_big.png-b4ac2bd2c860472609edf1d1c2a2004c.ctex remapped: res://.godot/imported/vase_big.png-b4ac2bd2c860472609edf1d1c2a2004c.ctex
+Completed load for: 'res://assets/environment/mahalle/vase_big.png' remapped 'res://assets/environment/mahalle/vase_big.png' at thread -1
+Loading resource: res://assets/environment/mahalle/vase_iznik_v2.png remapped: res://assets/environment/mahalle/vase_iznik_v2.png
+Loading resource: res://.godot/imported/vase_iznik_v2.png-bed609d4a6474469974a9fb00a5eddd0.ctex remapped: res://.godot/imported/vase_iznik_v2.png-bed609d4a6474469974a9fb00a5eddd0.ctex
+Completed load for: 'res://assets/environment/mahalle/vase_iznik_v2.png' remapped 'res://assets/environment/mahalle/vase_iznik_v2.png' at thread -1
+Loading resource: res://assets/environment/mahalle/chest_ottoman_v2.png remapped: res://assets/environment/mahalle/chest_ottoman_v2.png
+Loading resource: res://.godot/imported/chest_ottoman_v2.png-26e64c83efc40902c76f4571cf46b03c.ctex remapped: res://.godot/imported/chest_ottoman_v2.png-26e64c83efc40902c76f4571cf46b03c.ctex
+Completed load for: 'res://assets/environment/mahalle/chest_ottoman_v2.png' remapped 'res://assets/environment/mahalle/chest_ottoman_v2.png' at thread -1
+Loading resource: res://assets/environment/shop_haddehane.png remapped: res://assets/environment/shop_haddehane.png
+Loading resource: res://.godot/imported/shop_haddehane.png-e387a2f6adc661bbeb7243a7c7ec1914.ctex remapped: res://.godot/imported/shop_haddehane.png-e387a2f6adc661bbeb7243a7c7ec1914.ctex
+Completed load for: 'res://assets/environment/shop_haddehane.png' remapped 'res://assets/environment/shop_haddehane.png' at thread -1
+Loading resource: res://assets/environment/shop_underground.png remapped: res://assets/environment/shop_underground.png
+Loading resource: res://.godot/imported/shop_underground.png-b12fdd0496da9f62eeac3c1beee74ae8.ctex remapped: res://.godot/imported/shop_underground.png-b12fdd0496da9f62eeac3c1beee74ae8.ctex
+Completed load for: 'res://assets/environment/shop_underground.png' remapped 'res://assets/environment/shop_underground.png' at thread -1
+Loading resource: res://assets/environment/shop_fortress.png remapped: res://assets/environment/shop_fortress.png
+Loading resource: res://.godot/imported/shop_fortress.png-9ca397ea2b506483a3ca55b0357d9432.ctex remapped: res://.godot/imported/shop_fortress.png-9ca397ea2b506483a3ca55b0357d9432.ctex
+Completed load for: 'res://assets/environment/shop_fortress.png' remapped 'res://assets/environment/shop_fortress.png' at thread -1
+Loading resource: res://scenes/pickups/AmmoPickup.tscn remapped: res://scenes/pickups/AmmoPickup.tscn
+Loading resource: res://scripts/pickups/ammo_pickup.gd remapped: res://scripts/pickups/ammo_pickup.gd
+Completed load for: 'res://scripts/pickups/ammo_pickup.gd' remapped 'res://scripts/pickups/ammo_pickup.gd' at thread -1
+Loading resource: res://assets/pickups/placeholder_ammo.png remapped: res://assets/pickups/placeholder_ammo.png
+Loading resource: res://.godot/imported/placeholder_ammo.png-d9052eda11d8622442e31ca3861ca2e2.ctex remapped: res://.godot/imported/placeholder_ammo.png-d9052eda11d8622442e31ca3861ca2e2.ctex
+Completed load for: 'res://assets/pickups/placeholder_ammo.png' remapped 'res://assets/pickups/placeholder_ammo.png' at thread -1
+Completed load for: 'res://scenes/pickups/AmmoPickup.tscn' remapped 'res://scenes/pickups/AmmoPickup.tscn' at thread -1
+Completed load for: 'res://scripts/systems/level01_long_route.gd' remapped 'res://scripts/systems/level01_long_route.gd' at thread -1
+Completed load for: 'res://scenes/levels/Level01.tscn' remapped 'res://scenes/levels/Level01.tscn' at thread -1
+Loading resource: res://assets/music/mus_street.wav remapped: res://assets/music/mus_street.wav
+Loading resource: res://.godot/imported/mus_street.wav-1a0b0ee2b632f16281ade31e9f07bb38.sample remapped: res://.godot/imported/mus_street.wav-1a0b0ee2b632f16281ade31e9f07bb38.sample
+Completed load for: 'res://assets/music/mus_street.wav' remapped 'res://assets/music/mus_street.wav' at thread -1
+Loading resource: res://scenes/levels/Book03Level12.tscn remapped: res://scenes/levels/Book03Level12.tscn
+Loading resource: res://scripts/systems/book03_level12.gd remapped: res://scripts/systems/book03_level12.gd
+Loading resource: res://scenes/enemies/RifleGuard.tscn remapped: res://scenes/enemies/RifleGuard.tscn
+Loading resource: res://resources/enemies/rifle_guard.tres remapped: res://resources/enemies/rifle_guard.tres
+Completed load for: 'res://resources/enemies/rifle_guard.tres' remapped 'res://resources/enemies/rifle_guard.tres' at thread -1
+Loading resource: res://resources/anim/rifle_guard_frames.tres remapped: res://resources/anim/rifle_guard_frames.tres
+Loading resource: res://assets/anim/rifle_guard/idle.png remapped: res://assets/anim/rifle_guard/idle.png
+Loading resource: res://.godot/imported/idle.png-2b96a667545013b68c3ae5245ca40e2b.ctex remapped: res://.godot/imported/idle.png-2b96a667545013b68c3ae5245ca40e2b.ctex
+Completed load for: 'res://assets/anim/rifle_guard/idle.png' remapped 'res://assets/anim/rifle_guard/idle.png' at thread -1
+Loading resource: res://assets/anim/rifle_guard/walk.png remapped: res://assets/anim/rifle_guard/walk.png
+Loading resource: res://.godot/imported/walk.png-cf995d9b09ba460e88c11e2f7e4bace7.ctex remapped: res://.godot/imported/walk.png-cf995d9b09ba460e88c11e2f7e4bace7.ctex
+Completed load for: 'res://assets/anim/rifle_guard/walk.png' remapped 'res://assets/anim/rifle_guard/walk.png' at thread -1
+Loading resource: res://assets/anim/rifle_guard/aim.png remapped: res://assets/anim/rifle_guard/aim.png
+Loading resource: res://.godot/imported/aim.png-25bc31c0368591ee90a09fc68bdc3787.ctex remapped: res://.godot/imported/aim.png-25bc31c0368591ee90a09fc68bdc3787.ctex
+Completed load for: 'res://assets/anim/rifle_guard/aim.png' remapped 'res://assets/anim/rifle_guard/aim.png' at thread -1
+Loading resource: res://assets/anim/rifle_guard/shoot.png remapped: res://assets/anim/rifle_guard/shoot.png
+Loading resource: res://.godot/imported/shoot.png-be83a26640f58c4544f21c34e6829271.ctex remapped: res://.godot/imported/shoot.png-be83a26640f58c4544f21c34e6829271.ctex
+Completed load for: 'res://assets/anim/rifle_guard/shoot.png' remapped 'res://assets/anim/rifle_guard/shoot.png' at thread -1
+Loading resource: res://assets/anim/rifle_guard/reload.png remapped: res://assets/anim/rifle_guard/reload.png
+Loading resource: res://.godot/imported/reload.png-fa207dbab1c5fd950fcbde2ee1750f87.ctex remapped: res://.godot/imported/reload.png-fa207dbab1c5fd950fcbde2ee1750f87.ctex
+Completed load for: 'res://assets/anim/rifle_guard/reload.png' remapped 'res://assets/anim/rifle_guard/reload.png' at thread -1
+Loading resource: res://assets/anim/rifle_guard/hurt.png remapped: res://assets/anim/rifle_guard/hurt.png
+Loading resource: res://.godot/imported/hurt.png-a704a6c9a1de5c35819a49f76a46b69e.ctex remapped: res://.godot/imported/hurt.png-a704a6c9a1de5c35819a49f76a46b69e.ctex
+Completed load for: 'res://assets/anim/rifle_guard/hurt.png' remapped 'res://assets/anim/rifle_guard/hurt.png' at thread -1
+Loading resource: res://assets/anim/rifle_guard/dead.png remapped: res://assets/anim/rifle_guard/dead.png
+Loading resource: res://.godot/imported/dead.png-bd3624dffd599aee4ad3691bdf8c222b.ctex remapped: res://.godot/imported/dead.png-bd3624dffd599aee4ad3691bdf8c222b.ctex
+Completed load for: 'res://assets/anim/rifle_guard/dead.png' remapped 'res://assets/anim/rifle_guard/dead.png' at thread -1
+Completed load for: 'res://resources/anim/rifle_guard_frames.tres' remapped 'res://resources/anim/rifle_guard_frames.tres' at thread -1
+Completed load for: 'res://scenes/enemies/RifleGuard.tscn' remapped 'res://scenes/enemies/RifleGuard.tscn' at thread -1
+Loading resource: res://scenes/enemies/ArmoredBruiser.tscn remapped: res://scenes/enemies/ArmoredBruiser.tscn
+Loading resource: res://resources/enemies/armored_bruiser.tres remapped: res://resources/enemies/armored_bruiser.tres
+Completed load for: 'res://resources/enemies/armored_bruiser.tres' remapped 'res://resources/enemies/armored_bruiser.tres' at thread -1
+Loading resource: res://resources/anim/armored_bruiser_frames.tres remapped: res://resources/anim/armored_bruiser_frames.tres
+Loading resource: res://assets/anim/armored_bruiser/idle.png remapped: res://assets/anim/armored_bruiser/idle.png
+Loading resource: res://.godot/imported/idle.png-73391576aeb35720791e36e5d834b635.ctex remapped: res://.godot/imported/idle.png-73391576aeb35720791e36e5d834b635.ctex
+Completed load for: 'res://assets/anim/armored_bruiser/idle.png' remapped 'res://assets/anim/armored_bruiser/idle.png' at thread -1
+Loading resource: res://assets/anim/armored_bruiser/walk.png remapped: res://assets/anim/armored_bruiser/walk.png
+Loading resource: res://.godot/imported/walk.png-5da2b0ed29e30a25ddc80112883d99bb.ctex remapped: res://.godot/imported/walk.png-5da2b0ed29e30a25ddc80112883d99bb.ctex
+Completed load for: 'res://assets/anim/armored_bruiser/walk.png' remapped 'res://assets/anim/armored_bruiser/walk.png' at thread -1
+Loading resource: res://assets/anim/armored_bruiser/attack.png remapped: res://assets/anim/armored_bruiser/attack.png
+Loading resource: res://.godot/imported/attack.png-010b943e819415782fd3da31f87a57eb.ctex remapped: res://.godot/imported/attack.png-010b943e819415782fd3da31f87a57eb.ctex
+Completed load for: 'res://assets/anim/armored_bruiser/attack.png' remapped 'res://assets/anim/armored_bruiser/attack.png' at thread -1
+Loading resource: res://assets/anim/armored_bruiser/attack_heavy.png remapped: res://assets/anim/armored_bruiser/attack_heavy.png
+Loading resource: res://.godot/imported/attack_heavy.png-c9157837260d626268dd0a24a57094e4.ctex remapped: res://.godot/imported/attack_heavy.png-c9157837260d626268dd0a24a57094e4.ctex
+Completed load for: 'res://assets/anim/armored_bruiser/attack_heavy.png' remapped 'res://assets/anim/armored_bruiser/attack_heavy.png' at thread -1
+Loading resource: res://assets/anim/armored_bruiser/block.png remapped: res://assets/anim/armored_bruiser/block.png
+Loading resource: res://.godot/imported/block.png-c0785c11e82a43f3615b8e171ff30367.ctex remapped: res://.godot/imported/block.png-c0785c11e82a43f3615b8e171ff30367.ctex
+Completed load for: 'res://assets/anim/armored_bruiser/block.png' remapped 'res://assets/anim/armored_bruiser/block.png' at thread -1
+Loading resource: res://assets/anim/armored_bruiser/guard_break.png remapped: res://assets/anim/armored_bruiser/guard_break.png
+Loading resource: res://.godot/imported/guard_break.png-34885fab4a853e157e3bb8e8063f3628.ctex remapped: res://.godot/imported/guard_break.png-34885fab4a853e157e3bb8e8063f3628.ctex
+Completed load for: 'res://assets/anim/armored_bruiser/guard_break.png' remapped 'res://assets/anim/armored_bruiser/guard_break.png' at thread -1
+Loading resource: res://assets/anim/armored_bruiser/hurt.png remapped: res://assets/anim/armored_bruiser/hurt.png
+Loading resource: res://.godot/imported/hurt.png-c5c8be2a1846d082a43de193d0bb0c65.ctex remapped: res://.godot/imported/hurt.png-c5c8be2a1846d082a43de193d0bb0c65.ctex
+Completed load for: 'res://assets/anim/armored_bruiser/hurt.png' remapped 'res://assets/anim/armored_bruiser/hurt.png' at thread -1
+Loading resource: res://assets/anim/armored_bruiser/dead.png remapped: res://assets/anim/armored_bruiser/dead.png
+Loading resource: res://.godot/imported/dead.png-9f80201ab88988d068987e72d675aecc.ctex remapped: res://.godot/imported/dead.png-9f80201ab88988d068987e72d675aecc.ctex
+Completed load for: 'res://assets/anim/armored_bruiser/dead.png' remapped 'res://assets/anim/armored_bruiser/dead.png' at thread -1
+Completed load for: 'res://resources/anim/armored_bruiser_frames.tres' remapped 'res://resources/anim/armored_bruiser_frames.tres' at thread -1
+Completed load for: 'res://scenes/enemies/ArmoredBruiser.tscn' remapped 'res://scenes/enemies/ArmoredBruiser.tscn' at thread -1
+Loading resource: res://scenes/enemies/AgileAssassin.tscn remapped: res://scenes/enemies/AgileAssassin.tscn
+Loading resource: res://resources/enemies/agile_assassin.tres remapped: res://resources/enemies/agile_assassin.tres
+Completed load for: 'res://resources/enemies/agile_assassin.tres' remapped 'res://resources/enemies/agile_assassin.tres' at thread -1
+Loading resource: res://resources/anim/agile_assassin_frames.tres remapped: res://resources/anim/agile_assassin_frames.tres
+Loading resource: res://assets/anim/agile_assassin/idle.png remapped: res://assets/anim/agile_assassin/idle.png
+Loading resource: res://.godot/imported/idle.png-f037a5e33fc0f1e36a963e88b5f0d223.ctex remapped: res://.godot/imported/idle.png-f037a5e33fc0f1e36a963e88b5f0d223.ctex
+Completed load for: 'res://assets/anim/agile_assassin/idle.png' remapped 'res://assets/anim/agile_assassin/idle.png' at thread -1
+Loading resource: res://assets/anim/agile_assassin/walk.png remapped: res://assets/anim/agile_assassin/walk.png
+Loading resource: res://.godot/imported/walk.png-08a9f5cf141292b4ab1a9b36867124c0.ctex remapped: res://.godot/imported/walk.png-08a9f5cf141292b4ab1a9b36867124c0.ctex
+Completed load for: 'res://assets/anim/agile_assassin/walk.png' remapped 'res://assets/anim/agile_assassin/walk.png' at thread -1
+Loading resource: res://assets/anim/agile_assassin/evade.png remapped: res://assets/anim/agile_assassin/evade.png
+Loading resource: res://.godot/imported/evade.png-11a8d0d121e37483cf659cedf47f0d19.ctex remapped: res://.godot/imported/evade.png-11a8d0d121e37483cf659cedf47f0d19.ctex
+Completed load for: 'res://assets/anim/agile_assassin/evade.png' remapped 'res://assets/anim/agile_assassin/evade.png' at thread -1
+Loading resource: res://assets/anim/agile_assassin/attack.png remapped: res://assets/anim/agile_assassin/attack.png
+Loading resource: res://.godot/imported/attack.png-16560e629b1a8d22668c3bf42fa1a07f.ctex remapped: res://.godot/imported/attack.png-16560e629b1a8d22668c3bf42fa1a07f.ctex
+Completed load for: 'res://assets/anim/agile_assassin/attack.png' remapped 'res://assets/anim/agile_assassin/attack.png' at thread -1
+Loading resource: res://assets/anim/agile_assassin/leap.png remapped: res://assets/anim/agile_assassin/leap.png
+Loading resource: res://.godot/imported/leap.png-15673faa88a8ff33572829f5794afc83.ctex remapped: res://.godot/imported/leap.png-15673faa88a8ff33572829f5794afc83.ctex
+Completed load for: 'res://assets/anim/agile_assassin/leap.png' remapped 'res://assets/anim/agile_assassin/leap.png' at thread -1
+Loading resource: res://assets/anim/agile_assassin/hurt.png remapped: res://assets/anim/agile_assassin/hurt.png
+Loading resource: res://.godot/imported/hurt.png-de73e197bfc19d99c68d80ca096ce460.ctex remapped: res://.godot/imported/hurt.png-de73e197bfc19d99c68d80ca096ce460.ctex
+Completed load for: 'res://assets/anim/agile_assassin/hurt.png' remapped 'res://assets/anim/agile_assassin/hurt.png' at thread -1
+Loading resource: res://assets/anim/agile_assassin/dead.png remapped: res://assets/anim/agile_assassin/dead.png
+Loading resource: res://.godot/imported/dead.png-b8709dab2b2c0058ba7c8051ceef07ac.ctex remapped: res://.godot/imported/dead.png-b8709dab2b2c0058ba7c8051ceef07ac.ctex
+Completed load for: 'res://assets/anim/agile_assassin/dead.png' remapped 'res://assets/anim/agile_assassin/dead.png' at thread -1
+Completed load for: 'res://resources/anim/agile_assassin_frames.tres' remapped 'res://resources/anim/agile_assassin_frames.tres' at thread -1
+Completed load for: 'res://scenes/enemies/AgileAssassin.tscn' remapped 'res://scenes/enemies/AgileAssassin.tscn' at thread -1
+Loading resource: res://scenes/enemies/EliteGuard.tscn remapped: res://scenes/enemies/EliteGuard.tscn
+Loading resource: res://resources/enemies/elite_guard.tres remapped: res://resources/enemies/elite_guard.tres
+Completed load for: 'res://resources/enemies/elite_guard.tres' remapped 'res://resources/enemies/elite_guard.tres' at thread -1
+Loading resource: res://resources/anim/elite_guard_frames.tres remapped: res://resources/anim/elite_guard_frames.tres
+Loading resource: res://assets/anim/elite_guard/idle.png remapped: res://assets/anim/elite_guard/idle.png
+Loading resource: res://.godot/imported/idle.png-af471298c4530a243971f0482ec5da05.ctex remapped: res://.godot/imported/idle.png-af471298c4530a243971f0482ec5da05.ctex
+Completed load for: 'res://assets/anim/elite_guard/idle.png' remapped 'res://assets/anim/elite_guard/idle.png' at thread -1
+Loading resource: res://assets/anim/elite_guard/walk.png remapped: res://assets/anim/elite_guard/walk.png
+Loading resource: res://.godot/imported/walk.png-9e23b1a95c0f65e6e2508b78fec633a3.ctex remapped: res://.godot/imported/walk.png-9e23b1a95c0f65e6e2508b78fec633a3.ctex
+Completed load for: 'res://assets/anim/elite_guard/walk.png' remapped 'res://assets/anim/elite_guard/walk.png' at thread -1
+Loading resource: res://assets/anim/elite_guard/attack.png remapped: res://assets/anim/elite_guard/attack.png
+Loading resource: res://.godot/imported/attack.png-b6a52fb9f1b369aed99c57003291bbdc.ctex remapped: res://.godot/imported/attack.png-b6a52fb9f1b369aed99c57003291bbdc.ctex
+Completed load for: 'res://assets/anim/elite_guard/attack.png' remapped 'res://assets/anim/elite_guard/attack.png' at thread -1
+Loading resource: res://assets/anim/elite_guard/attack2.png remapped: res://assets/anim/elite_guard/attack2.png
+Loading resource: res://.godot/imported/attack2.png-d58dfa3f64a9b42ea095c95d1a41ff03.ctex remapped: res://.godot/imported/attack2.png-d58dfa3f64a9b42ea095c95d1a41ff03.ctex
+Completed load for: 'res://assets/anim/elite_guard/attack2.png' remapped 'res://assets/anim/elite_guard/attack2.png' at thread -1
+Loading resource: res://assets/anim/elite_guard/block.png remapped: res://assets/anim/elite_guard/block.png
+Loading resource: res://.godot/imported/block.png-5621d680035473a7010a4666e57e0b04.ctex remapped: res://.godot/imported/block.png-5621d680035473a7010a4666e57e0b04.ctex
+Completed load for: 'res://assets/anim/elite_guard/block.png' remapped 'res://assets/anim/elite_guard/block.png' at thread -1
+Loading resource: res://assets/anim/elite_guard/hurt.png remapped: res://assets/anim/elite_guard/hurt.png
+Loading resource: res://.godot/imported/hurt.png-3df9a81936489ee954306d8b6dd663ee.ctex remapped: res://.godot/imported/hurt.png-3df9a81936489ee954306d8b6dd663ee.ctex
+Completed load for: 'res://assets/anim/elite_guard/hurt.png' remapped 'res://assets/anim/elite_guard/hurt.png' at thread -1
+Loading resource: res://assets/anim/elite_guard/dead.png remapped: res://assets/anim/elite_guard/dead.png
+Loading resource: res://.godot/imported/dead.png-ad53cc1f71d1bb75c8363bf286f7be94.ctex remapped: res://.godot/imported/dead.png-ad53cc1f71d1bb75c8363bf286f7be94.ctex
+Completed load for: 'res://assets/anim/elite_guard/dead.png' remapped 'res://assets/anim/elite_guard/dead.png' at thread -1
+Completed load for: 'res://resources/anim/elite_guard_frames.tres' remapped 'res://resources/anim/elite_guard_frames.tres' at thread -1
+Completed load for: 'res://scenes/enemies/EliteGuard.tscn' remapped 'res://scenes/enemies/EliteGuard.tscn' at thread -1
+Loading resource: res://assets/backgrounds/book02_halij_opening_atlas.png remapped: res://assets/backgrounds/book02_halij_opening_atlas.png
+Loading resource: res://.godot/imported/book02_halij_opening_atlas.png-30d121ce5729d12076eab10aead59b7b.ctex remapped: res://.godot/imported/book02_halij_opening_atlas.png-30d121ce5729d12076eab10aead59b7b.ctex
+Completed load for: 'res://assets/backgrounds/book02_halij_opening_atlas.png' remapped 'res://assets/backgrounds/book02_halij_opening_atlas.png' at thread -1
+Loading resource: res://assets/backgrounds/book02_halij_final_atlas.png remapped: res://assets/backgrounds/book02_halij_final_atlas.png
+Loading resource: res://.godot/imported/book02_halij_final_atlas.png-414222c80f123ad0c45fc969051b6053.ctex remapped: res://.godot/imported/book02_halij_final_atlas.png-414222c80f123ad0c45fc969051b6053.ctex
+Completed load for: 'res://assets/backgrounds/book02_halij_final_atlas.png' remapped 'res://assets/backgrounds/book02_halij_final_atlas.png' at thread -1
+Loading resource: res://assets/backgrounds/book02_halij_registry_atlas.png remapped: res://assets/backgrounds/book02_halij_registry_atlas.png
+Loading resource: res://.godot/imported/book02_halij_registry_atlas.png-847011c02fceff6f227fa72aec4a4a48.ctex remapped: res://.godot/imported/book02_halij_registry_atlas.png-847011c02fceff6f227fa72aec4a4a48.ctex
+Completed load for: 'res://assets/backgrounds/book02_halij_registry_atlas.png' remapped 'res://assets/backgrounds/book02_halij_registry_atlas.png' at thread -1
+Loading resource: res://assets/backgrounds/book03_cagaloglu_streets_atlas.png remapped: res://assets/backgrounds/book03_cagaloglu_streets_atlas.png
+Loading resource: res://.godot/imported/book03_cagaloglu_streets_atlas.png-802b4ba3b3a2975e0e10fb0b855c3e6f.ctex remapped: res://.godot/imported/book03_cagaloglu_streets_atlas.png-802b4ba3b3a2975e0e10fb0b855c3e6f.ctex
+Completed load for: 'res://assets/backgrounds/book03_cagaloglu_streets_atlas.png' remapped 'res://assets/backgrounds/book03_cagaloglu_streets_atlas.png' at thread -1
+Loading resource: res://assets/backgrounds/book03_cagaloglu_press_atlas.png remapped: res://assets/backgrounds/book03_cagaloglu_press_atlas.png
+Loading resource: res://.godot/imported/book03_cagaloglu_press_atlas.png-af1e46a60f742f0cd8f3756e9f46f630.ctex remapped: res://.godot/imported/book03_cagaloglu_press_atlas.png-af1e46a60f742f0cd8f3756e9f46f630.ctex
+Completed load for: 'res://assets/backgrounds/book03_cagaloglu_press_atlas.png' remapped 'res://assets/backgrounds/book03_cagaloglu_press_atlas.png' at thread -1
+Loading resource: res://assets/backgrounds/book03_final_shore_atlas.png remapped: res://assets/backgrounds/book03_final_shore_atlas.png
+Loading resource: res://.godot/imported/book03_final_shore_atlas.png-0d08bc5341df75dc2bc07404c7ddc8e2.ctex remapped: res://.godot/imported/book03_final_shore_atlas.png-0d08bc5341df75dc2bc07404c7ddc8e2.ctex
+Completed load for: 'res://assets/backgrounds/book03_final_shore_atlas.png' remapped 'res://assets/backgrounds/book03_final_shore_atlas.png' at thread -1
+Loading resource: res://assets/backgrounds/book03_final_broadcast_atlas.png remapped: res://assets/backgrounds/book03_final_broadcast_atlas.png
+Loading resource: res://.godot/imported/book03_final_broadcast_atlas.png-6c9e11895a0d581a63de531c2f76a6c6.ctex remapped: res://.godot/imported/book03_final_broadcast_atlas.png-6c9e11895a0d581a63de531c2f76a6c6.ctex
+Completed load for: 'res://assets/backgrounds/book03_final_broadcast_atlas.png' remapped 'res://assets/backgrounds/book03_final_broadcast_atlas.png' at thread -1
+Loading resource: res://assets/backgrounds/book03_final_dawn_atlas.png remapped: res://assets/backgrounds/book03_final_dawn_atlas.png
+Loading resource: res://.godot/imported/book03_final_dawn_atlas.png-1e0537d19a3f3e6061b23bae8b51beb8.ctex remapped: res://.godot/imported/book03_final_dawn_atlas.png-1e0537d19a3f3e6061b23bae8b51beb8.ctex
+Completed load for: 'res://assets/backgrounds/book03_final_dawn_atlas.png' remapped 'res://assets/backgrounds/book03_final_dawn_atlas.png' at thread -1
+Loading resource: res://assets/environment/book03_final_surfaces.png remapped: res://assets/environment/book03_final_surfaces.png
+Loading resource: res://.godot/imported/book03_final_surfaces.png-b9e6fb969ada4bd1dfd051a666019c2a.ctex remapped: res://.godot/imported/book03_final_surfaces.png-b9e6fb969ada4bd1dfd051a666019c2a.ctex
+Completed load for: 'res://assets/environment/book03_final_surfaces.png' remapped 'res://assets/environment/book03_final_surfaces.png' at thread -1
+Loading resource: res://assets/environment/book03_final_supplies.png remapped: res://assets/environment/book03_final_supplies.png
+Loading resource: res://.godot/imported/book03_final_supplies.png-c694acff19be3a042c0cde4240ae2961.ctex remapped: res://.godot/imported/book03_final_supplies.png-c694acff19be3a042c0cde4240ae2961.ctex
+Completed load for: 'res://assets/environment/book03_final_supplies.png' remapped 'res://assets/environment/book03_final_supplies.png' at thread -1
+Loading resource: res://scenes/enemies/BroadcastDirector.tscn remapped: res://scenes/enemies/BroadcastDirector.tscn
+Loading resource: res://scripts/enemies/broadcast_director.gd remapped: res://scripts/enemies/broadcast_director.gd
+Completed load for: 'res://scripts/enemies/broadcast_director.gd' remapped 'res://scripts/enemies/broadcast_director.gd' at thread -1
+Loading resource: res://resources/enemies/broadcast_director.tres remapped: res://resources/enemies/broadcast_director.tres
+Completed load for: 'res://resources/enemies/broadcast_director.tres' remapped 'res://resources/enemies/broadcast_director.tres' at thread -1
+Loading resource: res://resources/anim/mini_boss_frames.tres remapped: res://resources/anim/mini_boss_frames.tres
+Loading resource: res://assets/anim/mini_boss/idle.png remapped: res://assets/anim/mini_boss/idle.png
+Loading resource: res://.godot/imported/idle.png-7365627a80a093398aa1242f0fd416e9.ctex remapped: res://.godot/imported/idle.png-7365627a80a093398aa1242f0fd416e9.ctex
+Completed load for: 'res://assets/anim/mini_boss/idle.png' remapped 'res://assets/anim/mini_boss/idle.png' at thread -1
+Loading resource: res://assets/anim/mini_boss/walk.png remapped: res://assets/anim/mini_boss/walk.png
+Loading resource: res://.godot/imported/walk.png-44586044bde6c107ebb86705677eefad.ctex remapped: res://.godot/imported/walk.png-44586044bde6c107ebb86705677eefad.ctex
+Completed load for: 'res://assets/anim/mini_boss/walk.png' remapped 'res://assets/anim/mini_boss/walk.png' at thread -1
+Loading resource: res://assets/anim/mini_boss/attack.png remapped: res://assets/anim/mini_boss/attack.png
+Loading resource: res://.godot/imported/attack.png-f4e04b27adad0a6d8b785619b80c4f1d.ctex remapped: res://.godot/imported/attack.png-f4e04b27adad0a6d8b785619b80c4f1d.ctex
+Completed load for: 'res://assets/anim/mini_boss/attack.png' remapped 'res://assets/anim/mini_boss/attack.png' at thread -1
+Loading resource: res://assets/anim/mini_boss/attack_heavy.png remapped: res://assets/anim/mini_boss/attack_heavy.png
+Loading resource: res://.godot/imported/attack_heavy.png-18ea40fd4cc5e39cffaa1a2bae0ecde4.ctex remapped: res://.godot/imported/attack_heavy.png-18ea40fd4cc5e39cffaa1a2bae0ecde4.ctex
+Completed load for: 'res://assets/anim/mini_boss/attack_heavy.png' remapped 'res://assets/anim/mini_boss/attack_heavy.png' at thread -1
+Loading resource: res://assets/anim/mini_boss/special.png remapped: res://assets/anim/mini_boss/special.png
+Loading resource: res://.godot/imported/special.png-dc5873c25ccdbaaf3970a0fde11157fd.ctex remapped: res://.godot/imported/special.png-dc5873c25ccdbaaf3970a0fde11157fd.ctex
+Completed load for: 'res://assets/anim/mini_boss/special.png' remapped 'res://assets/anim/mini_boss/special.png' at thread -1
+Loading resource: res://assets/anim/mini_boss/hurt.png remapped: res://assets/anim/mini_boss/hurt.png
+Loading resource: res://.godot/imported/hurt.png-960b54f0e744e2182594feb96764839c.ctex remapped: res://.godot/imported/hurt.png-960b54f0e744e2182594feb96764839c.ctex
+Completed load for: 'res://assets/anim/mini_boss/hurt.png' remapped 'res://assets/anim/mini_boss/hurt.png' at thread -1
+Loading resource: res://assets/anim/mini_boss/dead.png remapped: res://assets/anim/mini_boss/dead.png
+Loading resource: res://.godot/imported/dead.png-c5634fd56aa175ffd73638a52549d5a3.ctex remapped: res://.godot/imported/dead.png-c5634fd56aa175ffd73638a52549d5a3.ctex
+Completed load for: 'res://assets/anim/mini_boss/dead.png' remapped 'res://assets/anim/mini_boss/dead.png' at thread -1
+Completed load for: 'res://resources/anim/mini_boss_frames.tres' remapped 'res://resources/anim/mini_boss_frames.tres' at thread -1
+Completed load for: 'res://scenes/enemies/BroadcastDirector.tscn' remapped 'res://scenes/enemies/BroadcastDirector.tscn' at thread -1
+Loading resource: res://assets/environment/mahalle/freight_wagon.png remapped: res://assets/environment/mahalle/freight_wagon.png
+Loading resource: res://.godot/imported/freight_wagon.png-db98978b8360e2436c4c8e3b5e82a115.ctex remapped: res://.godot/imported/freight_wagon.png-db98978b8360e2436c4c8e3b5e82a115.ctex
+Completed load for: 'res://assets/environment/mahalle/freight_wagon.png' remapped 'res://assets/environment/mahalle/freight_wagon.png' at thread -1
+Completed load for: 'res://scripts/systems/book03_level12.gd' remapped 'res://scripts/systems/book03_level12.gd' at thread -1
+Completed load for: 'res://scenes/levels/Book03Level12.tscn' remapped 'res://scenes/levels/Book03Level12.tscn' at thread -1
+  L36 t=4 x=1396 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1243 maxx=1396 hp=100 respawns=0
+  L36 t=8 x=2324 y=-0 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1243 maxx=2324 hp=100 respawns=0
+  L36 t=12 x=3412 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1243 maxx=3412 hp=100 respawns=0
+  L36 t=16 x=4772 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1246 maxx=4772 hp=100 respawns=0
+  L36 t=20 x=5550 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1246 maxx=5550 hp=90 respawns=0
+  L36 t=24 x=6916 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1246 maxx=6916 hp=90 respawns=0
+  L36 t=28 x=8276 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1249 maxx=8276 hp=90 respawns=0
+  L36 t=32 x=9636 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1249 maxx=9636 hp=90 respawns=0
+  L36 t=36 x=10996 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1249 maxx=10996 hp=90 respawns=0
+  L36 t=40 x=12356 y=60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1252 maxx=12356 hp=90 respawns=0
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+  L36 t=44 x=13507 y=60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1252 maxx=13507 hp=84 respawns=0
+  L36 t=48 x=14096 y=60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1252 maxx=14096 hp=84 respawns=0
+  L36 t=52 x=15456 y=60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1252 maxx=15456 hp=84 respawns=0
+  L36 t=56 x=16816 y=60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1255 maxx=16816 hp=84 respawns=0
+  L36 t=60 x=17583 y=60 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1255 maxx=17646 hp=74 respawns=0
+  L36 t=64 x=18955 y=60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1255 maxx=18955 hp=74 respawns=0
+  L36 t=68 x=20314 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1258 maxx=20314 hp=74 respawns=0
+  L36 t=72 x=21674 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1258 maxx=21674 hp=74 respawns=0
+  L36 t=76 x=21861 y=-0 vx=47 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1258 maxx=22069 hp=74 respawns=0
+  L36 t=80 x=22294 y=-0 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1258 maxx=22356 hp=64 respawns=0
+  L36 t=84 x=22296 y=-0 vx=-200 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1258 maxx=22514 hp=64 respawns=0
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+  L36 t=88 x=21721 y=-0 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1258 maxx=22514 hp=58 respawns=0
+  L36 t=92 x=22483 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1258 maxx=22514 hp=88 respawns=0
+  L36 t=96 x=23837 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1258 maxx=23837 hp=88 respawns=0
+  L36 t=100 x=25197 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1261 maxx=25197 hp=88 respawns=0
+  L36 t=104 x=26489 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1261 maxx=26489 hp=88 respawns=0
+  L36 t=108 x=27849 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1261 maxx=27849 hp=88 respawns=0
+  L36 t=112 x=29209 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1264 maxx=29209 hp=88 respawns=0
+  L36 t=116 x=30561 y=-0 vx=200 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1264 maxx=30561 hp=88 respawns=0
+  L36 t=120 x=30614 y=-0 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1264 maxx=30614 hp=88 respawns=0
+  L36 t=124 x=31778 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1264 maxx=31778 hp=88 respawns=0
+  L36 t=128 x=33138 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1267 maxx=33138 hp=88 respawns=0
+  L36 t=132 x=34498 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1267 maxx=34498 hp=88 respawns=0
+  L36 t=136 x=35853 y=-36 vx=340 floor=false hit=- maxx=35853 hp=88 respawns=0
+  L36 t=140 x=37213 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1270 maxx=37213 hp=88 respawns=0
+  L36 t=144 x=38151 y=-0 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1270 maxx=38213 hp=78 respawns=0
+  L36 t=148 x=39352 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1270 maxx=39352 hp=78 respawns=0
+  L36 t=152 x=40712 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1273 maxx=40712 hp=78 respawns=0
+  L36 t=156 x=42073 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1273 maxx=42073 hp=78 respawns=0
+  L36 t=160 x=43433 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1273 maxx=43433 hp=78 respawns=0
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+  L36 t=164 x=44278 y=-0 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1276 maxx=44366 hp=68 respawns=0
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+  L36 t=168 x=44598 y=-0 vx=200 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1276 maxx=44598 hp=56 respawns=0
+  L36 t=172 x=44818 y=-0 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1276 maxx=44855 hp=56 respawns=0
+  L36 t=176 x=44427 y=-0 vx=240 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1276 maxx=44855 hp=56 respawns=0
+  L36 t=180 x=45231 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1276 maxx=45231 hp=86 respawns=0
+  L36 t=184 x=46591 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1276 maxx=46591 hp=86 respawns=0
+  L36 t=188 x=47951 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1276 maxx=47951 hp=86 respawns=0
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+  L36 t=192 x=49312 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1279 maxx=49312 hp=86 respawns=0
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+  L36 t=196 x=49658 y=-0 vx=620 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1279 maxx=49658 hp=80 respawns=0
+  L36 t=200 x=51048 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1279 maxx=51048 hp=80 respawns=0
+  L36 t=204 x=52409 y=60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1282 maxx=52409 hp=80 respawns=0
+  L36 t=208 x=53769 y=60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1282 maxx=53769 hp=80 respawns=0
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+  L36 t=212 x=54822 y=60 vx=90 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1282 maxx=54822 hp=73 respawns=0
+  L36 t=216 x=55292 y=60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1282 maxx=55292 hp=73 respawns=0
+  L36 t=220 x=56652 y=60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1285 maxx=56652 hp=73 respawns=0
+  L36 t=224 x=58012 y=60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1285 maxx=58012 hp=73 respawns=0
+  L36 t=228 x=59373 y=60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1285 maxx=59373 hp=73 respawns=0
+  L36 t=232 x=60691 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1288 maxx=60691 hp=73 respawns=0
+  L36 t=236 x=61939 y=-0 vx=-200 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1288 maxx=61964 hp=73 respawns=0
+  L36 t=240 x=62032 y=-0 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1288 maxx=62032 hp=63 respawns=0
+  L36 t=244 x=62296 y=-0 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1288 maxx=62296 hp=63 respawns=0
+  L36 t=248 x=61957 y=-0 vx=-200 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1288 maxx=62301 hp=63 respawns=0
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+  L36 t=252 x=61583 y=-0 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1288 maxx=62301 hp=57 respawns=0
+  L36 t=256 x=62783 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1288 maxx=62783 hp=87 respawns=0
+  L36 t=260 x=64143 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1291 maxx=64143 hp=87 respawns=0
+  L36 t=264 x=65504 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1291 maxx=65504 hp=87 respawns=0
+  L36 t=268 x=66863 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1291 maxx=66863 hp=87 respawns=0
+  L36 t=272 x=68223 y=-116 vx=340 floor=false hit=- maxx=68223 hp=87 respawns=0
+  L36 t=276 x=69582 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1294 maxx=69582 hp=87 respawns=0
+  L36 t=280 x=70941 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1294 maxx=70941 hp=87 respawns=0
+  L36 t=284 x=72295 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1297 maxx=72295 hp=87 respawns=0
+  L36 t=288 x=73630 y=-3 vx=-217 floor=false hit=- maxx=73634 hp=77 respawns=0
+  L36 t=292 x=74433 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1297 maxx=74433 hp=77 respawns=0
+  L36 t=296 x=75792 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1297 maxx=75792 hp=77 respawns=0
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+  L36 t=300 x=76268 y=-60 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1300 maxx=76268 hp=71 respawns=0
+  L36 t=304 x=77410 y=-60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1300 maxx=77410 hp=71 respawns=0
+  L36 t=308 x=78769 y=-60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1300 maxx=78769 hp=71 respawns=0
+  L36 t=312 x=80129 y=-60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1303 maxx=80129 hp=71 respawns=0
+  L36 t=316 x=81488 y=-60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1303 maxx=81488 hp=71 respawns=0
+  L36 t=320 x=82847 y=-60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1303 maxx=82847 hp=71 respawns=0
+  L36 t=324 x=84207 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1306 maxx=84207 hp=71 respawns=0
+  L36 t=328 x=85566 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1306 maxx=85566 hp=71 respawns=0
+  L36 t=332 x=86697 y=-0 vx=-200 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1306 maxx=86765 hp=71 respawns=0
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+  L36 t=336 x=86310 y=-0 vx=-47 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1306 maxx=86765 hp=65 respawns=0
+  L36 t=340 x=86859 y=-0 vx=-47 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1306 maxx=86919 hp=55 respawns=0
+  L36 t=344 x=87116 y=-0 vx=-167 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1306 maxx=87125 hp=55 respawns=0
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+  L36 t=348 x=86596 y=-0 vx=-200 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1306 maxx=87125 hp=41 respawns=0
+  L36 t=352 x=86331 y=-0 vx=67 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1306 maxx=87125 hp=41 respawns=0
+  L36 t=356 x=87720 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1306 maxx=87720 hp=71 respawns=0
+  L36 t=360 x=89074 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1309 maxx=89074 hp=71 respawns=0
+  L36 t=364 x=90439 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1309 maxx=90439 hp=71 respawns=0
+  L36 t=368 x=91798 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1309 maxx=91798 hp=71 respawns=0
+  L36 t=372 x=93158 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1312 maxx=93158 hp=71 respawns=0
+  L36 t=376 x=94517 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1312 maxx=94517 hp=71 respawns=0
+  L36 t=380 x=95877 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1312 maxx=95877 hp=71 respawns=0
+  L36 t=384 x=97236 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1315 maxx=97236 hp=71 respawns=0
+  L36 t=388 x=98540 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1315 maxx=98540 hp=71 respawns=0
+  L36 t=392 x=99899 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1315 maxx=99899 hp=71 respawns=0
+  L36 t=396 x=101259 y=60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1318 maxx=101259 hp=71 respawns=0
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+  L36 t=400 x=102408 y=60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1318 maxx=102408 hp=65 respawns=0
+  L36 t=404 x=102995 y=60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1318 maxx=102995 hp=65 respawns=0
+  L36 t=408 x=104354 y=60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1321 maxx=104354 hp=65 respawns=0
+  L36 t=412 x=105713 y=60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1321 maxx=105713 hp=65 respawns=0
+  L36 t=416 x=107073 y=60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1321 maxx=107073 hp=65 respawns=0
+  L36 t=420 x=108390 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1324 maxx=108390 hp=65 respawns=0
+  L36 t=424 x=109703 y=-0 vx=47 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1324 maxx=109703 hp=65 respawns=0
+  L36 t=428 x=109713 y=-0 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1324 maxx=109713 hp=65 respawns=0
+  L36 t=432 x=110960 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1324 maxx=110960 hp=65 respawns=0
+  L36 t=436 x=112320 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1327 maxx=112320 hp=65 respawns=0
+  L36 t=440 x=113679 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1327 maxx=113679 hp=65 respawns=0
+  L36 t=444 x=115038 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1327 maxx=115038 hp=65 respawns=0
+  L36 t=448 x=116398 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1330 maxx=116398 hp=65 respawns=0
+  L36 t=452 x=117757 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1330 maxx=117757 hp=65 respawns=0
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+  L36 t=456 x=118132 y=-0 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1330 maxx=118168 hp=49 respawns=0
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+  L36 t=460 x=118486 y=-0 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1330 maxx=118486 hp=43 respawns=0
+  L36 t=464 x=118493 y=-3 vx=217 floor=false hit=- maxx=118683 hp=33 respawns=0
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+  L36 t=468 x=117989 y=-0 vx=-200 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1330 maxx=118683 hp=26 respawns=0
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+  L36 t=472 x=117729 y=-0 vx=-167 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1330 maxx=118683 hp=19 respawns=0
+  L36 t=476 x=118893 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1330 maxx=118893 hp=49 respawns=0
+  L36 t=480 x=120253 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1333 maxx=120253 hp=49 respawns=0
+  L36 t=484 x=121607 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1333 maxx=121607 hp=49 respawns=0
+  L36 t=488 x=122966 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1333 maxx=122966 hp=49 respawns=0
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+  L36 t=492 x=123634 y=-0 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1333 maxx=123634 hp=42 respawns=0
+  L36 t=496 x=124447 y=-60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1336 maxx=124447 hp=42 respawns=0
+  L36 t=500 x=125806 y=-60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1336 maxx=125806 hp=42 respawns=0
+  L36 t=504 x=127165 y=-60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1336 maxx=127165 hp=42 respawns=0
+  L36 t=508 x=128525 y=-60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1339 maxx=128525 hp=42 respawns=0
+  L36 t=512 x=129884 y=-60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1339 maxx=129884 hp=42 respawns=0
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+  L36 t=516 x=130214 y=-60 vx=620 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1339 maxx=130214 hp=36 respawns=0
+  L36 t=520 x=131623 y=-60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1339 maxx=131623 hp=36 respawns=0
+  L36 t=524 x=132984 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1342 maxx=132984 hp=36 respawns=0
+  L36 t=528 x=134346 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1342 maxx=134346 hp=36 respawns=0
+  L36 t=532 x=135707 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1342 maxx=135707 hp=36 respawns=0
+  L36 t=536 x=135759 y=-0 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1342 maxx=135966 hp=36 respawns=0
+  L36 t=540 x=136078 y=-0 vx=200 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1345 maxx=136078 hp=36 respawns=0
+  L36 t=544 x=136299 y=-0 vx=-200 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1345 maxx=136328 hp=26 respawns=0
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+  L36 t=548 x=135641 y=-0 vx=-200 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1342 maxx=136328 hp=20 respawns=0
+  L36 t=552 x=136200 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1345 maxx=136328 hp=50 respawns=0
+  L36 t=556 x=137561 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1345 maxx=137561 hp=50 respawns=0
+  L36 t=560 x=138922 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1345 maxx=138922 hp=50 respawns=0
+  L36 t=564 x=140284 y=-12 vx=340 floor=false hit=- maxx=140284 hp=50 respawns=0
+  L36 t=568 x=141645 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1348 maxx=141645 hp=80 respawns=0
+  L36 t=572 x=143000 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1348 maxx=143000 hp=80 respawns=0
+  L36 t=576 x=144362 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1351 maxx=144362 hp=80 respawns=0
+  L36 t=580 x=145723 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1351 maxx=145723 hp=80 respawns=0
+  L36 t=584 x=146504 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1351 maxx=146504 hp=70 respawns=0
+  L36 t=588 x=147866 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1351 maxx=147866 hp=70 respawns=0
+  L36 t=592 x=149227 y=60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1354 maxx=149227 hp=70 respawns=0
+  L36 t=596 x=150588 y=60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1354 maxx=150588 hp=70 respawns=0
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+  L36 t=600 x=151567 y=60 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1354 maxx=151567 hp=64 respawns=0
+  L36 t=604 x=152328 y=60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1357 maxx=152328 hp=64 respawns=0
+  L36 t=608 x=153689 y=60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1357 maxx=153689 hp=64 respawns=0
+  L36 t=612 x=155050 y=60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1357 maxx=155050 hp=64 respawns=0
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+  L36 t=616 x=156115 y=-0 vx=200 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1360 maxx=156115 hp=57 respawns=0
+  L36 t=620 x=156522 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1360 maxx=156522 hp=57 respawns=0
+  L36 t=624 x=157884 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1360 maxx=157884 hp=57 respawns=0
+  L36 t=628 x=159245 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1360 maxx=159245 hp=57 respawns=0
+  L36 t=632 x=160606 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1363 maxx=160606 hp=57 respawns=0
+  L36 t=636 x=161040 y=-0 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1363 maxx=161040 hp=48 respawns=0
+  L36 t=640 x=161184 y=-0 vx=-200 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1363 maxx=161326 hp=48 respawns=0
+  L36 t=644 x=160753 y=-0 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1363 maxx=161326 hp=48 respawns=0
+  L36 t=648 x=161257 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1363 maxx=161326 hp=78 respawns=0
+  L36 t=652 x=162618 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1363 maxx=162618 hp=78 respawns=0
+  L36 t=656 x=163974 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1363 maxx=163974 hp=78 respawns=0
+  L36 t=660 x=165335 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1366 maxx=165335 hp=78 respawns=0
+  L36 t=664 x=166696 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1366 maxx=166696 hp=78 respawns=0
+  L36 t=668 x=168057 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1369 maxx=168057 hp=78 respawns=0
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+  L36 t=672 x=169324 y=-11 vx=-217 floor=false hit=- maxx=169360 hp=72 respawns=0
+  L36 t=676 x=169799 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1369 maxx=169799 hp=72 respawns=0
+  L36 t=680 x=171160 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1369 maxx=171160 hp=72 respawns=0
+  L36 t=684 x=172481 y=-60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1372 maxx=172481 hp=72 respawns=0
+  L36 t=688 x=173842 y=-60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1372 maxx=173842 hp=72 respawns=0
+  L36 t=692 x=175204 y=-60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1372 maxx=175204 hp=72 respawns=0
+  L36 t=696 x=175983 y=-60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1372 maxx=175983 hp=62 respawns=0
+  L36 t=700 x=177344 y=-60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1375 maxx=177344 hp=62 respawns=0
+  L36 t=704 x=178705 y=-60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1375 maxx=178705 hp=62 respawns=0
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+  L36 t=708 x=179247 y=-60 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1375 maxx=179247 hp=55 respawns=0
+  L36 t=712 x=180229 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1378 maxx=180229 hp=55 respawns=0
+  L36 t=716 x=181590 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1378 maxx=181590 hp=55 respawns=0
+  L36 t=720 x=182951 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1378 maxx=182951 hp=55 respawns=0
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+  L36 t=724 x=183814 y=-9 vx=217 floor=false hit=- maxx=183964 hp=49 respawns=0
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+  L36 t=728 x=183472 y=-0 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1378 maxx=183964 hp=40 respawns=0
+  L36 t=732 x=183593 y=-0 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1378 maxx=183964 hp=31 respawns=0
+  L36 t=736 x=184162 y=-0 vx=200 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1381 maxx=184162 hp=31 respawns=0
+  L36 t=740 x=184252 y=-0 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1381 maxx=184252 hp=31 respawns=0
+  L36 t=744 x=185354 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1381 maxx=185354 hp=31 respawns=0
+  L36 t=748 x=186715 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1381 maxx=186715 hp=31 respawns=0
+  L36 t=752 x=188076 y=-111 vx=340 floor=false hit=- maxx=188076 hp=31 respawns=0
+  L36 t=756 x=189438 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1384 maxx=189438 hp=31 respawns=0
+  L36 t=760 x=190793 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1384 maxx=190793 hp=31 respawns=0
+  L36 t=764 x=192154 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1387 maxx=192154 hp=31 respawns=0
+  L36 t=768 x=193516 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1387 maxx=193516 hp=31 respawns=0
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+  L36 t=772 x=194607 y=-0 vx=200 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1387 maxx=194607 hp=25 respawns=0
+  L36 t=776 x=195256 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1387 maxx=195256 hp=25 respawns=0
+  L36 t=780 x=196617 y=60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1390 maxx=196617 hp=25 respawns=0
+  L36 t=784 x=197978 y=60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1390 maxx=197978 hp=25 respawns=0
+  L36 t=788 x=199272 y=60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1390 maxx=199272 hp=25 respawns=0
+  L36 t=792 x=200633 y=60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1393 maxx=200633 hp=25 respawns=0
+  L36 t=796 x=201995 y=60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1393 maxx=201995 hp=25 respawns=0
+  L36 t=800 x=203356 y=60 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1393 maxx=203356 hp=25 respawns=0
+  L36 t=804 x=204717 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1396 maxx=204717 hp=25 respawns=0
+  L36 t=808 x=206078 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1396 maxx=206078 hp=25 respawns=0
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+  L36 t=812 x=206330 y=-0 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1396 maxx=206365 hp=9 respawns=0
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+  L36 t=816 x=206701 y=-0 vx=3 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1396 maxx=206701 hp=3 respawns=0
+  L36 t=820 x=206796 y=-0 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1396 maxx=206864 hp=3 respawns=0
+  L36 t=824 x=206336 y=-0 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1396 maxx=206864 hp=3 respawns=0
+  L36 t=828 x=207431 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1396 maxx=207431 hp=33 respawns=0
+  L36 t=832 x=208787 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1399 maxx=208787 hp=33 respawns=0
+  L36 t=836 x=209274 y=-0 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1399 maxx=209465 hp=33 respawns=0
+  L36 t=840 x=209699 y=-0 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1399 maxx=209759 hp=23 respawns=0
+  L36 t=844 x=209926 y=-0 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1399 maxx=209972 hp=23 respawns=0
+  L36 t=848 x=209671 y=-0 vx=-200 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1399 maxx=209972 hp=23 respawns=0
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+  L36 t=852 x=209121 y=-0 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1399 maxx=209972 hp=17 respawns=0
+  L36 t=856 x=209923 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1399 maxx=209972 hp=47 respawns=0
+  L36 t=860 x=211284 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1399 maxx=211284 hp=47 respawns=0
+  L36 t=864 x=212645 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1402 maxx=212645 hp=47 respawns=0
+  L36 t=868 x=214007 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1402 maxx=214007 hp=47 respawns=0
+  L36 t=872 x=215362 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1402 maxx=215362 hp=47 respawns=0
+  L36 t=876 x=216724 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1405 maxx=216724 hp=47 respawns=0
+  L36 t=880 x=218085 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1405 maxx=218085 hp=47 respawns=0
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+  L36 t=884 x=218835 y=-0 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1405 maxx=218835 hp=40 respawns=0
+  L36 t=888 x=219606 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1405 maxx=219606 hp=40 respawns=0
+  L36 t=892 x=220967 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1408 maxx=220967 hp=40 respawns=0
+  L36 t=896 x=222328 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1408 maxx=222328 hp=40 respawns=0
+  L36 t=900 x=223690 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1408 maxx=223690 hp=40 respawns=0
+  L36 t=904 x=223912 y=-0 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1408 maxx=223912 hp=40 respawns=0
+  L36 t=908 x=224902 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1411 maxx=224902 hp=40 respawns=0
+  L36 t=912 x=226263 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1411 maxx=226263 hp=40 respawns=0
+  L36 t=916 x=227624 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1411 maxx=227624 hp=40 respawns=0
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+  L36 t=920 x=228168 y=-0 vx=-200 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1414 maxx=228365 hp=34 respawns=0
+  L36 t=924 x=228060 y=-0 vx=200 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1414 maxx=228365 hp=34 respawns=0
+  L36 t=928 x=228489 y=-0 vx=620 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1414 maxx=228523 hp=24 respawns=0
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+  L36 t=932 x=228347 y=-0 vx=-200 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1414 maxx=228742 hp=24 respawns=0
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+Loading resource: res://scenes/systems/Bullet.tscn remapped: res://scenes/systems/Bullet.tscn
+Completed load for: 'res://scenes/systems/Bullet.tscn' remapped 'res://scenes/systems/Bullet.tscn' at thread -1
+  L36 t=936 x=227960 y=-0 vx=-100 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1411 maxx=228742 hp=10 respawns=0
+  L36 t=940 x=228593 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1414 maxx=228742 hp=40 respawns=0
+  L36 t=944 x=229954 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1414 maxx=229954 hp=40 respawns=0
+  L36 t=948 x=231310 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1414 maxx=231310 hp=40 respawns=0
+  L36 t=952 x=232665 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1417 maxx=232665 hp=40 respawns=0
+  L36 t=956 x=234027 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1417 maxx=234027 hp=40 respawns=0
+  L36 t=960 x=234808 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1417 maxx=234808 hp=30 respawns=0
+  L36 t=964 x=236169 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1420 maxx=236169 hp=30 respawns=0
+  L36 t=968 x=237530 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1420 maxx=237530 hp=30 respawns=0
+  L36 t=972 x=238892 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1420 maxx=238892 hp=30 respawns=0
+  L36 t=976 x=240253 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1423 maxx=240253 hp=30 respawns=0
+  L36 t=980 x=241531 y=-0 vx=289 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1423 maxx=241531 hp=60 respawns=0
+  L36 t=984 x=242686 y=-0 vx=289 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1423 maxx=242686 hp=60 respawns=0
+  L36 t=988 x=243836 y=-0 vx=289 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1423 maxx=243836 hp=60 respawns=0
+  L36 t=992 x=244991 y=-0 vx=289 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1426 maxx=244991 hp=60 respawns=0
+  L36 t=996 x=246146 y=-0 vx=289 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1426 maxx=246146 hp=60 respawns=0
+Loading resource: res://assets/music/mus_boss.wav remapped: res://assets/music/mus_boss.wav
+Loading resource: res://.godot/imported/mus_boss.wav-019933a834fe3a470f02c988be55d152.sample remapped: res://.godot/imported/mus_boss.wav-019933a834fe3a470f02c988be55d152.sample
+Completed load for: 'res://assets/music/mus_boss.wav' remapped 'res://assets/music/mus_boss.wav' at thread -1
+  L36 t=1000 x=246885 y=-0 vx=3 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1426 maxx=246947 hp=55 respawns=0
+  L36 t=1004 x=246937 y=-0 vx=-260 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1426 maxx=246947 hp=50 respawns=0
+  L36 t=1008 x=246938 y=-0 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1426 maxx=246947 hp=50 respawns=0
+  L36 t=1012 x=246891 y=-0 vx=137 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1426 maxx=246948 hp=45 respawns=0
+  L36 t=1016 x=246924 y=-9 vx=-217 floor=false hit=- maxx=246948 hp=40 respawns=0
+  L36 t=1020 x=246939 y=-0 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1426 maxx=246948 hp=40 respawns=0
+Loading resource: res://scenes/systems/Shockwave.tscn remapped: res://scenes/systems/Shockwave.tscn
+Completed load for: 'res://scenes/systems/Shockwave.tscn' remapped 'res://scenes/systems/Shockwave.tscn' at thread -1
+  L36 t=1024 x=246937 y=-0 vx=0 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1426 maxx=246948 hp=32 respawns=0
+Loading resource: res://assets/music/mus_victory.wav remapped: res://assets/music/mus_victory.wav
+Loading resource: res://.godot/imported/mus_victory.wav-5530d2953c899880a7162820c597a3de.sample remapped: res://.godot/imported/mus_victory.wav-5530d2953c899880a7162820c597a3de.sample
+Completed load for: 'res://assets/music/mus_victory.wav' remapped 'res://assets/music/mus_victory.wav' at thread -1
+  L36 t=1028 x=247406 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1426 maxx=247406 hp=57 respawns=0
+  L36 t=1032 x=248767 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1429 maxx=248767 hp=57 respawns=0
+  L36 t=1036 x=250122 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1429 maxx=250122 hp=57 respawns=0
+  L36 t=1040 x=251484 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1429 maxx=251484 hp=57 respawns=0
+  L36 t=1044 x=252845 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1432 maxx=252845 hp=57 respawns=0
+  L36 t=1048 x=254200 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1432 maxx=254200 hp=57 respawns=0
+  L36 t=1052 x=255562 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1432 maxx=255562 hp=57 respawns=0
+  L36 t=1056 x=256923 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1435 maxx=256923 hp=57 respawns=0
+  L36 t=1060 x=258279 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1435 maxx=258279 hp=57 respawns=0
+  L36 t=1064 x=259640 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1435 maxx=259640 hp=57 respawns=0
+  L36 t=1068 x=261001 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1438 maxx=261001 hp=57 respawns=0
+  L36 t=1072 x=262362 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1438 maxx=262362 hp=57 respawns=0
+  L36 t=1076 x=263714 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1438 maxx=263714 hp=57 respawns=0
+  L36 t=1080 x=265071 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1441 maxx=265071 hp=57 respawns=0
+  L36 t=1084 x=266429 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1441 maxx=266429 hp=57 respawns=0
+  L36 t=1088 x=267780 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1441 maxx=267780 hp=57 respawns=0
+  L36 t=1092 x=269138 y=-0 vx=340 floor=true hit=/root/Book03Level12Play/Main/LevelHolder/Book03Level12/@StaticBody2D@1444 maxx=269138 hp=57 respawns=0
+FINAL CHECK: Bölüm baştan sona tamamlandı — PASS
+FINAL CHECK: 18–22 dakika hedefi — PASS
+FINAL CHECK: Üç yayın hattı kesildi — PASS
+FINAL CHECK: Boss yenildi — PASS
+FINAL CHECK: Üç boss evresi oynandı — PASS
+FINAL CHECK: Boss her evrede saldırdı — PASS
+FINAL CHECK: Kapanış görüldü — PASS
+FINAL CHECK: Sonuç kaydedildi — PASS
+FINAL RUN: 1096.0s; respawns=0; phases=[0, 1, 2]
+PROBE Bölüm 36: CLEARED @270456  t=1096.0s
+XR: Clearing primary interface
+XR: Removed interface "Native mobile"
+XR: Removed interface "OpenXR"
+Leaked instance: AudioStreamWAV:9223372068244948503 - Reference count: 6
+Leaked instance: AudioStreamWAV:9223372072825128492 - Reference count: 1
+Leaked instance: AudioStreamPlaybackWAV:9223390576668318356 - Reference count: 1
+Leaked instance: AudioStreamWAV:9223390002350660276 - Reference count: 1
+Leaked instance: AudioStreamPlaybackWAV:9223390646142769872 - Reference count: 1
+Leaked instance: AudioStreamPlaybackWAV:9223390643844291344 - Reference count: 1
+Leaked instance: AudioStreamPlaybackWAV:9223390641529035545 - Reference count: 1
+Leaked instance: AudioStreamPlaybackWAV:9223390648458025754 - Reference count: 1
+Leaked instance: AudioStreamPlaybackWAV:9223390653021428510 - Reference count: 1
+Leaked instance: AudioStreamPlaybackWAV:9223390650722949919 - Reference count: 1
+Leaked instance: AudioStreamPlaybackWAV:9223390654514600738 - Reference count: 1
+Hint: Leaked instances typically happen when nodes are removed from the scene tree (with `remove_child()`) but not freed (with `free()` or `queue_free()`).
+Resource still in use: res://assets/audio/step.wav (AudioStreamWAV)
+Resource still in use: res://assets/audio/goal.wav (AudioStreamWAV)
+Resource still in use: res://assets/music/mus_victory.wav (AudioStreamWAV)
+Orphan StringName: Master (static: 0, total: 16)
+StringName: 1 unclaimed string names at exit.
+WARNING: 11 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2535)
+ERROR: 3 resources still in use at exit.
+   at: clear (core/io/resource.cpp:817)

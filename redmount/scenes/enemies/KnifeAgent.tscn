@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3]
+
+; Bıçaklı Ajan — Bölüm 1-2 (Görev 6).
+; EnemyBase'i miras alır; config'te uses_dash = true olduğu için geri-çekil + dash yapar.
+
+[ext_resource type="PackedScene" path="res://scenes/enemies/EnemyBase.tscn" id="1"]
+[ext_resource type="Resource" path="res://resources/enemies/knife_agent.tres" id="2"]
+[ext_resource type="SpriteFrames" path="res://resources/anim/knife_agent_frames.tres" id="3"]
+
+[node name="KnifeAgent" instance=ExtResource("1")]
+rig_style = "knife"
+config = ExtResource("2")
+frames = ExtResource("3")
+patrol_distance = 90.0

@@ -1,0 +1,434 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+  L4 t=4 x=552 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/GroundA maxx=552 hp=125 respawns=0
+  L4 t=8 x=1641 y=-140 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/Roof3 maxx=1641 hp=125 respawns=0
+  L4 t=12 x=2905 y=-250 vx=207 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/GroundCtop maxx=2905 hp=125 respawns=0
+  L4 t=16 x=3880 y=-70 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/GroundD2 maxx=3880 hp=115 respawns=0
+  L4 t=20 x=5240 y=-70 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/GroundF maxx=5240 hp=115 respawns=0
+  L4 t=24 x=5535 y=-70 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/GroundF maxx=5535 hp=115 respawns=0
+  L4 t=28 x=6437 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround1 maxx=6437 hp=105 respawns=0
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+  L4 t=32 x=6719 y=-0 vx=33 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround1 maxx=6719 hp=99 respawns=0
+  L4 t=36 x=7850 y=-120 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround3 maxx=7850 hp=99 respawns=0
+  L4 t=40 x=8968 y=-0 vx=200 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround5 maxx=8968 hp=93 respawns=0
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+  L4 t=44 x=9340 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround5 maxx=9400 hp=83 respawns=0
+  L4 t=48 x=10057 y=-0 vx=200 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround5 maxx=10057 hp=107 respawns=0
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+  L4 t=52 x=10120 y=-0 vx=-3 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround5 maxx=10254 hp=107 respawns=0
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+ERROR: There is no animation with name 'attack'.
+   at: play (scene/2d/animated_sprite_2d.cpp:505)
+   GDScript backtrace (most recent call first):
+       [0] set_anim (res://scripts/characters/enemy_sprite.gd:76)
+       [1] _physics_process (res://scripts/enemies/enemy_base.gd:139)
+  L4 t=56 x=10195 y=-0 vx=-200 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround5 maxx=10254 hp=107 respawns=0
+  L4 t=60 x=9761 y=-0 vx=-200 floor=true hit=/root/Autoplay/Main/LevelHolder/Level02/RedesignLayer/ExtensionGround5 maxx=10254 hp=107 respawns=0

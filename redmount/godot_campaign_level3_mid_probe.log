@@ -1,0 +1,56 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+  L3 t=4 x=11322 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground18 maxx=11322 hp=125 respawns=0
+  L3 t=8 x=12682 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground19 maxx=12682 hp=125 respawns=0
+  L3 t=12 x=13683 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground20 maxx=13744 hp=115 respawns=0
+  L3 t=16 x=14243 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground20 maxx=14243 hp=115 respawns=0
+  L3 t=20 x=14921 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground20 maxx=15068 hp=125 respawns=0
+  L3 t=24 x=15154 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground20 maxx=15157 hp=125 respawns=0
+  L3 t=28 x=14952 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground20 maxx=15157 hp=115 respawns=0
+  L3 t=32 x=16011 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground21 maxx=16011 hp=115 respawns=0
+  L3 t=36 x=16733 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground21 maxx=16733 hp=115 respawns=0
+  L3 t=40 x=17584 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground21 maxx=17584 hp=105 respawns=0
+  L3 t=44 x=18360 y=-165 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground24 maxx=18417 hp=95 respawns=0
+  L3 t=48 x=19531 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground22 maxx=19531 hp=95 respawns=0
+  L3 t=52 x=20891 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground26 maxx=20891 hp=95 respawns=0
+  L3 t=56 x=21430 y=-0 vx=-130 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground26 maxx=21489 hp=85 respawns=0
+  L3 t=60 x=22462 y=-60 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground27 maxx=22462 hp=85 respawns=0
+  L3 t=64 x=23822 y=-238 vx=340 floor=false hit=- maxx=23822 hp=85 respawns=0
+  L3 t=68 x=24331 y=14 vx=-254 floor=false hit=- maxx=24381 hp=85 respawns=0
+  L3 t=72 x=24352 y=194 vx=330 floor=false hit=- maxx=24381 hp=85 respawns=0
+  L3 t=76 x=20992 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground26 maxx=24383 hp=125 respawns=1
+  L3 t=80 x=22351 y=-60 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground27 maxx=24383 hp=125 respawns=1
+  L3 t=84 x=23711 y=-130 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground30 maxx=24383 hp=125 respawns=1
+  L3 t=88 x=24689 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground32 maxx=24750 hp=115 respawns=1
+  L3 t=92 x=25358 y=-0 vx=3 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground32 maxx=25358 hp=115 respawns=1
+  L3 t=96 x=26146 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground32 maxx=26146 hp=105 respawns=1
+  L3 t=100 x=27506 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground33 maxx=27506 hp=105 respawns=1
+  L3 t=104 x=28866 y=-50 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground34 maxx=28866 hp=105 respawns=1
+  L3 t=108 x=29365 y=-132 vx=200 floor=false hit=- maxx=29439 hp=95 respawns=1
+  L3 t=112 x=27221 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground33 maxx=29701 hp=125 respawns=2
+  L3 t=116 x=28581 y=-60 vx=340 floor=false hit=- maxx=29701 hp=125 respawns=2
+  L3 t=120 x=29435 y=-170 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground36 maxx=29701 hp=115 respawns=2
+  L3 t=124 x=30826 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground39 maxx=30826 hp=115 respawns=2
+  L3 t=128 x=31536 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground39 maxx=31536 hp=115 respawns=2
+  L3 t=132 x=32397 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground39 maxx=32397 hp=105 respawns=2
+  L3 t=136 x=33752 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground40 maxx=33752 hp=125 respawns=2
+  L3 t=140 x=34475 y=-0 vx=-33 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground40 maxx=34476 hp=125 respawns=2
+  L3 t=144 x=34518 y=-0 vx=200 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground40 maxx=34518 hp=125 respawns=2
+  L3 t=148 x=34978 y=-0 vx=3 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground40 maxx=34978 hp=115 respawns=2
+  L3 t=152 x=34708 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground40 maxx=34979 hp=105 respawns=2
+  L3 t=156 x=34222 y=-0 vx=0 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground40 maxx=34979 hp=95 respawns=2
+  L3 t=160 x=35344 y=359 vx=289 floor=false hit=- maxx=35344 hp=95 respawns=2
+  L3 t=164 x=35183 y=-102 vx=340 floor=false hit=- maxx=35344 hp=125 respawns=3
+  L3 t=168 x=34967 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground40 maxx=35398 hp=125 respawns=4
+  L3 t=172 x=34752 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground40 maxx=35398 hp=125 respawns=5
+  L3 t=176 x=34536 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground40 maxx=35398 hp=125 respawns=6
+  L3 t=180 x=34321 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground40 maxx=35398 hp=125 respawns=7
+  L3 t=184 x=34106 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground40 maxx=35398 hp=125 respawns=8
+  L3 t=188 x=33890 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground40 maxx=35398 hp=125 respawns=9
+  L3 t=192 x=35251 y=-34 vx=340 floor=false hit=- maxx=35398 hp=125 respawns=9
+  L3 t=196 x=35035 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground40 maxx=35398 hp=125 respawns=10
+  L3 t=200 x=34820 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground40 maxx=35398 hp=125 respawns=11
+  L3 t=204 x=34604 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground40 maxx=35398 hp=125 respawns=12
+  L3 t=208 x=34389 y=-0 vx=340 floor=true hit=/root/Autoplay/Main/LevelHolder/Level07/Ground40 maxx=35398 hp=125 respawns=13
