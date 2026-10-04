@@ -10,7 +10,7 @@ func _ready() -> void:
 func _finish_level(msg: String) -> void:
 	assert(msg.begins_with("CLEARED"), "Kitap 2 finali tamamlanamadı: %s" % msg)
 	assert(_max_x > 286000.0, "Bozdoğan Kemeri kulesine ulaşılamadı")
-	assert(_run_t >= 1080.0 and _run_t <= 1260.0, "Final süresi 18–21 dakika dışına çıktı: %.1f" % _run_t)
+	assert(_run_t >= 1080.0 and _run_t <= 1380.0, "Final süresi 18–23 dakika dışına çıktı: %.1f" % _run_t)
 	var boss_cleared := false
 	for node in get_tree().get_nodes_in_group(&"battle_arena"):
 		var arena := node as BattleArena

@@ -450,6 +450,20 @@ func _wall_jump() -> void:
 	Fx.dust(global_position + Vector2(_wall_dir * 20.0, -50.0), _wall_dir, 4)
 
 
+## Tente / esnek yüzey sıçraması (AwningBounce çağırır). Zıplama tuşu basılıysa
+## daha yükseğe fırlar; yatay hız korunur, havada atılma hakkı yenilenir.
+func bounce(strength: float, boosted_strength: float) -> void:
+	if _state == State.DEAD or _state == State.KNOCKDOWN:
+		return
+	velocity.y = -(boosted_strength if Input.is_action_pressed(&"jump") else strength)
+	_coyote_timer = 0.0
+	_jump_buffer_timer = 0.0
+	_air_dashes_left = movement.air_dashes
+	_set_state(State.JUMP)
+	Sfx.play(&"jump", 0.75)
+	Fx.dust(global_position + Vector2(0, -2), 0, 5)
+
+
 func _drop_through() -> void:
 	set_collision_mask_value(8, false)
 	_drop_timer = 0.28

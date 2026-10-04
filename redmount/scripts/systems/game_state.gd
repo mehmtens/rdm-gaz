@@ -100,7 +100,13 @@ func act_name(for_level: int = level_index) -> String:
 	return ACT_NAMES[act_index(for_level)]
 
 
+## Test/geliştirme: boş değilse kampanya sırası yerine bu sahne yüklenir.
+var level_path_override: String = ""
+
+
 func level_path() -> String:
+	if not level_path_override.is_empty():
+		return level_path_override
 	return LEVELS[clampi(level_index, 0, LEVELS.size() - 1)]
 
 

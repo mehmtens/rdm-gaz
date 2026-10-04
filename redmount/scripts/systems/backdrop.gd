@@ -123,9 +123,10 @@ class _PanoramaLayer extends Node2D:
 		for i in range(first, first + int(ceilf(3200.0 / w)) + 2):
 			var rect := Rect2(i * w, -h * 0.5 - 60.0, w, h)
 			if posmod(i, 2) == 1:
-				# Ayna kopya: sağ kenar bir öncekinin sağ kenarıyla birleşir.
-				rect = Rect2(rect.position.x + w, rect.position.y, -w, h)
+				# Ayna kopya: karo kendi merkezinde yatay çevrilir, kenarlar dikişsiz birleşir.
+				draw_set_transform(Vector2(2.0 * i * w + w, 0.0), 0.0, Vector2(-1.0, 1.0))
 			draw_texture_rect_region(_tex, rect, _src)
+			draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
 
 	func _process(_delta: float) -> void:
 		queue_redraw()

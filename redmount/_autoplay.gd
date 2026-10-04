@@ -21,6 +21,7 @@ func _ready() -> void:
 	add_child(_main)
 	await get_tree().process_frame
 	_player = _main.get_node(^"Redmount")
+	GameState.level_path_override = OS.get_environment("REDMOUNT_LEVEL_PATH")
 	var probe_level := OS.get_environment("REDMOUNT_PROBE_LEVEL")
 	_start_level(probe_level.to_int() if not probe_level.is_empty() else 0)
 
@@ -124,8 +125,9 @@ func _physics_process(delta: float) -> void:
 		_tap(&"jump")
 	elif on_floor and not _ground_at(x + 20.0, y):
 		_tap(&"jump")
-	# duvara yapıştıysa (havada) duvar-zıplaması
-	elif _player.is_on_wall() and not on_floor:
+	# duvara yapıştıysa (havada, düşerken) duvar-zıplaması; tente sekişinin
+	# yükselen kolunda zıplamak oyuncuyu duvardan geri iterdi.
+	elif _player.is_on_wall() and not on_floor and _player.velocity.y > 0.0:
 		_tap(&"jump")
 	# tıkandıysa dash + zıpla
 	if _stuck_t > 0.3:

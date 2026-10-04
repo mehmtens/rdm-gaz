@@ -30,6 +30,19 @@ kilitli mini-boss arenası, L05 açık taht salonu (Karahanlı + kaidede Gazelle
 Doğrulama: headless `_probe` botu gerçek girdiyle parkuru sürer (godmode: yol'u
 test eder, dövüş değil; tıkanınca dash); L05 C–F kamera sweep (`_sweep.gd`).
 
+**Dan the Man tarzı İstanbul parkur setleri (Ekim 2026):** Kampanya bölümlerinin boş
+kalan düz sokaklarına elle ölçülmüş parkur setleri yerleşir
+(`parkour_set.gd`, `parkour_layer.gd`):
+- Dış mekân: tente sıçrayışı + kiremitli duvar, balkon tırmanışı, çatı zinciri, sekme zinciri, baca.
+- İç mekân: sandık basamakları, iskele, taş direk.
+
+Tezgâh tentesi (`awning_bounce.gd`) yeni bir mekaniktir: üstüne inen oyuncuyu fırlatır,
+zıplama basılıysa daha yükseğe. Setler yalnız mevcut piksel sanatla çizilir, ölümcül
+boşluk içermez ve düşman, arena, kontrol noktası ile dükkân çevresine kurulmaz.
+Ayrıntı: [`docs/DAN-THE-MAN-PARKUR.md`](docs/DAN-THE-MAN-PARKUR.md). Aynı geçişte prosedürel
+dikdörtgen bina silüetleri, prosedürel zemin dokuları, gri bölüm sonu kutusu ve gotik
+taht salonu, İstanbul piksel sanatıyla değiştirildi.
+
 **Son bölüm çalışması:** Level02'nin uzun kampanya rotasından sonra Level03 de
 `level03_redesign.gd` ile ~49.200px'e uzatıldı: ağır-sanayi temalı beş segment,
 üç arena, siper/üst rota, mağazalar ve düzenli kontrol noktaları. Eski kısa
