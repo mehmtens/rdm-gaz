@@ -51,9 +51,9 @@ size = Vector2(560, 220)
 [sub_resource type="RectangleShape2D" id="gCtop"]
 size = Vector2(420, 220)
 [sub_resource type="RectangleShape2D" id="gD1"]
-size = Vector2(700, 220)
+size = Vector2(480, 220)
 [sub_resource type="RectangleShape2D" id="gD2"]
-size = Vector2(700, 220)
+size = Vector2(330, 220)
 [sub_resource type="RectangleShape2D" id="gE"]
 size = Vector2(360, 220)
 [sub_resource type="RectangleShape2D" id="gF"]
@@ -203,7 +203,7 @@ position = Vector2(1900, -90)
 ; ===================== C: YANGIN MERDİVENİ + BIÇAKLI AJAN =====================
 ; Roof4 sağ kenarı x2065 (yüzey -90). Aşağı in -> GroundC.
 [node name="Roof4Landing" parent="." instance=ExtResource("9")]
-position = Vector2(2140, -84)
+position = Vector2(2160, -84)
 width = 180.0
 
 [node name="GroundC" type="StaticBody2D" parent="."]
@@ -219,20 +219,20 @@ position = Vector2(2300, -46)
 
 ; 3 basamaklı tek yön tırmanış (~80px adımlar, zigzag)
 [node name="FE1" parent="." instance=ExtResource("9")]
-position = Vector2(2560, -80)
+position = Vector2(2490, -80)
 width = 150.0
 [node name="FE2" parent="." instance=ExtResource("9")]
-position = Vector2(2710, -165)
+position = Vector2(2605, -165)
 width = 150.0
 [node name="FE3" parent="." instance=ExtResource("9")]
-position = Vector2(2560, -245)
+position = Vector2(2490, -245)
 width = 150.0
 [node name="CoinFE1" parent="." instance=ExtResource("4")]
-position = Vector2(2560, -120)
+position = Vector2(2490, -120)
 [node name="CoinFE2" parent="." instance=ExtResource("4")]
-position = Vector2(2710, -205)
+position = Vector2(2605, -205)
 [node name="CoinFE3" parent="." instance=ExtResource("4")]
-position = Vector2(2560, -285)
+position = Vector2(2490, -285)
 
 ; GENİŞ katı çatı — Bıçaklı Ajan burada, düz güvenli zeminde tanıtılır
 [node name="GroundCtop" type="StaticBody2D" parent="."]
@@ -246,7 +246,7 @@ polygon = PackedVector2Array(-210, -110, 210, -110, 210, 110, -210, 110)
 [node name="CP2" parent="." instance=ExtResource("7")]
 position = Vector2(2720, -250)
 [node name="KnifeAgentC" parent="." instance=ExtResource("3")]
-position = Vector2(3000, -290)
+position = Vector2(3000, -250)
 [node name="HealthC" parent="." instance=ExtResource("6")]
 position = Vector2(2780, -296)
 [node name="CoinCt1" parent="." instance=ExtResource("4")]
@@ -257,12 +257,12 @@ position = Vector2(2960, -296)
 ; ===================== D: DİKENLİ TEL + HAREKETLİ VİNÇ =====================
 ; GroundCtop sağ kenarı x3110 (yüzey -250). Aşağı in -> GroundD1.
 [node name="GroundD1" type="StaticBody2D" parent="."]
-position = Vector2(3300, 40)
+position = Vector2(3190, 40)
 [node name="Col" type="CollisionShape2D" parent="GroundD1"]
 shape = SubResource("gD1")
 [node name="Vis" type="Polygon2D" parent="GroundD1"]
 color = Color(0.231, 0.29, 0.353, 1)
-polygon = PackedVector2Array(-350, -110, 350, -110, 350, 110, -350, 110)
+polygon = PackedVector2Array(-240, -110, 240, -110, 240, 110, -240, 110)
 
 [node name="CP3" parent="." instance=ExtResource("7")]
 position = Vector2(3210, -70)
@@ -271,8 +271,8 @@ position = Vector2(3210, -70)
 position = Vector2(3620, 300)
 width = 380.0
 [node name="ServiceBridgeD" parent="." instance=ExtResource("9")]
-position = Vector2(3620, -50)
-width = 300.0
+position = Vector2(3620, -64)
+width = 160.0
 [node name="Crane" parent="." instance=ExtResource("10")]
 position = Vector2(3520, -60)
 travel = Vector2(240, 0)
@@ -283,15 +283,15 @@ position = Vector2(3640, -120)
 value = 5
 
 [node name="GroundD2" type="StaticBody2D" parent="."]
-position = Vector2(3980, 40)
+position = Vector2(3975, 40)
 [node name="Col" type="CollisionShape2D" parent="GroundD2"]
 shape = SubResource("gD2")
 [node name="Vis" type="Polygon2D" parent="GroundD2"]
 color = Color(0.231, 0.29, 0.353, 1)
-polygon = PackedVector2Array(-350, -110, 350, -110, 350, 110, -350, 110)
+polygon = PackedVector2Array(-165, -110, 165, -110, 165, 110, -165, 110)
 
 [node name="CP4" parent="." instance=ExtResource("7")]
-position = Vector2(3850, -70)
+position = Vector2(3900, -70)
 
 ; ===================== E: ÇÖKEN KÖPRÜ =====================
 ; GroundD2 sağ kenarı x4140. Dikenli hendek üstünde 3'lü çöken platform.

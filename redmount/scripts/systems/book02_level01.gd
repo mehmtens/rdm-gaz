@@ -26,11 +26,7 @@ func _build_chapter() -> void:
 	# Kale çıkışı: eski hareketleri birer güvenli hedefle hatırlat.
 	_coin_line(500, 6, 200, -55)
 	_enemy(STREET, 1800, 0)
-	_oneway(3800, -85, 220)
-	_oneway(4100, -170, 220)
-	_oneway(4400, -85, 220)
-	for i in 3:
-		_bonus_coin(3800 + i * 300, -220, 5)
+	_encounter("cati", 3240)
 	_enemy(KNIFE, 5600, 0)
 	_pickup(PISTOL, 7200, -45)
 	_checkpoint(9000, 0)
@@ -40,13 +36,7 @@ func _build_chapter() -> void:
 	_coin_line(12600, 6, 390, -55)
 	_enemy(STREET, 13800, 0)
 	_enemy(KNIFE, 15400, 0)
-	_oneway(17200, -30, 220)
-	_oneway(17500, -115, 220)
-	_oneway(17800, -200, 220)
-	_oneway(18100, -115, 220)
-	for i in 4:
-		_bonus_coin(17300 + i * 260, -255, 5)
-	_pickup(ARMOR, 17800, -260)
+	_encounter("balkon", 17300, ARMOR)
 	_enemy(ASSASSIN, 20300, 60)
 	_pickup(HEALTH, 21500, 5)
 	_checkpoint(23000, 0)
@@ -56,13 +46,7 @@ func _build_chapter() -> void:
 
 	# Kayıkçı iskelesi: 200 px su boşluğu, sabit taş-iskele köprüsü.
 	_enemy(KNIFE, 30200, 0)
-	_oneway(33000, -85, 220)
-	_oneway(33300, -170, 220)
-	_oneway(33600, -255, 220)
-	_oneway(33900, -170, 220)
-	for i in 4:
-		_bonus_coin(33100 + i * 260, -310, 5)
-	_pickup(ARMOR, 33600, -315)
+	_encounter("sekme", 32790, ARMOR)
 	_checkpoint(34500, 0)
 	_oneway(36000, -45, 240)
 	_coin_line(35300, 5, 350, -125)
@@ -74,12 +58,7 @@ func _build_chapter() -> void:
 	_enemy(RIFLE, 44700, 0)
 	_prop("kasa", 45600)
 	_enemy(KNIFE, 46600, 0)
-	_oneway(47500, -85, 220)
-	_oneway(47800, -170, 220)
-	_oneway(48100, -85, 220)
-	for i in 4:
-		_bonus_coin(47500 + i * 220, -220, 5)
-	_pickup(AMMO, 47800, -225)
+	_encounter("iskele", 47390, AMMO)
 	_enemy(BRUISER, 49600, 60)
 	_enemy(ASSASSIN, 51000, 60)
 	_checkpoint(52500, 60)
@@ -90,12 +69,7 @@ func _build_chapter() -> void:
 	# Açık Haliç yolu: üst vinç ödüllü; ikinci su geçişi düşmansız.
 	_enemy(ASSASSIN, 59800, 0)
 	_enemy(RIFLE, 61700, 0)
-	_oneway(63200, -85, 220)
-	_moving(63700, -145, Vector2(180, -30), 190)
-	_oneway(64300, -205, 220)
-	for i in 5:
-		_bonus_coin(63200 + i * 275, -265, 5)
-	_pickup(RIFLE_PICKUP, 64300, -265)
+	_encounter("tente_duvar", 63370, RIFLE_PICKUP)
 	_checkpoint(65200, 0)
 	_oneway(68000, -45, 240)
 	_coin_line(67400, 5, 300, -125)
@@ -115,12 +89,7 @@ func _build_chapter() -> void:
 	# Tekne onarım kızağı: ana rota düz, üst güvertede isteğe bağlı mühimmat.
 	_enemy(STREET, 85500, 0)
 	_enemy(KNIFE, 87300, 0)
-	_oneway(88600, -85, 220)
-	_oneway(88900, -170, 220)
-	_oneway(89200, -85, 220)
-	for i in 4:
-		_bonus_coin(88600 + i * 220, -225, 5)
-	_pickup(AMMO, 88900, -225)
+	_encounter("cati", 88040, AMMO)
 	_enemy(RIFLE, 91100, 0)
 	_checkpoint(92800, 0)
 
@@ -139,6 +108,134 @@ func _build_chapter() -> void:
 	_enemy(ELITE, 108000, 0)
 	_dialogue(109000, "GAZELLE", "Kayıt bulundu. Sevkiyatlar Haliç'ten içeri gidiyor; iz burada bitmiyor.")
 	_goal(110700, 0)
+
+
+## Parkur sahnesi: mekâna uygun İstanbul parkur seti + üstünde/dibinde bekleyen
+## düşmanlar. `x` setin sol kenarı; set altındaki düz zemin parçasına oturur ve
+## parçadan taşmayacak kadar kaydırılır (60 px alçak sokaklar dahil).
+func _encounter(kind: String, x: float, reward: PackedScene = null) -> void:
+	var w := ParkourSet.width_of(kind)
+	var seg := _ground_under(x + w * 0.5)
+	if seg.size.x <= 0.0:
+		return
+	if seg.size.x < w + 80.0:
+		kind = "engel"
+		w = ParkourSet.width_of(kind)
+	x = clampf(x, seg.position.x + 40.0, seg.end.x - 40.0 - w)
+	# Sahneden önceki 2.500 px'de kontrol noktası yoksa hemen önüne bir tane:
+	# sahnede ölen oyuncu bölüm başına değil, sahnenin önüne döner.
+	var has_cp := false
+	for c in get_children():
+		if c.is_in_group(&"checkpoint") or (c.scene_file_path == CHECKPOINT.resource_path):
+			var cx: float = (c as Node2D).position.x
+			if cx >= x - 2500.0 and cx <= x:
+				has_cp = true
+				break
+	if not has_cp and x - 320.0 > seg.position.x + 40.0:
+		_checkpoint(x - 320.0, seg.position.y)
+	var piece := ParkourSet.new()
+	piece.kind = kind
+	piece.variant = _serial
+	piece.reward = reward
+	piece.position = Vector2(x, seg.position.y)
+	add_child(piece)
+	_serial += 1
+	var spots := ParkourSet.guard_spots(kind)
+	# Bölümün ilk sahnesi fikri tanıtır: tek nöbetçi.
+	if _encounters == 0:
+		spots = spots.slice(0, 1)
+	_encounters += 1
+	for spot in spots:
+		var guard := _guard_for(kind, str(spot.role))
+		var p: Vector2 = spot.pos
+		_enemy(guard, x + p.x, seg.position.y + p.y)
+
+
+var _kind_turn := 0
+var _encounters := 0
+
+
+## Final bölümlerinin ödül yolları için sıradaki sahne türü (en fazla ~900 px genişlik).
+## İç mekânda sandık / iskele, dışarıda tente + duvar / balkon dönüşümlü.
+func _next_kind(x: float) -> String:
+	var m := RegEx.create_from_string("Book0(\\d)Level(\\d+)").search(scene_file_path)
+	var li := -1
+	if m != null:
+		li = (11 if m.get_string(1) == "2" else 23) + int(m.get_string(2))
+	var pool: Array = ["kasa", "iskele"] if ParkourInteriors.is_interior(li, x - 400.0, x + 1300.0) \
+		else ["tente_duvar", "balkon"]
+	_kind_turn += 1
+	return pool[_kind_turn % pool.size()]
+
+
+## Nöbetçi seçimi: yüksekten bekleyen tüfekli, sandık tepesinde ağır birlik,
+## çatıda ve zeminde kitabın ilerleyişine göre sokak → bıçaklı → suikastçı → seçkin.
+func _guard_for(kind: String, role: String) -> PackedScene:
+	var late: bool = (get_script() as Script).resource_path.contains("book03")
+	if role == "nisan":
+		return RIFLE
+	if kind == "kasa":
+		return ELITE if late else BRUISER
+	# Dar çatı / balkon tepesinde çevik ve bloklayan seçkin muhafız haksız olur.
+	var pool: Array
+	if role == "tepe":
+		pool = [KNIFE, ASSASSIN] if late else [STREET, KNIFE]
+	else:
+		pool = [KNIFE, ASSASSIN, ELITE] if late else [STREET, KNIFE, ASSASSIN]
+	return pool[_serial % pool.size()]
+
+
+## x'in altındaki en üst düz katı zemin (aynı yükseklikte bitişik parçalar birleşir).
+func _ground_under(px: float) -> Rect2:
+	var rects: Array = []
+	for c in get_children():
+		if not (c is StaticBody2D) or (c as StaticBody2D).collision_layer & 1 == 0:
+			continue
+		for cs in c.get_children():
+			if cs is CollisionShape2D and (cs as CollisionShape2D).shape is RectangleShape2D:
+				var size := ((cs as CollisionShape2D).shape as RectangleShape2D).size
+				if size.x >= 600.0:
+					rects.append(Rect2((c as Node2D).position + (cs as Node2D).position - size * 0.5, size))
+	var best := Rect2()
+	for r in rects:
+		if px >= r.position.x and px <= r.end.x and (best.size.x <= 0.0 or r.position.y < best.position.y):
+			best = r
+	if best.size.x <= 0.0:
+		return best
+	var grown := true
+	while grown:
+		grown = false
+		for r in rects:
+			if absf(r.position.y - best.position.y) < 1.0 and r.position.x <= best.end.x + 1.0 \
+					and r.end.x >= best.position.x - 1.0 and not best.encloses(r):
+				best = best.merge(r)
+				grown = true
+	return best
+
+
+## Zemin düşmanı / ödülü alçak (60 px) sokakta ya da yükseltilmiş kaldırımda havada
+## kalmasın, zemine gömülmesin: altındaki zeminin yüzeyine oturt.
+func _enemy(scene: PackedScene, x: float, y: float) -> void:
+	super._enemy(scene, x, _snap_to_ground(x, y, 0.0))
+
+
+func _pickup(scene: PackedScene, x: float, y: float) -> void:
+	super._pickup(scene, x, _snap_to_ground(x, y, -45.0))
+
+
+func _prop(kind: String, x: float, y: float = 0.0, reward: PackedScene = null) -> void:
+	super._prop(kind, x, _snap_to_ground(x, y, 0.0), reward)
+
+
+func _snap_to_ground(x: float, y: float, offset: float) -> float:
+	var seg := _ground_under(x)
+	if seg.size.x <= 0.0:
+		return y
+	var floor_y := seg.position.y + offset
+	# Yalnız zemin hizasında düşünülmüş nesneler (zeminin 80 px yakını) taşınır.
+	if absf(y - floor_y) <= 80.0:
+		return floor_y
+	return y
 
 
 func _bonus_coin(x: float, y: float, value: int) -> void:

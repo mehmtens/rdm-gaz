@@ -24,12 +24,7 @@ func _build_chapter() -> void:
 	_coin_line(500, 6, 210, -55)
 	_enemy(STREET, 2300, 0)
 	_enemy(KNIFE, 4700, 0)
-	_oneway(6500, -85, 220)
-	_oneway(6800, -170, 220)
-	_oneway(7100, -85, 220)
-	for i in 4:
-		_bonus_coin(6500 + i * 220, -225, 5)
-	_pickup(ARMOR, 6800, -225)
+	_encounter("balkon", 6450, ARMOR)
 	_checkpoint(9000, 0)
 	_enemy(RIFLE, 11500, 0)
 	_dialogue(12500, "REDMOUNT", "Aynı mühür üç farklı sevkiyatta. Biri burada izini saklıyor.")
@@ -38,12 +33,7 @@ func _build_chapter() -> void:
 	_coin_line(14200, 6, 320, -55)
 	_enemy(STREET, 16800, 60)
 	_enemy(KNIFE, 18500, 60)
-	_oneway(19500, -25, 220)
-	_oneway(19800, -110, 220)
-	_oneway(20100, -195, 220)
-	for i in 4:
-		_bonus_coin(19500 + i * 220, -250, 5)
-	_pickup(AMMO, 20100, -255)
+	_encounter("sekme", 19140, AMMO)
 	_checkpoint(22200, 0)
 	_arena(24400, 0, 23600, 25200, _wave(STREET, KNIFE),
 		_wave(ASSASSIN, STREET), HEALTH)
@@ -52,12 +42,7 @@ func _build_chapter() -> void:
 	# Kemerli geçit: 200 px taş derz boşluğu sabit iskeleyle okunur.
 	_oneway(28000, -45, 240)
 	_enemy(KNIFE, 31000, 0)
-	_oneway(33200, -85, 220)
-	_oneway(33500, -170, 220)
-	_oneway(33800, -85, 220)
-	for i in 4:
-		_bonus_coin(33200 + i * 220, -225, 5)
-	_pickup(PISTOL, 33500, -225)
+	_encounter("engel", 33240, PISTOL)
 	_checkpoint(35200, 0)
 	_enemy(RIFLE, 36800, 0)
 	_shop(38500, "UNKAPANI FIRIN TEZGÂHI", PackedStringArray(["can", "cephane", "zirh"]))
@@ -65,12 +50,7 @@ func _build_chapter() -> void:
 	# Cibali halat atölyesi: vinç yolu ödüllü; zırhlı düşman zeminde kalır.
 	_coin_line(41000, 5, 300, -55)
 	_enemy(BRUISER, 43800, 0)
-	_oneway(45300, -85, 220)
-	_moving(45800, -145, Vector2(180, -30), 190)
-	_oneway(46400, -205, 220)
-	for i in 5:
-		_bonus_coin(45300 + i * 275, -265, 5)
-	_pickup(RIFLE_PICKUP, 46400, -265)
+	_encounter("kasa", 45400, RIFLE_PICKUP)
 	_enemy(ASSASSIN, 48300, 0)
 	_checkpoint(49100, 0)
 	_arena(51500, 0, 50700, 52300, _wave(KNIFE, RIFLE),
@@ -84,23 +64,14 @@ func _build_chapter() -> void:
 	_coin_line(59300, 5, 330, -125)
 	_enemy(STREET, 62600, 0)
 	_enemy(ASSASSIN, 64600, 0)
-	_oneway(66300, -85, 220)
-	_oneway(66600, -170, 220)
-	_oneway(66900, -85, 220)
-	for i in 4:
-		_bonus_coin(66300 + i * 220, -225, 5)
-	_pickup(ARMOR, 66600, -225)
+	_encounter("tente_duvar", 66220, ARMOR)
 	_checkpoint(69200, 0)
 
 	# Fener basamakları: alçak zeminde kontrollü dövüş, çatıda kısa kestirme.
 	_coin_line(71400, 5, 320, -55)
 	_enemy(KNIFE, 73300, 60)
 	_enemy(ELITE, 75000, 60)
-	_oneway(76100, -25, 220)
-	_oneway(76400, -110, 220)
-	_oneway(76700, -195, 220)
-	for i in 4:
-		_bonus_coin(76100 + i * 220, -250, 5)
+	_encounter("iskele", 75990)
 	_pickup(HEALTH, 77700, 5)
 	_checkpoint(78400, 60)
 	_arena(80300, 60, 79500, 81100, _wave(ELITE, STREET),
@@ -109,13 +80,7 @@ func _build_chapter() -> void:
 
 	# Sahte mühür baskıhanesi: ipucu üst rotada, ana çıkış açık.
 	_enemy(ASSASSIN, 85900, 0)
-	_oneway(88300, -85, 220)
-	_oneway(88600, -170, 220)
-	_oneway(88900, -255, 220)
-	_oneway(89200, -170, 220)
-	for i in 5:
-		_bonus_coin(88300 + i * 260, -310, 5)
-	_pickup(ARMOR, 88900, -315)
+	_encounter("engel", 88490, ARMOR)
 	_enemy(RIFLE, 92200, 0)
 	_dialogue(94600, "REDMOUNT", "Kalıp burada. Gümrükteki mühürler bu preste çoğaltılmış.")
 	_checkpoint(96000, 0)

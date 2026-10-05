@@ -49,12 +49,29 @@ const WIDTHS := {
 	"kasa": 900.0,
 	"iskele": 820.0,
 	"direk": 520.0,
+	"engel": 520.0,
 }
 const INTERIOR_KINDS := ["kasa", "iskele", "direk"]
 
-@export_enum("tente_duvar", "balkon", "cati", "baca", "sekme", "kasa", "iskele", "direk") var kind: String = "tente_duvar"
+@export_enum("tente_duvar", "balkon", "cati", "baca", "sekme", "kasa", "iskele", "direk", "engel") var kind: String = "tente_duvar"
 ## Yer seçimi için tohum: aynı türün ev sanatı / ödülü bölümden bölüme değişir.
 @export var variant: int = 0
+## Setin tepesindeki ödül (boşsa türün varsayılanı ya da hiç).
+@export var reward: PackedScene
+
+
+## Nöbetçi yerleri (yerel koordinat): rol "tepe" = setin üstünde bekleyen,
+## "nisan" = yüksekten ateş eden (tüfekli için), "zemin" = setin dibinde/arkasında.
+static func guard_spots(k: String) -> Array:
+	match k:
+		"tente_duvar": return [{"pos": Vector2(400, -250), "role": "nisan"}, {"pos": Vector2(680, 0), "role": "zemin"}]
+		"balkon": return [{"pos": Vector2(430, -330), "role": "tepe"}]
+		"cati": return [{"pos": Vector2(925, -270), "role": "tepe"}, {"pos": Vector2(1400, -230), "role": "tepe"}]
+		"sekme": return [{"pos": Vector2(430, 0), "role": "zemin"}, {"pos": Vector2(985, 0), "role": "zemin"}]
+		"kasa": return [{"pos": Vector2(435, -180), "role": "tepe"}]
+		"iskele": return [{"pos": Vector2(505, -230), "role": "nisan"}]
+		"engel": return [{"pos": Vector2(420, 0), "role": "zemin"}]
+	return []
 
 
 static func width_of(k: String) -> float:
@@ -70,20 +87,25 @@ func _ready() -> void:
 		"kasa": _build_crate_steps()
 		"iskele": _build_scaffold_climb()
 		"direk": _build_chimney(false)
+		"engel": _build_cover()
 		_: _build_awning_wall()
 
 
 # --- Parçalar ---------------------------------------------------------------
 
 func _build_awning_wall() -> void:
-	_awning(90, 180, 64)
-	_wall_block(330, 120, 250)
+	# Tezgâh duvarın dibine dayalı: duvarın önüne düşen herkes yeniden tenteye iner,
+	# arada geri dönmek zorunda kalınan ölü cep yok.
+	_awning(220, 240, 64)
+	_wall_block(340, 120, 250)
 	# Coin yayı sıçrama eğrisini çizer: oyuncu nereye düşeceğini görür.
 	for i in 7:
 		var t := float(i) / 6.0
-		_coin(110 + t * 420.0, -110.0 - sin(t * PI) * 230.0)
-	_coin(600, -55)
-	_coin(660, -55)
+		_coin(160 + t * 420.0, -120.0 - sin(t * PI) * 220.0)
+	_coin(620, -55)
+	_coin(680, -55)
+	if reward != null:
+		_pickup(reward, 400, -300)
 
 
 func _build_balcony_climb() -> void:
@@ -97,12 +119,13 @@ func _build_balcony_climb() -> void:
 	_coin(170, -280)
 	for k in 4:
 		_coin(300 + k * 60.0, top - 50.0)
-	if variant % 3 == 0:
-		_pickup(HEALTH, 480, top - 45.0)
+	if reward != null:
+		_pickup(reward, 480, top - 45.0)
 
 
 func _build_rooftops() -> void:
-	_awning(90, 180, 64)
+	# Tezgâh ilk evin duvarına dayalı (arada ölü cep yok).
+	_awning(180, 180, 64)
 	var tops := [-230.0, -270.0, -230.0]
 	var x := 270.0
 	for i in tops.size():
@@ -112,11 +135,12 @@ func _build_rooftops() -> void:
 			_coin(x + 50.0 + k * 75.0, float(tops[i]) - 55.0)
 		x += w
 		if i < tops.size() - 1:
-			# Ara sokak: düşen oyuncu aradaki balkondan geri çıkar.
-			_balcony_ledge(x + 80.0, -120.0, 120)
+			# Ara sokak: düşen oyuncu iki balkonla (ileriye doğru) yeniden çatıya çıkar.
+			_balcony_ledge(x + 45.0, -110.0, 90)
+			_balcony_ledge(x + 115.0, float(tops[i + 1]) + 85.0, 90)
 			x += 160.0
-	if variant % 2 == 1:
-		_pickup(AMMO, 270.0 + 330.0 + 160.0 + 165.0, -270.0 - 50.0)
+	if reward != null:
+		_pickup(reward, 270.0 + 330.0 + 160.0 + 165.0, -270.0 - 50.0)
 
 
 func _build_chimney(outdoor := true) -> void:
@@ -130,8 +154,7 @@ func _build_chimney(outdoor := true) -> void:
 		_roof_ledge(265, -450.0, 300)
 	else:
 		_scaffold_ledge(265, -450.0, 300)
-	var reward: PackedScene = [HEALTH, ARMOR, AMMO][posmod(variant, 3)]
-	_pickup(reward, 265, -495)
+	_pickup(reward if reward != null else [HEALTH, ARMOR, AMMO][posmod(variant, 3)], 265, -495)
 	_coin(205, -490)
 	_coin(325, -490)
 
@@ -151,6 +174,8 @@ func _build_bounce_chain() -> void:
 		_coin(700 + i * 115.0, -290.0 - sin(float(i) / 3.0 * PI) * 70.0)
 	_coin(1150, -410)
 	_coin(1210, -410)
+	if reward != null:
+		_pickup(reward, 1180, -405)
 
 
 func _build_crate_steps() -> void:
@@ -161,10 +186,9 @@ func _build_crate_steps() -> void:
 		_crate_stack(120.0 + i * c, c, heights[i])
 	for i in heights.size():
 		_coin(120.0 + i * c + c * 0.5, -float(heights[i]) - 55.0)
-	# Tepe ödülü: yığının üstünde asılı ahşap raf (isteğe bağlı küçük zıplama).
-	_scaffold_ledge(435, -320.0, 200)
-	var reward: PackedScene = [AMMO, HEALTH, ARMOR][posmod(variant, 3)]
-	_pickup(reward, 435, -365)
+	# Tepe ödülü: yığının üstünde asılı ahşap raf (isteğe bağlı küçük zıplama, 110 px).
+	_scaffold_ledge(435, -290.0, 200)
+	_pickup(reward if reward != null else [AMMO, HEALTH, ARMOR][posmod(variant, 3)], 435, -335)
 
 
 func _build_scaffold_climb() -> void:
@@ -180,6 +204,20 @@ func _build_scaffold_climb() -> void:
 	for k in 3:
 		_coin(445 + k * 45.0, -285)
 	_coin(625, -165)
+	if reward != null:
+		_pickup(reward, 470, -280)
+
+
+func _build_cover() -> void:
+	# Siper: iki katlı sandık yığını; arkasında bekleyen nöbetçi. Üstünden atlanır
+	# ya da sandığın önünde dövüşülür.
+	_crate_stack(150, 90, 90)
+	_crate_stack(240, 90, 60)
+	for i in 5:
+		var t := float(i) / 4.0
+		_coin(130 + t * 260.0, -150.0 - sin(t * PI) * 70.0)
+	if reward != null:
+		_pickup(reward, 195, -140)
 
 
 # --- Yapı taşları ------------------------------------------------------------

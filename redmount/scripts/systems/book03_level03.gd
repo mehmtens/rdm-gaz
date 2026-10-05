@@ -24,7 +24,7 @@ func _build_chapter() -> void:
 	_coin_line(500, 6, 220, -55)
 	_enemy(STREET, 2400, 0)
 	_enemy(KNIFE, 5400, 0)
-	_reward_path(7000, ARMOR)
+	_encounter("sekme", 6640, ARMOR)
 	_checkpoint(9700, 0)
 	_enemy(RIFLE, 12000, 0)
 	_dialogue(13700, "REDMOUNT", "Kıyıdaki direkler telgraf binasına gidiyor. Kabloyu değil, emri veren kişiyi arıyoruz.")
@@ -32,12 +32,7 @@ func _build_chapter() -> void:
 	# Galata alt sokağı: 60 px yokuş hissi; üst dükkân tentesi ödüllü.
 	_coin_line(15100, 6, 350, -55)
 	_enemy(KNIFE, 17600, 60)
-	_oneway(18900, -25, 220)
-	_oneway(19200, -110, 220)
-	_oneway(19500, -195, 220)
-	for i in 4:
-		_bonus_coin(18900 + i * 220, -250, 5)
-	_pickup(AMMO, 19500, -255)
+	_encounter("tente_duvar", 18820, AMMO)
 	_enemy(ASSASSIN, 21500, 60)
 	_checkpoint(23300, 0)
 	_arena(26000, 0, 25200, 26800, _wave(STREET, KNIFE),
@@ -46,7 +41,7 @@ func _build_chapter() -> void:
 
 	# Telgraf cephesi: kablo hendeği sabit köprü, üst bakım rafı silah verir.
 	_enemy(RIFLE, 30900, 0)
-	_reward_path(32900, PISTOL)
+	_encounter("cati", 32340, PISTOL)
 	_checkpoint(34700, 0)
 	_oneway(36000, -45, 240)
 	_coin_line(35300, 5, 350, -125)
@@ -56,7 +51,7 @@ func _build_chapter() -> void:
 
 	# Kablo bakım avlusu: ağır nöbetçiyi dar raf altından geniş avluya çek.
 	_enemy(KNIFE, 45600, 0)
-	_reward_path(47600, ARMOR)
+	_encounter("balkon", 47550, ARMOR)
 	_enemy(BRUISER, 50600, 60)
 	_checkpoint(53000, 60)
 	_prop("sandik", 54500, 60, AMMO)
@@ -68,12 +63,7 @@ func _build_chapter() -> void:
 
 	# Röle salonu: ana zemin açık; kablo servis rafında yüksek ödül.
 	_enemy(ELITE, 63800, 0)
-	_oneway(65000, -85, 220)
-	_moving(65500, -145, Vector2(180, -30), 190)
-	_oneway(66100, -205, 220)
-	for i in 5:
-		_bonus_coin(65000 + i * 270, -265, 5)
-	_pickup(RIFLE_PICKUP, 66100, -265)
+	_encounter("kasa", 65100, RIFLE_PICKUP)
 	_checkpoint(67000, 0)
 	_oneway(68000, -45, 240)
 	_coin_line(67300, 5, 350, -125)
@@ -89,7 +79,7 @@ func _build_chapter() -> void:
 
 	# Hat arşivi: alt servis kotu ve isteğe bağlı üst kâğıt rafı.
 	_enemy(BRUISER, 82700, 60)
-	_reward_path(84600, ARMOR)
+	_encounter("iskele", 84490, ARMOR)
 	_enemy(RIFLE, 87100, 60)
 	_checkpoint(89000, 0)
 	_coin_line(90700, 6, 300, -55)

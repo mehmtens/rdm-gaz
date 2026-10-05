@@ -22,12 +22,16 @@ const FORTRESS_PLATFORM := preload("res://assets/environment/fortress_platform.p
 const CORRIDOR := preload("res://assets/environment/corridor_ground.png")
 ## Bulut platformu: mahalle setindeki alacakaranlık tonlu piksel bulut.
 const CLOUD_ART := preload("res://assets/environment/mahalle/cloud_puff.png")
+const POST := preload("res://assets/environment/kit/scaffold_post.png")
+const PILLAR := preload("res://assets/environment/kit/wall_pillar.png")
 @export var width: float = 200.0
 @export_enum("metal", "cloud", "roof", "awning", "scaffold", "wood_shelf", "industrial", "underground", "fortress", "corridor") var style: String = "metal"
 
 @onready var _col: CollisionShape2D = $CollisionShape2D
 @onready var _vis: Polygon2D = $Vis
 
+## Tente / çatı platformunun altındaki katı zemine uzaklık (px); 0 = destek çizilmez.
+var _support_depth := 0.0
 var _cloud_state: int = _Cloud.SOLID
 var _cloud_timer := 0.0
 var _cloud_sensor: Area2D
@@ -55,7 +59,28 @@ func _ready() -> void:
 	set_physics_process(style == "cloud")
 	if style == "cloud":
 		_setup_cloud()
+	elif style in ["awning", "roof"]:
+		_find_support.call_deferred()
 	queue_redraw()
+
+
+## Tente direkleri / çatı duvarı havada asılı kalmasın: altındaki katı zemine kadar uzat.
+func _find_support() -> void:
+	await get_tree().physics_frame
+	if not is_inside_tree():
+		return
+	var space := get_world_2d().direct_space_state
+	var depth := INF
+	for dx in [-width * 0.5 + 14.0, width * 0.5 - 14.0]:
+		var from := global_position + Vector2(dx, 8.0)
+		var q := PhysicsRayQueryParameters2D.create(from, from + Vector2(0, 520.0), 1)
+		var hit := space.intersect_ray(q)
+		if hit.is_empty():
+			return  # bir ucu boşluğa bakıyor (çukur, su): destek çizme
+		depth = minf(depth, hit.position.y - global_position.y)
+	if depth > 30.0:
+		_support_depth = depth
+		queue_redraw()
 
 
 func _setup_cloud() -> void:
@@ -139,6 +164,10 @@ func _draw() -> void:
 		draw_line(Vector2(-hw, -7), Vector2(hw, -7), Color("a2a7b7"), 5)
 		return
 	if style == "awning":
+		# Tezgâh tentesi iki ahşap direğe oturur.
+		if _support_depth > 0.0:
+			for px in [-hw + 6.0, hw - 22.0]:
+				draw_texture_rect(POST, Rect2(px, 20.0, 16.0, _support_depth - 20.0), false)
 		draw_texture_rect_region(AWNING, Rect2(-hw, -6, width, 62), Rect2(6, 147, 2161, 320))
 	elif style == "wood_shelf":
 		var base := maxf(-position.y, 74.0)
@@ -159,6 +188,20 @@ func _draw() -> void:
 		else:
 			draw_texture_rect_region(SCAFFOLD, Rect2(-hw, -6, width, 80), Rect2(26, 148, 1931, 535))
 	elif style == "roof":
+		# Çatı iki taş direğe oturur (revak): altından yürünerek geçilir.
+		if _support_depth > 0.0:
+			for px in [-hw + 8.0, hw - 36.0]:
+				_tile_down(PILLAR, Rect2(px, 24.0, 28.0, _support_depth - 24.0))
 		draw_texture_rect(ROOF, Rect2(-hw, -6, width, 44), false)
 	else:
 		draw_texture_rect(LEDGE, Rect2(-hw, -6, width, 62), false)
+
+
+func _tile_down(tex: Texture2D, r: Rect2) -> void:
+	var tile_h := r.size.x * tex.get_height() / tex.get_width()
+	var y := r.position.y
+	while y < r.end.y - 0.5:
+		var h := minf(tile_h, r.end.y - y)
+		draw_texture_rect_region(tex, Rect2(r.position.x, y, r.size.x, h),
+			Rect2(0, 0, tex.get_width(), tex.get_height() * h / tile_h))
+		y += h

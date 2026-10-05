@@ -283,8 +283,8 @@ func _build_flood_canal() -> void:
 	# Drenaj kapağı çevresinde iki seviyeli çatışma.
 	_platform(25280, -45, 280, 40, METAL)
 	_platform(25620, -100, 280, 40, METAL)
-	_enemy(STREET, 25280, -115)
-	_enemy(KNIFE, 25720, 0)
+	_enemy(STREET, 25280, -65)
+	_enemy(KNIFE, 25950, 0)
 	_ground(26200, 900, 0, METAL)
 	_moving(26720, -85, Vector2(260, -35), 180, 4.5)
 	_coin_arc(26560, 5, 120, -190)

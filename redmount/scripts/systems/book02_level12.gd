@@ -59,12 +59,7 @@ func _approach() -> void:
 	# 48–72 bin: su kapısı avlusu; üst raf ekipman, alt rota açık.
 	_coin_line(48900, 6, 450, -55)
 	_enemy(BRUISER, 51200, 0)
-	_oneway(54000, -85, 220)
-	_moving(54500, -155, Vector2(170, -30), 190)
-	_oneway(55100, -215, 220)
-	for i in 5:
-		_bonus_coin(54000 + i * 270, -275, 5)
-	_pickup(RIFLE_PICKUP, 55100, -275)
+	_encounter("kasa", 54100, RIFLE_PICKUP)
 	_enemy(ASSASSIN, 57100, 0)
 	_checkpoint(60300, 60)
 	_shop(59200, "SU KAPISI REVİRİ", PackedStringArray(["can", "cephane", "zirh"]))
@@ -100,10 +95,7 @@ func _lower_works() -> void:
 	# 120–144 bin: ölçüm salonu, sabit su açıklığı ve gösterge nöbeti.
 	_enemy(ASSASSIN, 123000, 0)
 	_coin_line(124500, 6, 430, -55)
-	_oneway(126500, -85, 220)
-	_oneway(126800, -170, 220)
-	_oneway(127100, -255, 220)
-	_pickup(AMMO, 127100, -310)
+	_encounter("iskele", 127290, AMMO)
 	_enemy(ELITE, 129000, 0)
 	_checkpoint(130500, 0)
 	_oneway(132000, -45, 240)
@@ -149,7 +141,7 @@ func _upper_works() -> void:
 
 	# 216–240 bin: komuta arşivi, son 200 px açıklık.
 	_enemy(RIFLE, 218500, 0)
-	_coin_line(220000, 6, 430, -55)
+	_coin_line(219700, 5, 420, -55)
 	_reward_path(222000, AMMO)
 	_enemy(ASSASSIN, 225000, 0)
 	_checkpoint(226500, 0)
@@ -174,10 +166,7 @@ func _command_tower() -> void:
 	# 264–288 bin: kule üst terası, son açıklık, boss öncesi toparlanma.
 	_enemy(ASSASSIN, 266200, 0)
 	_coin_line(267500, 6, 430, -55)
-	_oneway(269500, -85, 220)
-	_oneway(269800, -170, 220)
-	_oneway(270100, -255, 220)
-	_pickup(ARMOR, 270100, -315)
+	_encounter("tente_duvar", 270320, ARMOR)
 	_enemy(ELITE, 272000, 0)
 	_checkpoint(274500, 0)
 	_oneway(276000, -45, 240)
@@ -201,12 +190,8 @@ func _command_tower() -> void:
 
 
 func _reward_path(x: float, pickup: PackedScene) -> void:
-	_oneway(x, -85, 220)
-	_oneway(x + 300, -170, 220)
-	_oneway(x + 600, -85, 220)
-	for i in 4:
-		_bonus_coin(x + i * 220, -225, 5)
-	_pickup(pickup, x + 300, -225)
+	# Eski üç basamaklı havada platform yerine mekâna uygun parkur sahnesi.
+	_encounter(_next_kind(x), x - 40.0, pickup)
 
 
 func _oneway(x: float, y: float, width: float) -> void:

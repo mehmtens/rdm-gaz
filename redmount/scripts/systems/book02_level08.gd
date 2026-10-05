@@ -24,12 +24,7 @@ func _build_chapter() -> void:
 	_coin_line(500, 6, 220, -55)
 	_enemy(KNIFE, 2100, 0)
 	_enemy(STREET, 5100, 0)
-	_oneway(6300, -85, 220)
-	_oneway(6600, -170, 220)
-	_oneway(6900, -85, 220)
-	for i in 4:
-		_bonus_coin(6300 + i * 220, -225, 5)
-	_pickup(ARMOR, 6600, -225)
+	_encounter("tente_duvar", 6220, ARMOR)
 	_checkpoint(9200, 0)
 	_enemy(RIFLE, 11500, 0)
 	_dialogue(13400, "REDMOUNT", "Depo kıyıda. Balıkçı tezgâhlarının arkasından deniz kapısına çıkacağız.")
@@ -38,12 +33,7 @@ func _build_chapter() -> void:
 	_coin_line(14900, 6, 300, -55)
 	_enemy(STREET, 17400, 0)
 	_enemy(ASSASSIN, 20300, 0)
-	_oneway(22300, -25, 220)
-	_oneway(22600, -110, 220)
-	_oneway(22900, -195, 220)
-	for i in 4:
-		_bonus_coin(22300 + i * 220, -250, 5)
-	_pickup(AMMO, 22900, -255)
+	_encounter("cati", 21740, AMMO)
 	_enemy(KNIFE, 24000, 60)
 	_checkpoint(25000, 60)
 	_arena(27000, 60, 26200, 27800, _wave(STREET, ASSASSIN),
@@ -52,12 +42,7 @@ func _build_chapter() -> void:
 
 	# Deniz kapısı: 200 px açıklık sabit taş platformla geçilir.
 	_enemy(RIFLE, 31600, 0)
-	_oneway(33200, -85, 220)
-	_oneway(33500, -170, 220)
-	_oneway(33800, -255, 220)
-	for i in 4:
-		_bonus_coin(33200 + i * 240, -310, 5)
-	_pickup(PISTOL, 33800, -315)
+	_encounter("balkon", 33150, PISTOL)
 	_checkpoint(35000, 0)
 	_oneway(36000, -45, 240)
 	_coin_line(35300, 5, 330, -125)
@@ -67,12 +52,7 @@ func _build_chapter() -> void:
 	# Taş depo girişi: vinç rafı bonus, dükkân ve açık savunma alanı.
 	_shop(44100, "SAMATYA ERZAK TEZGÂHI", PackedStringArray(["can", "cephane", "zirh"]))
 	_enemy(KNIFE, 45900, 0)
-	_oneway(47400, -85, 220)
-	_moving(47900, -145, Vector2(180, -30), 190)
-	_oneway(48500, -205, 220)
-	for i in 5:
-		_bonus_coin(47400 + i * 275, -265, 5)
-	_pickup(RIFLE_PICKUP, 48500, -265)
+	_encounter("engel", 47690, RIFLE_PICKUP)
 	_enemy(RIFLE, 50200, 0)
 	_checkpoint(52000, 0)
 	_arena(55100, 0, 54300, 55900, _wave(RIFLE, KNIFE),
@@ -82,12 +62,7 @@ func _build_chapter() -> void:
 	# Tasnif salonu: alt yol serbest, üst vinç kirişinde coin ve zırh.
 	_checkpoint(60600, 0)
 	_enemy(BRUISER, 62600, 0)
-	_oneway(64400, -85, 220)
-	_oneway(64700, -170, 220)
-	_oneway(65000, -85, 220)
-	for i in 4:
-		_bonus_coin(64400 + i * 220, -225, 5)
-	_pickup(ARMOR, 64700, -225)
+	_encounter("kasa", 64250, ARMOR)
 	_checkpoint(66200, 0)
 	_oneway(68000, -45, 240)
 	_enemy(ASSASSIN, 69800, 0)
@@ -95,11 +70,7 @@ func _build_chapter() -> void:
 
 	# Tuzlu servis geçidi: 60 px alt zemin, üst raf ve karma arena.
 	_enemy(ELITE, 75500, 60)
-	_oneway(79900, -25, 220)
-	_oneway(80200, -110, 220)
-	_oneway(80500, -195, 220)
-	for i in 4:
-		_bonus_coin(79900 + i * 220, -250, 5)
+	_encounter("iskele", 79790)
 	_pickup(HEALTH, 81500, 5)
 	_checkpoint(82000, 60)
 	_arena(83800, 60, 83000, 84600, _wave(KNIFE, RIFLE),
@@ -108,11 +79,7 @@ func _build_chapter() -> void:
 
 	# Gizli kayıt odası: içi oyulmuş taşın içinden sevkiyat fişi çıkar.
 	_enemy(STREET, 90300, 0)
-	_oneway(92600, -85, 220)
-	_oneway(92900, -170, 220)
-	_oneway(93200, -85, 220)
-	for i in 4:
-		_bonus_coin(92600 + i * 220, -225, 5)
+	_encounter("engel", 92640)
 	_enemy(RIFLE, 96600, 0)
 	_checkpoint(98000, 0)
 	_oneway(100000, -45, 240)

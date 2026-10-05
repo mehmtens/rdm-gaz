@@ -125,6 +125,9 @@ func _physics_process(delta: float) -> void:
 		_tap(&"jump")
 	elif on_floor and not _ground_at(x + 20.0, y):
 		_tap(&"jump")
+	# yerdeyken önünde alçak engel (tezgâh, sandık): zıpla
+	elif on_floor and _player.is_on_wall():
+		_tap(&"jump")
 	# duvara yapıştıysa (havada, düşerken) duvar-zıplaması; tente sekişinin
 	# yükselen kolunda zıplamak oyuncuyu duvardan geri iterdi.
 	elif _player.is_on_wall() and not on_floor and _player.velocity.y > 0.0:

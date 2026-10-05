@@ -1,89 +1,117 @@
-# REDMOUNT — Dan the Man tarzı İstanbul parkur setleri
+# REDMOUNT — İstanbul parkur sahneleri ve bölüm denetimi
 
 **Durum:** Uygulandı (Ekim 2026). Kod: `scripts/systems/parkour_set.gd`,
-`scripts/systems/awning_bounce.gd`, `scripts/systems/parkour_layer.gd`,
-`scripts/systems/parkour_interiors.gd`. Test pisti: `tests/ParkourTest.tscn`.
+`scripts/systems/awning_bounce.gd`, `book02_level01.gd` içindeki `_encounter()`.
+Denetim aracı: `tests/level_audit.tscn`. Test pisti: `tests/ParkourTest.tscn`.
 
-## Neden
+## Sorun neydi?
 
-Kampanya bölümleri uzun ve okunaklı, ancak Kitap 2 ve 3'te bölümlerin büyük kısmı
-düz sokak + üç basamaklı tek yön platform tekrarından oluşuyordu. Dan the Man'in
-seviye dilinden alınan ders şudur: **her ekranda tek, okunur bir hareket fikri**;
-fikir önce güvenli yerde gösterilir, sonra düşmanla ve başka fikirlerle birleşir;
-keşif her zaman somut ödül verir; ölüm cezası kısa tutulur.
+**Kitap 2 ve 3:** 24 bölüm aynı şablondan çıkmıştı.
 
-REDMOUNT bu ritmi kopyalamaz, İstanbul mekânlarıyla yeniden kurar. Hiçbir set
-düz renk kutu, soyut geometri veya oyunun dünyasına yabancı bir yapı kullanmaz.
-Bütün görseller mevcut mahalle piksel sanat setinden gelir: tezgâh tentesi,
-kiremitli bahçe duvarı, cumbalı/balkonlu evler, baca ve taş direkler, depo
-sandıkları, ahşap iskele.
+- ~110.000 px uzunluğunda düz yol vardı.
+- Her ~7.000 px'de yalnız bir düşman çıkıyordu.
+- Her bölümde 5–6 kez aynı "havada asılı üç platform + coin" piramidi tekrarlanıyordu. Bu tentelerin altında hiçbir şey yoktu.
+- Tehlike yoktu.
 
-## Hareket ölçüleri (MovementConfig'ten)
+Parkur ile dövüş birbirine hiç değmiyordu. Oyuncu, piramitlere çıkmadan düz yolda koşarak bölümü bitirebiliyordu.
+
+Bir ara denenen otomatik "boş sokağa set diz" yaklaşımı (657 set) bu yüzden geri alındı.
+Yoğunluğu artırıyor, setleri düşmanlardan uzak tutuyordu. Sorunu çözmüyor, üstüne ekliyordu.
+
+## Yeni yaklaşım: aynı yerde, daha iyi bir sahne
+
+Tasarımcının parkur için ayırdığı her noktada (her piramit, her `_reward_path`) artık
+mekâna uygun, düşmanlı bir parkur sahnesi var. Bu yüzden:
+
+- Yeni yoğunluk eklenmez.
+- Kontrol noktaları, arenalar, dükkânlar, diyaloglar ve hikâye akışı yerinde kalır.
+- Zemindeki 200 px'lik su/çukur boşluklarının üstündeki köprüler korunur.
+
+| Sahne | Mekân | Fikir | Düşman |
+|---|---|---|---|
+| `cati` | sokak, sahil | tenteden çatıya, ara sokakları atlayan üç evlik çatı zinciri | 2. ve 3. çatıda bekleyen |
+| `balkon` | sokak | evin balkonlarını basamak gibi kullanıp çatıya çık | çatıda bekleyen |
+| `tente_duvar` | çarşı | tezgâh tentesi fırlatır, kiremitli bahçe duvarını aş | duvar tepesinde tüfekli, iniş noktasında yakın dövüşçü |
+| `sekme` | rıhtım, çarşı | üç tente, iki duvar: sek-sek-sek ya da aradaki çukurlarda dövüş | iki aralıkta birer düşman |
+| `kasa` | depo, han, hamam | sandık basamaklarıyla yığının tepesine çık | tepede ağır birlik (Kitap 3'te seçkin muhafız) |
+| `iskele` | depo, iç mekân | iskele katlarıyla yüksek barikatı tırman | barikat üstünde tüfekli |
+| `engel` | dar iç mekân | iki katlı sandık siperi | siperin arkasında bekleyen |
+
+Düşman türü kitaba göre ilerler: sokak serserisi → bıçaklı → suikastçı → seçkin muhafız.
+Tüfekli yalnız yüksekte bekler. Dar çatı ve balkon tepesine seçkin muhafız konmaz.
+
+Adil olma kuralları:
+
+- Bölümün ilk sahnesi fikri tanıtır, tek nöbetçi taşır.
+- Sahneden önceki 2.500 px'de kontrol noktası yoksa sahnenin hemen önüne bir tane
+  eklenir. Böylece sahnede ölen oyuncu bölüm başına dönmez.
+- Ölü cep yoktur: tezgâh tentesi duvarın ya da evin dibine dayalıdır. Ara sokağa düşen
+  oyuncu iki balkonla ileriye doğru çatıya döner.
+- Tentenin üstünde basılan zıplama da tam güç fırlatmadır. Yükselirken tuşu bırakmak
+  fırlatmayı kesmez.
+
+Hangi noktaya hangi sahnenin konacağı her bölüm dosyasında açıkça yazılıdır
+(örnek: `_encounter("balkon", 17300, ARMOR)`). Seçim, o noktanın mekânına göre
+yapıldı: açık gökyüzü görünen sokak, sahil ve bahçede dış mekân sahneleri, han,
+hamam, sarnıç ve depoda iç mekân sahneleri kullanıldı. Ardışık iki sahne aynı türde
+değildir. Final bölümlerinde ödül yolları (`_reward_path`) aynı kuralla sahneye çevrilir.
+
+Sahne, altındaki düz zemin parçasına oturur. Parçadan taşacaksa kaydırılır, sığmıyorsa
+küçük siper (`engel`) kullanılır. 60 px alçak sokaklar da dahildir.
+
+## Oyun genelindeki düzeltmeler
+
+- **Düşmanlar tek yön platformlarda durur.** Önceden yalnız katı zemini görüyorlardı.
+  Bu yüzden Bölüm 1'de çatılara ve tentelere yerleştirilen 9 düşman bölüm açılır
+  açılmaz sokağa düşüyordu. Kenar algıları da platformu zemin sayar; çatı kenarında
+  geri dönerler.
+- **Tente ve çatı platformları havada asılı kalmaz.** Altındaki zemine kadar ahşap
+  direk (tente) ya da taş sütun (çatı) çizilir. Çukur üstündekilere direk çizilmez.
+- **Zemin hizası:** Kitap 2 ve 3'te zemin hizasındaki düşman, ödül ve sandıklar
+  altındaki zeminin yüzeyine oturtulur. Böylece alçak sokakta havada doğmaz,
+  yükseltilmiş kaldırımda zemine gömülmez.
+- **Bölüm bazlı hatalar:**
+  - Bölüm 4 açılışı: dikenli çukur + hareketli vinç ve çöken köprü sahneleri, iki zemin
+    parçası üst üste kaydırıldığı için kapanmıştı. Çukurlar yeniden açıldı. Yangın
+    merdiveni basamakları duvarın içinden çıkarıldı.
+  - Gömülü ödüller: Bölüm 2, 3, 5, 9, 11, 12 ve Kitap 3 Bölüm 7'de zemine ya da bloğa
+    gömülü coin, can ve zırh paketleri düzeltildi.
+  - Ulaşılamayan ödül platformları: Bölüm 6, 8 ve 10'da düzeltildi.
+
+## Denetim aracı
+
+```
+cd redmount
+godot --headless --path . res://tests/level_audit.tscn
+AUDIT_LEVELS=12,13 AUDIT_PROBE="17300,-150" godot --headless --path . res://tests/level_audit.tscn
+```
+
+Her bölüm için şunları bildirir:
+
+- **Özet:** uzunluk, düşman sayısı ve yoğunluğu, en uzun düşmansız koşu, tehlike sayısı.
+- **Sorunlar:**
+  - `ENEMY_AIR` / `ENEMY_FELL`: havada doğan, 1,5 sn fizikte düşen düşman
+  - `ITEM_SOLID` / `ITEM_HIGH`: gömülü ya da ulaşılamayan ödül
+  - `PLAT_UNREACH` / `PLAT_INSIDE`: çıkılamayan ya da gövde içinde kalan platform
+
+Hareketli platformların yolu ve tente sıçrayışı hesaba katılır. Kalan birkaç uyarı
+zararsızdır: 20–40 px yukarıda doğup yere inen düşmanlar ve hareketli platformdan
+ulaşılan ödüller.
+
+## Doğrulama
+
+- 36 bölüm yükleniyor (`tests/campaign_smoke.gd`).
+- 33 uçtan uca bot testinin hepsi bölümü bitiriyor.
+- Kitap 2–3 bot süreleri: bölümler 7:47–9:45, finaller 21:21 ve 22:39. Parkur
+  sahnelerindeki dövüşler süreyi yaklaşık bir dakika uzattığı için test pencereleri
+  bölümlerde 7–11 dk'ya, finallerde 18–23 dk'ya genişletildi.
+  Kampanya hedefi 8–12 dk'dır.
+
+## Ölçüler
 
 | Hareket | Değer |
 |---|---|
-| Zıplama yüksekliği | ~120 px |
-| Koşarak sıçrama menzili | ~265 px |
-| Tente sıçrayışı | ~240 px; zıplama basılıysa ~345 px |
-| Duvar kayma / zıplama | duvarlar arası 160 px rahat |
-
-## Set sözlüğü
-
-### Dış mekân (gökyüzü görünen sokak, sahil, meydan)
-
-| Set | Fikir | Ana yol mu? | Ödül |
-|---|---|---|---|
-| **tente_duvar** | Tezgâha çık, tente seni fırlatır, kiremitli bahçe duvarını aş | Evet (duvar zemini keser) | Sıçrama eğrisini çizen coin yayı |
-| **balkon** | Evin yüzüne asılı üç balkonu basamak gibi kullanıp çatıya çık | Evet (ev zemini keser) | Çatıda coin, bazen can |
-| **cati** | Tenteden çatıya; ara sokakları atlayarak üç evlik çatı zinciri | Evet | Her çatıda coin, bazen cephane |
-| **sekme** | Üç tezgâh + iki duvar; her tente duvarın dibine dayalı, sek-sek-sek | Evet | Son tentede zıplama basılı tutana kemer üstü ödül |
-| **baca** | İki asılı baca duvarı arasında duvar zıplaması | Hayır (altından geçilir) | Tepede can / zırh / cephane |
-
-### İç mekân ve depo (gökyüzü görünmeyen han, hamam, sarnıç, pompa, matbaa)
-
-| Set | Fikir | Ana yol mu? | Ödül |
-|---|---|---|---|
-| **kasa** | 60 px'lik sandık basamaklarıyla 180 px'e çık, öbür yandan in | Evet | Tepedeki rafta can / zırh / cephane |
-| **iskele** | Barikatın yüzüne çatılmış iki iskele katıyla 230 px'lik sandık yığınını aş | Evet | Basamak coinleri |
-| **direk** | Baca setinin kiremitsiz, iç mekân hâli | Hayır | Tepede ödül |
-
-## Güvenlik kuralları
-
-1. Hiçbir set ölümcül boşluk içermez. Düşen oyuncu sokağa iner ve aynı yerden tekrar dener.
-2. Ana yolu kesen her engelin önünde tek tuşla kullanılabilen bir çözüm vardır
-   (tezgâh 60–64 px, balkon / iskele 105–110 px aralıklarla).
-3. Duvar zıplaması yalnız isteğe bağlı ödül setlerinde (baca / direk) gerekir.
-4. Coin dizileri izlenecek yolu çizer. Oyuncu sıçramadan önce nereye ineceğini görür.
-
-## Yerleşim (ParkourLayer)
-
-* Her kampanya bölümü yüklenince `Level._spawn_parkour()` katmanı kurar.
-* Yalnız **aynı yükseklikte kesintisiz zemin** üstüne kurulur.
-* Çevresine girilmeyen alanlar:
-  * düşman ±280 px, kontrol noktası ±420 px, dükkân ±680 px;
-  * ipucu / diyalog / mekân tabelası ±260 px, toplanabilir ±180 px, coin ±70 px;
-  * arena kapılarının arası ve diğer bütün platform ve yapılar.
-* Bölüm başında 1400 px serbest kalır. Bitiş kapısından önce 900 px boş bırakılır.
-* İki set arasında en az 1500 px nefes alanı vardır. Hedef yoğunluk 4200 px'de bir settir.
-* Set havuzu perdeye göre açılır (öğret → uygula → birleştir):
-  * **Kitap 1:** Perde I tente + balkon; Perde II'de çatı, III'te sekme, IV'te baca eklenir.
-  * **Kitap 2 ve 3:** Tüm setler dönüşümlü kullanılır, sıra perdeye göre değişir.
-* İç mekân seçimi `parkour_interiors.gd` tablosundan gelir. Her bölüm 1500 px
-  aralıkla görüntülendi (`tests/capture_interiors.tscn`). Dış mekân aralıkları
-  görüntülere bakılarak elle etiketlendi (`tools/gen_parkour_interiors.py`).
-  Bunlar açık gökyüzü görünen sokak, sahil ve bahçelerdir. Gerisi iç mekân sayılır:
-  sandık ve iskele, rıhtımda ve avluda da doğal durduğu için güvenli taraf budur.
-  Setin kapladığı aralığa iç mekân değiyorsa iç mekân havuzu kullanılır.
-* Yerleşim deterministiktir: aynı bölüm her açılışta aynı düzeni kurar.
-
-Kitap 1 bölümleri zaten elle sık tasarlanmıştır (yaklaşık her 800 px'de düşman ya da
-basamak). Bu yüzden orada kurallara uyan az sayıda boşluk bulunur. Bu bilinçli bir
-tercihtir: elle yapılmış ritim bozulmaz.
-
-## Ayar ve test
-
-* Setlerin ölçüleri `ParkourSet.WIDTHS` ve `_build_*` fonksiyonlarındadır.
-* Test pisti tüm setleri sırayla dizer. Bot geçişi:
-  `REDMOUNT_LEVEL_PATH=res://tests/ParkourTest.tscn REDMOUNT_PROBE_LEVEL=0 godot --headless --path . res://_autoplay.tscn`
-* Kampanya botu (`_autoplay.gd`) duvar zıplamasını yalnız düşerken dener.
-  Tentenin yükselen kolunda duvardan geri itilmez.
+| Zıplama | ~120 px |
+| Koşarak sıçrama | ~265 px |
+| Tente | ~240 px; zıplama basılıysa ~345 px |
+| Duvar zıplaması | duvarlar arası 160 px |

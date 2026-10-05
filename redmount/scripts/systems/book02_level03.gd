@@ -24,12 +24,7 @@ func _build_chapter() -> void:
 	_coin_line(500, 6, 210, -55)
 	_enemy(STREET, 2100, 0)
 	_enemy(KNIFE, 4600, 0)
-	_oneway(6400, -85, 220)
-	_oneway(6700, -170, 220)
-	_oneway(7000, -85, 220)
-	for i in 4:
-		_bonus_coin(6400 + i * 220, -225, 5)
-	_pickup(ARMOR, 6700, -225)
+	_encounter("sekme", 6040, ARMOR)
 	_checkpoint(8700, 0)
 	_enemy(ASSASSIN, 10800, 0)
 	_shop(12600, "ZEYREK ERZAK TEZGÂHI", PackedStringArray(["can", "cephane", "zirh"]))
@@ -39,12 +34,7 @@ func _build_chapter() -> void:
 	_coin_line(14700, 6, 300, -55)
 	_enemy(STREET, 17400, 60)
 	_enemy(KNIFE, 19300, 60)
-	_oneway(20100, -25, 220)
-	_oneway(20400, -110, 220)
-	_oneway(20700, -195, 220)
-	for i in 4:
-		_bonus_coin(20100 + i * 220, -250, 5)
-	_pickup(AMMO, 20700, -255)
+	_encounter("tente_duvar", 20020, AMMO)
 	_checkpoint(22400, 60)
 	_arena(25400, 0, 24600, 26200, _wave(STREET, KNIFE),
 		_wave(ASSASSIN, STREET), HEALTH)
@@ -53,25 +43,14 @@ func _build_chapter() -> void:
 	# Açık su kemeri: 200 px kesinti sabit iskeleyle geçilir; üst yol değerli.
 	_oneway(28000, -45, 240)
 	_enemy(KNIFE, 30800, 0)
-	_oneway(32800, -85, 220)
-	_oneway(33100, -170, 220)
-	_oneway(33400, -255, 220)
-	_oneway(33700, -170, 220)
-	for i in 5:
-		_bonus_coin(32800 + i * 260, -310, 5)
-	_pickup(PISTOL, 33400, -315)
+	_encounter("cati", 32390, PISTOL)
 	_checkpoint(35900, 0)
 	_enemy(RIFLE, 38900, 0)
 	_pickup(HEALTH, 41400, -45)
 
 	# Bakım galerisi: tüfekliye karşı yaklaşma; hareketli üst köprü isteğe bağlı.
 	_enemy(RIFLE, 45200, 0)
-	_oneway(46600, -85, 220)
-	_moving(47100, -145, Vector2(180, -30), 190)
-	_oneway(47700, -205, 220)
-	for i in 5:
-		_bonus_coin(46600 + i * 275, -265, 5)
-	_pickup(RIFLE_PICKUP, 47700, -265)
+	_encounter("kasa", 46700, RIFLE_PICKUP)
 	_enemy(BRUISER, 49300, 0)
 	_checkpoint(50700, 0)
 	_arena(53300, 0, 52500, 54100, _wave(KNIFE, RIFLE),
@@ -84,23 +63,14 @@ func _build_chapter() -> void:
 	_coin_line(59300, 5, 330, -125)
 	_enemy(STREET, 62700, 0)
 	_enemy(ASSASSIN, 64800, 0)
-	_oneway(66200, -85, 220)
-	_oneway(66500, -170, 220)
-	_oneway(66800, -85, 220)
-	for i in 4:
-		_bonus_coin(66200 + i * 220, -225, 5)
-	_pickup(ARMOR, 66500, -225)
+	_encounter("iskele", 66090, ARMOR)
 	_checkpoint(69400, 0)
 
 	# Su çarkı: alçak servis yolu ana rota; yüksek dişli hattı bonus rota.
 	_coin_line(71500, 5, 310, -55)
 	_enemy(KNIFE, 73600, 60)
 	_enemy(ELITE, 75200, 60)
-	_oneway(76500, -25, 220)
-	_oneway(76800, -110, 220)
-	_oneway(77100, -195, 220)
-	for i in 4:
-		_bonus_coin(76500 + i * 220, -250, 5)
+	_encounter("engel", 76540)
 	_pickup(HEALTH, 78000, 5)
 	_checkpoint(78600, 60)
 	_arena(80900, 60, 80100, 81700, _wave(ELITE, STREET),
@@ -109,11 +79,7 @@ func _build_chapter() -> void:
 
 	# Gizli kemer: üçüncü kısa kesinti, sonra tekli devriye ve üst taş raf.
 	_enemy(ASSASSIN, 85800, 0)
-	_oneway(88300, -85, 220)
-	_oneway(88600, -170, 220)
-	_oneway(88900, -85, 220)
-	for i in 4:
-		_bonus_coin(88300 + i * 220, -225, 5)
+	_encounter("kasa", 88150)
 	_oneway(92000, -45, 240)
 	_coin_line(91300, 5, 330, -125)
 	_enemy(RIFLE, 94900, 0)

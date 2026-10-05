@@ -50,6 +50,8 @@ var _state: State = State.IDLE
 var _facing: int = 1
 ## Bir önceki fizik karesinde zeminde miydik? (iniş tespiti için)
 var _was_on_floor: bool = true
+## Tente fırlatmasıyla yükseliyor (zıplama kesmesi uygulanmaz).
+var _bouncing: bool = false
 ## "land" durumunda kalan süre.
 var _land_timer: float = 0.0
 ## Adım sesi sayacı (yürürken/koşarken).
@@ -347,7 +349,9 @@ func _process_normal(delta: float) -> void:
 		_apply_horizontal(delta, input_dir, wants_run)
 	_try_jump()
 	# Değişken zıplama yüksekliği: yükselirken tuş bırakılınca dikey hızı kes.
-	if Input.is_action_just_released(&"jump") and velocity.y < 0.0 and not is_on_floor():
+	if _bouncing and (velocity.y >= 0.0 or is_on_floor()):
+		_bouncing = false
+	if Input.is_action_just_released(&"jump") and velocity.y < 0.0 and not is_on_floor() and not _bouncing:
 		velocity.y *= movement.jump_cut
 	_tick_gun(delta)
 
@@ -456,6 +460,8 @@ func bounce(strength: float, boosted_strength: float) -> void:
 	if _state == State.DEAD or _state == State.KNOCKDOWN:
 		return
 	velocity.y = -(boosted_strength if Input.is_action_pressed(&"jump") else strength)
+	# Tente fırlatması zıplama tuşunu bırakınca kesilmez (kısa zıplama yalnız kendi zıplayışında).
+	_bouncing = true
 	_coyote_timer = 0.0
 	_jump_buffer_timer = 0.0
 	_air_dashes_left = movement.air_dashes
@@ -687,12 +693,26 @@ func _apply_horizontal(delta: float, input_dir: float, wants_run: bool) -> void:
 func _try_jump() -> void:
 	if _jump_buffer_timer > 0.0 and _coyote_timer > 0.0:
 		var grounded := is_on_floor()
+		# Tentenin üstünde zıplamak normal zıplama değil, tam güç fırlatmadır
+		# (aksi hâlde inişte basılan tuş fırlatmayı yutardı).
+		var awning := _floor_awning() if grounded else null
+		if awning != null:
+			bounce(awning.strength, awning.boosted_strength)
+			return
 		velocity.y = movement.jump_velocity
 		_jump_buffer_timer = 0.0
 		_coyote_timer = 0.0
 		Sfx.play(&"jump")
 		if grounded:
 			Fx.dust(global_position + Vector2(0, -2), 0, 4)
+
+
+func _floor_awning() -> AwningBounce:
+	for i in get_slide_collision_count():
+		var c := get_slide_collision(i)
+		if c.get_normal().y < -0.7 and c.get_collider() is AwningBounce:
+			return c.get_collider() as AwningBounce
+	return null
 
 
 func _update_facing(input_dir: float) -> void:

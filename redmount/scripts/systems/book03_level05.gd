@@ -24,7 +24,7 @@ func _build_chapter() -> void:
 	_coin_line(500, 6, 230, -55)
 	_enemy(STREET, 2400, 0)
 	_enemy(KNIFE, 5300, 0)
-	_reward_path(7200, ARMOR)
+	_encounter("cati", 6640, ARMOR)
 	_checkpoint(9600, 0)
 	_enemy(RIFLE, 12100, 60)
 	_dialogue(13900, "REDMOUNT", "Mahalle sessiz. Sevkiyatın kıyıya inen izini bulalım.")
@@ -32,12 +32,7 @@ func _build_chapter() -> void:
 	# Bostan yolu: alçak ana geçiş, seraların üstünde cephane izi.
 	_coin_line(15000, 6, 340, -55)
 	_enemy(KNIFE, 16900, 0)
-	_oneway(18100, -25, 220)
-	_oneway(18400, -110, 220)
-	_oneway(18700, -195, 220)
-	for i in 4:
-		_bonus_coin(18100 + i * 220, -250, 5)
-	_pickup(AMMO, 18700, -255)
+	_encounter("balkon", 18050, AMMO)
 	_enemy(ASSASSIN, 21000, 0)
 	_checkpoint(23100, 0)
 	_arena(25200, 0, 24400, 26000, _wave(STREET, KNIFE),
@@ -49,14 +44,14 @@ func _build_chapter() -> void:
 	_coin_line(27300, 5, 350, -125)
 	_checkpoint(29300, 0)
 	_enemy(RIFLE, 31000, 0)
-	_reward_path(34000, PISTOL)
+	_encounter("sekme", 33640, PISTOL)
 	_enemy(ELITE, 38600, 0)
 	_shop(41200, "KUZGUNCUK MAHALLE ERZAĞI", PackedStringArray(["can", "cephane", "zirh"]))
 	_checkpoint(42700, 0)
 
 	# Kıyı yolu: yük arabaları arasında ağır nöbetçi ve kısa yan ödül.
 	_enemy(KNIFE, 44800, 60)
-	_reward_path(46700, ARMOR)
+	_encounter("tente_duvar", 46620, ARMOR)
 	_enemy(BRUISER, 49300, 0)
 	_prop("sandik", 50800, 0, AMMO)
 	_checkpoint(52100, 0)
@@ -72,12 +67,7 @@ func _build_chapter() -> void:
 	_coin_line(59300, 5, 350, -125)
 	_checkpoint(61300, 0)
 	_enemy(ELITE, 63800, 0)
-	_oneway(65400, -85, 220)
-	_moving(65900, -145, Vector2(180, -30), 190)
-	_oneway(66500, -205, 220)
-	for i in 5:
-		_bonus_coin(65400 + i * 270, -265, 5)
-	_pickup(RIFLE_PICKUP, 66500, -265)
+	_encounter("cati", 65090, RIFLE_PICKUP)
 	_enemy(RIFLE, 69400, 0)
 	_checkpoint(72000, 0)
 
@@ -85,7 +75,7 @@ func _build_chapter() -> void:
 	_enemy(KNIFE, 74200, 0)
 	_coin_line(75200, 5, 300, -55)
 	_enemy(RIFLE, 77700, 60)
-	_reward_path(79700, ARMOR)
+	_encounter("engel", 79740, ARMOR)
 	_enemy(BRUISER, 81800, 0)
 	_checkpoint(83500, 0)
 	_arena(85000, 0, 84200, 85800, _wave(ASSASSIN, RIFLE),
@@ -98,7 +88,7 @@ func _build_chapter() -> void:
 	_coin_line(91300, 5, 350, -125)
 	_checkpoint(93300, 0)
 	_enemy(ELITE, 95400, 0)
-	_reward_path(97400, ARMOR)
+	_encounter("kasa", 97250, ARMOR)
 	_enemy(ASSASSIN, 99400, 0)
 	_pickup(HEALTH, 100500, -45)
 

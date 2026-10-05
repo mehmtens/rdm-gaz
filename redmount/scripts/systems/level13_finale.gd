@@ -35,7 +35,7 @@ func _build_chapter() -> void:
 	_checkpoint(7800, 0)
 
 	# Cephanelik: alçalan ana geçit; asma raflar riskli silah rotası.
-	_coin_line(8400, 5, 560, 10)
+	_coin_line(8400, 5, 560, -55)
 	_oneway(8500, -30, 220)
 	_oneway(8800, -115, 220)
 	_moving(9150, -180, Vector2(0, -100), 190)
@@ -65,7 +65,7 @@ func _build_chapter() -> void:
 	_coin_line(19700, 5, 490, -55)
 	_enemy(ELITE, 21200, 0)
 	_enemy(ASSASSIN, 22600, 65)
-	_pickup(HEALTH, 23200, 20)
+	_pickup(HEALTH, 23200, -45)
 	_checkpoint(23600, 65)
 	_shop(24500, "ARŞİV REVİRİ", PackedStringArray(["can", "cephane", "tabanca"]))
 	_hint(25300, "ÜST GALERİDE ERZAK VAR.\nALT GEÇİT AÇIK.")
@@ -179,7 +179,7 @@ func _cistern_and_roofs() -> void:
 	for i in 5:
 		_bonus_coin(102600 + i * 240, -315, 5)
 	_pickup(RIFLE_PICKUP, 103200, -315)
-	_enemy(RIFLE, 105100, 0)
+	_enemy(RIFLE, 105100, 75)
 	_pickup(HEALTH, 107000, -45)
 	_checkpoint(109000, 0)
 	_arena(110300, 75, 109500, 111100, _wave(ASSASSIN, ELITE),

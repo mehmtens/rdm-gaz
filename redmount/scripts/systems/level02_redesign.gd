@@ -99,7 +99,7 @@ func _build_long_route() -> void:
 	_ground(21800, 800, METAL)
 	_ground(23300, 2600, METAL, 150)
 	_street_steps(22220, [35, 70, 105, 70, 35], METAL)
-	_coin_arc(22350, 6, 335, -210)
+	_coin_arc(22350, 6, 335, -165)
 	_ground(25300, 2400, ASPHALT)
 	_enemy(RIFLE, 24600, 0); _enemy(KNIFE, 25200, 0); _enemy(STREET, 25800, 0)
 	_prop("tup", 26100); _prop("varil", 26300)

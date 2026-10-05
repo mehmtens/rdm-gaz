@@ -56,7 +56,7 @@ func _build_chapter() -> void:
 	_oneway(17450, -10, 210)
 	_moving(17780, -95, Vector2(250, 0), 190)
 	_moving(18780, -150, Vector2(-240, 0), 190, 0.5)
-	_oneway(19300, -80, 210)
+	_oneway(19150, -80, 210)
 	for i in 5:
 		_bonus_coin(17750 + i * 290, -215, 5)
 	_pickup(PISTOL, 18780, -245)
@@ -99,7 +99,7 @@ func _build_chapter() -> void:
 	_enemy(ASSASSIN, 40300, 70)
 	_oneway(40800, -10, 220)
 	_moving(41100, -65, Vector2(230, -75), 190)
-	_oneway(41800, -90, 220)
+	_oneway(41680, -90, 220)
 	for i in 4:
 		_bonus_coin(40900 + i * 260, -200, 5)
 	_pickup(AMMO, 41400, -245)

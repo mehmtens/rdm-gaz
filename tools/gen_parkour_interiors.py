@@ -2,7 +2,7 @@
 
 Kullanım:
   cd redmount
-  REDMOUNT_NO_PARKOUR=1 SWEEP_LVLS=0,1,...,35 SWEEP_OUT=/tmp/cls \
+  SWEEP_LVLS=0,1,...,35 SWEEP_OUT=/tmp/cls \
     godot --path . res://tests/capture_interiors.tscn
   python3 ../tools/gen_parkour_interiors.py /tmp/cls
 

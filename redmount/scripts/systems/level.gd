@@ -46,19 +46,7 @@ func _ready() -> void:
 	_spawn_backdrop()
 	for c in get_children():
 		_beautify(c)
-	_spawn_parkour()
 
-
-## Kampanya bölümlerinin boş düz sokaklarına İstanbul parkur setlerini dizer.
-func _spawn_parkour() -> void:
-	if not scene_file_path in GameState.LEVELS or OS.has_environment("REDMOUNT_NO_PARKOUR"):
-		return
-	# Çalışma anında yüklenir: Level derlenirken parkur/arena/dükkân betiklerini
-	# (ve onların autoload bağımlılıklarını) zincire katmasın.
-	var layer: Node2D = load("res://scripts/systems/parkour_layer.gd").new()
-	layer.name = "ParkourLayer"
-	add_child(layer)
-	layer.call(&"build", self, GameState.LEVELS.find(scene_file_path))
 
 
 func _spawn_backdrop() -> void:

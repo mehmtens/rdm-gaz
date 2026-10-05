@@ -85,7 +85,7 @@ func _build_chapter() -> void:
 		_bonus_coin(26500 + i * 260, -305, 5)
 	_pickup(ARMOR, 27200, -305)
 	_enemy(ASSASSIN, 27400, 0)
-	_enemy(RIFLE, 28600, 0)
+	_enemy(RIFLE, 28600, 70)
 	_coin_line(29100, 5, 500, 15)
 	_enemy(ELITE, 30400, 70)
 	_enemy(ASSASSIN, 31400, 70)

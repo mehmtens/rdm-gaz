@@ -24,7 +24,7 @@ func _build_chapter() -> void:
 	_coin_line(500, 6, 220, -55)
 	_enemy(STREET, 2300, 0)
 	_enemy(RIFLE, 5200, 0)
-	_reward_path(6700, ARMOR)
+	_encounter("balkon", 6650, ARMOR)
 	_checkpoint(9500, 0)
 	_enemy(KNIFE, 11900, 0)
 	_dialogue(13600, "REDMOUNT", "Garın önünde yalnız yolcu yok. Kâğıt sandıklarının başına nöbet koymuşlar.")
@@ -32,12 +32,7 @@ func _build_chapter() -> void:
 	# İstasyon cephesi: 60 px servis kotu, tentede coin; ilk arena geniş avluda.
 	_coin_line(15100, 6, 360, -55)
 	_enemy(ASSASSIN, 17400, 60)
-	_oneway(19100, -25, 220)
-	_oneway(19400, -110, 220)
-	_oneway(19700, -195, 220)
-	for i in 4:
-		_bonus_coin(19100 + i * 220, -250, 5)
-	_pickup(AMMO, 19700, -255)
+	_encounter("sekme", 18740, AMMO)
 	_enemy(STREET, 21500, 60)
 	_checkpoint(23500, 0)
 	_arena(26300, 0, 25500, 27100, _wave(KNIFE, STREET),
@@ -46,7 +41,7 @@ func _build_chapter() -> void:
 
 	# Yolcu peronu: ana geçiş sabit; valiz rafı tabanca verir.
 	_enemy(RIFLE, 31000, 0)
-	_reward_path(32900, PISTOL)
+	_encounter("engel", 32940, PISTOL)
 	_checkpoint(34600, 0)
 	_oneway(36000, -45, 240)
 	_coin_line(35300, 5, 350, -125)
@@ -56,7 +51,7 @@ func _build_chapter() -> void:
 
 	# Bilet holü: ikinci baskın iki açıdan gelir; yan raf zırh verir.
 	_enemy(KNIFE, 45500, 0)
-	_reward_path(47200, ARMOR)
+	_encounter("kasa", 47050, ARMOR)
 	_enemy(BRUISER, 50600, 60)
 	_checkpoint(52900, 60)
 	_enemy(ASSASSIN, 55000, 0)
@@ -67,12 +62,7 @@ func _build_chapter() -> void:
 
 	# Yük peronu: üstte hareketli bagaj rafı; alttan açık taş geçit.
 	_enemy(ELITE, 63500, 0)
-	_oneway(65000, -85, 220)
-	_moving(65500, -145, Vector2(180, -30), 190)
-	_oneway(66100, -205, 220)
-	for i in 5:
-		_bonus_coin(65000 + i * 270, -265, 5)
-	_pickup(RIFLE_PICKUP, 66100, -265)
+	_encounter("iskele", 65140, RIFLE_PICKUP)
 	_checkpoint(67100, 0)
 	_oneway(68000, -45, 240)
 	_coin_line(67300, 5, 350, -125)
@@ -89,7 +79,7 @@ func _build_chapter() -> void:
 
 	# Ray-iskele aktarması: 60 px alçalan ana yol, üst bagaj yolu isteğe bağlı.
 	_enemy(BRUISER, 82500, 60)
-	_reward_path(84400, ARMOR)
+	_encounter("tente_duvar", 84320, ARMOR)
 	_enemy(RIFLE, 87000, 60)
 	_checkpoint(89000, 0)
 	_coin_line(90300, 6, 300, -55)

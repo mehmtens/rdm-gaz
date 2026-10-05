@@ -24,12 +24,7 @@ func _build_chapter() -> void:
 	_coin_line(500, 6, 220, -55)
 	_enemy(STREET, 2200, 0)
 	_enemy(KNIFE, 4900, 0)
-	_oneway(6500, -85, 220)
-	_oneway(6800, -170, 220)
-	_oneway(7100, -85, 220)
-	for i in 4:
-		_bonus_coin(6500 + i * 220, -225, 5)
-	_pickup(ARMOR, 6800, -225)
+	_encounter("tente_duvar", 6420, ARMOR)
 	_checkpoint(9100, 0)
 	_enemy(RIFLE, 11500, 0)
 	_dialogue(13700, "REDMOUNT", "Suyolunun kaydı kâğıda çevrilmiş. Ciltçilerin sokağını izleyelim.")
@@ -38,12 +33,7 @@ func _build_chapter() -> void:
 	_coin_line(15000, 6, 300, -55)
 	_enemy(STREET, 17300, 60)
 	_enemy(ASSASSIN, 19200, 60)
-	_oneway(20200, -25, 220)
-	_oneway(20500, -110, 220)
-	_oneway(20800, -195, 220)
-	for i in 4:
-		_bonus_coin(20200 + i * 220, -250, 5)
-	_pickup(AMMO, 20800, -255)
+	_encounter("cati", 19640, AMMO)
 	_checkpoint(22700, 60)
 	_arena(26800, 0, 26000, 27600, _wave(STREET, KNIFE),
 		_wave(ASSASSIN, RIFLE), HEALTH)
@@ -54,24 +44,13 @@ func _build_chapter() -> void:
 	_oneway(32000, -45, 240)
 	_enemy(KNIFE, 34800, 0)
 	_checkpoint(36500, 0)
-	_oneway(38400, -85, 220)
-	_oneway(38700, -170, 220)
-	_oneway(39000, -255, 220)
-	_oneway(39300, -170, 220)
-	for i in 5:
-		_bonus_coin(38400 + i * 260, -310, 5)
-	_pickup(PISTOL, 39000, -315)
+	_encounter("balkon", 38500, PISTOL)
 	_enemy(ELITE, 42100, 0)
 	_pickup(HEALTH, 44000, -45)
 
 	# Kâğıt imalathanesi: açık siperli tüfekliye yaklaş; üst asma yol riskli.
 	_enemy(RIFLE, 47200, 0)
-	_oneway(48800, -85, 220)
-	_moving(49300, -145, Vector2(180, -30), 190)
-	_oneway(49900, -205, 220)
-	for i in 5:
-		_bonus_coin(48800 + i * 275, -265, 5)
-	_pickup(RIFLE_PICKUP, 49900, -265)
+	_encounter("iskele", 48940, RIFLE_PICKUP)
 	_enemy(BRUISER, 51900, 0)
 	_checkpoint(53200, 0)
 	_arena(55400, 0, 54600, 56200, _wave(KNIFE, RIFLE),
@@ -81,12 +60,7 @@ func _build_chapter() -> void:
 	# Cilt atölyesi: ahşap raflar üst bonus yol, ana zemin kesintisiz.
 	_checkpoint(61300, 0)
 	_enemy(ASSASSIN, 63200, 0)
-	_oneway(65000, -85, 220)
-	_oneway(65300, -170, 220)
-	_oneway(65600, -85, 220)
-	for i in 4:
-		_bonus_coin(65000 + i * 220, -225, 5)
-	_pickup(ARMOR, 65300, -225)
+	_encounter("engel", 65040, ARMOR)
 	_oneway(68000, -45, 240)
 	_coin_line(67300, 5, 330, -125)
 	_enemy(STREET, 70400, 0)
@@ -96,11 +70,7 @@ func _build_chapter() -> void:
 	_coin_line(76000, 5, 310, -55)
 	_enemy(KNIFE, 78500, 60)
 	_enemy(ELITE, 80500, 60)
-	_oneway(82000, -25, 220)
-	_oneway(82300, -110, 220)
-	_oneway(82600, -195, 220)
-	for i in 4:
-		_bonus_coin(82000 + i * 220, -250, 5)
+	_encounter("kasa", 81850)
 	_pickup(HEALTH, 83800, 5)
 	_checkpoint(84600, 60)
 	_arena(86400, 60, 85600, 87200, _wave(ELITE, STREET),
@@ -109,11 +79,7 @@ func _build_chapter() -> void:
 
 	# Mahzen: dar servis aralığı, üst raf ödülü; çatışma kuru zemin üstünde.
 	_enemy(ASSASSIN, 90800, 0)
-	_oneway(92700, -85, 220)
-	_oneway(93000, -170, 220)
-	_oneway(93300, -85, 220)
-	for i in 4:
-		_bonus_coin(92700 + i * 220, -225, 5)
+	_encounter("iskele", 92590)
 	_oneway(96000, -45, 240)
 	_coin_line(95300, 5, 330, -125)
 	_enemy(RIFLE, 98900, 0)

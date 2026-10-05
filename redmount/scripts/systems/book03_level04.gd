@@ -24,7 +24,7 @@ func _build_chapter() -> void:
 	_coin_line(500, 6, 230, -55)
 	_enemy(STREET, 2500, 0)
 	_enemy(KNIFE, 5500, 0)
-	_reward_path(7100, ARMOR)
+	_encounter("tente_duvar", 7020, ARMOR)
 	_checkpoint(9700, 0)
 	_enemy(RIFLE, 11900, 0)
 	_dialogue(13600, "REDMOUNT", "Kablo iskeleden meydana dönüyor. Röleyi durdurmadan kimseye haber güvenemeyiz.")
@@ -32,12 +32,7 @@ func _build_chapter() -> void:
 	# Mihrimah meydanı: sığ alt yol, üst revakta cephane; geniş ilk savaş.
 	_coin_line(15000, 6, 360, -55)
 	_enemy(KNIFE, 17000, 60)
-	_oneway(18300, -25, 220)
-	_oneway(18600, -110, 220)
-	_oneway(18900, -195, 220)
-	for i in 4:
-		_bonus_coin(18300 + i * 220, -250, 5)
-	_pickup(AMMO, 18900, -255)
+	_encounter("cati", 17740, AMMO)
 	_enemy(ASSASSIN, 20800, 0)
 	_checkpoint(23200, 0)
 	_arena(26000, 0, 25200, 26800, _wave(STREET, KNIFE),
@@ -50,14 +45,14 @@ func _build_chapter() -> void:
 	_oneway(32000, -45, 240)
 	_coin_line(31300, 5, 350, -125)
 	_checkpoint(33300, 0)
-	_reward_path(35100, PISTOL)
+	_encounter("balkon", 35050, PISTOL)
 	_enemy(ELITE, 39200, 0)
 	_shop(41900, "ÜSKÜDAR İSKELE ERZAĞI", PackedStringArray(["can", "cephane", "zirh"]))
 	_checkpoint(43100, 0)
 
 	# Sahil pazarı: alt servis yolu, ağır nöbetçinin ardında kayıt sandığı.
 	_enemy(KNIFE, 45100, 60)
-	_reward_path(46800, ARMOR)
+	_encounter("sekme", 46440, ARMOR)
 	_enemy(BRUISER, 49400, 60)
 	_prop("sandik", 51000, 60, AMMO)
 	_checkpoint(52700, 0)
@@ -73,12 +68,7 @@ func _build_chapter() -> void:
 	_oneway(64000, -45, 240)
 	_coin_line(63300, 5, 350, -125)
 	_checkpoint(65300, 0)
-	_oneway(66000, -85, 220)
-	_moving(66500, -145, Vector2(180, -30), 190)
-	_oneway(67100, -205, 220)
-	for i in 5:
-		_bonus_coin(66000 + i * 270, -265, 5)
-	_pickup(RIFLE_PICKUP, 67100, -265)
+	_encounter("iskele", 66140, RIFLE_PICKUP)
 	_enemy(RIFLE, 69700, 0)
 	_checkpoint(72200, 0)
 
@@ -86,7 +76,7 @@ func _build_chapter() -> void:
 	_enemy(KNIFE, 74200, 0)
 	_coin_line(75600, 5, 300, -55)
 	_enemy(RIFLE, 78100, 60)
-	_reward_path(80100, ARMOR)
+	_encounter("engel", 80140, ARMOR)
 	_enemy(BRUISER, 81800, 60)
 	_checkpoint(84900, 0)
 	_arena(87500, 0, 86700, 88300, _wave(ASSASSIN, RIFLE),

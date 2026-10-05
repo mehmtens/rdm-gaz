@@ -98,10 +98,15 @@ func _build_fortress_route() -> void:
 	_arena(48000, 46200, 49800, _wave(BRUISER, RIFLE, AGILE), [BOSS], HEALTH)
 	_dialogue(50100, "REDMOUNT", "Kale kapısı açıldı. Karahanlı artık çok yakın.")
 	_ground(50600, 600, BRICK)
-	for marker in [5600, 15500, 23600, 32600, 41500, 46300]:
+	for marker in [5600, 15500, 32600, 41500, 46300]:
 		_coin_line(marker, 4, 180, -55)
-	for marker in [9180, 18380, 24360, 37860]:
-		_coin_arc(marker, 4, 180, -180)
+	# Sur basamaklarının üstünden geçen coin dizileri bloğun içine gömülmesin:
+	# her dizi altındaki en yüksek basamağın ~70 px üstünde.
+	_coin_line(23600, 4, 180, -135)
+	_coin_arc(9180, 4, 180, -180)
+	_coin_arc(18380, 4, 180, -300)
+	_coin_arc(24360, 4, 180, -245)
+	_coin_arc(37860, 4, 180, -245)
 
 
 func _restyle_opening() -> void:

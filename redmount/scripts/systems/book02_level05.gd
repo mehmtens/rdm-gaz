@@ -24,12 +24,7 @@ func _build_chapter() -> void:
 	_coin_line(500, 6, 220, -55)
 	_enemy(STREET, 2300, 0)
 	_enemy(KNIFE, 5000, 0)
-	_oneway(6600, -85, 220)
-	_oneway(6900, -170, 220)
-	_oneway(7200, -85, 220)
-	for i in 4:
-		_bonus_coin(6600 + i * 220, -225, 5)
-	_pickup(ARMOR, 6900, -225)
+	_encounter("cati", 6040, ARMOR)
 	_checkpoint(9200, 0)
 	_enemy(RIFLE, 11600, 0)
 	_dialogue(13500, "REDMOUNT", "Dış kapıda üç mühür var. Hangisi gerçek çuvala ait?")
@@ -38,12 +33,7 @@ func _build_chapter() -> void:
 	_coin_line(15000, 6, 300, -55)
 	_enemy(STREET, 17200, 60)
 	_enemy(ASSASSIN, 19000, 60)
-	_oneway(20100, -25, 220)
-	_oneway(20400, -110, 220)
-	_oneway(20700, -195, 220)
-	for i in 4:
-		_bonus_coin(20100 + i * 220, -250, 5)
-	_pickup(AMMO, 20700, -255)
+	_encounter("balkon", 20050, AMMO)
 	_checkpoint(22500, 60)
 	_arena(25800, 0, 25000, 26600, _wave(STREET, KNIFE),
 		_wave(ASSASSIN, RIFLE), HEALTH)
@@ -54,24 +44,13 @@ func _build_chapter() -> void:
 	_oneway(32000, -45, 240)
 	_enemy(KNIFE, 34800, 0)
 	_checkpoint(36500, 0)
-	_oneway(38300, -85, 220)
-	_oneway(38600, -170, 220)
-	_oneway(38900, -255, 220)
-	_oneway(39200, -170, 220)
-	for i in 5:
-		_bonus_coin(38300 + i * 260, -310, 5)
-	_pickup(PISTOL, 38900, -315)
+	_encounter("sekme", 38090, PISTOL)
 	_enemy(ELITE, 41900, 0)
 	_pickup(HEALTH, 44000, -45)
 
 	# Posta dış cephesi: tüfekliyi düz zeminde ayır, taşıma saçağı ödüllü.
 	_enemy(RIFLE, 46700, 0)
-	_oneway(48200, -85, 220)
-	_moving(48700, -145, Vector2(180, -30), 190)
-	_oneway(49300, -205, 220)
-	for i in 5:
-		_bonus_coin(48200 + i * 275, -265, 5)
-	_pickup(RIFLE_PICKUP, 49300, -265)
+	_encounter("engel", 48490, RIFLE_PICKUP)
 	_enemy(BRUISER, 51300, 0)
 	_checkpoint(53000, 0)
 	_arena(55200, 0, 54400, 56000, _wave(KNIFE, RIFLE),
@@ -81,12 +60,7 @@ func _build_chapter() -> void:
 	# Tasnif salonu: ahşap üst galeri riski, alt güzergâh açık.
 	_checkpoint(61000, 0)
 	_enemy(ASSASSIN, 63100, 0)
-	_oneway(64600, -85, 220)
-	_oneway(64900, -170, 220)
-	_oneway(65200, -85, 220)
-	for i in 4:
-		_bonus_coin(64600 + i * 220, -225, 5)
-	_pickup(ARMOR, 64900, -225)
+	_encounter("kasa", 64450, ARMOR)
 	_enemy(STREET, 67300, 0)
 	_checkpoint(69900, 0)
 
@@ -96,11 +70,7 @@ func _build_chapter() -> void:
 	_enemy(KNIFE, 74400, 0)
 	_dialogue(75800, "REDMOUNT", "Bantta 'çarşının arka kapısı' yazıyor. Önce çıkış kaydını almalıyız.")
 	_enemy(ELITE, 78300, 60)
-	_oneway(81700, -25, 220)
-	_oneway(82000, -110, 220)
-	_oneway(82300, -195, 220)
-	for i in 4:
-		_bonus_coin(81700 + i * 220, -250, 5)
+	_encounter("iskele", 81590)
 	_pickup(HEALTH, 83400, 5)
 	_checkpoint(84100, 60)
 	_arena(86100, 60, 85300, 86900, _wave(ELITE, STREET),
@@ -109,11 +79,7 @@ func _build_chapter() -> void:
 
 	# Paket geçidi: el arabası hattı boyunca kısa çatışma ve son servis aralığı.
 	_enemy(ASSASSIN, 91100, 0)
-	_oneway(92900, -85, 220)
-	_oneway(93200, -170, 220)
-	_oneway(93500, -85, 220)
-	for i in 4:
-		_bonus_coin(92900 + i * 220, -225, 5)
+	_encounter("tente_duvar", 92820)
 	_enemy(RIFLE, 96400, 0)
 	_checkpoint(98200, 0)
 	_oneway(100000, -45, 240)

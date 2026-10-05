@@ -24,7 +24,7 @@ func _build_chapter() -> void:
 	_coin_line(500, 6, 230, -55)
 	_enemy(STREET, 2400, 0)
 	_enemy(KNIFE, 5500, 0)
-	_reward_path(7200, ARMOR)
+	_encounter("sekme", 6840, ARMOR)
 	_checkpoint(9700, 60)
 	_enemy(RIFLE, 12000, 60)
 	_coin_line(14900, 4, 320, 5)
@@ -32,12 +32,7 @@ func _build_chapter() -> void:
 
 	# Ahşap hisar sokağı: çatı izi cephane, dere boşluğu sabit köprü.
 	_enemy(KNIFE, 17700, 0)
-	_oneway(18900, -25, 220)
-	_oneway(19200, -110, 220)
-	_oneway(19500, -195, 220)
-	for i in 4:
-		_bonus_coin(18900 + i * 220, -250, 5)
-	_pickup(AMMO, 19500, -255)
+	_encounter("tente_duvar", 18820, AMMO)
 	_enemy(ASSASSIN, 21400, 0)
 	_checkpoint(22900, 0)
 	_oneway(24000, -45, 240)
@@ -48,14 +43,14 @@ func _build_chapter() -> void:
 
 	# Dış kale kapısı: sur raflarında tabanca, zeminde seçkin muhafız.
 	_enemy(RIFLE, 30500, 0)
-	_reward_path(33300, PISTOL)
+	_encounter("cati", 32740, PISTOL)
 	_enemy(ELITE, 38200, 0)
 	_shop(39400, "HİSAR KAPISI ERZAĞI", PackedStringArray(["can", "cephane", "zirh"]))
 	_checkpoint(39900, 0)
 
 	# Dere erzak avlusu: ana yol 60 piksel yükselir; düşmanlar sırayla gelir.
 	_enemy(KNIFE, 44900, -60)
-	_reward_path(46800, ARMOR)
+	_encounter("engel", 46840, ARMOR)
 	_enemy(BRUISER, 49400, 0)
 	_prop("sandik", 51000, 0, AMMO)
 	_checkpoint(52600, 0)
@@ -70,12 +65,7 @@ func _build_chapter() -> void:
 
 	# Kale geçidi: sabit ana koridor, yüksek ahşap bakım yolunda tüfek.
 	_enemy(ELITE, 62700, 0)
-	_oneway(65500, -85, 220)
-	_moving(66000, -145, Vector2(180, -30), 190)
-	_oneway(66600, -205, 220)
-	for i in 5:
-		_bonus_coin(65500 + i * 270, -265, 5)
-	_pickup(RIFLE_PICKUP, 66600, -265)
+	_encounter("kasa", 65600, RIFLE_PICKUP)
 	_enemy(RIFLE, 69700, 0)
 	_checkpoint(71900, 0)
 
@@ -83,7 +73,7 @@ func _build_chapter() -> void:
 	_enemy(KNIFE, 74200, 60)
 	_coin_line(75400, 5, 300, 5)
 	_enemy(RIFLE, 78000, 60)
-	_reward_path(80000, ARMOR)
+	_encounter("iskele", 79890, ARMOR)
 	_enemy(BRUISER, 82100, 0)
 	_checkpoint(83700, 0)
 	_arena(85000, 0, 84200, 85800, _wave(ASSASSIN, RIFLE),
@@ -96,7 +86,7 @@ func _build_chapter() -> void:
 
 	# Mekanik kumanda odası: son belgeyi tutan nöbetçi ve yüksek kasa yolu.
 	_enemy(ELITE, 92900, 0)
-	_reward_path(94800, ARMOR)
+	_encounter("balkon", 94750, ARMOR)
 	_enemy(BRUISER, 97900, 0)
 	_checkpoint(100700, 0)
 	_pickup(HEALTH, 101200, -45)

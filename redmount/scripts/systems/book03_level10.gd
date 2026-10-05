@@ -24,7 +24,7 @@ func _build_chapter() -> void:
 	_coin_line(500, 6, 230, -55)
 	_enemy(STREET, 2500, 0)
 	_enemy(KNIFE, 5500, 0)
-	_reward_path(7200, ARMOR)
+	_encounter("balkon", 7150, ARMOR)
 	_checkpoint(9700, 0)
 	_enemy(RIFLE, 12000, -60)
 	_dialogue(13800, "REDMOUNT", "Kablolar evlerin üstünden sırta çıkıyor. Yolu izlersek vericiyi buluruz.")
@@ -32,12 +32,7 @@ func _build_chapter() -> void:
 	# Kandilli bahçeleri: kısa yükseliş, pergola coinleri yan rota.
 	_coin_line(15000, 6, 350, -115)
 	_enemy(KNIFE, 17100, -60)
-	_oneway(18400, -85, 220)
-	_oneway(18700, -170, 220)
-	_oneway(19000, -255, 220)
-	for i in 4:
-		_bonus_coin(18400 + i * 220, -310, 5)
-	_pickup(AMMO, 19000, -315)
+	_encounter("sekme", 18040, AMMO)
 	_enemy(ASSASSIN, 21200, 0)
 	_checkpoint(23100, 0)
 	_arena(26000, 0, 25200, 26800, _wave(STREET, KNIFE),
@@ -50,14 +45,14 @@ func _build_chapter() -> void:
 	_oneway(32000, -45, 240)
 	_coin_line(31300, 5, 350, -125)
 	_checkpoint(33300, 0)
-	_reward_path(35000, PISTOL)
+	_encounter("tente_duvar", 34920, PISTOL)
 	_enemy(ELITE, 39400, 0)
 	_shop(41700, "KANDİLLİ YOL ERZAĞI", PackedStringArray(["can", "cephane", "zirh"]))
 	_checkpoint(43100, 0)
 
 	# İstinat altında alçalan yol: ağır nöbetçi, ardından açık avlu.
 	_enemy(KNIFE, 45100, 60)
-	_reward_path(47000, ARMOR)
+	_encounter("cati", 46440, ARMOR)
 	_enemy(BRUISER, 49400, 60)
 	_prop("sandik", 51000, 60, AMMO)
 	_checkpoint(52700, 0)
@@ -73,12 +68,7 @@ func _build_chapter() -> void:
 	_oneway(64000, -45, 240)
 	_coin_line(63300, 5, 350, -125)
 	_checkpoint(65300, 0)
-	_oneway(66500, -85, 220)
-	_moving(67000, -145, Vector2(180, -30), 190)
-	_oneway(67600, -205, 220)
-	for i in 5:
-		_bonus_coin(66500 + i * 270, -265, 5)
-	_pickup(RIFLE_PICKUP, 67600, -265)
+	_encounter("iskele", 66640, RIFLE_PICKUP)
 	_enemy(RIFLE, 70300, 0)
 	_checkpoint(72100, 0)
 
@@ -86,7 +76,7 @@ func _build_chapter() -> void:
 	_enemy(KNIFE, 74300, 0)
 	_coin_line(75600, 5, 300, -55)
 	_enemy(RIFLE, 78100, -60)
-	_reward_path(80000, ARMOR)
+	_encounter("engel", 80040, ARMOR)
 	_enemy(BRUISER, 82000, -60)
 	_checkpoint(84400, 0)
 	_arena(86500, 0, 85700, 87300, _wave(ASSASSIN, RIFLE),
@@ -95,7 +85,7 @@ func _build_chapter() -> void:
 
 	# Bobin odası: kalın kablolar arasında son erzak ve üçüncü geçiş.
 	_enemy(ELITE, 92400, 0)
-	_reward_path(94200, ARMOR)
+	_encounter("balkon", 93550, ARMOR)
 	_checkpoint(94700, 0)
 	_oneway(96000, -45, 240)
 	_coin_line(95300, 5, 350, -125)

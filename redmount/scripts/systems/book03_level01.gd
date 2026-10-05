@@ -24,7 +24,7 @@ func _build_chapter() -> void:
 	_coin_line(500, 6, 220, -55)
 	_enemy(STREET, 2200, 0)
 	_enemy(KNIFE, 5000, 0)
-	_reward_path(6600, ARMOR)
+	_encounter("cati", 6040, ARMOR)
 	_checkpoint(9400, 0)
 	_enemy(RIFLE, 11600, 0)
 	_dialogue(13700, "REDMOUNT", "Mühür matbaanın. Buradaki kâğıtların su emrini kimin bastığını söylemesi gerek.")
@@ -32,12 +32,7 @@ func _build_chapter() -> void:
 	# Kitapçı yokuşu: 60 px alt sokak, üst tentede kısa coin kestirmesi.
 	_coin_line(15000, 6, 340, -55)
 	_enemy(KNIFE, 17400, 60)
-	_oneway(19000, -25, 220)
-	_oneway(19300, -110, 220)
-	_oneway(19600, -195, 220)
-	for i in 4:
-		_bonus_coin(19000 + i * 220, -250, 5)
-	_pickup(AMMO, 19600, -255)
+	_encounter("balkon", 18950, AMMO)
 	_enemy(ASSASSIN, 21100, 60)
 	_checkpoint(23000, 0)
 	_arena(26000, 0, 25200, 26800, _wave(STREET, KNIFE),
@@ -46,7 +41,7 @@ func _build_chapter() -> void:
 
 	# Matbaa avlusu: taş köprü ana rota; kurutma rafı isteğe bağlı.
 	_enemy(RIFLE, 30600, 0)
-	_reward_path(32800, PISTOL)
+	_encounter("sekme", 32440, PISTOL)
 	_checkpoint(34500, 0)
 	_oneway(36000, -45, 240)
 	_coin_line(35250, 5, 350, -125)
@@ -54,7 +49,7 @@ func _build_chapter() -> void:
 	_shop(41700, "MATBAA ERZAK TEZGÂHI", PackedStringArray(["can", "cephane", "zirh"]))
 	_checkpoint(42700, 0)
 	_enemy(KNIFE, 45100, 0)
-	_reward_path(47300, ARMOR)
+	_encounter("tente_duvar", 47220, ARMOR)
 	_checkpoint(50500, 0)
 	_arena(53100, 0, 52300, 53900, _wave(KNIFE, RIFLE),
 		_wave(BRUISER, STREET), HEALTH)
@@ -62,12 +57,7 @@ func _build_chapter() -> void:
 
 	# Kurutma çatıları: alttan yürüyerek geçilir, yukarıda daha değerli ödül var.
 	_enemy(ASSASSIN, 59200, 0)
-	_oneway(61700, -85, 220)
-	_moving(62200, -145, Vector2(180, -30), 190)
-	_oneway(62800, -205, 220)
-	for i in 5:
-		_bonus_coin(61700 + i * 275, -265, 5)
-	_pickup(RIFLE_PICKUP, 62800, -265)
+	_encounter("iskele", 61840, RIFLE_PICKUP)
 	_checkpoint(65000, 0)
 	_oneway(68000, -45, 240)
 	_coin_line(67250, 5, 350, -125)
@@ -80,7 +70,7 @@ func _build_chapter() -> void:
 	# Dağıtım deposu: seçkin nöbetçi ve sandık arasından yan rotayı seç.
 	_enemy(ELITE, 81100, 0)
 	_prop("sandik", 82200, 0, AMMO)
-	_reward_path(83700, ARMOR)
+	_encounter("engel", 83740, ARMOR)
 	_enemy(KNIFE, 86000, 60)
 	_checkpoint(88300, 0)
 	_enemy(BRUISER, 90600, 0)
@@ -102,12 +92,8 @@ func _build_chapter() -> void:
 
 
 func _reward_path(x: float, pickup: PackedScene) -> void:
-	_oneway(x, -85, 220)
-	_oneway(x + 300, -170, 220)
-	_oneway(x + 600, -85, 220)
-	for i in 4:
-		_bonus_coin(x + i * 220, -225, 5)
-	_pickup(pickup, x + 300, -225)
+	# Eski üç basamaklı havada platform yerine mekâna uygun parkur sahnesi.
+	_encounter(_next_kind(x), x - 40.0, pickup)
 
 
 func _oneway(x: float, y: float, width: float) -> void:

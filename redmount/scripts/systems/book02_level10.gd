@@ -24,12 +24,7 @@ func _build_chapter() -> void:
 	_coin_line(500, 6, 220, -55)
 	_enemy(STREET, 2200, 0)
 	_enemy(KNIFE, 5200, 0)
-	_oneway(6700, -85, 220)
-	_oneway(7000, -170, 220)
-	_oneway(7300, -85, 220)
-	for i in 4:
-		_bonus_coin(6700 + i * 220, -225, 5)
-	_pickup(ARMOR, 7000, -225)
+	_encounter("balkon", 6650, ARMOR)
 	_checkpoint(9300, 0)
 	_enemy(RIFLE, 11700, 0)
 	_dialogue(13500, "REDMOUNT", "Bina çalışıyor. Şafaktan önce pompaları neden açtıklarını öğrenelim.")
@@ -38,12 +33,7 @@ func _build_chapter() -> void:
 	_coin_line(15100, 6, 300, -55)
 	_enemy(KNIFE, 17200, 60)
 	_enemy(ASSASSIN, 19300, 60)
-	_oneway(20200, -25, 220)
-	_oneway(20500, -110, 220)
-	_oneway(20800, -195, 220)
-	for i in 4:
-		_bonus_coin(20200 + i * 220, -250, 5)
-	_pickup(AMMO, 20800, -255)
+	_encounter("sekme", 19840, AMMO)
 	_checkpoint(22600, 60)
 	_arena(26000, 0, 25200, 26800, _wave(STREET, ASSASSIN),
 		_wave(BRUISER, KNIFE), HEALTH)
@@ -51,12 +41,7 @@ func _build_chapter() -> void:
 
 	# Filtre salonu: 200 px su kanalı sabit taş platformla aşılır.
 	_enemy(RIFLE, 31500, 0)
-	_oneway(33300, -85, 220)
-	_oneway(33600, -170, 220)
-	_oneway(33900, -255, 220)
-	for i in 5:
-		_bonus_coin(33300 + i * 240, -310, 5)
-	_pickup(PISTOL, 33900, -315)
+	_encounter("iskele", 33190, PISTOL)
 	_checkpoint(35000, 0)
 	_oneway(36000, -45, 240)
 	_enemy(ELITE, 39300, 0)
@@ -65,12 +50,7 @@ func _build_chapter() -> void:
 	# Vana galerisi: alt bakım yolu, üst bakır boru rafı ödül rotası.
 	_shop(44400, "SU İDARESİ ERZAKÇISI", PackedStringArray(["can", "cephane", "zirh"]))
 	_enemy(RIFLE, 45900, 0)
-	_oneway(47500, -85, 220)
-	_moving(48000, -145, Vector2(180, -30), 190)
-	_oneway(48600, -205, 220)
-	for i in 5:
-		_bonus_coin(47500 + i * 275, -265, 5)
-	_pickup(RIFLE_PICKUP, 48600, -265)
+	_encounter("engel", 47790, RIFLE_PICKUP)
 	_enemy(BRUISER, 50500, 0)
 	_checkpoint(52100, 0)
 	_arena(54600, 0, 53800, 55400, _wave(RIFLE, KNIFE),
@@ -80,12 +60,7 @@ func _build_chapter() -> void:
 	# Pompa salonu: ana bakım yolu serbest, üst makine rafı zırh verir.
 	_checkpoint(60800, 0)
 	_enemy(ASSASSIN, 63000, 0)
-	_oneway(64700, -85, 220)
-	_oneway(65000, -170, 220)
-	_oneway(65300, -85, 220)
-	for i in 4:
-		_bonus_coin(64700 + i * 220, -225, 5)
-	_pickup(ARMOR, 65000, -225)
+	_encounter("kasa", 64550, ARMOR)
 	_enemy(STREET, 67700, 0)
 	_checkpoint(66500, 0)
 	_oneway(68000, -45, 240)
@@ -93,11 +68,7 @@ func _build_chapter() -> void:
 
 	# Bakım şaftı: alt servis kotunda seçkin ve menzilli sınav.
 	_enemy(ELITE, 78100, 60)
-	_oneway(81600, -25, 220)
-	_oneway(81900, -110, 220)
-	_oneway(82200, -195, 220)
-	for i in 4:
-		_bonus_coin(81600 + i * 220, -250, 5)
+	_encounter("iskele", 81490)
 	_pickup(HEALTH, 83300, 5)
 	_checkpoint(84000, 60)
 	_arena(86000, 60, 85200, 86800, _wave(ELITE, KNIFE),
@@ -106,11 +77,7 @@ func _build_chapter() -> void:
 
 	# Kontrol odası: kapatma çizelgesi üst raflarda, ana yol kesintisiz.
 	_enemy(ASSASSIN, 90500, 0)
-	_oneway(92700, -85, 220)
-	_oneway(93000, -170, 220)
-	_oneway(93300, -85, 220)
-	for i in 4:
-		_bonus_coin(92700 + i * 220, -225, 5)
+	_encounter("tente_duvar", 92620)
 	_enemy(RIFLE, 96700, 0)
 	_checkpoint(98300, 0)
 	_oneway(100000, -45, 240)

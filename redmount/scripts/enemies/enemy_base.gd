@@ -89,6 +89,9 @@ func _ready() -> void:
 		config = EnemyConfig.new()
 		push_warning("%s: 'config' bağlı değil, varsayılan EnemyConfig." % name)
 	_setup_rig()
+	# Tek yön platformlar (katman 8 / değer 128) da zemin sayılır: çatıya, tenteye,
+	# iskeleye yerleştirilen düşman orada durur, kenarda geri döner.
+	set_collision_mask_value(8, true)
 
 	_health = config.max_health
 	_home_x = global_position.x
@@ -864,7 +867,7 @@ func _safe_to_step(direction: float, ahead := 30.0) -> bool:
 	var foot_x := global_position.x + signf(direction) * ahead
 	var query := PhysicsRayQueryParameters2D.create(
 		Vector2(foot_x, global_position.y - 8.0),
-		Vector2(foot_x, global_position.y + 72.0), 1)
+		Vector2(foot_x, global_position.y + 72.0), 1 | 128)
 	query.exclude = [get_rid()]
 	return not get_world_2d().direct_space_state.intersect_ray(query).is_empty()
 

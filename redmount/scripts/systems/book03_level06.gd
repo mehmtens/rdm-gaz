@@ -24,7 +24,7 @@ func _build_chapter() -> void:
 	_coin_line(500, 6, 230, -55)
 	_enemy(STREET, 2600, 0)
 	_enemy(KNIFE, 5700, 0)
-	_reward_path(7600, ARMOR)
+	_encounter("balkon", 7550, ARMOR)
 	_checkpoint(9800, 0)
 	_enemy(RIFLE, 12100, 0)
 	_dialogue(13800, "REDMOUNT", "İskele boş görünüyor. Evrakı koruyanlar sahil evlerinin arkasına çekilmiş.")
@@ -32,12 +32,7 @@ func _build_chapter() -> void:
 	# Sahil evleri: sığ alt sokak, balkonlarda cephane.
 	_coin_line(15100, 6, 350, -55)
 	_enemy(KNIFE, 17000, 60)
-	_oneway(18400, -25, 220)
-	_oneway(18700, -110, 220)
-	_oneway(19000, -195, 220)
-	for i in 4:
-		_bonus_coin(18400 + i * 220, -250, 5)
-	_pickup(AMMO, 19000, -255)
+	_encounter("sekme", 18040, AMMO)
 	_enemy(ASSASSIN, 21100, 0)
 	_checkpoint(23100, 0)
 	_arena(26000, 0, 25200, 26800, _wave(STREET, KNIFE),
@@ -46,7 +41,7 @@ func _build_chapter() -> void:
 
 	# Bahçe duvarı: ana yürüyüş yolu; taş revakta silahlı yan rota.
 	_enemy(RIFLE, 30800, 0)
-	_reward_path(32500, PISTOL)
+	_encounter("tente_duvar", 32420, PISTOL)
 	_checkpoint(34700, 0)
 	_oneway(36000, -45, 240)
 	_coin_line(35300, 5, 350, -125)
@@ -57,7 +52,7 @@ func _build_chapter() -> void:
 
 	# Kemerli avlu: uzun düz geçişi iki ayrı düşman kararıyla böl.
 	_enemy(KNIFE, 45300, 60)
-	_reward_path(47300, ARMOR)
+	_encounter("cati", 46740, ARMOR)
 	_enemy(BRUISER, 49500, 60)
 	_prop("sandik", 51100, 60, AMMO)
 	_checkpoint(52600, 0)
@@ -73,12 +68,7 @@ func _build_chapter() -> void:
 	_oneway(68000, -45, 240)
 	_coin_line(67300, 5, 350, -125)
 	_checkpoint(69300, 0)
-	_oneway(70400, -85, 220)
-	_moving(70900, -145, Vector2(180, -30), 190)
-	_oneway(71500, -205, 220)
-	for i in 5:
-		_bonus_coin(70400 + i * 270, -265, 5)
-	_pickup(RIFLE_PICKUP, 71500, -265)
+	_encounter("kasa", 70500, RIFLE_PICKUP)
 	_enemy(RIFLE, 73700, 0)
 	_checkpoint(75400, 0)
 
@@ -86,7 +76,7 @@ func _build_chapter() -> void:
 	_enemy(KNIFE, 77600, 0)
 	_coin_line(78900, 5, 300, -55)
 	_enemy(RIFLE, 81400, 60)
-	_reward_path(83300, ARMOR)
+	_encounter("iskele", 83190, ARMOR)
 	_checkpoint(84600, 0)
 	_arena(87000, 0, 86200, 87800, _wave(ASSASSIN, RIFLE),
 		_wave(ELITE, KNIFE), HEALTH)
@@ -94,7 +84,7 @@ func _build_chapter() -> void:
 
 	# Mühürlü kasa: çıkış koridorundaki ağır nöbet ve son belge izi.
 	_enemy(ELITE, 92500, 0)
-	_reward_path(94400, ARMOR)
+	_encounter("engel", 94440, ARMOR)
 	_enemy(BRUISER, 96900, 0)
 	_checkpoint(98700, 0)
 	_oneway(100000, -45, 240)
