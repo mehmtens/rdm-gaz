@@ -12,6 +12,12 @@ var _run_t := 0.0
 var _report: Array = []
 var _respawns := 0
 var _prev_x := 0.0
+## İlerlemesiz en uzun süre (sn): en uzak x 50 px artmadan geçen zaman. Süre penceresi
+## genişse gerçek takılma gizlenmesin diye testler bunu ayrıca sınırlar.
+var _longest_stall := 0.0
+var _stall_at := 0.0
+var _progress_x := -1e9
+var _progress_t := 0.0
 var _time_limit := 360.0
 
 
@@ -36,6 +42,9 @@ func _start_level(idx: int) -> void:
 	_max_x = -1e9
 	_stuck_t = 0.0
 	_run_t = 0.0
+	_longest_stall = 0.0
+	_progress_x = -1e9
+	_progress_t = 0.0
 	_last_x = _player.global_position.x
 	get_tree().paused = false
 
@@ -58,6 +67,10 @@ func _physics_process(delta: float) -> void:
 		_respawns += 1
 	_prev_x = x
 	_max_x = maxf(_max_x, x)
+	if _max_x > _progress_x + 50.0:
+		_note_stall()
+		_progress_x = _max_x
+		_progress_t = _run_t
 
 	# diyalog kutusu açıksa geç
 	var db = _main.get_node_or_null(^"DialogueBox")
@@ -158,8 +171,15 @@ func _tap(a: StringName) -> void:
 	_release_queue.append([a, _run_t + (0.24 if a == &"jump" else 0.06)])
 
 
+func _note_stall() -> void:
+	if _run_t - _progress_t > _longest_stall:
+		_longest_stall = _run_t - _progress_t
+		_stall_at = _progress_x
+
+
 func _finish_level(msg: String) -> void:
-	print("PROBE Bölüm %d: %s" % [_level_idx + 1, msg])
+	_note_stall()
+	print("PROBE Bölüm %d: %s  stall=%.0fs@%.0f" % [_level_idx + 1, msg, _longest_stall, _stall_at])
 	Input.action_release(&"move_right")
 	Input.action_release(&"run")
 	if not OS.get_environment("REDMOUNT_PROBE_LEVEL").is_empty():

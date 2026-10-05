@@ -131,8 +131,9 @@ func _encounter(kind: String, x: float, reward: PackedScene = null) -> void:
 			if cx >= x - 2500.0 and cx <= x:
 				has_cp = true
 				break
-	if not has_cp and x - 320.0 > seg.position.x + 40.0:
-		_checkpoint(x - 320.0, seg.position.y)
+	if not has_cp:
+		# Sahne parçanın başına dayalıysa bayrak parçanın ilk adımına konur.
+		_checkpoint(maxf(x - 320.0, seg.position.x + 20.0), seg.position.y)
 	var piece := ParkourSet.new()
 	piece.kind = kind
 	piece.variant = _serial
@@ -140,7 +141,8 @@ func _encounter(kind: String, x: float, reward: PackedScene = null) -> void:
 	piece.position = Vector2(x, seg.position.y)
 	add_child(piece)
 	_serial += 1
-	var spots := ParkourSet.guard_spots(kind)
+	_last_kind = kind
+	var spots := ParkourSet.guard_spots(kind, _late())
 	# Bölümün ilk sahnesi fikri tanıtır: tek nöbetçi.
 	if _encounters == 0:
 		spots = spots.slice(0, 1)
@@ -153,6 +155,11 @@ func _encounter(kind: String, x: float, reward: PackedScene = null) -> void:
 
 var _kind_turn := 0
 var _encounters := 0
+var _last_kind := ""
+
+
+func _late() -> bool:
+	return (get_script() as Script).resource_path.contains("book03")
 
 
 ## Final bölümlerinin ödül yolları için sıradaki sahne türü (en fazla ~900 px genişlik).
@@ -162,16 +169,20 @@ func _next_kind(x: float) -> String:
 	var li := -1
 	if m != null:
 		li = (11 if m.get_string(1) == "2" else 23) + int(m.get_string(2))
-	var pool: Array = ["kasa", "iskele"] if ParkourInteriors.is_interior(li, x - 400.0, x + 1300.0) \
+	var pool: Array = ["kasa", "iskele", "engel"] if ParkourInteriors.is_interior(li, x - 400.0, x + 1300.0) \
 		else ["tente_duvar", "balkon"]
 	_kind_turn += 1
-	return pool[_kind_turn % pool.size()]
+	var k: String = pool[_kind_turn % pool.size()]
+	if k == _last_kind:
+		_kind_turn += 1
+		k = pool[_kind_turn % pool.size()]
+	return k
 
 
 ## Nöbetçi seçimi: yüksekten bekleyen tüfekli, sandık tepesinde ağır birlik,
 ## çatıda ve zeminde kitabın ilerleyişine göre sokak → bıçaklı → suikastçı → seçkin.
 func _guard_for(kind: String, role: String) -> PackedScene:
-	var late: bool = (get_script() as Script).resource_path.contains("book03")
+	var late := _late()
 	if role == "nisan":
 		return RIFLE
 	if kind == "kasa":

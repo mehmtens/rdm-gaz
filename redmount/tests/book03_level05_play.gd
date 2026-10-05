@@ -10,5 +10,6 @@ func _ready() -> void:
 func _finish_level(msg: String) -> void:
 	assert(msg.begins_with("CLEARED"), "Kitap 3 Bölüm 5 tamamlanamadı: %s" % msg)
 	assert(_max_x > 110000.0, "Kuzguncuk kıyı deposunun çıkışına ulaşılamadı")
-	assert(_run_t >= 420.0 and _run_t <= 660.0, "Oynanış süresi 7–11 dakika dışına çıktı: %.1f" % _run_t)
+	assert(_run_t >= 420.0 and _run_t <= 600.0, "Oynanış süresi 7–10 dakika dışına çıktı: %.1f" % _run_t)
+	assert(_longest_stall <= 45.0, "%.0f sn ilerlemesiz takılma (x=%.0f)" % [_longest_stall, _stall_at])
 	super._finish_level(msg)

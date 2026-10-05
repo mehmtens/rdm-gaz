@@ -62,7 +62,12 @@ const INTERIOR_KINDS := ["kasa", "iskele", "direk"]
 
 ## Nöbetçi yerleri (yerel koordinat): rol "tepe" = setin üstünde bekleyen,
 ## "nisan" = yüksekten ateş eden (tüfekli için), "zemin" = setin dibinde/arkasında.
-static func guard_spots(k: String) -> Array:
+## late: Kitap 3. Oradaki sandık nöbetçisi uzaktan ateş eden seçkin muhafızdır; 180 px'lik
+## tepede geri çekilemez, basamaktan çıkan oyuncuyu siperiz vurur. Bu yüzden iniş
+## tarafındaki düz zeminde bekler: oyuncu yığının tepesinden üstüne iner.
+static func guard_spots(k: String, late := false) -> Array:
+	if k == "kasa" and late:
+		return [{"pos": Vector2(820, 0), "role": "zemin"}]
 	match k:
 		"tente_duvar": return [{"pos": Vector2(400, -250), "role": "nisan"}, {"pos": Vector2(680, 0), "role": "zemin"}]
 		"balkon": return [{"pos": Vector2(430, -330), "role": "tepe"}]

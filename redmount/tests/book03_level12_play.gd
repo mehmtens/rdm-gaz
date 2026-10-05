@@ -23,7 +23,8 @@ func _finish_level(msg: String) -> void:
 	var final = _main._level
 	var checks := {
 		"Bölüm baştan sona tamamlandı": msg.begins_with("CLEARED") and _max_x > 270000,
-		"18–23 dakika hedefi": _run_t >= 1080 and _run_t <= 1380,
+		"18–22 dakika hedefi": _run_t >= 1080 and _run_t <= 1320,
+		"45 sn'den uzun takılma yok": _longest_stall <= 45.0,
 		"Üç yayın hattı kesildi": final.relays_cut == 3,
 		"Boss yenildi": final.boss_defeated,
 		"Üç boss evresi oynandı": final.boss_phases_seen == [0, 1, 2],

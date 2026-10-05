@@ -33,18 +33,23 @@ mekâna uygun, düşmanlı bir parkur sahnesi var. Bu yüzden:
 | `balkon` | sokak | evin balkonlarını basamak gibi kullanıp çatıya çık | çatıda bekleyen |
 | `tente_duvar` | çarşı | tezgâh tentesi fırlatır, kiremitli bahçe duvarını aş | duvar tepesinde tüfekli, iniş noktasında yakın dövüşçü |
 | `sekme` | rıhtım, çarşı | üç tente, iki duvar: sek-sek-sek ya da aradaki çukurlarda dövüş | iki aralıkta birer düşman |
-| `kasa` | depo, han, hamam | sandık basamaklarıyla yığının tepesine çık | tepede ağır birlik (Kitap 3'te seçkin muhafız) |
+| `kasa` | depo, han, hamam | sandık basamaklarıyla yığının tepesine çık | Kitap 2: tepede ağır birlik. Kitap 3: iniş tarafında seçkin muhafız |
 | `iskele` | depo, iç mekân | iskele katlarıyla yüksek barikatı tırman | barikat üstünde tüfekli |
 | `engel` | dar iç mekân | iki katlı sandık siperi | siperin arkasında bekleyen |
 
 Düşman türü kitaba göre ilerler: sokak serserisi → bıçaklı → suikastçı → seçkin muhafız.
-Tüfekli yalnız yüksekte bekler. Dar çatı ve balkon tepesine seçkin muhafız konmaz.
+Tüfekli yalnız yüksekte bekler. Dar çatı, balkon ve sandık tepesine seçkin muhafız konmaz.
+Seçkin muhafız uzaktan ateş eder ve ağır vuruşu oyuncuyu 380 hızla iter. 180 px'lik sandık
+tepesinde geri çekilemez; basamaktan çıkan oyuncuyu siper vermeden vurur. Bot koşularında
+Kitap 3'teki bütün uzun takılmalar (56–68 sn, bölüm başına 2–3 ölüm) bu noktadaydı.
+Bu yüzden Kitap 3'te muhafız yığının iniş tarafındaki düz zeminde bekler.
 
 Adil olma kuralları:
 
 - Bölümün ilk sahnesi fikri tanıtır, tek nöbetçi taşır.
-- Sahneden önceki 2.500 px'de kontrol noktası yoksa sahnenin hemen önüne bir tane
-  eklenir. Böylece sahnede ölen oyuncu bölüm başına dönmez.
+- Sahneden önceki 2.500 px'de kontrol noktası yoksa sahnenin 320 px önüne bir tane
+  eklenir. Sahne zemin parçasının başına dayalıysa bayrak parçanın ilk adımına konur.
+  Böylece sahnede ölen oyuncu bölüm başına dönmez.
 - Ölü cep yoktur: tezgâh tentesi duvarın ya da evin dibine dayalıdır. Ara sokağa düşen
   oyuncu iki balkonla ileriye doğru çatıya döner.
 - Tentenin üstünde basılan zıplama da tam güç fırlatmadır. Yükselirken tuşu bırakmak
@@ -55,6 +60,11 @@ Hangi noktaya hangi sahnenin konacağı her bölüm dosyasında açıkça yazıl
 yapıldı: açık gökyüzü görünen sokak, sahil ve bahçede dış mekân sahneleri, han,
 hamam, sarnıç ve depoda iç mekân sahneleri kullanıldı. Ardışık iki sahne aynı türde
 değildir. Final bölümlerinde ödül yolları (`_reward_path`) aynı kuralla sahneye çevrilir.
+İç mekânda sandık, iskele ve siper; dışarıda tente-duvar ve balkon sırayla gelir.
+
+Çeşitlilik konusunda açık olmak gerekirse: 168 sahne yedi şablondan gelir. Şablonlar
+mekâna, ev çeşidine, ödüle ve nöbetçinin türüne göre değişir. Ama her sahne ayrı elle
+tasarlanmış bir parkur değildir.
 
 Sahne, altındaki düz zemin parçasına oturur. Parçadan taşacaksa kaydırılır, sığmıyorsa
 küçük siper (`engel`) kullanılır. 60 px alçak sokaklar da dahildir.
@@ -78,7 +88,20 @@ küçük siper (`engel`) kullanılır. 60 px alçak sokaklar da dahildir.
     gömülü coin, can ve zırh paketleri düzeltildi.
   - Ulaşılamayan ödül platformları: Bölüm 6, 8 ve 10'da düzeltildi.
 
-## Denetim aracı
+## Denetim araçları
+
+`tests/encounter_check.tscn` (Kitap 2–3) şunları bildirir:
+
+- `GUARD_LEFT`: 2 sn fizikte sahnesinden düşen ya da çıkan nöbetçi
+- `CP_IN_ARENA`: kilitli arenanın içine düşen kontrol noktası
+- `CP_CROWDED`: 700 px'ten yakın iki kontrol noktası
+- `NO_CP`: önündeki 2.500 px'de kontrol noktası olmayan sahne
+- `SET_IN_ARENA`: arena kapılarıyla çakışan sahne
+
+Kalan iki `CP_CROWDED`, Son Yayın'daki köprü geçişlerinin kendi bayraklarıdır. Bunlar bu
+değişiklikten önce de vardı.
+
+`tests/level_audit.tscn` tüm bölümlerin geometrisini tarar:
 
 ```
 cd redmount
@@ -102,10 +125,14 @@ ulaşılan ödüller.
 
 - 36 bölüm yükleniyor (`tests/campaign_smoke.gd`).
 - 33 uçtan uca bot testinin hepsi bölümü bitiriyor.
-- Kitap 2–3 bot süreleri: bölümler 7:47–9:45, finaller 21:21 ve 22:39. Parkur
-  sahnelerindeki dövüşler süreyi yaklaşık bir dakika uzattığı için test pencereleri
-  bölümlerde 7–11 dk'ya, finallerde 18–23 dk'ya genişletildi.
-  Kampanya hedefi 8–12 dk'dır.
+- Kitap 2–3 bot süreleri: bölümler 7:47–8:54, finaller 21:15 ve 19:45. Parkur
+  sahnelerindeki dövüşler süreyi yaklaşık yarım dakika uzattığı için test pencereleri
+  bölümlerde 7–10 dk'ya, finallerde 18–22 dk'ya genişletildi.
+- Geniş süre penceresi gerçek bir takılmayı gizlemesin diye bot, en uzak noktası 50 px
+  ilerlemeden geçen en uzun süreyi ölçer. 45 sn'yi aşarsa test düşer. Kitap 2–3'te şu
+  anki en uzun süre 27 sn (Kitap 2 final boss'u); bölümlerde 11–20 sn.
+- Bot testleri insan oynanışı değildir. Bot, oyuncunun tuş haritasını kullanır ama
+  kurallarla oynar: sağa koşar, duvara gelince zıplar, düşmana vurur.
 
 ## Ölçüler
 
