@@ -15,6 +15,7 @@ func _finish_level(msg: String) -> void:
 		push_error("Bölüm 2 tamamlanamadı: " + msg)
 		get_tree().quit(1)
 		return
+	_assert_no_stall()
 	super._finish_level(msg)
 
 

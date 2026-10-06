@@ -88,6 +88,19 @@ küçük siper (`engel`) kullanılır. 60 px alçak sokaklar da dahildir.
     gömülü coin, can ve zırh paketleri düzeltildi.
   - Ulaşılamayan ödül platformları: Bölüm 6, 8 ve 10'da düzeltildi.
 
+## Gece sahnelerinde okunurluk (Kitap 3)
+
+Vaniköy ve Son Yayın gibi karanlık iç mekânlarda siyah giysili düşmanlar ve ince ahşap
+iskeleler arka plana karışıyordu. Oynanış ve düşman gücü değişmedi; yalnız iki çizim
+kuralı eklendi. Bunlar yalnız Kitap 3'te (`dark_scene` grubu) açıktır:
+
+- **Düşman konturu** (`shaders/dark_rim.gdshader`): sprite'ın saydam kenar pikselleri,
+  bölümün kenar ışığı renginde (`level.gd` `edge_light`, fener sarısı) ince bir kontura
+  döner. Gövde renkleri, vuruş parlaması ve ölüm solması aynen kalır.
+- **İskele ve raf kenarı:** ince tek yön platformların basılan yüzüne, oyunun zeminlerde
+  zaten kullandığı kural çizilir: 3 px kenar ışığı ve altına koyu bir şerit. Çizgi
+  çarpışma yüzeyiyle hizalıdır.
+
 ## Denetim araçları
 
 `tests/encounter_check.tscn` (Kitap 2–3) şunları bildirir:
@@ -124,13 +137,26 @@ ulaşılan ödüller.
 ## Doğrulama
 
 - 36 bölüm yükleniyor (`tests/campaign_smoke.gd`).
-- 33 uçtan uca bot testinin hepsi bölümü bitiriyor.
-- Kitap 2–3 bot süreleri: bölümler 7:47–8:54, finaller 21:15 ve 19:45. Parkur
+- 36 bölümün 36'sı uçtan uca bot testinde (`tests/levelNN_play`, `tests/book0X_levelNN_play`)
+  bölümü bitiriyor. Kitap 1'in 4, 5 ve 6. bölümleri önceden hiç test edilmiyordu.
+  Bölüm 6'nın testi iki eski hatayı buldu:
+  - Arenadaki 120 px'lik siper zıplamayla aşılamıyordu (gerçek tepe ~115 px). İlk dalga
+    siperin öbür yanında doğduğu ve kapılar kilitlendiği için yumruklu oyuncu
+    sıkışıyordu. Arena siperleri 90 px'e indirildi; duvar zıplaması çifti olan `Cover1`
+    ve `Cover2` aynen kaldı.
+  - Eski kısa sahnenin x=4980'deki bitiş duvarı, uzun rotanın kalan 45.000 px'ini
+    kapatıyordu ve duvardan sonraki boşluk 290 px'ti. Duvar kaldırıldı, boşluk 200 px'e
+    indirildi.
+- Kitap 2–3 bot süreleri: bölümler 7:47–8:54, finaller 21:08 ve 19:48. Parkur
   sahnelerindeki dövüşler süreyi yaklaşık yarım dakika uzattığı için test pencereleri
   bölümlerde 7–10 dk'ya, finallerde 18–22 dk'ya genişletildi.
 - Geniş süre penceresi gerçek bir takılmayı gizlemesin diye bot, en uzak noktası 50 px
-  ilerlemeden geçen en uzun süreyi ölçer. 45 sn'yi aşarsa test düşer. Kitap 2–3'te şu
-  anki en uzun süre 27 sn (Kitap 2 final boss'u); bölümlerde 11–20 sn.
+  ilerlemeden geçen en uzun süreyi ölçer. 45 sn'yi aşarsa test düşer. Bu sınır 36
+  testin hepsinde geçerlidir (`_assert_no_stall`). Önceki sürümde yalnız Kitap 2–3'te
+  vardı; bu yüzden Bölüm 12'deki 68 sn'lik takılma fark edilmemişti. O takılma botun
+  hatasıydı: hareketli platformun yan yüzünü duvar sanıp duvar zıplamasıyla geri
+  sekiyordu. Bot artık hareketli platformda duvar zıplaması yapmıyor. 36 bölümde şu
+  anki en uzun süre 24 sn (Kitap 2 final boss'u); Bölüm 12 artık 20 sn.
 - Bot testleri insan oynanışı değildir. Bot, oyuncunun tuş haritasını kullanır ama
   kurallarla oynar: sağa koşar, duvara gelince zıplar, düşmana vurur.
 

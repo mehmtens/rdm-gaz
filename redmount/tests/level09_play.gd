@@ -9,4 +9,5 @@ func _ready() -> void:
 func _finish_level(msg: String) -> void:
 	assert(msg.begins_with("CLEARED"), "Bölüm 9 ana rota tamamlanamadı: %s" % msg)
 	assert(_max_x > 50500.0, "Bölüm 9 çıkışına ulaşılamadı")
+	_assert_no_stall()
 	super._finish_level(msg)

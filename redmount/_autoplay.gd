@@ -143,13 +143,23 @@ func _physics_process(delta: float) -> void:
 		_tap(&"jump")
 	# duvara yapıştıysa (havada, düşerken) duvar-zıplaması; tente sekişinin
 	# yükselen kolunda zıplamak oyuncuyu duvardan geri iterdi.
-	elif _player.is_on_wall() and not on_floor and _player.velocity.y > 0.0:
+	# Hareketli platformun yan yüzü duvar değildir: duvar-zıplaması oyuncuyu geri
+	# iter. İnsan gibi sağı basılı tutup platformun üstüne iner.
+	elif _player.is_on_wall() and not on_floor and _player.velocity.y > 0.0 and not _wall_is_moving():
 		_tap(&"jump")
 	# tıkandıysa dash + zıpla
 	if _stuck_t > 0.3:
 		_tap(&"dash")
 		_tap(&"jump")
 		_stuck_t = 0.0
+
+
+func _wall_is_moving() -> bool:
+	for i in _player.get_slide_collision_count():
+		var c := _player.get_slide_collision(i)
+		if absf(c.get_normal().x) > 0.7 and c.get_collider() is AnimatableBody2D:
+			return true
+	return false
 
 
 ## Ayak kotuna yakın zemin var mı? Daha aşağıdaki platform boşluğu gizlememeli.
@@ -169,6 +179,12 @@ func _tap(a: StringName) -> void:
 	Input.action_press(a)
 	# zıplama tuşunu uzun tut (erken bırakınca jump_cut ile cılız hop olur)
 	_release_queue.append([a, _run_t + (0.24 if a == &"jump" else 0.06)])
+
+
+## Süre penceresi geniş tutulsa da gerçek takılma testi düşürsün.
+func _assert_no_stall(limit := 45.0) -> void:
+	_note_stall()
+	assert(_longest_stall <= limit, "%.0f sn ilerlemesiz takılma (x=%.0f)" % [_longest_stall, _stall_at])
 
 
 func _note_stall() -> void:

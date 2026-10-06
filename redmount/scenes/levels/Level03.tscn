@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3]
+[gd_scene load_steps=31 format=3]
 
 ; ============================================================================
 ; BÖLÜM 3 — Ağır Güvenlik Bölgesi  (Görev 25c: parkur yeniden tasarımı)
@@ -63,6 +63,8 @@ size = Vector2(860, 220)
 size = Vector2(60, 560)
 [sub_resource type="RectangleShape2D" id="cover"]
 size = Vector2(64, 120)
+[sub_resource type="RectangleShape2D" id="cover_low"]
+size = Vector2(64, 90)
 [sub_resource type="RectangleShape2D" id="ledge"]
 size = Vector2(180, 24)
 [sub_resource type="RectangleShape2D" id="secret"]
@@ -338,20 +340,20 @@ polygon = PackedVector2Array(-430, -110, 430, -110, 430, 110, -430, 110)
 position = Vector2(4110, 0)
 
 [node name="CoverArena1" type="StaticBody2D" parent="."]
-position = Vector2(4300, -60)
+position = Vector2(4300, -45)
 [node name="Col" type="CollisionShape2D" parent="CoverArena1"]
-shape = SubResource("cover")
+shape = SubResource("cover_low")
 [node name="Vis" type="Polygon2D" parent="CoverArena1"]
 color = Color(0.42, 0.36, 0.24, 1)
-polygon = PackedVector2Array(-32, -60, 32, -60, 32, 60, -32, 60)
+polygon = PackedVector2Array(-32, -45, 32, -45, 32, 45, -32, 45)
 
 [node name="CoverArena2" type="StaticBody2D" parent="."]
-position = Vector2(4680, -60)
+position = Vector2(4680, -45)
 [node name="Col" type="CollisionShape2D" parent="CoverArena2"]
-shape = SubResource("cover")
+shape = SubResource("cover_low")
 [node name="Vis" type="Polygon2D" parent="CoverArena2"]
 color = Color(0.42, 0.36, 0.24, 1)
-polygon = PackedVector2Array(-32, -60, 32, -60, 32, 60, -32, 60)
+polygon = PackedVector2Array(-32, -45, 32, -45, 32, 45, -32, 45)
 
 [node name="HealthArena" parent="." instance=ExtResource("10")]
 position = Vector2(4150, -46)

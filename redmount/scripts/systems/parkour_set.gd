@@ -314,6 +314,9 @@ func _pickup(scene: PackedScene, x: float, y: float) -> void:
 
 
 ## Parça sanatı: gövdenin merkezine göre çizilir (StaticBody2D konumu merkezdir).
+const _OWP := preload("res://scripts/systems/one_way_platform.gd")
+
+
 class _Art extends Node2D:
 	enum { A_WALL, A_HOUSE, A_PILLAR, A_BALCONY, A_ROOF, A_CRATES, A_SCAFFOLD }
 	var _kind: int
@@ -362,6 +365,7 @@ class _Art extends Node2D:
 					draw_texture_rect(POST, Rect2(lx - 6.0, 4.0, 14.0, legs), false)
 				draw_texture_rect_region(SCAFFOLD, Rect2(-hw - 6.0, -8.0, _size.x + 12.0, 40.0),
 					Rect2(27, 149, 1929, 260))
+				_OWP.draw_dark_edge(self, -hw - 4.0, hw + 4.0, 0.0)
 			A_HOUSE:
 				var tex: Texture2D = HOUSES[_house]
 				var eave: float = HOUSE_EAVE[_house]

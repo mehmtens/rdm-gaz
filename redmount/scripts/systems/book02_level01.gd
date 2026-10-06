@@ -158,6 +158,13 @@ var _encounters := 0
 var _last_kind := ""
 
 
+## Kitap 3 gece geçer: karanlık iç mekânda düşman konturu ve iskele kenar ışığı
+## açılır (enemy_base, one_way_platform, parkour_set bu gruba bakar).
+func _enter_tree() -> void:
+	if _late():
+		add_to_group(&"dark_scene")
+
+
 func _late() -> bool:
 	return (get_script() as Script).resource_path.contains("book03")
 

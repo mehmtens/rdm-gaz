@@ -89,6 +89,7 @@ func _ready() -> void:
 		config = EnemyConfig.new()
 		push_warning("%s: 'config' bağlı değil, varsayılan EnemyConfig." % name)
 	_setup_rig()
+	_apply_dark_rim.call_deferred()
 	# Tek yön platformlar (katman 8 / değer 128) da zemin sayılır: çatıya, tenteye,
 	# iskeleye yerleştirilen düşman orada durur, kenarda geri döner.
 	set_collision_mask_value(8, true)
@@ -156,6 +157,22 @@ func _physics_process(delta: float) -> void:
 		clampf(1.0 - _phase_timer / _phase_full, 0.0, 1.0),
 		0, _facing, "",
 	)
+
+
+const _DARK_RIM := preload("res://shaders/dark_rim.gdshader")
+
+
+## Gece sahnesinde (grup "dark_scene") silüeti bölümün kenar ışığıyla çevrele.
+func _apply_dark_rim() -> void:
+	if not is_inside_tree():
+		return
+	var lvl := get_tree().get_first_node_in_group(&"dark_scene")
+	if lvl == null or not (sprite is CanvasItem):
+		return
+	var mat := ShaderMaterial.new()
+	mat.shader = _DARK_RIM
+	mat.set_shader_parameter(&"rim_color", lvl.get("edge_light"))
+	(sprite as CanvasItem).material = mat
 
 
 ## Rig görünümünü stile göre kur (Görev 21).

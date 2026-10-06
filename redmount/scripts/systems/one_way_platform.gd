@@ -175,6 +175,7 @@ func _draw() -> void:
 			draw_line(Vector2(x, 27), Vector2(x, base), Color("4a3026"), 9)
 		draw_line(Vector2(-hw + 13, 44), Vector2(hw - 13, base - 12), Color("75503a"), 5)
 		draw_texture_rect_region(WOOD, Rect2(-hw, -6, width, 45), Rect2(220, 255, 615, 175))
+		draw_dark_edge(self, -hw, hw, -6.0)
 	elif style in ["scaffold", "industrial", "underground"]:
 		var base := maxf(-position.y, 74.0)
 		for x in [-hw + 9.0, hw - 9.0]:
@@ -187,6 +188,7 @@ func _draw() -> void:
 				Rect2(-hw, -6, width, 38), true)
 		else:
 			draw_texture_rect_region(SCAFFOLD, Rect2(-hw, -6, width, 80), Rect2(26, 148, 1931, 535))
+			draw_dark_edge(self, -hw, hw, -6.0)
 	elif style == "roof":
 		# Çatı iki taş direğe oturur (revak): altından yürünerek geçilir.
 		if _support_depth > 0.0:
@@ -205,3 +207,13 @@ func _tile_down(tex: Texture2D, r: Rect2) -> void:
 		draw_texture_rect_region(tex, Rect2(r.position.x, y, r.size.x, h),
 			Rect2(0, 0, tex.get_width(), tex.get_height() * h / tile_h))
 		y += h
+
+
+## Gece sahnesinde ince platformun basılacak kenarı: level.gd'deki kenar ışığı +
+## altındaki koyu dudak kuralının aynısı.
+static func draw_dark_edge(ci: CanvasItem, x0: float, x1: float, y: float) -> void:
+	var lvl := ci.get_tree().get_first_node_in_group(&"dark_scene") if ci.is_inside_tree() else null
+	if lvl == null:
+		return
+	ci.draw_line(Vector2(x0, y + 4.0), Vector2(x1, y + 4.0), Color(0, 0, 0, 0.28), 3.0)
+	ci.draw_line(Vector2(x0, y), Vector2(x1, y), lvl.get("edge_light"), 3.0)

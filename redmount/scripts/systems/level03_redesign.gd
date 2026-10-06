@@ -11,6 +11,11 @@ const HINT := preload("res://scenes/systems/HintTrigger.tscn")
 
 
 func _ready() -> void:
+	# Eski kısa sahnenin bitiş duvarı (x=4980) uzun rotayı kapatıyordu: bölüm
+	# o noktadan sonra oynanamıyordu. Bölüm 4 kurucusu gibi kaldırılır.
+	var wall := get_parent().get_node_or_null(^"RightWall")
+	if wall != null:
+		wall.queue_free()
 	add_child(_HeavyBackdrop.new())
 	_restyle_opening()
 	_build_heavy_route()
@@ -24,6 +29,9 @@ func _ready() -> void:
 
 func _build_heavy_route() -> void:
 	# 5.200–13.000 — dökümhane: siperli tüfek hattı, üst rota cephane.
+	# Eski sahnenin zemini 4.910'da biter; 290 px'lik boşluk koşu sıçrayışından
+	# (~265 px) genişti. Kısa bir kenar 200 px'lik atlanabilir boşluk bırakır.
+	_ground(4955, 90, METAL)
 	_ground(6500, 2600, METAL)
 	_checkpoint(5350)
 	_lesson(5450, "YERE ÇAKMA: HAVADA AŞAĞI + SALDIRI\nZırhlıyı sars; K ağır yumruk da işe yarar.")

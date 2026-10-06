@@ -20,6 +20,7 @@ func _ready() -> void:
 
 
 func _finish_level(msg: String) -> void:
+	_note_stall()
 	var final = _main._level
 	var checks := {
 		"Bölüm baştan sona tamamlandı": msg.begins_with("CLEARED") and _max_x > 270000,
