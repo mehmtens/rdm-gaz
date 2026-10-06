@@ -81,7 +81,12 @@ func _ready() -> void:
 	GameState.start_run()  # bölüm indeksini menü belirler
 	GameState.coin_multiplier = 2 if Save.owns("double_coin") else 1
 	_debug_label.visible = OS.get_environment("REDMOUNT_DEBUG_HUD") == "1"
+	var test := Save.test_args()
+	if test.has("bolum"):
+		GameState.level_index = clampi(int(test["bolum"]) - 1, 0, GameState.level_count() - 1)
 	_load_current_level()
+	if int(test.get("bayrak", 0)) > 0:
+		_start_at_checkpoint(int(test["bayrak"]))
 
 
 func _process(_delta: float) -> void:
@@ -364,6 +369,24 @@ func _apply_biome_grade(biome: int) -> void:
 
 func _on_checkpoint(global_pos: Vector2) -> void:
 	_respawn_pos = global_pos
+
+
+## İnsan testi: bölümün k. kontrol noktasından başla. "Son kontrol noktasına dön"
+## ile aynı yol kullanılır (tam can, o noktaya yerleşme); bölüm kuralları değişmez.
+## Bölümün o noktaya kadarki silah, coin ve zırhları alınmamış olur.
+func _start_at_checkpoint(k: int) -> void:
+	var cps := _in_group(_level, &"checkpoint")
+	cps.sort_custom(func(a: Node, b: Node) -> bool:
+		return (a as Node2D).global_position.x < (b as Node2D).global_position.x)
+	for i in cps.size():
+		print("TEST bayrak %d: x=%d" % [i + 1, (cps[i] as Node2D).global_position.x])
+	if cps.is_empty():
+		return
+	var cp: Node2D = cps[clampi(k, 1, cps.size()) - 1]
+	print("TEST başlangıç: Bölüm %d, bayrak %d (x=%d)" % [
+		GameState.level_index + 1, clampi(k, 1, cps.size()), cp.global_position.x])
+	_on_checkpoint(cp.global_position)
+	_respawn_player()
 
 
 ## Diyalog tetiği — süresince dünyayı duraklat, bitince devam et.

@@ -5,6 +5,12 @@
 extends Node
 
 const PATH := "user://redmount_save.cfg"
+## İnsan testi için başlatma (`-- --bolum=N`): gerçek kayıt yerine ayrı, boş bir
+## kayıt kullanılır. Böylece test, oyuncunun açtığı bölümleri, coin'lerini ve
+## mağaza alımlarını değiştirmez; test yükseltmesiz yeni bir oyuncu gibi başlar.
+const TEST_PATH := "user://redmount_test_save.cfg"
+
+var _path := PATH
 
 ## En yüksek açılan bölüm indeksi (0 tabanlı). 0 = sadece Bölüm 1 açık.
 var unlocked_level: int = 0
@@ -21,12 +27,26 @@ var upgrade_levels: Dictionary = {}
 
 
 func _ready() -> void:
+	if not test_args().is_empty():
+		_path = TEST_PATH
 	load_game()
+
+
+## Komut satırı test seçenekleri: `--bolum=N` (1–36), `--bayrak=K` (bölümün K. kontrol
+## noktası, x'e göre sıralı; 0 = bölüm başı). Yoksa boş sözlük.
+static func test_args() -> Dictionary:
+	var out := {}
+	for a in OS.get_cmdline_user_args():
+		if a.begins_with("--bolum="):
+			out["bolum"] = int(a.get_slice("=", 1))
+		elif a.begins_with("--bayrak="):
+			out["bayrak"] = int(a.get_slice("=", 1))
+	return out
 
 
 func load_game() -> void:
 	var cfg := ConfigFile.new()
-	if cfg.load(PATH) != OK:
+	if cfg.load(_path) != OK:
 		return
 	unlocked_level = int(cfg.get_value("progress", "unlocked_level", 0))
 	total_coins = int(cfg.get_value("progress", "total_coins", 0))
@@ -52,7 +72,7 @@ func save_game() -> void:
 	cfg.set_value("shop", "purchased", purchased)
 	cfg.set_value("shop", "upgrade_levels", upgrade_levels)
 	cfg.set_value("settings", "master_volume_db", master_volume_db)
-	cfg.save(PATH)
+	cfg.save(_path)
 
 
 ## Bir bölüm tamamlanınca çağrılır.

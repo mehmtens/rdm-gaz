@@ -80,6 +80,8 @@ func _ready() -> void:
 		var seq: Array = []
 		for s in sets:
 			seq.append(s.kind)
+			if OS.get_environment("ENC_POS") == "1":
+				print("ENCPOS %d %s %d %d" % [i + 1, s.kind, (s as Node2D).global_position.x, s.variant])
 		print("ENC %02d %-34s sets=%d guards=%d cps=%d issues=%d  %s" % [i + 1, lvl.get("display_name"),
 			sets.size(), guards.size(), cps.size(), issues.size(), ",".join(seq)])
 		for t in issues:
