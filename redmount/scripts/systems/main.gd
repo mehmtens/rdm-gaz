@@ -82,6 +82,9 @@ func _ready() -> void:
 	GameState.coin_multiplier = 2 if Save.owns("double_coin") else 1
 	_debug_label.visible = OS.get_environment("REDMOUNT_DEBUG_HUD") == "1"
 	var test := Save.test_args()
+	if test.has("ornek"):
+		# Dan the Man tarzı örnek bölüm (kampanya sırasına girmez).
+		GameState.level_path_override = "res://scenes/levels/OrnekBolum.tscn"
 	if test.has("bolum"):
 		GameState.level_index = clampi(int(test["bolum"]) - 1, 0, GameState.level_count() - 1)
 	_load_current_level()

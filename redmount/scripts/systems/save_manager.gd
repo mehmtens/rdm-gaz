@@ -41,6 +41,8 @@ static func test_args() -> Dictionary:
 			out["bolum"] = int(a.get_slice("=", 1))
 		elif a.begins_with("--bayrak="):
 			out["bayrak"] = int(a.get_slice("=", 1))
+		elif a == "--ornek":
+			out["ornek"] = 1
 	return out
 
 
