@@ -1,5 +1,5 @@
 ## TouchControls — Dan the Man düzeni: solda ◀ ▶ (parmak kaydırılabilir) ve ▼,
-## sağda VUR / ZIPLA ve üstte ÖZEL. Çoklu dokunuş için TouchScreenButton kullanır.
+## sağda VUR / ZIPLA, üstte ÖZEL ve tabanca elindeyken ATEŞ. Çoklu dokunuş için TouchScreenButton kullanır.
 class_name TouchControls
 extends CanvasLayer
 
@@ -11,6 +11,7 @@ const BTN := [
 	["attack", "VUR", 92, "R", Vector2(318, 112)],
 	["jump", "ZIPLA", 84, "R", Vector2(124, 150)],
 	["special", "ÖZEL", 60, "R", Vector2(190, 318)],
+	["shoot", "ATEŞ", 60, "R", Vector2(330, 300)],
 ]
 
 var _buttons: Array = [] ## [TouchScreenButton, Label, def]
@@ -58,7 +59,12 @@ func _layout() -> void:
 
 
 func _process(_dt: float) -> void:
+	var p: Player = get_tree().get_first_node_in_group("player")
+	var armed := p != null and p.weapon == "pistol"
 	for e in _buttons:
+		if e[2][0] == "shoot":
+			e[0].visible = armed
+			e[1].visible = armed
 		e[1].scale = Vector2.ONE * (0.92 if e[0].is_pressed() else 1.0)
 		e[1].pivot_offset = e[1].size / 2
 

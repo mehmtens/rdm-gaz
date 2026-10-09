@@ -22,7 +22,8 @@ var player: Player
 var cam: Camera2D
 var hud: Hud
 
-var totals := {"coins": 0, "secrets": 0}
+var totals := {"coins": 0, "secrets": 0, "enemies": 0, "objects": 0}
+var par_time := 240.0 ## Hedef süre (sn); puan tablosunda süre bonusu buna göre.
 var arenas: Array[Arena] = []
 var finished := false
 
@@ -193,12 +194,14 @@ func item(kind: String, x: float, y: float) -> void:
 
 func enemy(kind: String, x: float, y := 0.0) -> void:
 	var id := _id("e")
+	totals["enemies"] += 1
 	if not _taken(id):
 		add_enemy(kind, Vector2(x, y - 4), id, false)
 
 
 func breakable(kind: String, x: float, y := 0.0, coins := 3, drop := "", hp := 1, solid := false, shard := Color(0.75, 0.42, 0.28)) -> void:
 	var id := _id("b")
+	totals["objects"] += 1
 	if _taken(id):
 		return
 	var b := Breakable.new()
@@ -216,6 +219,8 @@ func breakable(kind: String, x: float, y := 0.0, coins := 3, drop := "", hp := 1
 
 func arena(x0: float, x1: float, waves: Array, floor_y := 0.0) -> void:
 	var id := _id("a")
+	for w in waves:
+		totals["enemies"] += (w as Array).size()
 	if Game.run["cleared"].has(id):
 		return
 	var a := Arena.new()
@@ -495,6 +500,25 @@ func placed_coins() -> int:
 		if String(k).begins_with("c"):
 			n += 1
 	return n
+
+
+## Dan the Man tarzı bölüm sonu tablosu: [etiket, değer metni, puan] satırları + toplam.
+func score_rows() -> Array:
+	var r := Game.run
+	var t := float(r.get("time", 0.0))
+	var kills := mini(int(r.get("kills", 0)), int(totals["enemies"]))
+	var smashed := mini(int(r.get("smashed", 0)), int(totals["objects"]))
+	var dmg := int(r.get("damage", 0))
+	var rows := [
+		["SÜRE", "%d:%02d / %d:%02d" % [int(t) / 60, int(t) % 60, int(par_time) / 60, int(par_time) % 60],
+			int(maxf(0.0, par_time - t) * 50.0)],
+		["DÜŞMAN", "%d / %d" % [kills, totals["enemies"]], kills * 100],
+		["ALINAN HASAR", str(dmg), -dmg * 10],
+		["GİZLİ ALAN", "%d / %d" % [r["secrets"].size(), totals["secrets"]], r["secrets"].size() * 5000],
+		["KIRILAN NESNE", "%d / %d" % [smashed, totals["objects"]], smashed * 50],
+		["COIN", str(r["coins"]), int(r["coins"]) * 10],
+	]
+	return rows
 
 
 func on_player_died() -> void:

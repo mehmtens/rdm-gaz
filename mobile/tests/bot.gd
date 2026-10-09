@@ -130,7 +130,7 @@ func _physics_process(dt: float) -> void:
 		_press("right", true)
 		_press("left", false)
 		if p.weapon == "pistol" and _frames % 20 == 0 and _enemy_in_line(p):
-			_tap("attack", 4)
+			_tap("shoot", 4)
 
 	# Zıplama kararları (gerçek fizik sorgularıyla).
 	if p.is_on_floor():

@@ -5,7 +5,7 @@ senin tasarımlarından geliyor: `art/chars/` animasyon şeritleri (200×240, ay
 `art/kit/` platform kitinden kesilmiş parçalar, `art/bg/` sahne çizimleri.
 
 **Çalıştır:** kökteki `OYNA_MOBIL.cmd` (PC'de 20:9 telefon oranında açar).
-Fare dokunmatik gibi çalışır; klavye: A/D koş, Space zıpla, J vur, K özel, S aşağı, Esc duraklat.
+Fare dokunmatik gibi çalışır; klavye: A/D koş, Space zıpla, J vur, K özel, L ateş, S aşağı, Esc duraklat.
 
 ## Oynanış
 - Koşu, değişken zıplama (basılı tut = yüksek), coyote/buffer, **duvar zıplaması** (tek duvara tırmanılır).
@@ -15,12 +15,13 @@ Fare dokunmatik gibi çalışır; klavye: A/D koş, Space zıpla, J vur, K özel
   Sert savrulan/fırlatılan düşman yoluna çıkanları devirir.
 - **GÜÇLÜ YUMRUK**: VUR'u basılı tut, bırak (dolum arttıkça hasar ve itme artar).
 - **ÖZEL**: vuruşlarla dolan bar, yarısını harcayıp uçan diz atılır.
-- **Sopa** (14 vuruş, sonra kırılır), **tabanca** (12 mermi, VUR ile ateş).
+- **Sopa** (14 vuruş, sonra kırılır), **tabanca** (12 mermi, ayrı **ATEŞ** düğmesi; VUR yumruk atmaya devam eder).
 - Düşmanlar: sokak eşkıyası, bıçaklı ajan (kırmızı `!` telegrafı + atılma), tüfekli muhafız (kırmızı lazerle nişan).
   Aynı anda en fazla 2 düşman saldırır; yere serilen düşman kalkar.
 - **Kilitli arenalar** (dalga dalga, iki yandan), kırılabilir vazo/saksı, kırılabilir tuğla niş = gizli oda,
   kontrol noktası (bayrak), çukura düşünce hasar + son güvenli zemine dönüş.
-- Bölüm sonu: 3 yıldız (bitir · haritadaki coin'lerin %80'i · tüm gizli alanlar).
+- Bölüm sonu: arcade puan tablosu (süre/hedef, düşman, alınan hasar, gizli alan, kırılan nesne, coin) ve
+  3 yıldız (bitir · haritadaki coin'lerin %80'i · tüm gizli alanlar).
 
 Dan the Man'den neyi nasıl uyarladığımız ve sıradaki adımlar:
 [`docs/DAN-THE-MAN-REHBERI.md`](docs/DAN-THE-MAN-REHBERI.md).

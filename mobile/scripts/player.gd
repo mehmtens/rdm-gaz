@@ -2,6 +2,7 @@
 ## 4 vuruşluk kombo, uçan tekme (isabette sekip tekrar), ÖZEL (uçan diz), sopa ve tabanca.
 ## Düşmana doğru yürü = TUT (VUR diz · ZIPLA aparkat · geri+VUR fırlat);
 ## VUR basılı tut = GÜÇLÜ YUMRUK (dolum süresiyle güçlenir).
+## Tabanca ayrı ATEŞ düğmesiyle sıkılır; silah elindeyken de yumruk atılır (Dan the Man düzeni).
 class_name Player
 extends CharacterBody2D
 
@@ -72,6 +73,7 @@ var controls_enabled := true
 var _coyote := 0.0
 var _buffer := 0.0
 var _attack_buffer := 0.0
+var _shoot_buffer := 0.0
 var _invuln := 0.0
 var _state_t := 0.0
 var _input_lock := 0.0
@@ -140,10 +142,13 @@ func _physics_process(dt: float) -> void:
 		_buffer = BUFFER
 	if Input.is_action_just_pressed("attack"):
 		_attack_buffer = 0.2
+	if Input.is_action_just_pressed("shoot"):
+		_shoot_buffer = 0.2
 	if not controls_enabled:
 		dir = 0.0
 		_buffer = 0.0
 		_attack_buffer = 0.0
+		_shoot_buffer = 0.0
 	if Input.is_action_pressed("attack") and controls_enabled:
 		_hold_t += dt
 	else:
@@ -198,6 +203,7 @@ func _tick(dt: float) -> void:
 	_coyote -= dt
 	_buffer -= dt
 	_attack_buffer -= dt
+	_shoot_buffer -= dt
 	_input_lock -= dt
 	_wall_grace -= dt
 	_combo_gap -= dt
@@ -255,20 +261,22 @@ func _move(dir: float, on_floor: bool, dt: float) -> void:
 			velocity.y *= JUMP_CUT
 			_rising = false
 
-	if _attack_buffer > 0.0:
+	if _shoot_buffer > 0.0 and weapon == "pistol":
+		_shoot_buffer = 0.0
 		_attack_buffer = 0.0
-		if weapon == "pistol":
-			_start_attack("pistol_shoot")
-		elif on_floor:
+		_start_attack("pistol_shoot")
+	elif _attack_buffer > 0.0:
+		_attack_buffer = 0.0
+		if on_floor:
 			_next_attack()
 		elif not _air_kick_used:
 			_air_kick()
 	elif Input.is_action_just_pressed("special") and controls_enabled:
 		_try_special()
 
-	if state == S.MOVE and on_floor and weapon == "" and _hold_t >= CHARGE_START:
+	if state == S.MOVE and on_floor and weapon != "bat" and _hold_t >= CHARGE_START:
 		_start_charge()
-	elif state == S.MOVE and on_floor and dir != 0.0 and weapon != "pistol":
+	elif state == S.MOVE and on_floor and dir != 0.0:
 		var e := _grab_candidate()
 		_push_t = _push_t + dt if e != null else 0.0
 		if e != null and _push_t >= GRAB_PUSH:
@@ -720,6 +728,7 @@ func take_hit(dmg: int, from_x: float, knock := false, ignore_invuln := false) -
 	if state == S.DEAD or (is_invulnerable() and not ignore_invuln):
 		return
 	hp = maxi(0, hp - dmg)
+	Game.run["damage"] = int(Game.run.get("damage", 0)) + dmg
 	_invuln = 1.0
 	if is_instance_valid(_grab):
 		_grab.escape()

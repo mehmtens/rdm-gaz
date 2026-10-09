@@ -333,23 +333,47 @@ func show_results(stars: int) -> void:
 		s.pivot_offset = Vector2(40, 60)
 		row.add_child(s)
 		star_labels.append(s)
-	var r := Game.run
-	var t := int(r.get("time", 0.0))
-	var lines: Array[String] = [
-		"Coin: %d   ·   Haritadaki coin: %d / %d" % [r["coins"], level.placed_coins(), level.totals["coins"]],
-		"Gizli alan: %d / %d" % [r["secrets"].size(), level.totals["secrets"]],
-		"Yenilen düşman: %d" % r["kills"],
-		"Süre: %d:%02d   ·   Ölüm: %d" % [t / 60, t % 60, r.get("deaths", 0)],
-	]
-	for s in lines:
-		var l := _label(32, Color.WHITE)
-		l.text = s
-		l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		box.add_child(l)
+	# Arcade puan tablosu: satırlar sırayla gelir, toplam sayarak yükselir.
+	var grid := GridContainer.new()
+	grid.columns = 3
+	grid.add_theme_constant_override("h_separation", 48)
+	grid.add_theme_constant_override("v_separation", 4)
+	box.add_child(grid)
+	var rows: Array = level.score_rows()
+	var row_labels: Array = []
+	var total := 0
+	for row in rows:
+		var cells: Array[Label] = []
+		for i in 3:
+			var l := _label(30, Color.WHITE if i < 2 else GOLD)
+			l.text = [row[0], row[1], "%+d" % int(row[2])][i]
+			if i == 2 and int(row[2]) < 0:
+				l.add_theme_color_override("font_color", Color(1, 0.4, 0.35))
+			l.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT if i > 0 else HORIZONTAL_ALIGNMENT_LEFT
+			l.modulate.a = 0.0
+			grid.add_child(l)
+			cells.append(l)
+		row_labels.append(cells)
+		total += int(row[2])
+	total = maxi(0, total)
+	var total_label := _label(44, GOLD)
+	total_label.text = "TOPLAM  0"
+	total_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	box.add_child(total_label)
 	var first := _button(box, "TEKRAR OYNA", func(): Game.start_level(Game.level_index), true)
 	_button(box, "ANA MENÜ", func(): Game.goto("res://scenes/Menu.tscn"))
 	first.grab_focus()
 	var tw := create_tween()
+	var running := [0]
+	for k in row_labels.size():
+		tw.tween_interval(0.22)
+		tw.tween_callback(func():
+			for c in row_labels[k]:
+				c.modulate.a = 1.0
+			running[0] += int(rows[k][2])
+			total_label.text = "TOPLAM  %d" % maxi(0, running[0])
+			Sfx.play("coin", 0.7 + k * 0.08, -4.0))
+	tw.tween_callback(func(): total_label.text = "TOPLAM  %d" % total)
 	for i in stars:
 		tw.tween_interval(0.35)
 		tw.tween_callback(func():

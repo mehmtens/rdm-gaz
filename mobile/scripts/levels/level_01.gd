@@ -116,7 +116,7 @@ func _minibus_parki() -> void:
 	ground(5600, 6560)
 	sign_board("DOLMUŞ · HER YERE", 5980, -420, 28)
 	item("pistol", 5720, -70)
-	hint(Rect2(5620, -500, 260, 520), "TABANCA: VUR ile ateş et (12 mermi)")
+	hint(Rect2(5620, -500, 260, 520), "TABANCA: ATEŞ düğmesiyle sık (12 mermi) — VUR yine yumruk")
 	platform("bus", 5880, -145, 1, 14)
 	coin_row(5930, -215, 6, 55)
 	breakable("vase_small", 6400, 0, 2)

@@ -66,5 +66,6 @@ func _break() -> void:
 		level.add_pickup(drop, position + Vector2(0, -60), "")
 	if id != "":
 		Game.run["collected"][id] = true
+	Game.run["smashed"] = int(Game.run.get("smashed", 0)) + 1
 	remove_from_group("hittable")
 	queue_free()

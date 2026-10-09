@@ -42,10 +42,10 @@ func _ready() -> void:
 func _setup_input() -> void:
 	var keys := {
 		"left": [KEY_A, KEY_LEFT], "right": [KEY_D, KEY_RIGHT], "down": [KEY_S, KEY_DOWN],
-		"jump": [KEY_SPACE, KEY_W, KEY_UP], "attack": [KEY_J, KEY_Z], "special": [KEY_K, KEY_X],
+		"jump": [KEY_SPACE, KEY_W, KEY_UP], "attack": [KEY_J, KEY_Z], "special": [KEY_K, KEY_X], "shoot": [KEY_L, KEY_C],
 		"pause": [KEY_ESCAPE, KEY_P],
 	}
-	var pads := {"jump": JOY_BUTTON_A, "attack": JOY_BUTTON_X, "special": JOY_BUTTON_Y,
+	var pads := {"jump": JOY_BUTTON_A, "attack": JOY_BUTTON_X, "special": JOY_BUTTON_Y, "shoot": JOY_BUTTON_RIGHT_SHOULDER,
 		"pause": JOY_BUTTON_START, "left": JOY_BUTTON_DPAD_LEFT, "right": JOY_BUTTON_DPAD_RIGHT,
 		"down": JOY_BUTTON_DPAD_DOWN}
 	for action in keys:
@@ -71,7 +71,8 @@ func _setup_input() -> void:
 func start_level(index: int) -> void:
 	level_index = index
 	run = {"coins": 0, "collected": {}, "cleared": {}, "secrets": {}, "kills": 0,
-		"time": 0.0, "deaths": 0, "checkpoint": null, "weapon": "", "ammo": 0}
+		"time": 0.0, "deaths": 0, "checkpoint": null, "weapon": "", "ammo": 0,
+		"damage": 0, "smashed": 0}
 	goto(LEVELS[index]["scene"])
 
 

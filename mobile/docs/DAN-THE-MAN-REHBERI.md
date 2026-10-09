@@ -4,15 +4,13 @@ Bu belge, oyun içi değişiklikler yapılırken rehber olarak kullanılmak üze
 Amacı Dan the Man'i kopyalamak değil, **onu iyi yapan oynanış ilkelerini** ayırıp
 REDMOUNT'un kendi dünyasına (mahalle, büfe, dolmuş, simit, Karahanlı, Gazelle) uyarlamaktır.
 
-> **Kaynak notu — dürüst durum:** Bu belge hazırlanırken YouTube oynanış videoları
-> **izlenemedi**. Çalışma ortamının ağ politikası youtube.com, fandom wiki ve
-> Wikipedia'yı engelliyor. Aşağıdaki bilgiler şu kaynaklardan derlendi:
-> web arama özetleri (Dan the Man fan wiki'sinin hareket ve yükseltme sayfaları,
-> SuperPhillip Central, Pocket Gamer, Android Authority incelemeleri, speedrun.com
-> rehberi, Exophase başarım listesi) ve oyunun genel olarak bilinen yapısı.
-> "✔ kaynaklı" işaretli maddeler bu kaynaklarda doğrulandı. "◇ videoda doğrula"
-> işaretli maddeler ise oyunu oynayan biri tarafından teyit edilmeli.
-> Bölüm 9'daki listeyle videolar izlenip bu belge güncellenmeli.
+> **Kaynak notu:** İlk sürüm web arama özetlerinden (fan wiki, incelemeler) yazıldı.
+> İkinci turda YouTube oynanış videoları **kare kare incelendi** (Bölüm 11).
+> Video dosyası sunucusu (`googlevideo.com`) hâlâ engelli olduğu için videolar
+> YouTube'un önizleme karelerinden (storyboard; 5 dk'lık videoda ~4 sn'de bir,
+> fragmanda ~1 sn'de bir kare) izlendi. Yerleşim, HUD, akış ve ekranlar net okunuyor;
+> kare kare vuruş zamanlaması ise bu çözünürlükte ölçülemiyor.
+> "✔" kaynakta/videoda doğrulandı, "◇" hâlâ doğrulanmadı demektir.
 
 ---
 
@@ -43,12 +41,12 @@ REDMOUNT'un kendi dünyasına (mahalle, büfe, dolmuş, simit, Karahanlı, Gazel
 | Dan the Man | Nasıl çalışır | REDMOUNT uyarlaması | Durum |
 |---|---|---|---|
 | **Combo Attack** ✔ | VUR'a art arda bas. Yükseltmeyle uzar. | 4 vuruş: `fight → combo_a → punch → knee`, son vuruş yere serer. | Vardı |
-| **Power Attack** ◇ | Saldırıyı basılı tut, bırak. Güçlü itme. | **GÜÇLÜ YUMRUK**: VUR 0,4 sn basılı → turuncu dolum. Bırakınca dolum oranında hasar (24→48) ve itme. Savrulan düşman yoldakileri devirir. | **Bu sürümde eklendi** |
+| **Power Attack** ✔ video | Oyun içi açıklama: "VUR'u basılı tutup doldur, bir YÖN'e basarken bırak". Bütün saldırıları bloklayan düşmanların savunmasını deler. | **GÜÇLÜ YUMRUK**: VUR 0,4 sn basılı → turuncu dolum. Bırakınca dolum oranında hasar (24→48) ve itme. Savrulan düşman yoldakileri devirir. | **Bu sürümde eklendi** |
 | **Grab n' Throw** ✔ | Yakındaki düşmana doğru yönü tut → tutar. | **TUT**: düşmana doğru yürü (105 px, 0,08 sn). VUR ile **diz** (3. diz öne savurur). **◀ geri + VUR** ile omuzdan arkaya **fırlat**. 1,3 sn sonra düşman kurtulur. | **Bu sürümde eklendi** |
 | **Uppercut** ✔ | Tuttuktan sonra ZIPLA. | **APARKAT**: tutarken ZIPLA. Düşman havaya dikilir, Redmount yükselir. Hemen havada VUR ile hava kombosu yapılır. | **Bu sürümde eklendi** |
 | **Down Kick** ✔ | Havada saldırı, çapraz aşağı tekme. Yükseltmeyle iki kez. | Uçan tekme vardı. Artık **isabet edince sekip 2 kez daha** atılabilir. | **Bu sürümde eklendi** |
 | **High Kick** ◇ | Havada yukarı tekme (girdisi doğrulanmadı). | Yükselirken VUR = yukarı tekme (havadaki düşmanı karşılama). | Yapılacak (P1) |
-| Silah toplama ◇ | Silahlı düşman ölünce silahını düşürür. | Tüfekli muhafız → **tüfek** düşürür. Redmount'ın `rifle_*` şeritleri hazır, eşya ikonu eksik. | Yapılacak (P1) |
+| Silah toplama ✔ video | Düşman silahını düşürür, alınınca "CHANGE WEAPON" yazısı çıkar. Silahlar **ayrı ATEŞ düğmesiyle** kullanılır, yumruk serbest kalır. | Tüfekli muhafız → **tüfek** düşürür. Redmount'ın `rifle_*` şeritleri hazır, eşya ikonu eksik. | Yapılacak (P1) |
 | Özel saldırı ◇ | Karaktere özgü. | **ÖZEL bar**: vuruşlarla dolar, yarısıyla uçan diz. Dan the Man'de birebir karşılığı olmayan, bize ait bir hareket. | Vardı (özgün) |
 
 ### Hareketlerin birbirine bağlanması
@@ -114,7 +112,7 @@ Köşe Çay (öğretici) → Yol Çalışması (çukur, iskele, duvar zıplamas�
 
 Eklenecek Dan the Man unsurları, bizim kılıkta:
 
-- **Bölüm içi dükkân** (Dan the Man'de bölüm içinde coin harcanan dükkânlar var ✔ kaynaklı)
+- **Bölüm içi dükkân** (✔ video: bölüm içinde "Ye Olde Shoppe" binası)
   → **Büfe**: arena öncesi simit, zırh ya da sopa satın alma. `prop("bufe", ...)` zaten sahnede.
 - **Bonus arena bölümleri** (3 tur, aralarda alışveriş ✔ kaynaklı) → **Kahvehane Arka Odası**:
   dalga dalga hayatta kalma, turlar arası büfe. Süre, düşman yendikçe ve nesne kırdıkça uzar.
@@ -229,3 +227,78 @@ ekran görüntüleri veya kısa klipler depoya (`mobile/docs/referans/`) ekleneb
   Gazelle'i kurtarma motivasyonu, ÖZEL bar ve uçan diz.
 - **Yerel tat önerisi:** Hareket adlarında güreş terimleri kullanılabilir. Örneğin fırlatma için "KÜNDE",
   tutma için "PAÇA". Bu, mekaniği Dan the Man'den ayırıp bize ait kılar.
+
+---
+
+## 11. Videolardan gözlemler (kare kare)
+
+İncelenen videolar:
+
+| Video | İçerik |
+|---|---|
+| [Dan the Man 1-1 with secret areas](https://www.youtube.com/watch?v=degvHzH7xaE) | 8-1-1 bölümünün tamamı, 5 gizli alan, sonuç tablosu |
+| [Prologue 1–3 walkthrough](https://www.youtube.com/watch?v=n4mcz0_FMCM) | Öğretici bölümler, kayıt noktası, ilk ekranlar |
+| [Launch Trailer](https://www.youtube.com/watch?v=--mbvEphvXA) | Beceri ekranı açıklamaları, hayatta kalma modu, ödüller |
+| [All Bosses (No Damage)](https://www.youtube.com/watch?v=HpYvGvxbJNY) | Boss savaşları |
+| [Mobile Gameplay (HD)](https://www.youtube.com/watch?v=FD4JPlmlQ-Q) | Net kontrol düzeni ve HUD |
+
+### 11.1 Kontrol düzeni ✔
+- Sol alt: yalnızca **◀ ▶** (çerçevesiz beyaz oklar, küçük). Aşağı tuşu yok.
+- Sağ alt: **yumruk** (VUR) ve **yukarı ok** (ZIPLA). Bunların üstünde **nişangâh** (ATEŞ)
+  ve **döngü oku** (silah değiştir).
+- Düğmeler yarı saydam ve küçük; oyun alanını çok az kapatıyor.
+- **Uygulandı:** ayrı ATEŞ düğmesi (yalnızca tabanca elindeyken görünür). VUR tabanca elindeyken de yumruk atar.
+
+### 11.2 HUD ✔
+- Sol üst: yuvarlak **portre** + yeşil can barı. Altında küçük kırmızı **iksir ikonu**
+  (taşınan iyileştirme), onun altında **silah kutusu** (döngü ikonu + silah + mermi sayısı).
+- Sağ üst: büyük **coin ikonu + 6 haneli sayaç**, duraklat.
+- Boss savaşında üst ortada **boss portreli kırmızı can barı**.
+- Kombo: sağda "**7 HITS! · Max 11 · BONUS +100**". Vuruş sayısı, en iyi seri ve bonus puan birlikte gösteriliyor.
+- Düşmandan "**$1 / $2 / $5**" para ikonları fırlıyor, havada asılı kalıp toplanıyor.
+
+### 11.3 Bölüm akışı ✔
+- 8-1-1 yaklaşık **4 dakika**, **43 düşman**, **5 gizli alan**, ~23 kırılabilir nesne.
+  Prolog 1 ise yalnızca ~2:20 ve 5 düşman: öğretici bölümler çok kısa.
+- Kilitli dövüşler dev turuncu piksel "**FIGHT!**" afişiyle başlıyor, bitince el işaretli "**GO!**" çıkıyor.
+- **Gizli alan**: mor büyük "**SECRET AREA!**" afişi. Gizli alanlar dikey şelale bacaları,
+  ağaç içleri ve duvar arkaları; içlerinde coin yayları ve fosil gibi süsler var.
+- **Kayıt noktası**: disket simgeli tabela. İlk seferinde açıklama penceresi açılıyor,
+  sonra küçük "PROGRESS SAVED" yazısı çıkıyor.
+- **Öğretim**: ekran yazısı yerine dünyaya dikilmiş **tahta tabelalarda piktogram**
+  (düğme ikonu + hareket çizimi) ve önemli yerlerde **işaret eden el** animasyonu.
+- Ara sahneler konuşmasız: karakterlerin üstünde **ikonlu konuşma balonları** ("?", "!!", ikon).
+
+### 11.4 Bölüm sonu ✔
+- Siyah arcade ekranı: "**STAGE 8-1-1 COMPLETED!**". Satırlar sırayla sayarak gelir:
+  **TIME** (geçen/hedef), **ENEMIES** (31/43), **DAMAGE** (alınan), **SECRET AREAS** (5/5),
+  **SMASHED OBJECTS** (x/y), **TOTAL**. Her satırın yanında kırmızı/yeşil değerlendirme şeridi var.
+- Ardından **ödül sandığı** ("YOU GOT 1000 GOLD", kozmetik şapka vb.).
+- **Uygulandı:** sonuç ekranı aynı mantıkta puan tablosuna çevrildi
+  (`level.gd` `score_rows`, `par_time`; `hud.gd` `show_results`). Alınan hasar ve kırılan nesne artık sayılıyor.
+
+### 11.5 İlerleme ✔
+- Karakter ekranında 6 hareket ikonu var, her birinde 3 seviye çubuğu. Yükseltme ~5000 coin.
+- Hareket açıklamaları oyunda aynen şöyle: Uppercut = "düşmanı TUT, sonra ZIPLA";
+  Power Attack = "VUR'u basılı tutup doldur, bir YÖN'e basarken bırak".
+
+### 11.6 Bosslar ✔
+- Dev mekanik/araç bosslar: yürüyen robot, koçbaşlı (kafatası uçlu kütük) savaş arabasıyla
+  köprüde hücum eden şövalye, çatıda **çok parçalı yüz-makine** (gözler/ağız ayrı zayıf noktalar, altta yangın).
+- Boss savaşına sık sık **ara düşmanlar** karışıyor. Girişte boss'a yakın plan tanıtım var.
+- REDMOUNT karşılığı: Ağır Zırhlı mini-boss'a **zırh parçaları** (kırıldıkça kısa savunmasızlık),
+  Karahanlı'ya **evreli** savaş + adamlarını çağırma.
+
+### 11.7 Kamera ve ölçek ◇ (karar gerekiyor)
+- Dan the Man'de karakter ekran yüksekliğinin **~%10–12'si**. Bizde ~%20 (`ZOOM 0.6`, 240 px şerit).
+  Daha geniş görüş platform ve dövüşü okunur kılıyor. Ama bizim karakter çizimleri daha detaylı.
+  **Öneri:** `ZOOM` 0,6 → 0,5'i telefonda denemek. Bölüm kurgusunu etkilediği için oynanarak karar verilmeli.
+
+### 11.8 Bu gözlemlerden çıkan yeni yapılacaklar
+1. Kombo sayacına "en iyi seri" ve bonus puan ekle (11.2).
+2. Simidi **taşınabilir** iyileştirme yap, HUD'da sayısı görünsün; düşmandan para ikonları (11.2).
+3. İpucu yazılarını piktogramlı tahta tabelalara çevir (çizim gerekiyor) (11.3).
+4. Kayıt noktasında "İLERLEME KAYDEDİLDİ" yazısı (11.3).
+5. Bölüm 1'e 3 gizli alan daha ekle (8-1-1'de 5 var, bizde 2) (11.3).
+6. Bölüm sonu ödül sandığı + kozmetik (11.4).
+7. Portreli boss can barı — mini-boss ile birlikte (11.6).
