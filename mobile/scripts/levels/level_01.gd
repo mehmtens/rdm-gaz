@@ -34,6 +34,7 @@ func _mahalle() -> void:
 	coin_row(420, -70, 6)
 	coin_arc(880, -80, 5, 60, 150)
 
+	hint(Rect2(760, -500, 280, 520), "VUR'u basılı tut, bırak: GÜÇLÜ YUMRUK")
 	breakable("vase_big", 1180, 0, 4)
 	breakable("vase_small", 1260, 0, 2)
 	hint(Rect2(1050, -500, 300, 520), "Vazoları kır — içinden coin çıkar")
@@ -55,6 +56,7 @@ func _mahalle() -> void:
 	item("simit", 2000, -900)
 
 	enemy("thug", 2080)
+	hint(Rect2(1700, -500, 250, 520), "Düşmana doğru yürü: TUT → VUR diz · ZIPLA aparkat · ◀ geri+VUR fırlat")
 	hint(Rect2(1950, -500, 300, 520), "Çukur! Koşarak ZIPLA")
 
 
@@ -70,6 +72,7 @@ func _yol_calismasi() -> void:
 	coin_row(2785, -240, 3, 55)
 	platform("scaffold_small", 2960, -120, 1, 12)
 	enemy("knife", 3060)
+	hint(Rect2(2830, -500, 200, 520), "Havada VUR: dalış tekmesi — isabet edince sekip tekrar vur")
 
 	ground(3150, 3480, -180)
 	ground(3480, 3720, -520)

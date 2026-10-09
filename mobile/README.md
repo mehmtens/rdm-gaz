@@ -9,7 +9,11 @@ Fare dokunmatik gibi çalışır; klavye: A/D koş, Space zıpla, J vur, K özel
 
 ## Oynanış
 - Koşu, değişken zıplama (basılı tut = yüksek), coyote/buffer, **duvar zıplaması** (tek duvara tırmanılır).
-- 4 vuruşluk kombo (fight → combo_a → punch → knee; sonuncusu yere serer), havada **uçan tekme**.
+- 4 vuruşluk kombo (fight → combo_a → punch → knee; sonuncusu yere serer), havada **uçan tekme**
+  (isabet edince seker, 2 kez daha atılabilir).
+- **TUT**: düşmana doğru yürü → VUR **diz** (3. diz savurur) · ZIPLA **aparkat** · ◀ geri + VUR **fırlat**.
+  Sert savrulan/fırlatılan düşman yoluna çıkanları devirir.
+- **GÜÇLÜ YUMRUK**: VUR'u basılı tut, bırak (dolum arttıkça hasar ve itme artar).
 - **ÖZEL**: vuruşlarla dolan bar, yarısını harcayıp uçan diz atılır.
 - **Sopa** (14 vuruş, sonra kırılır), **tabanca** (12 mermi, VUR ile ateş).
 - Düşmanlar: sokak eşkıyası, bıçaklı ajan (kırmızı `!` telegrafı + atılma), tüfekli muhafız (kırmızı lazerle nişan).
@@ -17,6 +21,9 @@ Fare dokunmatik gibi çalışır; klavye: A/D koş, Space zıpla, J vur, K özel
 - **Kilitli arenalar** (dalga dalga, iki yandan), kırılabilir vazo/saksı, kırılabilir tuğla niş = gizli oda,
   kontrol noktası (bayrak), çukura düşünce hasar + son güvenli zemine dönüş.
 - Bölüm sonu: 3 yıldız (bitir · haritadaki coin'lerin %80'i · tüm gizli alanlar).
+
+Dan the Man'den neyi nasıl uyarladığımız ve sıradaki adımlar:
+[`docs/DAN-THE-MAN-REHBERI.md`](docs/DAN-THE-MAN-REHBERI.md).
 
 ## Bölüm 1 — Mahalle
 Referans şeridi sırasıyla: Köşe Çay → yol çalışması/iskele → duvar + çatılar →

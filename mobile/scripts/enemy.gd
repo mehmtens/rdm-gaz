@@ -1,11 +1,12 @@
 ## Enemy — sokak eşkıyası / bıçaklı ajan / tüfekli muhafız.
 ## Kovala → hazırlık (okunur telegraf) → vuruş; darbe alınca sendele, 4. vuruşta yere yık.
+## Oyuncu tutabilir (GRABBED); sert fırlatılan düşman yoluna çıkan diğerlerini devirir.
 class_name Enemy
 extends CharacterBody2D
 
 signal defeated(enemy: Enemy)
 
-enum S { IDLE, CHASE, ATTACK, AIM, RELOAD, HURT, AIR, DOWN, GETUP, DEAD }
+enum S { IDLE, CHASE, ATTACK, AIM, RELOAD, HURT, AIR, DOWN, GETUP, DEAD, GRABBED }
 
 const GRAVITY := 2800.0
 
@@ -62,6 +63,8 @@ var _shots := 0
 var _hit_player := false
 var _bar_t := 0.0
 var _has_token := false
+var _thrown := false ## Sert fırlatıldı: havadayken çarptığı düşmanları devirir.
+var _bowled: Dictionary = {}
 var _flash_m: ShaderMaterial
 var sprite: AnimatedSprite2D
 var _warn: Label
@@ -141,7 +144,10 @@ func _physics_process(dt: float) -> void:
 			if _t > 0.3:
 				_go_state(S.CHASE)
 		S.AIR:
+			if _thrown and absf(velocity.x) > 250.0:
+				_bowl()
 			if on_floor and _t > 0.1:
+				_thrown = false
 				velocity.x *= 0.2
 				level.shake(5.0)
 				Fx.dust(level.fx_layer, position, 1.3)
@@ -160,6 +166,10 @@ func _physics_process(dt: float) -> void:
 			velocity.x = 0
 		S.DEAD:
 			velocity.x = move_toward(velocity.x, 0.0, 2400.0 * dt)
+		S.GRABBED:
+			velocity = Vector2.ZERO
+			if _t > 2.0:
+				escape()
 	velocity.y = minf(velocity.y + GRAVITY * dt, 1600.0)
 	move_and_slide()
 	sprite.flip_h = facing < 0
@@ -279,15 +289,13 @@ func take_hit(dmg: int, dir: int, kb: float, knock: bool) -> void:
 		return
 	_release_token()
 	hp -= dmg
-	_bar_t = 2.5
 	aggro = true
 	facing = -dir
-	_flash_m.set_shader_parameter("flash", 1.0)
-	create_tween().tween_method(func(v): _flash_m.set_shader_parameter("flash", v), 1.0, 0.0, 0.16)
-	Sfx.play("enemy_hurt")
-	Fx.text(level.fx_layer, position + Vector2(randf_range(-20, 20), -def["body"].y - 30), str(dmg), Color(1, 0.9, 0.5), 0.8)
+	_hurt_fx(dmg)
 	if hp <= 0 or knock or state == S.AIR:
 		var juggle := state == S.AIR
+		_thrown = knock and kb >= 500.0
+		_bowled.clear()
 		_go_state(S.AIR)
 		sprite.play("air")
 		velocity = Vector2(dir * maxf(kb, 380.0), -460.0 if juggle else -620.0)
@@ -297,6 +305,88 @@ func take_hit(dmg: int, dir: int, kb: float, knock: bool) -> void:
 		_go_state(S.HURT)
 		sprite.play("hurt")
 		velocity.x = dir * kb
+
+
+func _hurt_fx(dmg: int) -> void:
+	_bar_t = 2.5
+	_flash_m.set_shader_parameter("flash", 1.0)
+	create_tween().tween_method(func(v): _flash_m.set_shader_parameter("flash", v), 1.0, 0.0, 0.16)
+	Sfx.play("enemy_hurt")
+	Fx.text(level.fx_layer, position + Vector2(randf_range(-20, 20), -def["body"].y - 30), str(dmg), Color(1, 0.9, 0.5), 0.8)
+
+
+# --- Tutulma / fırlatılma ---------------------------------------------------
+
+func can_grab() -> bool:
+	return hp > 0 and state in [S.IDLE, S.CHASE, S.HURT, S.AIM, S.RELOAD]
+
+
+func grab() -> void:
+	_release_token()
+	aggro = true
+	_go_state(S.GRABBED)
+	velocity = Vector2.ZERO
+	sprite.play("hurt")
+
+
+## Oyuncu her kare çağırır: düşmanı önünde tutar.
+func hold_at(pos: Vector2, face: int) -> void:
+	position = pos
+	facing = face
+	velocity = Vector2.ZERO
+
+
+## Tutulurken diz darbesi: yerinde sarsılır, can biterse savrulur.
+func grab_hit(dmg: int, dir: int) -> void:
+	hp -= dmg
+	_hurt_fx(dmg)
+	sprite.play("hurt")
+	if hp <= 0:
+		launch(0, Vector2(dir * 560.0, -620.0), true)
+
+
+## Fırlatma / aparkat: hasar + verilen hız; thrown ise yoldakileri devirir.
+func launch(dmg: int, vel: Vector2, thrown: bool) -> void:
+	if state == S.DEAD:
+		return
+	_release_token()
+	aggro = true
+	if dmg > 0:
+		hp -= dmg
+		_hurt_fx(dmg)
+	if vel.x != 0.0:
+		facing = -int(signf(vel.x))
+	_thrown = thrown
+	_bowled.clear()
+	_go_state(S.AIR)
+	sprite.play("air")
+	velocity = vel
+
+
+## Tutuştan kurtulur ve geri adım atar.
+func escape() -> void:
+	if state != S.GRABBED:
+		return
+	_go_state(S.CHASE)
+	_cool = 0.3
+	velocity.x = -facing * 260.0
+
+
+## Fırlatılmış gövde başka bir düşmana çarparsa onu da yere serer (zincirleme değil).
+func _bowl() -> void:
+	var r := hurt_rect()
+	var d := 1 if velocity.x > 0.0 else -1
+	for e in get_tree().get_nodes_in_group("enemies"):
+		if e == self or _bowled.has(e) or not e.can_be_hit() or e.state == S.GRABBED:
+			continue
+		if r.intersects(e.hurt_rect()):
+			_bowled[e] = true
+			e.take_hit(10, d, 420.0, true)
+			level.add_combo()
+			Fx.spark(level.fx_layer, e.hurt_rect().get_center(), true)
+			Sfx.play("heavy_hit", 0.8)
+			Game.hitstop(50)
+			level.shake(7.0)
 
 
 func _die() -> void:

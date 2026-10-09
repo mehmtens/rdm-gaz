@@ -1,9 +1,11 @@
 ## Player — Redmount. Dan the Man tarzı: hızlı koşu, değişken zıplama, duvar zıplaması,
-## 4 vuruşluk kombo, uçan tekme, ÖZEL (uçan diz), sopa ve tabanca.
+## 4 vuruşluk kombo, uçan tekme (isabette sekip tekrar), ÖZEL (uçan diz), sopa ve tabanca.
+## Düşmana doğru yürü = TUT (VUR diz · ZIPLA aparkat · geri+VUR fırlat);
+## VUR basılı tut = GÜÇLÜ YUMRUK (dolum süresiyle güçlenir).
 class_name Player
 extends CharacterBody2D
 
-enum S { MOVE, ATTACK, AIR_ATTACK, SPECIAL, HURT, DEAD }
+enum S { MOVE, ATTACK, AIR_ATTACK, SPECIAL, HURT, DEAD, GRAB, CHARGE, UPPER }
 
 const RUN := 560.0
 const ACCEL := 5200.0
@@ -19,6 +21,12 @@ const BUFFER := 0.13
 const WALL_SLIDE := 240.0
 const WALL_JUMP := Vector2(380, -1100)
 const BODY := Vector2(56, 176)
+const GRAB_RANGE := 105.0 ## Bu mesafede düşmana doğru yürümek onu tutar.
+const GRAB_PUSH := 0.08 ## Yanlışlıkla tutmamak için kısa dayanma süresi.
+const GRAB_TIME := 1.3 ## Bu süre sonunda tutulan düşman kurtulur.
+const CHARGE_START := 0.4 ## VUR bu kadar basılı kalınca dolum başlar.
+const CHARGE_FULL := 0.6 ## Dolumun tamamlanma süresi.
+const AIR_CHAIN := 2 ## İsabetli uçan tekmeden sonra en fazla bu kadar ek tekme.
 
 const ANIMS := {
 	"idle": ["idle", 7, true], "run": ["run", 17, true],
@@ -33,6 +41,10 @@ const ANIMS := {
 	"bat1": ["bat_attack", 24, false], "bat2": ["bat_attack2", 22, false],
 	"pistol_idle": ["pistol_idle", 7, true], "pistol_run": ["pistol_walk", 20, true],
 	"pistol_shoot": ["pistol_shoot", 18, false],
+	# Tutma / güçlü yumruk: özel şeritler çizilene kadar mevcut karelerden kurulur.
+	"grab": ["fight", 8, true, [1]], "grab_knee": ["knee", 20, false, [1, 2, 3, 3, 1]],
+	"throw": ["combo_a", 18, false, [2, 3, 3, 4]], "uppercut": ["punch", 16, false, [2, 3, 3, 3]],
+	"charge": ["fight", 5, true, [0, 1]], "power": ["punch", 20, false, [1, 1, 2, 3, 3, 4, 5]],
 }
 
 ## Saldırı tanımları: aktif kareler, hasar, menzil, geri itme, zincire geçiş karesi.
@@ -43,6 +55,7 @@ const ATTACKS := {
 	"hit4": {"active": [2, 3], "dmg": 18, "reach": 150, "kb": 520, "chain": 99, "lunge": 260, "down": true},
 	"bat1": {"active": [3, 4], "dmg": 22, "reach": 200, "kb": 300, "chain": 5, "lunge": 120},
 	"bat2": {"active": [4], "dmg": 30, "reach": 210, "kb": 560, "chain": 99, "lunge": 140, "down": true},
+	"power": {"active": [2], "dmg": 24, "reach": 190, "kb": 640, "chain": 99, "lunge": 380, "down": true},
 }
 const COMBO := ["hit1", "hit2", "hit3", "hit4"]
 
@@ -75,6 +88,12 @@ var _safe_pos := Vector2.ZERO
 var _safe_t := 0.0
 var _step_t := 0.0
 var _rising := false
+var _air_chain := 0
+var _grab: Enemy = null
+var _grab_hits := 0
+var _push_t := 0.0
+var _hold_t := 0.0
+var _charge := 0.0
 
 @onready var sprite: AnimatedSprite2D = SpriteLib.make_sprite("redmount", ANIMS)
 
@@ -116,6 +135,7 @@ func _physics_process(dt: float) -> void:
 	if on_floor:
 		_coyote = COYOTE
 		_air_kick_used = false
+		_air_chain = 0
 	if Input.is_action_just_pressed("jump"):
 		_buffer = BUFFER
 	if Input.is_action_just_pressed("attack"):
@@ -124,6 +144,12 @@ func _physics_process(dt: float) -> void:
 		dir = 0.0
 		_buffer = 0.0
 		_attack_buffer = 0.0
+	if Input.is_action_pressed("attack") and controls_enabled:
+		_hold_t += dt
+	else:
+		if state == S.CHARGE:
+			_release_charge(controls_enabled)
+		_hold_t = 0.0
 
 	match state:
 		S.MOVE:
@@ -146,6 +172,13 @@ func _physics_process(dt: float) -> void:
 				_set_state(S.MOVE)
 		S.DEAD:
 			velocity.x = move_toward(velocity.x, 0.0, FRICTION * 0.3 * dt)
+		S.GRAB:
+			_grab_tick(dir)
+		S.CHARGE:
+			_charge_tick(dir, dt)
+		S.UPPER:
+			if _state_t > 0.3:
+				_set_state(S.MOVE)
 
 	# Yerçekimi (tepe noktasında hafif süzülme, düşerken daha ağır).
 	if state != S.SPECIAL:
@@ -232,6 +265,16 @@ func _move(dir: float, on_floor: bool, dt: float) -> void:
 			_air_kick()
 	elif Input.is_action_just_pressed("special") and controls_enabled:
 		_try_special()
+
+	if state == S.MOVE and on_floor and weapon == "" and _hold_t >= CHARGE_START:
+		_start_charge()
+	elif state == S.MOVE and on_floor and dir != 0.0 and weapon != "pistol":
+		var e := _grab_candidate()
+		_push_t = _push_t + dt if e != null else 0.0
+		if e != null and _push_t >= GRAB_PUSH:
+			_start_grab(e)
+	else:
+		_push_t = 0.0
 
 	if state == S.MOVE:
 		_anim_move(on_floor, dir)
@@ -413,7 +456,14 @@ func _on_frame() -> void:
 		if sprite.frame in def.get("active", []):
 			var reach := float(def["reach"])
 			var r := Rect2(position.x + (0.0 if facing > 0 else -reach), position.y - 175, reach, 150)
-			_resolve_hits(r, int(def["dmg"]), float(def["kb"]), bool(def.get("down", false)), _cur_attack)
+			var dmg := int(def["dmg"])
+			var kb := float(def["kb"])
+			if _cur_attack == "power":
+				dmg = int(dmg * (1.0 + _charge))
+				kb *= 1.0 + 0.4 * _charge
+			_resolve_hits(r, dmg, kb, bool(def.get("down", false)), _cur_attack)
+	elif state == S.GRAB and sprite.animation == "grab_knee" and sprite.frame == 2:
+		_knee_hit()
 
 
 func _process(_dt: float) -> void:
@@ -448,6 +498,13 @@ func _resolve_hits(r: Rect2, dmg: int, kb: float, knock: bool, tag: String) -> v
 		if tag == "air":
 			velocity = Vector2(-facing * 260.0, -520.0) # sekme
 			_set_state(S.MOVE)
+			if _air_chain < AIR_CHAIN:
+				_air_chain += 1
+				_air_kick_used = false # isabet ettiyse bir tekme daha
+		elif tag == "power":
+			Game.hitstop(110)
+			level.shake(14.0)
+			Fx.ring(level.fx_layer, position + Vector2(facing * 120, -110), Color(1, 0.6, 0.25), 1.1)
 		if weapon == "bat" and weapon_uses <= 0:
 			_break_weapon()
 
@@ -482,7 +539,13 @@ func equip(w: String, uses: int) -> void:
 
 
 func _on_anim_done() -> void:
-	if state == S.ATTACK:
+	if state == S.GRAB:
+		if sprite.animation == "grab_knee":
+			if _grab_hits >= 3:
+				_grab_release_forward()
+			else:
+				sprite.play("grab")
+	elif state == S.ATTACK:
 		_combo_gap = 0.35
 		if _combo_i == 0:
 			_combo_gap = 0.0
@@ -496,6 +559,161 @@ func _set_state(s: S) -> void:
 	_state_t = 0.0
 
 
+# --- Tutma (Dan the Man "grab") ---------------------------------------------
+
+func _grab_candidate() -> Enemy:
+	for n in get_tree().get_nodes_in_group("enemies"):
+		var e := n as Enemy
+		if e == null or not e.can_grab():
+			continue
+		var dx := e.position.x - position.x
+		if signf(dx) == float(facing) and absf(dx) < GRAB_RANGE and absf(e.position.y - position.y) < 40.0:
+			return e
+	return null
+
+
+func _start_grab(e: Enemy) -> void:
+	_push_t = 0.0
+	_grab = e
+	_grab_hits = 0
+	e.grab()
+	velocity.x = 0.0
+	_set_state(S.GRAB)
+	sprite.flip_h = facing < 0
+	sprite.play("grab")
+	Sfx.play("swing", 0.7)
+	Fx.text(level.fx_layer, position + Vector2(0, -230), "TUT!", Color(1, 0.85, 0.4), 0.7)
+
+
+func _grab_tick(dir: float) -> void:
+	velocity.x = 0.0
+	if not is_instance_valid(_grab) or _grab.state != Enemy.S.GRABBED:
+		_end_grab()
+		return
+	_grab.hold_at(position + Vector2(facing * 82.0, 0.0), -facing)
+	if sprite.animation == "grab_knee" and sprite.is_playing():
+		return
+	if _buffer > 0.0:
+		_buffer = 0.0
+		_uppercut()
+	elif _attack_buffer > 0.0:
+		_attack_buffer = 0.0
+		if dir != 0.0 and signf(dir) != float(facing):
+			_throw()
+		else:
+			_grab_hits += 1
+			sprite.play("grab_knee")
+			Sfx.play("swing", 1.1)
+	elif _state_t > GRAB_TIME:
+		_grab.escape()
+		_end_grab()
+
+
+func _knee_hit() -> void:
+	if not is_instance_valid(_grab) or _grab.state != Enemy.S.GRABBED:
+		return
+	var p := _grab.hurt_rect().get_center()
+	_grab.grab_hit(9, facing)
+	meter = minf(100.0, meter + 7.0)
+	level.add_combo()
+	Fx.spark(level.fx_layer, Vector2(lerpf(p.x, position.x, 0.35), p.y), false)
+	Sfx.play("hit", 0.9 + randf() * 0.2)
+	Game.hitstop(45)
+	level.shake(4.0)
+
+
+## Üçüncü dizden sonra düşman öne savrulur.
+func _grab_release_forward() -> void:
+	var e := _grab
+	_end_grab()
+	if is_instance_valid(e) and e.state == Enemy.S.GRABBED:
+		e.launch(6, Vector2(facing * 560.0, -600.0), true)
+		Sfx.play("heavy_hit")
+		Game.hitstop(60)
+		level.shake(8.0)
+
+
+## Geri + VUR: düşmanı omuzdan arkaya fırlat; uçan gövde yoldakileri devirir.
+func _throw() -> void:
+	var e := _grab
+	_grab = null
+	facing = -facing
+	sprite.flip_h = facing < 0
+	e.position.x = position.x + facing * 40.0
+	e.launch(14, Vector2(facing * 900.0, -640.0), true)
+	_cur_attack = "throw"
+	_hit_done.clear()
+	_set_state(S.ATTACK)
+	sprite.play("throw")
+	meter = minf(100.0, meter + 10.0)
+	level.add_combo()
+	Sfx.play("heavy_hit", 0.85)
+	Game.hitstop(70)
+	level.shake(9.0)
+
+
+## ZIPLA: aparkat — düşmanı havaya diker, Redmount da yükselir; havada tekmeyle devam edilir.
+func _uppercut() -> void:
+	var e := _grab
+	_grab = null
+	var p := e.hurt_rect().get_center()
+	e.launch(20, Vector2(facing * 140.0, -1250.0), false)
+	velocity = Vector2(facing * 120.0, -1000.0)
+	_air_kick_used = false
+	_air_chain = 0
+	_set_state(S.UPPER)
+	sprite.play("uppercut")
+	meter = minf(100.0, meter + 10.0)
+	level.add_combo()
+	Fx.spark(level.fx_layer, Vector2(lerpf(p.x, position.x, 0.35), p.y - 40), true)
+	Sfx.play("heavy_hit", 1.1)
+	Sfx.play("jump", 0.9)
+	Game.hitstop(80)
+	level.shake(10.0)
+
+
+func _end_grab() -> void:
+	_grab = null
+	if state == S.GRAB:
+		_set_state(S.MOVE)
+
+
+# --- Güçlü yumruk (VUR basılı tut) -------------------------------------------
+
+func _start_charge() -> void:
+	_charge = 0.0
+	_set_state(S.CHARGE)
+	sprite.play("charge")
+	Sfx.play("powerup", 0.6)
+
+
+func _charge_tick(dir: float, dt: float) -> void:
+	velocity.x = move_toward(velocity.x, 0.0, FRICTION * dt)
+	if dir != 0.0:
+		facing = 1 if dir > 0.0 else -1
+		sprite.flip_h = facing < 0
+	var was_full := _charge >= 1.0
+	_charge = minf(1.0, _charge + dt / CHARGE_FULL)
+	var m := sprite.material as ShaderMaterial
+	m.set_shader_parameter("flash", (0.12 + 0.4 * _charge) * (0.5 + 0.5 * sin(_state_t * 30.0)))
+	if fmod(_state_t, 0.16) < dt:
+		Fx.ring(level.fx_layer, position + Vector2(0, -100), Color(1, 0.55, 0.2), 0.3 + 0.5 * _charge)
+	if _charge >= 1.0 and not was_full:
+		Sfx.play("shield", 1.3)
+		Fx.spark(level.fx_layer, position + Vector2(facing * 40, -130), true)
+
+
+func _release_charge(fire: bool) -> void:
+	(sprite.material as ShaderMaterial).set_shader_parameter("flash", 0.0)
+	if not fire or _charge < 0.25:
+		_set_state(S.MOVE)
+		return
+	_start_attack("power")
+	velocity.x = facing * (300.0 + 260.0 * _charge)
+	Sfx.play("dash", 0.8)
+	level.shake(5.0)
+
+
 # --- Hasar ------------------------------------------------------------------
 
 func take_hit(dmg: int, from_x: float, knock := false, ignore_invuln := false) -> void:
@@ -503,6 +721,9 @@ func take_hit(dmg: int, from_x: float, knock := false, ignore_invuln := false) -
 		return
 	hp = maxi(0, hp - dmg)
 	_invuln = 1.0
+	if is_instance_valid(_grab):
+		_grab.escape()
+	_grab = null
 	var dir := 1.0 if position.x >= from_x else -1.0
 	velocity = Vector2(dir * (420.0 if knock else 300.0), -380.0 if knock else -160.0)
 	_combo_i = 0

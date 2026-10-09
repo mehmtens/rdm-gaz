@@ -46,18 +46,28 @@ func _press(a: String, on: bool) -> void:
 
 
 var _pending: Array = []
+var _auto_release: Dictionary = {} ## action -> kalan kare; VUR basılı kalırsa güçlü yumruğa dolar.
 
-func _tap(a: String) -> void:
-	# Gerçek parmak gibi: bu kare bırak, sonraki kare bas.
+func _tap(a: String, hold_frames := 0) -> void:
+	# Gerçek parmak gibi: bu kare bırak, sonraki kare bas (hold_frames > 0 ise sonra bırak).
 	Input.action_release(a)
 	_held[a] = false
 	if not a in _pending:
 		_pending.append(a)
+	if hold_frames > 0:
+		_auto_release[a] = hold_frames
 
 
 func _physics_process(dt: float) -> void:
 	_t += dt
 	_frames += 1
+	for a in _auto_release.keys():
+		if a in _pending:
+			continue
+		_auto_release[a] -= 1
+		if _auto_release[a] <= 0:
+			_auto_release.erase(a)
+			_press(a, false)
 	for a in _pending:
 		Input.action_press(a)
 		_held[a] = true
@@ -110,9 +120,9 @@ func _physics_process(dt: float) -> void:
 		_press("right", go_right and dist > 110)
 		_press("left", not go_right and dist > 110)
 		if dist < 190 and _frames % 7 == 0:
-			_tap("attack")
+			_tap("attack", 4)
 		if p.meter >= 50.0 and dist < 400 and _frames % 30 == 0:
-			_tap("special")
+			_tap("special", 4)
 	elif arena_active:
 		_press("right", false)
 		_press("left", false)
@@ -120,7 +130,7 @@ func _physics_process(dt: float) -> void:
 		_press("right", true)
 		_press("left", false)
 		if p.weapon == "pistol" and _frames % 20 == 0 and _enemy_in_line(p):
-			_tap("attack")
+			_tap("attack", 4)
 
 	# Zıplama kararları (gerçek fizik sorgularıyla).
 	if p.is_on_floor():
