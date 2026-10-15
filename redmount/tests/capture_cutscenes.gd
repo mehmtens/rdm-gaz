@@ -9,7 +9,7 @@ const SPOTS := [["catı", Vector2(1380, -260)], ["pazar", Vector2(3815, -40)], [
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	var folder := OS.get_environment("REDMOUNT_CAPTURE_DIR")
-	GameState.level_path_override = "res://scenes/levels/OrnekBolum.tscn"
+	GameState.level_path_override = "res://scenes/levels/Bolum01.tscn"
 	var main: Node = load("res://scenes/Main.tscn").instantiate()
 	add_child(main)
 	await get_tree().process_frame

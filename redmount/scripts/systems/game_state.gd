@@ -12,7 +12,7 @@ signal level_changed(index: int, total: int)
 ## Mevcut büyük prototip bölümleri, yeni hikâye blockout'larıyla dönüşümlü kullanılır;
 ## böylece her perde iki yükseliş bölümü ve bir kırılma/final bölümü taşır.
 const LEVELS: PackedStringArray = [
-	"res://scenes/levels/Level01.tscn",
+	"res://scenes/levels/Bolum01.tscn",
 	"res://scenes/levels/Level06.tscn",
 	"res://scenes/levels/Level07.tscn",
 	"res://scenes/levels/Level02.tscn",

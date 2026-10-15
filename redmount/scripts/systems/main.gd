@@ -84,7 +84,7 @@ func _ready() -> void:
 	var test := Save.test_args()
 	if test.has("ornek"):
 		# Dan the Man tarzı örnek bölüm (kampanya sırasına girmez).
-		GameState.level_path_override = "res://scenes/levels/OrnekBolum.tscn"
+		GameState.level_path_override = "res://scenes/levels/Bolum01.tscn"
 	if test.has("bolum"):
 		GameState.level_index = clampi(int(test["bolum"]) - 1, 0, GameState.level_count() - 1)
 	_load_current_level()

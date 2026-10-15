@@ -1,13 +1,13 @@
 [gd_scene load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://scripts/systems/ornek_bolum.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/systems/bolum01.gd" id="1"]
 
-[node name="OrnekBolum" type="Node2D"]
+[node name="Bolum01" type="Node2D"]
 script = ExtResource("1")
 display_name = "Balat Sokakları"
 biome = 0
 chapter = 7
-par_time = 180.0
+par_time = 240.0
 camera_limit_left = -200
 camera_limit_right = 8900
 camera_limit_top = -900
