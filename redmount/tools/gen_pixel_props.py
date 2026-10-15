@@ -225,17 +225,31 @@ def ray():
 # --- Kaya tavan (48x30, alt kenarda sarkıtlar) -----------------------------------
 
 def tavan():
+    """Kaya tavan: düzensiz, gölgeli taş blokları + alt kenarda sarkıtlar (48x30)."""
+    import random
+    rnd = random.Random(7)
     c = Canvas(48, 30)
-    c.dither(0, 0, 47, 21, "stone1", "stone0")
-    for k in range(9):
-        x = (k * 17) % 48
-        y = (k * 7) % 18
-        c.rect(x, y, min(47, x + 4), y + 2, "stone2")
-        c.hline(x, min(47, x + 4), y, "stone3")
+    c.rect(0, 0, 47, 21, "stone0")
+    # Düzensiz taşlar: her biri üst kenarı parlak, alt kenarı koyu.
+    for _ in range(26):
+        w = rnd.randint(5, 11)
+        h = rnd.randint(3, 6)
+        x = rnd.randint(-3, 47)
+        y = rnd.randint(-2, 18)
+        tone = rnd.choice(["stone1", "stone1", "stone2"])
+        for yy in range(y, y + h):
+            for xx in range(x, x + w):
+                if (xx - x in (0, w - 1)) and (yy - y in (0, h - 1)):
+                    continue  # köşeleri yuvarla
+                c.put(xx % 48, yy, tone)
+        for xx in range(x + 1, x + w - 1):
+            c.put(xx % 48, y, "stone3" if tone == "stone2" else "stone2")
+            c.put(xx % 48, y + h - 1, "stone0")
     for x0, ln in [(2, 7), (11, 4), (18, 8), (27, 5), (34, 9), (42, 4)]:
         for t in range(ln):
             w = max(0, 2 - t // 3)
             c.rect(x0 - w, 22 + t, x0 + w, 22 + t, "stone1" if t < ln - 1 else "stone2")
+        c.put(x0 - 1, 22, "stone2")
     c.hline(0, 47, 21, "stone0")
     c.im.save(OUT / "tavan.png")
 
