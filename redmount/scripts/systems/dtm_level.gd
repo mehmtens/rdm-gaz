@@ -166,6 +166,24 @@ func _deco(tex: Texture2D, cx: float, ground: float, scale_f: float, behind := t
 	add_child(s)
 
 
+## Sığ kanal: zemin `depth` px aşağıda, su yüzeyi oyuncunun bacaklarının önünde
+## (içinden yürünür, ölümcül değil). Çıkış için uçlara alçak taş basamak konur.
+func _canal(x0: float, x1: float, depth: float) -> void:
+	_terrain(x0, x1, depth)
+	var water := _Art.new(_Art.A_WATER, Vector2(x1 - x0, depth + 30.0))
+	water.position = Vector2((x0 + x1) * 0.5, (depth - 30.0) * 0.5 + 30.0)
+	water.z_index = 4
+	add_child(water)
+
+
+## Tebeşir işareti (süs): Gazelle'in bıraktığı iz ya da sokak yazısı.
+func _chalk(x: float, y: float, text: String) -> void:
+	var c := _Chalk.new()
+	c.text = text
+	c.position = Vector2(x, y)
+	add_child(c)
+
+
 ## Pazar tezgâhı (süs, çarpışmasız): iki direk, çizgili tente, altında sandıklar.
 func _stall(cx: float) -> void:
 	var art := _Art.new(_Art.A_STALL, Vector2(220, 170))
@@ -249,7 +267,7 @@ func _spawn_backdrop() -> void:
 # --- Çizim sınıfları ------------------------------------------------------------
 
 class _Art extends Node2D:
-	enum { A_TERRAIN, A_HOUSE, A_BUILDING, A_CRATES, A_SCAFFOLD, A_BALCONY, A_ROOF, A_WALL_STRIP, A_ROOM, A_GATE, A_STALL }
+	enum { A_TERRAIN, A_HOUSE, A_BUILDING, A_CRATES, A_SCAFFOLD, A_BALCONY, A_ROOF, A_WALL_STRIP, A_ROOM, A_GATE, A_STALL, A_WATER }
 	var kind: int
 	var size: Vector2
 	var tex: Texture2D
@@ -334,6 +352,12 @@ class _Art extends Node2D:
 				# Mum ışığı
 				draw_circle(Vector2(0, -hh + 50.0), 46.0, Color(1.0, 0.75, 0.35, 0.10))
 				draw_circle(Vector2(0, -hh + 50.0), 22.0, Color(1.0, 0.8, 0.4, 0.16))
+			A_WATER:
+				# Bulanık kanal suyu: yarı saydam gövde + parlak yüzey çizgisi.
+				draw_rect(Rect2(-hw, -hh + 30.0, size.x, size.y - 30.0), Color(0.16, 0.3, 0.38, 0.62))
+				draw_rect(Rect2(-hw, -hh + 30.0, size.x, 4.0), Color(0.6, 0.82, 0.9, 0.8))
+				for k in int(size.x / 70.0):
+					draw_rect(Rect2(-hw + 20.0 + k * 70.0, -hh + 40.0 + (k % 3) * 9.0, 26.0, 2.0), Color(0.7, 0.9, 1.0, 0.35))
 			A_STALL:
 				for lx in [-hw + 10.0, hw - 18.0]:
 					draw_texture_rect(SCAFFOLD_POST, Rect2(lx - 6.0, -hh + 20.0, 14.0, size.y - 20.0), true)
@@ -480,3 +504,15 @@ class _Sign extends Node2D:
 
 	func _draw() -> void:
 		PixelText.sign_board(self, Vector2.ZERO, text, Color("e7a449"), 3.0, false)
+
+
+## Tebeşir yazısı: duvara çizilmiş beyazımsı piksel harfler.
+class _Chalk extends Node2D:
+	var text := ""
+
+	func _ready() -> void:
+		z_index = -5
+		texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+
+	func _draw() -> void:
+		PixelText.draw_centered(self, 0.0, 0.0, text, 3.0, Color(0.95, 0.95, 0.9, 0.9), Color(0.2, 0.2, 0.25, 0.6))

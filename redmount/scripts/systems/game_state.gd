@@ -13,7 +13,7 @@ signal level_changed(index: int, total: int)
 ## böylece her perde iki yükseliş bölümü ve bir kırılma/final bölümü taşır.
 const LEVELS: PackedStringArray = [
 	"res://scenes/levels/Bolum01.tscn",
-	"res://scenes/levels/Level06.tscn",
+	"res://scenes/levels/Bolum02.tscn",
 	"res://scenes/levels/Level07.tscn",
 	"res://scenes/levels/Level02.tscn",
 	"res://scenes/levels/Level08.tscn",

@@ -20,6 +20,8 @@ const REDMOUNT_FRAMES := preload("res://resources/anim/redmount_frames.tres")
 const THUG_FRAMES := preload("res://resources/anim/street_thug_frames.tres")
 const KNIFE_FRAMES := preload("res://resources/anim/knife_agent_frames.tres")
 const KARAHANLI_FRAMES := preload("res://resources/anim/karahanli_frames.tres")
+const BRUISER_FRAMES := preload("res://resources/anim/armored_bruiser_frames.tres")
+const RIFLE_FRAMES := preload("res://resources/anim/rifle_guard_frames.tres")
 const BUS := preload("res://assets/environment/mahalle/bus.png")
 
 const SPEAKER_COLORS := {
@@ -134,7 +136,7 @@ func _finish() -> void:
 
 # --- Aktörler -------------------------------------------------------------
 
-## kind: gazelle / redmount / thug / knife / karahanli / bus
+## kind: gazelle / redmount / thug / knife / bruiser / rifle / karahanli / bus
 func actor(id: String, kind: String, pos: Vector2, facing := 1) -> Node2D:
 	var root := Node2D.new()
 	root.process_mode = Node.PROCESS_MODE_ALWAYS
@@ -170,6 +172,14 @@ func actor(id: String, kind: String, pos: Vector2, facing := 1) -> Node2D:
 				a.offset = Vector2(0, -114)
 			"knife":
 				a.sprite_frames = KNIFE_FRAMES
+				a.scale = Vector2(0.6, 0.6)
+				a.offset = Vector2(0, -114)
+			"bruiser":
+				a.sprite_frames = BRUISER_FRAMES
+				a.scale = Vector2(0.66, 0.66)
+				a.offset = Vector2(0, -114)
+			"rifle":
+				a.sprite_frames = RIFLE_FRAMES
 				a.scale = Vector2(0.6, 0.6)
 				a.offset = Vector2(0, -114)
 			"karahanli":
