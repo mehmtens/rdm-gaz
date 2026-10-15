@@ -249,6 +249,27 @@ func _flame(cx: float, phase := 0.0, ground := 0.0) -> void:
 	add_child(f)
 
 
+## Kaya tavan (süs): yeraltı bölümlerinde ekranın üstünü kapatan sarkıtlı şerit.
+func _ceiling(x0: float, x1: float, bottom: float) -> void:
+	var c := _Art.new(_Art.A_CEILING, Vector2(x1 - x0, 500.0))
+	c.position = Vector2((x0 + x1) * 0.5, bottom - 250.0)
+	c.z_index = 5
+	add_child(c)
+
+
+## Çürük tahta: basınca yarım saniyede çöker, sonra yerine döner. `top` yürüme yüzeyi.
+func _collapse(cx: float, top: float, w := 140.0) -> void:
+	var plank := CollapsingPlatform.new()
+	plank.width = w
+	plank.position = Vector2(cx, top + 10.0)
+	add_child(plank)
+	var vis: Polygon2D = plank.get("_vis")
+	vis.color = Color(0, 0, 0, 0)
+	var art := _Art.new(_Art.A_PLANK, Vector2(w, 0))
+	art.position = Vector2(0, -10.0)
+	vis.add_child(art)
+
+
 ## Sığ kanal: zemin `depth` px aşağıda, su yüzeyi oyuncunun bacaklarının önünde
 ## (içinden yürünür, ölümcül değil). Çıkış için uçlara alçak taş basamak konur.
 func _canal(x0: float, x1: float, depth: float) -> void:
@@ -350,7 +371,7 @@ func _spawn_backdrop() -> void:
 # --- Çizim sınıfları ------------------------------------------------------------
 
 class _Art extends Node2D:
-	enum { A_TERRAIN, A_HOUSE, A_BUILDING, A_CRATES, A_SCAFFOLD, A_BALCONY, A_ROOF, A_WALL_STRIP, A_ROOM, A_GATE, A_STALL, A_WATER, A_SANDBAG, A_TOWER, A_WAGON, A_RAILS, A_FACTORY, A_PRESS_FRAME }
+	enum { A_TERRAIN, A_HOUSE, A_BUILDING, A_CRATES, A_SCAFFOLD, A_BALCONY, A_ROOF, A_WALL_STRIP, A_ROOM, A_GATE, A_STALL, A_WATER, A_SANDBAG, A_TOWER, A_WAGON, A_RAILS, A_FACTORY, A_PRESS_FRAME, A_CEILING, A_PLANK }
 	var kind: int
 	var size: Vector2
 	var tex: Texture2D
@@ -515,6 +536,30 @@ class _Art extends Node2D:
 				draw_rect(Rect2(-14.0, -hh + 26.0, 28.0, size.y * 0.42), Color("6d7079"))
 				for k2 in 3:
 					draw_rect(Rect2(-hw + 4.0, -hh + 60.0 + k2 * 90.0, 8.0, 8.0), Color(1.0, 0.75, 0.2, 0.9))
+			A_CEILING:
+				# Koyu taş dolgu + alt kenarda düzensiz sarkıtlar.
+				var cy := -hh
+				while cy < hh - 0.5:
+					var cx := -hw
+					while cx < hw - 0.5:
+						var cw := minf(420.0, hw - cx)
+						draw_texture_rect_region(STONE, Rect2(cx, cy, cw, 56.0), Rect2(0, 0, cw, 56.0), Color(0.34, 0.32, 0.36))
+						cx += 420.0
+					cy += 56.0
+				var sx2 := -hw
+				var n2 := 0
+				while sx2 < hw:
+					var len2 := 18.0 + float((n2 * 37) % 5) * 9.0
+					draw_colored_polygon(PackedVector2Array([Vector2(sx2, hh - 2.0), Vector2(sx2 + 26.0, hh - 2.0),
+						Vector2(sx2 + 13.0, hh + len2)]), Color(0.22, 0.2, 0.24))
+					sx2 += 30.0 + float((n2 * 53) % 3) * 14.0
+					n2 += 1
+				draw_rect(Rect2(-hw, hh - 6.0, size.x, 6.0), Color(0.16, 0.15, 0.18))
+			A_PLANK:
+				# Çatlak ahşap tahta (dikmesiz).
+				draw_texture_rect_region(SCAFFOLD_DECK, Rect2(-hw - 4.0, -8.0, size.x + 8.0, 34.0),
+					Rect2(27, 149, 1929, 260), Color(0.85, 0.75, 0.65))
+				draw_line(Vector2(-hw * 0.3, -6.0), Vector2(hw * 0.1, 20.0), Color(0.12, 0.08, 0.05), 2.0)
 			A_WATER:
 				# Bulanık kanal suyu: yarı saydam gövde + parlak yüzey çizgisi.
 				draw_rect(Rect2(-hw, -hh + 30.0, size.x, size.y - 30.0), Color(0.16, 0.3, 0.38, 0.62))
