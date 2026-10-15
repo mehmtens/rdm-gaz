@@ -450,7 +450,7 @@ func _letterbox(show: bool) -> void:
 		_hint.anchor_right = 1.0
 		_hint.anchor_top = 1.0
 		_hint.anchor_bottom = 1.0
-		_hint.offset_left = -380.0
+		_hint.offset_left = -640.0
 		_hint.offset_top = -34.0
 		_bars.add_child(_hint)
 		var t := create_tween().set_parallel(true)
@@ -463,18 +463,23 @@ func _letterbox(show: bool) -> void:
 		t.chain().tween_callback(_bars.queue_free)
 
 
-## Konuşma balonu: beyaz gövde, koyu kenar, kuyruk; üstte renkli konuşan adı.
+## Konuşma balonu: piksel parşömen çerçeve (PixelUI "balon"), renkli isim şeridi,
+## piksel kuyruk ve piksel yazı (24 px = 2x ızgara).
 class _Bubble extends Node2D:
 	var speaker := ""
 	var text := ""
 	var color := Color.WHITE
 	var _shown := 0.0
 	const CPS := 40.0
-	const W := 330.0
+	const W := 456.0
+	const FS := 24
+	const TAIL := preload("res://assets/ui/pixel/balon_kuyruk.png")
+	const NAME_STRIP := preload("res://assets/ui/pixel/balon_ad.png")
 
 	func _ready() -> void:
 		process_mode = Node.PROCESS_MODE_ALWAYS
 		z_index = 20
+		texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 
 	func reveal(d: float) -> void:
 		_shown = minf(_shown + CPS * d, float(text.length()))
@@ -488,16 +493,17 @@ class _Bubble extends Node2D:
 		queue_redraw()
 
 	func _draw() -> void:
-		var font := ThemeDB.fallback_font
-		var fs := 17
+		var font := PixelUI.font()
 		var body := text.substr(0, int(_shown))
-		var full_size := font.get_multiline_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, W - 24.0, fs)
-		var h := full_size.y + 40.0
-		var r := Rect2(-W * 0.5, -h, W, h)
-		draw_rect(r.grow(3.0), Color(0.08, 0.07, 0.1))
-		draw_rect(r, Color(0.98, 0.96, 0.9))
-		draw_colored_polygon(PackedVector2Array([Vector2(-10, 0), Vector2(10, 0), Vector2(0, 16)]), Color(0.08, 0.07, 0.1))
-		draw_colored_polygon(PackedVector2Array([Vector2(-7, -1), Vector2(7, -1), Vector2(0, 11)]), Color(0.98, 0.96, 0.9))
-		draw_rect(Rect2(r.position.x, r.position.y, W, 24.0), color.darkened(0.15))
-		draw_string(font, r.position + Vector2(10, 18), speaker, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(0.08, 0.07, 0.1))
-		draw_multiline_string(font, r.position + Vector2(12, 44), body, HORIZONTAL_ALIGNMENT_LEFT, W - 24.0, fs, -1, Color(0.1, 0.09, 0.12))
+		var inner := W - 36.0
+		var full_size := font.get_multiline_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, inner, FS)
+		var h := roundf((full_size.y + 66.0) / 3.0) * 3.0
+		var r := Rect2(-W * 0.5, -h - 15.0, W, h)
+		draw_style_box(PixelUI.box("balon"), r)
+		draw_texture(TAIL, Vector2(-TAIL.get_width() * 0.5, -18.0))
+		# İsim şeridi: konuşanın rengiyle boyanmış piksel şerit.
+		var name_w := roundf((font.get_string_size(speaker, HORIZONTAL_ALIGNMENT_LEFT, -1, FS).x + 24.0) / 3.0) * 3.0
+		draw_texture_rect(NAME_STRIP, Rect2(r.position.x + 9.0, r.position.y - 12.0, name_w, 30.0), false, color)
+		draw_string(font, r.position + Vector2(21.0, 12.0), speaker, HORIZONTAL_ALIGNMENT_LEFT, -1, FS, Color(0.1, 0.07, 0.1))
+		draw_multiline_string(font, r.position + Vector2(18.0, 51.0), body, HORIZONTAL_ALIGNMENT_LEFT, inner, FS, -1,
+			Color(0.12, 0.09, 0.12))

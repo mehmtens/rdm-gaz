@@ -2,6 +2,8 @@
 ## "yere basıyor" hissi verir; ayrı sanat gerektirmez. z_index -1 → Rig'in altında.
 extends Node2D
 
+const GOLGE := preload("res://assets/environment/pixel/golge.png")
+
 @export var radius: float = 24.0
 @export var squash: float = 0.3
 @export var alpha: float = 0.32
@@ -11,6 +13,7 @@ var _a := 0.32
 
 func _ready() -> void:
 	z_index = -1
+	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	_a = alpha
 
 
@@ -24,8 +27,7 @@ func _process(_delta: float) -> void:
 
 
 func _draw() -> void:
-	var pts := PackedVector2Array()
-	for i in 20:
-		var ang := TAU * float(i) / 20.0
-		pts.append(Vector2(cos(ang) * radius, sin(ang) * radius * squash))
-	draw_colored_polygon(pts, Color(0, 0, 0, _a))
+	# Piksel art dither gölge (assets/environment/pixel/golge.png), yarıçapa ölçekli.
+	var w := radius * 2.0
+	var h := w * GOLGE.get_height() / GOLGE.get_width()
+	draw_texture_rect(GOLGE, Rect2(-w * 0.5, -h * 0.5, w, h), false, Color(1, 1, 1, _a / 0.32))

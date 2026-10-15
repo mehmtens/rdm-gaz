@@ -8,6 +8,9 @@
 class_name BattleArena
 extends Area2D
 
+const PARMAKLIK := preload("res://assets/environment/pixel/parmaklik.png")
+const PARMAKLIK_TEPE := preload("res://assets/environment/pixel/parmaklik_tepe.png")
+
 signal cleared
 signal enemy_spawned(enemy: Node)
 
@@ -218,10 +221,14 @@ class _GateVis extends Node2D:
 		if _texture != null:
 			draw_texture_rect(_texture, Rect2(-12, -_h - (1.0 - _fade) * 80, 24, _h), false, Color(1, 1, 1, _fade))
 			return
-		var w := 12.0
-		for i in 10:
-			var yy := -_h + _h * (float(i) / 10.0)
-			var a: float = (0.22 + 0.18 * sin(_t * 7.0 + i * 0.9)) * _fade
-			draw_rect(Rect2(-w * 0.5, yy, w, _h / 10.0 + 1.0),
-				Color(_col.r, _col.g, _col.b, a))
-		draw_line(Vector2(0, -_h), Vector2(0, 0), Color(1, 1, 1, 0.45 * _fade), 2.0)
+		# Piksel art demir parmaklık: yukarıdan iner, açılırken geri çekilir.
+		var drop := (1.0 - _fade) * 120.0
+		var tint := Color(1, 1, 1, _fade)
+		var tw := 36.0
+		var th := 72.0
+		var y := -_h - drop
+		draw_texture_rect(PARMAKLIK_TEPE, Rect2(-tw * 0.5, y - 30.0, tw, 30.0), false, tint)
+		while y < -drop - 0.5:
+			var hh := minf(th, -drop - y)
+			draw_texture_rect_region(PARMAKLIK, Rect2(-tw * 0.5, y, tw, hh), Rect2(0, 0, 12, hh / 3.0), tint)
+			y += th

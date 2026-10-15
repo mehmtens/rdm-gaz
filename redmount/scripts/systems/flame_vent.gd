@@ -6,6 +6,9 @@
 class_name FlameVent
 extends Area2D
 
+const ALEV := preload("res://assets/environment/pixel/alev.png")
+const IZGARA := preload("res://assets/environment/pixel/alev_izgara.png")
+
 @export var height: float = 130.0
 @export var width: float = 40.0
 @export var on_time: float = 1.1
@@ -34,12 +37,12 @@ func _ready() -> void:
 	_col.disabled = true
 	add_child(_col)
 
-	# taban ızgara
-	var grate := Polygon2D.new()
-	grate.polygon = PackedVector2Array([
-		Vector2(-width * 0.7, -6), Vector2(width * 0.7, -6),
-		Vector2(width * 0.7, 6), Vector2(-width * 0.7, 6)])
-	grate.color = Color(0.18, 0.16, 0.16)
+	# taban ızgara (piksel art)
+	var grate := Sprite2D.new()
+	grate.texture = IZGARA
+	grate.scale = Vector2(3, 3)
+	grate.position = Vector2(0, -3)
+	grate.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	add_child(grate)
 
 	_flame = _Flame.new()
@@ -82,19 +85,16 @@ class _Flame extends Node2D:
 	var tt := 0.0
 
 	func _draw() -> void:
+		texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		var fw := ALEV.get_width() / 4.0
+		var fr := int(tt * 14.0) % 4
 		if warn:
-			draw_circle(Vector2(0, -4), 7.0 + sin(tt * 30.0) * 2.0, Color(1.0, 0.5, 0.2, 0.5))
+			# Uyarı: ızgaradan kısa, titrek alev dili (aynı piksel kareler).
+			var small := 0.25 + 0.1 * sin(tt * 30.0)
+			draw_texture_rect_region(ALEV, Rect2(-fw * 1.5, -46.0 * 3.0 * small, fw * 3.0, 46.0 * 3.0 * small),
+				Rect2(fr * fw, 0, fw, 46))
 			return
 		if not lit:
 			return
-		var flick := 0.85 + 0.15 * sin(tt * 22.0)
-		var hh := h * flick
-		for i in 3:
-			var k := 1.0 - float(i) * 0.28
-			var col: Color = [Color(1.0, 0.85, 0.3, 0.9), Color(1.0, 0.5, 0.15, 0.85),
-				Color(0.8, 0.2, 0.1, 0.7)][i]
-			var ww := w * 0.5 * k
-			draw_colored_polygon(PackedVector2Array([
-				Vector2(-ww, 0), Vector2(ww, 0),
-				Vector2(ww * 0.4, -hh * k * 0.6),
-				Vector2(0, -hh * k), Vector2(-ww * 0.4, -hh * k * 0.6)]), col)
+		var hh := h * (0.9 + 0.1 * sin(tt * 22.0))
+		draw_texture_rect_region(ALEV, Rect2(-w * 0.75, -hh, w * 1.5, hh), Rect2(fr * fw, 0, fw, 46))

@@ -22,6 +22,22 @@ const PLANT := preload("res://assets/environment/mahalle/plant_small.png")
 const POTS := preload("res://assets/environment/kit/pots.png")
 const AWNING_TEX := preload("res://assets/environment/mahalle/market_awning_v2.png")
 const WAGON := preload("res://assets/environment/mahalle/freight_wagon.png")
+## Piksel art parçalar (tools/gen_pixel_props.py; 1 sanat pikseli = 3 ekran pikseli).
+const PX := 3.0
+const PIX_SANDBAG := preload("res://assets/environment/pixel/kum_torbasi.png")
+const PIX_CABIN := preload("res://assets/environment/pixel/kule_kulube.png")
+const PIX_TOWER_LEG := preload("res://assets/environment/pixel/kule_ayak.png")
+const PIX_LANTERN := preload("res://assets/environment/pixel/fener.png")
+const PIX_HALO := preload("res://assets/environment/pixel/fener_hale.png")
+const PIX_WATER_TOP := preload("res://assets/environment/pixel/su_yuzey.png")
+const PIX_WATER := preload("res://assets/environment/pixel/su_govde.png")
+const PIX_RAIL := preload("res://assets/environment/pixel/ray.png")
+const PIX_CEILING := preload("res://assets/environment/pixel/tavan.png")
+const PIX_BRICK := preload("res://assets/environment/pixel/tugla.png")
+const PIX_WINDOW := preload("res://assets/environment/pixel/fabrika_pencere.png")
+const PIX_GATE := preload("res://assets/environment/pixel/han_kapisi.png")
+const PIX_BEAM := preload("res://assets/environment/pixel/huzme.png")
+const NICHE := preload("res://assets/environment/kit/wall_niche.png")
 ## Vagon: 400 px genişlik; gövde üstü yerden 140 px (tekerlekler altta).
 const WAGON_W := 400.0
 const WAGON_TOP := 140.0
@@ -263,8 +279,14 @@ func _collapse(cx: float, top: float, w := 140.0) -> void:
 	plank.width = w
 	plank.position = Vector2(cx, top + 10.0)
 	add_child(plank)
+	# Alttan geçilebilir (tek yön): sudan/çukurdan çıkarken kafa tahtaya çarpmasın.
+	var pcol: CollisionShape2D = plank.get("_col")
+	pcol.one_way_collision = true
 	var vis: Polygon2D = plank.get("_vis")
 	vis.color = Color(0, 0, 0, 0)
+	for ch in vis.get_children():
+		if ch is Line2D:
+			ch.visible = false
 	var art := _Art.new(_Art.A_PLANK, Vector2(w, 0))
 	art.position = Vector2(0, -10.0)
 	vis.add_child(art)
@@ -383,6 +405,32 @@ class _Art extends Node2D:
 		texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 		z_index = -1
 
+	var _t := 0.0
+
+	func _process(delta: float) -> void:
+		# Yalnız su animasyonlu (3 kare dalga).
+		_t += delta
+		queue_redraw()
+
+	func _ready() -> void:
+		set_process(kind == A_WATER)
+
+	## Piksel dokuyu PX ölçekte döşer; kenarda yarım kalan döşeme tam pikselden kırpılır.
+	func _tiled(t: Texture2D, r: Rect2, tint := Color.WHITE, src := Rect2()) -> void:
+		var region := src if src.size.x > 0.0 else Rect2(Vector2.ZERO, t.get_size())
+		var tw := region.size.x * PX
+		var th := region.size.y * PX
+		var y := r.position.y
+		while y < r.end.y - 0.5:
+			var h := minf(th, r.end.y - y)
+			var x := r.position.x
+			while x < r.end.x - 0.5:
+				var w := minf(tw, r.end.x - x)
+				draw_texture_rect_region(t, Rect2(x, y, w, h),
+					Rect2(region.position, Vector2(floorf(w / PX), floorf(h / PX))), tint)
+				x += tw
+			y += th
+
 	func _draw() -> void:
 		var hw := size.x * 0.5
 		var hh := size.y * 0.5
@@ -447,125 +495,58 @@ class _Art extends Node2D:
 				draw_texture_rect_region(BALCONY, Rect2(-bw * 0.5, -bh * 47.0 / 72.0, bw, bh), Rect2(0, 60, 204, 72))
 			A_ROOF:
 				draw_texture_rect(ROOF_SLAB, Rect2(-hw - 10.0, -hh - 14.0, size.x + 20.0, 34.0), false)
-				draw_rect(Rect2(-hw, -hh + 16.0, size.x, size.y - 16.0), Color("4a3a30"))
+				draw_texture_rect_region(WALL, Rect2(-hw, -hh + 16.0, size.x, size.y - 16.0), Rect2(0, 0, 80, 40), Color(0.5, 0.44, 0.4))
 			A_WALL_STRIP:
 				draw_texture_rect_region(WALL, Rect2(-hw, -hh, size.x, size.y), Rect2(0, 0, 20, 160), Color(0.8, 0.78, 0.76))
 			A_ROOM:
-				draw_rect(Rect2(-hw, -hh, size.x, size.y), Color("2a211d"))
+				# Karanlık oda duvarı + mumlu duvar nişi (kit sanatı).
 				draw_texture_rect_region(WALL, Rect2(-hw, -hh, size.x, size.y), Rect2(0, 0, 80, 160), Color(0.36, 0.32, 0.3))
-				# Mum ışığı
-				draw_circle(Vector2(0, -hh + 50.0), 46.0, Color(1.0, 0.75, 0.35, 0.10))
-				draw_circle(Vector2(0, -hh + 50.0), 22.0, Color(1.0, 0.8, 0.4, 0.16))
+				var nw := 121.0 * 0.9
+				draw_texture_rect(NICHE, Rect2(-nw * 0.5, -hh + 6.0, nw, minf(232.0 * 0.9, size.y - 6.0)), false)
 			A_SANDBAG:
-				# Üst üste şaşırtmalı kum torbaları.
-				var bh := 22.0
-				var bw := 44.0
-				var row3 := 0
-				var yy2 := hh - bh
-				while yy2 > -hh - 1.0:
-					var off := 0.0 if row3 % 2 == 0 else bw * 0.5
-					var xx2 := -hw - off
-					while xx2 < hw:
-						var r := Rect2(maxf(xx2, -hw), yy2, minf(bw, hw - maxf(xx2, -hw)) - 2.0, bh - 2.0)
-						if r.size.x > 6.0:
-							draw_rect(r.grow(1.0), Color("3c3326"))
-							draw_rect(r, Color("a08d68") if (row3 + int(xx2)) % 3 != 0 else Color("8f7d5b"))
-							draw_rect(Rect2(r.position + Vector2(3, 3), Vector2(r.size.x - 6.0, 4)), Color(1, 1, 1, 0.12))
-						xx2 += bw
-					yy2 -= bh
-					row3 += 1
+				# Piksel art kum torbaları (32x24 döşeme), altta hizalı.
+				_tiled(PIX_SANDBAG, Rect2(-hw, -hh, size.x, size.y))
 			A_TOWER:
-				# Çelik ayaklı kule: çapraz destekler + tepede tahta kulübe.
-				var cabin := 70.0
-				var steel := Color("2f3238")
-				draw_rect(Rect2(-hw + 8.0, -hh + cabin, 10.0, size.y - cabin), steel)
-				draw_rect(Rect2(hw - 18.0, -hh + cabin, 10.0, size.y - cabin), steel)
-				var yb := -hh + cabin
-				while yb < hh - 40.0:
-					draw_line(Vector2(-hw + 13.0, yb), Vector2(hw - 13.0, yb + 60.0), steel, 4.0)
-					draw_line(Vector2(hw - 13.0, yb), Vector2(-hw + 13.0, yb + 60.0), steel, 4.0)
-					yb += 60.0
-				draw_rect(Rect2(-hw, -hh, size.x, cabin), Color("5a4634"))
-				draw_rect(Rect2(-hw + 12.0, -hh + 16.0, size.x - 24.0, 26.0), Color("ffcf7a"))
-				draw_rect(Rect2(-hw - 8.0, -hh - 4.0, size.x + 16.0, 10.0), Color("2b2622"))
+				# Piksel art kule: çelik kafes ayak (döşenir) + tepede ahşap kulübe.
+				var cab := PIX_CABIN.get_size() * PX
+				_tiled(PIX_TOWER_LEG, Rect2(-PIX_TOWER_LEG.get_width() * PX * 0.5, -hh + cab.y - 12.0, PIX_TOWER_LEG.get_width() * PX, size.y - cab.y + 12.0))
+				draw_texture_rect(PIX_CABIN, Rect2(-cab.x * 0.5, -hh - 12.0, cab.x, cab.y), false)
 			A_WAGON:
 				# Sanatın gövde üstü (satır 80/793) katı kutunun üstüne oturur.
 				var art_h := size.x * 793.0 / 1983.0
 				var top := -hh - art_h * 80.0 / 793.0
 				draw_texture_rect(WAGON, Rect2(-hw, top, size.x, art_h), false)
 			A_RAILS:
-				var k := -hw
-				while k < hw:
-					draw_rect(Rect2(k, -4.0, 14.0, 12.0), Color("3a2c22"))
-					k += 34.0
-				draw_rect(Rect2(-hw, -6.0, size.x, 4.0), Color("8d8f94"))
-				draw_rect(Rect2(-hw, 2.0, size.x, 3.0), Color("6c6e73"))
+				_tiled(PIX_RAIL, Rect2(-hw, -6.0, size.x, PIX_RAIL.get_height() * PX))
 			A_FACTORY:
-				# Tuğla duvar (taş dokusu kızıla boyanır) + kemerli, içeriden yanan pencereler.
-				var fy := -hh
-				var frow := 0
-				while fy < hh - 0.5:
-					var fth := minf(160.0, hh - fy)
-					var fx := -hw
-					while fx < hw - 0.5:
-						var ftw := minf(80.0, hw - fx)
-						var sh := 0.62 if (frow + int((fx + hw) / 80.0)) % 2 == 0 else 0.56
-						draw_texture_rect_region(WALL, Rect2(fx, fy, ftw, fth), Rect2(0, 0, ftw, 160.0 * fth / 160.0),
-							Color(sh * 1.35, sh * 0.82, sh * 0.66))
-						fx += 80.0
-					fy += 160.0
-					frow += 1
-				var wy := -hh + 40.0
-				while wy < hh - 70.0:
-					var wx := -hw + 30.0
-					while wx < hw - 60.0:
-						draw_rect(Rect2(wx, wy + 14.0, 36.0, 44.0), Color("1c1612"))
-						draw_circle(Vector2(wx + 18.0, wy + 14.0), 18.0, Color("1c1612"))
-						draw_rect(Rect2(wx + 4.0, wy + 16.0, 28.0, 38.0), Color(1.0, 0.62, 0.28, 0.85))
-						draw_line(Vector2(wx + 18.0, wy + 2.0), Vector2(wx + 18.0, wy + 56.0), Color("1c1612"), 3.0)
-						wx += 90.0
-					wy += 120.0
-				draw_rect(Rect2(-hw - 6.0, -hh - 8.0, size.x + 12.0, 14.0), Color("3a3d44"))
-				draw_rect(Rect2(-hw - 6.0, -hh - 8.0, size.x + 12.0, 3.0), Color("8a8f99"))
+				# Piksel art tuğla + kemerli yanan pencereler + çelik korniş.
+				_tiled(PIX_BRICK, Rect2(-hw, -hh, size.x, size.y))
+				var ws := PIX_WINDOW.get_size() * PX
+				var wy := -hh + 30.0
+				while wy < hh - ws.y - 20.0:
+					var wx := -hw + 24.0
+					while wx < hw - ws.x - 12.0:
+						draw_texture_rect(PIX_WINDOW, Rect2(wx, wy, ws.x, ws.y), false)
+						wx += ws.x + 36.0
+					wy += ws.y + 48.0
+				_tiled(PIX_RAIL, Rect2(-hw - 6.0, -hh - 9.0, size.x + 12.0, 6.0), Color(0.8, 0.82, 0.9), Rect2(0, 0, 16, 2))
 			A_PRESS_FRAME:
-				# İki çelik kolon + üst kiriş + piston gövdesi.
-				var steel2 := Color("34373e")
-				draw_rect(Rect2(-hw, -hh, 16.0, size.y), steel2)
-				draw_rect(Rect2(hw - 16.0, -hh, 16.0, size.y), steel2)
-				draw_rect(Rect2(-hw, -hh, size.x, 26.0), Color("2a2c31"))
-				draw_rect(Rect2(-14.0, -hh + 26.0, 28.0, size.y * 0.42), Color("6d7079"))
-				for k2 in 3:
-					draw_rect(Rect2(-hw + 4.0, -hh + 60.0 + k2 * 90.0, 8.0, 8.0), Color(1.0, 0.75, 0.2, 0.9))
+				pass
 			A_CEILING:
-				# Koyu taş dolgu + alt kenarda düzensiz sarkıtlar.
-				var cy := -hh
-				while cy < hh - 0.5:
-					var cx := -hw
-					while cx < hw - 0.5:
-						var cw := minf(420.0, hw - cx)
-						draw_texture_rect_region(STONE, Rect2(cx, cy, cw, 56.0), Rect2(0, 0, cw, 56.0), Color(0.34, 0.32, 0.36))
-						cx += 420.0
-					cy += 56.0
-				var sx2 := -hw
-				var n2 := 0
-				while sx2 < hw:
-					var len2 := 18.0 + float((n2 * 37) % 5) * 9.0
-					draw_colored_polygon(PackedVector2Array([Vector2(sx2, hh - 2.0), Vector2(sx2 + 26.0, hh - 2.0),
-						Vector2(sx2 + 13.0, hh + len2)]), Color(0.22, 0.2, 0.24))
-					sx2 += 30.0 + float((n2 * 53) % 3) * 14.0
-					n2 += 1
-				draw_rect(Rect2(-hw, hh - 6.0, size.x, 6.0), Color(0.16, 0.15, 0.18))
+				# Piksel art kaya: üst kısım taş dolgu, en altta sarkıtlı şerit.
+				var strip_h := PIX_CEILING.get_height() * PX
+				_tiled(PIX_CEILING, Rect2(-hw, -hh, size.x, size.y - strip_h), Color.WHITE, Rect2(0, 0, 48, 20))
+				_tiled(PIX_CEILING, Rect2(-hw, hh - strip_h, size.x, strip_h))
 			A_PLANK:
-				# Çatlak ahşap tahta (dikmesiz).
+				# Çatlak ahşap tahta (dikmesiz); koyu ton çürüklüğü anlatır.
 				draw_texture_rect_region(SCAFFOLD_DECK, Rect2(-hw - 4.0, -8.0, size.x + 8.0, 34.0),
-					Rect2(27, 149, 1929, 260), Color(0.85, 0.75, 0.65))
-				draw_line(Vector2(-hw * 0.3, -6.0), Vector2(hw * 0.1, 20.0), Color(0.12, 0.08, 0.05), 2.0)
+					Rect2(27, 149, 1929, 260), Color(0.78, 0.66, 0.56))
 			A_WATER:
-				# Bulanık kanal suyu: yarı saydam gövde + parlak yüzey çizgisi.
-				draw_rect(Rect2(-hw, -hh + 30.0, size.x, size.y - 30.0), Color(0.16, 0.3, 0.38, 0.62))
-				draw_rect(Rect2(-hw, -hh + 30.0, size.x, 4.0), Color(0.6, 0.82, 0.9, 0.8))
-				for k in int(size.x / 70.0):
-					draw_rect(Rect2(-hw + 20.0 + k * 70.0, -hh + 40.0 + (k % 3) * 9.0, 26.0, 2.0), Color(0.7, 0.9, 1.0, 0.35))
+				# Piksel art su: 3 karelik dalgalı yüzey + dither gövde.
+				var fr := int(_t * 5.0) % 3
+				var top_h := PIX_WATER_TOP.get_height() * PX
+				_tiled(PIX_WATER_TOP, Rect2(-hw, -hh + 26.0, size.x, top_h), Color(1, 1, 1, 0.9), Rect2(fr * 32, 0, 32, 12))
+				_tiled(PIX_WATER, Rect2(-hw, -hh + 26.0 + top_h, size.x, size.y - 26.0 - top_h), Color(1, 1, 1, 0.82))
 			A_STALL:
 				for lx in [-hw + 10.0, hw - 18.0]:
 					draw_texture_rect(SCAFFOLD_POST, Rect2(lx - 6.0, -hh + 20.0, 14.0, size.y - 20.0), true)
@@ -576,12 +557,8 @@ class _Art extends Node2D:
 					draw_texture_rect_region(CRATE, Rect2(cx2, hh - sz, sz, sz), Rect2(227, 193, 893, 781), Color("d8c8b4"))
 				draw_texture_rect(POTS, Rect2(hw - 46.0, hh - 64.0 - 50.0, 28.0, 50.0), false)
 			A_GATE:
-				# Kemerli han kapısı: taş çerçeve + koyu açıklık + kiremit başlık.
-				draw_texture_rect_region(WALL, Rect2(-hw, -hh, size.x, size.y), Rect2(0, 0, 80, 160), Color(0.92, 0.88, 0.82))
-				var ow := size.x * 0.5
-				draw_rect(Rect2(-ow * 0.5, -hh + size.y * 0.35, ow, size.y * 0.65), Color("1d1714"))
-				draw_circle(Vector2(0, -hh + size.y * 0.35), ow * 0.5, Color("1d1714"))
-				draw_texture_rect(ROOF_CAP, Rect2(-hw - 16.0, -hh - 26.0, size.x + 32.0, 38.0), false)
+				# Piksel art kemerli han kapısı (86x100 sanat, 3x).
+				draw_texture_rect(PIX_GATE, Rect2(-hw, -hh, size.x, size.y), false)
 
 
 ## Gizli odanın ön cephesi: oyuncu dikdörtgenin içindeyken saydamlaşır.
@@ -606,10 +583,9 @@ class _Facade extends Node2D:
 
 	func _draw() -> void:
 		draw_texture_rect_region(WALL, rect, Rect2(0, 0, 80, 160), Color(0.88, 0.84, 0.8))
-		# Pencere izi: içerisi olduğunu ima eder.
-		var c := rect.get_center() + Vector2(10, -20)
-		draw_rect(Rect2(c - Vector2(22, 26), Vector2(44, 52)), Color("2a211d"))
-		draw_rect(Rect2(c - Vector2(22, 26), Vector2(44, 52)), Color("8a6a48"), false, 3.0)
+		# Pencere izi: içerisi olduğunu ima eder (piksel art pencere, ışıksız).
+		var ws := PIX_WINDOW.get_size() * PX
+		draw_texture_rect(PIX_WINDOW, Rect2(rect.get_center() - ws * 0.5 + Vector2(10, -20), ws), false, Color(0.45, 0.4, 0.42))
 
 
 ## Uzak gökyüzü: boyalı Süleymaniye sahnesi, kameranın %4'ü hızla kayar.
@@ -726,60 +702,56 @@ class _Chalk extends Node2D:
 		PixelText.draw_centered(self, 0.0, 0.0, text, 3.0, Color(0.95, 0.95, 0.9, 0.9), Color(0.2, 0.2, 0.25, 0.6))
 
 
-## Fener: ince direk, cam fener, nabız atan sıcak hale (eklemeli karışım).
+## Fener: piksel art direk + cam fener; eklemeli karışımlı dither hale.
 class _Lantern extends Node2D:
 	var pole := 170.0
-	var _t := randf() * 6.0
 
 	func _ready() -> void:
 		z_index = -4
-		var mat := CanvasItemMaterial.new()
-		mat.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
-		var glow := _Glow.new()
-		glow.material = mat
-		add_child(glow)
+		texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		var post := Sprite2D.new()
+		post.texture = PIX_LANTERN
+		post.centered = false
+		post.scale = Vector2(PX, PX)
+		# Fener başı (sanat y≈6) node konumunda, direğin dibi zeminde.
+		post.position = Vector2(-PIX_LANTERN.get_width() * PX * 0.5, -6.0 * PX)
+		post.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		add_child(post)
+		var halo := _Halo.new()
+		add_child(halo)
 
-	func _draw() -> void:
-		draw_rect(Rect2(-3, 0, 6, pole), Color("2b2622"))
-		draw_rect(Rect2(-10, -16, 20, 22), Color("3a2d22"))
-		draw_rect(Rect2(-7, -13, 14, 16), Color("ffc46b"))
-		draw_rect(Rect2(-12, -20, 24, 5), Color("2b2622"))
+	class _Halo extends Sprite2D:
+		var _t := randf() * 6.0
 
-	class _Glow extends Node2D:
-		var _t := 0.0
+		func _ready() -> void:
+			texture = PIX_HALO
+			scale = Vector2(PX, PX)
+			texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+			var mat := CanvasItemMaterial.new()
+			mat.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
+			material = mat
 
 		func _process(delta: float) -> void:
 			_t += delta
-			queue_redraw()
-
-		func _draw() -> void:
-			var p := 0.85 + 0.15 * sin(_t * 3.0)
-			for k in 4:
-				draw_circle(Vector2(0, -4), (90.0 - k * 20.0) * p, Color(1.0, 0.7, 0.35, 0.05 + k * 0.03))
+			modulate.a = 0.75 + 0.25 * sin(_t * 3.0)
 
 
-## Projektör: kule tepesinden yavaşça süpüren ışık konisi (eklemeli, süs).
-class _Searchlight extends Node2D:
+## Projektör: kule tepesinden yavaşça süpüren piksel art (dither) ışık huzmesi.
+class _Searchlight extends Sprite2D:
 	var _t := randf() * 6.0
 
 	func _ready() -> void:
 		z_index = -5
 		process_mode = Node.PROCESS_MODE_ALWAYS
+		texture = PIX_BEAM
+		centered = false
+		offset = Vector2(-PIX_BEAM.get_width() * 0.5, 0)
+		scale = Vector2(PX, PX)
+		texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 		var mat := CanvasItemMaterial.new()
 		mat.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
 		material = mat
 
 	func _process(delta: float) -> void:
 		_t += delta
-		queue_redraw()
-
-	func _draw() -> void:
-		var a := PI * 0.5 + sin(_t * 0.6) * 0.75
-		var d := Vector2(cos(a), sin(a))
-		var n := Vector2(-d.y, d.x)
-		var far := d * 520.0
-		draw_colored_polygon(PackedVector2Array([Vector2.ZERO, far + n * 90.0, far - n * 90.0]),
-			Color(1.0, 0.95, 0.75, 0.07))
-		draw_colored_polygon(PackedVector2Array([Vector2.ZERO, far + n * 45.0, far - n * 45.0]),
-			Color(1.0, 0.95, 0.75, 0.06))
-		draw_circle(Vector2.ZERO, 9.0, Color(1.0, 0.95, 0.8, 0.9))
+		rotation = sin(_t * 0.6) * 0.75

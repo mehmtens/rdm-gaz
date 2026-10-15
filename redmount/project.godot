@@ -25,6 +25,7 @@ Sfx="*res://scripts/systems/sfx.gd"
 Music="*res://scripts/systems/music.gd"
 Fx="*res://scripts/systems/fx.gd"
 Transition="*res://scripts/systems/transition.gd"
+PixelUIBoot="*res://scripts/ui/pixel_ui_boot.gd"
 
 [display]
 

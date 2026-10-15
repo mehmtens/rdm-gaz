@@ -105,11 +105,18 @@ class _Slash extends Node2D:
 			var ang: float = (a0 + u * span) * float(_f)
 			pts.append(Vector2(cos(ang), sin(ang)) * _radius * (0.6 + 0.4 * u))
 		var fade := 1.0 - p
+		# Piksel yay: noktalar arası 3 px karelerle doldurulur, uca doğru kalınlaşır.
 		for i in pts.size() - 1:
-			var w: float = (2.0 + 9.0 * (float(i) / float(pts.size()))) * fade
-			draw_line(pts[i], pts[i + 1], Color(_col.r, _col.g, _col.b, _col.a * fade), w)
-		# uçta parlak nokta
-		draw_circle(pts[pts.size() - 1], 5.0 * fade, Color(1, 1, 1, 0.8 * fade))
+			var w: float = (3.0 + 9.0 * (float(i) / float(pts.size()))) * fade
+			for k in 3:
+				Fx.px(self, pts[i].lerp(pts[i + 1], k / 3.0), w, Color(_col.r, _col.g, _col.b, _col.a * fade))
+		Fx.px(self, pts[pts.size() - 1], 6.0, Color(1, 1, 1, 0.85 * fade))
+
+
+## 3 px ızgarasına oturan piksel kare (efektler çizgi/daire yerine bununla çizilir).
+static func px(ci: CanvasItem, at: Vector2, size: float, col: Color) -> void:
+	var s := maxf(3.0, roundf(size / 3.0) * 3.0)
+	ci.draw_rect(Rect2(roundf(at.x / 3.0) * 3.0 - s * 0.5, roundf(at.y / 3.0) * 3.0 - s * 0.5, s, s), col)
 
 
 class _Spark extends Node2D:
@@ -146,12 +153,16 @@ class _Spark extends Node2D:
 	func _draw() -> void:
 		var p := _t / DUR
 		var fade := 1.0 - p
-		draw_circle(Vector2.ZERO, 10.0 * _s * (1.0 - p) + 2.0, Color(1, 1, 1, 0.7 * fade))
+		# Merkez parlaması: piksel artı işareti; kıvılcımlar: 2 piksel kare kuyruk.
+		var c := Color(1, 1, 1, 0.8 * fade)
+		var r := 3.0 * roundf((1.0 - p) * 2.0 + 1.0)
+		for o in [Vector2.ZERO, Vector2(r, 0), Vector2(-r, 0), Vector2(0, r), Vector2(0, -r)]:
+			Fx.px(self, o, 3.0 * _s + 3.0, c)
 		for i in _n:
 			var d := Vector2(cos(_angles[i]), sin(_angles[i]))
 			var a := d * (_lens[i] * (0.3 + 0.7 * p))
-			var b := d * (_lens[i] * (0.3 + 0.7 * p) + 8.0 * _s)
-			draw_line(a, b, Color(_col.r, _col.g, _col.b, fade), 2.5 * _s)
+			Fx.px(self, a, 3.0 * _s + 1.0, Color(_col.r, _col.g, _col.b, fade))
+			Fx.px(self, a - d * 5.0 * _s, 3.0, Color(_col.r, _col.g, _col.b, fade * 0.6))
 
 
 class _Dust extends Node2D:
@@ -188,7 +199,7 @@ class _Dust extends Node2D:
 	func _draw() -> void:
 		var fade := 1.0 - _t / DUR
 		for i in _n:
-			draw_circle(_pos[i], _r[i] * (0.5 + fade), Color(_tint.r, _tint.g, _tint.b, 0.5 * fade))
+			Fx.px(self, _pos[i], _r[i] * (0.5 + fade) * 1.6, Color(_tint.r, _tint.g, _tint.b, 0.55 * fade))
 
 
 class _Ring extends Node2D:
@@ -216,7 +227,11 @@ class _Ring extends Node2D:
 	func _draw() -> void:
 		var p := _t / _dur
 		var r: float = lerpf(_r0, _r1, ease(p, 0.35))
-		draw_arc(Vector2.ZERO, r, 0.0, TAU, 48, Color(_col.r, _col.g, _col.b, (1.0 - p) * 0.9), _w * (1.0 - p) + 1.0, true)
+		# Piksel halka: çevre boyunca 3 px kareler.
+		var n := maxi(12, int(r * 0.6))
+		for i in n:
+			var ang := TAU * float(i) / float(n)
+			Fx.px(self, Vector2(cos(ang), sin(ang)) * r, _w * (1.0 - p) + 3.0, Color(_col.r, _col.g, _col.b, (1.0 - p) * 0.9))
 
 
 class _Ghost extends Sprite2D:

@@ -35,16 +35,9 @@ func _draw() -> void:
 		return
 	var bob := sin(_visual_time * 2.8) * 3.0
 	draw_set_transform(Vector2(0, 8.0 + bob), -0.10, Vector2.ONE)
-	var turquoise := Color("43d7c2")
-	draw_circle(Vector2.ZERO, 28.0, Color(turquoise, 0.10))
-	draw_rect(Rect2(-22, -14, 44, 28), Color("17162b"))
-	draw_rect(Rect2(-19, -11, 38, 22), Color("ddd5c5"))
-	draw_rect(Rect2(-16, -8, 32, 7), turquoise)
-	draw_circle(Vector2(-9, 4), 6.0, Color("34364a"))
-	draw_circle(Vector2(9, 4), 6.0, Color("34364a"))
-	draw_circle(Vector2(-9, 4), 2.2, Color("f4c95d"))
-	draw_circle(Vector2(9, 4), 2.2, Color("f4c95d"))
-	draw_line(Vector2(-7, 4), Vector2(7, 4), Color("8a5d3b"), 2.0)
+	# Piksel art kaset (assets/environment/pixel/kaset.png), 3x.
+	var k := preload("res://assets/environment/pixel/kaset.png")
+	draw_texture_rect(k, Rect2(-24, -16.5, 48, 33), false)
 
 
 func _on_body_entered(body: Node) -> void:

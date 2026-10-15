@@ -368,9 +368,8 @@ class _Card extends Button:
 		var afford := GameState.coins >= price
 		var ink := Color("17131f")
 		var body := Rect2(Vector2.ZERO, size)
-		draw_rect(body, ink)
-		draw_rect(body.grow(-4.0), Color("3b2d49") if afford else Color("2c2633"))
-		draw_rect(Rect2(4, 4, size.x - 8, 4), Color("5d4a70") if afford else Color("3b3444"))
+		# Piksel art kart çerçevesi (PixelUI); alınamıyorsa sönük.
+		draw_style_box(PixelUI.box("panel" if afford else "button_disabled"), body)
 		if _bought_t > 0.0:
 			draw_rect(body.grow(-4.0), Color(0.45, 0.95, 0.55, _bought_t * 0.35))
 		if _flash > 0.0:

@@ -16,7 +16,9 @@ const CRATE := preload("res://assets/environment/mahalle/crate_wood_v2.png")
 const CHEST := preload("res://assets/environment/mahalle/chest_ottoman_v2.png")
 const POTS := preload("res://assets/environment/kit/pots.png")
 ## Varsayılan sanat: setteki piksel çizimler (tüp / varil prosedürel kalır).
-const DEFAULT_ART := {"vazo": VASE_SMALL, "saksi": POTS, "kasa": CRATE, "sandik": CHEST}
+const DEFAULT_ART := {"vazo": VASE_SMALL, "saksi": POTS, "kasa": CRATE, "sandik": CHEST,
+	"varil": preload("res://assets/environment/pixel/varil.png"),
+	"tup": preload("res://assets/environment/pixel/tup.png")}
 ## Kenar boşluklu büyük kaynaklarda yalnız nesnenin kendisi çizilir.
 const ART_REGION := {
 	"kasa": Rect2(227, 193, 893, 781),
@@ -243,7 +245,13 @@ func _draw_cracks(size: Vector2, wear: float) -> void:
 			Vector2(x + rng.randf_range(-9, 9), y + 13),
 			Vector2(x + rng.randf_range(-11, 11), y + 27),
 		])
-		draw_polyline(pts, Color(0.06, 0.05, 0.09, 0.75), 2.0)
+		# Piksel çatlak: 3 px'lik kareler (çizgi değil), ızgaraya oturur.
+		for k in 2:
+			var a := pts[k]
+			var b := pts[k + 1]
+			for t in 6:
+				var q := a.lerp(b, float(t) / 5.0)
+				draw_rect(Rect2(roundf(q.x / 3.0) * 3.0, roundf(q.y / 3.0) * 3.0, 3.0, 3.0), Color(0.06, 0.05, 0.09, 0.8))
 
 
 func _draw_vazo(size: Vector2, body: Color, trim: Color) -> void:

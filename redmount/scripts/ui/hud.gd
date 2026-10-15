@@ -71,7 +71,7 @@ func _style() -> void:
 	($HealthBg as ColorRect).color = Color(0.05, 0.05, 0.08, 0.92)
 	var track := ColorRect.new()
 	track.name = "Track"
-	track.color = Color(0.17, 0.06, 0.07, 1.0)
+	track.color = Color(0, 0, 0, 0)  # piksel çerçeve HealthBg'den gelir
 	track.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	track.offset_left = 4
 	track.offset_top = 4
@@ -169,7 +169,10 @@ func _flash_big_combo(count: int, bonus: int) -> void:
 func set_health(current: int, maximum: int) -> void:
 	var ratio := 0.0 if maximum <= 0 else clampf(float(current) / float(maximum), 0.0, 1.0)
 	_fill.size.x = BAR_WIDTH * ratio
-	_fill.color = Color(0.83, 0.24, 0.24) if ratio > 0.3 else Color(0.95, 0.5, 0.15)
+	# Piksel dolgu (PixelUIBoot): asıl ColorRect saydam, renk piksel dolguya verilir.
+	_fill.color = Color(0, 0, 0, 0)
+	if _fill.get_child_count() > 0:
+		(_fill.get_child(0) as CanvasItem).self_modulate = Color.WHITE if ratio > 0.3 else Color(1.0, 0.75, 0.3)
 	_label.text = "CAN  %d / %d" % [current, maximum]
 
 

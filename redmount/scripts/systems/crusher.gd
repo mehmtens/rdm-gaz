@@ -7,6 +7,9 @@
 class_name Crusher
 extends AnimatableBody2D
 
+const PRES := preload("res://assets/environment/pixel/pres.png")
+const PRES_KOL := preload("res://assets/environment/pixel/pres_kol.png")
+
 @export var width: float = 90.0
 @export var thickness: float = 60.0
 ## Ne kadar aşağı iner (px).
@@ -56,29 +59,26 @@ func _ready() -> void:
 	teeth.polygon = pts
 	teeth.color = Color(0.2, 0.21, 0.24)
 	add_child(teeth)
-	# Çelik pres başlığı: koyu gövde, üst parlak kenar, tavandan inen piston kolu,
-	# alt kenarda sarı-siyah tehlike şeridi (Dan the Man tarzı okunur tehlike).
-	_vis.color = Color("464a53")
-	var rod := Polygon2D.new()
-	rod.polygon = PackedVector2Array([Vector2(-13, -ht - 700), Vector2(13, -ht - 700), Vector2(13, -ht), Vector2(-13, -ht)])
-	rod.color = Color("6e737d")
+	# Piksel art pres başlığı (assets/environment/pixel/pres.png) + tavana çıkan kol.
+	_vis.color = Color(0, 0, 0, 0)
+	teeth.visible = false
+	var head := Sprite2D.new()
+	head.texture = PRES
+	head.scale = Vector2(width / PRES.get_width(), (thickness + 6.0) / 16.0)
+	head.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	head.position = Vector2(0, 3.0)
+	_vis.add_child(head)
+	var rod := Sprite2D.new()
+	rod.texture = PRES_KOL
+	rod.region_enabled = true
+	rod.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
+	rod.region_rect = Rect2(0, 0, 8, 240)
+	rod.scale = Vector2(3, 3)
+	rod.centered = false
+	rod.position = Vector2(-12, -ht - 720.0)
+	rod.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	rod.z_index = -1
 	_vis.add_child(rod)
-	var shine := Polygon2D.new()
-	shine.polygon = PackedVector2Array([Vector2(-hw, -ht), Vector2(hw, -ht), Vector2(hw, -ht + 5), Vector2(-hw, -ht + 5)])
-	shine.color = Color("9aa0aa")
-	_vis.add_child(shine)
-	var stripe_w := 16.0
-	var sx := -hw
-	var k := 0
-	while sx < hw:
-		var band := Polygon2D.new()
-		var x1 := minf(sx + stripe_w, hw)
-		band.polygon = PackedVector2Array([Vector2(sx, ht - 16), Vector2(x1, ht - 16), Vector2(x1, ht), Vector2(sx, ht)])
-		band.color = Color("f2c230") if k % 2 == 0 else Color("1b1b1d")
-		_vis.add_child(band)
-		sx += stripe_w
-		k += 1
 
 	_hit = Area2D.new()
 	_hit.collision_layer = 0

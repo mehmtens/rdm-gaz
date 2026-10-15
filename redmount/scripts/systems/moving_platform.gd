@@ -6,6 +6,7 @@
 extends AnimatableBody2D
 
 const PALLET := preload("res://assets/environment/mahalle/scaffold_deck_v2.png")
+const HALAT := preload("res://assets/environment/pixel/halat.png")
 const RAIL := preload("res://assets/environment/underground_ground.png")
 const FORTRESS_PLATFORM := preload("res://assets/environment/fortress_platform.png")
 const CORRIDOR := preload("res://assets/environment/corridor_ground.png")
@@ -78,7 +79,10 @@ func _draw() -> void:
 		draw_texture_rect(RAIL, Rect2(-hw, -10, width, 32), true)
 		return
 	# Vinç halatları ve iskele paleti aynı malzeme dilini taşır.
-	draw_line(Vector2(-hw + 18, 12), Vector2(-hw + 18, -72), Color("a48c68"), 4)
-	draw_line(Vector2(hw - 18, 12), Vector2(hw - 18, -72), Color("a48c68"), 4)
-	draw_line(Vector2(-hw + 18, -72), Vector2(hw - 18, -72), Color("5e5140"), 5)
+	# Vinç halatları: piksel art halat dokusu (çizgi değil), palet köşelerinden yukarı.
+	for hx in [-hw + 14.0, hw - 22.0]:
+		var yy := -72.0
+		while yy < 12.0:
+			draw_texture_rect(HALAT, Rect2(hx, yy, 9.0, minf(24.0, 12.0 - yy)), false)
+			yy += 24.0
 	draw_texture_rect_region(PALLET, Rect2(-hw, -10, width, 55), Rect2(26, 148, 1931, 535))
