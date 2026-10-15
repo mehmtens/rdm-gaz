@@ -94,6 +94,11 @@ func _physics_process(delta: float) -> void:
 		print("  L%d t=%.0f x=%.0f y=%.0f vx=%.0f floor=%s hit=%s maxx=%.0f hp=%d respawns=%d" % [
 			_level_idx + 1, _run_t, x, y, _player.velocity.x, _player.is_on_floor(), blocker,
 			_max_x, _player.get_health(), _respawns])
+		if OS.get_environment("REDMOUNT_DEBUG_FOES") == "1":
+			for e in get_tree().get_nodes_in_group(&"enemy_ai"):
+				if is_instance_valid(e) and absf(e.global_position.x - x) < 1500.0:
+					print("    foe %s %s (%.0f,%.0f) %s" % [e.name, e.get_state_name() if e.has_method(&"get_state_name") else "?",
+						e.global_position.x, e.global_position.y, "dead" if e.has_method(&"is_dead") and e.is_dead() else ""])
 	if _run_t > _time_limit:
 		_finish_level("TIMEOUT maxx=%.0f" % _max_x)
 		return
@@ -113,7 +118,7 @@ func _physics_process(delta: float) -> void:
 			continue
 		var dx: float = e.global_position.x - x
 		# Yalnız aynı kattaki düşman: üstteki sandıkta dururken alttakine boşa vurmasın.
-		if absf(dx) < seek_radius and absf(e.global_position.y - y) < 60.0:
+		if absf(dx) < seek_radius and absf(e.global_position.y - y) < 80.0:
 			if foe == null or absf(dx) < absf(foe_dx):
 				foe = e
 				foe_dx = dx
@@ -127,6 +132,9 @@ func _physics_process(delta: float) -> void:
 			Input.action_release(&"move_right"); Input.action_release(&"move_left")
 		if absf(foe_dx) < 76.0:
 			_tap(&"attack")
+		# Düşmanla arada siper / sandık varsa üstünden atla.
+		if _player.is_on_floor() and _player.is_on_wall():
+			_tap(&"jump")
 		return
 
 	# girdi botu

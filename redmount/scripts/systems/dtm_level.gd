@@ -34,6 +34,8 @@ const BREAKABLE_WALL := preload("res://scenes/systems/BreakableWall.tscn")
 ## Uzak katman: atlas + [hücre, başlangıç x] listesi; ton ve alt gölge rengi.
 var sky_atlas: Texture2D = preload("res://assets/backgrounds/book02_suleymaniye_streets_atlas.png")
 var sky_cells: Array = [[0, -100000.0]]
+## 2: atlas 2x2 hücre; 1: tek parça resim.
+var sky_grid := 2
 var sky_tint := Color(0.82, 0.8, 0.86)
 var sky_shade := Color(0.08, 0.07, 0.1)
 var back_tint := Color(0.34, 0.36, 0.5)
@@ -181,6 +183,22 @@ func _night(tint := Color(0.6, 0.62, 0.82)) -> void:
 	add_child(cm)
 
 
+## Kum torbası siperi: katı, alçak (mermiyi keser); üstünden atlanır.
+func _sandbags(left: float, w: float, h := 70.0) -> void:
+	var body := _solid_box(left, -h, w, h)
+	body.add_child(_Art.new(_Art.A_SANDBAG, Vector2(w, h)))
+
+
+## Gözetleme kulesi: dar katı gövde, tepesi yürünür (nöbetçi durur), projektörlü.
+func _tower(cx: float, top: float, w := 110.0, light := true) -> void:
+	var body := _solid_box(cx - w * 0.5, top, w, -top)
+	body.add_child(_Art.new(_Art.A_TOWER, Vector2(w, -top)))
+	if light:
+		var sl := _Searchlight.new()
+		sl.position = Vector2(cx, top - 40.0)
+		add_child(sl)
+
+
 ## Sığ kanal: zemin `depth` px aşağıda, su yüzeyi oyuncunun bacaklarının önünde
 ## (içinden yürünür, ölümcül değil). Çıkış için uçlara alçak taş basamak konur.
 func _canal(x0: float, x1: float, depth: float) -> void:
@@ -282,7 +300,7 @@ func _spawn_backdrop() -> void:
 # --- Çizim sınıfları ------------------------------------------------------------
 
 class _Art extends Node2D:
-	enum { A_TERRAIN, A_HOUSE, A_BUILDING, A_CRATES, A_SCAFFOLD, A_BALCONY, A_ROOF, A_WALL_STRIP, A_ROOM, A_GATE, A_STALL, A_WATER }
+	enum { A_TERRAIN, A_HOUSE, A_BUILDING, A_CRATES, A_SCAFFOLD, A_BALCONY, A_ROOF, A_WALL_STRIP, A_ROOM, A_GATE, A_STALL, A_WATER, A_SANDBAG, A_TOWER }
 	var kind: int
 	var size: Vector2
 	var tex: Texture2D
@@ -367,6 +385,38 @@ class _Art extends Node2D:
 				# Mum ışığı
 				draw_circle(Vector2(0, -hh + 50.0), 46.0, Color(1.0, 0.75, 0.35, 0.10))
 				draw_circle(Vector2(0, -hh + 50.0), 22.0, Color(1.0, 0.8, 0.4, 0.16))
+			A_SANDBAG:
+				# Üst üste şaşırtmalı kum torbaları.
+				var bh := 22.0
+				var bw := 44.0
+				var row3 := 0
+				var yy2 := hh - bh
+				while yy2 > -hh - 1.0:
+					var off := 0.0 if row3 % 2 == 0 else bw * 0.5
+					var xx2 := -hw - off
+					while xx2 < hw:
+						var r := Rect2(maxf(xx2, -hw), yy2, minf(bw, hw - maxf(xx2, -hw)) - 2.0, bh - 2.0)
+						if r.size.x > 6.0:
+							draw_rect(r.grow(1.0), Color("3c3326"))
+							draw_rect(r, Color("a08d68") if (row3 + int(xx2)) % 3 != 0 else Color("8f7d5b"))
+							draw_rect(Rect2(r.position + Vector2(3, 3), Vector2(r.size.x - 6.0, 4)), Color(1, 1, 1, 0.12))
+						xx2 += bw
+					yy2 -= bh
+					row3 += 1
+			A_TOWER:
+				# Çelik ayaklı kule: çapraz destekler + tepede tahta kulübe.
+				var cabin := 70.0
+				var steel := Color("2f3238")
+				draw_rect(Rect2(-hw + 8.0, -hh + cabin, 10.0, size.y - cabin), steel)
+				draw_rect(Rect2(hw - 18.0, -hh + cabin, 10.0, size.y - cabin), steel)
+				var yb := -hh + cabin
+				while yb < hh - 40.0:
+					draw_line(Vector2(-hw + 13.0, yb), Vector2(hw - 13.0, yb + 60.0), steel, 4.0)
+					draw_line(Vector2(hw - 13.0, yb), Vector2(-hw + 13.0, yb + 60.0), steel, 4.0)
+					yb += 60.0
+				draw_rect(Rect2(-hw, -hh, size.x, cabin), Color("5a4634"))
+				draw_rect(Rect2(-hw + 12.0, -hh + 16.0, size.x - 24.0, 26.0), Color("ffcf7a"))
+				draw_rect(Rect2(-hw - 8.0, -hh - 4.0, size.x + 16.0, 10.0), Color("2b2622"))
 			A_WATER:
 				# Bulanık kanal suyu: yarı saydam gövde + parlak yüzey çizgisi.
 				draw_rect(Rect2(-hw, -hh + 30.0, size.x, size.y - 30.0), Color(0.16, 0.3, 0.38, 0.62))
@@ -460,7 +510,7 @@ class _Sky extends Node2D:
 		draw_rect(Rect2(-1100, 300, 2200, 500), Color(dark.r, dark.g, dark.b, 0.62))
 
 	func _cell(atlas: Texture2D, index: int, x: float, alpha: float) -> void:
-		var half := atlas.get_size() * 0.5
+		var half := atlas.get_size() / float(level.sky_grid)
 		var cell := Vector2(index % 2, index / 2) * half
 		var src_w := half.x * 0.8
 		var scroll := fposmod(x * 0.04, half.x - src_w)
@@ -563,3 +613,30 @@ class _Lantern extends Node2D:
 			var p := 0.85 + 0.15 * sin(_t * 3.0)
 			for k in 4:
 				draw_circle(Vector2(0, -4), (90.0 - k * 20.0) * p, Color(1.0, 0.7, 0.35, 0.05 + k * 0.03))
+
+
+## Projektör: kule tepesinden yavaşça süpüren ışık konisi (eklemeli, süs).
+class _Searchlight extends Node2D:
+	var _t := randf() * 6.0
+
+	func _ready() -> void:
+		z_index = -5
+		process_mode = Node.PROCESS_MODE_ALWAYS
+		var mat := CanvasItemMaterial.new()
+		mat.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
+		material = mat
+
+	func _process(delta: float) -> void:
+		_t += delta
+		queue_redraw()
+
+	func _draw() -> void:
+		var a := PI * 0.5 + sin(_t * 0.6) * 0.75
+		var d := Vector2(cos(a), sin(a))
+		var n := Vector2(-d.y, d.x)
+		var far := d * 520.0
+		draw_colored_polygon(PackedVector2Array([Vector2.ZERO, far + n * 90.0, far - n * 90.0]),
+			Color(1.0, 0.95, 0.75, 0.07))
+		draw_colored_polygon(PackedVector2Array([Vector2.ZERO, far + n * 45.0, far - n * 45.0]),
+			Color(1.0, 0.95, 0.75, 0.06))
+		draw_circle(Vector2.ZERO, 9.0, Color(1.0, 0.95, 0.8, 0.9))

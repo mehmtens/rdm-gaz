@@ -15,7 +15,7 @@ const LEVELS: PackedStringArray = [
 	"res://scenes/levels/Bolum01.tscn",
 	"res://scenes/levels/Bolum02.tscn",
 	"res://scenes/levels/Bolum03.tscn",
-	"res://scenes/levels/Level02.tscn",
+	"res://scenes/levels/Bolum04.tscn",
 	"res://scenes/levels/Level08.tscn",
 	"res://scenes/levels/Level03.tscn",
 	"res://scenes/levels/Level09.tscn",

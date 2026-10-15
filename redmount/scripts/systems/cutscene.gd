@@ -22,6 +22,7 @@ const KNIFE_FRAMES := preload("res://resources/anim/knife_agent_frames.tres")
 const KARAHANLI_FRAMES := preload("res://resources/anim/karahanli_frames.tres")
 const BRUISER_FRAMES := preload("res://resources/anim/armored_bruiser_frames.tres")
 const RIFLE_FRAMES := preload("res://resources/anim/rifle_guard_frames.tres")
+const ELITE_FRAMES := preload("res://resources/anim/elite_guard_frames.tres")
 const BUS := preload("res://assets/environment/mahalle/bus.png")
 
 const SPEAKER_COLORS := {
@@ -181,6 +182,10 @@ func actor(id: String, kind: String, pos: Vector2, facing := 1) -> Node2D:
 			"bruiser":
 				a.sprite_frames = BRUISER_FRAMES
 				a.scale = Vector2(0.66, 0.66)
+				a.offset = Vector2(0, -114)
+			"elite":
+				a.sprite_frames = ELITE_FRAMES
+				a.scale = Vector2(0.62, 0.62)
 				a.offset = Vector2(0, -114)
 			"rifle":
 				a.sprite_frames = RIFLE_FRAMES
