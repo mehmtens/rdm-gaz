@@ -336,12 +336,16 @@ func _trigger_ending() -> void:
 	await get_tree().create_timer(1.4, true, false, true).timeout
 	if not is_inside_tree():
 		return
-	get_tree().paused = true
-	_dialogue.play([
-		{"speaker": "GAZELLE", "text": "Geleceğini biliyordum."},
-		{"speaker": "REDMOUNT", "text": "Bir daha kimse seni buradan alamayacak. Gidelim."},
-	])
-	await _dialogue.finished
+	if _level.has_method(&"rescue_scene"):
+		# Bölüm kendi oyun içi kurtarma sahnesini oynatır (Cutscene).
+		await _level.rescue_scene()
+	else:
+		get_tree().paused = true
+		_dialogue.play([
+			{"speaker": "GAZELLE", "text": "Geleceğini biliyordum."},
+			{"speaker": "REDMOUNT", "text": "Bir daha kimse seni buradan alamayacak. Gidelim."},
+		])
+		await _dialogue.finished
 	if not is_inside_tree():
 		return
 	get_tree().paused = false

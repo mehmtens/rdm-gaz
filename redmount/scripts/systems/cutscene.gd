@@ -37,6 +37,8 @@ static var active: Cutscene = null
 
 @export var trigger_x: float = -1.0
 var script_fn: Callable
+## true: oyuncu havada olsa da hemen başla (ör. boss yenilince kurtarma sahnesi).
+var force_start := false
 ## Sahne bitince oyuncunun konacağı x (NAN: yerinde kalır).
 var player_end_x: float = NAN
 
@@ -67,7 +69,7 @@ func _process(_delta: float) -> void:
 		_player = get_tree().get_first_node_in_group(&"player") as Node2D
 		return
 	# Oyuncu havadayken başlama: aktör onun yerine konur, havada asılı kalmasın.
-	var grounded: bool = not (_player is CharacterBody2D) or (_player as CharacterBody2D).is_on_floor()
+	var grounded: bool = force_start or not (_player is CharacterBody2D) or (_player as CharacterBody2D).is_on_floor()
 	if (trigger_x < 0.0 or _player.global_position.x >= trigger_x) and grounded:
 		# Başka bir sahne / diyalog / büfe açıkken bekle.
 		if active != null or get_tree().paused:
