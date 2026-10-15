@@ -162,6 +162,13 @@ func _physics_process(delta: float) -> void:
 	# iter. İnsan gibi sağı basılı tutup platformun üstüne iner.
 	elif _player.is_on_wall() and not on_floor and _player.velocity.y > 0.0 and not _wall_is_moving():
 		_tap(&"jump")
+	# önünde kırılabilir duvar (verici, gizli oda kapısı) varsa vur
+	if _player.is_on_wall():
+		var hitc := _player.get_last_slide_collision()
+		if hitc != null and hitc.get_collider() != null and hitc.get_collider().has_method(&"apply_hit"):
+			_tap(&"attack")
+			_stuck_t = 0.0
+			return
 	# tıkandıysa dash + zıpla
 	if _stuck_t > 0.3:
 		_tap(&"dash")
