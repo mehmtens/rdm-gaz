@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=190 format=3]
+[gd_resource type="SpriteFrames" load_steps=197 format=3]
 
 [ext_resource type="Texture2D" path="res://assets/anim/redmount/idle.png" id="1_idle"]
 [ext_resource type="Texture2D" path="res://assets/anim/redmount/walk.png" id="2_walk"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" path="res://assets/anim/redmount/combo_a.png" id="7_combo_a"]
 [ext_resource type="Texture2D" path="res://assets/anim/redmount/combo_b.png" id="8_combo_b"]
 [ext_resource type="Texture2D" path="res://assets/anim/redmount/knee.png" id="9_knee"]
+[ext_resource type="Texture2D" path="res://assets/anim/redmount/kick.png" id="9b_kick"]
 [ext_resource type="Texture2D" path="res://assets/anim/redmount/bat_idle.png" id="10_bat_idle"]
 [ext_resource type="Texture2D" path="res://assets/anim/redmount/bat_walk.png" id="11_bat_walk"]
 [ext_resource type="Texture2D" path="res://assets/anim/redmount/bat_attack.png" id="12_bat_attack"]
@@ -676,6 +677,30 @@ region = Rect2(1200, 0, 200, 240)
 atlas = ExtResource("27_rifle_reload")
 region = Rect2(1400, 0, 200, 240)
 
+[sub_resource type="AtlasTexture" id="kick_0"]
+atlas = ExtResource("9b_kick")
+region = Rect2(0, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="kick_1"]
+atlas = ExtResource("9b_kick")
+region = Rect2(200, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="kick_2"]
+atlas = ExtResource("9b_kick")
+region = Rect2(400, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="kick_3"]
+atlas = ExtResource("9b_kick")
+region = Rect2(600, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="kick_4"]
+atlas = ExtResource("9b_kick")
+region = Rect2(800, 0, 200, 240)
+
+[sub_resource type="AtlasTexture" id="kick_5"]
+atlas = ExtResource("9b_kick")
+region = Rect2(1000, 0, 200, 240)
+
 [resource]
 animations = [{
 "frames": [{
@@ -874,6 +899,29 @@ animations = [{
 }],
 "loop": false,
 "name": &"knee",
+"speed": 15
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("kick_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("kick_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("kick_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("kick_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("kick_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("kick_5")
+}],
+"loop": false,
+"name": &"kick",
 "speed": 15
 }, {
 "frames": [{

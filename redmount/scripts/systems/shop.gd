@@ -6,7 +6,6 @@ class_name Shop
 extends RefCounted
 
 const ITEMS: Array[Dictionary] = [
-	{"id": "low_kick", "name": "Alçak tekme", "desc": "Çömel + saldırı: yakın düşmanı geriye iter.", "cost": 35, "unlock_level": 1},
 	{"id": "combo_finish", "name": "Üçüncü vuruş", "desc": "Yumruk kombosuna güçlü son vuruş ekler.", "cost": 55, "unlock_level": 2},
 	{"id": "uppercut", "name": "Aparkat", "desc": "Zıplama + saldırı: düşmanı yukarı savurur.", "cost": 70, "unlock_level": 3},
 	{"id": "dash_strike", "name": "Dash vuruşu", "desc": "Dash sırasında saldırı: ileri atılan yumruk.", "cost": 85, "unlock_level": 4},

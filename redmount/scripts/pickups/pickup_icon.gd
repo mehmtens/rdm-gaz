@@ -14,7 +14,31 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 
+## Tasarlanmış 48x48 piksel ikonlar (assets/pickups). Olmayan tür prosedürel çizilir.
+const ART := {
+	"coin": preload("res://assets/pickups/placeholder_coin.png"),
+	"health": preload("res://assets/pickups/placeholder_health.png"),
+	"ammo": preload("res://assets/pickups/placeholder_ammo.png"),
+	"armor": preload("res://assets/pickups/placeholder_armor.png"),
+	"pu_shield": preload("res://assets/pickups/placeholder_shield.png"),
+	"bat": preload("res://assets/pickups/placeholder_bat.png"),
+	"knife": preload("res://assets/pickups/placeholder_knife.png"),
+	"pistol": preload("res://assets/pickups/placeholder_pistol.png"),
+	"pu_damage": preload("res://assets/pickups/placeholder_dmg2x.png"),
+	"pu_speed": preload("res://assets/pickups/placeholder_speed.png"),
+	"pu_invis": preload("res://assets/pickups/placeholder_invis.png"),
+}
+
+
+func _ready() -> void:
+	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+
+
 func _draw() -> void:
+	var art: Texture2D = ART.get(kind)
+	if art != null:
+		_art(art)
+		return
 	match kind:
 		"coin":
 			_coin()
@@ -153,3 +177,17 @@ func _ellipse(w: float, h: float) -> PackedVector2Array:
 		var an := TAU * float(i) / 16.0
 		a.append(Vector2(cos(an) * w, sin(an) * h))
 	return a
+
+
+## Sanat ikonu: gölge + hafif nabız; coin kendi ekseninde döner (genişlik salınır).
+func _art(tex: Texture2D) -> void:
+	var size := 34.0 if kind == "coin" else 44.0
+	draw_circle(Vector2(0, size * 0.5 + 4.0), size * 0.32, Color(0, 0, 0, 0.22))
+	var w := size
+	if kind == "coin":
+		w = size * (0.3 + 0.7 * absf(cos(_t * 4.0)))
+	else:
+		# Değerli eşya: arkada yumuşak parıltı.
+		var p := 0.5 + 0.5 * sin(_t * 3.0)
+		draw_circle(Vector2.ZERO, size * 0.62, Color(1.0, 0.9, 0.55, 0.10 + 0.08 * p))
+	draw_texture_rect(tex, Rect2(-w * 0.5, -size * 0.5, w, size), false)

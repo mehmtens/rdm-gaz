@@ -8,7 +8,7 @@ extends Node
 
 const DIR := "res://assets/music/"
 ## Parçaların çalınacağı temel ses düzeyi (SFX'in altında kalsın).
-const BASE_DB := -9.0
+const BASE_DB := -6.0
 const OFF_DB := -60.0
 const FADE := 1.1
 
@@ -31,6 +31,12 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_cur = _make_player()
 	_idle = _make_player()
+	# Parçalar uzun (1-1,5 dk); ilk çalışta diskten okuma takılma yapmasın diye
+	# hepsi arka planda önceden yüklenir.
+	for n in ["street", "battle", "boss", "industrial", "fortress", "keep", "menu", "victory"]:
+		var path: String = DIR + "mus_" + n + ".wav"
+		if ResourceLoader.exists(path):
+			ResourceLoader.load_threaded_request(path)
 
 
 func _make_player() -> AudioStreamPlayer:
@@ -51,9 +57,12 @@ func _stream(name: String) -> AudioStream:
 	# Döngü `.import` içinde ayarlı (edit/loop_mode=1); burada ek iş yok.
 	var s: AudioStream = load(path)
 	# İçe aktarma ayarı kaybolsa bile bölüm parçaları kesintisiz döner.
+	# (Kopyalamadan: 1 dakikalık parçayı çoğaltmak arena başında takılma yapıyordu.)
 	if s is AudioStreamWAV and name != "victory":
-		s = s.duplicate()
-		(s as AudioStreamWAV).loop_mode = AudioStreamWAV.LOOP_FORWARD
+		var w := s as AudioStreamWAV
+		w.loop_mode = AudioStreamWAV.LOOP_FORWARD
+		w.loop_begin = 0
+		w.loop_end = int(w.get_length() * w.mix_rate)
 	_cache[name] = s
 	return s
 
@@ -78,6 +87,24 @@ func play(name: String, fade: float = FADE) -> void:
 	_cur.volume_db = OFF_DB
 	_cur.play()
 	_begin_fade(OFF_DB, BASE_DB, fade)
+
+
+var _before_battle: String = ""
+
+
+## Kilitli arena başladı: bölüm parçasını hatırla, dövüş parçasına geç.
+func battle_start() -> void:
+	if _current_name != "battle":
+		_before_battle = _current_name
+	play("battle", 0.45)
+
+
+## Arena temizlendi: bölüm parçasına geri dön.
+func battle_end() -> void:
+	if _current_name != "battle":
+		return
+	play(_before_battle if _before_battle != "" else "street", 1.6)
+	_before_battle = ""
 
 
 ## Müziği yavaşça sustur.

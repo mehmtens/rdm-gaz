@@ -124,12 +124,13 @@ class _AksarayBackdrop extends Node2D:
 	func _ready() -> void:
 		z_index = -80
 		z_as_relative = false
+		process_mode = Node.PROCESS_MODE_ALWAYS
 
 	func _process(_delta: float) -> void:
-		if _camera == null or not is_instance_valid(_camera):
-			_camera = get_viewport().get_camera_2d()
-			if _camera == null:
-				return
+		# Her kare güncel kamerayı izle (hikâye sahnesi kendi kamerasıyla oynar).
+		_camera = get_viewport().get_camera_2d()
+		if _camera == null:
+			return
 		global_position = _camera.get_screen_center_position()
 		queue_redraw()
 

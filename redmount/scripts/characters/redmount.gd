@@ -310,7 +310,8 @@ func _process_normal(delta: float) -> void:
 			_start_attack(Attack.HEAVY, "ground_slam")
 		elif not is_on_floor():
 			_start_attack(Attack.AIR_KNEE)
-		elif wants_crouch and Save.owns("low_kick"):
+		# Alçak tekme baştan açık (Dan the Man gibi): çömel + saldırı.
+		elif wants_crouch:
 			_start_attack(Attack.HEAVY, "low_kick")
 		elif Input.is_action_pressed(&"jump") and Save.owns("uppercut"):
 			_start_attack(Attack.HEAVY, "uppercut")
@@ -1199,8 +1200,11 @@ func apply_hit(damage: int, dir: Vector2, _knockback: float) -> void:
 	Fx.spark(global_position + Vector2(0, -60), Vector2(push_dir, -0.4), 8, Color(1, 0.5, 0.45))
 
 	if _health == 0:
-		velocity = Vector2(push_dir * 230.0, -270.0)  # teatral savrulma
+		velocity = Vector2(push_dir * 300.0, -430.0)  # teatral savrulma: geriye, havaya
 		Combat.hitstop(0.09)
+		Combat.slowmo(0.45, 0.55)
+		Combat.zoom_punch(0.08)
+		_dead_landed = false
 		Combat.shake(7.0)
 		Combat.flash(Color(0.9, 0.1, 0.1, 0.4), 0.18)
 		Fx.spark(global_position + Vector2(0, -60), Vector2(push_dir, -0.5), 16, Color(1, 0.4, 0.35), 1.6)
@@ -1269,10 +1273,18 @@ func _process_stagger(delta: float) -> void:
 		_set_state(State.IDLE)
 
 
+var _dead_landed := false
+
+
 func _process_dead(delta: float) -> void:
-	# Görsel yatma/savrulma char_rig DEAD pozunda; burada sadece fizik.
+	# Görsel yatma/savrulma PlayerSprite DEAD pozunda; burada fizik + yere çarpma.
 	if is_on_floor():
-		velocity.x = move_toward(velocity.x, 0.0, movement.friction * delta * 0.5)
+		if not _dead_landed and velocity.y >= 0.0:
+			_dead_landed = true
+			Fx.dust(global_position, 0.0, 12)
+			Combat.shake(5.0)
+			Sfx.play(&"land", 0.6, -2.0)
+		velocity.x = move_toward(velocity.x, 0.0, movement.friction * delta * 0.7)
 	_apply_gravity(delta)
 	move_and_slide()
 

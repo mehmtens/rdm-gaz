@@ -97,7 +97,13 @@ func _refresh() -> void:
 			# gerçek "vuruş yeme" karesi yok → dövüş duruşunda kasılma (dönüş YOK)
 			want = "fight" if _has("fight") else _p("idle")
 			loop_from_start = false
-		"KNOCKDOWN", "DEAD":
+		"DEAD":
+			# Havada toplanmış (zıplama) kare döner; yerde dümdüz gövde sırt üstü yatar.
+			var in_air: bool = owner != null and owner.has_method(&"is_on_floor") and not owner.is_on_floor()
+			want = "jump" if in_air and _has("jump") else "idle"
+			loop_from_start = false
+			spd = 0.0
+		"KNOCKDOWN":
 			# havada savrulurken diz-çekik "jump", yerde kıvrık "crouch" karesi (dönüşle yatar)
 			var airborne: bool = owner != null and owner.has_method(&"is_on_floor") and not owner.is_on_floor()
 			if airborne and _has("jump"):
@@ -148,7 +154,9 @@ func _attack_anim() -> String:
 			if _prefix in ["bat", "knife"]:
 				return _p("attack2")
 			return "combo_b"
-		"LOW_KICK", "GROUND_SLAM":
+		"LOW_KICK":
+			return "kick" if _has("kick") else "knee"
+		"GROUND_SLAM":
 			return "knee" if _has("knee") else "combo_b"
 		"UPPERCUT":
 			return "combo_b"
@@ -157,7 +165,8 @@ func _attack_anim() -> String:
 		"WEAPON":
 			return _p("attack")
 		"AIR_KNEE":
-			return "knee" if _has("knee") else "combo_b"
+			# Havada yan tekme (Dan the Man'in zıplama tekmesi).
+			return "kick" if _has("kick") else "knee"
 		"SHOOT":
 			return _p("shoot")
 	return _p("idle")
@@ -218,7 +227,8 @@ func _process(delta: float) -> void:
 			rot_k = 16.0
 		"DEAD":
 			target_rot = deg_to_rad(-90.0 * facing)
-			rot_k = 9.0
+			rot_k = 6.0
+			target_pos = Vector2(0, 6.0)
 		"DASH":
 			target_skew = deg_to_rad(-10.0 * facing)
 		"RUN":

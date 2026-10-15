@@ -238,8 +238,9 @@ func show_stage_clear(current: int, rank: String = "", seconds: float = 0.0,
 		GameState.coins, GameState.score,
 	]
 	_results_hint.text = "R — sonraki bölüm     ·     M — ana menü"
-	if current <= 5 and not Save.owns(Shop.ITEMS[current - 1].id):
-		_results_hint.text = "Yeni vuruş mağazada!  M — menü/mağaza     ·     R — sonraki bölüm"
+	for it in Shop.ITEMS:
+		if int(it.get("unlock_level", 0)) == current and not Save.owns(it.id):
+			_results_hint.text = "Yeni vuruş mağazada!  M — menü/mağaza     ·     R — sonraki bölüm"
 	_reveal(rank)
 
 

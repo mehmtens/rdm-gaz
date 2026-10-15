@@ -14,31 +14,38 @@ const VASE_BIG := preload("res://assets/environment/mahalle/vase_big.png")
 const VASE_IZNIK := preload("res://assets/environment/mahalle/vase_iznik_v2.png")
 const CRATE := preload("res://assets/environment/mahalle/crate_wood_v2.png")
 const CHEST := preload("res://assets/environment/mahalle/chest_ottoman_v2.png")
+const POTS := preload("res://assets/environment/kit/pots.png")
+## Varsayılan sanat: setteki piksel çizimler (tüp / varil prosedürel kalır).
+const DEFAULT_ART := {"vazo": VASE_SMALL, "saksi": POTS, "kasa": CRATE, "sandik": CHEST}
+## Kenar boşluklu büyük kaynaklarda yalnız nesnenin kendisi çizilir.
+const ART_REGION := {
+	"kasa": Rect2(227, 193, 893, 781),
+}
 
 ## Tür tablosu: dayanıklılık, coin, ölçü, gövde/vurgu rengi, malzeme sesi.
 const KINDS := {
 	"saksi": {
-		"hits": 1, "coins": 1, "size": Vector2(58, 56),
+		"hits": 1, "coins": 2, "size": Vector2(30, 52),
 		"body": Color("a8563a"), "trim": Color("d98f5e"), "mat": "toprak",
 	},
 	"vazo": {
-		"hits": 1, "coins": 3, "size": Vector2(56, 84),
+		"hits": 1, "coins": 3, "size": Vector2(30, 46),
 		"body": Color("b5643c"), "trim": Color("f0c08a"), "mat": "toprak",
 	},
 	"kasa": {
-		"hits": 2, "coins": 4, "size": Vector2(78, 68),
+		"hits": 2, "coins": 5, "size": Vector2(56, 50),
 		"body": Color("8a6236"), "trim": Color("c39a5c"), "mat": "tahta",
 	},
 	"tup": {
-		"hits": 2, "coins": 4, "size": Vector2(52, 82),
+		"hits": 2, "coins": 5, "size": Vector2(34, 54),
 		"body": Color("d2662f"), "trim": Color("f2e8cf"), "mat": "metal",
 	},
 	"varil": {
-		"hits": 3, "coins": 6, "size": Vector2(66, 92),
+		"hits": 3, "coins": 7, "size": Vector2(44, 60),
 		"body": Color("45545a"), "trim": Color("a47651"), "mat": "metal",
 	},
 	"sandik": {
-		"hits": 5, "coins": 12, "size": Vector2(98, 74),
+		"hits": 4, "coins": 15, "size": Vector2(76, 58),
 		"body": Color("6f4b2a"), "trim": Color("c8a349"), "mat": "tahta",
 	},
 }
@@ -61,29 +68,25 @@ var _broken: bool = false
 var _shake: float = 0.0
 var _seed: float = 0.0
 
+## Ölçüler Redmount'un (112 px) yarısı civarında: kap bir engel değil, kırılacak süstür.
 func _size() -> Vector2:
 	if kind == "vazo":
 		match _max_hp:
-			1: return Vector2(46, 62)
-			2: return Vector2(56, 78)
-			_: return Vector2(66, 90)
+			1: return Vector2(30, 46)
+			2: return Vector2(36, 54)
+			_: return Vector2(42, 62)
 	return _data["size"]
 
 
 func _ready() -> void:
-	# Kırılabilir kaplar oyundan kaldırıldı. Bölüm betikleri hâlâ `_prop(...)`
-	# çağırdığı için düğüm kendini siler; içine konmuş ödül (silah / zırh / cephane)
-	# kaybolmasın diye aynı noktaya doğrudan pickup olarak bırakılır.
-	if reward != null:
-		_drop.call_deferred(reward, global_position + Vector2(0, -45))
-	queue_free()
-	return
-	@warning_ignore("unreachable_code")
 	_data = KINDS.get(kind, KINDS["vazo"])
+	if art == null:
+		art = DEFAULT_ART.get(kind)
 	_max_hp = hits_override if hits_override > 0 else int(_data["hits"])
 	_hp = _max_hp
 	_seed = randf() * 10.0
 	z_index = 2
+	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 
 	var hurtbox := Area2D.new()
 	hurtbox.name = "Hurtbox"
@@ -198,7 +201,12 @@ func _draw() -> void:
 		Color(0.04, 0.04, 0.08, 0.35))
 
 	if art != null:
-		draw_texture_rect(art, Rect2(Vector2(-size.x * 0.5, -size.y), size), false, Color.WHITE.darkened(wear * 0.22))
+		var dst := Rect2(Vector2(-size.x * 0.5, -size.y), size)
+		var tint := Color.WHITE.darkened(wear * 0.22)
+		if ART_REGION.has(kind):
+			draw_texture_rect_region(art, dst, ART_REGION[kind], tint)
+		else:
+			draw_texture_rect(art, dst, false, tint)
 		_draw_cracks(size, wear)
 		return
 

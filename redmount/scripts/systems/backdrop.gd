@@ -22,6 +22,7 @@ var _layers: Array = []  # [{node, fx, fy}]
 func _ready() -> void:
 	z_index = -100
 	z_as_relative = false
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	var pal := _palette()
 
 	_add_layer(_SkyLayer.new(pal), 0.0, 0.0)
@@ -35,10 +36,10 @@ func _add_layer(n: Node2D, fx: float, fy: float) -> void:
 
 
 func _process(_delta: float) -> void:
-	if _cam == null or not is_instance_valid(_cam):
-		_cam = get_viewport().get_camera_2d()
-		if _cam == null:
-			return
+	# Her kare güncel kamerayı izle (hikâye sahnesi kendi kamerasıyla oynar).
+	_cam = get_viewport().get_camera_2d()
+	if _cam == null:
+		return
 	var c := _cam.get_screen_center_position()
 	for L in _layers:
 		L.node.position = Vector2(c.x * (1.0 - L.fx), c.y * (1.0 - L.fy))

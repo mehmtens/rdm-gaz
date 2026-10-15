@@ -614,8 +614,42 @@ func _do_stagger(delta: float) -> void:
 		_recover()
 
 
+var _dead_t := 0.0
+var _dead_bounces := 0
+var _dead_settled := false
+
+
 func _do_dead(delta: float) -> void:
-	velocity.x = move_toward(velocity.x, 0.0, 600.0 * delta)
+	_dead_t += delta
+	if not is_on_floor():
+		return
+	if _dead_t < 0.1:
+		return
+	if _dead_bounces == 0:
+		# İlk çarpma: toz + küçük sekme.
+		_dead_bounces = 1
+		velocity.y = -170.0
+		velocity.x *= 0.4
+		Fx.dust(global_position, 0.0, 8)
+		Combat.shake(2.0)
+		Sfx.play(&"land", 0.7, -3.0)
+		return
+	velocity.x = move_toward(velocity.x, 0.0, 1800.0 * delta)
+	if _dead_settled:
+		return
+	_dead_settled = true
+	var t := create_tween()
+	t.tween_interval(0.35)
+	# Yanıp sönme: 6 kez görün / kaybol.
+	for i in 6:
+		t.tween_callback(func() -> void: sprite.visible = false)
+		t.tween_interval(0.06)
+		t.tween_callback(func() -> void: sprite.visible = true)
+		t.tween_interval(0.06)
+	t.tween_callback(func() -> void:
+		Fx.dust(global_position, 0.0, 12)
+		Fx.spark(global_position + Vector2(0, -30), Vector2.ZERO, 8, Color(1, 0.85, 0.5), 0.9))
+	t.tween_callback(queue_free)
 
 
 func _recover() -> void:
@@ -677,11 +711,14 @@ func apply_hit(damage: int, dir: Vector2, knockback: float) -> void:
 		Fx.spark(global_position + Vector2(0, -56), Vector2.ZERO, 12, Color(1, 0.7, 0.4), 1.3)
 		Fx.dust(global_position, 0.0, 6)
 		_hurtbox.set_deferred(&"monitorable", false)
-		# Yerde kısa süre yat, sonra sön ve temizlen (ceset yığılmasın).
-		var fade := create_tween()
-		fade.tween_interval(1.15)
-		fade.tween_property(sprite, ^"modulate:a", 0.0, 0.45)
-		fade.tween_callback(queue_free)
+		# Dan the Man tarzı ölüm: darbe yönünde havaya savrul, yere çarpıp bir kez
+		# sek, kısa yat, yanıp sön ve toz bulutuyla kaybol (_do_dead sürer).
+		var resist := clampf(config.knockback_resist, 0.0, 0.85)
+		velocity = Vector2(push * 430.0 * (1.0 - resist), -430.0 * (1.0 - resist * 0.5))
+		_dead_t = 0.0
+		_dead_bounces = 0
+		_dead_settled = false
+		Combat.hitstop(0.07)
 		if not _defeated_sent:
 			_defeated_sent = true
 			defeated.emit(self)

@@ -23,8 +23,7 @@ const BUFE := preload("res://assets/environment/mahalle/bufe.png")
 const TREE_POT := preload("res://assets/environment/mahalle/tree_pot.png")
 const PLANT := preload("res://assets/environment/mahalle/plant_small.png")
 const POTS := preload("res://assets/environment/kit/pots.png")
-const VASE_BIG := preload("res://assets/environment/mahalle/vase_big.png")
-const WAGON := preload("res://assets/environment/mahalle/freight_wagon.png")
+const AWNING_TEX := preload("res://assets/environment/mahalle/market_awning_v2.png")
 const HOUSES := [
 	preload("res://assets/environment/mahalle/house_a.png"),
 	preload("res://assets/environment/mahalle/house_b.png"),
@@ -43,18 +42,19 @@ func _build_chapter() -> void:
 	add_child(_Sky.new())
 	_back_row()
 
-	# --- 1. Balat girişi: kırılanlar, coin izi, ilk kavga ----------------------
-	_intro("REDMOUNT", "Gazelle'in kuryesi Balat'tan geçmiş. Sokak sokak izini süreceğim.")
+	# --- 1. Balat girişi: kaçırılma sahnesi, kırılanlar, açık sokakta ilk kavga ---
 	_terrain(-400, 2200, 0)
+	_story(-1.0, _sahne_kacirma, 470.0)
 	_deco(PLANT, 40, 0, 0.9)
-	_prop("saksi", 300)
-	_prop("vazo", 420)
-	_coin_line(520, 5, 60, -50)
-	_crates(800, 2, 1)
-	_coin_line(805, 2, 90, -140)
-	_enemy(STREET, 1020, 0)
-	_enemy(STREET, 1150, 0)
-	_deco(TREE_POT, 1080, 0, 1.0)
+	_deco(TREE_POT, 560, 0, 1.0)
+	_prop("saksi", 330)
+	_prop("vazo", 400)
+	_coin_line(470, 4, 55, -50)
+	# İlk kavga geniş, düz sokakta: iki kabadayı, arkalarında kırılacak ödül.
+	_enemy(STREET, 820, 0)
+	_enemy(STREET, 960, 0)
+	_prop("kasa", 1050)
+	_prop("vazo", 1110)
 
 	# --- 2. Tente -> çatılar ---------------------------------------------------
 	# Tezgâh evin duvarına dayalı: duvara çarpan yeniden tenteye düşer.
@@ -74,6 +74,10 @@ func _build_chapter() -> void:
 	var h2 := _house(h1 + 160, -280, 1)
 	_coin_line(h2 - 170, 3, 55, -330)
 	_pickup(HEALTH, h2 - 40, -320)
+	_prop("saksi", h1 - 150, -240)
+	_prop("vazo", h2 - 120, -280)
+	# Çatıdan minibüs görülür: Gazelle pencereden seslenir.
+	_story(h1 - 150, _sahne_catidan_minibus)
 
 	# --- 3. Taş set, tüfekli, gizli oda ---------------------------------------
 	_checkpoint(2280, 0)
@@ -84,17 +88,23 @@ func _build_chapter() -> void:
 	_terrain(3160, 3700, 0)
 	_enemy(KNIFE, 2380, 0)
 	_prop("vazo", 2640, -90)
+	_prop("saksi", 2700, -90)
 	_enemy(RIFLE, 2900, -90)
 	_coin_line(2650, 6, 70, -150)
-	_deco(VASE_BIG, 3010, -90, 0.9)
+	_prop("vazo", 3010, -90)
 	_secret_han(3350)
 
 	# --- 4. Pazar meydanı: kapılar kapanır, 3 dalga ----------------------------
 	_checkpoint(3780, 0)
 	_terrain(3700, 5300, 0)
-	_deco(WAGON, 4050, 0, 0.17, true)
+	_story(3810, _sahne_pazar_pususu)
+	# Pazar tezgâhları (süs): meydan gerçekten pazar gibi okunsun.
+	_stall(4020)
+	_stall(4560)
 	_pickup(BAT, 3960, -45)
 	_prop("varil", 4180)
+	_prop("vazo", 4300)
+	_prop("vazo", 4480)
 	_prop("kasa", 4620)
 	_prop("saksi", 4760)
 	_scaffold(4400, -150, 220)
@@ -131,6 +141,8 @@ func _build_chapter() -> void:
 	_building(5640, 6300, -420)
 	_enemy(KNIFE, 5900, -420)
 	_enemy(RIFLE, 6220, -420)
+	_prop("saksi", 5760, -420)
+	_prop("vazo", 6060, -420)
 	_coin_line(5700, 6, 70, -470)
 	_moving(6390, -410, Vector2(220, 0), 150)
 	_coin_line(6420, 3, 70, -470)
@@ -155,10 +167,163 @@ func _build_chapter() -> void:
 	final.wave3 = _wave(ELITE)
 	final.reward = HEALTH
 	add_child(final)
-	_dialogue(8380, "REDMOUNT", "Kurye hanın içine girmiş. Kapı açık... iz devam ediyor.")
+	_story(8360, _sahne_han_kapisi)
 	_coin_line(8420, 3, 50, -50)
 	_han_gate(8650)
 	_goal(8650, 0)
+
+
+# --- Hikâye sahneleri ----------------------------------------------------------
+
+func _story(x: float, fn: Callable, end_x := NAN) -> void:
+	var cs := Cutscene.new()
+	cs.trigger_x = x
+	cs.script_fn = fn
+	cs.player_end_x = end_x
+	add_child(cs)
+
+
+## Açılış (uzun, ESC ile geçilir): Balat'ta yürüyüş ve sohbet -> Gazelle'in limanda
+## çektiği fotoğraflar (kartal başı işareti) -> gözcü telsizle haber verir -> minibüs
+## gelir, Redmount araya girer, arkadan sopayla yere serilir -> Gazelle debelenerek
+## minibüse sürüklenir, "Kuzey Hanı" diye bağırır -> Redmount kalkar, yemin eder.
+func _sahne_kacirma(cs: Cutscene) -> void:
+	cs.actor("rm", "redmount", Vector2(-40, 0))
+	cs.actor("gz", "gazelle", Vector2(30, 0))
+	await cs.pan(Vector2(330, -170), 0.01)
+	# Yürüyüş: konuşurken birlikte ilerlerler.
+	cs.move("rm", 150, 3.2, "walk", false)
+	cs.move("gz", 220, 3.2, "walk", false)
+	await cs.say("gz", "GAZELLE", "Balat'ın en güzel simidi şu köşede. Söz verdin: bugün iş yok!")
+	await cs.say("rm", "REDMOUNT", "Söz. Telefon cebimde, kapalı... neredeyse.")
+	cs.face("gz", -1)
+	await cs.say("gz", "GAZELLE", "Neredeyse mi? Redmount!")
+	await cs.say("rm", "REDMOUNT", "Tamam, tamam. Kapattım. Bak, kapalı.")
+	cs.move("rm", 260, 1.6, "walk", false)
+	await cs.move("gz", 330, 1.6, "walk")
+	cs.face("gz", -1)
+	await cs.say("gz", "GAZELLE", "Aslında... sana bir şey göstermem lazım. Dün gece Haliç'te fotoğraf çekiyordum.")
+	await cs.say("gz", "GAZELLE", "Gece yarısı, mühürsüz kamyonlar. Hepsinin kasasında aynı işaret vardı: bir kartal başı.")
+	await cs.say("rm", "REDMOUNT", "Kartal başı... Karahanlı'nın işareti. Gazelle, o adamın işine burnunu sokma.")
+	await cs.say("gz", "GAZELLE", "Gazeteye vermeden önce sana göstermek istedim. Filmler çantamda.")
+	await cs.say("rm", "REDMOUNT", "Akşam beraber bakarız. Şimdi simit. Söz söz.")
+	# Gözcü: köşede biri telsizle konuşur.
+	cs.actor("gozcu", "knife", Vector2(930, 0), -1)
+	await cs.pan(Vector2(620, -170), 0.7)
+	await cs.say("gozcu", "GÖZCÜ", "(telsize) Kız burada, yanında bir adam var. Gönderin.", 2.6)
+	cs.move("gozcu", 1300, 0.8, "walk", false)
+	await cs.pan(Vector2(400, -170), 0.6)
+	cs.face("gz", 1)
+	await cs.say("gz", "GAZELLE", "...Redmount, biri bizi izliyordu sanki.")
+	# Minibüs fren yaparak gelir.
+	cs.actor("bus", "bus", Vector2(1500, 0), -1)
+	Sfx.play(&"dash", 0.6)
+	await cs.move("bus", 640, 1.0)
+	cs.dust(560, 14)
+	cs.shake(5.0)
+	Sfx.play(&"land", 0.5)
+	await cs.wait(0.3)
+	cs.actor("t1", "thug", Vector2(560, 0), -1)
+	await cs.wait(0.2)
+	cs.actor("t2", "thug", Vector2(620, 0), -1)
+	await cs.wait(0.2)
+	cs.actor("t3", "thug", Vector2(680, 0), -1)
+	# Redmount Gazelle'in önüne geçer.
+	cs.move("gz", 230, 0.4, "walk", false)
+	cs.face("gz", 1)
+	await cs.move("rm", 360, 0.4, "run")
+	cs.move("t1", 440, 0.6, "walk", false)
+	await cs.move("t2", 500, 0.6, "walk")
+	await cs.say("t1", "KABADAYI", "Karahanlı Bey fotoğrafları istiyor. Bir de fotoğrafçıyı.")
+	await cs.say("rm", "REDMOUNT", "Bir adım daha atarsan dişlerini Haliç'ten toplarsın.")
+	await cs.say("t1", "KABADAYI", "Hep böyle konuşurlar. Sonra da yere bakarlar.")
+	# Kısa kavga: Redmount birini yere serer...
+	await cs.move("rm", 400, 0.15, "run")
+	await cs.strike("rm", "combo_b")
+	cs.knock_down("t1", 520)
+	cs.pose("rm", "fight")
+	await cs.wait(0.4)
+	# ...ama üçüncüsü arkadan dolaşıp sopayı indirir.
+	await cs.move("t3", 330, 0.7, "walk")
+	cs.face("t3", 1)
+	await cs.say("gz", "GAZELLE", "Redmount, ARKANDA!", 1.0)
+	await cs.strike("t3", "attack")
+	cs.shake(9.0)
+	await cs.knock_down("rm", 470)
+	# Gazelle'i yakalayıp minibüse sürüklerler.
+	await cs.move("t2", 260, 0.5, "walk")
+	cs.pose("gz", "flinch")
+	await cs.say("gz", "GAZELLE", "Bırak beni! REDMOUNT!", 1.2)
+	cs.move("t2", 580, 1.6, "walk", false)
+	await cs.struggle("gz", 600, 4)
+	await cs.say("gz", "GAZELLE", "Fotoğraflar... KUZEY HANI! Kuzey Hanı'nda—", 1.8)
+	cs.remove("gz")
+	cs.remove("t2")
+	await cs.get_up("t1", 0.4)
+	await cs.say("t1", "KABADAYI", "Bu da sana Karahanlı'nın selamı olsun.", 1.6)
+	cs.move("t1", 620, 0.5, "run", false)
+	await cs.move("t3", 620, 0.5, "run")
+	cs.remove("t1")
+	cs.remove("t3")
+	Sfx.play(&"dash", 0.5)
+	cs.dust(640, 16)
+	await cs.move("bus", 1800, 1.4)
+	cs.remove("bus")
+	await cs.wait(0.5)
+	await cs.get_up("rm", 0.7)
+	cs.face("rm", 1)
+	await cs.say("rm", "REDMOUNT", "GAZELLE!", 1.0)
+	await cs.say("rm", "REDMOUNT", "Kuzey Hanı... Minibüs yokuşa saptı. Çatılardan kestirirsem yetişirim.")
+	await cs.say("rm", "REDMOUNT", "Dayan. Seni geri alacağım, Karahanlı'nın elinden de, bu şehrin elinden de.")
+
+
+## Çatıda: aşağıdaki sokaktan minibüs geçer, Gazelle pencereden bağırır.
+func _sahne_catidan_minibus(cs: Cutscene) -> void:
+	var p := cs.player_pos()
+	cs.actor("rm", "redmount", p)
+	await cs.pan(Vector2(p.x + 520, -260), 0.6)
+	cs.actor("bus", "bus", Vector2(p.x + 100, 0), 1)
+	cs.move("bus", p.x + 1500, 2.6, "", false)
+	await cs.wait(0.5)
+	await cs.say("bus", "GAZELLE", "REDMOUNT! Pazar meydanına götürüyorlar!", 1.8)
+	await cs.pan(Vector2(p.x + 120, -260), 0.5)
+	await cs.say("rm", "REDMOUNT", "Duydum seni! Pazar meydanı... geliyorum.")
+
+
+## Pazar meydanı girişi: pusu. Adam lafı uzatır, kapılar kapanır.
+func _sahne_pazar_pususu(cs: Cutscene) -> void:
+	var p := cs.player_pos()
+	cs.actor("rm", "redmount", p)
+	cs.actor("t1", "knife", Vector2(4250, 0), -1)
+	await cs.pan(Vector2(4080, -170), 0.6)
+	await cs.say("t1", "KARAHANLI'NIN ADAMI", "Minibüs çoktan geçti, kahraman. Senin yolun bu meydanda bitiyor.")
+	await cs.say("rm", "REDMOUNT", "Gazelle'i nereye götürdünüz?")
+	await cs.say("t1", "KARAHANLI'NIN ADAMI", "Han kapısına kadar sağ çıkarsan görürsün. Çocuklar!")
+	await cs.move("t1", 4700, 0.6, "walk")
+	cs.remove("t1")
+
+
+## Han kapısı: Karahanlı Gazelle'i hanın içine götürür. Sonraki bölümün kapısı.
+func _sahne_han_kapisi(cs: Cutscene) -> void:
+	var p := cs.player_pos()
+	cs.actor("rm", "redmount", p)
+	cs.actor("kh", "karahanli", Vector2(8740, 0), -1)
+	cs.actor("gz", "gazelle", Vector2(8810, 0), -1)
+	cs.actor("t1", "thug", Vector2(8870, 0), -1)
+	cs.pose("gz", "bound_idle")
+	await cs.pan(Vector2(8600, -180), 0.7)
+	await cs.say("kh", "KARAHANLI", "Redmount... Balat'ı dolaşmak yordu mu? Kız bende, oyun da bende.")
+	await cs.say("gz", "GAZELLE", "Redmount, gelme! Tuzak bu!")
+	await cs.say("rm", "REDMOUNT", "Karahanlı! Onu bırak!")
+	await cs.say("kh", "KARAHANLI", "Kuzey Hanı'nda görüşürüz. Tabii oraya kadar yaşarsan.")
+	cs.face("kh", 1)
+	cs.move("kh", 8660, 0.5, "walk", false)
+	cs.move("t1", 8700, 0.6, "walk", false)
+	await cs.move("gz", 8680, 0.6, "flinch")
+	cs.fade_out("kh", 0.4)
+	cs.fade_out("t1", 0.4)
+	await cs.fade_out("gz", 0.5)
+	await cs.say("rm", "REDMOUNT", "Kuzey Hanı... Dayan Gazelle. Geliyorum.")
 
 
 # --- Yapı taşları -------------------------------------------------------------
@@ -259,6 +424,14 @@ func _deco(tex: Texture2D, cx: float, ground: float, scale_f: float, behind := t
 	add_child(s)
 
 
+## Pazar tezgâhı (süs, çarpışmasız): iki direk, çizgili tente, altında sandıklar.
+func _stall(cx: float) -> void:
+	var art := _Art.new(_Art.A_STALL, Vector2(220, 170))
+	art.position = Vector2(cx, -85)
+	art.z_index = -7
+	add_child(art)
+
+
 ## Gizli oda: hanın kapısı kırılabilir duvar. İçeri girince ön cephe şeffaflaşır;
 ## içeride Osmanlı sandığı (zırh + coin). Yol, sandık basamağıyla hanın damından geçer.
 func _secret_han(left: float) -> void:
@@ -328,7 +501,7 @@ func _spawn_backdrop() -> void:
 # --- Çizim sınıfları ------------------------------------------------------------
 
 class _Art extends Node2D:
-	enum { A_TERRAIN, A_HOUSE, A_BUILDING, A_CRATES, A_SCAFFOLD, A_BALCONY, A_ROOF, A_WALL_STRIP, A_ROOM, A_GATE }
+	enum { A_TERRAIN, A_HOUSE, A_BUILDING, A_CRATES, A_SCAFFOLD, A_BALCONY, A_ROOF, A_WALL_STRIP, A_ROOM, A_GATE, A_STALL }
 	var kind: int
 	var size: Vector2
 	var tex: Texture2D
@@ -413,6 +586,15 @@ class _Art extends Node2D:
 				# Mum ışığı
 				draw_circle(Vector2(0, -hh + 50.0), 46.0, Color(1.0, 0.75, 0.35, 0.10))
 				draw_circle(Vector2(0, -hh + 50.0), 22.0, Color(1.0, 0.8, 0.4, 0.16))
+			A_STALL:
+				for lx in [-hw + 10.0, hw - 18.0]:
+					draw_texture_rect(SCAFFOLD_POST, Rect2(lx - 6.0, -hh + 20.0, 14.0, size.y - 20.0), true)
+				draw_texture_rect_region(AWNING_TEX, Rect2(-hw - 14.0, -hh, size.x + 28.0, 56.0), Rect2(6, 147, 2161, 320))
+				for k in 3:
+					var cx2 := -hw + 22.0 + k * 62.0
+					var sz := 56.0 - (k % 2) * 10.0
+					draw_texture_rect_region(CRATE, Rect2(cx2, hh - sz, sz, sz), Rect2(227, 193, 893, 781), Color("d8c8b4"))
+				draw_texture_rect(POTS, Rect2(hw - 46.0, hh - 64.0 - 50.0, 28.0, 50.0), false)
 			A_GATE:
 				# Kemerli han kapısı: taş çerçeve + koyu açıklık + kiremit başlık.
 				draw_texture_rect_region(WALL, Rect2(-hw, -hh, size.x, size.y), Rect2(0, 0, 80, 160), Color(0.92, 0.88, 0.82))
@@ -457,13 +639,14 @@ class _Sky extends Node2D:
 	func _ready() -> void:
 		z_index = -90
 		z_as_relative = false
+		process_mode = Node.PROCESS_MODE_ALWAYS
 		texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 
 	func _process(_delta: float) -> void:
-		if _camera == null or not is_instance_valid(_camera):
-			_camera = get_viewport().get_camera_2d()
-			if _camera == null:
-				return
+		# Her kare güncel kamerayı izle (hikâye sahnesi kendi kamerasıyla oynar).
+		_camera = get_viewport().get_camera_2d()
+		if _camera == null:
+			return
 		global_position = _camera.get_screen_center_position()
 		queue_redraw()
 
@@ -497,14 +680,15 @@ class _BackRow extends Node2D:
 	func _ready() -> void:
 		z_index = -40
 		z_as_relative = false
+		process_mode = Node.PROCESS_MODE_ALWAYS
 		texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 		modulate = Color(0.34, 0.36, 0.5)
 
 	func _process(_delta: float) -> void:
-		if _camera == null or not is_instance_valid(_camera):
-			_camera = get_viewport().get_camera_2d()
-			if _camera == null:
-				return
+		# Her kare güncel kamerayı izle (hikâye sahnesi kendi kamerasıyla oynar).
+		_camera = get_viewport().get_camera_2d()
+		if _camera == null:
+			return
 		queue_redraw()
 
 	func _draw() -> void:

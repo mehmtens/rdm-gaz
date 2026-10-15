@@ -56,10 +56,16 @@ var _t: float = 0.0
 var _near := false
 var _opened_ms := 0
 var _panel: CanvasLayer
+var _sign: Node2D
 
 
 func _ready() -> void:
-	z_index = 2
+	# Cephe bir bina: Redmount onun ÖNÜNDE durur (önceden cephe oyuncunun üstüne
+	# çiziliyor, büfe önündeki karakter binanın içinde kaybolmuş gibi görünüyordu).
+	# Tabela ve "E" rozeti ayrı bir düğümde, oyuncunun önünde kalır.
+	z_index = -3
+	_sign = _Sign.new(self)
+	add_child(_sign)
 	# Panel açıkken dünya durur; büfe girdiyi dinlemeye devam etmeli.
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
@@ -184,8 +190,13 @@ func _draw() -> void:
 	else:
 		var art := WORKSHOP if style == "workshop" else FORTRESS if style == "fortress" else UNDERGROUND
 		draw_texture_rect(art, facade, false)
+
+
+## Tabela + yakındayken zıplayan "E" rozeti (oyuncunun önünde çizilir).
+func _draw_sign(canvas: CanvasItem) -> void:
+	var facade := _facade_rect()
 	var center := facade.get_center().x
-	var board := PixelText.sign_board(self, Vector2(center, facade.position.y - 34.0), title, accent, 3.0, false)
+	var board := PixelText.sign_board(canvas, Vector2(center, facade.position.y - 34.0), title, accent, 3.0, false)
 	if not _near or is_open():
 		return
 	# Yakındayken tabelanın üstünde zıplayan "dokun" rozeti.
@@ -193,11 +204,26 @@ func _draw() -> void:
 	var hint := "DOKUN" if TouchControls.active_on_device() else "E"
 	var tag_w := PixelText.width(hint, 3.0) + 24.0
 	var tag := Rect2(roundf(center - tag_w * 0.5), board.position.y - 56.0 + bob, tag_w, 40.0)
-	draw_rect(tag.grow(3.0), Color("17131f"))
-	draw_rect(tag, Color("ffc857"))
-	draw_rect(Rect2(tag.position.x, tag.end.y - 6.0, tag.size.x, 6.0), Color("d18b2c"))
-	draw_rect(Rect2(center - 6.0, tag.end.y + 3.0, 12.0, 6.0), Color("17131f"))
-	PixelText.draw_centered(self, center, tag.position.y + 2.0, hint, 3.0, Color("2a1c12"))
+	canvas.draw_rect(tag.grow(3.0), Color("17131f"))
+	canvas.draw_rect(tag, Color("ffc857"))
+	canvas.draw_rect(Rect2(tag.position.x, tag.end.y - 6.0, tag.size.x, 6.0), Color("d18b2c"))
+	canvas.draw_rect(Rect2(center - 6.0, tag.end.y + 3.0, 12.0, 6.0), Color("17131f"))
+	PixelText.draw_centered(canvas, center, tag.position.y + 2.0, hint, 3.0, Color("2a1c12"))
+
+
+class _Sign extends Node2D:
+	var _shop: LevelShop
+
+	func _init(shop: LevelShop) -> void:
+		_shop = shop
+		z_index = 6
+		texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+
+	func _process(_delta: float) -> void:
+		queue_redraw()
+
+	func _draw() -> void:
+		_shop._draw_sign(self)
 
 
 ## Ürün paneli — tam ekran, dokunmatik. Ürün kartına dokun: satın al.

@@ -6,13 +6,14 @@ extends PickupBase
 
 func _ready() -> void:
 	# Tek ve okunaklı ekonomi: her coin aynı görünür ve aynı değeri verir.
-	value = 1
+	# Değer 2: yükseltme fiyatlarına bölüm başına daha hızlı ulaşılır.
+	value = 2
 	kind = "coin"
 	super()
 	add_to_group(&"coin")
 
 
 func _collect(_player: Node) -> void:
-	GameState.add_coins(1)
+	GameState.add_coins(value)
 	Sfx.play(&"coin")
 	Fx.spark(global_position, Vector2.ZERO, 5, Color(1, 0.9, 0.5), 0.7)

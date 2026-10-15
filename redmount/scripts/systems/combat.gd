@@ -48,12 +48,28 @@ func hitstop(seconds: float) -> void:
 
 func _run_hitstop() -> void:
 	_hitstop_running = true
-	var previous_scale := Engine.time_scale
 	Engine.time_scale = 0.0
 	while Time.get_ticks_msec() < _hitstop_until_ms:
 		await get_tree().create_timer(0.02, true, false, true).timeout
-	Engine.time_scale = previous_scale
+	# Önceki ölçeğe değil, şu anki hedefe dön: ağır çekim bittiyse 1.0. (Eskiden
+	# ağır çekim sırasında başlayan donma 0.45'i geri yükleyip oyunu yavaş bırakıyordu.)
+	Engine.time_scale = _slow_scale if Time.get_ticks_msec() < _slow_until_ms else 1.0
 	_hitstop_running = false
+
+
+var _slow_until_ms := 0
+var _slow_scale := 1.0
+
+
+## Kısa ağır çekim (ölüm gibi teatral anlar). Gerçek zamanla biter.
+func slowmo(scale: float, seconds: float) -> void:
+	_slow_until_ms = Time.get_ticks_msec() + int(seconds * 1000.0)
+	_slow_scale = scale
+	if not _hitstop_running:
+		Engine.time_scale = scale
+	await get_tree().create_timer(seconds, true, false, true).timeout
+	if Time.get_ticks_msec() >= _slow_until_ms and not _hitstop_running:
+		Engine.time_scale = 1.0
 
 
 # --- Kamera / ekran -------------------------------------------------

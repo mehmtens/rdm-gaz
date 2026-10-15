@@ -78,6 +78,12 @@ func _physics_process(delta: float) -> void:
 		db._advance()
 		return
 
+	# hikâye sahnesi: bot sahneyi geçer
+	if Cutscene.active != null:
+		Cutscene.active._skip = true
+		Cutscene.active._advance = true
+		return
+
 	# bitiş?
 	if get_tree().paused or _main._finished:
 		_finish_level("CLEARED @%.0f  t=%.1fs" % [_max_x, _run_t])

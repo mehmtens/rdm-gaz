@@ -66,6 +66,7 @@ func _activate() -> void:
 	Combat.shake(3.5)
 	Combat.hitstop(0.06)
 	Sfx.play(&"armor_break", 0.7)
+	Music.battle_start()
 	_spawn_wave()
 
 
@@ -176,6 +177,7 @@ func _finish() -> void:
 	if use_gates:
 		_drop_gates()
 	_unlock_camera()
+	Music.battle_end()
 	Combat.shake(2.5)
 	Fx.popup(Vector2((gate_left_x + gate_right_x) * 0.5, floor_y - 130.0), "TEMİZ!", _accent, 30)
 	if reward != null:

@@ -69,11 +69,16 @@ func set_anim(state: String, attack: String, _phase: int, _pp: float, _combo: in
 			want = _pick("knockdown", "dead", "hurt")
 			_has_down_frame = want == "knockdown" or want == "dead"
 		"DEAD":
+			# Ölüm şeritlerinin yatış kareleri hücreye sığmayıp kesik çizilmiş; yalnız
+			# ilk iki "savrulma" karesi kullanılır, yatış kod eğimiyle yapılır.
 			want = _pick("dead", "knockdown", "hurt")
-			_has_down_frame = want == "dead" or want == "knockdown"
+			_has_down_frame = false
 	speed_scale = spd
 	if animation != want:
 		play(want)
+	if state == "DEAD" and frame > 1:
+		frame = 1
+		pause()
 	elif not sprite_frames.get_animation_loop(want) and not is_playing():
 		pass  # tek-sefer bitti, son karede kal
 
@@ -95,8 +100,10 @@ func _process(delta: float) -> void:
 		"KNOCKDOWN":
 			tr = 0.0 if _has_down_frame else deg_to_rad(78.0 * facing)
 		"DEAD":
-			tr = 0.0 if _has_down_frame else deg_to_rad(82.0 * facing)
-	_rot = lerp_angle(_rot, tr, clampf(delta * 11.0, 0.0, 1.0))
+			# Sırt üstü düşüş: baş darbenin geldiği yönün tersine yatar.
+			tr = deg_to_rad(-80.0 * facing)
+	var rate := 7.0 if _state == "DEAD" else 11.0
+	_rot = lerp_angle(_rot, tr, clampf(delta * rate, 0.0, 1.0))
 	rotation = _rot
 
 
