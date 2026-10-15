@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/bolum06.gd" id="1"]
+
+[node name="Bolum06" type="Node2D"]
+script = ExtResource("1")
+display_name = "Ağır Güvenlik Bölgesi"
+biome = 1
+chapter = 7
+par_time = 240.0
+camera_limit_left = -200
+camera_limit_right = 9800
+camera_limit_top = -900
+camera_limit_bottom = 130
+fall_respawn_y = 400.0

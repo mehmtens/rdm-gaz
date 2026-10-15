@@ -54,8 +54,31 @@ func _ready() -> void:
 		pts.append(Vector2(x0 + width / float(n) * 0.5, ht + 12.0))
 		pts.append(Vector2(x0 + width / float(n), ht))
 	teeth.polygon = pts
-	teeth.color = Color(0.5, 0.13, 0.12)
+	teeth.color = Color(0.2, 0.21, 0.24)
 	add_child(teeth)
+	# Çelik pres başlığı: koyu gövde, üst parlak kenar, tavandan inen piston kolu,
+	# alt kenarda sarı-siyah tehlike şeridi (Dan the Man tarzı okunur tehlike).
+	_vis.color = Color("464a53")
+	var rod := Polygon2D.new()
+	rod.polygon = PackedVector2Array([Vector2(-13, -ht - 700), Vector2(13, -ht - 700), Vector2(13, -ht), Vector2(-13, -ht)])
+	rod.color = Color("6e737d")
+	rod.z_index = -1
+	_vis.add_child(rod)
+	var shine := Polygon2D.new()
+	shine.polygon = PackedVector2Array([Vector2(-hw, -ht), Vector2(hw, -ht), Vector2(hw, -ht + 5), Vector2(-hw, -ht + 5)])
+	shine.color = Color("9aa0aa")
+	_vis.add_child(shine)
+	var stripe_w := 16.0
+	var sx := -hw
+	var k := 0
+	while sx < hw:
+		var band := Polygon2D.new()
+		var x1 := minf(sx + stripe_w, hw)
+		band.polygon = PackedVector2Array([Vector2(sx, ht - 16), Vector2(x1, ht - 16), Vector2(x1, ht), Vector2(sx, ht)])
+		band.color = Color("f2c230") if k % 2 == 0 else Color("1b1b1d")
+		_vis.add_child(band)
+		sx += stripe_w
+		k += 1
 
 	_hit = Area2D.new()
 	_hit.collision_layer = 0

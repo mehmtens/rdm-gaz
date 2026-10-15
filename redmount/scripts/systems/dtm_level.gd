@@ -33,6 +33,8 @@ const HOUSES := [
 ## Ev sanatlarında kiremit saçağının bittiği oran (gövde üst kenarı).
 const HOUSE_EAVE := [0.2, 0.17, 0.0]
 const BREAKABLE_WALL := preload("res://scenes/systems/BreakableWall.tscn")
+const CRUSHER := preload("res://scenes/systems/Crusher.tscn")
+const FLAME := preload("res://scenes/systems/FlameVent.tscn")
 
 
 ## Uzak katman: atlas + [hücre, başlangıç x] listesi; ton ve alt gölge rengi.
@@ -51,12 +53,13 @@ var _cam: Camera2D
 
 func _build_chapter() -> void:
 	_spawn_marker()
+	# Önce içerik: bölüm sky_* / back_row_on ayarlarını _build içinde verir.
+	_build()
 	var sky := _Sky.new()
 	sky.level = self
 	add_child(sky)
 	if back_row_on:
 		_back_row()
-	_build()
 
 
 ## Bölüm içeriği (alt sınıf yazar).
@@ -220,6 +223,32 @@ func _rails(x0: float, x1: float) -> void:
 	add_child(r)
 
 
+## Fabrika binası: katı tuğla gövde, üstü yürünür (metal korniş).
+func _factory(x0: float, x1: float, top: float) -> void:
+	var body := _solid_box(x0, top, x1 - x0, -top)
+	body.add_child(_Art.new(_Art.A_FACTORY, Vector2(x1 - x0, -top)))
+
+
+## Pres: tavandan periyodik inen ezici (alt kenarı inince zemine değer).
+func _press(cx: float, phase := 0.0, period := 2.8, ground := 0.0) -> void:
+	var c := CRUSHER.instantiate()
+	c.set("width", 100.0)
+	c.set("thickness", 60.0)
+	c.set("drop_height", 165.0)
+	c.set("period", period)
+	c.set("phase_offset", phase)
+	c.position = Vector2(cx, ground - 165.0 - 30.0)
+	add_child(c)
+
+
+## Alev bacası: zeminden periyodik fışkıran alev (uyarı titremesiyle).
+func _flame(cx: float, phase := 0.0, ground := 0.0) -> void:
+	var f := FLAME.instantiate()
+	f.set("phase_offset", phase)
+	f.position = Vector2(cx, ground)
+	add_child(f)
+
+
 ## Sığ kanal: zemin `depth` px aşağıda, su yüzeyi oyuncunun bacaklarının önünde
 ## (içinden yürünür, ölümcül değil). Çıkış için uçlara alçak taş basamak konur.
 func _canal(x0: float, x1: float, depth: float) -> void:
@@ -321,7 +350,7 @@ func _spawn_backdrop() -> void:
 # --- Çizim sınıfları ------------------------------------------------------------
 
 class _Art extends Node2D:
-	enum { A_TERRAIN, A_HOUSE, A_BUILDING, A_CRATES, A_SCAFFOLD, A_BALCONY, A_ROOF, A_WALL_STRIP, A_ROOM, A_GATE, A_STALL, A_WATER, A_SANDBAG, A_TOWER, A_WAGON, A_RAILS }
+	enum { A_TERRAIN, A_HOUSE, A_BUILDING, A_CRATES, A_SCAFFOLD, A_BALCONY, A_ROOF, A_WALL_STRIP, A_ROOM, A_GATE, A_STALL, A_WATER, A_SANDBAG, A_TOWER, A_WAGON, A_RAILS, A_FACTORY, A_PRESS_FRAME }
 	var kind: int
 	var size: Vector2
 	var tex: Texture2D
@@ -450,6 +479,42 @@ class _Art extends Node2D:
 					k += 34.0
 				draw_rect(Rect2(-hw, -6.0, size.x, 4.0), Color("8d8f94"))
 				draw_rect(Rect2(-hw, 2.0, size.x, 3.0), Color("6c6e73"))
+			A_FACTORY:
+				# Tuğla duvar (taş dokusu kızıla boyanır) + kemerli, içeriden yanan pencereler.
+				var fy := -hh
+				var frow := 0
+				while fy < hh - 0.5:
+					var fth := minf(160.0, hh - fy)
+					var fx := -hw
+					while fx < hw - 0.5:
+						var ftw := minf(80.0, hw - fx)
+						var sh := 0.62 if (frow + int((fx + hw) / 80.0)) % 2 == 0 else 0.56
+						draw_texture_rect_region(WALL, Rect2(fx, fy, ftw, fth), Rect2(0, 0, ftw, 160.0 * fth / 160.0),
+							Color(sh * 1.35, sh * 0.82, sh * 0.66))
+						fx += 80.0
+					fy += 160.0
+					frow += 1
+				var wy := -hh + 40.0
+				while wy < hh - 70.0:
+					var wx := -hw + 30.0
+					while wx < hw - 60.0:
+						draw_rect(Rect2(wx, wy + 14.0, 36.0, 44.0), Color("1c1612"))
+						draw_circle(Vector2(wx + 18.0, wy + 14.0), 18.0, Color("1c1612"))
+						draw_rect(Rect2(wx + 4.0, wy + 16.0, 28.0, 38.0), Color(1.0, 0.62, 0.28, 0.85))
+						draw_line(Vector2(wx + 18.0, wy + 2.0), Vector2(wx + 18.0, wy + 56.0), Color("1c1612"), 3.0)
+						wx += 90.0
+					wy += 120.0
+				draw_rect(Rect2(-hw - 6.0, -hh - 8.0, size.x + 12.0, 14.0), Color("3a3d44"))
+				draw_rect(Rect2(-hw - 6.0, -hh - 8.0, size.x + 12.0, 3.0), Color("8a8f99"))
+			A_PRESS_FRAME:
+				# İki çelik kolon + üst kiriş + piston gövdesi.
+				var steel2 := Color("34373e")
+				draw_rect(Rect2(-hw, -hh, 16.0, size.y), steel2)
+				draw_rect(Rect2(hw - 16.0, -hh, 16.0, size.y), steel2)
+				draw_rect(Rect2(-hw, -hh, size.x, 26.0), Color("2a2c31"))
+				draw_rect(Rect2(-14.0, -hh + 26.0, 28.0, size.y * 0.42), Color("6d7079"))
+				for k2 in 3:
+					draw_rect(Rect2(-hw + 4.0, -hh + 60.0 + k2 * 90.0, 8.0, 8.0), Color(1.0, 0.75, 0.2, 0.9))
 			A_WATER:
 				# Bulanık kanal suyu: yarı saydam gövde + parlak yüzey çizgisi.
 				draw_rect(Rect2(-hw, -hh + 30.0, size.x, size.y - 30.0), Color(0.16, 0.3, 0.38, 0.62))
