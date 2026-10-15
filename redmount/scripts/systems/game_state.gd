@@ -14,7 +14,7 @@ signal level_changed(index: int, total: int)
 const LEVELS: PackedStringArray = [
 	"res://scenes/levels/Bolum01.tscn",
 	"res://scenes/levels/Bolum02.tscn",
-	"res://scenes/levels/Level07.tscn",
+	"res://scenes/levels/Bolum03.tscn",
 	"res://scenes/levels/Level02.tscn",
 	"res://scenes/levels/Level08.tscn",
 	"res://scenes/levels/Level03.tscn",

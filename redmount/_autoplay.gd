@@ -112,7 +112,8 @@ func _physics_process(delta: float) -> void:
 		if not is_instance_valid(e) or (e.has_method(&"is_dead") and e.is_dead()):
 			continue
 		var dx: float = e.global_position.x - x
-		if absf(dx) < seek_radius and absf(e.global_position.y - y) < 90.0:
+		# Yalnız aynı kattaki düşman: üstteki sandıkta dururken alttakine boşa vurmasın.
+		if absf(dx) < seek_radius and absf(e.global_position.y - y) < 60.0:
 			if foe == null or absf(dx) < absf(foe_dx):
 				foe = e
 				foe_dx = dx

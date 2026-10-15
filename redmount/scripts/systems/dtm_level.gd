@@ -166,6 +166,21 @@ func _deco(tex: Texture2D, cx: float, ground: float, scale_f: float, behind := t
 	add_child(s)
 
 
+## Gece feneri (süs): direk + sıcak ışık halesi. `y` fenerin yüksekliği.
+func _lantern(x: float, y := -170.0) -> void:
+	var l := _Lantern.new()
+	l.position = Vector2(x, y)
+	l.pole = -y
+	add_child(l)
+
+
+## Gece tonu: dünya katmanını karartır (arayüz etkilenmez); fenerler parlak kalır.
+func _night(tint := Color(0.6, 0.62, 0.82)) -> void:
+	var cm := CanvasModulate.new()
+	cm.color = tint
+	add_child(cm)
+
+
 ## Sığ kanal: zemin `depth` px aşağıda, su yüzeyi oyuncunun bacaklarının önünde
 ## (içinden yürünür, ölümcül değil). Çıkış için uçlara alçak taş basamak konur.
 func _canal(x0: float, x1: float, depth: float) -> void:
@@ -516,3 +531,35 @@ class _Chalk extends Node2D:
 
 	func _draw() -> void:
 		PixelText.draw_centered(self, 0.0, 0.0, text, 3.0, Color(0.95, 0.95, 0.9, 0.9), Color(0.2, 0.2, 0.25, 0.6))
+
+
+## Fener: ince direk, cam fener, nabız atan sıcak hale (eklemeli karışım).
+class _Lantern extends Node2D:
+	var pole := 170.0
+	var _t := randf() * 6.0
+
+	func _ready() -> void:
+		z_index = -4
+		var mat := CanvasItemMaterial.new()
+		mat.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
+		var glow := _Glow.new()
+		glow.material = mat
+		add_child(glow)
+
+	func _draw() -> void:
+		draw_rect(Rect2(-3, 0, 6, pole), Color("2b2622"))
+		draw_rect(Rect2(-10, -16, 20, 22), Color("3a2d22"))
+		draw_rect(Rect2(-7, -13, 14, 16), Color("ffc46b"))
+		draw_rect(Rect2(-12, -20, 24, 5), Color("2b2622"))
+
+	class _Glow extends Node2D:
+		var _t := 0.0
+
+		func _process(delta: float) -> void:
+			_t += delta
+			queue_redraw()
+
+		func _draw() -> void:
+			var p := 0.85 + 0.15 * sin(_t * 3.0)
+			for k in 4:
+				draw_circle(Vector2(0, -4), (90.0 - k * 20.0) * p, Color(1.0, 0.7, 0.35, 0.05 + k * 0.03))

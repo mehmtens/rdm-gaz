@@ -50,6 +50,7 @@ var _hint: Label
 var _advance := false
 var _player: Node2D
 var _hidden: Array = []
+var _ui: CanvasLayer
 
 
 func _ready() -> void:
@@ -136,14 +137,17 @@ func _finish() -> void:
 
 # --- Aktörler -------------------------------------------------------------
 
-## kind: gazelle / redmount / thug / knife / bruiser / rifle / karahanli / bus
+## kind: gazelle / redmount / thug / knife / bruiser / rifle / karahanli / bus / voice
 func actor(id: String, kind: String, pos: Vector2, facing := 1) -> Node2D:
 	var root := Node2D.new()
 	root.process_mode = Node.PROCESS_MODE_ALWAYS
 	root.position = pos
 	root.z_index = 3
 	root.set_meta(&"kind", kind)
-	if kind == "bus":
+	if kind == "voice":
+		# Görünmeyen konuşan (telsiz, tezgâh arkası, kapı ardı): yalnız balon çıkar.
+		pass
+	elif kind == "bus":
 		root.z_index = 2   # araç karakterlerin arkasında
 		var s := Sprite2D.new()
 		s.texture = BUS
@@ -258,9 +262,13 @@ func say(id: String, speaker: String, text: String, hold := -1.0) -> void:
 	b.speaker = speaker
 	b.text = text
 	b.color = SPEAKER_COLORS.get(speaker, Color(0.9, 0.9, 0.95))
-	var head := 150.0 if a == null or a.get_meta(&"kind") != "bus" else 210.0
+	var head := 150.0
+	if a != null and a.get_meta(&"kind") == "bus":
+		head = 210.0
+	elif a != null and a.get_meta(&"kind") == "voice":
+		head = 0.0
 	b.position = (a.position if a != null else _cam.global_position) + Vector2(0, -head)
-	add_child(b)
+	_bubble_layer().add_child(b)
 	_advance = false
 	var auto := hold if hold > 0.0 else 1.4 + text.length() * 0.045
 	var elapsed := 0.0
@@ -343,6 +351,17 @@ func fade_out(id: String, time := 0.4) -> void:
 ## Sahne başladığı anda oyuncunun ayak konumu (oyuncu gizli; yerine aktör konur).
 func player_pos() -> Vector2:
 	return _player.global_position if _player != null else Vector2.ZERO
+
+
+## Balonlar dünyayı izleyen ayrı katmanda: gece tonu (CanvasModulate) onları karartmaz.
+func _bubble_layer() -> CanvasLayer:
+	if _ui == null:
+		_ui = CanvasLayer.new()
+		_ui.layer = 1
+		_ui.follow_viewport_enabled = true
+		_ui.process_mode = Node.PROCESS_MODE_ALWAYS
+		add_child(_ui)
+	return _ui
 
 
 func wait(seconds: float) -> void:
