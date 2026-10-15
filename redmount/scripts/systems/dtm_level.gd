@@ -21,6 +21,10 @@ const TREE_POT := preload("res://assets/environment/mahalle/tree_pot.png")
 const PLANT := preload("res://assets/environment/mahalle/plant_small.png")
 const POTS := preload("res://assets/environment/kit/pots.png")
 const AWNING_TEX := preload("res://assets/environment/mahalle/market_awning_v2.png")
+const WAGON := preload("res://assets/environment/mahalle/freight_wagon.png")
+## Vagon: 400 px genişlik; gövde üstü yerden 140 px (tekerlekler altta).
+const WAGON_W := 400.0
+const WAGON_TOP := 140.0
 const HOUSES := [
 	preload("res://assets/environment/mahalle/house_a.png"),
 	preload("res://assets/environment/mahalle/house_b.png"),
@@ -199,6 +203,23 @@ func _tower(cx: float, top: float, w := 110.0, light := true) -> void:
 		add_child(sl)
 
 
+## Yük vagonu: katı gövde, üstü yürünür. `tint` vagonları birbirinden ayırır.
+func _wagon(left: float, tint := Color.WHITE) -> float:
+	var body := _solid_box(left, -WAGON_TOP, WAGON_W, WAGON_TOP)
+	var art := _Art.new(_Art.A_WAGON, Vector2(WAGON_W, WAGON_TOP))
+	art.modulate = tint
+	body.add_child(art)
+	return left + WAGON_W
+
+
+## Ray hattı (süs): zemine gömülü traversler ve iki ray.
+func _rails(x0: float, x1: float) -> void:
+	var r := _Art.new(_Art.A_RAILS, Vector2(x1 - x0, 16.0))
+	r.position = Vector2((x0 + x1) * 0.5, 2.0)
+	r.z_index = -2
+	add_child(r)
+
+
 ## Sığ kanal: zemin `depth` px aşağıda, su yüzeyi oyuncunun bacaklarının önünde
 ## (içinden yürünür, ölümcül değil). Çıkış için uçlara alçak taş basamak konur.
 func _canal(x0: float, x1: float, depth: float) -> void:
@@ -300,7 +321,7 @@ func _spawn_backdrop() -> void:
 # --- Çizim sınıfları ------------------------------------------------------------
 
 class _Art extends Node2D:
-	enum { A_TERRAIN, A_HOUSE, A_BUILDING, A_CRATES, A_SCAFFOLD, A_BALCONY, A_ROOF, A_WALL_STRIP, A_ROOM, A_GATE, A_STALL, A_WATER, A_SANDBAG, A_TOWER }
+	enum { A_TERRAIN, A_HOUSE, A_BUILDING, A_CRATES, A_SCAFFOLD, A_BALCONY, A_ROOF, A_WALL_STRIP, A_ROOM, A_GATE, A_STALL, A_WATER, A_SANDBAG, A_TOWER, A_WAGON, A_RAILS }
 	var kind: int
 	var size: Vector2
 	var tex: Texture2D
@@ -417,6 +438,18 @@ class _Art extends Node2D:
 				draw_rect(Rect2(-hw, -hh, size.x, cabin), Color("5a4634"))
 				draw_rect(Rect2(-hw + 12.0, -hh + 16.0, size.x - 24.0, 26.0), Color("ffcf7a"))
 				draw_rect(Rect2(-hw - 8.0, -hh - 4.0, size.x + 16.0, 10.0), Color("2b2622"))
+			A_WAGON:
+				# Sanatın gövde üstü (satır 80/793) katı kutunun üstüne oturur.
+				var art_h := size.x * 793.0 / 1983.0
+				var top := -hh - art_h * 80.0 / 793.0
+				draw_texture_rect(WAGON, Rect2(-hw, top, size.x, art_h), false)
+			A_RAILS:
+				var k := -hw
+				while k < hw:
+					draw_rect(Rect2(k, -4.0, 14.0, 12.0), Color("3a2c22"))
+					k += 34.0
+				draw_rect(Rect2(-hw, -6.0, size.x, 4.0), Color("8d8f94"))
+				draw_rect(Rect2(-hw, 2.0, size.x, 3.0), Color("6c6e73"))
 			A_WATER:
 				# Bulanık kanal suyu: yarı saydam gövde + parlak yüzey çizgisi.
 				draw_rect(Rect2(-hw, -hh + 30.0, size.x, size.y - 30.0), Color(0.16, 0.3, 0.38, 0.62))

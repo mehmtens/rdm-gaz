@@ -24,6 +24,7 @@ const BRUISER_FRAMES := preload("res://resources/anim/armored_bruiser_frames.tre
 const RIFLE_FRAMES := preload("res://resources/anim/rifle_guard_frames.tres")
 const ELITE_FRAMES := preload("res://resources/anim/elite_guard_frames.tres")
 const BUS := preload("res://assets/environment/mahalle/bus.png")
+const WAGON := preload("res://assets/environment/mahalle/freight_wagon.png")
 
 const SPEAKER_COLORS := {
 	"REDMOUNT": Color(1.0, 0.72, 0.42),
@@ -138,7 +139,7 @@ func _finish() -> void:
 
 # --- Aktörler -------------------------------------------------------------
 
-## kind: gazelle / redmount / thug / knife / bruiser / rifle / karahanli / bus / voice
+## kind: gazelle / redmount / thug / knife / bruiser / rifle / elite / karahanli / bus / wagon / voice
 func actor(id: String, kind: String, pos: Vector2, facing := 1) -> Node2D:
 	var root := Node2D.new()
 	root.process_mode = Node.PROCESS_MODE_ALWAYS
@@ -148,6 +149,15 @@ func actor(id: String, kind: String, pos: Vector2, facing := 1) -> Node2D:
 	if kind == "voice":
 		# Görünmeyen konuşan (telsiz, tezgâh arkası, kapı ardı): yalnız balon çıkar.
 		pass
+	elif kind == "wagon":
+		root.z_index = 2
+		var w := Sprite2D.new()
+		w.texture = WAGON
+		w.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		w.scale = Vector2(400.0 / 1983.0, 400.0 / 1983.0)
+		w.offset = Vector2(0, -WAGON.get_height() * 0.5 + 30.0)
+		w.name = "Body"
+		root.add_child(w)
 	elif kind == "bus":
 		root.z_index = 2   # araç karakterlerin arkasında
 		var s := Sprite2D.new()
