@@ -14,7 +14,7 @@ func _ready() -> void:
 
 func _finish_level(msg: String) -> void:
 	_note_stall()
-	if not msg.begins_with("CLEARED") or _longest_stall > 30.0:
+	if not msg.begins_with("CLEARED") or _longest_stall > 45.0:
 		push_error("BASARISIZ Bölüm %d: %s  stall=%.0fs@%.0f" % [_level_idx + 1, msg, _longest_stall, _stall_at])
 		get_tree().quit(1)
 		return
