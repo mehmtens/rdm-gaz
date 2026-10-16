@@ -617,11 +617,13 @@ class _Sky extends Node2D:
 		for k in cells.size():
 			if x >= float(cells[k][1]):
 				cur = k
-		_cell(atlas, int(cells[cur][0]), x, 1.0)
+		# Hücre girdisi [hücre, x] ya da [hücre, x, atlas]: bölüm içinde atlas değişebilir.
+		_cell(cells[cur][2] if cells[cur].size() > 2 else atlas, int(cells[cur][0]), x, 1.0)
 		if cur + 1 < cells.size():
 			var t := clampf((x - float(cells[cur + 1][1]) + 900.0) / 900.0, 0.0, 1.0)
 			if t > 0.0:
-				_cell(atlas, int(cells[cur + 1][0]), x, t)
+				var nxt: Array = cells[cur + 1]
+				_cell(nxt[2] if nxt.size() > 2 else atlas, int(nxt[0]), x, t)
 		var dark: Color = level.sky_shade
 		# Alt kısım koyulaşır: oynanan zemin ve arka sıra evler öne çıkar.
 		for i in 6:
