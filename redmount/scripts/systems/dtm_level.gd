@@ -62,6 +62,8 @@ var sky_tint := Color(0.82, 0.8, 0.86)
 var sky_shade := Color(0.08, 0.07, 0.1)
 var back_tint := Color(0.34, 0.36, 0.5)
 var back_row_on := true
+## Arka sıra evlerin çizilmediği dünya x aralıkları (iç mekân / yeraltı): [[x0, x1], ...]
+var back_row_skip: Array = []
 var zoom_level := 1.12
 
 var _cam: Camera2D
@@ -674,7 +676,11 @@ class _BackRow extends Node2D:
 			var h := 270.0 + float((i * 37) % 3) * 35.0
 			var w := h * tex.get_width() / tex.get_height()
 			var sx := x + shift
-			if sx > cx - 1300.0 and sx < cx + 1300.0:
+			var skip := false
+			for r in level.back_row_skip:
+				if sx + w > float(r[0]) and sx < float(r[1]):
+					skip = true
+			if not skip and sx > cx - 1300.0 and sx < cx + 1300.0:
 				draw_texture_rect(tex, Rect2(sx, 30.0 - h, w, h), false)
 			x += w + 30.0 + float((i * 53) % 4) * 20.0
 			i += 1

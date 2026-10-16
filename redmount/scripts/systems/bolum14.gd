@@ -17,6 +17,7 @@ func _build() -> void:
 		[0, 5600.0, PRESS], [1, 6900.0, PRESS], [2, 8000.0, PRESS], [3, 9000.0, PRESS]]
 	sky_tint = Color(0.9, 0.86, 0.84)
 	sky_shade = Color(0.08, 0.05, 0.06)
+	back_row_skip = [[3500.0, 4400.0], [7950.0, 9000.0]]
 
 	# --- 1. Gümrük avlusu: ısınma, ilk tüfekli ---------------------------------
 	_terrain(-400, 1600, 0)
