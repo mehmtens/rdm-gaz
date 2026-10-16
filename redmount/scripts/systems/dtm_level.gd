@@ -37,6 +37,7 @@ const PIX_BRICK := preload("res://assets/environment/pixel/tugla.png")
 const PIX_WINDOW := preload("res://assets/environment/pixel/fabrika_pencere.png")
 const PIX_GATE := preload("res://assets/environment/pixel/han_kapisi.png")
 const PIX_BEAM := preload("res://assets/environment/pixel/huzme.png")
+const PIX_STONE := preload("res://assets/environment/pixel/tas_blok.png")
 const NICHE := preload("res://assets/environment/kit/wall_niche.png")
 ## Vagon: 400 px genişlik; gövde üstü yerden 140 px (tekerlekler altta).
 const WAGON_W := 400.0
@@ -294,6 +295,12 @@ func _collapse(cx: float, top: float, w := 140.0) -> void:
 	vis.add_child(art)
 
 
+## Taş blok yığını: `cols` sütun, `rows` sıra (90 px oyma taş).
+func _stones(left: float, cols: int, rows: int) -> void:
+	var body := _solid_box(left, -90.0 * rows, 90.0 * cols, 90.0 * rows)
+	body.add_child(_Art.new(_Art.A_STONES, Vector2(90.0 * cols, 90.0 * rows)))
+
+
 ## Sığ kanal: zemin `depth` px aşağıda, su yüzeyi oyuncunun bacaklarının önünde
 ## (içinden yürünür, ölümcül değil). Çıkış için uçlara alçak taş basamak konur.
 func _canal(x0: float, x1: float, depth: float) -> void:
@@ -395,7 +402,7 @@ func _spawn_backdrop() -> void:
 # --- Çizim sınıfları ------------------------------------------------------------
 
 class _Art extends Node2D:
-	enum { A_TERRAIN, A_HOUSE, A_BUILDING, A_CRATES, A_SCAFFOLD, A_BALCONY, A_ROOF, A_WALL_STRIP, A_ROOM, A_GATE, A_STALL, A_WATER, A_SANDBAG, A_TOWER, A_WAGON, A_RAILS, A_FACTORY, A_PRESS_FRAME, A_CEILING, A_PLANK }
+	enum { A_TERRAIN, A_HOUSE, A_BUILDING, A_CRATES, A_SCAFFOLD, A_BALCONY, A_ROOF, A_WALL_STRIP, A_ROOM, A_GATE, A_STALL, A_WATER, A_SANDBAG, A_TOWER, A_WAGON, A_RAILS, A_FACTORY, A_PRESS_FRAME, A_CEILING, A_PLANK, A_STONES }
 	var kind: int
 	var size: Vector2
 	var tex: Texture2D
@@ -543,6 +550,8 @@ class _Art extends Node2D:
 				# Çatlak ahşap tahta (dikmesiz); koyu ton çürüklüğü anlatır.
 				draw_texture_rect_region(SCAFFOLD_DECK, Rect2(-hw - 4.0, -8.0, size.x + 8.0, 34.0),
 					Rect2(27, 149, 1929, 260), Color(0.78, 0.66, 0.56))
+			A_STONES:
+				_tiled(PIX_STONE, Rect2(-hw, -hh, size.x, size.y), Color(0.78, 0.7, 0.6))
 			A_WATER:
 				# Piksel art su: 3 karelik dalgalı yüzey + dither gövde.
 				var fr := int(_t * 5.0) % 3

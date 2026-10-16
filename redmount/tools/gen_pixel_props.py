@@ -481,7 +481,31 @@ def kaset():
     c.im.save(OUT / "kaset.png")
 
 
+def tas_blok():
+    """Oyma mermer/taş blok (30x30): parlak üst, koyu yan, ortada kabartma motif."""
+    c = Canvas(30, 30)
+    c.rect(0, 0, 29, 29, "stone2")
+    c.rect(0, 0, 29, 2, "stone3")
+    c.rect(26, 0, 29, 29, "stone1")
+    c.rect(0, 27, 29, 29, "stone1")
+    c.hline(0, 29, 3, "cream")
+    import random
+    rnd = random.Random(3)
+    for _ in range(40):
+        x, y = rnd.randint(1, 25), rnd.randint(4, 26)
+        c.put(x, y, rnd.choice(["stone1", "stone3", "sand2"]))
+    c.vline(2, 4, 26, "stone3")
+    # kabartma: küçük çarkıfelek
+    c.rect(10, 11, 18, 19, "stone1")
+    c.rect(11, 12, 17, 18, "stone3")
+    c.put(14, 13, "stone1"); c.put(14, 17, "stone1"); c.put(12, 15, "stone1"); c.put(16, 15, "stone1")
+    c.put(14, 15, "stone0")
+    c.outline()
+    c.im.save(OUT / "tas_blok.png")
+
+
 GENERATORS = {
+    "tas_blok": tas_blok,
     "kaset": kaset,
     "parmaklik": parmaklik,
     "sancak": sancak, "kum_torbasi": kum_torbasi, "kule": kule, "fener": fener, "su": su,
