@@ -434,7 +434,8 @@ func _on_goal_reached() -> void:
 			return
 		_hud.visible = true
 		_ending_in_progress = false
-	elif GameState.story_scenes and not StoryData.outro(GameState.level_index).is_empty():
+	# Yeni bölümler (DtmLevel) hikâyelerini oyun içi sahnelerle anlatır; eski outro çelişmesin.
+	elif GameState.story_scenes and not (_level is DtmLevel) and not StoryData.outro(GameState.level_index).is_empty():
 		# Bölümün hikâye sonucu: ne bulundu, iz nereye gidiyor.
 		_ending_in_progress = true
 		get_tree().paused = true

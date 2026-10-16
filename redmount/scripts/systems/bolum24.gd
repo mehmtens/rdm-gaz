@@ -155,8 +155,9 @@ func _build() -> void:
 
 	# --- 11. Servis kulesi: pistonlar, son ağır arena; kule revir --------------
 	_checkpoint(14750, 0)
-	_press(15000, 0.0, 2.6)
-	_press(15250, 0.5, 2.6)
+	# İki pres arası geniş: ezilen oyuncu iki presin arasında yeniden doğmasın.
+	_press(14950, 0.0, 3.0)
+	_press(15350, 0.5, 3.0)
 	_coin_line(14970, 5, 70, -60)
 	var a11: BattleArena = ARENA.instantiate()
 	a11.position = Vector2(15900, 0)
