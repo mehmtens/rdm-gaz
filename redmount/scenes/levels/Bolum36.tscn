@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/bolum36.gd" id="1"]
+
+[node name="Bolum36" type="Node2D"]
+script = ExtResource("1")
+display_name = "Son Yayın"
+biome = 0
+chapter = 7
+par_time = 600.0
+camera_limit_left = -200
+camera_limit_right = 16500
+camera_limit_top = -900
+camera_limit_bottom = 130
+fall_respawn_y = 400.0
