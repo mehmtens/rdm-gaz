@@ -7,7 +7,7 @@ extends "res://_autoplay.gd"
 
 func _ready() -> void:
 	Save.purchased = []
-	_time_limit = 480.0
+	_time_limit = 900.0
 	assert(not OS.get_environment("REDMOUNT_PROBE_LEVEL").is_empty(), "REDMOUNT_PROBE_LEVEL verilmeli")
 	await super._ready()
 
