@@ -504,7 +504,162 @@ def tas_blok():
     c.im.save(OUT / "tas_blok.png")
 
 
+def diken():
+    """Diken şeridi (20x10 döşeme): paslı demir çiviler, koyu taban, uçta parlama."""
+    c = Canvas(20, 10)
+    c.rect(0, 8, 19, 9, "iron0")
+    c.hline(0, 19, 7, "iron1")
+    for k, x0 in enumerate((1, 6, 11, 16)):
+        h = 6 if k % 2 == 0 else 5
+        for i in range(h):
+            y = 7 - i
+            half = max(0, (h - i) // 2)
+            c.hline(x0 - half, x0 + half, y, "iron2" if i < h - 2 else "iron3")
+            c.put(x0 - half, y, "iron1")
+        c.put(x0, 7 - h, "red3")
+        c.put(x0, 7 - h + 1, "red2")
+    c.outline()
+    c.im.save(OUT / "diken.png")
+
+
+
+def ahsap_kat():
+    """Kat döşemesi (32x8): kalın tahta, alt kirişler; üst kenar aydınlık."""
+    c = Canvas(32, 8)
+    c.rect(0, 0, 31, 3, "wood2")
+    c.hline(0, 31, 0, "wood3")
+    for x in (7, 15, 23, 31):
+        c.vline(x, 0, 3, "wood0")
+    c.rect(0, 4, 31, 4, "wood0")
+    for x0 in (2, 18):
+        c.rect(x0, 5, x0 + 4, 7, "wood1")
+        c.put(x0, 5, "wood2")
+    c.im.save(OUT / "ahsap_kat.png")
+
+
+
+def on_sarmasik():
+    """Ön plan sarkan sarmaşık (40x48): koyu yapraklar, birkaç yaprak ışık alır."""
+    import random
+    rnd = random.Random(11)
+    c = Canvas(40, 48)
+    dark = (16, 28, 22, 255)
+    mid = (28, 48, 34, 255)
+    lit = (64, 96, 54, 255)
+    c.rect(0, 0, 39, 3, dark)
+    for k in range(9):
+        x = 2 + k * 4 + rnd.randint(-1, 1)
+        ln = rnd.randint(14, 46)
+        for y in range(2, ln):
+            xx = x + (1 if (y // 6) % 2 else 0)
+            c.put(xx, y, dark)
+            if y % 4 == 0:
+                c.rect(xx - 1, y, xx + 1, y + 1, mid)
+                if rnd.random() < 0.25:
+                    c.put(xx + 1, y, lit)
+    c.im.save(OUT / "on_sarmasik.png")
+
+
+def zincir():
+    """Sarkan zincir halkası (6x8 dikey döşeme)."""
+    c = Canvas(6, 8)
+    c.rect(1, 0, 4, 3, "iron2")
+    c.rect(2, 1, 3, 2, "clear")
+    c.put(1, 0, "iron3")
+    c.rect(2, 4, 3, 7, "iron1")
+    c.put(2, 4, "iron3")
+    c.outline()
+    c.im.save(OUT / "zincir.png")
+
+
+def anten():
+    """Radyo anten direği (24x96): kafes direk, tepede kırmızı ikaz lambası, izolatörler."""
+    c = Canvas(24, 96)
+    for y in range(8, 96):
+        w = 2 + (y - 8) * 9 // 88
+        l, r = 12 - w, 11 + w
+        c.put(l, y, "iron2")
+        c.put(r, y, "iron1")
+        if (y - 8) % 8 == 0:
+            c.hline(l, r, y, "iron1")
+        if (y - 8) % 8 < 8:
+            d = (y - 8) % 8
+            span = r - l
+            c.put(l + d * span // 8, y, "iron0")
+            c.put(r - d * span // 8, y, "iron0")
+    c.rect(10, 2, 13, 7, "iron1")
+    c.rect(10, 0, 13, 2, "red2")
+    c.put(11, 0, "red3")
+    for y in (30, 60):
+        c.rect(9, y, 14, y + 1, "white")
+    c.outline()
+    c.im.save(OUT / "anten.png")
+
+
+def ic_duvar():
+    """Kireç sıva (48x32): yumuşak lekeli, sıcak; desen tekrarı göze batmasın diye düşük kontrast."""
+    import random
+    rnd = random.Random(5)
+    c = Canvas(48, 32)
+    base = (150, 128, 108, 255)
+    c.rect(0, 0, 47, 31, base)
+    for _ in range(140):
+        x, y = rnd.randint(0, 47), rnd.randint(0, 31)
+        c.put(x, y, rnd.choice([(140, 118, 100, 255), (160, 138, 116, 255), (144, 124, 104, 255)]))
+    # birkaç ince çatlak
+    x, y = 30, 4
+    for _ in range(7):
+        c.put(x, y, (112, 92, 80, 255))
+        x += rnd.choice([0, 1]); y += 1
+    c.im.save(OUT / "ic_duvar.png")
+
+
+def hatil():
+    """Hımış ahşap çatkı kirişi (8x8 döşeme): koyu meşe, üstte ışık çizgisi."""
+    c = Canvas(8, 8)
+    c.rect(0, 0, 7, 7, "wood1")
+    c.hline(0, 7, 0, "wood2")
+    c.hline(0, 7, 7, "wood0")
+    c.put(3, 3, "wood0"); c.put(4, 4, "wood0")
+    c.im.save(OUT / "hatil.png")
+
+
+def sivali_tugla():
+    """Sıvası dökülmüş yama (24x14): görünen tuğlalar, süs olarak seyrek kullanılır."""
+    c = Canvas(24, 14)
+    for row, y in enumerate(range(1, 13, 4)):
+        off = 0 if row % 2 == 0 else 3
+        for x in range(off + 1, 22, 6):
+            c.rect(x, y, x + 4, y + 2, "brick1")
+            c.hline(x, x + 4, y, "brick2")
+    c.im.save(OUT / "sivali_tugla.png")
+
+
+def on_kolon():
+    """Ön plan sütunu: başlık (18x10), gövde döşemesi (18x16), kaide (18x10). Koyu, kenar ışıklı."""
+    dark, mid, rim, rim2 = (40, 30, 38, 255), (60, 44, 50, 255), (96, 60, 42, 255), (150, 98, 58, 255)
+    cap = Canvas(18, 10)
+    cap.rect(0, 2, 17, 9, dark); cap.rect(2, 0, 15, 2, dark)
+    cap.hline(0, 17, 9, rim); cap.hline(2, 15, 0, mid)
+    cap.vline(17, 2, 9, rim2)
+    cap.im.save(OUT / "on_kolon_bas.png")
+    body = Canvas(18, 16)
+    body.rect(2, 0, 15, 15, dark)
+    for x in (5, 9, 13):
+        body.vline(x, 0, 15, mid)
+    body.vline(15, 0, 15, rim)
+    body.vline(16, 0, 15, rim2)
+    body.im.save(OUT / "on_kolon.png")
+    base = Canvas(18, 10)
+    base.rect(0, 0, 17, 9, dark); base.hline(0, 17, 0, rim); base.vline(17, 0, 9, rim2)
+    base.hline(1, 16, 4, mid)
+    base.im.save(OUT / "on_kolon_kaide.png")
+
+
 GENERATORS = {
+    "hatil": hatil, "sivali_tugla": sivali_tugla,
+    "diken": diken, "ic_duvar": ic_duvar, "ahsap_kat": ahsap_kat, "on_kolon": on_kolon,
+    "on_sarmasik": on_sarmasik, "zincir": zincir, "anten": anten,
     "tas_blok": tas_blok,
     "kaset": kaset,
     "parmaklik": parmaklik,

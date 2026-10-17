@@ -19,101 +19,100 @@ func _build() -> void:
 	sky_shade = Color(0.08, 0.06, 0.05)
 	back_row_skip = [[5900.0, 9600.0]]
 
-	# --- 1. Karaköy kıyısı: devriye -------------------------------------------
+	# --- 1. Karaköy kıyısı: balıkçı tezgâhları, balkonla zırha -----------------
 	_terrain(-400, 1700, 0)
 	_story(-1.0, _sahne_kiyi, 240.0)
+	_lantern(150)
+	_stall(620)
+	_fg("kolon", 420.0, 40.0, 380.0)
 	_enemy(KNIFE, 900, 0)
+	_enemy(STREET, 1080, 0)
 	_prop("saksi", 1150)
 	_balcony(1300, -70, 110)
 	_balcony(1460, -170, 110)
-	_pickup(ARMOR, 1460, -215)
+	_balcony(1300, -270, 110)
+	_pickup(ARMOR, 1300, -315)
+	_coin_line(1420, 3, 45, -220)
 
-	# --- 2. Köprübaşı: arena -------------------------------------------------
+	# --- 2. Köprübaşı: alçak meydanda arena (orta iskele) -----------------------
 	_checkpoint(1650, 0)
 	_terrain(1700, 1850, 30)
 	_terrain(1850, 3100, 60)
-	var kop: BattleArena = ARENA.instantiate()
-	kop.position = Vector2(2450, 60)
-	kop.gate_left_x = 2000
-	kop.gate_right_x = 2900
-	kop.floor_y = 60
-	kop.wave1 = _wave(STREET, KNIFE, ASSASSIN)
-	kop.wave2 = _wave(RIFLE, BRUISER)
-	kop.reward = AMMO
-	add_child(kop)
+	_scaffold(2450, -50, 200)
+	_coin_line(2380, 4, 45, -100)
+	_fight(2000, 2900, _wave(STREET, KNIFE, ASSASSIN), _wave(RIFLE, BRUISER), [], AMMO, 60.0)
 	_terrain(3100, 3250, 30)
 
-	# --- 3. Yokuş sokak: tente -> çatılar -------------------------------------
-	_terrain(3250, 10300, 0)
+	# --- 3. Kamondo merdivenleri: basamak basamak yokuş, sahanlıkta kavga ------
 	_checkpoint(3300, 0)
-	var aw := AwningBounce.new()
-	aw.width = 180
-	aw.height = 60
-	aw.position = Vector2(3500, 0)
-	add_child(aw)
-	_balcony(3552, -125, 70)
-	var h1 := _house(3590, -220, 0)
-	_balcony(h1 + 45, -110, 90)
-	_balcony(h1 + 115, -195, 90)
-	var h2 := _house(h1 + 160, -270, 1)
-	_coin_line(3640, 4, 60, -270)
-	_coin_line(h2 - 160, 3, 50, -320)
-	_enemy(KNIFE, h2 - 120, -270)
-	_pickup(PISTOL, h2 - 40, -315)
+	_terrain(3250, 3380, 0)
+	for k in 4:
+		_terrain(3380.0 + k * 110.0, 3490.0 + k * 110.0, -45.0 * (k + 1))
+		if k % 2 == 1:
+			_prop("saksi", 3420.0 + k * 110.0, -45.0 * (k + 1))
+	_terrain(3820, 4150, -180)
+	_lantern(3700, -330)
+	_enemy(KNIFE, 3950, -180)
+	_enemy(STREET, 4080, -180)
+	_coins_arc(3400, 6, 70, -260)
 
-	# --- 4. Telgraf binası cephesi: tüfekliler, kablo direkleri -------------------
-	_checkpoint(4650, 0)
-	_crates(4800, 1, 1)
-	_crates(4890, 1, 2)
-	_terrain(4980, 5250, -180)
-	_enemy(RIFLE, 5200, -180)
-	_enemy(RIFLE, 5500, 0)
-	_scaffold(5580, -130, 120)
-	_scaffold(5580, -240, 120)
-	_tower(5700, -280, 110, false)
+	# --- 4. Çatı yolu: sahanlıktan evlerin damına, aşağı sokağa iniş ------------
+	var h1 := _house(4150, -270, 0)
+	_balcony(h1 + 45, -150, 90)
+	_balcony(h1 + 115, -230, 90)
+	var h2 := _house(h1 + 160, -310, 1)
+	_enemy(RIFLE, h2 - 80, -310)
+	_pickup(PISTOL, h1 - 60, -315)
+	_coin_line(h2 - 230, 4, 50, -360)
+	_prop("vazo", h1 - 140, -270)
 
-	# --- 5. Mors salonu: erzak --------------------------------------------------
-	_checkpoint(5950, 0)
-	_story(6050, _sahne_mors)
-	_enemy(ASSASSIN, 6400, 0)
+	# --- 5. Telgraf binası: üç kat, içeriden yukarı; damda antenler ---------------
+	_checkpoint(5250, 0)
+	_interior(5350, 6100, -345, [-115.0, -230.0], 0)
+	_enemy(KNIFE, 5600, 0)
+	_enemy(RIFLE, 5900, 0)
+	_enemy(ELITE, 5750, -115)
+	_enemy(STREET, 5500, -230)
+	_coin_line(5450, 6, 60, -160)
+	_pickup(HEALTH, 6050, -275)
+	_coin_line(5700, 4, 50, -275)
+	_antenna(5500, -345, 3.0)
+	_antenna(5950, -345, 3.0)
+	_coin_line(5600, 5, 60, -395)
+	_story(6200, _sahne_mors)
+
+	# --- 6. Mors kantini ----------------------------------------------------------
 	var shop: LevelShop = SHOP.new()
-	shop.position = Vector2(6700, 0)
+	shop.position = Vector2(6550, 0)
 	shop.title = "MORS KANTİNİ"
 	shop.items = PackedStringArray(["can", "cephane", "zirh"])
 	shop.accent = Color("e7a449")
 	add_child(shop)
 
-	# --- 6. Kablo koridoru: arena ---------------------------------------------
-	_checkpoint(6900, 0)
-	var kab: BattleArena = ARENA.instantiate()
-	kab.position = Vector2(7450, 0)
-	kab.gate_left_x = 7100
-	kab.gate_right_x = 7800
-	kab.floor_y = 0
-	kab.wave1 = _wave(ELITE, KNIFE)
-	kab.wave2 = _wave(ELITE, RIFLE, STREET)
-	kab.reward = HEALTH
-	add_child(kab)
+	# --- 7. Kablo koridoru: arena ---------------------------------------------
+	_checkpoint(6850, 0)
+	_fg("zincir", 7300.0, -560.0, 220.0)
+	_fg("zincir", 7650.0, -560.0, 160.0)
+	_fight(7050, 7850, _wave(ELITE, KNIFE), _wave(ELITE, RIFLE, STREET))
 
-	# --- 7. Arşiv odası: raflar --------------------------------------------------
+	# --- 8. Arşiv: iki katlı raf odası, sonra çökmüş döşeme (çivili bodrum) -----
 	_checkpoint(7950, 0)
-	_crates(8100, 1, 1)
-	_scaffold(8260, -150, 130)
-	_scaffold(8410, -260, 130)
-	_pickup(RIFLE_PICKUP, 8410, -305)
-	_enemy(ELITE, 8700, 0)
+	_interior(8050, 8500, -230, [-115.0], 1)
+	_enemy(ELITE, 8300, 0)
+	_pickup(RIFLE_PICKUP, 8420, -160)
+	_coin_line(8100, 4, 50, -160)
+	_terrain(4150, 8600, 0)
+	_spike_pit(8600, 8790)
+	for k in 2:
+		_collapse(8650.0 + k * 100.0, -90.0, 90)
+	_coin_line(8630, 3, 70, -140)
+	_terrain(8790, 10300, 0)
 
-	# --- 8. Çatı direkleri: son arena; hattı kes ----------------------------------
+	# --- 9. Çatı direkleri: son arena; hattı kes ----------------------------------
 	_checkpoint(8950, 0)
-	var final: BattleArena = ARENA.instantiate()
-	final.position = Vector2(9400, 0)
-	final.gate_left_x = 9100
-	final.gate_right_x = 9700
-	final.floor_y = 0
-	final.wave1 = _wave(KNIFE, ASSASSIN, RIFLE)
-	final.wave2 = _wave(ELITE, BRUISER)
-	final.reward = HEALTH
-	add_child(final)
+	_antenna(9250, 0, 4.0)
+	_antenna(9650, 0, 4.0)
+	_fight(9100, 9700, _wave(KNIFE, ASSASSIN, RIFLE), _wave(ELITE, BRUISER))
 	var hat := BREAKABLE_WALL.instantiate()
 	hat.set("hits_to_break", 5)
 	hat.position = Vector2(9850, 0)

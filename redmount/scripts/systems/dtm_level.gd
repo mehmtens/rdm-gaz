@@ -38,6 +38,16 @@ const PIX_WINDOW := preload("res://assets/environment/pixel/fabrika_pencere.png"
 const PIX_GATE := preload("res://assets/environment/pixel/han_kapisi.png")
 const PIX_BEAM := preload("res://assets/environment/pixel/huzme.png")
 const PIX_STONE := preload("res://assets/environment/pixel/tas_blok.png")
+const PIX_INWALL := preload("res://assets/environment/pixel/ic_duvar.png")
+const PIX_FLOOR := preload("res://assets/environment/pixel/ahsap_kat.png")
+const PIX_FG_COLUMN := preload("res://assets/environment/pixel/on_kolon.png")
+const PIX_FG_CAP := preload("res://assets/environment/pixel/on_kolon_bas.png")
+const PIX_FG_BASE := preload("res://assets/environment/pixel/on_kolon_kaide.png")
+const PIX_BEAM_WOOD := preload("res://assets/environment/pixel/hatil.png")
+const PIX_BRICK_PATCH := preload("res://assets/environment/pixel/sivali_tugla.png")
+const PIX_FG_VINE := preload("res://assets/environment/pixel/on_sarmasik.png")
+const PIX_CHAIN := preload("res://assets/environment/pixel/zincir.png")
+const PIX_ANTENNA := preload("res://assets/environment/pixel/anten.png")
 const NICHE := preload("res://assets/environment/kit/wall_niche.png")
 ## Vagon: 400 px genişlik; gövde üstü yerden 140 px (tekerlekler altta).
 const WAGON_W := 400.0
@@ -68,6 +78,7 @@ var back_row_skip: Array = []
 var zoom_level := 1.12
 
 var _cam: Camera2D
+var _fg_layer: _Foreground
 
 
 func _build_chapter() -> void:
@@ -370,6 +381,94 @@ func _han_gate(cx: float, title := "") -> void:
 		add_child(sign)
 
 
+## Kilitli dövüş alanı (kapılar `left`..`right`, zemin `floor`). Dalgalar sırayla.
+func _fight(left: float, right: float, w1: Array[PackedScene], w2: Array[PackedScene],
+		w3: Array[PackedScene] = [], reward: PackedScene = HEALTH, floor := 0.0) -> BattleArena:
+	var a: BattleArena = ARENA.instantiate()
+	a.position = Vector2((left + right) * 0.5, floor)
+	a.gate_left_x = left
+	a.gate_right_x = right
+	a.floor_y = floor
+	a.wave1 = w1
+	a.wave2 = w2
+	a.wave3 = w3
+	a.reward = reward
+	add_child(a)
+	return a
+
+
+## Diken çukuru: zemin `depth` px aşağıda, dibi paslı çivi. Düşen son bayrağa döner.
+## Çukurun iki yanı çağıran tarafından `_terrain` ile kurulur (aralık <= 220 px).
+func _spike_pit(x0: float, x1: float, depth := 130.0) -> void:
+	_terrain(x0, x1, depth)
+	var sp := SPIKES.instantiate()
+	sp.position = Vector2((x0 + x1) * 0.5, depth)
+	sp.set("width", x1 - x0)
+	add_child(sp)
+
+
+## Çok katlı iç mekân (depo, konak, han): içeri girince ön cephe saydamlaşır.
+## Zemin kat düz geçilir; `floors` (yüzey y'leri, yukarı doğru) tek yön ahşap
+## katlardır (alttan zıplanır); en üstteki `top` yürünür dam. Odalar arkada
+## piksel art sıva + hatıl. Cephe stili: 0 tuğla+pencere, 1 sıva.
+func _interior(x0: float, x1: float, top: float, floors: Array, style := 0) -> void:
+	var w := x1 - x0
+	var back := _Art.new(_Art.A_INTERIOR, Vector2(w, -top))
+	back.position = Vector2(x0 + w * 0.5, top * 0.5)
+	back.z_index = -8
+	back.floors = floors
+	add_child(back)
+	for fy in floors:
+		_oneway_art(x0 + w * 0.5, fy, w - 8.0, _Art.A_FLOOR)
+	_oneway_art(x0 + w * 0.5, top, w + 24.0, _Art.A_ROOFLINE)
+	var facade := _Facade.new()
+	facade.rect = Rect2(x0, top, w, -top)
+	facade.style = style
+	facade.floors = floors
+	add_child(facade)
+
+
+## Baca kulesi: altından geçilen kemer, içi duvar-zıplamayla tırmanılan dar baca;
+## tepede ödül. Ana yol kemerin altından düz akar (zorunlu değil, keşif ödülü).
+func _chimney(cx: float, top: float, gap := 140.0, passage := 150.0, reward: PackedScene = null) -> void:
+	var wall := 60.0
+	var h := -passage - top
+	for side in [-1.0, 1.0]:
+		var left: float = cx - gap * 0.5 - wall if side < 0.0 else cx + gap * 0.5
+		var body := _solid_box(left, top, wall, h)
+		body.add_child(_Art.new(_Art.A_STONES, Vector2(wall, h)))
+	var inside := _Art.new(_Art.A_SHAFT, Vector2(gap, -top))
+	inside.position = Vector2(cx, top * 0.5)
+	inside.z_index = -8
+	add_child(inside)
+	_oneway_art(cx, top, gap + wall * 2.0 + 10.0, _Art.A_ROOFLINE)
+	_coin_line(cx - 20.0, 2, 40, top + 60.0)
+	_coin_line(cx - 20.0, 2, 40, (top - passage) * 0.5)
+	if reward != null:
+		_pickup(reward, cx, top - 45.0)
+
+
+## Ön plan silueti (oyuncunun önünde, hafif paralaks): "kolon", "sarmasik", "zincir".
+## `y` kolonun alt kenarı; sarmaşık/zincirin üst kenarı. `length` kolon/zincir boyu.
+func _fg(kind: String, x: float, y := 0.0, length := 0.0) -> void:
+	if _fg_layer == null:
+		_fg_layer = _Foreground.new()
+		add_child(_fg_layer)
+	_fg_layer.items.append([kind, x, y, length])
+
+
+## Radyo anteni (süs, arka plan): kafes direk, tepede ikaz lambası.
+func _antenna(cx: float, ground := 0.0, scale_f := 4.0) -> void:
+	var s := Sprite2D.new()
+	s.texture = PIX_ANTENNA
+	s.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	s.scale = Vector2(scale_f, scale_f)
+	s.position = Vector2(cx, ground - PIX_ANTENNA.get_height() * scale_f * 0.5)
+	s.z_index = -9
+	s.modulate = Color(0.8, 0.8, 0.9)
+	add_child(s)
+
+
 ## Arka sıra evler: karartılmış, yavaş kayan orta katman (derinlik hissi).
 func _back_row() -> void:
 	var row := _BackRow.new()
@@ -402,11 +501,12 @@ func _spawn_backdrop() -> void:
 # --- Çizim sınıfları ------------------------------------------------------------
 
 class _Art extends Node2D:
-	enum { A_TERRAIN, A_HOUSE, A_BUILDING, A_CRATES, A_SCAFFOLD, A_BALCONY, A_ROOF, A_WALL_STRIP, A_ROOM, A_GATE, A_STALL, A_WATER, A_SANDBAG, A_TOWER, A_WAGON, A_RAILS, A_FACTORY, A_PRESS_FRAME, A_CEILING, A_PLANK, A_STONES }
+	enum { A_TERRAIN, A_HOUSE, A_BUILDING, A_CRATES, A_SCAFFOLD, A_BALCONY, A_ROOF, A_WALL_STRIP, A_ROOM, A_GATE, A_STALL, A_WATER, A_SANDBAG, A_TOWER, A_WAGON, A_RAILS, A_FACTORY, A_PRESS_FRAME, A_CEILING, A_PLANK, A_STONES, A_INTERIOR, A_FLOOR, A_ROOFLINE, A_SHAFT }
 	var kind: int
 	var size: Vector2
 	var tex: Texture2D
 	var eave := 0.0
+	var floors: Array = []
 
 	func _init(k: int, s: Vector2) -> void:
 		kind = k
@@ -567,6 +667,39 @@ class _Art extends Node2D:
 					var sz := 56.0 - (k % 2) * 10.0
 					draw_texture_rect_region(CRATE, Rect2(cx2, hh - sz, sz, sz), Rect2(227, 193, 893, 781), Color("d8c8b4"))
 				draw_texture_rect(POTS, Rect2(hw - 46.0, hh - 64.0 - 50.0, 28.0, 50.0), false)
+			A_INTERIOR:
+				# Hımış iç duvar: kireç sıva + ahşap çatkı (dikmeler, kat kirişleri),
+				# yer yer sıvası dökülmüş tuğla; katların altı gölgeli.
+				_tiled(PIX_INWALL, Rect2(-hw, -hh, size.x, size.y), Color(0.7, 0.64, 0.62))
+				var k := 0
+				var px := -hw + 150.0
+				while px < hw - 80.0:
+					var py := -hh + 40.0 + float((k * 97) % 3) * 60.0
+					var ps := PIX_BRICK_PATCH.get_size() * PX
+					if k % 2 == 0:
+						draw_texture_rect(PIX_BRICK_PATCH, Rect2(px, py, ps.x, ps.y), false, Color(0.8, 0.75, 0.75))
+					px += 330.0
+					k += 1
+				# Üst kiriş, her katın altında gölge + kiriş, zeminde süpürgelik.
+				_tiled(PIX_BEAM_WOOD, Rect2(-hw, -hh, size.x, 12.0))
+				for fy in floors:
+					var ly: float = float(fy) + hh
+					_tiled(PIX_INWALL, Rect2(-hw, ly + 30.0, size.x, 26.0), Color(0.4, 0.34, 0.36))
+					_tiled(PIX_BEAM_WOOD, Rect2(-hw, ly + 18.0, size.x, 12.0))
+				_tiled(PIX_BEAM_WOOD, Rect2(-hw, hh - 12.0, size.x, 12.0), Color(0.7, 0.7, 0.7))
+				var vx := -hw
+				while vx < hw - 1.0:
+					_tiled(PIX_BEAM_WOOD, Rect2(vx, -hh, 15.0, size.y))
+					vx += 240.0
+				_tiled(PIX_BEAM_WOOD, Rect2(hw - 15.0, -hh, 15.0, size.y))
+			A_FLOOR:
+				_tiled(PIX_FLOOR, Rect2(-hw, -2.0, size.x, PIX_FLOOR.get_height() * PX))
+			A_ROOFLINE:
+				draw_texture_rect(ROOF_SLAB, Rect2(-hw - 6.0, -14.0, size.x + 12.0, 34.0), false)
+			A_SHAFT:
+				_tiled(PIX_INWALL, Rect2(-hw, -hh, size.x, size.y), Color(0.34, 0.3, 0.32))
+				var cs := PIX_CHAIN.get_size() * PX
+				_tiled(PIX_CHAIN, Rect2(-cs.x * 0.5, -hh + 20.0, cs.x, size.y * 0.55), Color(0.7, 0.7, 0.75))
 			A_GATE:
 				# Piksel art kemerli han kapısı (86x100 sanat, 3x).
 				draw_texture_rect(PIX_GATE, Rect2(-hw, -hh, size.x, size.y), false)
@@ -575,6 +708,8 @@ class _Art extends Node2D:
 ## Gizli odanın ön cephesi: oyuncu dikdörtgenin içindeyken saydamlaşır.
 class _Facade extends Node2D:
 	var rect: Rect2
+	var style := -1
+	var floors: Array = []
 	var _a := 1.0
 	var _player: Node2D
 
@@ -593,10 +728,53 @@ class _Facade extends Node2D:
 		queue_redraw()
 
 	func _draw() -> void:
+		if style >= 0:
+			_draw_building()
+			return
 		draw_texture_rect_region(WALL, rect, Rect2(0, 0, 80, 160), Color(0.88, 0.84, 0.8))
 		# Pencere izi: içerisi olduğunu ima eder (piksel art pencere, ışıksız).
 		var ws := PIX_WINDOW.get_size() * PX
 		draw_texture_rect(PIX_WINDOW, Rect2(rect.get_center() - ws * 0.5 + Vector2(10, -20), ws), false, Color(0.45, 0.4, 0.42))
+
+
+	## İç mekân cephesi: piksel tuğla (0) ya da sıva (1), her katta yanan pencereler.
+	func _draw_building() -> void:
+		var tex: Texture2D = PIX_BRICK if style == 0 else PIX_INWALL
+		var t := tex.get_size() * PX
+		var tint := Color(0.92, 0.86, 0.82) if style == 0 else Color(0.95, 0.9, 0.84)
+		var y := rect.position.y
+		while y < rect.end.y - 0.5:
+			var x := rect.position.x
+			var h := minf(t.y, rect.end.y - y)
+			while x < rect.end.x - 0.5:
+				var w := minf(t.x, rect.end.x - x)
+				draw_texture_rect_region(tex, Rect2(x, y, w, h), Rect2(0, 0, floorf(w / PX), floorf(h / PX)), tint)
+				x += t.x
+			y += t.y
+		# Kat başına bir pencere sırası (kapının üstü boş); sıvalı cephede hımış çatkı.
+		var ws := PIX_WINDOW.get_size() * PX
+		var levels: Array = [rect.end.y]
+		for fy in floors:
+			levels.append(float(fy))
+		levels.append(rect.position.y)
+		for i in levels.size() - 1:
+			var lo: float = levels[i]
+			var hi: float = levels[i + 1]
+			var wy := lerpf(hi, lo, 0.5) - ws.y * 0.5 - 6.0
+			var wx := rect.position.x + (170.0 if i == 0 else 50.0)
+			while wx < rect.end.x - ws.x - 30.0:
+				draw_texture_rect(PIX_WINDOW, Rect2(wx, wy, ws.x, ws.y), false)
+				wx += ws.x + 80.0
+			if style == 1 and i > 0:
+				draw_texture_rect_region(PIX_BEAM_WOOD, Rect2(rect.position.x, lo - 6.0, rect.size.x, 12.0), Rect2(0, 0, 8, 4))
+		if style == 1:
+			var vx := rect.position.x
+			while vx < rect.end.x - 1.0:
+				draw_texture_rect_region(PIX_BEAM_WOOD, Rect2(vx, rect.position.y, 12.0, rect.size.y), Rect2(0, 0, 4, 8))
+				vx += 240.0
+			draw_texture_rect_region(PIX_BEAM_WOOD, Rect2(rect.end.x - 12.0, rect.position.y, 12.0, rect.size.y), Rect2(0, 0, 4, 8))
+		# Kapı ağzı: zemin katta karanlık kemer (girilebilir olduğunu söyler).
+		draw_texture_rect(PIX_GATE, Rect2(rect.position.x + 6.0, rect.end.y - 156.0, 134.0, 156.0), false, Color(0.75, 0.7, 0.7))
 
 
 ## Uzak gökyüzü: boyalı Süleymaniye sahnesi, kameranın %4'ü hızla kayar.
@@ -772,3 +950,59 @@ class _Searchlight extends Sprite2D:
 	func _process(delta: float) -> void:
 		_t += delta
 		rotation = sin(_t * 0.6) * 0.75
+
+
+## Ön plan siluetleri: oyuncunun önünde, kameraya göre %25 fazla kayar (derinlik).
+class _Foreground extends Node2D:
+	var items: Array = []
+
+	func _ready() -> void:
+		z_index = 30
+		z_as_relative = false
+		texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		process_mode = Node.PROCESS_MODE_ALWAYS
+
+	func _process(_delta: float) -> void:
+		queue_redraw()
+
+	func _draw() -> void:
+		var cam := get_viewport().get_camera_2d()
+		if cam == null:
+			return
+		var c := cam.get_screen_center_position()
+		for it in items:
+			var px: float = float(it[1]) + (float(it[1]) - c.x) * 0.25
+			if absf(px - c.x) > 1200.0:
+				continue
+			var y: float = it[2]
+			var ln: float = it[3]
+			match String(it[0]):
+				"kolon":
+					# Başlık + döşenen gövde + kaide (4x ölçek, gerilmeden).
+					var sc := 4.0
+					var cw := PIX_FG_COLUMN.get_width() * sc
+					if ln <= 0.0:
+						ln = 420.0
+					var top := y - ln
+					var ch := PIX_FG_CAP.get_height() * sc
+					var bh := PIX_FG_BASE.get_height() * sc
+					var by := top + ch
+					var seg := PIX_FG_COLUMN.get_height() * sc
+					while by < y - bh - 0.5:
+						var hh2 := minf(seg, y - bh - by)
+						draw_texture_rect_region(PIX_FG_COLUMN, Rect2(px - cw * 0.5, by, cw, hh2),
+							Rect2(0, 0, PIX_FG_COLUMN.get_width(), hh2 / sc))
+						by += seg
+					draw_texture_rect(PIX_FG_CAP, Rect2(px - cw * 0.5, top, cw, ch), false)
+					draw_texture_rect(PIX_FG_BASE, Rect2(px - cw * 0.5, y - bh, cw, bh), false)
+				"sarmasik":
+					var s2 := PIX_FG_VINE.get_size() * 4.0
+					draw_texture_rect(PIX_FG_VINE, Rect2(px - s2.x * 0.5, y, s2.x, s2.y), false)
+				"zincir":
+					var s3 := PIX_CHAIN.get_size() * 4.0
+					if ln <= 0.0:
+						ln = 200.0
+					var yy := 0.0
+					while yy < ln:
+						draw_texture_rect(PIX_CHAIN, Rect2(px - s3.x * 0.5, y + yy, s3.x, s3.y), false, Color(0.45, 0.42, 0.5))
+						yy += s3.y

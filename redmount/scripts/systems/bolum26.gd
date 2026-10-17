@@ -19,88 +19,98 @@ func _build() -> void:
 	sky_shade = Color(0.08, 0.06, 0.05)
 	back_row_skip = [[3300.0, 10400.0]]
 
-	_terrain(-400, 10400, 0)
+	_terrain(-400, 6300, 0)
+	_spike_pit(6300, 6480)
+	_terrain(6480, 10400, 0)
 
-	# --- 1. Gar meydanı: polis devriyesinden saklan ----------------------------
+	# --- 1. Gar meydanı: kemerli revak, tenteyle saçağa ------------------------
 	_story(-1.0, _sahne_meydan, 240.0)
+	for fx in [180.0, 760.0, 1320.0]:
+		_fg("kolon", fx, 40.0, 420.0)
+	_lantern(120)
+	_lantern(980)
+	_prop("vazo", 420)
 	var aw := AwningBounce.new()
 	aw.width = 160
 	aw.height = 60
 	aw.position = Vector2(560, 0)
 	add_child(aw)
+	# Üst yol: gar saçağı (zırh + coin); alt yol: devriye.
 	_scaffold(750, -260, 160)
 	_scaffold(940, -300, 160)
+	_scaffold(1140, -300, 160)
 	_pickup(ARMOR, 940, -345)
-	_enemy(STREET, 1150, 0)
-	_prop("saksi", 1350)
+	_coin_line(1090, 4, 40, -350)
+	_enemy(STREET, 1100, 0)
+	_enemy(KNIFE, 1350, 0)
+	_prop("kasa", 1430, 0, COIN)
 
-	# --- 2. Gar cephesi: sahte polisler, arena ----------------------------------
-	_checkpoint(1550, 0)
-	var cep: BattleArena = ARENA.instantiate()
-	cep.position = Vector2(2350, 0)
-	cep.gate_left_x = 1900
-	cep.gate_right_x = 2800
-	cep.floor_y = 0
-	cep.wave1 = _wave(KNIFE, STREET, KNIFE)
-	cep.wave2 = _wave(RIFLE, ELITE)
-	cep.reward = AMMO
-	add_child(cep)
+	# --- 2. Gar cephesi: sahte polisler (orta iskele zıplamaya) ------------------
+	_checkpoint(1600, 0)
+	_scaffold(2350, -150, 200)
+	_coin_line(2280, 4, 45, -200)
+	_fight(1900, 2800, _wave(KNIFE, STREET, KNIFE), _wave(RIFLE, ELITE), [], AMMO)
 	_story(2900, _sahne_komiser)
 
-	# --- 3. Yolcu peronu: duran vagonların tepesi -------------------------------
+	# --- 3. Yolcu peronu: iki vagon, aradan aşağıda gizli sandık ----------------
 	_checkpoint(3150, 0)
-	_rails(3200, 4700)
+	_rails(3200, 4500)
 	_crates(3300, 1, 1)
-	_wagon(3390)
-	_wagon(3790, Color(0.9, 0.95, 1.0))
+	var w1 := _wagon(3390)
+	_wagon(w1 + 140.0, Color(0.9, 0.95, 1.0))
 	_enemy(KNIFE, 3650, -140)
-	_enemy(RIFLE, 4050, -140)
-	_coin_line(3450, 8, 85, -190)
-	_pickup(PISTOL, 4100, -190)
+	_enemy(RIFLE, w1 + 400.0, -140)
+	_coins_arc(w1 - 60.0, 5, 55, -300)
+	_prop("sandik", w1 + 70.0, 0, HEALTH)
+	_pickup(PISTOL, w1 + 300.0, -190)
 
-	# --- 4. Bekleme salonu: erzak ---------------------------------------------
+	# --- 4. Bekleme salonu: iki katlı iç mekân -----------------------------------
 	_checkpoint(4500, 0)
-	_enemy(ASSASSIN, 4800, 0)
-	_prop("vazo", 5000)
+	_interior(4600, 5380, -345, [-115.0, -230.0], 1)
+	_enemy(ASSASSIN, 4850, 0)
+	_enemy(KNIFE, 5050, -115)
+	_enemy(STREET, 4800, -230)
+	_prop("vazo", 4700, -115)
+	_coin_line(4900, 5, 50, -160)
+	_coin_line(4700, 4, 50, -275)
+	_pickup(HEALTH, 5300, -275)
+	_coin_line(4720, 6, 90, -395)
 	var shop: LevelShop = SHOP.new()
-	shop.position = Vector2(5300, 0)
+	shop.position = Vector2(5560, 0)
 	shop.title = "GAR ERZAKÇISI"
 	shop.items = PackedStringArray(["can", "cephane", "zirh"])
 	shop.accent = Color("e7a449")
 	add_child(shop)
 
-	# --- 5. Yük rampası: vinç paleti, vagon sırtı --------------------------------
-	_checkpoint(5550, 0)
-	_rails(5600, 7400)
-	_crates(5650, 1, 1)
-	_wagon(5740)
-	_moving(6300, -240, Vector2(300, 0), 140, 0.0)
-	_crates(6610, 1, 1)
-	_wagon(6700, Color(1.0, 0.92, 0.88))
-	_pickup(RIFLE_PICKUP, 6750, -190)
-	_enemy(BRUISER, 6450, 0)
-	_coin_line(6310, 4, 75, -300)
+	# --- 5. Yük rampası: vagon -> yükleme çukuru (vinç paleti) -> vagon -----------
+	_checkpoint(5750, 0)
+	_rails(5800, 7400)
+	_crates(5800, 1, 1)
+	_wagon(5890)
+	_moving(6390, -260, Vector2(260, 0), 140, 0.0)
+	_coin_line(6300, 5, 50, -320)
+	_enemy(BRUISER, 6750, 0)
+	_crates(6900, 1, 1)
+	_wagon(6990, Color(1.0, 0.92, 0.88))
+	_pickup(RIFLE_PICKUP, 7100, -190)
+	_enemy(RIFLE, 7300, -140)
 
-	# --- 6. Arka yük peronu: arena -------------------------------------------
-	_checkpoint(7300, 0)
-	var per: BattleArena = ARENA.instantiate()
-	per.position = Vector2(7900, 0)
-	per.gate_left_x = 7500
-	per.gate_right_x = 8300
-	per.floor_y = 0
-	per.wave1 = _wave(ELITE, RIFLE)
-	per.wave2 = _wave(BRUISER, KNIFE, ASSASSIN)
-	per.reward = HEALTH
-	add_child(per)
+	# --- 6. Su kulesi: bacadan duvar-zıplamayla tepeye (zırh) -------------------
+	_chimney(7670, -470, 140, 150, ARMOR)
 
-	# --- 7. Sevk odası: makbuz -------------------------------------------------
-	_checkpoint(8450, 0)
-	_crates(8600, 1, 1)
-	_crates(8690, 1, 2)
-	_terrain(8780, 9050, -180)
-	_enemy(RIFLE, 9000, -180)
-	_pickup(HEALTH, 9200, -45)
-	_story(9450, _sahne_makbuz)
+	# --- 7. Arka yük peronu: arena ------------------------------------------
+	_checkpoint(7850, 0)
+	_scaffold(8300, -150, 180)
+	_fight(7900, 8700, _wave(ELITE, RIFLE), _wave(BRUISER, KNIFE, ASSASSIN))
+
+	# --- 8. Sevk odası: telgraf makbuzu (iki katlı büro) -------------------------
+	_checkpoint(8800, 0)
+	_interior(8900, 9380, -230, [-115.0], 0)
+	_enemy(KNIFE, 9050, 0)
+	_enemy(RIFLE, 9250, -115)
+	_pickup(HEALTH, 9320, -160)
+	_coin_line(8960, 4, 50, -160)
+	_story(9500, _sahne_makbuz)
 	_han_gate(9800, "GALATA")
 	_goal(9800, 0)
 
