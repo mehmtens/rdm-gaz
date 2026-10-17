@@ -94,7 +94,6 @@ func _build() -> void:
 
 	# --- 6. Bakım geçidi: seçkin + menzilli arena ---------------------------------
 	_checkpoint(7350, 0)
-	_ceiling(7560, 8340, -330)
 	_fg("kolon", 7700.0, 40.0, 380.0)
 	_fg("kolon", 8200.0, 40.0, 380.0)
 	var bak: BattleArena = ARENA.instantiate()

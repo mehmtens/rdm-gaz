@@ -61,7 +61,7 @@ func _build() -> void:
 	_checkpoint(4200, 0)
 	_crates(4350, 1, 1)
 	_stones(4440, 1, 2)
-	_stones(4530, 4, 2)
+	_terrain(4530, 4890, -180)
 	_enemy(RIFLE, 4800, -180)
 	_pickup(PISTOL, 4600, -225)
 	_coin_line(4560, 5, 60, -240)
@@ -103,6 +103,7 @@ func _build() -> void:
 	_checkpoint(8100, 0)
 	_story(8170, _sahne_defter)
 	_interior(8250, 9050, -345, [], 1)
+	_pickup(HEALTH, 8200, -45)
 	_scaffold(8420, -115, 180)
 	_scaffold(8880, -115, 180)
 	_scaffold(8650, -230, 200)
@@ -112,6 +113,7 @@ func _build() -> void:
 	# --- 8. Gizli rıhtım kapısı: çürük iskele tahtaları, nöbetçiler ----------------
 	_checkpoint(9150, 0)
 	_canal(9250, 9700, 110)
+	_terrain(9630, 9700, 55)
 	for k in 3:
 		_collapse(9330.0 + k * 140.0, -30.0, 110)
 		_pickup(COIN, 9330.0 + k * 140.0, -80.0)

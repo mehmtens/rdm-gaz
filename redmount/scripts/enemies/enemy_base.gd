@@ -43,6 +43,7 @@ var _health: int = 0
 var _home_x: float = 0.0
 var _patrol_dir: int = -1
 var _player: Node2D
+var _drop_timer := 0.0
 
 var _phase: Phase = Phase.WINDUP
 var _phase_timer: float = 0.0
@@ -110,6 +111,10 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if _drop_timer > 0.0:
+		_drop_timer -= delta
+		if _drop_timer <= 0.0:
+			set_collision_mask_value(8, true)
 	if not is_on_floor():
 		velocity.y = minf(velocity.y + config.gravity * delta, 1400.0)
 	_attack_cd = maxf(_attack_cd - delta, 0.0)
@@ -298,6 +303,14 @@ func _do_chase(delta: float) -> void:
 	var dx: float = _player.global_position.x - global_position.x
 	var dy: float = absf(_player.global_position.y - global_position.y)
 	var adx := absf(dx)
+
+	# Oyuncu aşağıdaysa tek yön platformdan (iskele, balkon, galeri) aşağı in:
+	# yukarıda takılıp kalan düşman dövüşü kilitlemesin.
+	if _player.global_position.y - global_position.y > 60.0 and is_on_floor() and _on_oneway():
+		set_collision_mask_value(8, false)
+		position.y += 2.0
+		velocity.y = maxf(velocity.y, 40.0)
+		_drop_timer = 0.3
 
 	if adx <= config.attack_range and dy <= config.attack_band and _attack_cd <= 0.0:
 		if _has_melee_turn():
@@ -971,3 +984,14 @@ func get_health() -> int:
 
 func is_dead() -> bool:
 	return _state == State.DEAD
+
+
+## Ayağının altındaki zemin tek yön platform mu (katman 8)?
+func _on_oneway() -> bool:
+	for i in get_slide_collision_count():
+		var c := get_slide_collision(i)
+		if c.get_normal().y < -0.7:
+			var body := c.get_collider() as CollisionObject2D
+			if body != null and body.get_collision_layer_value(8):
+				return true
+	return false

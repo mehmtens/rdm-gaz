@@ -122,6 +122,34 @@ func _physics_process(delta: float) -> void:
 			if foe == null or absf(dx) < absf(foe_dx):
 				foe = e
 				foe_dx = dx
+	# Arena sürerken aynı katta düşman yoksa: arenanın içinde, üstteki iskeleye
+	# çıkmış en yakın düşmana tırman (kapı dışındakiler hesaba katılmaz).
+	var live_arena: Node = null
+	for arena in get_tree().get_nodes_in_group(&"battle_arena"):
+		if arena.get("_active") and not arena.get("_done"):
+			live_arena = arena
+	if foe == null and live_arena != null:
+		var gl: float = live_arena.get("gate_left_x")
+		var gr: float = live_arena.get("gate_right_x")
+		var up: Node2D = null
+		for e in get_tree().get_nodes_in_group(&"enemy_ai"):
+			if not is_instance_valid(e) or (e.has_method(&"is_dead") and e.is_dead()):
+				continue
+			var ex: float = e.global_position.x
+			var dy: float = e.global_position.y - y
+			if ex < gl or ex > gr or dy > -60.0 or dy < -260.0:
+				continue
+			if up == null or absf(ex - x) < absf(up.global_position.x - x):
+				up = e
+		if up != null:
+			var dx2: float = up.global_position.x - x
+			Input.action_press(&"move_right" if dx2 > 0.0 else &"move_left")
+			Input.action_release(&"move_left" if dx2 > 0.0 else &"move_right")
+			if absf(dx2) < 110.0 and on_floor:
+				_tap(&"jump")
+			if absf(dx2) < 76.0:
+				_tap(&"attack")
+			return
 	if foe != null:
 		Input.action_release(&"run")
 		if foe_dx > 14.0:

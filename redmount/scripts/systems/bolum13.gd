@@ -18,6 +18,7 @@ func _build() -> void:
 	sky_tint = Color(0.9, 0.86, 0.86)
 	sky_shade = Color(0.08, 0.05, 0.08)
 	back_row_on = true
+	back_row_skip = [[5900.0, 7150.0]]
 
 	# --- 1. Kale çıkışı: şafak, defter ------------------------------------------
 	_terrain(-400, 1700, 0)

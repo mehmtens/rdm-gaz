@@ -19,3 +19,19 @@ func _finish_level(msg: String) -> void:
 		get_tree().quit(1)
 		return
 	super._finish_level(msg)
+
+
+## Oyun testi kaydı: REDMOUNT_SNAP_DIR verilirse (pencereli çalıştırmada) her
+## REDMOUNT_SNAP_EVERY saniyede bir ekran görüntüsü alınır (t0000.png ...).
+var _snap_next := 0.0
+
+
+func _process(_delta: float) -> void:
+	var folder := OS.get_environment("REDMOUNT_SNAP_DIR")
+	if folder.is_empty() or _player == null or _run_t < _snap_next:
+		return
+	var every := OS.get_environment("REDMOUNT_SNAP_EVERY").to_float()
+	_snap_next = _run_t + (every if every > 0.0 else 3.0)
+	var img := get_viewport().get_texture().get_image()
+	img.resize(640, 360, Image.INTERPOLATE_NEAREST)
+	img.save_png(folder.path_join("t%04d_x%d.png" % [int(_run_t), int(_player.global_position.x)]))

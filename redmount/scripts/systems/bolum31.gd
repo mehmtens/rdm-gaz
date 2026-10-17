@@ -50,7 +50,7 @@ func _build() -> void:
 	aw.position = Vector2(2850, 0)
 	add_child(aw)
 	_balcony(2902, -125, 70)
-	_stones(2940, 5, 2)
+	_terrain(2940, 3390, -180)
 	_enemy(RIFLE, 3300, -180)
 	_coin_line(2980, 5, 80, -240)
 	_secret_han(3600)

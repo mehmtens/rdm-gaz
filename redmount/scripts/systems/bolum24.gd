@@ -86,7 +86,6 @@ func _build() -> void:
 	_checkpoint(7450, 0)
 	_canal(7600, 8300, 120)
 	# Kemerin altı: taş tonoz, ön planda kemer ayakları.
-	_ceiling(7550, 8400, -330)
 	for cx in [7600.0, 8000.0, 8350.0]:
 		_fg("kolon", cx, 40.0, 380.0)
 	_terrain(8250, 8300, 60)
@@ -156,6 +155,7 @@ func _build() -> void:
 	# İki pres arası geniş: ezilen oyuncu iki presin arasında yeniden doğmasın.
 	_press(14950, 0.0, 3.0)
 	_press(15350, 0.5, 3.0)
+	_pickup(HEALTH, 15480, -45)
 	_coin_line(14970, 5, 70, -60)
 	var a11: BattleArena = ARENA.instantiate()
 	a11.position = Vector2(15900, 0)

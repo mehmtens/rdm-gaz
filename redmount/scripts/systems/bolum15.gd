@@ -90,7 +90,6 @@ func _build() -> void:
 		_lantern(float(x))
 	_story(6250, _sahne_vana)
 	# Sarnıç: kaya tavan, ön planda sarnıç sütunları.
-	_ceiling(5900, 6800, -330)
 	for cx in [6050.0, 6350.0, 6650.0]:
 		_fg("kolon", cx, 40.0, 380.0)
 

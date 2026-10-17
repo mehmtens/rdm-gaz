@@ -80,6 +80,9 @@ var back_row_on := true
 ## Arka sıra evlerin çizilmediği dünya x aralıkları (iç mekân / yeraltı): [[x0, x1], ...]
 var back_row_skip: Array = []
 var zoom_level := 1.12
+## İç mekânların sıva arka duvarı. Boyalı arka planı zaten iç mekân olan bölümler
+## false verir: katlar, kirişler, cephe kalır; arkada boyalı resim görünür.
+var interior_back := true
 
 var _cam: Camera2D
 var _fg_layer: _Foreground
@@ -91,6 +94,8 @@ var _holes: Array = []
 
 func _build_chapter() -> void:
 	_spawn_marker()
+	if OS.get_environment("REDMOUNT_OPEN_INTERIOR") == "1":
+		interior_back = false
 	# Önce içerik: bölüm sky_* / back_row_on ayarlarını _build içinde verir.
 	_build()
 	_cut_holes()
@@ -226,8 +231,27 @@ func _lantern(x: float, y := -170.0) -> void:
 ## Gece tonu: dünya katmanını karartır (arayüz etkilenmez); fenerler parlak kalır.
 func _night(tint := Color(0.6, 0.62, 0.82)) -> void:
 	var cm := CanvasModulate.new()
-	cm.color = tint
+	# Okunurluk: karakterler de bu tonla karardığı için yarı yarıya beyaza çekilir;
+	# gece havasını boyalı gökyüzü ve fenerler verir.
+	cm.color = tint.lerp(Color.WHITE, 0.4)
 	add_child(cm)
+	# Gece: düşmanlar (enemy_base) ve Redmount fener ışığıyla konturlanır.
+	edge_light = Color(1.0, 0.78, 0.45, 0.85)
+	add_to_group(&"dark_scene")
+	_rim_player.call_deferred()
+
+
+func _rim_player() -> void:
+	var p := get_tree().get_first_node_in_group(&"player")
+	var rig: CanvasItem = p.get_node_or_null(^"Rig") if p != null else null
+	if rig == null or rig.material != null:
+		return
+	var mat := ShaderMaterial.new()
+	mat.shader = preload("res://shaders/dark_rim.gdshader")
+	mat.set_shader_parameter(&"rim_color", Color(1.0, 0.82, 0.52, 0.9))
+	mat.set_meta(&"night_rim", true)
+	rig.material = mat
+
 
 
 ## Kum torbası siperi: katı, alçak (mermiyi keser); üstünden atlanır.
@@ -461,16 +485,31 @@ func _interior(x0: float, x1: float, top: float, floors: Array, style := 0) -> v
 	back.position = Vector2(x0 + w * 0.5, top * 0.5)
 	back.z_index = -8
 	back.floors = floors
+	# Boyalı arka planın iç mekân olduğu yerler (arka sıra evlerin atlandığı
+	# aralıklar) açık kesit: sıva duvar o güzel resmi kapatmasın.
+	var painted_inside := false
+	for r in back_row_skip:
+		if x1 > float(r[0]) and x0 < float(r[1]):
+			painted_inside = true
+	back.open_back = painted_inside or not interior_back
 	add_child(back)
 	for fy in floors:
 		_oneway_art(x0 + w * 0.5, fy, w - 8.0, _Art.A_FLOOR)
+	if painted_inside:
+		# Boyalı salonun içinde: bina gibi okunmasın; üst kat da ahşap galeri,
+		# cephe yok (resim zaten iç mekân).
+		_oneway_art(x0 + w * 0.5, top, w - 8.0, _Art.A_FLOOR)
+		return
 	_oneway_art(x0 + w * 0.5, top, w + 24.0, _Art.A_ROOFLINE)
 	var facade := _Facade.new()
 	facade.rect = Rect2(x0, top, w, -top)
 	facade.style = style
 	facade.floors = floors
 	add_child(facade)
-
+	if is_in_group(&"dark_scene"):
+		# Gece: iç duvar ve cephe, fener ışığı altında loş (sahneden kopmasın).
+		back.modulate = Color(0.66, 0.6, 0.72)
+		facade.self_modulate = Color(0.7, 0.66, 0.78)
 
 ## Baca kulesi: altından geçilen kemer, içi duvar-zıplamayla tırmanılan dar baca;
 ## tepede ödül. Ana yol kemerin altından düz akar (zorunlu değil, keşif ödülü).
@@ -533,6 +572,11 @@ func _process(_delta: float) -> void:
 
 
 func _exit_tree() -> void:
+	# Gece konturu yalnız bu bölüme ait: oyuncu sonraki bölüme taşınır.
+	var p := get_tree().get_first_node_in_group(&"player") if is_inside_tree() else null
+	var rig: CanvasItem = p.get_node_or_null(^"Rig") if p != null else null
+	if rig != null and rig.material != null and rig.material.has_meta(&"night_rim"):
+		rig.material = null
 	if _cam != null and is_instance_valid(_cam):
 		_cam.set("_base_zoom", Vector2.ONE)
 
@@ -551,6 +595,7 @@ class _Art extends Node2D:
 	var tex: Texture2D
 	var eave := 0.0
 	var floors: Array = []
+	var open_back := false
 
 	func _init(k: int, s: Vector2) -> void:
 		kind = k
@@ -712,6 +757,14 @@ class _Art extends Node2D:
 					draw_texture_rect_region(CRATE, Rect2(cx2, hh - sz, sz, sz), Rect2(227, 193, 893, 781), Color("d8c8b4"))
 				draw_texture_rect(POTS, Rect2(hw - 46.0, hh - 64.0 - 50.0, 28.0, 50.0), false)
 			A_INTERIOR:
+				if open_back:
+					# Açık kesit: arkadaki boyalı iç mekân görünür; yalnız çatkı ve kat kirişleri.
+					_tiled(PIX_BEAM_WOOD, Rect2(-hw, -hh, size.x, 12.0))
+					for fy in floors:
+						_tiled(PIX_BEAM_WOOD, Rect2(-hw, float(fy) + hh + 18.0, size.x, 12.0))
+					_tiled(PIX_BEAM_WOOD, Rect2(-hw, -hh, 15.0, size.y))
+					_tiled(PIX_BEAM_WOOD, Rect2(hw - 15.0, -hh, 15.0, size.y))
+					return
 				# Hımış iç duvar: kireç sıva + ahşap çatkı (dikmeler, kat kirişleri),
 				# yer yer sıvası dökülmüş tuğla; katların altı gölgeli.
 				_tiled(PIX_INWALL, Rect2(-hw, -hh, size.x, size.y), Color(0.6, 0.53, 0.5))

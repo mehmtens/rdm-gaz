@@ -93,6 +93,7 @@ func _build() -> void:
 	# --- 7. Kasa ambarı: boş kasalar; galerili ambarda arena ---------------------
 	_checkpoint(7200, 0)
 	_story(7250, _sahne_bos)
+	_pickup(HEALTH, 7320, -45)
 	_interior(7350, 8250, -345, [], 0)
 	_scaffold(7520, -115, 180)
 	_scaffold(8080, -115, 180)

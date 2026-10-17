@@ -104,7 +104,6 @@ func _build() -> void:
 	_canal(7200, 7400, 110)
 	_scaffold(7300, -20, 220)
 	# Su servisi: kemerli tonoz altında servis yolu, sarnıç sütunları önde.
-	_ceiling(7450, 8250, -330)
 	for cx in [7600.0, 7950.0]:
 		_fg("kolon", cx, 40.0, 380.0)
 	_enemy(ELITE, 7700, 0)

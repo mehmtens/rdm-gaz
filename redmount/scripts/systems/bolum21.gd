@@ -96,6 +96,7 @@ func _build() -> void:
 	_checkpoint(7350, 0)
 	_story(7420, _sahne_buro)
 	_interior(7560, 8340, -345, [], 0)
+	_pickup(HEALTH, 7480, -45)
 	_scaffold(7720, -115, 160)
 	_scaffold(8180, -115, 160)
 	var buro: BattleArena = ARENA.instantiate()

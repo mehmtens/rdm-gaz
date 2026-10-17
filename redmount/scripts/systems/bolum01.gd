@@ -92,7 +92,6 @@ func _build() -> void:
 	shop.title = "BALAT BÜFESİ"
 	shop.items = PackedStringArray(["can", "sopa", "zirh"])
 	shop.accent = Color("e7a449")
-	shop.facade_texture = BUFE
 	add_child(shop)
 
 	# --- 5. İnşaat iskelesi + vinç paleti --------------------------------------

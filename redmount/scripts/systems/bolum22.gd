@@ -66,7 +66,6 @@ func _build() -> void:
 	_scaffold(5180, -260, 120)
 	_pickup(RIFLE_PICKUP, 5180, -305)
 	# Vana galerisi: boru rafının altında tüfekliler; kilitsiz.
-	_ceiling(4800, 5900, -360)
 	_enemy(RIFLE, 5450, 0)
 	_enemy(RIFLE, 5180, -260)
 	_enemy(KNIFE, 5650, 0)
@@ -81,7 +80,6 @@ func _build() -> void:
 	# --- 5. Pompa salonu: pistonlar (pres), makine rafı ------------------------
 	_checkpoint(6200, 0)
 	# Pompa salonu: tonoz altında pistonlar; makine rafı üstte (riskli ama güvenli).
-	_ceiling(6250, 7300, -420)
 	for cx in [6330.0, 7200.0]:
 		_fg("kolon", cx, 40.0, 440.0)
 	_press(6450, 0.0, 3.0)

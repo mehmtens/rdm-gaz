@@ -17,7 +17,7 @@ func _build() -> void:
 		[0, 6200.0, ARCHIVE], [1, 7600.0, ARCHIVE], [2, 8800.0, ARCHIVE], [3, 9700.0, ARCHIVE]]
 	sky_tint = Color(0.92, 0.9, 0.86)
 	sky_shade = Color(0.06, 0.05, 0.06)
-	back_row_skip = [[6100.0, 9600.0]]
+	back_row_skip = [[4400.0, 9600.0]]
 
 	# --- 1. Süleymaniye yokuşu: devriye, ilk çatı rotası ----------------------
 	_terrain(-400, 1700, 0)
@@ -122,7 +122,6 @@ func _build() -> void:
 	for x in [8550, 9150]:
 		_lantern(float(x))
 	# Mahzen: kaya tavan, ön planda kemer ayakları.
-	_ceiling(8480, 9230, -340)
 	for cx in [8600.0, 9000.0]:
 		_fg("kolon", cx, 40.0, 380.0)
 

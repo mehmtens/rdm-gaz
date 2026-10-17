@@ -79,13 +79,15 @@ text = ""
 
 [node name="BossBar" type="ColorRect" parent="."]
 visible = false
-anchors_preset = 5
+anchors_preset = 7
 anchor_left = 0.5
+anchor_top = 1.0
 anchor_right = 0.5
-offset_left = -170.0
-offset_top = 104.0
-offset_right = 470.0
-offset_bottom = 130.0
+anchor_bottom = 1.0
+offset_left = -320.0
+offset_top = -64.0
+offset_right = 320.0
+offset_bottom = -38.0
 color = Color(0.1, 0.05, 0.06, 0.85)
 
 [node name="BossFill" type="ColorRect" parent="BossBar"]

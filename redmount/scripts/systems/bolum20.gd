@@ -94,7 +94,6 @@ func _build() -> void:
 	_checkpoint(7450, 0)
 	_canal(7550, 7750, 110)
 	_scaffold(7650, -20, 220)
-	_ceiling(7820, 8480, -330)
 	_fg("kolon", 7950.0, 40.0, 380.0)
 	_fg("kolon", 8350.0, 40.0, 380.0)
 	var tuz: BattleArena = ARENA.instantiate()

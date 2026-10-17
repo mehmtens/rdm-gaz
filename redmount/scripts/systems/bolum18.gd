@@ -17,7 +17,7 @@ func _build() -> void:
 		[0, 6100.0, HAN], [1, 7500.0, HAN], [2, 8550.0, HAN], [3, 10150.0, HAN]]
 	sky_tint = Color(0.92, 0.88, 0.84)
 	sky_shade = Color(0.07, 0.05, 0.05)
-	back_row_skip = [[1700.0, 6000.0], [7300.0, 9500.0]]
+	back_row_skip = [[1700.0, 9600.0]]
 
 	# --- 1. Çarşı kapısı: devriye, ilk saçak rotası ---------------------------
 	_terrain(-400, 1700, 0)
