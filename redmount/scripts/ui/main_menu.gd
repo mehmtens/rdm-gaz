@@ -1,49 +1,51 @@
-## MainMenu — ana menü (Görev 13).
+## MainMenu — piksel art ana menü.
 ##
-## Devam et / bölüm seç / ses ayarı / çıkış. Bölüm seçim düğmeleri yalnızca
-## `Save.unlocked_level`'e kadar açıktır. Seçim `GameState.level_index`'i ayarlar
-## ve oyun sahnesine (Main.tscn) geçer.
+## Üç sayfa: ana sayfa (logo, görev satırı, dikey düğmeler, istatistik paneli,
+## çatıda Redmount ile Gazelle), bölüm seçimi (Kitap 1/2/3 sekmeleri, 12'şer
+## bölüm kartı: ad, en iyi skor, kilit) ve ayarlar (ses, kaydı sıfırla). Bütün
+## parçalar piksel art (assets/ui/pixel, tools/gen_pixel_menu.py). Klavye ve
+## gamepad ile gezilir; ESC / geri bir önceki sayfaya döner.
 extends Control
 
 const GAME_SCENE := "res://scenes/Main.tscn"
 const SURVIVAL_SCENE := "res://scenes/Survival.tscn"
-
-@onready var _info: Label = $Root/Info
-@onready var _continue: Button = $Root/Continue
-@onready var _levels_box: HBoxContainer = $Root/LevelsScroll/Levels
-@onready var _volume: HSlider = $Root/VolumeRow/Volume
-
+const SHOP_SCENE := "res://scenes/Shop.tscn"
+const LOGO := preload("res://assets/ui/pixel/logo.png")
+const LOGO_SUB := preload("res://assets/ui/pixel/logo_alt.png")
+const LOCK := preload("res://assets/ui/pixel/kilit.png")
+const COIN := preload("res://assets/ui/pixel/coin.png")
+const ROOF := preload("res://assets/environment/mahalle/roof_a.png")
+const REDMOUNT_FRAMES := preload("res://resources/anim/redmount_frames.tres")
+const GAZELLE_FRAMES := preload("res://resources/gazelle_frames.tres")
+const GOLD := Color(1.0, 0.82, 0.45)
+const CREAM := Color(0.96, 0.92, 0.84)
+const MUTED := Color(0.72, 0.68, 0.74)
+const PER_BOOK := 12
 
 var _t := 0.0
+var _home: Control
+var _levels: Control
+var _settings: Control
+var _book := 0
+var _tabs: Array[Button] = []
+var _grid: GridContainer
+var _book_title: Label
+var _first_button: Button
+var _wipe_armed := false
+var _wipe_button: Button
 
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	Music.play("menu")
-	_style()
-	_info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_continue.pressed.connect(func() -> void: _start(Save.unlocked_level))
-	$Root/SurvivalButton.pressed.connect(func() -> void: Transition.go(SURVIVAL_SCENE))
-	$Root/ShopButton.pressed.connect(func() -> void:
-		Transition.go("res://scenes/Shop.tscn"))
-	$Root/Quit.pressed.connect(get_tree().quit)
-	$Root/Wipe.pressed.connect(_on_wipe)
-
-	for i in GameState.level_count():
-		var b := Button.new()
-		b.text = "K3-%d" % (i - 23) if i >= 24 else "K2-%d" % (i - 11) if i >= 12 else str(i + 1)
-		b.custom_minimum_size = Vector2(56, 44)
-		b.disabled = i > Save.unlocked_level
-		b.pressed.connect(_start.bind(i))
-		_levels_box.add_child(b)
-
-	_volume.min_value = -40.0
-	_volume.max_value = 6.0
-	_volume.step = 1.0
-	_volume.value = Save.master_volume_db
-	_volume.value_changed.connect(func(v: float) -> void: Save.set_volume_db(v))
-
-	_refresh()
+	theme = UIStyle.menu_theme()
+	for ch in get_children():
+		ch.queue_free()
+	_build_scenery()
+	_home = _build_home()
+	_levels = _build_levels()
+	_settings = _build_settings()
+	_show(_home)
 
 
 func _process(delta: float) -> void:
@@ -53,90 +55,314 @@ func _process(delta: float) -> void:
 
 func _draw() -> void:
 	UIStyle.draw_city_bg(self, get_viewport_rect().size, _t)
+	# Ön planda koyu bir çatı sırası: karakterler bunun üstünde durur.
+	var vs := get_viewport_rect().size
+	var y := vs.y - 118.0
+	var x := vs.x * 0.56
+	while x < vs.x + 40.0:
+		draw_texture_rect(ROOF, Rect2(x, y, 220.0, 46.0), false, Color(0.55, 0.42, 0.42))
+		x += 210.0
+	draw_rect(Rect2(vs.x * 0.56, y + 40.0, vs.x * 0.44 + 40.0, 120.0), Color(0.08, 0.05, 0.08))
+	# Alt şerit: kontrol ipucu.
+	draw_rect(Rect2(0, vs.y - 34.0, vs.x, 34.0), Color(0.05, 0.03, 0.06, 0.85))
 
 
-func _style() -> void:
-	if has_node(^"BG"):
-		$BG.queue_free()
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed(&"ui_cancel") and not _home.visible:
+		_show(_home)
+		get_viewport().set_input_as_handled()
 
-	var title: Label = $Root/Title
-	title.add_theme_font_size_override(&"font_size", 68)
-	title.add_theme_color_override(&"font_color", Color(0.98, 0.9, 0.82))
-	title.add_theme_color_override(&"font_outline_color", Color(0.5, 0.1, 0.12))
-	title.add_theme_constant_override(&"outline_size", 10)
-	title.add_theme_color_override(&"font_shadow_color", Color(0, 0, 0, 0.5))
-	title.add_theme_constant_override(&"shadow_offset_y", 4)
 
-	var sub := Label.new()
-	sub.text = ("ÜÇ KİTAP TAMAMLANDI · İSTANBUL'UN SESİ" if Save.best_score(35) > 0 else
-		"SON YAYIN · GÖKSU MAVNASINA ULAŞ" if Save.unlocked_level >= 35 else
-		"KİTAP 3 · BÖLÜM 11 TAMAMLANDI" if Save.best_score(34) > 0 else
-		"HİSARDAKİ SON KUMANDAYI KES" if Save.unlocked_level >= 34 else
-		"KİTAP 3 · BÖLÜM 10 TAMAMLANDI" if Save.best_score(33) > 0 else
-		"KANDİLLİ VERİCİSİNİ DURDUR" if Save.unlocked_level >= 33 else
-		"KİTAP 3 · BÖLÜM 9 TAMAMLANDI" if Save.best_score(32) > 0 else
-		"VANİKÖY GECE SEVKİYATINI BUL" if Save.unlocked_level >= 32 else
-		"KİTAP 3 · BÖLÜM 8 TAMAMLANDI" if Save.best_score(31) > 0 else
-		"KULELİ GÖZETLEME HATTINI KES" if Save.unlocked_level >= 31 else
-		"KİTAP 3 · BÖLÜM 7 TAMAMLANDI" if Save.best_score(30) > 0 else
-		"ÇENGELKÖY SAHİL KONAĞINA GİR" if Save.unlocked_level >= 30 else
-		"KİTAP 3 · BÖLÜM 6 TAMAMLANDI" if Save.best_score(29) > 0 else
-		"BEYLERBEYİ İSKELE ARŞİVİNE GİR" if Save.unlocked_level >= 29 else
-		"KİTAP 3 · BÖLÜM 5 TAMAMLANDI" if Save.best_score(28) > 0 else
-		"KUZGUNCUK KIYI DEPOSUNU BUL" if Save.unlocked_level >= 28 else
-		"KİTAP 3 · BÖLÜM 4 TAMAMLANDI" if Save.best_score(27) > 0 else
-		"ÜSKÜDAR YEDEK HATTINI KES" if Save.unlocked_level >= 27 else
-		"KİTAP 3 · BÖLÜM 3 TAMAMLANDI" if Save.best_score(26) > 0 else
-		"GALATA TELGRAFINI DURDUR" if Save.unlocked_level >= 26 else
-		"KİTAP 3 · BÖLÜM 2 TAMAMLANDI" if Save.best_score(25) > 0 else
-		"SİRKECİ SEVKİYATINI İZLE" if Save.unlocked_level >= 25 else
-		"KİTAP 3 · İLK BÖLÜM TAMAMLANDI" if Save.best_score(24) > 0 else
-		"CAĞALOĞLU MATBAASINI BUL" if Save.unlocked_level >= 24 else
-		"KİTAP 2 TAMAMLANDI" if Save.best_score(23) > 0 else
-		"BOZDOĞAN KEMERİNE YETİŞ" if Save.unlocked_level >= 23 else
-		"SARAÇHANE VANASINI DURDUR" if Save.unlocked_level >= 22 else
-		"AKSARAY SU HATTINI KORU" if Save.unlocked_level >= 21 else
-		"YENİKAPI GECE VARDİYASI" if Save.unlocked_level >= 20 else
-		"SAMATYA SEVKİYATINI İZLE" if Save.unlocked_level >= 19 else
-		"KÜLHANIN İZİNİ SÜR" if Save.unlocked_level >= 18 else
-		"KAYIP KAYDI İZLE" if Save.unlocked_level >= 15 else
-		"HALİÇ'TEKİ İZİ SÜR" if Save.unlocked_level >= 12 else "GAZELLE'İ KURTAR")
-	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	sub.add_theme_color_override(&"font_color", Color(0.95, 0.55, 0.4))
-	sub.add_theme_constant_override(&"outline_size", 5)
-	sub.add_theme_color_override(&"font_outline_color", Color(0, 0, 0, 0.8))
-	$Root.add_child(sub)
-	$Root.move_child(sub, 1)
+# --- Sayfalar -------------------------------------------------------------------
 
-	theme = UIStyle.menu_theme()
+func _show(page: Control) -> void:
+	for p in [_home, _levels, _settings]:
+		p.visible = p == page
+	_wipe_armed = false
+	if _wipe_button != null:
+		_wipe_button.text = "KAYDI SIFIRLA"
+	var focus: Control = _first_button
+	if page == _levels:
+		_select_book(_book)
+		focus = _tabs[_book]
+	elif page == _settings:
+		focus = page.find_child("Volume", true, false)
+	if focus != null:
+		focus.call_deferred(&"grab_focus")
 
-	var controls := Label.new()
-	controls.text = ("Sol: hareket ve eğilme · Sağ: zıpla, vur, ağır, ateş · EYLEM: etkileşim · II: duraklat"
+
+func _build_scenery() -> void:
+	# Çatıda Redmount ve Gazelle (oyunun karakter sanatı, nefes alan idle).
+	var vs := get_viewport_rect().size
+	var rm := AnimatedSprite2D.new()
+	rm.sprite_frames = REDMOUNT_FRAMES
+	rm.animation = &"idle"
+	rm.scale = Vector2(0.9, 0.9)
+	rm.position = Vector2(vs.x * 0.80, vs.y - 118.0)
+	rm.offset = Vector2(0, -REDMOUNT_FRAMES.get_frame_texture(&"idle", 0).get_height() * 0.5)
+	rm.flip_h = true
+	rm.play()
+	add_child(rm)
+	var gz := AnimatedSprite2D.new()
+	gz.sprite_frames = GAZELLE_FRAMES
+	var anims := GAZELLE_FRAMES.get_animation_names()
+	gz.animation = &"freed" if anims.has("freed") else StringName(anims[0])
+	gz.scale = Vector2(0.82, 0.82)
+	gz.position = Vector2(vs.x * 0.70, vs.y - 118.0)
+	gz.offset = Vector2(0, -GAZELLE_FRAMES.get_frame_texture(gz.animation, 0).get_height() * 0.5)
+	gz.play()
+	add_child(gz)
+
+	var hint := Label.new()
+	hint.text = ("Sol: hareket · Sağ: zıpla, vur, ağır, ateş · EYLEM: etkileşim · II: duraklat"
 		if TouchControls.active_on_device() else
-		"A / D · Shift koş · Boşluk zıpla · J saldır · K ağır · L ateş · Ctrl dash · S çömel · ESC duraklat        —  gamepad destekli")
-	controls.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	controls.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	controls.add_theme_font_size_override(&"font_size", 13)
-	controls.add_theme_color_override(&"font_color", Color(0.82, 0.82, 0.88, 0.6))
-	controls.add_theme_constant_override(&"outline_size", 3)
-	controls.add_theme_color_override(&"font_outline_color", Color(0, 0, 0, 0.7))
-	$Root.add_child(controls)
+		"A/D yürü · Shift koş · Boşluk zıpla · J vur · K ağır · L ateş · Ctrl atıl · ESC duraklat · gamepad destekli")
+	hint.add_theme_color_override(&"font_color", MUTED)
+	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	hint.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
+	hint.offset_top = -32
+	hint.offset_bottom = -2
+	add_child(hint)
 
 
-func _refresh() -> void:
-	var best := ""
-	for i in GameState.level_count():
-		if Save.best_score(i) > 0:
-			best += "  B%d:%d" % [i + 1, Save.best_score(i)]
-	_info.text = "Toplam coin: %d      Açık bölüm: %d / %d      Survival rekoru: %d\nEn iyi skorlar:%s" % [
-		Save.total_coins, Save.unlocked_level + 1, GameState.level_count(),
-		Save.survival_best_wave,
-		best if not best.is_empty() else "  —",
-	]
-	_continue.text = ("SON BÖLÜMÜ TEKRAR OYNA" if Save.best_score(GameState.level_count() - 1) > 0
-		else "DEVAM ET  (Bölüm %d · %s)" % [
-			Save.unlocked_level + 1, GameState.act_name(Save.unlocked_level),
-		])
+func _build_home() -> Control:
+	var page := Control.new()
+	page.set_anchors_preset(Control.PRESET_FULL_RECT)
+	add_child(page)
+
+	var logo := TextureRect.new()
+	logo.texture = LOGO
+	logo.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	logo.stretch_mode = TextureRect.STRETCH_SCALE
+	logo.size = LOGO.get_size() * 5.0
+	logo.position = Vector2(48, 34)
+	page.add_child(logo)
+	var sub := TextureRect.new()
+	sub.texture = LOGO_SUB
+	sub.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	sub.stretch_mode = TextureRect.STRETCH_SCALE
+	sub.size = LOGO_SUB.get_size() * 3.0
+	sub.position = Vector2(62, 34 + LOGO.get_height() * 5.0 + 6.0)
+	page.add_child(sub)
+
+	var goal := Label.new()
+	goal.text = _objective()
+	goal.add_theme_color_override(&"font_color", Color(0.95, 0.55, 0.42))
+	goal.position = Vector2(64, 230)
+	page.add_child(goal)
+
+	var col := VBoxContainer.new()
+	col.position = Vector2(56, 270)
+	col.custom_minimum_size = Vector2(430, 0)
+	col.add_theme_constant_override(&"separation", 8)
+	page.add_child(col)
+	var finished := Save.best_score(GameState.level_count() - 1) > 0
+	var cont := _button(col, "SON BÖLÜMÜ TEKRAR OYNA" if finished else "DEVAM ET", 52)
+	cont.pressed.connect(func() -> void: _start(Save.unlocked_level))
+	_first_button = cont
+	if not finished:
+		var where := Label.new()
+		var u := clampi(Save.unlocked_level, 0, GameState.level_count() - 1)
+		where.text = "Bölüm %d · %s" % [u + 1, GameState.LEVEL_NAMES[u]]
+		where.add_theme_color_override(&"font_color", GOLD)
+		where.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		col.add_child(where)
+	_button(col, "BÖLÜM SEÇ").pressed.connect(func() -> void: _show(_levels))
+	_button(col, "SURVIVAL · DALGALAR").pressed.connect(func() -> void: Transition.go(SURVIVAL_SCENE))
+	_button(col, "MAĞAZA").pressed.connect(func() -> void: Transition.go(SHOP_SCENE))
+	_button(col, "AYARLAR").pressed.connect(func() -> void: _show(_settings))
+	if not OS.has_feature("web"):
+		_button(col, "ÇIKIŞ").pressed.connect(get_tree().quit)
+
+	# İstatistik paneli: coin, ilerleme, survival rekoru.
+	var stats := PanelContainer.new()
+	stats.add_theme_stylebox_override(&"panel", PixelUI.box("panel_hud", 16))
+	stats.position = Vector2(56, get_viewport_rect().size.y - 102)
+	page.add_child(stats)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override(&"separation", 18)
+	stats.add_child(row)
+	var ci := TextureRect.new()
+	ci.texture = COIN
+	ci.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	ci.stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
+	row.add_child(ci)
+	row.add_child(_label("%d" % Save.total_coins, GOLD))
+	row.add_child(_label("·", MUTED))
+	row.add_child(_label("BÖLÜM %d/%d" % [mini(Save.unlocked_level + 1, GameState.level_count()), GameState.level_count()], CREAM))
+	row.add_child(_label("·", MUTED))
+	row.add_child(_label("SURVIVAL %d" % Save.survival_best_wave, CREAM))
+	return page
+
+
+func _build_levels() -> Control:
+	var page := Control.new()
+	page.set_anchors_preset(Control.PRESET_FULL_RECT)
+	add_child(page)
+	var panel := PanelContainer.new()
+	panel.add_theme_stylebox_override(&"panel", PixelUI.box("panel", 24))
+	panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	panel.offset_left = 40
+	panel.offset_right = -40
+	panel.offset_top = 24
+	panel.offset_bottom = -44
+	page.add_child(panel)
+	var col := VBoxContainer.new()
+	col.add_theme_constant_override(&"separation", 12)
+	panel.add_child(col)
+
+	var head := HBoxContainer.new()
+	head.add_theme_constant_override(&"separation", 10)
+	col.add_child(head)
+	var title := _label("BÖLÜM SEÇ", GOLD)
+	title.add_theme_font_size_override(&"font_size", 36)
+	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	head.add_child(title)
+	for b in 3:
+		var tab := Button.new()
+		tab.text = "KİTAP %d" % (b + 1)
+		tab.custom_minimum_size = Vector2(150, 48)
+		tab.pressed.connect(_select_book.bind(b))
+		tab.focus_entered.connect(_select_book.bind(b))
+		head.add_child(tab)
+		_tabs.append(tab)
+
+	_book_title = _label("", Color(0.95, 0.55, 0.42))
+	col.add_child(_book_title)
+
+	_grid = GridContainer.new()
+	_grid.columns = 4
+	_grid.add_theme_constant_override(&"h_separation", 14)
+	_grid.add_theme_constant_override(&"v_separation", 14)
+	_grid.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	col.add_child(_grid)
+
+	var back := _button(col, "GERİ", 48)
+	back.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	back.custom_minimum_size = Vector2(200, 48)
+	back.pressed.connect(func() -> void: _show(_home))
+	return page
+
+
+func _select_book(b: int) -> void:
+	_book = b
+	for i in _tabs.size():
+		var sel := i == b
+		for st in ["normal", "hover", "pressed"]:
+			_tabs[i].add_theme_stylebox_override(st, PixelUI.box("sekme_secili" if sel else "sekme", 10))
+		_tabs[i].add_theme_color_override(&"font_color", GOLD if sel else MUTED)
+	_book_title.text = "KİTAP %d · %s" % [b + 1, GameState.BOOK_NAMES[b]]
+	for ch in _grid.get_children():
+		ch.queue_free()
+	for k in PER_BOOK:
+		_grid.add_child(_card(b * PER_BOOK + k))
+
+
+## Bölüm kartı: üstte numara, ortada ad, altta en iyi skor ya da kilit.
+func _card(i: int) -> Button:
+	var locked := i > Save.unlocked_level
+	var card := Button.new()
+	card.custom_minimum_size = Vector2(278, 112)
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	card.disabled = locked
+	var kind := "kart_kilitli" if locked else "kart"
+	for st in ["normal", "disabled"]:
+		card.add_theme_stylebox_override(st, PixelUI.box(kind, 14))
+	card.add_theme_stylebox_override(&"hover", PixelUI.box("kart", 14))
+	card.add_theme_stylebox_override(&"pressed", PixelUI.box("kart", 14))
+	card.pressed.connect(_start.bind(i))
+
+	var v := VBoxContainer.new()
+	v.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	v.offset_left = 16
+	v.offset_right = -12
+	v.offset_top = 4
+	v.offset_bottom = -8
+	v.add_theme_constant_override(&"separation", 2)
+	v.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	card.add_child(v)
+	var num := _label("BÖLÜM %d" % (i + 1), GOLD if not locked else MUTED)
+	v.add_child(num)
+	var name := _label(GameState.LEVEL_NAMES[i] if not locked else "? ? ?", CREAM if not locked else MUTED)
+	name.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	name.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	v.add_child(name)
+	if locked:
+		var lk := TextureRect.new()
+		lk.texture = LOCK
+		lk.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		lk.position = Vector2(232, 14)
+		lk.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		card.add_child(lk)
+	else:
+		var best := Save.best_score(i)
+		v.add_child(_label("EN İYİ %d" % best if best > 0 else "YENİ", Color(0.95, 0.55, 0.42) if best == 0 else MUTED))
+	for ch in v.get_children():
+		ch.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return card
+
+
+func _build_settings() -> Control:
+	var page := Control.new()
+	page.set_anchors_preset(Control.PRESET_FULL_RECT)
+	add_child(page)
+	var panel := PanelContainer.new()
+	panel.add_theme_stylebox_override(&"panel", PixelUI.box("panel", 30))
+	panel.custom_minimum_size = Vector2(620, 0)
+	panel.position = Vector2(56, 200)
+	page.add_child(panel)
+	var col := VBoxContainer.new()
+	col.add_theme_constant_override(&"separation", 16)
+	panel.add_child(col)
+	var title := _label("AYARLAR", GOLD)
+	title.add_theme_font_size_override(&"font_size", 36)
+	col.add_child(title)
+
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override(&"separation", 16)
+	col.add_child(row)
+	row.add_child(_label("SES", CREAM))
+	var vol := HSlider.new()
+	vol.name = "Volume"
+	vol.min_value = -40.0
+	vol.max_value = 6.0
+	vol.step = 1.0
+	vol.value = Save.master_volume_db
+	vol.custom_minimum_size = Vector2(380, 32)
+	vol.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	vol.value_changed.connect(func(val: float) -> void: Save.set_volume_db(val))
+	row.add_child(vol)
+
+	_wipe_button = _button(col, "KAYDI SIFIRLA")
+	_wipe_button.add_theme_color_override(&"font_color", Color(0.95, 0.55, 0.42))
+	_wipe_button.pressed.connect(_on_wipe)
+	_button(col, "GERİ").pressed.connect(func() -> void: _show(_home))
+	return page
+
+
+# --- Yardımcılar ------------------------------------------------------------------
+
+func _button(parent: Control, text: String, h := 46) -> Button:
+	var b := Button.new()
+	b.text = text
+	b.custom_minimum_size = Vector2(0, h)
+	parent.add_child(b)
+	return b
+
+
+func _label(text: String, color: Color) -> Label:
+	var l := Label.new()
+	l.text = text
+	l.add_theme_color_override(&"font_color", color)
+	return l
+
+
+func _objective() -> String:
+	var u := clampi(Save.unlocked_level, 0, GameState.level_count() - 1)
+	if Save.best_score(GameState.level_count() - 1) > 0:
+		return "ÜÇ KİTAP TAMAMLANDI · ŞEHİR UYANDI"
+	var book := u / PER_BOOK
+	return "KİTAP %d · %s" % [book + 1, GameState.BOOK_NAMES[book]]
 
 
 func _start(index: int) -> void:
@@ -145,8 +371,11 @@ func _start(index: int) -> void:
 	Transition.go(GAME_SCENE)
 
 
+## İki aşamalı: ilk basış uyarır, ikincisi siler.
 func _on_wipe() -> void:
+	if not _wipe_armed:
+		_wipe_armed = true
+		_wipe_button.text = "EMİN MİSİN? TEKRAR BAS"
+		return
 	Save.wipe()
-	for i in _levels_box.get_child_count():
-		_levels_box.get_child(i).disabled = i > Save.unlocked_level
-	_refresh()
+	get_tree().reload_current_scene()

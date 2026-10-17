@@ -46,6 +46,7 @@ func _ready() -> void:
 	_stage.visible = false  # bölüm / kitap numarası oyun içinde gösterilmez
 	_results.visible = false
 	_results_rank.visible = false
+	_build_results_card()
 	_boss_bar.visible = false
 	_combo.visible = false
 	GameState.coins_changed.connect(_on_coins_changed)
@@ -291,6 +292,42 @@ func _tick_reveal(delta: float) -> void:
 		# hafif "nefes" — yerine oturduktan sonra sürekli küçük pulse
 		if k >= 1.0:
 			_results_rank.scale = Vector2.ONE * (1.0 + sin(_reveal_t * 4.0) * 0.03)
+
+
+## Bölüm sonu kartı: ekranın ortasında piksel panel, rütbe harfi madalya
+## çerçevesinde, ipucu satırı düğme biçiminde. Etiketler sahnedeki yerlerinde kalır.
+func _build_results_card() -> void:
+	var card := Panel.new()
+	card.set_meta(&"pixel_done", true)
+	card.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	card.add_theme_stylebox_override(&"panel", PixelUI.box("panel", 24))
+	card.set_anchors_preset(Control.PRESET_CENTER)
+	card.offset_left = -330
+	card.offset_right = 330
+	card.offset_top = -230
+	card.offset_bottom = 250
+	_results.add_child(card)
+	_results.move_child(card, 0)
+	var medal := Panel.new()
+	medal.set_meta(&"pixel_done", true)
+	medal.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	medal.add_theme_stylebox_override(&"panel", PixelUI.box("kart", 14))
+	medal.set_anchors_preset(Control.PRESET_CENTER)
+	medal.offset_left = -80
+	medal.offset_right = 80
+	medal.offset_top = -140
+	medal.offset_bottom = -12
+	_results.add_child(medal)
+	_results.move_child(medal, 1)
+	_results_title.add_theme_color_override(&"font_color", Color(1.0, 0.82, 0.45))
+	_results_title.offset_left = -310
+	_results_title.offset_right = 310
+	_results_hint.add_theme_stylebox_override(&"normal", PixelUI.box("button_normal", 14))
+	_results_hint.offset_left = -300
+	_results_hint.offset_right = 300
+	_results_hint.offset_top = 186
+	_results_hint.offset_bottom = 232
+	_results_hint.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 
 
 func hide_results() -> void:

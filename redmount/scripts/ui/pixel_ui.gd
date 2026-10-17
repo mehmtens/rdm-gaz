@@ -35,14 +35,17 @@ static func snap(size: int) -> int:
 
 
 ## 9 parçalı piksel çerçeve. kind: panel / panel_hud / button_normal / button_hover /
-## button_pressed / button_disabled / balon / cubuk_zemin / cubuk_dolgu
+## button_pressed / button_disabled / balon / cubuk_zemin / cubuk_dolgu / odak /
+## kart / kart_kilitli / sekme / sekme_secili
 static func box(kind: String, pad := 18) -> StyleBoxTexture:
 	var key := "%s:%d" % [kind, pad]
 	if _boxes.has(key):
 		return _boxes[key]
 	var sb := StyleBoxTexture.new()
 	sb.texture = load("res://assets/ui/pixel/%s.png" % kind)
-	var m := 24 if kind.begins_with("panel") else (12 if kind.begins_with("button") or kind == "balon" else 9)
+	var m := 24 if kind.begins_with("panel") else (12 if kind.begins_with("button") or kind == "balon" or kind == "odak" else 9)
+	if kind.begins_with("kart"):
+		m = 18
 	sb.texture_margin_left = m
 	sb.texture_margin_right = m
 	sb.texture_margin_top = m
@@ -66,7 +69,8 @@ static func theme() -> Theme:
 	th.set_stylebox(&"panel", &"PanelContainer", box("panel"))
 	for st in ["normal", "hover", "pressed", "disabled"]:
 		th.set_stylebox(st, &"Button", box("button_" + st, 14))
-	th.set_stylebox(&"focus", &"Button", StyleBoxEmpty.new())
+	# Klavye / gamepad odağı: altın köşeli çerçeve (düğmenin üstüne çizilir).
+	th.set_stylebox(&"focus", &"Button", box("odak", 0))
 	th.set_color(&"font_color", &"Button", Color(0.96, 0.92, 0.84))
 	th.set_color(&"font_hover_color", &"Button", Color.WHITE)
 	th.set_color(&"font_pressed_color", &"Button", Color(1.0, 0.86, 0.6))

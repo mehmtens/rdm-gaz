@@ -1,33 +1,91 @@
-## ShopMenu — mağaza ekranı (Görev 14).
+## ShopMenu — piksel art mağaza ekranı.
 ##
-## `Shop.ITEMS` listesini gösterir; `Save.total_coins` ile satın alınır.
-## Ürün etkileri Main tarafından koşu başında uygulanır (Save.owns).
+## Tek panel, iki sekme: HAREKETLER (`Shop.ITEMS`, tek seferlik) ve GELİŞTİRMELER
+## (`Shop.UPGRADES`, 3 kademe). Her ürün bir kart: ad, açıklama, kademe baklavaları,
+## sağda coin ikonlu fiyat düğmesi. `Save.total_coins` ile satın alınır; etkileri
+## Main koşu başında uygular. Klavye / gamepad ile gezilir, ESC menüye döner.
 extends Control
 
 const MENU_SCENE := "res://scenes/MainMenu.tscn"
-
-@onready var _coins: Label = $Root/Coins
-@onready var _list: HBoxContainer = $Root/List
-
+const COIN := preload("res://assets/ui/pixel/coin.png")
+const LOCK := preload("res://assets/ui/pixel/kilit.png")
+const PIP_ON := preload("res://assets/ui/pixel/pip_dolu.png")
+const PIP_OFF := preload("res://assets/ui/pixel/pip_bos.png")
+const GOLD := Color(1.0, 0.82, 0.45)
+const CREAM := Color(0.96, 0.92, 0.84)
+const MUTED := Color(0.72, 0.68, 0.74)
+const RED := Color(0.95, 0.55, 0.42)
 
 var _t := 0.0
+var _tab := 0
+var _tabs: Array[Button] = []
+var _coins: Label
+var _grid: GridContainer
+var _back: Button
 
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	Music.play("menu")
-	$Root/Back.pressed.connect(func() -> void: Transition.go(MENU_SCENE))
-	if has_node(^"BG"):
-		$BG.queue_free()
 	theme = UIStyle.menu_theme()
-	var title: Label = $Root/Title
-	title.add_theme_font_size_override(&"font_size", 52)
-	title.add_theme_color_override(&"font_color", Color(0.98, 0.9, 0.82))
-	title.add_theme_color_override(&"font_outline_color", Color(0.5, 0.1, 0.12))
-	title.add_theme_constant_override(&"outline_size", 8)
-	_coins.add_theme_color_override(&"font_color", UIStyle.ACCENT)
-	_coins.add_theme_font_size_override(&"font_size", 20)
-	_build()
+	for ch in get_children():
+		ch.queue_free()
+
+	var panel := PanelContainer.new()
+	panel.add_theme_stylebox_override(&"panel", PixelUI.box("panel", 24))
+	panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	panel.offset_left = 40
+	panel.offset_right = -40
+	panel.offset_top = 24
+	panel.offset_bottom = -24
+	add_child(panel)
+	var col := VBoxContainer.new()
+	col.add_theme_constant_override(&"separation", 12)
+	panel.add_child(col)
+
+	var head := HBoxContainer.new()
+	head.add_theme_constant_override(&"separation", 12)
+	col.add_child(head)
+	var title := _label("MAĞAZA", GOLD)
+	title.add_theme_font_size_override(&"font_size", 36)
+	head.add_child(title)
+	var wallet := PanelContainer.new()
+	wallet.add_theme_stylebox_override(&"panel", PixelUI.box("panel_hud", 20))
+	head.add_child(wallet)
+	var wrow := HBoxContainer.new()
+	wrow.add_theme_constant_override(&"separation", 10)
+	wallet.add_child(wrow)
+	wrow.add_child(_icon(COIN))
+	_coins = _label("", GOLD)
+	wrow.add_child(_coins)
+	var spacer := Control.new()
+	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	head.add_child(spacer)
+	for i in 2:
+		var tab := Button.new()
+		tab.text = ["HAREKETLER", "GELİŞTİRMELER"][i]
+		tab.custom_minimum_size = Vector2(230, 48)
+		tab.pressed.connect(_select.bind(i))
+		tab.focus_entered.connect(_select.bind(i))
+		head.add_child(tab)
+		_tabs.append(tab)
+
+	_grid = GridContainer.new()
+	_grid.columns = 2
+	_grid.add_theme_constant_override(&"h_separation", 14)
+	_grid.add_theme_constant_override(&"v_separation", 12)
+	_grid.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	col.add_child(_grid)
+
+	_back = Button.new()
+	_back.text = "GERİ"
+	_back.custom_minimum_size = Vector2(200, 48)
+	_back.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	_back.pressed.connect(func() -> void: Transition.go(MENU_SCENE))
+	col.add_child(_back)
+
+	_select(0)
+	_tabs[0].call_deferred(&"grab_focus")
 
 
 func _process(delta: float) -> void:
@@ -39,94 +97,137 @@ func _draw() -> void:
 	UIStyle.draw_city_bg(self, get_viewport_rect().size, _t)
 
 
-func _build() -> void:
-	for c in _list.get_children():
-		c.queue_free()
-	_coins.text = "Coin: %d" % Save.total_coins
-	var moves := _column("HAREKETLER")
-	var upgrades := _column("GELİŞTİRMELER")
-
-	for it in Shop.ITEMS:
-		var required_level := int(it.get("unlock_level", 0))
-		var row := HBoxContainer.new()
-		row.custom_minimum_size = Vector2(0, 46)
-		row.add_theme_constant_override(&"separation", 12)
-
-		var lbl := Label.new()
-		lbl.text = "%s  —  %s  (%d)" % [it.name, it.desc, it.cost]
-		lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		row.add_child(lbl)
-
-		if Save.unlocked_level < required_level:
-			var locked := Label.new()
-			locked.text = "BÖLÜM %d SONRASI" % required_level
-			row.add_child(locked)
-		elif Save.owns(it.id):
-			var owned := Label.new()
-			owned.text = "SAHİP"
-			row.add_child(owned)
-		else:
-			var b := Button.new()
-			b.text = "SATIN AL"
-			b.custom_minimum_size = Vector2(120, 0)
-			b.disabled = Save.total_coins < int(it.cost)
-			b.pressed.connect(_buy.bind(String(it.id), int(it.cost)))
-			row.add_child(b)
-
-		moves.add_child(row)
-
-	for it in Shop.UPGRADES:
-		var level := Save.upgrade_level(String(it.id))
-		var costs: Array = it.costs
-		var max_level := costs.size()
-		var row := HBoxContainer.new()
-		row.custom_minimum_size = Vector2(0, 46)
-		row.add_theme_constant_override(&"separation", 12)
-		var lbl := Label.new()
-		lbl.text = "%s  %d/%d — %s" % [it.name, level, max_level, it.desc]
-		lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		row.add_child(lbl)
-		var requirement := String(it.get("requires", ""))
-		if not requirement.is_empty() and not Save.owns(requirement):
-			var locked := Label.new()
-			locked.text = "ÖNCE ÜÇÜNCÜ VURUŞ"
-			row.add_child(locked)
-		elif level >= max_level:
-			var complete := Label.new()
-			complete.text = "MAKSİMUM"
-			row.add_child(complete)
-		else:
-			var cost := int(costs[level])
-			var b := Button.new()
-			b.text = "YÜKSELT · %d" % cost
-			b.custom_minimum_size = Vector2(130, 0)
-			b.disabled = Save.total_coins < cost
-			b.pressed.connect(_upgrade.bind(String(it.id), cost, max_level))
-			row.add_child(b)
-		upgrades.add_child(row)
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed(&"ui_cancel"):
+		get_viewport().set_input_as_handled()
+		Transition.go(MENU_SCENE)
 
 
-func _column(title: String) -> VBoxContainer:
-	var column := VBoxContainer.new()
-	column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	column.add_theme_constant_override(&"separation", 4)
-	var heading := Label.new()
-	heading.text = title
-	heading.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	heading.add_theme_color_override(&"font_color", UIStyle.ACCENT)
-	heading.add_theme_font_size_override(&"font_size", 20)
-	column.add_child(heading)
-	_list.add_child(column)
-	return column
+func _select(i: int) -> void:
+	if i == _tab and _grid.get_child_count() > 0:
+		return
+	_tab = i
+	for k in _tabs.size():
+		var sel := k == i
+		for st in ["normal", "hover", "pressed"]:
+			_tabs[k].add_theme_stylebox_override(st, PixelUI.box("sekme_secili" if sel else "sekme", 10))
+		_tabs[k].add_theme_color_override(&"font_color", GOLD if sel else MUTED)
+	_rebuild()
+
+
+func _rebuild() -> void:
+	_coins.text = "%d" % Save.total_coins
+	for ch in _grid.get_children():
+		ch.queue_free()
+	if _tab == 0:
+		for it in Shop.ITEMS:
+			_grid.add_child(_item_card(it))
+	else:
+		for it in Shop.UPGRADES:
+			_grid.add_child(_upgrade_card(it))
+
+
+## Tek seferlik hareket / özellik kartı.
+func _item_card(it: Dictionary) -> Control:
+	var required := int(it.get("unlock_level", 0))
+	var card := _card(String(it.name), String(it.desc))
+	var right: HBoxContainer = card.get_meta(&"right")
+	if Save.unlocked_level < required:
+		right.add_child(_icon(LOCK))
+		right.add_child(_label("BÖLÜM %d" % required, MUTED))
+	elif Save.owns(String(it.id)):
+		right.add_child(_label("ALINDI", GOLD))
+	else:
+		var b := _price(int(it.cost))
+		b.pressed.connect(_buy.bind(String(it.id), int(it.cost)))
+		right.add_child(b)
+	return card
+
+
+## Üç kademeli geliştirme kartı: kademe baklavaları + bir sonraki fiyat.
+func _upgrade_card(it: Dictionary) -> Control:
+	var level := Save.upgrade_level(String(it.id))
+	var costs: Array = it.costs
+	var card := _card(String(it.name), String(it.desc))
+	var right: HBoxContainer = card.get_meta(&"right")
+	var pips := HBoxContainer.new()
+	pips.add_theme_constant_override(&"separation", 4)
+	for k in costs.size():
+		pips.add_child(_icon(PIP_ON if k < level else PIP_OFF))
+	right.add_child(pips)
+	var requirement := String(it.get("requires", ""))
+	if not requirement.is_empty() and not Save.owns(requirement):
+		right.add_child(_icon(LOCK))
+	elif level >= costs.size():
+		right.add_child(_label("TAM", GOLD))
+	else:
+		var cost := int(costs[level])
+		var b := _price(cost)
+		b.pressed.connect(_upgrade.bind(String(it.id), cost, costs.size()))
+		right.add_child(b)
+	return card
+
+
+func _card(title: String, desc: String) -> PanelContainer:
+	var card := PanelContainer.new()
+	card.add_theme_stylebox_override(&"panel", PixelUI.box("kart", 14))
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	card.custom_minimum_size = Vector2(0, 104)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override(&"separation", 12)
+	card.add_child(row)
+	var text := VBoxContainer.new()
+	text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	text.add_theme_constant_override(&"separation", 2)
+	row.add_child(text)
+	text.add_child(_label(title.to_upper(), GOLD))
+	var d := _label(desc, CREAM)
+	d.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	text.add_child(d)
+	var right := HBoxContainer.new()
+	right.alignment = BoxContainer.ALIGNMENT_END
+	right.add_theme_constant_override(&"separation", 10)
+	right.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	row.add_child(right)
+	card.set_meta(&"right", right)
+	return card
+
+
+## Fiyat düğmesi: coin ikonu + tutar; parası yetmiyorsa soluk.
+func _price(cost: int) -> Button:
+	var b := Button.new()
+	b.text = "%d" % cost
+	b.icon = COIN
+	b.custom_minimum_size = Vector2(120, 48)
+	b.disabled = Save.total_coins < cost
+	return b
+
+
+func _icon(tex: Texture2D) -> TextureRect:
+	var r := TextureRect.new()
+	r.texture = tex
+	r.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	r.stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
+	r.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	return r
+
+
+func _label(text: String, color: Color) -> Label:
+	var l := Label.new()
+	l.text = text
+	l.add_theme_color_override(&"font_color", color)
+	return l
 
 
 func _buy(item_id: String, cost: int) -> void:
 	if Save.buy(item_id, cost):
 		Sfx.play(&"coin")
-		_build()
+		_rebuild()
+		_back.grab_focus()
 
 
 func _upgrade(item_id: String, cost: int, max_level: int) -> void:
 	if Save.buy_upgrade(item_id, cost, max_level):
 		Sfx.play(&"coin")
-		_build()
+		_rebuild()
+		_back.grab_focus()

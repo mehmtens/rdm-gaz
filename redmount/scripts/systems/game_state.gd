@@ -50,6 +50,21 @@ const LEVELS: PackedStringArray = [
 	"res://scenes/levels/Bolum36.tscn",
 ]
 
+## Menüde gösterilen bölüm adları (sahnelerdeki display_name ile aynı).
+const LEVEL_NAMES: PackedStringArray = [
+	"Balat Sokakları", "Arka Sokak İzi", "Gece Pazarı Baskını", "Silahlı Kontrol Bölgesi",
+	"Demiryolu Ablukası", "Ağır Güvenlik Bölgesi", "Karahanlı Haddehanesi", "Yeraltı Sevkiyatı",
+	"Zırhlı Üs", "Kuzey Surları", "Sessiz Koridor", "İç Kale / Karahanlı",
+	"Haliç'te Şafak", "Sahte Mühür", "Zeyrek Su Hattı", "Süleymaniye Arşivi",
+	"Beyazıt Posta Hattı", "Kapalıçarşı Arka Hanı", "Çemberlitaş Külhanı", "Samatya Taş Depoları",
+	"Yenikapı Gece Vardiyası", "Aksaray Pompa İstasyonu", "Saraçhane Ana Vana", "Bozdoğan Kemeri",
+	"Cağaloğlu'nda İlk Baskın", "Sirkeci Sevkiyatı", "Galata Telgrafı", "Üsküdar Yedek Hattı",
+	"Kuzguncuk Kıyı Deposu", "Beylerbeyi İskele Arşivi", "Çengelköy Sahil Konağı", "Kuleli Gözetleme Hattı",
+	"Vaniköy Gece Sevkiyatı", "Kandilli Verici Sırtı", "Anadoluhisarı Kale İçi", "Son Yayın",
+]
+## Üç kitabın adları (12'şer bölüm).
+const BOOK_NAMES: PackedStringArray = ["GAZELLE'İN İZİ", "HALİÇ'İN İZİ", "İSTANBUL'UN SESİ"]
+
 const ACT_NAMES: PackedStringArray = [
 	"Şehrin Nabzı", "Demir Hat", "Soğuk Yamaç", "İç Kale", "Haliç'in İzi", "Kayıt Zinciri", "Külhanın İzi", "Su Hattı", "İlk Baskın", "Yedek Hat", "Boğaz'ın İzi", "İstanbul'un Sesi",
 ]

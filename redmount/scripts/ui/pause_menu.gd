@@ -57,32 +57,52 @@ func close() -> void:
 
 # --- kurulum ---------------------------------------------------------
 
+const ICONS := {
+	"fists": preload("res://assets/ui/pixel/ikon_yumruk.png"),
+	"bat": preload("res://assets/pickups/placeholder_bat.png"),
+	"knife": preload("res://assets/pickups/placeholder_knife.png"),
+	"pistol": preload("res://assets/pickups/placeholder_pistol.png"),
+	"rifle": preload("res://assets/ui/pixel/ikon_tufek.png"),
+	"armor": preload("res://assets/pickups/placeholder_armor.png"),
+}
+const COIN_ICON := preload("res://assets/ui/pixel/coin.png")
+const GOLD := Color(1.0, 0.82, 0.45)
+const MUTED := Color(0.72, 0.68, 0.74)
+
+
+## İki piksel panel yan yana: solda duraklat menüsü (devam / kontrol noktası /
+## baştan / ses / ana menü), sağda cep cephaneliği (ikonlu silah kartları).
 func _build() -> void:
 	var dim := ColorRect.new()
-	dim.color = Color(0.03, 0.02, 0.05, 0.82)
+	dim.color = Color(0.03, 0.02, 0.05, 0.78)
 	dim.anchor_right = 1.0
 	dim.anchor_bottom = 1.0
 	dim.mouse_filter = Control.MOUSE_FILTER_STOP
+	dim.set_meta(&"pixel_done", true)
 	add_child(dim)
 
 	var center := CenterContainer.new()
 	center.anchor_right = 1.0
 	center.anchor_bottom = 1.0
+	center.theme = UIStyle.menu_theme()
 	add_child(center)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override(&"separation", 18)
+	center.add_child(row)
 
+	# --- Sol: menü ---
+	var left := PanelContainer.new()
+	left.add_theme_stylebox_override(&"panel", PixelUI.box("panel", 26))
+	row.add_child(left)
 	_root = VBoxContainer.new()
-	_root.theme = UIStyle.menu_theme()
-	_root.add_theme_constant_override(&"separation", 12)
-	_root.alignment = BoxContainer.ALIGNMENT_CENTER
-	center.add_child(_root)
-
+	_root.add_theme_constant_override(&"separation", 10)
+	_root.custom_minimum_size = Vector2(380, 0)
+	left.add_child(_root)
 	var title := Label.new()
 	title.text = "DURAKLATILDI"
-	title.add_theme_font_size_override(&"font_size", 40)
-	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_font_size_override(&"font_size", 36)
+	title.add_theme_color_override(&"font_color", GOLD)
 	_root.add_child(title)
-	_root.add_child(HSeparator.new())
-
 	_first_btn = _mk_btn("DEVAM ET", close)
 	_mk_btn("KONTROL NOKTASINA DÖN", func() -> void:
 		close()
@@ -90,45 +110,14 @@ func _build() -> void:
 	_mk_btn("BÖLÜMÜ BAŞTAN", func() -> void:
 		close()
 		restart_requested.emit())
-
-	_root.add_child(HSeparator.new())
-	var armory_title := Label.new()
-	armory_title.text = "Cep cephaneliği"
-	armory_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	armory_title.add_theme_font_size_override(&"font_size", 23)
-	_root.add_child(armory_title)
-	_armory_coins = Label.new()
-	_armory_coins.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_armory_coins.add_theme_color_override(&"font_color", Color(1.0, 0.82, 0.32))
-	_root.add_child(_armory_coins)
-
-	var weapon_row := HBoxContainer.new()
-	weapon_row.alignment = BoxContainer.ALIGNMENT_CENTER
-	weapon_row.add_theme_constant_override(&"separation", 8)
-	_root.add_child(weapon_row)
-	_armory_button(weapon_row, "Yumruk", "fists")
-	_armory_button(weapon_row, "Sopa · 20", "bat")
-	_armory_button(weapon_row, "Bıçak · 25", "knife")
-	_armory_button(weapon_row, "Tabanca · 40", "pistol")
-	_armory_button(weapon_row, "Tüfek · 60", "rifle")
-	_armory_button(weapon_row, "Zırh · 30", "armor")
-
-	_armory_status = Label.new()
-	_armory_status.text = "Silahlar bu can için geçerlidir; ölünce yumruğa dönersin."
-	_armory_status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_armory_status.add_theme_font_size_override(&"font_size", 13)
-	_armory_status.add_theme_color_override(&"font_color", Color(0.75, 0.8, 0.86))
-	_root.add_child(_armory_status)
-	GameState.coins_changed.connect(_refresh_armory_coins)
-
 	var vol_row := HBoxContainer.new()
-	vol_row.alignment = BoxContainer.ALIGNMENT_CENTER
 	vol_row.add_theme_constant_override(&"separation", 12)
 	var vl := Label.new()
-	vl.text = "Ses"
+	vl.text = "SES"
 	vol_row.add_child(vl)
 	var slider := HSlider.new()
-	slider.custom_minimum_size = Vector2(240, 0)
+	slider.custom_minimum_size = Vector2(260, 32)
+	slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	slider.min_value = -40.0
 	slider.max_value = 6.0
 	slider.step = 1.0
@@ -136,34 +125,80 @@ func _build() -> void:
 	slider.value_changed.connect(func(v: float) -> void: Save.set_volume_db(v))
 	vol_row.add_child(slider)
 	_root.add_child(vol_row)
-
-	_root.add_child(HSeparator.new())
 	_mk_btn("ANA MENÜ", func() -> void:
 		close()
 		menu_requested.emit())
+
+	# --- Sağ: cep cephaneliği ---
+	var right := PanelContainer.new()
+	right.add_theme_stylebox_override(&"panel", PixelUI.box("panel", 26))
+	row.add_child(right)
+	var col := VBoxContainer.new()
+	col.add_theme_constant_override(&"separation", 10)
+	col.custom_minimum_size = Vector2(420, 0)
+	right.add_child(col)
+	var head := HBoxContainer.new()
+	head.add_theme_constant_override(&"separation", 10)
+	col.add_child(head)
+	var at := Label.new()
+	at.text = "CEP CEPHANELİĞİ"
+	at.add_theme_color_override(&"font_color", GOLD)
+	at.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	head.add_child(at)
+	var ci := TextureRect.new()
+	ci.texture = COIN_ICON
+	ci.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	ci.stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
+	head.add_child(ci)
+	_armory_coins = Label.new()
+	_armory_coins.add_theme_color_override(&"font_color", GOLD)
+	head.add_child(_armory_coins)
+	var grid := GridContainer.new()
+	grid.columns = 2
+	grid.add_theme_constant_override(&"h_separation", 10)
+	grid.add_theme_constant_override(&"v_separation", 10)
+	col.add_child(grid)
+	_armory_button(grid, "Yumruk", "fists", 0)
+	_armory_button(grid, "Sopa", "bat", 20)
+	_armory_button(grid, "Bıçak", "knife", 25)
+	_armory_button(grid, "Tabanca", "pistol", 40)
+	_armory_button(grid, "Tüfek", "rifle", 60)
+	_armory_button(grid, "Zırh", "armor", 30)
+	_armory_status = Label.new()
+	_armory_status.text = "Silahlar bu can için geçerli; ölünce yumruğa dönersin."
+	_armory_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_armory_status.custom_minimum_size = Vector2(400, 0)
+	_armory_status.add_theme_color_override(&"font_color", MUTED)
+	col.add_child(_armory_status)
+	GameState.coins_changed.connect(_refresh_armory_coins)
 
 
 func _mk_btn(text: String, cb: Callable) -> Button:
 	var b := Button.new()
 	b.text = text
-	b.custom_minimum_size = Vector2(320, 0)
+	b.custom_minimum_size = Vector2(0, 46)
 	b.focus_mode = Control.FOCUS_ALL
 	b.pressed.connect(cb)
 	_root.add_child(b)
 	return b
 
 
-func _armory_button(row: HBoxContainer, text: String, item_id: String) -> void:
+## Silah kartı: piksel ikon + ad + fiyat.
+func _armory_button(parent: Container, text: String, item_id: String, cost: int) -> void:
 	var button := Button.new()
-	button.text = text
-	button.custom_minimum_size = Vector2(112, 38)
+	button.text = "%s · %d" % [text, cost] if cost > 0 else text
+	button.icon = ICONS.get(item_id)
+	button.expand_icon = false
+	button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	button.custom_minimum_size = Vector2(205, 60)
+	button.add_theme_constant_override(&"h_separation", 8)
 	button.pressed.connect(func() -> void: armory_requested.emit(item_id))
-	row.add_child(button)
+	parent.add_child(button)
 
 
 func _refresh_armory_coins(total: int) -> void:
 	if _armory_coins != null:
-		_armory_coins.text = "Bu bölümdeki coin: %d" % total
+		_armory_coins.text = "%d" % total
 
 
 func show_armory_status(text: String, success := false) -> void:

@@ -78,7 +78,7 @@ func _pixelize(c: Control) -> void:
 			if sb2 is StyleBoxFlat:
 				c.add_theme_stylebox_override(st, PixelUI.box("button_" + st, 14))
 		if c.get_theme_stylebox(&"focus") is StyleBoxFlat:
-			c.add_theme_stylebox_override(&"focus", StyleBoxEmpty.new())
+			c.add_theme_stylebox_override(&"focus", PixelUI.box("odak", 0))
 
 
 ## Düz renkli HUD dikdörtgenleri: dolgu -> piksel dolgu, çubuk zemini -> piksel
