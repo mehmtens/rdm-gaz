@@ -128,10 +128,15 @@ func _build() -> void:
 
 	# --- 6. Çıkış: toplanan esnaf kurtarılır --------------------------------------
 	_checkpoint(7950, 0)
+	# Esnafı topladıkları iki katlı depo: içeri girince cephe açılır, adamlar katlarda.
+	_interior(8050, 8550, -230, [-115.0], 0)
 	_enemy(STREET, 8250, 0)
-	_enemy(KNIFE, 8350, 0)
+	_enemy(KNIFE, 8400, -115)
+	_enemy(ASSASSIN, 8450, 0)
+	_prop("kasa", 8120, -115, HEALTH)
+	_coin_line(8180, 5, 60, -160)
 	_crates(8650, 2, 1)
-	_story(8550, _sahne_esnaf_kurtulur)
+	_story(8580, _sahne_esnaf_kurtulur)
 	_coin_line(8800, 4, 50, -140)
 	_han_gate(9050, "PAZAR ÇIKIŞI")
 	_goal(9050, 0)

@@ -64,7 +64,9 @@ func _build() -> void:
 	_checkpoint(3500, 0)
 	_canal(3900, 4100, 110)
 	_scaffold(4000, -20, 220)
-	_terrain(4100, 9900, 0)
+	_terrain(4100, 6900, 0)
+	_terrain(7100, 8650, 0)
+	_terrain(8850, 9900, 0)
 	_scaffold(4300, -140, 130)
 	_scaffold(4450, -250, 130)
 	_pickup(PISTOL, 4450, -295)
@@ -72,6 +74,7 @@ func _build() -> void:
 
 	# --- 4. Kâğıt imalathanesi: tüfekli; isteğe bağlı asma yol ------------------
 	_checkpoint(4900, 0)
+	_interior(4980, 6150, -345, [], 0)
 	_crates(5050, 1, 1)
 	_crates(5140, 1, 2)
 	_terrain(5230, 5500, -180)
@@ -84,6 +87,7 @@ func _build() -> void:
 
 	# --- 5. Cilt atölyesi: raf üstü ödül; ikinci servis geçişi ---------------------
 	_checkpoint(6250, 0)
+	_interior(6330, 6860, -345, [], 1)
 	_crates(6400, 1, 1)
 	_scaffold(6560, -150, 140)
 	_scaffold(6720, -250, 140)
@@ -95,7 +99,10 @@ func _build() -> void:
 
 	# --- 6. Belge odası: seçkin + menzilli arena ----------------------------------
 	_checkpoint(7450, 0)
-	_prop("vazo", 7600)
+	_interior(7560, 8400, -345, [], 0)
+	_scaffold(7800, -120, 160)
+	_scaffold(8150, -120, 160)
+	_prop("vazo", 7650)
 	_prop("sandik", 8250, 0, AMMO)
 	var docs: BattleArena = ARENA.instantiate()
 	docs.position = Vector2(7950, 0)
@@ -114,6 +121,10 @@ func _build() -> void:
 	_enemy(ELITE, 9050, 0)
 	for x in [8550, 9150]:
 		_lantern(float(x))
+	# Mahzen: kaya tavan, ön planda kemer ayakları.
+	_ceiling(8480, 9230, -340)
+	for cx in [8600.0, 9000.0]:
+		_fg("kolon", cx, 40.0, 380.0)
 
 	# --- 8. Arka teras: son arena, asıl liste ---------------------------------
 	_checkpoint(9250, 0)

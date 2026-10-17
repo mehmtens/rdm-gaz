@@ -66,15 +66,10 @@ func _build() -> void:
 	_terrain(5060, 5300, -180)
 	_enemy(RIFLE, 5240, -180)
 	_pickup(RIFLE_PICKUP, 5100, -225)
-	var depo: BattleArena = ARENA.instantiate()
-	depo.position = Vector2(5600, 0)
-	depo.gate_left_x = 5380
-	depo.gate_right_x = 5850
-	depo.floor_y = 0
-	depo.wave1 = _wave(RIFLE, KNIFE)
-	depo.wave2 = _wave(BRUISER, STREET)
-	depo.reward = HEALTH
-	add_child(depo)
+	# Depo kapısında nöbet: kilitsiz, tüfekli yukarıdan destekler.
+	_enemy(KNIFE, 5500, 0)
+	_enemy(BRUISER, 5700, 0)
+	_prop("kasa", 5820, 0, COIN)
 	var shop: LevelShop = SHOP.new()
 	shop.position = Vector2(6000, 0)
 	shop.title = "SAMATYA ERZAKI"
@@ -84,6 +79,8 @@ func _build() -> void:
 
 	# --- 5. Tasnif salonu: alt yol açık, vinç kirişi -----------------------------
 	_checkpoint(6200, 0)
+	# Tasnif salonu: taş deponun içi; vinç kirişi tavanın altında.
+	_interior(6280, 7180, -360, [], 0)
 	_stones(6350, 1, 1)
 	_scaffold(6510, -150, 120)
 	_moving(6650, -240, Vector2(300, 0), 140, 0.0)
@@ -97,6 +94,9 @@ func _build() -> void:
 	_checkpoint(7450, 0)
 	_canal(7550, 7750, 110)
 	_scaffold(7650, -20, 220)
+	_ceiling(7820, 8480, -330)
+	_fg("kolon", 7950.0, 40.0, 380.0)
+	_fg("kolon", 8350.0, 40.0, 380.0)
 	var tuz: BattleArena = ARENA.instantiate()
 	tuz.position = Vector2(8150, 0)
 	tuz.gate_left_x = 7850
@@ -111,9 +111,11 @@ func _build() -> void:
 	_checkpoint(8600, 0)
 	_canal(8700, 8900, 110)
 	_scaffold(8800, -20, 220)
+	_interior(8960, 9320, -230, [-115.0], 1)
 	_stones(9050, 1, 1)
 	_story(9000, _sahne_blok)
-	_pickup(HEALTH, 9250, -45)
+	_pickup(HEALTH, 9280, -160)
+	_coin_line(9000, 5, 60, -160)
 
 	# --- 8. Yükleme avlusu: üç dalga; Kemal Bey kaçar -----------------------------
 	_checkpoint(9350, 0)

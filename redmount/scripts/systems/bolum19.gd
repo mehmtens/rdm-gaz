@@ -67,6 +67,8 @@ func _build() -> void:
 	aw.height = 60
 	aw.position = Vector2(4900, 0)
 	add_child(aw)
+	# Soyunmalık: hamamın ahşap galerili büyük salonu.
+	_interior(5000, 5700, -400, [], 1)
 	for k in 4:
 		_scaffold(5080.0 + k * 160.0, -270.0, 140)
 		_pickup(COIN, 5080.0 + k * 160.0, -320.0)
@@ -89,6 +91,7 @@ func _build() -> void:
 
 	# --- 5. Ilıklık: alt yol serbest, üst çini rafı ---------------------------
 	_checkpoint(6100, 0)
+	_interior(6200, 7000, -345, [], 1)
 	_crates(6250, 1, 1)
 	_scaffold(6420, -150, 140)
 	_scaffold(6580, -250, 140)
@@ -100,18 +103,18 @@ func _build() -> void:
 	_checkpoint(7050, 0)
 	_canal(7200, 7400, 110)
 	_scaffold(7300, -20, 220)
-	var su: BattleArena = ARENA.instantiate()
-	su.position = Vector2(7850, 0)
-	su.gate_left_x = 7500
-	su.gate_right_x = 8200
-	su.floor_y = 0
-	su.wave1 = _wave(ELITE, RIFLE)
-	su.wave2 = _wave(ELITE, KNIFE, RIFLE)
-	su.reward = AMMO
-	add_child(su)
+	# Su servisi: kemerli tonoz altında servis yolu, sarnıç sütunları önde.
+	_ceiling(7450, 8250, -330)
+	for cx in [7600.0, 7950.0]:
+		_fg("kolon", cx, 40.0, 380.0)
+	_enemy(ELITE, 7700, 0)
+	_enemy(RIFLE, 8050, 0)
+	_prop("sandik", 8180, 0, AMMO)
 
 	# --- 7. Külhan yaklaşımı: yakıt rafı, alevler, son kanal ---------------------
 	_checkpoint(8350, 0)
+	# Külhan yaklaşımı: ocak dairesi; yakıt rafı üstte, alevler altta.
+	_interior(8440, 8880, -345, [], 0)
 	_flame(8550, 0.0)
 	_flame(8750, 0.5)
 	_coin_line(8500, 5, 80, -60)

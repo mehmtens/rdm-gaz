@@ -20,8 +20,8 @@ func _build() -> void:
 	back_row_skip = [[3300.0, 10400.0]]
 
 	_terrain(-400, 6300, 0)
-	_spike_pit(6300, 6480)
-	_terrain(6480, 10400, 0)
+	_spike_pit(6300, 6460)
+	_terrain(6460, 10400, 0)
 
 	# --- 1. Gar meydanı: kemerli revak, tenteyle saçağa ------------------------
 	_story(-1.0, _sahne_meydan, 240.0)

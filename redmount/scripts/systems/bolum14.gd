@@ -68,6 +68,9 @@ func _build() -> void:
 
 	# --- 4. Halat atölyesi: zırhlı dövüşü ya da vinçle üst rota; iki dalga -------
 	_checkpoint(4450, 0)
+	# Atölye kapalı salon: içeri girince cephe açılır; vinç rayı tavanın altında.
+	_interior(4520, 5480, -400, [], 0)
+	_fg("zincir", 4700.0, -560.0, 200.0)
 	_scaffold(4650, -130, 140)
 	_scaffold(4650, -240, 140)
 	_moving(4800, -250, Vector2(320, 0), 140, 0.0)
@@ -105,19 +108,18 @@ func _build() -> void:
 	_prop("saksi", 7800)
 	_lantern(7050)
 	_lantern(7850)
-	var court: BattleArena = ARENA.instantiate()
-	court.position = Vector2(7450, 0)
-	court.gate_left_x = 7050
-	court.gate_right_x = 7850
-	court.floor_y = 0
-	court.wave1 = _wave(ELITE, KNIFE)
-	court.wave2 = _wave(ELITE, ASSASSIN)
-	court.reward = HEALTH
-	add_child(court)
+	# Fener kulesi: altından geçilen kemer, içi duvar-zıplamayla tırmanılır.
+	_enemy(ELITE, 7250, 0)
+	_enemy(KNIFE, 7350, 0)
+	_chimney(7550, -520, 140, 150, AMMO)
+	_enemy(ASSASSIN, 7780, 0)
 
 	# --- 7. Baskıhane: kalıp; üst kirişte riskli ödül ------------------------------
 	_checkpoint(8000, 0)
 	_story(8050, _sahne_baskihane)
+	# Baskıhane içi: üst kirişler çürük; altta kalıp sandığı.
+	_interior(8120, 8780, -345, [], 0)
+	_enemy(STREET, 8600, 0)
 	_collapse(8300, -170, 130)
 	_collapse(8450, -230, 130)
 	_pickup(ARMOR, 8450, -275)

@@ -71,10 +71,10 @@ func _build() -> void:
 	_scaffold(6050, -250, 140)
 	_pickup(PISTOL, 6050, -295)
 	_terrain(1700, 6180, 0)
-	_spike_pit(6180, 6360)
+	_spike_pit(6180, 6340)
 	_scaffold(6270, -150, 120)
 	_coin_line(6230, 3, 40, -200)
-	_terrain(6360, 10300, 0)
+	_terrain(6340, 10300, 0)
 	_enemy(BRUISER, 6550, 0)
 
 	# --- 6. Röle salonu: iç mekânda arena (galerilerle) -----------------------

@@ -63,6 +63,8 @@ func _build() -> void:
 
 	# --- 4. Baskı salonu: sandık ve raf arası ağır düşman; erzak ----------------
 	_checkpoint(4750, 0)
+	# Baskı salonu: matbaanın içi; makine galerileri, ortada ağır düşmanlar.
+	_interior(4850, 5700, -345, [], 0)
 	_crates(4900, 1, 1)
 	_scaffold(5050, -150, 120)
 	_crates(5600, 1, 1)
@@ -99,15 +101,14 @@ func _build() -> void:
 
 	# --- 6. Ciltçi geçidi: karma arena ----------------------------------------
 	_checkpoint(7250, 0)
-	var cilt: BattleArena = ARENA.instantiate()
-	cilt.position = Vector2(7800, 0)
-	cilt.gate_left_x = 7450
-	cilt.gate_right_x = 8150
-	cilt.floor_y = 0
-	cilt.wave1 = _wave(ELITE, KNIFE)
-	cilt.wave2 = _wave(RIFLE, ASSASSIN, STREET)
-	cilt.reward = HEALTH
-	add_child(cilt)
+	# Ciltçi atölyesi: iki kat; katlarda karma devriye (kilitsiz).
+	_interior(7450, 8150, -230, [-115.0], 1)
+	_enemy(ELITE, 7650, 0)
+	_enemy(KNIFE, 7950, 0)
+	_enemy(RIFLE, 7800, -115)
+	_enemy(ASSASSIN, 7550, -115)
+	_coin_line(7500, 8, 80, -160)
+	_pickup(HEALTH, 8100, -160)
 
 	# --- 7. Dağıtım deposu: sandık içi cephane, seçkin nöbetçi --------------------
 	_checkpoint(8300, 0)

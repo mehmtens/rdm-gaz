@@ -55,6 +55,8 @@ func _build() -> void:
 	# --- 3. Bedesten: sabit taş geçiş, raf üstü riskli rota ------------------------
 	_terrain(3350, 10200, 0)
 	_checkpoint(3400, 0)
+	# Bedesten: kubbeli kapalı çarşı içi; raf üstü rota tavanın altında.
+	_interior(3500, 4560, -420, [], 0)
 	_crates(3550, 1, 1)
 	for k in 5:
 		_scaffold(3730.0 + k * 160.0, -220.0 - (k % 2) * 60.0, 140)
@@ -71,15 +73,9 @@ func _build() -> void:
 	_terrain(4960, 5200, -180)
 	_enemy(RIFLE, 5140, -180)
 	_pickup(RIFLE_PICKUP, 5000, -225)
-	var bak: BattleArena = ARENA.instantiate()
-	bak.position = Vector2(5550, 0)
-	bak.gate_left_x = 5300
-	bak.gate_right_x = 5800
-	bak.floor_y = 0
-	bak.wave1 = _wave(KNIFE, RIFLE)
-	bak.wave2 = _wave(BRUISER)
-	bak.reward = HEALTH
-	add_child(bak)
+	_enemy(KNIFE, 5450, 0)
+	_enemy(BRUISER, 5650, 0)
+	_prop("kasa", 5780, 0, COIN)
 	var shop: LevelShop = SHOP.new()
 	shop.position = Vector2(5950, 0)
 	shop.title = "BAKIRCI ERZAKI"
@@ -106,7 +102,12 @@ func _build() -> void:
 	_story(7330, _sahne_ambar)
 	_canal(7450, 7650, 110)
 	_scaffold(7550, -20, 220)
-	_prop("kasa", 7750)
+	_prop("kasa", 7720)
+	# Ambar: çuval yığınlı galerili salon.
+	_interior(7760, 8490, -345, [], 0)
+	_scaffold(7920, -115, 160)
+	_scaffold(8330, -115, 160)
+	_scaffold(8125, -230, 200)
 	var amb: BattleArena = ARENA.instantiate()
 	amb.position = Vector2(8100, 0)
 	amb.gate_left_x = 7800
@@ -121,7 +122,10 @@ func _build() -> void:
 	_checkpoint(8600, 0)
 	_canal(8700, 8900, 110)
 	_scaffold(8800, -20, 220)
+	_interior(8960, 9330, -230, [-115.0], 1)
 	_enemy(ELITE, 9050, 0)
+	_pickup(HEALTH, 9280, -160)
+	_coin_line(9000, 5, 60, -160)
 	_story(9150, _sahne_defter)
 	for x in [8650, 9250]:
 		_lantern(float(x))

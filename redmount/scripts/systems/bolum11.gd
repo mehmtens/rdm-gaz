@@ -96,7 +96,7 @@ func _build() -> void:
 	final.floor_y = 0
 	final.wave1 = _wave(ELITE, ASSASSIN)
 	final.wave2 = _wave(MINIBOSS)
-	final.wave3 = _wave(ELITE, ELITE, KNIFE)
+	final.wave3 = _wave(ELITE, KNIFE)
 	final.reward = HEALTH
 	add_child(final)
 	_story(8450, _sahne_son_kapi)

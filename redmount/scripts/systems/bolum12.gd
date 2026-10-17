@@ -71,8 +71,13 @@ func _build() -> void:
 	# --- 4. Tutukevi: Hasan'ın sesi -------------------------------------------------
 	_checkpoint(4950, 0)
 	_story(5150, _sahne_tutukevi)
+	# Tutukevi: iki katlı hücre bloğu; üst koğuşta gardiyan, altta nöbet.
+	_interior(5250, 6150, -230, [-115.0], 0)
 	_enemy(ELITE, 5600, 0)
 	_enemy(ASSASSIN, 5800, 0)
+	_enemy(KNIFE, 5500, -115)
+	_coin_line(5300, 8, 90, -160)
+	_pickup(HEALTH, 6100, -160)
 	_prop("vazo", 6000)
 	_lantern(5300)
 	_lantern(6100)

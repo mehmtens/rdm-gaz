@@ -83,12 +83,17 @@ var zoom_level := 1.12
 
 var _cam: Camera2D
 var _fg_layer: _Foreground
+## Zemin parçaları [x0, x1, top, gövde] ve çukurlar [x0, x1, derinlik]: _build
+## sonunda çukurun üstünü kapatan zemin kesilir (kanal/diken çukuru gerçek olsun).
+var _ground_parts: Array = []
+var _holes: Array = []
 
 
 func _build_chapter() -> void:
 	_spawn_marker()
 	# Önce içerik: bölüm sky_* / back_row_on ayarlarını _build içinde verir.
 	_build()
+	_cut_holes()
 	var sky := _Sky.new()
 	sky.level = self
 	add_child(sky)
@@ -128,6 +133,7 @@ func _terrain(x0: float, x1: float, top: float) -> void:
 	body.add_child(col)
 	body.add_child(_Art.new(_Art.A_TERRAIN, Vector2(w, h)))
 	add_child(body)
+	_ground_parts.append([x0, x1, top, body])
 
 
 ## Ev: sanat oranı korunur, çatı saçağı yürünür. Sağ kenarı döndürür.
@@ -320,6 +326,7 @@ func _stones(left: float, cols: int, rows: int) -> void:
 ## (içinden yürünür, ölümcül değil). Çıkış için uçlara alçak taş basamak konur.
 func _canal(x0: float, x1: float, depth: float) -> void:
 	_terrain(x0, x1, depth)
+	_holes.append([x0, x1, depth])
 	var water := _Art.new(_Art.A_WATER, Vector2(x1 - x0, depth + 30.0))
 	water.position = Vector2((x0 + x1) * 0.5, (depth - 30.0) * 0.5 + 30.0)
 	water.z_index = 4
@@ -401,10 +408,43 @@ func _fight(left: float, right: float, w1: Array[PackedScene], w2: Array[PackedS
 	return a
 
 
+## Çukurun (kanal / diken) üstünü örten, çukur tabanından yüksek zemin parçalarını
+## çukurun iki yanında kalacak şekilde böler.
+func _cut_holes() -> void:
+	for hole in _holes:
+		var parts := _ground_parts.duplicate()
+		for g in parts:
+			var gx0: float = g[0]
+			var gx1: float = g[1]
+			if float(g[2]) >= float(hole[2]) - 0.5:
+				continue
+			if gx1 <= float(hole[0]) + 0.5 or gx0 >= float(hole[1]) - 0.5:
+				continue
+			# Çukurun içindeki basamak (çıkış taşı) kasıtlıdır: dokunma.
+			if gx0 >= float(hole[0]) - 0.5 and gx1 <= float(hole[1]) + 0.5:
+				continue
+			_ground_parts.erase(g)
+			(g[3] as Node).free()
+			if gx0 < float(hole[0]) - 0.5:
+				_terrain(gx0, hole[0], g[2])
+			if gx1 > float(hole[1]) + 0.5:
+				_terrain(hole[1], gx1, g[2])
+
+
+## Havuz / çukur avlu: zemin `depth` px aşağıda, iki yanda birer basamak (ölümcül
+## değil). Üstünü örten zemin _cut_holes ile kesilir.
+func _basin(x0: float, x1: float, depth: float, step := 90.0) -> void:
+	_terrain(x0, x0 + step, depth * 0.5)
+	_terrain(x0 + step, x1 - step, depth)
+	_terrain(x1 - step, x1, depth * 0.5)
+	_holes.append([x0, x1, depth * 0.5])
+
+
 ## Diken çukuru: zemin `depth` px aşağıda, dibi paslı çivi. Düşen son bayrağa döner.
 ## Çukurun iki yanı çağıran tarafından `_terrain` ile kurulur (aralık <= 220 px).
 func _spike_pit(x0: float, x1: float, depth := 130.0) -> void:
 	_terrain(x0, x1, depth)
+	_holes.append([x0, x1, depth])
 	var sp := SPIKES.instantiate()
 	sp.position = Vector2((x0 + x1) * 0.5, depth)
 	sp.set("width", x1 - x0)

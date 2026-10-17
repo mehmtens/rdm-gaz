@@ -22,10 +22,10 @@ func _build() -> void:
 		[0, 13200.0, DAWN], [2, 15000.0, DAWN]]
 	sky_tint = Color(0.86, 0.86, 0.96)
 	sky_shade = Color(0.03, 0.03, 0.08)
-	back_row_skip = [[3200.0, 18500.0]]
+	back_row_skip = [[2150.0, 18500.0]]
 	_night(Color(0.76, 0.78, 0.94))
 
-	# --- 1. Kıyı iskeleleri -------------------------------------------------
+	# --- 1. Kıyı iskeleleri ----------------------------------------------------
 	_terrain(-400, 1800, 0)
 	_story(-1.0, _sahne_kiyi, 240.0)
 	_lantern(300)
@@ -34,19 +34,17 @@ func _build() -> void:
 	_enemy(ASSASSIN, 1150, 0)
 	_canal(1800, 2000, 110)
 	_scaffold(1900, -20, 220)
-	_terrain(2000, 18500, 0)
+	_terrain(2000, 10300, 0)
 
-	# --- 2. Kayıkhane: arena; erzak ------------------------------------------
+	# --- 2. Kayıkhane: iki katlı ahşap kayıkhane, katlarda devriye; erzak -----------
 	_checkpoint(2150, 0)
-	var kay: BattleArena = ARENA.instantiate()
-	kay.position = Vector2(2800, 0)
-	kay.gate_left_x = 2400
-	kay.gate_right_x = 3200
-	kay.floor_y = 0
-	kay.wave1 = _wave(ELITE, KNIFE, RIFLE)
-	kay.wave2 = _wave(BRUISER, ASSASSIN)
-	kay.reward = AMMO
-	add_child(kay)
+	_interior(2300, 3200, -230, [-115.0], 1)
+	_enemy(ELITE, 2600, 0)
+	_enemy(KNIFE, 2900, 0)
+	_enemy(RIFLE, 2500, -115)
+	_pickup(AMMO, 3130, -160)
+	_coin_line(2350, 8, 70, -160)
+	_coin_line(2400, 8, 90, -280)
 	var shop: LevelShop = SHOP.new()
 	shop.position = Vector2(3450, 0)
 	shop.title = "KAYIKHANE KİLERİ"
@@ -54,81 +52,76 @@ func _build() -> void:
 	shop.accent = Color("e7a449")
 	add_child(shop)
 
-	# --- 3. Mavna rampası: 1. bağlantı --------------------------------------
+	# --- 3. Mavna rampası: sandık basamakları, güverte kenarı; 1. bağlantı -----------
 	_checkpoint(3700, 0)
 	_crates(3850, 1, 1)
 	_crates(3940, 1, 2)
 	_terrain(4030, 4400, -180)
 	_enemy(RIFLE, 4350, -180)
+	_coin_line(4060, 5, 70, -230)
 	_link(4700, "1. BAĞLANTI")
 	_enemy(ELITE, 5000, 0)
 
-	# --- 4. Güverte altı: pistonlar, arena ----------------------------------
-	_checkpoint(5250, 0)
-	_press(5500, 0.0, 2.4)
-	_press(5750, 0.33, 2.4)
-	_press(6000, 0.66, 2.4)
-	_coin_line(5470, 6, 105, -60)
-	var gv: BattleArena = ARENA.instantiate()
-	gv.position = Vector2(6650, 0)
-	gv.gate_left_x = 6250
-	gv.gate_right_x = 7050
-	gv.floor_y = 0
-	gv.wave1 = _wave(ELITE, KNIFE, ASSASSIN)
-	gv.wave2 = _wave(MINIBOSS)
-	gv.reward = HEALTH
-	add_child(gv)
+	# --- 4. Güverte altı: piston hattı, sonra galerili ambarda arena (Yüzbaşı) --------
+	_checkpoint(5150, 0)
+	_press(5350, 0.0, 2.4)
+	_press(5600, 0.33, 2.4)
+	_press(5850, 0.66, 2.4)
+	_coin_line(5320, 6, 105, -60)
+	_interior(6150, 7150, -345, [], 0)
+	_scaffold(6320, -115, 180)
+	_scaffold(6980, -115, 180)
+	_scaffold(6650, -230, 240)
+	_coin_line(6580, 4, 45, -280)
+	_fight(6200, 7100, _wave(ELITE, KNIFE, ASSASSIN), _wave(MINIBOSS, RIFLE))
 
-	# --- 5. Jeneratör: 2. bağlantı -------------------------------------------
-	_checkpoint(7200, 0)
+	# --- 5. Jeneratör: alevli ızgara, baca tırmanışı; 2. bağlantı ------------------
+	_checkpoint(7250, 0)
 	_flame(7400, 0.0)
 	_flame(7650, 0.5)
 	_scaffold(7525, -230, 360)
 	_pickup(RIFLE_PICKUP, 7525, -275)
-	_link(8000, "2. BAĞLANTI")
-	_story(8100, _sahne_jenerator)
+	_chimney(7950, -560, 140, 150, ARMOR)
+	_link(8250, "2. BAĞLANTI")
+	_story(8350, _sahne_jenerator)
 
-	# --- 6. Kayıt arşivi: raflar ---------------------------------------------
-	_checkpoint(8350, 0)
-	_crates(8500, 1, 1)
-	for k in 4:
-		_scaffold(8660.0 + k * 160.0, -150.0 - (k % 2) * 100.0, 140)
-		_pickup(COIN, 8660.0 + k * 160.0, -200.0 - (k % 2) * 100.0)
-	_pickup(ARMOR, 9140, -295)
-	_enemy(ELITE, 9400, 0)
-	_story(9600, _sahne_arsiv)
+	# --- 6. Kayıt arşivi: üç katlı raf odası; Gazelle kayıtları toplar ----------------
+	_checkpoint(8500, 0)
+	_interior(8650, 9500, -345, [-115.0, -230.0], 0)
+	_enemy(ELITE, 9000, 0)
+	_enemy(KNIFE, 8850, -115)
+	_enemy(RIFLE, 9300, -230)
+	_coin_line(8700, 6, 60, -160)
+	_coin_line(8750, 6, 60, -275)
+	_pickup(HEALTH, 9450, -275)
+	_story(9650, _sahne_arsiv)
 
-	# --- 7. Anten güvertesi: vinç, 3. bağlantı, arena -------------------------
+	# --- 7. Anten güvertesi: kablo makarası çukuru, paletler, 3. bağlantı ---------------
 	_checkpoint(9850, 0)
+	_antenna(10150, 0, 4.0)
+	_antenna(11150, 0, 4.0)
 	_scaffold(10000, -130, 120)
 	_scaffold(10000, -240, 120)
-	_moving(10200, -250, Vector2(320, 0), 140, 0.0)
+	_moving(10220, -250, Vector2(280, 0), 140, 0.0)
+	_spike_pit(10300, 10460)
+	_terrain(10460, 18500, 0)
 	_scaffold(10650, -250, 120)
 	_pickup(HEALTH, 10650, -295)
-	var ant: BattleArena = ARENA.instantiate()
-	ant.position = Vector2(11300, 0)
-	ant.gate_left_x = 10900
-	ant.gate_right_x = 11700
-	ant.floor_y = 0
-	ant.wave1 = _wave(ELITE, RIFLE, KNIFE)
-	ant.wave2 = _wave(BRUISER, ELITE)
-	ant.reward = AMMO
-	add_child(ant)
-	_link(11950, "3. BAĞLANTI")
+	_coins_arc(10260, 6, 60, -330)
+	_tower(10950, -260, 110)
+	_enemy(RIFLE, 10950, -260)
+	_scaffold(10740, -95, 100)
+	_scaffold(10840, -180, 100)
+	_enemy(ELITE, 11350, 0)
+	_enemy(KNIFE, 11500, 0)
+	_link(11800, "3. BAĞLANTI")
 
-	# --- 8. Yayın odası: canlı yayın; son geçidi tut ---------------------------
+	# --- 8. Yayın odası: canlı yayın; son geçidi tut ------------------------------
 	_checkpoint(12200, 0)
 	_story(12300, _sahne_yayin)
-	var gecit: BattleArena = ARENA.instantiate()
-	gecit.position = Vector2(13050, 0)
-	gecit.gate_left_x = 12650
-	gecit.gate_right_x = 13450
-	gecit.floor_y = 0
-	gecit.wave1 = _wave(KNIFE, ASSASSIN, KNIFE)
-	gecit.wave2 = _wave(ELITE, RIFLE, RIFLE)
-	gecit.wave3 = _wave(BRUISER, BRUISER)
-	gecit.reward = HEALTH
-	add_child(gecit)
+	_fg("kolon", 12700.0, 40.0, 440.0)
+	_fg("kolon", 13400.0, 40.0, 440.0)
+	_fight(12650, 13450, _wave(KNIFE, ASSASSIN, KNIFE), _wave(ELITE, RIFLE, RIFLE), _wave(BRUISER, BRUISER))
 	var revir: LevelShop = SHOP.new()
 	revir.position = Vector2(13700, 0)
 	revir.title = "SON KİLER"
@@ -140,14 +133,7 @@ func _build() -> void:
 	_checkpoint(13950, 0)
 	_pickup(HEALTH, 14100, -45)
 	_story(14250, _sahne_sef)
-	var duel: BattleArena = ARENA.instantiate()
-	duel.position = Vector2(15100, 0)
-	duel.gate_left_x = 14500
-	duel.gate_right_x = 15700
-	duel.floor_y = 0
-	duel.wave1 = _wave(DIRECTOR)
-	duel.reward = HEALTH
-	add_child(duel)
+	_fight(14500, 15700, _wave(DIRECTOR), [])
 	_story(15800, _sahne_nuzhet)
 	_goal(16300, 0)
 

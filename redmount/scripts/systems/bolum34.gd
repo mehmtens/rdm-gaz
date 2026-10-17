@@ -17,93 +17,98 @@ func _build() -> void:
 		[0, 5900.0, TRANSMITTER], [2, 7100.0, TRANSMITTER], [1, 8300.0, TRANSMITTER], [3, 9400.0, TRANSMITTER]]
 	sky_tint = Color(0.86, 0.86, 0.96)
 	sky_shade = Color(0.03, 0.03, 0.08)
-	back_row_skip = [[7000.0, 8800.0]]
+	back_row_skip = [[7350.0, 8050.0]]
 	_night(Color(0.74, 0.76, 0.94))
 
-	# --- 1. Yokuş başı -------------------------------------------------------
-	_terrain(-400, 10300, 0)
+	# --- 1. Yokuş: basamaklı Kandilli sokağı, sahanlıkta kavga ------------------
+	_terrain(-400, 650, 0)
 	_story(-1.0, _sahne_yokus, 240.0)
 	_lantern(300)
-	_enemy(STREET, 850, 0)
+	for k in 5:
+		_terrain(650.0 + k * 100.0, 750.0 + k * 100.0, -40.0 * (k + 1))
+	_terrain(1150, 1360, -200)
+	_lantern(1250, -370)
+	_enemy(STREET, 1250, -200)
+	_coins_arc(700, 6, 80, -300)
+	for vx in [420.0, 900.0]:
+		_fg("sarmasik", vx, -620.0)
 
-	# --- 2. Çatı çatı kablo yolu ----------------------------------------------
-	_checkpoint(1050, 0)
-	var aw := AwningBounce.new()
-	aw.width = 180
-	aw.height = 60
-	aw.position = Vector2(1250, 0)
-	add_child(aw)
-	_balcony(1302, -125, 70)
-	var h1 := _house(1340, -220, 0)
-	_collapse(h1 + 70, -220, 130)
-	_balcony(h1 + 150, -110, 80)
-	_balcony(h1 + 150, -195, 80)
-	var h2 := _house(h1 + 200, -260, 1)
-	_balcony(h2 + 45, -110, 90)
-	_balcony(h2 + 115, -205, 90)
-	var h3 := _house(h2 + 160, -290, 2)
-	_coin_line(1390, 4, 60, -270)
-	_coin_line(h2 - 160, 3, 50, -310)
-	_coin_line(h3 - 200, 4, 50, -340)
-	_enemy(KNIFE, h2 - 100, -260)
-	_enemy(RIFLE, h3 - 60, -290)
-	_pickup(ARMOR, h3 - 140, -335)
+	# --- 2. Çatı çatı kablo yolu: evler, çürük tahta, balkonlar ---------------------
+	var h1 := _house(1360, -280, 0)
+	_terrain(1360, 10300, 0)
+	_collapse(h1 + 70, -280, 130)
+	_balcony(h1 + 150, -130, 80)
+	_balcony(h1 + 150, -215, 80)
+	var h2 := _house(h1 + 200, -300, 1)
+	_balcony(h2 + 45, -130, 90)
+	_balcony(h2 + 115, -225, 90)
+	var h3 := _house(h2 + 160, -320, 2)
+	_coin_line(1410, 4, 60, -330)
+	_coin_line(h2 - 160, 3, 50, -350)
+	_coin_line(h3 - 200, 4, 50, -370)
+	_enemy(KNIFE, h2 - 100, -300)
+	_enemy(RIFLE, h3 - 60, -320)
+	_pickup(ARMOR, h3 - 140, -365)
+	_prop("vazo", h1 - 120, -280)
 
-	# --- 3. Bahçe merdiveni: arena ---------------------------------------------
-	_checkpoint(h3 + 150, 0)
-	var bah: BattleArena = ARENA.instantiate()
-	bah.position = Vector2(h3 + 700, 0)
-	bah.gate_left_x = h3 + 300
-	bah.gate_right_x = h3 + 1100
-	bah.floor_y = 0
-	bah.wave1 = _wave(KNIFE, ASSASSIN, STREET)
-	bah.wave2 = _wave(RIFLE, ELITE)
-	bah.reward = AMMO
-	add_child(bah)
+	# --- 3. Bahçe sekileri: kilitsiz kavga, sarmaşıklar ------------------------
+	var bx := h3 + 150.0
+	_checkpoint(bx, 0)
+	_stones(bx + 250, 2, 1)
+	_stones(bx + 600, 3, 1)
+	_scaffold(bx + 735, -200, 160)
+	_coin_line(bx + 680, 3, 50, -250)
+	_enemy(KNIFE, bx + 450, 0)
+	_enemy(ASSASSIN, bx + 560, 0)
+	_enemy(STREET, bx + 950, 0)
+	for vx in [bx + 300.0, bx + 800.0]:
+		_fg("sarmasik", vx, -620.0)
 
-	# --- 4. Sırt yolu: kuleler, projektörler -------------------------------------
-	var sx := h3 + 1300.0
+	# --- 4. Sırt yolu: kuleler, projektörler, antenler ------------------------------
+	var sx := bx + 1150.0
 	_checkpoint(sx, 0)
+	_antenna(sx + 350, 0, 3.0)
 	_sandbags(sx + 250, 110)
 	_scaffold(sx + 500, -110, 120)
 	_scaffold(sx + 500, -220, 120)
 	_tower(sx + 620, -320)
 	_enemy(RIFLE, sx + 620, -320)
 	_pickup(PISTOL, sx + 500, -265)
-	_sandbags(sx + 900, 100)
-	_enemy(BRUISER, sx + 1150, 0)
+	_scaffold(sx + 760, -200, 120)
+	_scaffold(sx + 860, -100, 120)
+	_enemy(BRUISER, sx + 1100, 0)
 
-	# --- 5. Verici avlusu: erzak --------------------------------------------
-	_checkpoint(5800, 0)
+	# --- 5. Verici avlusu: erzak, Nüzhet radyoda -----------------------------------
+	_checkpoint(5900, 0)
 	var shop: LevelShop = SHOP.new()
-	shop.position = Vector2(6050, 0)
+	shop.position = Vector2(6100, 0)
 	shop.title = "SIRT KANTİNİ"
 	shop.items = PackedStringArray(["can", "cephane", "zirh"])
 	shop.accent = Color("e7a449")
 	add_child(shop)
 	_story(6350, _sahne_radyo)
 
-	# --- 6. Jeneratör odası: pistonlar, arena --------------------------------
-	_checkpoint(6650, 0)
-	_press(6850, 0.0, 2.6)
-	_press(7100, 0.5, 2.6)
-	_coin_line(6820, 5, 70, -60)
-	var jen: BattleArena = ARENA.instantiate()
-	jen.position = Vector2(7750, 0)
-	jen.gate_left_x = 7350
-	jen.gate_right_x = 8150
-	jen.floor_y = 0
-	jen.wave1 = _wave(ELITE, KNIFE, RIFLE)
-	jen.wave2 = _wave(BRUISER, ELITE)
-	jen.reward = HEALTH
-	add_child(jen)
+	# --- 6. Pres hattı, sonra iki katlı jeneratör binası ------------------------
+	_checkpoint(6550, 0)
+	_press(6750, 0.0, 2.6)
+	_press(6980, 0.6, 2.6)
+	_press(7210, 1.2, 2.6)
+	_coin_line(6720, 6, 92, -60)
+	_interior(7400, 8000, -230, [-115.0], 0)
+	_enemy(KNIFE, 7600, 0)
+	_enemy(ELITE, 7850, -115)
+	_pickup(HEALTH, 7950, -160)
+	_coin_line(7450, 5, 60, -160)
+	_coin_line(7450, 6, 90, -280)
 
 	# --- 7. Verici direği: kır --------------------------------------------
-	_checkpoint(8300, 0)
+	_checkpoint(8100, 0)
+	_enemy(RIFLE, 8300, 0)
 	var mast := _Art.new(_Art.A_TOWER, Vector2(90, 380))
 	mast.position = Vector2(8700, -190)
 	mast.z_index = -6
 	add_child(mast)
+	_antenna(8780, -380, 2.0)
 	var verici := BREAKABLE_WALL.instantiate()
 	verici.set("hits_to_break", 7)
 	verici.position = Vector2(8640, 0)
@@ -115,15 +120,7 @@ func _build() -> void:
 
 	# --- 8. Sırt terası: son arena ------------------------------------------
 	_checkpoint(8900, 0)
-	var final: BattleArena = ARENA.instantiate()
-	final.position = Vector2(9300, 0)
-	final.gate_left_x = 9000
-	final.gate_right_x = 9600
-	final.floor_y = 0
-	final.wave1 = _wave(KNIFE, ASSASSIN, RIFLE)
-	final.wave2 = _wave(ELITE, ELITE)
-	final.reward = HEALTH
-	add_child(final)
+	_fight(9000, 9600, _wave(KNIFE, ASSASSIN, RIFLE), _wave(ELITE, ELITE))
 	_story(9700, _sahne_hisar)
 	_han_gate(9950, "ANADOLUHİSARI")
 	_goal(9950, 0)

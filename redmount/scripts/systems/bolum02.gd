@@ -112,10 +112,13 @@ func _build() -> void:
 	_building(h2, 6980, -300)
 	_coin_line(h2 + 40, 5, 60, -350)
 	_story(h2 - 100, _sahne_gizli_dinleme)
-	_enemy(STREET, 7150, 0)
-	_enemy(KNIFE, 7240, 0)
-	_prop("kasa", 7400)
-	_prop("vazo", 7460)
+	# Çatıdan inilen sokakta Kasap Rıza'nın iki katlı dükkânı: adamları katlarda.
+	_interior(7050, 7550, -230, [-115.0], 1)
+	_enemy(STREET, 7200, 0)
+	_enemy(KNIFE, 7420, -115)
+	_prop("kasa", 7480, 0, COIN)
+	_coin_line(7100, 5, 60, -160)
+	_pickup(HEALTH, 7500, -160)
 
 	# --- 6. Son avlu: Kasap Rıza + tebeşir işareti -------------------------------
 	_checkpoint(7600, 0)
@@ -133,6 +136,8 @@ func _build() -> void:
 	final.wave3 = _wave(KNIFE, STREET, ASSASSIN)
 	final.reward = HEALTH
 	add_child(final)
+	# Avlunun ucundaki eski baca: duvar-zıplamayla tepede coin zulası.
+	_chimney(8980, -520, 140, 150)
 	_chalk(9200, -190, "G: GECE PAZARI")
 	_story(9100, _sahne_tebesir)
 	_coin_line(9250, 4, 50, -50)

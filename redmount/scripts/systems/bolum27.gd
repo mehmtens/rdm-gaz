@@ -102,11 +102,11 @@ func _build() -> void:
 	_pickup(RIFLE_PICKUP, 8420, -160)
 	_coin_line(8100, 4, 50, -160)
 	_terrain(4150, 8600, 0)
-	_spike_pit(8600, 8790)
+	_spike_pit(8600, 8760)
 	for k in 2:
 		_collapse(8650.0 + k * 100.0, -90.0, 90)
 	_coin_line(8630, 3, 70, -140)
-	_terrain(8790, 10300, 0)
+	_terrain(8760, 10300, 0)
 
 	# --- 9. Çatı direkleri: son arena; hattı kes ----------------------------------
 	_checkpoint(8950, 0)

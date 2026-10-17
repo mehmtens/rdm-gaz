@@ -17,99 +17,97 @@ func _build() -> void:
 		[0, 5600.0, CARGO], [1, 7000.0, CARGO], [2, 8300.0, CARGO], [3, 9500.0, CARGO]]
 	sky_tint = Color(0.86, 0.86, 0.96)
 	sky_shade = Color(0.03, 0.03, 0.08)
-	back_row_skip = [[5500.0, 9400.0]]
+	back_row_skip = [[1450.0, 2150.0], [7300.0, 9400.0]]
 	_night(Color(0.74, 0.76, 0.94))
 
-	# --- 1. Vaniköy iskelesi -------------------------------------------------
-	_terrain(-400, 10300, 0)
+	# --- 1. Vaniköy iskelesi -----------------------------------------------------
+	_terrain(-400, 4550, 0)
 	_story(-1.0, _sahne_iskele, 240.0)
 	_lantern(300)
 	_lantern(1100)
 	_enemy(KNIFE, 850, 0)
 	_enemy(STREET, 1050, 0)
+	_prop("varil", 1200)
 
-	# --- 2. Yalı sırası: balkonlar -------------------------------------------
+	# --- 2. Yalı: iki katlı ahşap yalı, katlardan geçiş --------------------------
 	_checkpoint(1300, 0)
-	_balcony(1500, -70, 110)
-	_balcony(1660, -170, 110)
-	_balcony(1820, -270, 110)
-	_pickup(ARMOR, 1820, -315)
-	_coin_line(1460, 5, 70, -330)
+	_interior(1450, 2150, -230, [-115.0], 1)
+	_enemy(KNIFE, 1750, 0)
+	_enemy(STREET, 1950, -115)
+	_pickup(ARMOR, 2080, -160)
+	_coin_line(1500, 5, 50, -160)
+	_coin_line(1550, 6, 90, -280)
 
-	# --- 3. Kayık tezgâhı: arena ----------------------------------------------
-	_checkpoint(2100, 0)
-	var kayik: BattleArena = ARENA.instantiate()
-	kayik.position = Vector2(2750, 0)
-	kayik.gate_left_x = 2350
-	kayik.gate_right_x = 3150
-	kayik.floor_y = 0
-	kayik.wave1 = _wave(STREET, KNIFE, ASSASSIN)
-	kayik.wave2 = _wave(RIFLE, BRUISER)
-	kayik.reward = AMMO
-	add_child(kayik)
+	# --- 3. Kayık tezgâhı: arena (ortada kayık kızağı) ---------------------------
+	_checkpoint(2250, 0)
+	_scaffold(2750, -110, 220)
+	_coin_line(2680, 4, 45, -160)
+	_fight(2350, 3150, _wave(STREET, KNIFE, ASSASSIN), _wave(RIFLE, BRUISER), [], AMMO)
 
-	# --- 4. Kasa yığınları: basamaklar, seçkin ------------------------------
+	# --- 4. Kasa dağı: basamak basamak, tepede seçkin; aralarda cep -----------------
 	_checkpoint(3300, 0)
 	_crates(3450, 1, 1)
 	_crates(3540, 1, 2)
 	_crates(3630, 2, 3)
 	_crates(3810, 1, 2)
-	_crates(3900, 1, 1)
-	_enemy(ELITE, 4150, 0)
-	_pickup(PISTOL, 3720, -315)
+	_crates(3990, 1, 2)
+	_crates(4080, 1, 1)
+	_prop("sandik", 3945, 0, HEALTH)
+	_enemy(ELITE, 3720, -270)
+	_pickup(PISTOL, 3990, -225)
 	_coin_line(3480, 6, 80, -330)
+	_enemy(KNIFE, 4300, 0)
 
-	# --- 5. Vinç rıhtımı: palet --------------------------------------------
+	# --- 5. Vinç rıhtımı: geniş havuz, iki palet ve kazık --------------------------
 	_checkpoint(4400, 0)
-	_canal(4550, 4750, 110)
-	_scaffold(4650, -20, 220)
-	_crates(4850, 1, 1)
-	_scaffold(5010, -150, 120)
-	_moving(5200, -240, Vector2(300, 0), 140, 0.0)
-	_scaffold(5620, -240, 120)
-	_pickup(RIFLE_PICKUP, 5620, -285)
-	_enemy(BRUISER, 5400, 0)
+	_canal(4550, 5250, 110)
+	_scaffold(4640, -20, 140)
+	_moving(4830, -150, Vector2(150, 0), 130, 0.0)
+	_scaffold(5100, -20, 140)
+	_moving(5200, -260, Vector2(0, 110), 120, 0.5)
+	_coins_arc(4700, 8, 60, -320)
+	_terrain(5250, 6350, 0)
+	_scaffold(5500, -150, 120)
+	_scaffold(5650, -260, 120)
+	_pickup(RIFLE_PICKUP, 5650, -305)
+	_enemy(BRUISER, 5850, 0)
 
-	# --- 6. Yükleme hattı: erzak, çöken iskele -------------------------------
-	_checkpoint(5850, 0)
+	# --- 6. Yükleme hattı: erzak, çivili ambar ağzı üstünde çürük tahtalar ------------
+	_checkpoint(6000, 0)
 	var shop: LevelShop = SHOP.new()
-	shop.position = Vector2(6050, 0)
+	shop.position = Vector2(6150, 0)
 	shop.title = "YÜKLEME KİLERİ"
 	shop.items = PackedStringArray(["can", "cephane", "zirh"])
 	shop.accent = Color("e7a449")
 	add_child(shop)
-	_crates(6300, 1, 1)
-	_crates(6390, 1, 2)
-	for k in 3:
-		_collapse(6550.0 + k * 140.0, -180.0, 130)
-		_pickup(COIN, 6550.0 + k * 140.0, -235.0)
-	_crates(6900, 1, 1)
+	_spike_pit(6350, 6510)
+	for k in 2:
+		_collapse(6400.0 + k * 100.0, -80.0, 90)
+		_pickup(COIN, 6400.0 + k * 100.0, -130.0)
+	_terrain(6510, 10300, 0)
+	_crates(6700, 1, 1)
+	_crates(6790, 1, 2)
+	_scaffold(6950, -230, 140)
+	_coin_line(6900, 3, 50, -280)
 
-	# --- 7. Kasa ambarı: boş kasalar, arena ----------------------------------
-	_checkpoint(7150, 0)
-	_story(7230, _sahne_bos)
-	var amb: BattleArena = ARENA.instantiate()
-	amb.position = Vector2(7850, 0)
-	amb.gate_left_x = 7450
-	amb.gate_right_x = 8250
-	amb.floor_y = 0
-	amb.wave1 = _wave(ELITE, KNIFE, RIFLE)
-	amb.wave2 = _wave(ELITE, BRUISER)
-	amb.reward = HEALTH
-	add_child(amb)
+	# --- 7. Kasa ambarı: boş kasalar; galerili ambarda arena ---------------------
+	_checkpoint(7200, 0)
+	_story(7250, _sahne_bos)
+	_interior(7350, 8250, -345, [], 0)
+	_scaffold(7520, -115, 180)
+	_scaffold(8080, -115, 180)
+	_scaffold(7800, -230, 220)
+	_coin_line(7730, 4, 45, -280)
+	_fight(7400, 8200, _wave(ELITE, KNIFE, RIFLE), _wave(ELITE, BRUISER))
 
-	# --- 8. Kablo kapısı: son arena -----------------------------------------
+	# --- 8. Kablo kapısı: kablo direklerinin dibinde nöbetçiler ----------------------
 	_checkpoint(8400, 0)
-	var final: BattleArena = ARENA.instantiate()
-	final.position = Vector2(9000, 0)
-	final.gate_left_x = 8600
-	final.gate_right_x = 9400
-	final.floor_y = 0
-	final.wave1 = _wave(KNIFE, ASSASSIN, RIFLE)
-	final.wave2 = _wave(ELITE, RIFLE)
-	final.wave3 = _wave(BRUISER, BRUISER)
-	final.reward = HEALTH
-	add_child(final)
+	_antenna(8700, 0, 4.0)
+	_antenna(9300, 0, 4.0)
+	_sandbags(8650, 100)
+	_enemy(RIFLE, 8950, 0)
+	_enemy(KNIFE, 9100, 0)
+	_enemy(ASSASSIN, 9250, 0)
 	_story(9500, _sahne_kablo)
 	_han_gate(9800, "KANDİLLİ")
 	_goal(9800, 0)

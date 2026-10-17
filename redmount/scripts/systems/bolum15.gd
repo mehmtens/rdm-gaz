@@ -66,7 +66,9 @@ func _build() -> void:
 
 	# --- 4. Bakım galerisi: tüfekliye yaklaşma, hareketli köprü (isteğe bağlı) -----
 	_checkpoint(4450, 0)
-	_terrain(4400, 9900, 0)
+	_terrain(4400, 6000, 0)
+	_terrain(6200, 8000, 0)
+	_terrain(8200, 9900, 0)
 	_crates(4650, 1, 1)
 	_crates(4740, 1, 2)
 	_terrain(4830, 5150, -180)
@@ -87,6 +89,10 @@ func _build() -> void:
 	for x in [5950, 6700]:
 		_lantern(float(x))
 	_story(6250, _sahne_vana)
+	# Sarnıç: kaya tavan, ön planda sarnıç sütunları.
+	_ceiling(5900, 6800, -330)
+	for cx in [6050.0, 6350.0, 6650.0]:
+		_fg("kolon", cx, 40.0, 380.0)
 
 	# --- 6. Su çarkı: alçak servis yolu + üst dişli yolu; arena ----------------------
 	_checkpoint(6850, 0)
@@ -110,7 +116,8 @@ func _build() -> void:
 	_checkpoint(7850, 0)
 	_canal(8000, 8200, 110)
 	_scaffold(8100, -20, 220)
-	_enemy(ELITE, 8450, 0)
+	_enemy(ELITE, 8350, 0)
+	_chimney(8530, -500, 140, 150, ARMOR)
 	_pickup(HEALTH, 8300, -45)
 
 	# --- 8. Zeyrek terası: son arena; Süleymaniye kaydı ---------------------------

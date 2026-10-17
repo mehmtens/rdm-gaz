@@ -76,19 +76,19 @@ func _build() -> void:
 
 	# --- 4. Gizli bakım avlusu: karma savunma ------------------------------------
 	_checkpoint(6300, 0)
-	var a4: BattleArena = ARENA.instantiate()
-	a4.position = Vector2(6900, 0)
-	a4.gate_left_x = 6500
-	a4.gate_right_x = 7300
-	a4.floor_y = 0
-	a4.wave1 = _wave(KNIFE, RIFLE, STREET)
-	a4.wave2 = _wave(BRUISER, ASSASSIN)
-	a4.reward = ARMOR
-	add_child(a4)
+	# Bakım kulesi: kemerden geçilir, içi duvar-zıplamayla tırmanılır (zırh).
+	_enemy(KNIFE, 6550, 0)
+	_enemy(STREET, 6650, 0)
+	_chimney(6900, -540, 140, 150, ARMOR)
+	_enemy(BRUISER, 7200, 0)
 
 	# --- 5. Alt su galerisi: sığ su hattı (çöken tahtalar), ağır nöbet ----------
 	_checkpoint(7450, 0)
 	_canal(7600, 8300, 120)
+	# Kemerin altı: taş tonoz, ön planda kemer ayakları.
+	_ceiling(7550, 8400, -330)
+	for cx in [7600.0, 8000.0, 8350.0]:
+		_fg("kolon", cx, 40.0, 380.0)
 	_terrain(8250, 8300, 60)
 	for k in 4:
 		var cx := 7690.0 + k * 165.0
@@ -101,6 +101,7 @@ func _build() -> void:
 	_checkpoint(8850, 0)
 	_canal(9000, 9200, 110)
 	_scaffold(9100, -20, 220)
+	_interior(9300, 9900, -345, [], 0)
 	_stones(9350, 1, 1)
 	_stones(9440, 1, 2)
 	_pickup(AMMO, 9485, -225)
@@ -112,15 +113,9 @@ func _build() -> void:
 	_scaffold(10200, -150, 130)
 	_scaffold(10350, -260, 130)
 	_pickup(ARMOR, 10350, -305)
-	var a7: BattleArena = ARENA.instantiate()
-	a7.position = Vector2(10800, 0)
-	a7.gate_left_x = 10500
-	a7.gate_right_x = 11100
-	a7.floor_y = 0
-	a7.wave1 = _wave(ELITE, KNIFE)
-	a7.wave2 = _wave(RIFLE, RIFLE, ASSASSIN)
-	a7.reward = HEALTH
-	add_child(a7)
+	_enemy(ELITE, 10650, 0)
+	_enemy(RIFLE, 10350, -260)
+	_enemy(ASSASSIN, 10900, 0)
 	_story(11180, _sahne_merdiven)
 
 	# --- 8. Kemer üst yolu: açıklık, revak savaşı --------------------------------
@@ -149,9 +144,12 @@ func _build() -> void:
 	_checkpoint(13600, 0)
 	_canal(13750, 13950, 110)
 	_scaffold(13850, -20, 220)
+	_interior(14050, 14650, -230, [-115.0], 1)
 	_story(14150, _sahne_arsiv)
 	_enemy(ASSASSIN, 14400, 0)
-	_pickup(AMMO, 14550, -45)
+	_enemy(KNIFE, 14500, -115)
+	_pickup(AMMO, 14600, -160)
+	_coin_line(14100, 6, 70, -160)
 
 	# --- 11. Servis kulesi: pistonlar, son ağır arena; kule revir --------------
 	_checkpoint(14750, 0)

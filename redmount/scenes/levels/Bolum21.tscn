@@ -11,5 +11,5 @@ par_time = 240.0
 camera_limit_left = -200
 camera_limit_right = 10250
 camera_limit_top = -900
-camera_limit_bottom = 130
+camera_limit_bottom = 270
 fall_respawn_y = 400.0

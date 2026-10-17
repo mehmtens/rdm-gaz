@@ -67,15 +67,8 @@ func _build() -> void:
 	_enemy(RIFLE, 5240, -180)
 	_moving(5450, -250, Vector2(260, 0), 140, 0.0)
 	_pickup(RIFLE_PICKUP, 5720, -305)
-	var riht: BattleArena = ARENA.instantiate()
-	riht.position = Vector2(5600, 0)
-	riht.gate_left_x = 5380
-	riht.gate_right_x = 5850
-	riht.floor_y = 0
-	riht.wave1 = _wave(RIFLE, KNIFE)
-	riht.wave2 = _wave(BRUISER, STREET)
-	riht.reward = HEALTH
-	add_child(riht)
+	_enemy(KNIFE, 5500, 0)
+	_enemy(BRUISER, 5750, 0)
 	var shop: LevelShop = SHOP.new()
 	shop.position = Vector2(6000, 0)
 	shop.title = "RIHTIM ERZAKÇISI"
@@ -85,18 +78,26 @@ func _build() -> void:
 
 	# --- 5. Kuru havuz: alt iş yolu, üst iskele --------------------------------
 	_checkpoint(6200, 0)
+	# Kuru havuz: tekne çekilmiş derin havuz; altta işçiler + sandık, üstte iskele.
+	_basin(6450, 7150, 200)
+	_prop("sandik", 7000, 200, HEALTH)
+	_coin_line(6620, 6, 70, 150)
+	_enemy(KNIFE, 6650, 200)
 	_crates(6350, 1, 1)
 	for k in 4:
 		_scaffold(6520.0 + k * 170.0, -220.0 - (k % 2) * 50.0, 150)
 		_pickup(COIN, 6520.0 + k * 170.0, -270.0 - (k % 2) * 50.0)
 	_scaffold(6440, -120, 90)
 	_pickup(ARMOR, 7030, -315)
-	_enemy(ASSASSIN, 6800, 0)
-	_prop("varil", 7150)
+	_enemy(ASSASSIN, 6850, 200)
+	_prop("varil", 7230)
 
 	# --- 6. Sevk bürosu: seçkin + menzilli arena; gerçek rota -----------------------
 	_checkpoint(7350, 0)
 	_story(7420, _sahne_buro)
+	_interior(7560, 8340, -345, [], 0)
+	_scaffold(7720, -115, 160)
+	_scaffold(8180, -115, 160)
 	var buro: BattleArena = ARENA.instantiate()
 	buro.position = Vector2(7950, 0)
 	buro.gate_left_x = 7600
@@ -111,8 +112,10 @@ func _build() -> void:
 	_checkpoint(8450, 0)
 	_canal(8600, 8800, 110)
 	_scaffold(8700, -20, 220)
+	_interior(8900, 9260, -230, [-115.0], 1)
 	_stones(8950, 1, 1)
-	_pickup(HEALTH, 9150, -45)
+	_pickup(HEALTH, 9220, -160)
+	_coin_line(8950, 5, 60, -160)
 	_enemy(ELITE, 9100, 0)
 
 	# --- 8. Gece iskelesi: üç dalga; Kemal Bey yakalanır ----------------------------

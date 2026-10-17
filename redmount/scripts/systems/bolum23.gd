@@ -60,15 +60,10 @@ func _build() -> void:
 	_terrain(5060, 5300, -180)
 	_enemy(RIFLE, 5240, -180)
 	_pickup(RIFLE_PICKUP, 5100, -225)
-	var bas: BattleArena = ARENA.instantiate()
-	bas.position = Vector2(5600, 0)
-	bas.gate_left_x = 5380
-	bas.gate_right_x = 5850
-	bas.floor_y = 0
-	bas.wave1 = _wave(RIFLE, KNIFE)
-	bas.wave2 = _wave(ELITE, STREET)
-	bas.reward = HEALTH
-	add_child(bas)
+	# Basınç galerisi: gösterge rafındaki tüfekli + kapı nöbeti; kilitsiz.
+	_enemy(ELITE, 5550, 0)
+	_enemy(STREET, 5720, 0)
+	_prop("kasa", 5820, 0, COIN)
 	var shop: LevelShop = SHOP.new()
 	shop.position = Vector2(6000, 0)
 	shop.title = "SARAÇHANE ERZAKI"
@@ -79,6 +74,8 @@ func _build() -> void:
 	# --- 5. Ana vana salonu: vanayı kır -----------------------------------------
 	_checkpoint(6200, 0)
 	_story(6280, _sahne_vana)
+	# Ana vana salonu: kubbeli makine dairesi; vana salonun sonunda.
+	_interior(6300, 7250, -345, [], 0)
 	for k in 3:
 		_scaffold(6450.0 + k * 175.0, -250.0, 150)
 		_pickup(COIN, 6450.0 + k * 175.0, -300.0)
@@ -97,6 +94,9 @@ func _build() -> void:
 
 	# --- 6. Bakım geçidi: seçkin + menzilli arena ---------------------------------
 	_checkpoint(7350, 0)
+	_ceiling(7560, 8340, -330)
+	_fg("kolon", 7700.0, 40.0, 380.0)
+	_fg("kolon", 8200.0, 40.0, 380.0)
 	var bak: BattleArena = ARENA.instantiate()
 	bak.position = Vector2(7950, 0)
 	bak.gate_left_x = 7600
@@ -111,9 +111,11 @@ func _build() -> void:
 	_checkpoint(8450, 0)
 	_canal(8600, 8800, 110)
 	_scaffold(8700, -20, 220)
+	_interior(8900, 9280, -230, [-115.0], 1)
 	_story(9000, _sahne_masa)
 	_enemy(ASSASSIN, 9150, 0)
-	_pickup(HEALTH, 9250, -45)
+	_enemy(KNIFE, 9200, -115)
+	_pickup(HEALTH, 9240, -160)
 
 	# --- 8. Taşma avlusu: üç dalga; Bozdoğan Kemeri -----------------------------
 	_checkpoint(9350, 0)

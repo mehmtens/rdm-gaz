@@ -85,9 +85,13 @@ func _build() -> void:
 	_enemy(KNIFE, 5900, 0)
 
 	# --- 5. Tasnif salonu: alt açık rota, üst galeri ----------------------------
-	_terrain(6200, 10100, 0)
+	_terrain(6200, 7500, 0)
+	_terrain(7700, 8850, 0)
+	_terrain(9050, 10100, 0)
 	_checkpoint(6250, 0)
 	_story(6350, _sahne_tasnif)
+	# Tasnif salonu: posta binasının içi; galeriler tavana yakın.
+	_interior(6420, 7300, -345, [], 0)
 	for k in 4:
 		_scaffold(6600.0 + k * 170.0, -200.0, 150)
 		_pickup(COIN, 6600.0 + k * 170.0, -250.0)
@@ -103,6 +107,10 @@ func _build() -> void:
 	_scaffold(7600, -20, 220)
 	_enemy(ELITE, 8000, 0)
 	_story(7800, _sahne_telgraf)
+	# Telgraf odası: iki kat; üst katta mors masaları.
+	_interior(7760, 8300, -230, [-115.0], 1)
+	_enemy(KNIFE, 8150, -115)
+	_coin_line(7820, 6, 70, -160)
 	for x in [7400, 8200]:
 		_lantern(float(x))
 

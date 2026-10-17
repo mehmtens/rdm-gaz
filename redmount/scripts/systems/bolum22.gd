@@ -65,15 +65,12 @@ func _build() -> void:
 	_scaffold(5030, -150, 120)
 	_scaffold(5180, -260, 120)
 	_pickup(RIFLE_PICKUP, 5180, -305)
-	var vana: BattleArena = ARENA.instantiate()
-	vana.position = Vector2(5600, 0)
-	vana.gate_left_x = 5350
-	vana.gate_right_x = 5850
-	vana.floor_y = 0
-	vana.wave1 = _wave(RIFLE, RIFLE, KNIFE)
-	vana.wave2 = _wave(BRUISER, STREET)
-	vana.reward = HEALTH
-	add_child(vana)
+	# Vana galerisi: boru rafının altında tüfekliler; kilitsiz.
+	_ceiling(4800, 5900, -360)
+	_enemy(RIFLE, 5450, 0)
+	_enemy(RIFLE, 5180, -260)
+	_enemy(KNIFE, 5650, 0)
+	_prop("varil", 5800, 0, AMMO)
 	var shop: LevelShop = SHOP.new()
 	shop.position = Vector2(6000, 0)
 	shop.title = "SU ERZAKÇISI"
@@ -83,9 +80,13 @@ func _build() -> void:
 
 	# --- 5. Pompa salonu: pistonlar (pres), makine rafı ------------------------
 	_checkpoint(6200, 0)
-	_press(6450, 0.0, 2.6)
-	_press(6700, 0.33, 2.6)
-	_press(6950, 0.66, 2.6)
+	# Pompa salonu: tonoz altında pistonlar; makine rafı üstte (riskli ama güvenli).
+	_ceiling(6250, 7300, -420)
+	for cx in [6330.0, 7200.0]:
+		_fg("kolon", cx, 40.0, 440.0)
+	_press(6450, 0.0, 3.0)
+	_press(6750, 1.0, 3.0)
+	_press(7050, 2.0, 3.0)
 	_coin_line(6420, 6, 105, -60)
 	_crates(6300, 1, 1)
 	for k in 4:
@@ -96,6 +97,10 @@ func _build() -> void:
 	# --- 6. Bakım şaftı: yakın/menzilli arena; gramofon -------------------------
 	_checkpoint(7450, 0)
 	_story(7520, _sahne_gramofon)
+	_interior(7660, 8340, -345, [], 0)
+	_scaffold(7800, -115, 150)
+	_scaffold(8200, -115, 150)
+	_scaffold(8000, -230, 180)
 	var saft: BattleArena = ARENA.instantiate()
 	saft.position = Vector2(8000, 0)
 	saft.gate_left_x = 7700
@@ -110,9 +115,11 @@ func _build() -> void:
 	_checkpoint(8450, 0)
 	_canal(8600, 8800, 110)
 	_scaffold(8700, -20, 220)
+	_interior(8900, 9280, -230, [-115.0], 0)
 	_story(9000, _sahne_cizelge)
 	_enemy(ELITE, 9150, 0)
-	_pickup(HEALTH, 9250, -45)
+	_pickup(HEALTH, 9240, -160)
+	_coin_line(8950, 5, 60, -160)
 
 	# --- 8. Tahliye avlusu: üç dalga; Saraçhane --------------------------------
 	_checkpoint(9350, 0)
