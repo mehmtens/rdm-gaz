@@ -656,7 +656,90 @@ def on_kolon():
     base.im.save(OUT / "on_kolon_kaide.png")
 
 
+def raf():
+    """İç mekân rafı (30x22): ahşap raf, kavanoz, dosya, kitap sırtları."""
+    import random
+    rnd = random.Random(21)
+    c = Canvas(30, 22)
+    for y in (6, 14, 21):
+        c.hline(0, 29, y, "wood2")
+        c.hline(0, 29, y - 1 if y == 21 else y + 1, "wood0")
+    c.vline(0, 0, 21, "wood1"); c.vline(29, 0, 21, "wood1")
+    for shelf_y in (5, 13, 20):
+        x = 2
+        while x < 27:
+            kind = rnd.choice(["book", "book", "jar", "file", "gap"])
+            if kind == "book":
+                h = rnd.randint(3, 5)
+                col = rnd.choice(["red1", "red2", "wood2", "grey2", "gold1", "water2"])
+                c.rect(x, shelf_y - h + 1, x, shelf_y, col)
+                c.put(x, shelf_y - h + 1, "cream")
+                x += 1
+            elif kind == "jar":
+                c.rect(x, shelf_y - 3, x + 2, shelf_y, "water1")
+                c.hline(x, x + 2, shelf_y - 3, "stone3")
+                c.put(x, shelf_y - 2, "water3")
+                x += 4
+            elif kind == "file":
+                c.rect(x, shelf_y - 2, x + 3, shelf_y, "cream")
+                c.hline(x, x + 3, shelf_y - 2, "sand2")
+                x += 5
+            else:
+                x += 2
+    c.outline()
+    c.im.save(OUT / "raf.png")
+
+
+def asma_lamba():
+    """Asma lamba (12x14): zincirden sarkan pirinç gövde, sıcak cam (zincir ayrı döşenir)."""
+    c = Canvas(12, 14)
+    c.rect(4, 0, 7, 2, "gold0")
+    c.rect(2, 3, 9, 4, "gold1")
+    c.hline(2, 9, 3, "gold2")
+    c.rect(3, 5, 8, 10, "glow2")
+    c.rect(4, 6, 7, 9, "glow3")
+    c.vline(3, 5, 10, "glow1")
+    c.rect(2, 11, 9, 12, "gold1")
+    c.rect(5, 13, 6, 13, "gold0")
+    c.outline()
+    c.im.save(OUT / "asma_lamba.png")
+
+
+def cerceve():
+    """Duvar çerçevesi (16x12): yaldız çerçeve içinde Boğaz manzarası."""
+    c = Canvas(16, 12)
+    c.rect(0, 0, 15, 11, "gold1")
+    c.hline(0, 15, 0, "gold2"); c.vline(0, 0, 11, "gold2")
+    c.rect(2, 2, 13, 9, "water2")
+    c.rect(2, 2, 13, 4, (150, 120, 120, 255))
+    c.hline(2, 13, 5, "water3")
+    c.rect(4, 4, 6, 5, "stone1"); c.put(5, 3, "stone1")
+    c.rect(9, 6, 12, 7, "white")
+    c.outline()
+    c.im.save(OUT / "cerceve.png")
+
+
+def ic_pencere():
+    """İç mekân kemerli pencere (18x26): gece mavisi cam, kafes, taş söve."""
+    c = Canvas(18, 26)
+    c.rect(0, 6, 17, 25, "stone2")
+    for y in range(0, 7):
+        half = 9 - max(0, 6 - y) * 9 // 7
+        c.hline(9 - half, 8 + half, y, "stone2")
+    c.rect(2, 7, 15, 23, (34, 46, 84, 255))
+    for y in range(2, 8):
+        half = 7 - max(0, 7 - y) * 7 // 6
+        c.hline(9 - half, 8 + half, y, (34, 46, 84, 255))
+    c.vline(8, 2, 23, "iron1"); c.vline(9, 2, 23, "iron1")
+    c.hline(2, 15, 14, "iron1")
+    c.put(5, 10, (210, 220, 255, 255)); c.put(12, 18, (210, 220, 255, 255)); c.put(4, 19, (150, 170, 220, 255))
+    c.rect(0, 24, 17, 25, "stone3")
+    c.outline()
+    c.im.save(OUT / "ic_pencere.png")
+
+
 GENERATORS = {
+    "raf": raf, "asma_lamba": asma_lamba, "cerceve": cerceve, "ic_pencere": ic_pencere,
     "hatil": hatil, "sivali_tugla": sivali_tugla,
     "diken": diken, "ic_duvar": ic_duvar, "ahsap_kat": ahsap_kat, "on_kolon": on_kolon,
     "on_sarmasik": on_sarmasik, "zincir": zincir, "anten": anten,

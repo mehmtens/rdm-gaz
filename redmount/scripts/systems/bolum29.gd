@@ -17,16 +17,19 @@ func _build() -> void:
 		[0, 5900.0, DEPOT], [1, 7200.0, DEPOT], [2, 8500.0, DEPOT], [3, 9700.0, DEPOT]]
 	sky_tint = Color(0.86, 0.86, 0.96)
 	sky_shade = Color(0.03, 0.03, 0.08)
-	back_row_skip = [[7100.0, 9600.0]]
+	back_row_skip = [[6950.0, 9100.0]]
 	_night(Color(0.76, 0.78, 0.94))
 
-	# --- 1. Sessiz mahalle --------------------------------------------------
-	_terrain(-400, 10300, 0)
+	# --- 1. Sessiz mahalle: sarmaşıklı bahçe duvarları ---------------------------
+	_terrain(-400, 5300, 0)
 	_story(-1.0, _sahne_mahalle, 240.0)
-	for x in [300, 1000, 1700]:
+	for x in [300, 1000]:
 		_lantern(float(x))
+	for vx in [520.0, 860.0, 1240.0]:
+		_fg("sarmasik", vx, -600.0)
 	_enemy(KNIFE, 900, 0)
-	_prop("saksi", 1150)
+	_enemy(STREET, 1100, 0)
+	_prop("saksi", 1200)
 
 	# --- 2. Renkli evler: tente -> çatılar ---------------------------------------
 	_checkpoint(1400, 0)
@@ -43,81 +46,78 @@ func _build() -> void:
 	_coin_line(1740, 4, 60, -270)
 	_coin_line(h2 - 160, 3, 50, -310)
 	_enemy(STREET, h1 - 100, -220)
+	_enemy(KNIFE, h2 - 90, -260)
 	_pickup(ARMOR, h2 - 40, -305)
+	_prop("vazo", h1 - 160, -220)
 
-	# --- 3. Çeşme meydanı: arena ---------------------------------------------
+	# --- 3. Çeşme meydanı: arena (ortada sundurma) --------------------------------
 	_checkpoint(2950, 0)
 	_lantern(3100)
-	var cesme: BattleArena = ARENA.instantiate()
-	cesme.position = Vector2(3650, 0)
-	cesme.gate_left_x = 3250
-	cesme.gate_right_x = 4050
-	cesme.floor_y = 0
-	cesme.wave1 = _wave(KNIFE, ASSASSIN, STREET)
-	cesme.wave2 = _wave(RIFLE, ELITE)
-	cesme.reward = AMMO
-	add_child(cesme)
+	_scaffold(3650, -110, 200)
+	_coin_line(3580, 4, 45, -160)
+	_fight(3250, 4050, _wave(KNIFE, ASSASSIN, STREET), _wave(RIFLE, ELITE), [], AMMO)
 
-	# --- 4. Bahçe duvarı: duvar üstü tüfekli -----------------------------------
+	# --- 4. Bahçe duvarı: taş duvar sırtında tüfekli ---------------------------
 	_checkpoint(4200, 0)
 	_crates(4350, 1, 1)
-	_crates(4440, 1, 2)
-	_terrain(4530, 4900, -180)
-	_enemy(RIFLE, 4850, -180)
+	_stones(4440, 1, 2)
+	_stones(4530, 4, 2)
+	_enemy(RIFLE, 4800, -180)
 	_pickup(PISTOL, 4600, -225)
+	_coin_line(4560, 5, 60, -240)
+	_fg("sarmasik", 4700.0, -600.0)
 	_lantern(5000)
 
 	# --- 5. Rıhtım: kayıklar, vinç paleti ---------------------------------------
 	_checkpoint(5150, 0)
 	_canal(5300, 5500, 110)
 	_scaffold(5400, -20, 220)
+	_terrain(5500, 9250, 0)
 	_crates(5600, 1, 1)
 	_scaffold(5760, -150, 120)
 	_moving(5950, -240, Vector2(300, 0), 140, 0.0)
 	_scaffold(6370, -240, 120)
 	_pickup(RIFLE_PICKUP, 6370, -285)
+	_coin_line(5900, 6, 70, -300)
 	_enemy(BRUISER, 6200, 0)
 
-	# --- 6. Depo: erzak, çöken iskele --------------------------------------------
-	_checkpoint(6600, 0)
+	# --- 6. Kıyı deposu: erzak, üç katlı depo -------------------------------------
+	_checkpoint(6550, 0)
 	var shop: LevelShop = SHOP.new()
-	shop.position = Vector2(6800, 0)
+	shop.position = Vector2(6750, 0)
 	shop.title = "KIYI ERZAKÇISI"
 	shop.items = PackedStringArray(["can", "cephane", "zirh"])
 	shop.accent = Color("e7a449")
 	add_child(shop)
-	_crates(7050, 1, 1)
-	_crates(7140, 1, 2)
-	for k in 3:
-		_collapse(7300.0 + k * 140.0, -180.0, 130)
-		_pickup(COIN, 7300.0 + k * 140.0, -235.0)
-	_crates(7650, 1, 1)
-	_enemy(ASSASSIN, 7900, 0)
+	_interior(7000, 8000, -345, [-115.0, -230.0], 0)
+	_crates(7300, 1, 1)
+	_enemy(ASSASSIN, 7550, 0)
+	_enemy(KNIFE, 7750, -115)
+	_enemy(RIFLE, 7350, -230)
+	_prop("kasa", 7150, -115, COIN)
+	_coin_line(7450, 5, 50, -160)
+	_pickup(HEALTH, 7920, -275)
+	_coin_line(7550, 5, 60, -395)
 
-	# --- 7. Defter odası: arena ---------------------------------------------
-	_checkpoint(8050, 0)
-	_story(8130, _sahne_defter)
-	var defter: BattleArena = ARENA.instantiate()
-	defter.position = Vector2(8650, 0)
-	defter.gate_left_x = 8300
-	defter.gate_right_x = 9000
-	defter.floor_y = 0
-	defter.wave1 = _wave(ELITE, KNIFE)
-	defter.wave2 = _wave(ELITE, RIFLE, BRUISER)
-	defter.reward = HEALTH
-	add_child(defter)
+	# --- 7. Defter odası: galerili salonda arena ----------------------------------
+	_checkpoint(8100, 0)
+	_story(8170, _sahne_defter)
+	_interior(8250, 9050, -345, [], 1)
+	_scaffold(8420, -115, 180)
+	_scaffold(8880, -115, 180)
+	_scaffold(8650, -230, 200)
+	_coin_line(8590, 3, 50, -280)
+	_fight(8300, 9000, _wave(ELITE, KNIFE), _wave(ELITE, RIFLE, BRUISER))
 
-	# --- 8. Gizli rıhtım kapısı: son arena -----------------------------------
+	# --- 8. Gizli rıhtım kapısı: çürük iskele tahtaları, nöbetçiler ----------------
 	_checkpoint(9150, 0)
-	var final: BattleArena = ARENA.instantiate()
-	final.position = Vector2(9550, 0)
-	final.gate_left_x = 9250
-	final.gate_right_x = 9850
-	final.floor_y = 0
-	final.wave1 = _wave(KNIFE, ASSASSIN, RIFLE)
-	final.wave2 = _wave(BRUISER, ELITE)
-	final.reward = HEALTH
-	add_child(final)
+	_canal(9250, 9700, 110)
+	for k in 3:
+		_collapse(9330.0 + k * 140.0, -30.0, 110)
+		_pickup(COIN, 9330.0 + k * 140.0, -80.0)
+	_terrain(9700, 10300, 0)
+	_enemy(KNIFE, 9800, 0)
+	_enemy(ASSASSIN, 9880, 0)
 	_story(9950, _sahne_kapi)
 	_han_gate(10150, "BEYLERBEYİ")
 	_goal(10150, 0)

@@ -45,6 +45,10 @@ const PIX_FG_CAP := preload("res://assets/environment/pixel/on_kolon_bas.png")
 const PIX_FG_BASE := preload("res://assets/environment/pixel/on_kolon_kaide.png")
 const PIX_BEAM_WOOD := preload("res://assets/environment/pixel/hatil.png")
 const PIX_BRICK_PATCH := preload("res://assets/environment/pixel/sivali_tugla.png")
+const PIX_SHELF := preload("res://assets/environment/pixel/raf.png")
+const PIX_HANG_LAMP := preload("res://assets/environment/pixel/asma_lamba.png")
+const PIX_FRAME := preload("res://assets/environment/pixel/cerceve.png")
+const PIX_IN_WINDOW := preload("res://assets/environment/pixel/ic_pencere.png")
 const PIX_FG_VINE := preload("res://assets/environment/pixel/on_sarmasik.png")
 const PIX_CHAIN := preload("res://assets/environment/pixel/zincir.png")
 const PIX_ANTENNA := preload("res://assets/environment/pixel/anten.png")
@@ -670,7 +674,32 @@ class _Art extends Node2D:
 			A_INTERIOR:
 				# Hımış iç duvar: kireç sıva + ahşap çatkı (dikmeler, kat kirişleri),
 				# yer yer sıvası dökülmüş tuğla; katların altı gölgeli.
-				_tiled(PIX_INWALL, Rect2(-hw, -hh, size.x, size.y), Color(0.7, 0.64, 0.62))
+				_tiled(PIX_INWALL, Rect2(-hw, -hh, size.x, size.y), Color(0.6, 0.53, 0.5))
+				# Kat kat süsleme: dikmeler arasındaki her bölmeye pencere / raf / çerçeve,
+				# yüksek katlarda tavandan asma lamba.
+				var bottoms: Array = [hh]
+				for fy in floors:
+					bottoms.append(float(fy) + hh)
+				bottoms.append(-hh)
+				for i in bottoms.size() - 1:
+					var b: float = bottoms[i]
+					var t: float = bottoms[i + 1] + 30.0
+					var n := 0
+					var bx := -hw + 120.0
+					while bx < hw - 70.0:
+						var pick := (n + i * 3) % 4
+						var tex2: Texture2D = [PIX_IN_WINDOW, PIX_SHELF, PIX_FRAME, PIX_IN_WINDOW][pick]
+						var ts := tex2.get_size() * PX
+						var ty := b - 6.0 - ts.y if pick == 1 else (t + b) * 0.5 - ts.y * 0.5 - 6.0
+						if ts.y < b - t - 6.0:
+							draw_texture_rect(tex2, Rect2(bx - ts.x * 0.5, ty, ts.x, ts.y), false, Color(0.86, 0.82, 0.8))
+						if b - t > 170.0 and n % 2 == 1:
+							var lsz := PIX_HANG_LAMP.get_size() * PX
+							var cs2 := PIX_CHAIN.get_size() * PX
+							_tiled(PIX_CHAIN, Rect2(bx + 120.0 - cs2.x * 0.5, t - 30.0, cs2.x, 40.0))
+							draw_texture_rect(PIX_HANG_LAMP, Rect2(bx + 120.0 - lsz.x * 0.5, t + 8.0, lsz.x, lsz.y), false)
+						bx += 240.0
+						n += 1
 				var k := 0
 				var px := -hw + 150.0
 				while px < hw - 80.0:
@@ -741,7 +770,7 @@ class _Facade extends Node2D:
 	func _draw_building() -> void:
 		var tex: Texture2D = PIX_BRICK if style == 0 else PIX_INWALL
 		var t := tex.get_size() * PX
-		var tint := Color(0.92, 0.86, 0.82) if style == 0 else Color(0.95, 0.9, 0.84)
+		var tint := Color(0.86, 0.8, 0.76) if style == 0 else Color(0.74, 0.66, 0.6)
 		var y := rect.position.y
 		while y < rect.end.y - 0.5:
 			var x := rect.position.x
