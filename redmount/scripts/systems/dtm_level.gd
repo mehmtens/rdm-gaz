@@ -90,6 +90,14 @@ var _fg_layer: _Foreground
 ## sonunda çukurun üstünü kapatan zemin kesilir (kanal/diken çukuru gerçek olsun).
 var _ground_parts: Array = []
 var _holes: Array = []
+## Gizli alanlar (Dan the Man tarzı sayaç): bölüm başına SECRET_GOAL sır. Sol
+## başlangıçta çatlak duvarlı mahzen + bacalar + gizli hanlar; eksik kalan sır
+## sayısı, düz ve boş zemine otomatik baca yerleştirilerek tamamlanır.
+const SECRET_GOAL := 3
+var _secret_count := 0
+var _chimney_xs: Array = []
+var _interiors: Array = []
+var _ceilings: Array = []
 
 
 func _build_chapter() -> void:
@@ -97,8 +105,12 @@ func _build_chapter() -> void:
 	if OS.get_environment("REDMOUNT_OPEN_INTERIOR") == "1":
 		interior_back = false
 	# Önce içerik: bölüm sky_* / back_row_on ayarlarını _build içinde verir.
+	camera_limit_left = mini(camera_limit_left, -640)
 	_build()
 	_cut_holes()
+	_secret_cellar()
+	_auto_secrets()
+	_arena_barrels()
 	var sky := _Sky.new()
 	sky.level = self
 	add_child(sky)
@@ -315,6 +327,7 @@ func _flame(cx: float, phase := 0.0, ground := 0.0) -> void:
 
 ## Kaya tavan (süs): yeraltı bölümlerinde ekranın üstünü kapatan sarkıtlı şerit.
 func _ceiling(x0: float, x1: float, bottom: float) -> void:
+	_ceilings.append([x0, x1, bottom])
 	var c := _Art.new(_Art.A_CEILING, Vector2(x1 - x0, 500.0))
 	c.position = Vector2((x0 + x1) * 0.5, bottom - 250.0)
 	c.z_index = 5
@@ -396,6 +409,7 @@ func _secret_han(left: float) -> void:
 	add_child(inside)
 	_prop("sandik", left + 180.0, 0, ARMOR)
 	_coin_line(left + 80.0, 4, 45, -60)
+	_secret_zone(Rect2(left + 60.0, roof_top + 40.0, w - 100.0, -roof_top - 40.0))
 	# Ön cephe: oyuncu odaya girince kaybolur.
 	var facade := _Facade.new()
 	facade.rect = Rect2(left + 40.0, roof_top + 30.0, w - 60.0, -roof_top - 30.0)
@@ -464,6 +478,15 @@ func _basin(x0: float, x1: float, depth: float, step := 90.0) -> void:
 	_holes.append([x0, x1, depth * 0.5])
 
 
+## Engellemeyen öğretici ipucu (HintTrigger): `button` HintTrigger.BUTTONS anahtarı.
+func _hint(x: float, text: String, button := "", y := 0.0) -> void:
+	var h: HintTrigger = preload("res://scenes/systems/HintTrigger.tscn").instantiate()
+	h.position = Vector2(x, y)
+	h.text = text
+	h.button = button
+	add_child(h)
+
+
 ## Diken çukuru: zemin `depth` px aşağıda, dibi paslı çivi. Düşen son bayrağa döner.
 ## Çukurun iki yanı çağıran tarafından `_terrain` ile kurulur (aralık <= 220 px).
 func _spike_pit(x0: float, x1: float, depth := 130.0) -> void:
@@ -480,6 +503,7 @@ func _spike_pit(x0: float, x1: float, depth := 130.0) -> void:
 ## katlardır (alttan zıplanır); en üstteki `top` yürünür dam. Odalar arkada
 ## piksel art sıva + hatıl. Cephe stili: 0 tuğla+pencere, 1 sıva.
 func _interior(x0: float, x1: float, top: float, floors: Array, style := 0) -> void:
+	_interiors.append([x0, x1])
 	var w := x1 - x0
 	var back := _Art.new(_Art.A_INTERIOR, Vector2(w, -top))
 	back.position = Vector2(x0 + w * 0.5, top * 0.5)
@@ -529,6 +553,8 @@ func _chimney(cx: float, top: float, gap := 140.0, passage := 150.0, reward: Pac
 	_coin_line(cx - 20.0, 2, 40, (top - passage) * 0.5)
 	if reward != null:
 		_pickup(reward, cx, top - 45.0)
+	_chimney_xs.append(cx)
+	_secret_zone(Rect2(cx - gap * 0.5 - wall, top - 120.0, gap + wall * 2.0, 110.0))
 
 
 ## Ön plan silueti (oyuncunun önünde, hafif paralaks): "kolon", "sarmasik", "zincir".
@@ -550,6 +576,171 @@ func _antenna(cx: float, ground := 0.0, scale_f := 4.0) -> void:
 	s.z_index = -9
 	s.modulate = Color(0.8, 0.8, 0.9)
 	add_child(s)
+
+
+# --- Gizli alanlar -----------------------------------------------------------
+
+## Oyuncu ilk kez girince sayılan gizli bölge (görünmez).
+func _secret_zone(r: Rect2) -> void:
+	var z := _SecretZone.new()
+	z.position = r.get_center()
+	var col := CollisionShape2D.new()
+	var shape := RectangleShape2D.new()
+	shape.size = r.size
+	col.shape = shape
+	z.add_child(col)
+	add_child(z)
+	_secret_count += 1
+
+
+## Sol başlangıçtaki mahzen: oyun sağa akar, meraklı oyuncu sola döner. Çatlak
+## duvar kırılır; içeride zırh sandığı ve coin. Kapının üstünde tebeşir işareti.
+func _secret_cellar() -> void:
+	var x0 := -600.0
+	var x1 := -230.0
+	var top := -230.0
+	_terrain(-900.0, -400.0, 0.0)
+	var roof := _solid_box(x0, top, x1 - x0, 30.0)
+	roof.add_child(_Art.new(_Art.A_ROOF, Vector2(x1 - x0, 30.0)))
+	var back := _solid_box(x0, top + 30.0, 30.0, -top - 30.0)
+	back.add_child(_Art.new(_Art.A_STONES, Vector2(30.0, -top - 30.0)))
+	var inside := _Art.new(_Art.A_ROOM, Vector2(x1 - x0 - 30.0, -top - 30.0))
+	inside.position = Vector2((x0 + 30.0 + x1) * 0.5, (top + 30.0) * 0.5)
+	inside.z_index = -8
+	add_child(inside)
+	var door := BREAKABLE_WALL.instantiate()
+	door.position = Vector2(x1 - 10.0, 0)
+	add_child(door)
+	var facade := _Facade.new()
+	facade.rect = Rect2(x0 + 30.0, top + 30.0, x1 - x0 - 50.0, -top - 30.0)
+	add_child(facade)
+	_prop("sandik", x0 + 110.0, 0, ARMOR)
+	_coin_line(x0 + 170.0, 4, 40, -60)
+	_coin_line(x0 + 60.0, 6, 45, top - 40.0)
+	_secret_zone(Rect2(x0 + 30.0, top + 40.0, x1 - x0 - 90.0, -top - 40.0))
+
+
+## Her kilitli arenaya, düşmanların geldiği sağ kapının önüne bir patlayıcı varil:
+## Dan the Man'deki gibi kalabalığı tek vuruşla savurma fırsatı.
+func _arena_barrels() -> void:
+	for ch in get_children():
+		if ch is BattleArena and float(ch.gate_right_x) - float(ch.gate_left_x) >= 550.0:
+			_prop("patlayici", float(ch.gate_right_x) - 170.0, float(ch.floor_y))
+
+
+## Sır sayısı SECRET_GOAL'a ulaşana kadar düz, boş zemine baca yerleştir.
+func _auto_secrets() -> void:
+	var right := float(camera_limit_right)
+	var tries := 0
+	var targets := [0.45, 0.75, 0.25, 0.6, 0.9, 0.35]
+	while _secret_count < SECRET_GOAL and tries < targets.size():
+		var target: float = right * float(targets[tries])
+		tries += 1
+		var best := INF
+		var bx := 0.0
+		# Açılış sahnesinin alanına (x < 1300) baca koyma.
+		var x := 1300.0
+		while x < right - 700.0:
+			if absf(x - target) < absf(best - target) and _chimney_spot_free(x):
+				best = x
+				bx = x
+			x += 40.0
+		if best < INF:
+			var top := -500.0
+			for c in _ceilings:
+				if bx > float(c[0]) - 200.0 and bx < float(c[1]) + 200.0:
+					top = maxf(top, float(c[2]) + 40.0)
+			if top > -330.0:
+				continue
+			_chimney(bx, top, 140, 150, COIN)
+	_roof_secrets()
+	_roof_secrets(130.0, 800.0)
+
+
+## Kalan sırlar: bölümün en yüksek damlarına / iskelelerine gizli sandık. Dan the
+## Man'deki gibi isteğe bağlı yüksek rotayı ödüllendirir (arena içleri hariç).
+func _roof_secrets(min_h := 240.0, spacing := 1200.0) -> void:
+	if _secret_count >= SECRET_GOAL:
+		return
+	var cands: Array = []
+	for ch in get_children():
+		if not (ch is StaticBody2D) or ch is AwningBounce:
+			continue
+		for sh in ch.get_children():
+			if sh is CollisionShape2D and sh.shape is RectangleShape2D:
+				var sz: Vector2 = sh.shape.size
+				var p: Vector2 = (ch as Node2D).position + sh.position
+				var top: float = p.y - sz.y * 0.5
+				if top <= -min_h and sz.x >= 100.0 and p.x > 1300.0:
+					cands.append([top, p.x, sz.x])
+	cands.sort_custom(func(a, b): return a[0] < b[0])
+	var taken: Array = []
+	for z in get_children():
+		if z is _SecretZone:
+			taken.append(z.position.x)
+	for c in cands:
+		if _secret_count >= SECRET_GOAL:
+			return
+		var cx: float = c[1]
+		var ok := true
+		for t in taken:
+			if absf(cx - float(t)) < spacing:
+				ok = false
+		for ch in get_children():
+			if ch is BattleArena and cx > float(ch.gate_left_x) - 100.0 and cx < float(ch.gate_right_x) + 100.0:
+				ok = false
+		if not ok:
+			continue
+		var top: float = c[0]
+		var w: float = minf(float(c[2]), 260.0)
+		_prop("sandik", cx, top, COIN)
+		_coin_line(cx - 60.0, 3, 60, top - 60.0)
+		_secret_zone(Rect2(cx - w * 0.5, top - 110.0, w, 100.0))
+		taken.append(cx)
+
+
+func _chimney_spot_free(cx: float) -> bool:
+	var half := 140.0
+	for c in _chimney_xs:
+		if absf(cx - float(c)) < 900.0:
+			return false
+	var flat := false
+	for g in _ground_parts:
+		if absf(float(g[2])) < 0.5 and float(g[0]) <= cx - 200.0 and float(g[1]) >= cx + 200.0:
+			flat = true
+	if not flat:
+		return false
+	for h in _holes:
+		if cx + 260.0 > float(h[0]) and cx - 260.0 < float(h[1]):
+			return false
+	for r in _interiors:
+		if cx + half + 80.0 > float(r[0]) and cx - half - 80.0 < float(r[1]):
+			return false
+	for ch in get_children():
+		var px: float = (ch as Node2D).position.x if ch is Node2D else 0.0
+		if ch is BattleArena:
+			if cx + half + 120.0 > float(ch.gate_left_x) and cx - half - 120.0 < float(ch.gate_right_x):
+				return false
+		elif ch is LevelShop:
+			if absf(px - cx) < 420.0:
+				return false
+		elif ch.is_in_group(&"checkpoint") or ch.is_in_group(&"level_goal"):
+			if absf(px - cx) < 260.0:
+				return false
+		elif ch is Cutscene:
+			if absf(float(ch.trigger_x) - cx) < 260.0:
+				return false
+		elif ch is CollisionObject2D and not (ch is Area2D) and not (ch is CharacterBody2D):
+			for sh in ch.get_children():
+				if sh is CollisionShape2D and sh.shape is RectangleShape2D:
+					var sz: Vector2 = sh.shape.size
+					var r := Rect2(px + sh.position.x - sz.x * 0.5, (ch as Node2D).position.y + sh.position.y - sz.y * 0.5, sz.x, sz.y)
+					if r.position.y < -2.0 and r.intersects(Rect2(cx - half - 260.0, -620.0, half * 2.0 + 520.0, 615.0)):
+						return false
+		elif ch is _Lantern or ch is _Sign or ch is _Searchlight 				or String(ch.scene_file_path).contains("Crusher") or String(ch.scene_file_path).contains("FlameVent"):
+			if absf(px - cx) < half + 90.0:
+				return false
+	return true
 
 
 ## Arka sıra evler: karartılmış, yavaş kayan orta katman (derinlik hissi).
@@ -1128,3 +1319,18 @@ class _Foreground extends Node2D:
 					while yy < ln:
 						draw_texture_rect(PIX_CHAIN, Rect2(px - s3.x * 0.5, y + yy, s3.x, s3.y), false, Color(0.45, 0.42, 0.5))
 						yy += s3.y
+
+
+## Gizli bölge: oyuncu ilk girişte `found` yayar (Main sayar, HUD duyurur).
+class _SecretZone extends Area2D:
+	signal found
+	var _done := false
+
+	func _ready() -> void:
+		collision_layer = 0
+		collision_mask = 2
+		add_to_group(&"secret_zone")
+		body_entered.connect(func(b: Node) -> void:
+			if not _done and b.is_in_group(&"player"):
+				_done = true
+				found.emit())

@@ -46,7 +46,7 @@ func set_anim(state: String, attack: String, phase: int, pp: float, combo: int,
 	_pp = pp
 	_combo = combo
 	facing = fdir
-	var melee := state == "ATTACK" and attack in ["COMBO", "HEAVY", "WEAPON", "AIR_KNEE", "LOW_KICK", "UPPERCUT", "DASH_STRIKE", "GROUND_SLAM"]
+	var melee := state == "ATTACK" and attack in ["COMBO", "HEAVY", "WEAPON", "AIR_KNEE", "LOW_KICK", "SLIDE_KICK", "UPPERCUT", "DASH_STRIKE", "GROUND_SLAM"]
 	if melee and weapon_prefix != "":
 		_prefix = weapon_prefix
 	else:
@@ -154,7 +154,7 @@ func _attack_anim() -> String:
 			if _prefix in ["bat", "knife"]:
 				return _p("attack2")
 			return "combo_b"
-		"LOW_KICK":
+		"LOW_KICK", "SLIDE_KICK":
 			return "kick" if _has("kick") else "knee"
 		"GROUND_SLAM":
 			return "knee" if _has("knee") else "combo_b"
@@ -235,6 +235,12 @@ func _process(delta: float) -> void:
 			target_skew = deg_to_rad(-4.0 * facing)
 		"WALLSLIDE":
 			target_skew = deg_to_rad(8.0 * facing)
+		"ATTACK":
+			if _attack == "SLIDE_KICK":
+				# Kayma: gövde geriye yatar, yere yakın süzülür.
+				target_rot = deg_to_rad(-34.0 * facing)
+				target_pos = Vector2(-facing * 6.0, 18.0)
+				rot_k = 22.0
 	_rot = lerp_angle(_rot, target_rot, clampf(delta * rot_k, 0.0, 1.0))
 	rotation = _rot
 	skew = lerp_angle(skew, target_skew, clampf(delta * 10.0, 0.0, 1.0))

@@ -18,7 +18,13 @@ const POTS := preload("res://assets/environment/kit/pots.png")
 ## Varsayılan sanat: setteki piksel çizimler (tüp / varil prosedürel kalır).
 const DEFAULT_ART := {"vazo": VASE_SMALL, "saksi": POTS, "kasa": CRATE, "sandik": CHEST,
 	"varil": preload("res://assets/environment/pixel/varil.png"),
-	"tup": preload("res://assets/environment/pixel/tup.png")}
+	"tup": preload("res://assets/environment/pixel/tup.png"),
+	"patlayici": preload("res://assets/environment/pixel/patlayici.png")}
+const BOOM := preload("res://assets/environment/pixel/patlama.png")
+## Patlama yarıçapı (px) ve hasarı: düşmana tam, oyuncuya hafif.
+const BLAST_RADIUS := 180.0
+const BLAST_DAMAGE := 45
+const BLAST_PLAYER_DAMAGE := 18
 ## Kenar boşluklu büyük kaynaklarda yalnız nesnenin kendisi çizilir.
 const ART_REGION := {
 	"kasa": Rect2(227, 193, 893, 781),
@@ -46,13 +52,17 @@ const KINDS := {
 		"hits": 3, "coins": 7, "size": Vector2(44, 60),
 		"body": Color("45545a"), "trim": Color("a47651"), "mat": "metal",
 	},
+	"patlayici": {
+		"hits": 1, "coins": 0, "size": Vector2(44, 60),
+		"body": Color("b0302a"), "trim": Color("f2c14e"), "mat": "metal",
+	},
 	"sandik": {
 		"hits": 4, "coins": 15, "size": Vector2(76, 58),
 		"body": Color("6f4b2a"), "trim": Color("c8a349"), "mat": "tahta",
 	},
 }
 
-@export_enum("saksi", "vazo", "kasa", "tup", "varil", "sandik") var kind: String = "vazo"
+@export_enum("saksi", "vazo", "kasa", "tup", "varil", "sandik", "patlayici") var kind: String = "vazo"
 ## 0 = türün varsayılanı. Aynı türden bir kabı özellikle daha sağlam yapmak için.
 @export var hits_override: int = 0
 ## -1 = türün varsayılanı.
@@ -87,6 +97,8 @@ func _ready() -> void:
 	_max_hp = hits_override if hits_override > 0 else int(_data["hits"])
 	_hp = _max_hp
 	_seed = randf() * 10.0
+	if kind == "patlayici":
+		add_to_group(&"explosive")
 	z_index = 2
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 
@@ -150,6 +162,8 @@ func _break(dir: Vector2) -> void:
 		shard.global_position = center
 		shard.launch(dir.x)
 
+	if kind == "patlayici":
+		_explode(center)
 	var count: int = coins_override if coins_override >= 0 else int(_data["coins"])
 	for i in count:
 		_pop_coin.call_deferred(center, i, count)
@@ -159,6 +173,32 @@ func _break(dir: Vector2) -> void:
 		_drop.call_deferred(reward, center + Vector2(0, -46))
 
 	queue_free()
+
+
+## Dan the Man tarzı patlayıcı varil: çevredeki düşmanları savurur, oyuncuyu
+## hafif yaralar, yakındaki diğer patlayıcıları kısa gecikmeyle zincirler.
+func _explode(center: Vector2) -> void:
+	Combat.shake(12.0)
+	Sfx.play(&"heavy_hit", 0.55, 4.0)
+	var boom := _Boom.new()
+	get_parent().add_child(boom)
+	boom.global_position = center + Vector2(0, -10)
+	Fx.ring(center, Color(1.0, 0.7, 0.3, 0.9), 10.0, BLAST_RADIUS, 0.3, 5.0)
+	Fx.spark(center, Vector2.ZERO, 18, Color("ffb347"), 1.6)
+	for e in get_tree().get_nodes_in_group(&"enemy_ai"):
+		if not is_instance_valid(e) or not e.has_method(&"apply_hit"):
+			continue
+		var d: Vector2 = e.global_position + Vector2(0, -50) - center
+		if d.length() < BLAST_RADIUS:
+			e.apply_hit(BLAST_DAMAGE, Vector2(signf(d.x) if d.x != 0.0 else 1.0, -0.6).normalized(), 620.0)
+	var pl := get_tree().get_first_node_in_group(&"player") as Node2D
+	if pl != null and pl.has_method(&"apply_hit"):
+		var dp: Vector2 = pl.global_position + Vector2(0, -50) - center
+		if dp.length() < BLAST_RADIUS * 0.7:
+			pl.apply_hit(BLAST_PLAYER_DAMAGE, Vector2(signf(dp.x) if dp.x != 0.0 else 1.0, -0.5).normalized(), 420.0)
+	for p in get_tree().get_nodes_in_group(&"explosive"):
+		if p != self and is_instance_valid(p) and not p._broken 				and (p.global_position - global_position).length() < BLAST_RADIUS + 40.0:
+			get_tree().create_timer(0.18, false, false, true).timeout.connect(p.apply_hit.bind(1, Vector2.RIGHT, 0.0))
 
 
 ## Coin kaptan fırlar: kısa bir yay çizip yere düşer, sonra mıknatıs devreye girer.
@@ -362,3 +402,23 @@ class _Shard extends Node2D:
 		draw_colored_polygon(PackedVector2Array([
 			Vector2(-6, -5), Vector2(7, -7), Vector2(5, 6), Vector2(-5, 4),
 		]), _color)
+
+
+## Piksel art patlama: 6 kare (40x40 sanat, 4x), sonra kendini siler.
+class _Boom extends Node2D:
+	var _t := 0.0
+
+	func _ready() -> void:
+		z_index = 8
+		texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+
+	func _process(delta: float) -> void:
+		_t += delta
+		if _t > 0.48:
+			queue_free()
+		queue_redraw()
+
+	func _draw() -> void:
+		var f := mini(int(_t / 0.08), 5)
+		var s := 40.0 * 4.0
+		draw_texture_rect_region(BOOM, Rect2(-s * 0.5, -s * 0.5, s, s), Rect2(f * 40, 0, 40, 40))

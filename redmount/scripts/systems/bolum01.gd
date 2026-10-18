@@ -19,6 +19,8 @@ func _build() -> void:
 	_prop("vazo", 400)
 	_coin_line(470, 4, 55, -50)
 	# İlk kavga geniş, düz sokakta: iki kabadayı, arkalarında kırılacak ödül.
+	_hint(640, "Koşarken çömel: kayma tekmesi düşmanı ayağından alır.", "slide")
+	_hint(150, "Sağa değil sola bak: çatlak duvarların ardında gizli alanlar var.", "")
 	_enemy(STREET, 820, 0)
 	_enemy(STREET, 960, 0)
 	_prop("kasa", 1050)

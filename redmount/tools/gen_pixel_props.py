@@ -738,7 +738,52 @@ def ic_pencere():
     c.im.save(OUT / "ic_pencere.png")
 
 
+def patlayici():
+    """Patlayıcı varil (16x21): kırmızı gövde, sarı-siyah ikaz bandı, alev işareti;
+    patlama şeridi (6 kare, 40x40): beyaz çekirdek -> turuncu top -> duman halkası."""
+    c = Canvas(16, 21)
+    c.rect(1, 1, 14, 19, "red1")
+    c.rect(0, 3, 15, 17, "red1")
+    c.vline(3, 1, 19, "red2")
+    c.vline(4, 2, 18, "red3")
+    c.vline(13, 1, 19, "red0")
+    for x in range(0, 16):
+        col = "gold2" if (x // 2) % 2 == 0 else "ink"
+        c.put(x, 8, col); c.put(x, 9, col)
+    # alev işareti
+    c.rect(6, 12, 9, 15, "gold2"); c.put(7, 11, "gold2"); c.put(8, 10, "gold3")
+    c.rect(7, 13, 8, 15, "fire1")
+    c.hline(2, 13, 1, "red3")
+    c.rect(6, 0, 8, 1, "iron2")
+    c.outline()
+    c.im.save(OUT / "patlayici.png")
+    import math, random
+    rnd = random.Random(4)
+    frames = []
+    for f in range(6):
+        e = Canvas(40, 40)
+        r = [6, 11, 15, 17, 18, 19][f]
+        core = ["white", "fire3", "fire2", "fire1", "fire0", None][f]
+        for y in range(40):
+            for x in range(40):
+                d = math.hypot(x - 19.5, y - 19.5) + rnd.uniform(-1.6, 1.6)
+                if d > r:
+                    continue
+                t = d / max(r, 1)
+                if f >= 4:
+                    col = (60, 52, 58, 230) if t > 0.55 else ((90, 80, 84, 200) if f == 5 else "fire0")
+                    if f == 5 and t < 0.5:
+                        continue
+                else:
+                    col = core if t < 0.35 else ("fire2" if t < 0.6 else ("fire1" if t < 0.85 else "fire0"))
+                e.put(x, y, col)
+        frames.append(e)
+    from pixelart import strip
+    strip(frames).save(OUT / "patlama.png")
+
+
 GENERATORS = {
+    "patlayici": patlayici,
     "raf": raf, "asma_lamba": asma_lamba, "cerceve": cerceve, "ic_pencere": ic_pencere,
     "hatil": hatil, "sivali_tugla": sivali_tugla,
     "diken": diken, "ic_duvar": ic_duvar, "ahsap_kat": ahsap_kat, "on_kolon": on_kolon,

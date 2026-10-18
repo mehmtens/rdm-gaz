@@ -296,7 +296,18 @@ func _card(i: int) -> Button:
 		card.add_child(lk)
 	else:
 		var best := Save.best_score(i)
-		v.add_child(_label("EN İYİ %d" % best if best > 0 else "YENİ", Color(0.95, 0.55, 0.42) if best == 0 else MUTED))
+		var sec: Array = Save.secrets_of(i)
+		var line := "EN İYİ %d" % best if best > 0 else "YENİ"
+		var rk := Save.rank_of(i)
+		if rk != "":
+			var badge := _label(rk, Color(1.0, 0.85, 0.3) if rk == "S" else GOLD)
+			badge.add_theme_font_size_override(&"font_size", 36)
+			badge.position = Vector2(236, 6)
+			badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			card.add_child(badge)
+		if sec.size() == 2:
+			line += "  ·  GİZLİ %d/%d" % [int(sec[0]), int(sec[1])]
+		v.add_child(_label(line, Color(0.95, 0.55, 0.42) if best == 0 else MUTED))
 	for ch in v.get_children():
 		ch.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	return card

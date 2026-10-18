@@ -24,6 +24,8 @@ const BOSS_BAR_WIDTH: float = 628.0
 @onready var _results_hint: Label = $ResultsPanel/Hint
 @onready var _results_rank: Label = $ResultsPanel/Rank
 @onready var _stage: Label = $StageLabel
+## Bölüm sonu istatistiğine eklenen satır (Main doldurur): "Gizli alan: 2 / 3".
+var secrets_line := ""
 
 const RANK_COLOR := {
 	"S": Color(1.0, 0.85, 0.3), "A": Color(0.8, 0.85, 0.95),
@@ -241,6 +243,8 @@ func show_stage_clear(current: int, rank: String = "", seconds: float = 0.0,
 		int(seconds) / 60, int(seconds) % 60, defeated, enemy_total, hits,
 		GameState.coins, GameState.score,
 	]
+	if secrets_line != "":
+		_results_stats.text += "      " + secrets_line
 	_results_hint.text = "R — sonraki bölüm     ·     M — ana menü"
 	for it in Shop.ITEMS:
 		if int(it.get("unlock_level", 0)) == current and not Save.owns(it.id):
@@ -254,6 +258,9 @@ func show_results(coins: int, defeated: int, enemy_total: int, seconds: float, s
 	_results_stats.text = "Süre: %d:%02d\nCoin: %d\nDüşman: %d / %d\nHasar: %d\n\nSkor: %d" % [
 		int(seconds) / 60, int(seconds) % 60, coins, defeated, enemy_total, hits, score,
 	]
+	if secrets_line != "":
+		_results_stats.text += "
+" + secrets_line
 	_results_hint.text = ("R — sonraki bölüm     ·     M — ana menü"
 		if GameState.has_next_level() else "R — baştan başla     ·     M — ana menü")
 	_reveal(rank)

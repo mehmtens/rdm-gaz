@@ -18,6 +18,10 @@ var unlocked_level: int = 0
 var total_coins: int = 0
 ## level_index -> en yüksek skor.
 var best_scores: Dictionary = {}
+## Bölüm başına en çok bulunan gizli alan [bulunan, toplam].
+var secrets: Dictionary = {}
+## Bölüm başına en iyi rütbe (S/A/B/C).
+var ranks: Dictionary = {}
 var survival_best_wave: int = 0
 var master_volume_db: float = 0.0
 ## Satın alınan mağaza ürün id'leri.
@@ -53,6 +57,8 @@ func load_game() -> void:
 	unlocked_level = int(cfg.get_value("progress", "unlocked_level", 0))
 	total_coins = int(cfg.get_value("progress", "total_coins", 0))
 	best_scores = cfg.get_value("progress", "best_scores", {})
+	secrets = cfg.get_value("progress", "secrets", {})
+	ranks = cfg.get_value("progress", "ranks", {})
 	survival_best_wave = int(cfg.get_value("progress", "survival_best_wave", 0))
 	purchased = cfg.get_value("shop", "purchased", [])
 	upgrade_levels = cfg.get_value("shop", "upgrade_levels", {})
@@ -70,6 +76,8 @@ func save_game() -> void:
 	cfg.set_value("progress", "unlocked_level", unlocked_level)
 	cfg.set_value("progress", "total_coins", total_coins)
 	cfg.set_value("progress", "best_scores", best_scores)
+	cfg.set_value("progress", "secrets", secrets)
+	cfg.set_value("progress", "ranks", ranks)
 	cfg.set_value("progress", "survival_best_wave", survival_best_wave)
 	cfg.set_value("shop", "purchased", purchased)
 	cfg.set_value("shop", "upgrade_levels", upgrade_levels)
@@ -85,6 +93,27 @@ func record_level_clear(index: int, run_coins: int, score: int) -> void:
 	if score > int(best_scores.get(index, 0)):
 		best_scores[index] = score
 	save_game()
+
+
+func record_secrets(index: int, found: int, total: int) -> void:
+	var old: Array = secrets.get(index, [0, total])
+	secrets[index] = [maxi(int(old[0]), found), total]
+	save_game()
+
+
+func record_rank(index: int, rank: String) -> void:
+	const ORDER := "CBAS"
+	if ORDER.find(rank) > ORDER.find(String(ranks.get(index, ""))):
+		ranks[index] = rank
+		save_game()
+
+
+func rank_of(index: int) -> String:
+	return String(ranks.get(index, ""))
+
+
+func secrets_of(index: int) -> Array:
+	return secrets.get(index, [])
 
 
 func best_score(index: int) -> int:
@@ -135,6 +164,8 @@ func wipe() -> void:
 	unlocked_level = 0
 	total_coins = 0
 	best_scores = {}
+	secrets = {}
+	ranks = {}
 	survival_best_wave = 0
 	purchased = []
 	upgrade_levels = {}

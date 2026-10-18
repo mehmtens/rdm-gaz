@@ -327,6 +327,11 @@ func _process_normal(delta: float) -> void:
 		_start_attack(Attack.HEAVY)
 		return
 
+	# Kayma tekmesi (Dan the Man): koşarken çömel -> yerde kayarak süpürme tekmesi.
+	if is_on_floor() and Input.is_action_just_pressed(&"crouch") 			and absf(velocity.x) >= movement.run_speed * 0.75:
+		_start_attack(Attack.HEAVY, "slide_kick")
+		return
+
 	# Çömelirken zıpla + aşağı = tek yön platformdan in.
 	if wants_crouch and Input.is_action_just_pressed(&"jump"):
 		_drop_through()
@@ -476,6 +481,15 @@ func _drop_through() -> void:
 	_drop_timer = 0.28
 	position.y += 2.0
 	velocity.y = maxf(velocity.y, 40.0)
+
+
+## Kayma sırasında gövde çömelme boyuna iner (durum değişmeden).
+func _slide_body(on: bool) -> void:
+	var col := $CollisionShape2D
+	if col.shape is RectangleShape2D:
+		var sz := col.shape as RectangleShape2D
+		sz.size.y = _body_full_h * (0.55 if on else 1.0)
+		col.position.y = -sz.size.y * 0.5
 
 
 func _set_crouch(on: bool) -> void:
@@ -785,6 +799,9 @@ func _start_attack(kind: Attack, special_move: String = "") -> void:
 		if special_move == "low_kick":
 			reach = Vector2(112, 46)
 			_hitbox.position.y = -28.0
+		elif special_move == "slide_kick":
+			reach = Vector2(96, 44)
+			_hitbox.position.y = -24.0
 		elif special_move == "uppercut":
 			reach = Vector2(86, 132)
 			_hitbox.position.y = -85.0
@@ -793,8 +810,14 @@ func _start_attack(kind: Attack, special_move: String = "") -> void:
 		_apply_hitbox_profile(reach, _punch_offset)
 		_combo_index = 0
 		_phase_timer = 0.10 if not special_move.is_empty() else combat.heavy_windup
-		_facing_to_input()
-		velocity.x = _facing * (360.0 if special_move == "dash_strike" else combat.heavy_step_forward)
+		if special_move != "slide_kick":
+			_facing_to_input()
+		velocity.x = _facing * (360.0 if special_move == "dash_strike" else 640.0 if special_move == "slide_kick" else combat.heavy_step_forward)
+		if special_move == "slide_kick":
+			# Alçak gövde: kayarken alçak engellerin / mermilerin altından geçer.
+			_phase_timer = 0.02
+			_slide_body(true)
+			Fx.dust(global_position + Vector2(-_facing * 10.0, -4.0), _facing, 7)
 		if special_move == "ground_slam":
 			velocity.y = maxf(velocity.y, 780.0)
 		_play(&"air_knee" if special_move == "ground_slam" else &"heavy")
@@ -868,9 +891,13 @@ func _process_attack(delta: float) -> void:
 			_set_state(State.IDLE)
 			return
 
-	# Yatay: yerde sürtünmeyle dur, havada momentum korunur.
+	# Yatay: yerde sürtünmeyle dur, havada momentum korunur. Kayma tekmesi
+	# daha yavaş söner (yerde uzun süzülme), arkasında toz bırakır.
 	if is_on_floor():
-		velocity.x = move_toward(velocity.x, 0.0, movement.friction * delta)
+		var fr := movement.friction * (0.35 if _special_move == "slide_kick" else 1.0)
+		velocity.x = move_toward(velocity.x, 0.0, fr * delta)
+		if _special_move == "slide_kick" and absf(velocity.x) > 120.0 and Engine.get_physics_frames() % 4 == 0:
+			Fx.dust(global_position + Vector2(-_facing * 16.0, -2.0), _facing, 2)
 	_apply_gravity(delta)
 	_was_on_floor = is_on_floor()
 	move_and_slide()
@@ -909,6 +936,8 @@ func _finish_attack() -> void:
 		return
 
 	var broke := _attack == Attack.WEAPON and _weapon_uses <= 0
+	if _special_move == "slide_kick":
+		_slide_body(false)
 
 	_attack = Attack.NONE
 	_special_move = ""
@@ -980,6 +1009,8 @@ func _slam_impact() -> void:
 
 func _cancel_attack() -> void:
 	_set_hitbox_enabled(false)
+	if _special_move == "slide_kick":
+		_slide_body(false)
 	_attack = Attack.NONE
 	_special_move = ""
 	_combo_index = 0
@@ -1006,6 +1037,7 @@ func _recovery_time() -> float:
 func _current_damage() -> int:
 	var damage := 0
 	if _special_move == "low_kick": damage = 8
+	elif _special_move == "slide_kick": damage = 11
 	elif _special_move == "uppercut": damage = 12
 	elif _special_move == "dash_strike": damage = 14
 	else:
@@ -1057,6 +1089,7 @@ func _weapon_max_uses() -> int:
 
 func _current_knockback() -> float:
 	if _special_move == "low_kick": return 230.0
+	if _special_move == "slide_kick": return 260.0
 	if _special_move == "uppercut": return 180.0
 	if _special_move == "dash_strike": return 320.0
 	match _attack:
@@ -1116,6 +1149,9 @@ func _deal_attack_hit(target: Node, dash_counter := false) -> void:
 			velocity.y = -250.0
 		elif _special_move == "uppercut":
 			target.launch(430.0)
+		elif _special_move == "slide_kick":
+			# Süpürme: düşmanı ayağından alıp havaya atar.
+			target.launch(240.0)
 		elif finisher:
 			target.launch(260.0)
 

@@ -15,6 +15,8 @@ extends Node2D
 @onready var _touch: TouchControls = $TouchControls
 
 var _story_card: StoryCard
+var _secrets_found := 0
+var _secrets_total := 0
 ## Hikâye kartı en son hangi bölüm için gösterildi (yeniden denemede tekrarlanmaz).
 var _story_shown_for := -1
 
@@ -174,6 +176,11 @@ func _load_current_level() -> void:
 		dt.triggered.connect(_on_dialogue)
 	for sp in _in_group(_level, &"story_place"):
 		sp.entered.connect(_hud.show_place)
+	_secrets_found = 0
+	_secrets_total = 0
+	for sz in _in_group(_level, &"secret_zone"):
+		_secrets_total += 1
+		sz.found.connect(_on_secret_found)
 	for ar in _in_group(_level, &"battle_arena"):
 		ar.enemy_spawned.connect(_register_arena_enemy)
 	var goals := _in_group(_level, &"level_goal")
@@ -450,6 +457,8 @@ func _on_goal_reached() -> void:
 	_bank_level_clear()
 	get_tree().paused = true
 	var rank := _compute_rank()
+	Save.record_rank(GameState.level_index, rank)
+	_hud.secrets_line = "Gizli alan: %d / %d" % [_secrets_found, _secrets_total] if _secrets_total > 0 else ""
 	if GameState.has_next_level():
 		_hud.show_stage_clear(GameState.level_index + 1, rank, _elapsed,
 			_enemy_defeated, _enemy_total, _hits_taken)
@@ -467,6 +476,15 @@ func _bank_level_clear() -> void:
 	Save.record_level_clear(
 		GameState.level_index, GameState.coins - _coins_at_level_start, GameState.score,
 	)
+	Save.record_secrets(GameState.level_index, _secrets_found, _secrets_total)
+
+
+## Dan the Man tarzı: gizli alan bulununca duyuru + coin ödülü.
+func _on_secret_found() -> void:
+	_secrets_found += 1
+	Sfx.play(&"checkpoint", 1.3)
+	GameState.add_coins(10)
+	_hud.show_place("GİZLİ ALAN", "%d / %d bulundu  ·  +10 coin" % [_secrets_found, _secrets_total], Color("ffd34e"))
 
 
 func _respawn_player() -> void:
