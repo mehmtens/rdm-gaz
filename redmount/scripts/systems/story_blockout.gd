@@ -15,6 +15,8 @@ const RIFLE := preload("res://scenes/enemies/RifleGuard.tscn")
 const BRUISER := preload("res://scenes/enemies/ArmoredBruiser.tscn")
 const ASSASSIN := preload("res://scenes/enemies/AgileAssassin.tscn")
 const ELITE := preload("res://scenes/enemies/EliteGuard.tscn")
+const SHIELD := preload("res://scenes/enemies/ShieldGuard.tscn")
+const BOMBER := preload("res://scenes/enemies/Bomber.tscn")
 
 const COIN := preload("res://scenes/pickups/Coin.tscn")
 const HEALTH := preload("res://scenes/pickups/HealthPickup.tscn")

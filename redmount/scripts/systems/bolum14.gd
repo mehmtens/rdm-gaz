@@ -62,7 +62,7 @@ func _build() -> void:
 	_terrain(4100, 9800, 0)
 	_scaffold(3700, -150, 160)
 	_pickup(PISTOL, 3700, -195)
-	_enemy(KNIFE, 4300, 0)
+	_enemy(SHIELD, 4300, 0)
 	for x in [3500, 4250]:
 		_lantern(float(x))
 
@@ -85,7 +85,7 @@ func _build() -> void:
 	arena.gate_right_x = 5450
 	arena.floor_y = 0
 	arena.wave1 = _wave(BRUISER, STREET)
-	arena.wave2 = _wave(KNIFE, RIFLE, STREET)
+	arena.wave2 = _wave(SHIELD, RIFLE, STREET)
 	arena.reward = HEALTH
 	add_child(arena)
 
@@ -97,7 +97,7 @@ func _build() -> void:
 	_enemy(RIFLE, 6200, -200)
 	_coin_line(5940, 5, 70, -250)
 	_pickup(ARMOR, 6250, -245)
-	_enemy(RIFLE, 6600, 0)
+	_enemy(BOMBER, 6600, 0)
 	_enemy(KNIFE, 6750, 0)
 	_prop("varil", 6450)
 
@@ -133,7 +133,7 @@ func _build() -> void:
 	final.gate_left_x = 8950
 	final.gate_right_x = 9450
 	final.floor_y = 0
-	final.wave1 = _wave(KNIFE, ASSASSIN, RIFLE)
+	final.wave1 = _wave(KNIFE, ASSASSIN, BOMBER)
 	final.wave2 = _wave(ELITE, BRUISER)
 	final.reward = HEALTH
 	add_child(final)

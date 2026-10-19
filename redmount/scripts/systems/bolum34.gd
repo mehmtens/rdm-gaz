@@ -58,7 +58,7 @@ func _build() -> void:
 	_stones(bx + 600, 3, 1)
 	_scaffold(bx + 735, -200, 160)
 	_coin_line(bx + 680, 3, 50, -250)
-	_enemy(KNIFE, bx + 450, 0)
+	_enemy(SHIELD, bx + 450, 0)
 	_enemy(ASSASSIN, bx + 560, 0)
 	_enemy(STREET, bx + 950, 0)
 	for vx in [bx + 300.0, bx + 800.0]:
@@ -103,7 +103,7 @@ func _build() -> void:
 
 	# --- 7. Verici direği: kır --------------------------------------------
 	_checkpoint(8100, 0)
-	_enemy(RIFLE, 8300, 0)
+	_enemy(BOMBER, 8300, 0)
 	var mast := _Art.new(_Art.A_TOWER, Vector2(90, 380))
 	mast.position = Vector2(8700, -190)
 	mast.z_index = -6
@@ -120,7 +120,7 @@ func _build() -> void:
 
 	# --- 8. Sırt terası: son arena ------------------------------------------
 	_checkpoint(8900, 0)
-	_fight(9000, 9600, _wave(KNIFE, ASSASSIN, RIFLE), _wave(ELITE, ELITE))
+	_fight(9000, 9600, _wave(KNIFE, ASSASSIN, BOMBER), _wave(ELITE, ELITE))
 	_story(9700, _sahne_hisar)
 	_han_gate(9950, "ANADOLUHİSARI")
 	_goal(9950, 0)

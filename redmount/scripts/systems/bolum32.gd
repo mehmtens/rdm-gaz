@@ -31,7 +31,7 @@ func _build() -> void:
 	# --- 2. Okul binası: üç kat koridor, nöbetçiler kat kat ---------------------
 	_checkpoint(1350, 0)
 	_interior(1500, 2400, -345, [-115.0, -230.0], 0)
-	_enemy(STREET, 1750, 0)
+	_enemy(SHIELD, 1750, 0)
 	_enemy(KNIFE, 2050, 0)
 	_enemy(RIFLE, 2250, -115)
 	_enemy(ASSASSIN, 1700, -230)
@@ -104,7 +104,7 @@ func _build() -> void:
 	# --- 8. Sahil kapısı: son arena --------------------------------------
 	_checkpoint(8550, 0)
 	_scaffold(9150, -110, 220)
-	_fight(8750, 9550, _wave(KNIFE, ASSASSIN, RIFLE), _wave(BRUISER, ELITE))
+	_fight(8750, 9550, _wave(KNIFE, ASSASSIN, BOMBER), _wave(BRUISER, ELITE))
 	_han_gate(9900, "VANİKÖY")
 	_goal(9900, 0)
 

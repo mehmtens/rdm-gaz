@@ -38,7 +38,7 @@ func _build() -> void:
 	_balcony(2260, -200, 110)
 	_coin_line(1860, 7, 55, -340)
 	_pickup(ARMOR, 2080, -335)
-	_enemy(STREET, 1900, 0)
+	_enemy(SHIELD, 1900, 0)
 	_enemy(KNIFE, 2150, 0)
 	_enemy(ASSASSIN, 2400, 0)
 
@@ -96,7 +96,7 @@ func _build() -> void:
 	_checkpoint(8250, 0)
 	_lantern(8350)
 	_scaffold(8900, -120, 220)
-	_fight(8450, 9350, _wave(KNIFE, ASSASSIN, RIFLE), _wave(ELITE, KNIFE), _wave(BRUISER, RIFLE))
+	_fight(8450, 9350, _wave(KNIFE, ASSASSIN, BOMBER), _wave(ELITE, SHIELD), _wave(BRUISER, RIFLE))
 	_story(9450, _sahne_harita)
 	_han_gate(9750, "KULELİ")
 	_goal(9750, 0)

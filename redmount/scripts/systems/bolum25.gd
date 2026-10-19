@@ -45,7 +45,7 @@ func _build() -> void:
 	yok.gate_right_x = 2950
 	yok.floor_y = 60
 	yok.wave1 = _wave(KNIFE, RIFLE)
-	yok.wave2 = _wave(STREET, ASSASSIN, RIFLE)
+	yok.wave2 = _wave(SHIELD, ASSASSIN, RIFLE)
 	yok.reward = AMMO
 	add_child(yok)
 	_terrain(3200, 3350, 30)
@@ -59,7 +59,7 @@ func _build() -> void:
 	_scaffold(4200, -140, 130)
 	_scaffold(4350, -250, 130)
 	_pickup(PISTOL, 4350, -295)
-	_enemy(KNIFE, 4550, 0)
+	_enemy(SHIELD, 4550, 0)
 
 	# --- 4. Baskı salonu: sandık ve raf arası ağır düşman; erzak ----------------
 	_checkpoint(4750, 0)
@@ -126,7 +126,7 @@ func _build() -> void:
 	final.gate_left_x = 9550
 	final.gate_right_x = 10050
 	final.floor_y = 0
-	final.wave1 = _wave(KNIFE, ASSASSIN, RIFLE)
+	final.wave1 = _wave(KNIFE, ASSASSIN, BOMBER)
 	final.wave2 = _wave(ELITE, BRUISER)
 	final.reward = HEALTH
 	add_child(final)

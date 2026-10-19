@@ -47,7 +47,7 @@ func _build() -> void:
 	square.gate_right_x = 2850
 	square.floor_y = 60
 	square.wave1 = _wave(STREET, KNIFE, STREET)
-	square.wave2 = _wave(RIFLE, KNIFE)
+	square.wave2 = _wave(RIFLE, SHIELD)
 	square.reward = AMMO
 	add_child(square)
 	_terrain(2950, 3100, 30)
@@ -62,7 +62,7 @@ func _build() -> void:
 	_scaffold(4050, -250, 130)
 	_pickup(PISTOL, 4050, -295)
 	_coin_line(3860, 3, 50, -190)
-	_enemy(STREET, 4250, 0)
+	_enemy(SHIELD, 4250, 0)
 
 	# --- 4. Bakım galerisi: tüfekliye yaklaşma, hareketli köprü (isteğe bağlı) -----
 	_checkpoint(4450, 0)
@@ -127,7 +127,7 @@ func _build() -> void:
 	final.gate_left_x = 8750
 	final.gate_right_x = 9500
 	final.floor_y = 0
-	final.wave1 = _wave(KNIFE, RIFLE, STREET)
+	final.wave1 = _wave(KNIFE, BOMBER, STREET)
 	final.wave2 = _wave(ELITE, ASSASSIN)
 	final.reward = HEALTH
 	add_child(final)

@@ -40,7 +40,7 @@ func _build() -> void:
 	_checkpoint(2150, 0)
 	_interior(2300, 3200, -230, [-115.0], 1)
 	_enemy(ELITE, 2600, 0)
-	_enemy(KNIFE, 2900, 0)
+	_enemy(SHIELD, 2900, 0)
 	_enemy(RIFLE, 2500, -115)
 	_pickup(AMMO, 3130, -160)
 	_coin_line(2350, 8, 70, -160)

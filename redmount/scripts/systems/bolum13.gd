@@ -57,7 +57,7 @@ func _build() -> void:
 	_scaffold(4600, -20, 220)
 	_coin_line(3950, 3, 50, -70)
 	_coin_line(4550, 3, 50, -70)
-	_enemy(KNIFE, 4300, 0)
+	_enemy(SHIELD, 4300, 0)
 	_story(4250, _sahne_kayikci)
 
 	# --- 4. Kapan depoları: tüfekli siper; iki dalgalı avlu ----------------------
@@ -77,8 +77,8 @@ func _build() -> void:
 	arena.gate_left_x = 5800
 	arena.gate_right_x = 6700
 	arena.floor_y = 0
-	arena.wave1 = _wave(RIFLE, KNIFE, STREET)
-	arena.wave2 = _wave(BRUISER, STREET)
+	arena.wave1 = _wave(BOMBER, KNIFE, STREET)
+	arena.wave2 = _wave(BRUISER, SHIELD)
 	arena.reward = HEALTH
 	add_child(arena)
 	var shop: LevelShop = SHOP.new()
@@ -97,7 +97,7 @@ func _build() -> void:
 	_coin_line(7560, 5, 75, -290)
 	_pickup(AMMO, 8020, -275)
 	_enemy(ASSASSIN, 7600, 0)
-	_enemy(RIFLE, 7900, 0)
+	_enemy(BOMBER, 7900, 0)
 	_story(8150, _sahne_eski_han)
 
 	# --- 6. Gümrük kaydı: son avlu --------------------------------------------

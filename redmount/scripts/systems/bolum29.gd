@@ -118,7 +118,7 @@ func _build() -> void:
 		_collapse(9330.0 + k * 140.0, -30.0, 110)
 		_pickup(COIN, 9330.0 + k * 140.0, -80.0)
 	_terrain(9700, 10300, 0)
-	_enemy(KNIFE, 9800, 0)
+	_enemy(SHIELD, 9800, 0)
 	_enemy(ASSASSIN, 9880, 0)
 	_story(9950, _sahne_kapi)
 	_han_gate(10150, "BEYLERBEYİ")

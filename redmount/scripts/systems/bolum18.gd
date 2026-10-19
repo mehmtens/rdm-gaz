@@ -47,7 +47,7 @@ func _build() -> void:
 	gec.gate_right_x = 3000
 	gec.floor_y = 60
 	gec.wave1 = _wave(STREET, KNIFE, STREET)
-	gec.wave2 = _wave(KNIFE, ASSASSIN, STREET)
+	gec.wave2 = _wave(SHIELD, ASSASSIN, STREET)
 	gec.reward = HEALTH
 	add_child(gec)
 	_terrain(3200, 3350, 30)
@@ -63,7 +63,7 @@ func _build() -> void:
 		_pickup(COIN, 3730.0 + k * 160.0, -270.0 - (k % 2) * 60.0)
 	_scaffold(3640, -120, 100)
 	_pickup(PISTOL, 4370, -335)
-	_enemy(KNIFE, 4100, 0)
+	_enemy(SHIELD, 4100, 0)
 	_prop("sandik", 4450, 0, AMMO)
 
 	# --- 4. Bakırcılar: tüfekli, kısa arena, erzak ------------------------------
@@ -113,7 +113,7 @@ func _build() -> void:
 	amb.gate_left_x = 7800
 	amb.gate_right_x = 8450
 	amb.floor_y = 0
-	amb.wave1 = _wave(ELITE, RIFLE)
+	amb.wave1 = _wave(ELITE, BOMBER)
 	amb.wave2 = _wave(ELITE, KNIFE, RIFLE)
 	amb.reward = AMMO
 	add_child(amb)

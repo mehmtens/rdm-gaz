@@ -45,7 +45,7 @@ func _build() -> void:
 	sq.gate_right_x = 3000
 	sq.floor_y = 60
 	sq.wave1 = _wave(STREET, STREET, KNIFE)
-	sq.wave2 = _wave(RIFLE, KNIFE, STREET)
+	sq.wave2 = _wave(RIFLE, SHIELD, STREET)
 	sq.reward = HEALTH
 	add_child(sq)
 	_terrain(3200, 3350, 30)
@@ -64,7 +64,7 @@ func _build() -> void:
 	_pickup(PISTOL, 4530, -345)
 	_stall(3900)
 	_stall(4350)
-	_enemy(STREET, 4150, 0)
+	_enemy(SHIELD, 4150, 0)
 	var shop: LevelShop = SHOP.new()
 	shop.position = Vector2(4750, 0)
 	shop.title = "SAHAFLAR ERZAKI"
@@ -128,7 +128,7 @@ func _build() -> void:
 	final.gate_left_x = 9400
 	final.gate_right_x = 9900
 	final.floor_y = 0
-	final.wave1 = _wave(KNIFE, RIFLE, ASSASSIN)
+	final.wave1 = _wave(KNIFE, BOMBER, ASSASSIN)
 	final.wave2 = _wave(ELITE, RIFLE)
 	final.reward = HEALTH
 	add_child(final)

@@ -37,7 +37,7 @@ func _build() -> void:
 	avlu.gate_right_x = 2950
 	avlu.floor_y = 60
 	avlu.wave1 = _wave(KNIFE, ASSASSIN, STREET)
-	avlu.wave2 = _wave(BRUISER, KNIFE)
+	avlu.wave2 = _wave(BRUISER, SHIELD)
 	avlu.reward = AMMO
 	add_child(avlu)
 	_terrain(3200, 3350, 30)
@@ -51,7 +51,7 @@ func _build() -> void:
 	_stones(4150, 1, 1)
 	_stones(4240, 1, 2)
 	_pickup(PISTOL, 4285, -225)
-	_enemy(KNIFE, 4550, 0)
+	_enemy(SHIELD, 4550, 0)
 
 	# --- 4. Basınç galerisi: tüfekli, gösterge rafı, arena, erzak ----------------
 	_checkpoint(4750, 0)
@@ -101,7 +101,7 @@ func _build() -> void:
 	bak.gate_left_x = 7600
 	bak.gate_right_x = 8300
 	bak.floor_y = 0
-	bak.wave1 = _wave(ELITE, RIFLE)
+	bak.wave1 = _wave(ELITE, BOMBER)
 	bak.wave2 = _wave(ELITE, KNIFE, RIFLE)
 	bak.reward = HEALTH
 	add_child(bak)

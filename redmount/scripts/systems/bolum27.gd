@@ -69,8 +69,8 @@ func _build() -> void:
 	# --- 5. Telgraf binası: üç kat, içeriden yukarı; damda antenler ---------------
 	_checkpoint(5250, 0)
 	_interior(5350, 6100, -345, [-115.0, -230.0], 0)
-	_enemy(KNIFE, 5600, 0)
-	_enemy(RIFLE, 5900, 0)
+	_enemy(SHIELD, 5600, 0)
+	_enemy(BOMBER, 5900, 0)
 	_enemy(ELITE, 5750, -115)
 	_enemy(STREET, 5500, -230)
 	_coin_line(5450, 6, 60, -160)
@@ -93,7 +93,7 @@ func _build() -> void:
 	_checkpoint(6850, 0)
 	_fg("zincir", 7300.0, -560.0, 220.0)
 	_fg("zincir", 7650.0, -560.0, 160.0)
-	_fight(7050, 7850, _wave(ELITE, KNIFE), _wave(ELITE, RIFLE, STREET))
+	_fight(7050, 7850, _wave(ELITE, KNIFE), _wave(ELITE, RIFLE, SHIELD))
 
 	# --- 8. Arşiv: iki katlı raf odası, sonra çökmüş döşeme (çivili bodrum) -----
 	_checkpoint(7950, 0)
@@ -112,7 +112,7 @@ func _build() -> void:
 	_checkpoint(8950, 0)
 	_antenna(9250, 0, 4.0)
 	_antenna(9650, 0, 4.0)
-	_fight(9100, 9700, _wave(KNIFE, ASSASSIN, RIFLE), _wave(ELITE, BRUISER))
+	_fight(9100, 9700, _wave(KNIFE, ASSASSIN, BOMBER), _wave(ELITE, BRUISER))
 	var hat := BREAKABLE_WALL.instantiate()
 	hat.set("hits_to_break", 5)
 	hat.position = Vector2(9850, 0)

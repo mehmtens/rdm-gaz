@@ -57,7 +57,7 @@ func _build() -> void:
 	_stones(4150, 1, 1)
 	_stones(4240, 1, 2)
 	_pickup(PISTOL, 4285, -225)
-	_enemy(KNIFE, 4550, 0)
+	_enemy(SHIELD, 4550, 0)
 
 	# --- 4. Vana galerisi: menzilli savunma, boru rafı, arena, erzak ------------
 	_checkpoint(4750, 0)
@@ -66,7 +66,7 @@ func _build() -> void:
 	_scaffold(5180, -260, 120)
 	_pickup(RIFLE_PICKUP, 5180, -305)
 	# Vana galerisi: boru rafının altında tüfekliler; kilitsiz.
-	_enemy(RIFLE, 5450, 0)
+	_enemy(BOMBER, 5450, 0)
 	_enemy(RIFLE, 5180, -260)
 	_enemy(KNIFE, 5650, 0)
 	_prop("varil", 5800, 0, AMMO)
@@ -104,8 +104,8 @@ func _build() -> void:
 	saft.gate_left_x = 7700
 	saft.gate_right_x = 8300
 	saft.floor_y = 0
-	saft.wave1 = _wave(ELITE, RIFLE)
-	saft.wave2 = _wave(ELITE, KNIFE, RIFLE)
+	saft.wave1 = _wave(ELITE, BOMBER)
+	saft.wave2 = _wave(ELITE, SHIELD, RIFLE)
 	saft.reward = HEALTH
 	add_child(saft)
 

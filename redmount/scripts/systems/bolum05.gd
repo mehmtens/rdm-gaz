@@ -39,7 +39,7 @@ func _build() -> void:
 	_enemy(KNIFE, 2150, -140)
 	_crates(2380, 1, 1)
 	_wagon(2470, Color(1.0, 0.92, 0.88))
-	_enemy(STREET, 2930, 0)
+	_enemy(SHIELD, 2930, 0)
 	_crates(2950, 1, 1)
 	_wagon(3040)
 	_enemy(RIFLE, 3330, -140)

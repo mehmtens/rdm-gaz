@@ -48,8 +48,8 @@ func _build() -> void:
 	_scaffold(3400, -20, 140)
 	_coins_arc(2850, 7, 80, -200)
 	_terrain(3500, 4250, 0)
-	_enemy(KNIFE, 3700, 0)
-	_enemy(RIFLE, 3900, 0)
+	_enemy(SHIELD, 3700, 0)
+	_enemy(BOMBER, 3900, 0)
 
 	# --- 4. Merdivenli bahçe: mangallı sekiler -------------------------------
 	_checkpoint(3600, 0)
@@ -112,7 +112,7 @@ func _build() -> void:
 	# --- 8. Arka iskele: son arena ------------------------------------------
 	_checkpoint(8750, 0)
 	_lantern(8850)
-	_fight(8950, 9650, _wave(KNIFE, ASSASSIN, RIFLE), _wave(ELITE, BRUISER))
+	_fight(8950, 9650, _wave(KNIFE, ASSASSIN, BOMBER), _wave(ELITE, BRUISER))
 	_han_gate(10050, "ÇENGELKÖY")
 	_goal(10050, 0)
 

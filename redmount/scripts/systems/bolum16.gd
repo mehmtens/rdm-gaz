@@ -48,7 +48,7 @@ func _build() -> void:
 	bind.gate_right_x = 2900
 	bind.floor_y = 60
 	bind.wave1 = _wave(STREET, KNIFE, STREET)
-	bind.wave2 = _wave(KNIFE, RIFLE)
+	bind.wave2 = _wave(SHIELD, RIFLE)
 	bind.reward = AMMO
 	add_child(bind)
 	var shop: LevelShop = SHOP.new()
@@ -70,7 +70,7 @@ func _build() -> void:
 	_scaffold(4300, -140, 130)
 	_scaffold(4450, -250, 130)
 	_pickup(PISTOL, 4450, -295)
-	_enemy(KNIFE, 4700, 0)
+	_enemy(SHIELD, 4700, 0)
 
 	# --- 4. Kâğıt imalathanesi: tüfekli; isteğe bağlı asma yol ------------------
 	_checkpoint(4900, 0)
@@ -132,7 +132,7 @@ func _build() -> void:
 	final.gate_left_x = 9330
 	final.gate_right_x = 9780
 	final.floor_y = 0
-	final.wave1 = _wave(KNIFE, ASSASSIN, RIFLE)
+	final.wave1 = _wave(KNIFE, ASSASSIN, BOMBER)
 	final.wave2 = _wave(ELITE, BRUISER)
 	final.reward = HEALTH
 	add_child(final)

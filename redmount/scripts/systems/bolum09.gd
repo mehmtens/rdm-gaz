@@ -60,7 +60,7 @@ func _build() -> void:
 	_powerup(3745, -150, PU_SHIELD)
 	_powerup(3835, -150, PU_SPEED)
 	_enemy(BRUISER, 4050, 0)
-	_enemy(RIFLE, 4250, 0)
+	_enemy(BOMBER, 4250, 0)
 	_sandbags(4150, 70)
 	_prop("sandik", 4400, 0, AMMO)
 	_prop("varil", 4500)
@@ -117,7 +117,7 @@ func _build() -> void:
 	final.gate_left_x = 8180
 	final.gate_right_x = 9120
 	final.floor_y = 0
-	final.wave1 = _wave(BRUISER, RIFLE)
+	final.wave1 = _wave(BRUISER, BOMBER)
 	final.wave2 = _wave(MINIBOSS)
 	final.wave3 = _wave(ELITE, BRUISER)
 	final.reward = HEALTH

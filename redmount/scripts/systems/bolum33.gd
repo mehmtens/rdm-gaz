@@ -32,7 +32,7 @@ func _build() -> void:
 	# --- 2. Yalı: iki katlı ahşap yalı, katlardan geçiş --------------------------
 	_checkpoint(1300, 0)
 	_interior(1450, 2150, -230, [-115.0], 1)
-	_enemy(KNIFE, 1750, 0)
+	_enemy(SHIELD, 1750, 0)
 	_enemy(STREET, 1950, -115)
 	_pickup(ARMOR, 2080, -160)
 	_coin_line(1500, 5, 50, -160)
@@ -99,14 +99,14 @@ func _build() -> void:
 	_scaffold(8080, -115, 180)
 	_scaffold(7800, -230, 220)
 	_coin_line(7730, 4, 45, -280)
-	_fight(7400, 8200, _wave(ELITE, KNIFE, RIFLE), _wave(ELITE, BRUISER))
+	_fight(7400, 8200, _wave(ELITE, KNIFE, BOMBER), _wave(ELITE, BRUISER))
 
 	# --- 8. Kablo kapısı: kablo direklerinin dibinde nöbetçiler ----------------------
 	_checkpoint(8400, 0)
 	_antenna(8700, 0, 4.0)
 	_antenna(9300, 0, 4.0)
 	_sandbags(8650, 100)
-	_enemy(RIFLE, 8950, 0)
+	_enemy(BOMBER, 8950, 0)
 	_enemy(KNIFE, 9100, 0)
 	_enemy(ASSASSIN, 9250, 0)
 	_story(9500, _sahne_kablo)

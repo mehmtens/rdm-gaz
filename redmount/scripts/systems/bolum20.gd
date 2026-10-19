@@ -43,7 +43,7 @@ func _build() -> void:
 	pazar.gate_right_x = 2950
 	pazar.floor_y = 60
 	pazar.wave1 = _wave(KNIFE, ASSASSIN, STREET)
-	pazar.wave2 = _wave(BRUISER, KNIFE)
+	pazar.wave2 = _wave(BRUISER, SHIELD)
 	pazar.reward = AMMO
 	add_child(pazar)
 	_terrain(3200, 3350, 30)
@@ -57,7 +57,7 @@ func _build() -> void:
 	_stones(4150, 1, 1)
 	_stones(4240, 1, 2)
 	_pickup(PISTOL, 4285, -225)
-	_enemy(KNIFE, 4550, 0)
+	_enemy(SHIELD, 4550, 0)
 
 	# --- 4. Taş depo girişi: tüfekli, ikinci arena, erzak ----------------------
 	_checkpoint(4750, 0)
@@ -101,7 +101,7 @@ func _build() -> void:
 	tuz.gate_left_x = 7850
 	tuz.gate_right_x = 8450
 	tuz.floor_y = 0
-	tuz.wave1 = _wave(RIFLE, ELITE)
+	tuz.wave1 = _wave(BOMBER, ELITE)
 	tuz.wave2 = _wave(KNIFE, RIFLE, ASSASSIN)
 	tuz.reward = HEALTH
 	add_child(tuz)

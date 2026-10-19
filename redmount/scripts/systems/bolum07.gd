@@ -40,7 +40,7 @@ func _build() -> void:
 	_terrain(2300, 3500, 0)
 	_flame(2450, 0.0)
 	_flame(2650, 0.5)
-	_enemy(KNIFE, 2850, 0)
+	_enemy(SHIELD, 2850, 0)
 	_prop("varil", 3000)
 	_prop("vazo", 3060)
 
@@ -74,7 +74,7 @@ func _build() -> void:
 	arena.gate_right_x = 5900
 	arena.floor_y = 0
 	arena.wave1 = _wave(BRUISER, STREET)
-	arena.wave2 = _wave(BRUISER, KNIFE, RIFLE)
+	arena.wave2 = _wave(BRUISER, SHIELD, RIFLE)
 	arena.wave3 = _wave(MINIBOSS)
 	arena.reward = HEALTH
 	add_child(arena)
@@ -103,7 +103,8 @@ func _build() -> void:
 	# --- 6. Verici: kır, yayını kes ------------------------------------------------
 	_checkpoint(8000, 0)
 	_enemy(STREET, 8300, 0)
-	_enemy(RIFLE, 8450, 0)
+	_hint(8150, "Bombacı: bomba yanıp sönerken uzaklaş ya da vurup geri yolla!", "attack")
+	_enemy(BOMBER, 8450, 0)
 	var mast := _Art.new(_Art.A_TOWER, Vector2(90, 380))
 	mast.position = Vector2(8960, -190)
 	mast.z_index = -6

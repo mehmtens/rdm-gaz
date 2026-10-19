@@ -37,7 +37,7 @@ func _build() -> void:
 	a1.gate_right_x = 2850
 	a1.floor_y = 60
 	a1.wave1 = _wave(STREET, KNIFE, STREET)
-	a1.wave2 = _wave(RIFLE, KNIFE)
+	a1.wave2 = _wave(RIFLE, SHIELD)
 	a1.reward = ARMOR
 	add_child(a1)
 	_terrain(3000, 3150, 30)
@@ -52,7 +52,7 @@ func _build() -> void:
 	_crates(4040, 1, 2)
 	_terrain(4130, 4400, -180)
 	_enemy(RIFLE, 4350, -180)
-	_enemy(RIFLE, 4600, 0)
+	_enemy(BOMBER, 4600, 0)
 	var shop: LevelShop = SHOP.new()
 	shop.position = Vector2(4900, 0)
 	shop.title = "KEMER ERZAKI"
@@ -71,7 +71,7 @@ func _build() -> void:
 		_scaffold(5430.0 + k * 160.0, -260.0 - (k % 2) * 40.0, 140)
 		_pickup(COIN, 5430.0 + k * 160.0, -310.0 - (k % 2) * 40.0)
 	_pickup(RIFLE_PICKUP, 6070, -345)
-	_enemy(KNIFE, 5600, 0)
+	_enemy(SHIELD, 5600, 0)
 	_enemy(ASSASSIN, 5900, 0)
 
 	# --- 4. Gizli bakım avlusu: karma savunma ------------------------------------

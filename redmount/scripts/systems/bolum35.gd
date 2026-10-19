@@ -79,7 +79,7 @@ func _build() -> void:
 	_scaffold(7030, -115, 180)
 	_scaffold(6750, -230, 220)
 	_coin_line(6680, 4, 45, -280)
-	_fight(6350, 7150, _wave(ELITE, ELITE), _wave(MINIBOSS, KNIFE), [], HEALTH)
+	_fight(6350, 7150, _wave(ELITE, ELITE), _wave(MINIBOSS, SHIELD), [], HEALTH)
 
 	# --- 7. Kumanda odası: pres hattı, anahtar --------------------------------------
 	_checkpoint(7350, 0)
@@ -97,7 +97,7 @@ func _build() -> void:
 	_enemy(RIFLE, 9000, -270)
 	_enemy(ELITE, 9250, -270)
 	_coin_line(8770, 7, 80, -320)
-	_enemy(KNIFE, 9500, 0)
+	_enemy(SHIELD, 9500, 0)
 	_story(9650, _sahne_mavna)
 	_han_gate(9950, "GÖKSU")
 	_goal(9950, 0)

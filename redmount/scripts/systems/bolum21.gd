@@ -57,7 +57,7 @@ func _build() -> void:
 	_scaffold(4310, -150, 130)
 	_scaffold(4460, -260, 130)
 	_pickup(PISTOL, 4460, -305)
-	_enemy(STREET, 4600, 0)
+	_enemy(SHIELD, 4600, 0)
 
 	# --- 4. Dış rıhtım: tüfekli, vinç yolu, arena, erzak --------------------------
 	_checkpoint(4750, 0)
@@ -104,8 +104,8 @@ func _build() -> void:
 	buro.gate_left_x = 7600
 	buro.gate_right_x = 8300
 	buro.floor_y = 0
-	buro.wave1 = _wave(ELITE, RIFLE)
-	buro.wave2 = _wave(ELITE, KNIFE, RIFLE)
+	buro.wave1 = _wave(ELITE, BOMBER)
+	buro.wave2 = _wave(ELITE, SHIELD, RIFLE)
 	buro.reward = AMMO
 	add_child(buro)
 

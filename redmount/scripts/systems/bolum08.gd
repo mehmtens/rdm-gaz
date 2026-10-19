@@ -40,7 +40,7 @@ func _build() -> void:
 		_collapse(cx, -20.0, 150)
 		_pickup(COIN, cx, -75.0)
 	_terrain(2950, 3500, 0)
-	_enemy(RIFLE, 3200, 0)
+	_enemy(BOMBER, 3200, 0)
 	_prop("varil", 3350)
 
 	# --- 3. Mağara çukuru: yön değiştiren paletler; 1. kapı ----------------------
@@ -91,7 +91,7 @@ func _build() -> void:
 	_terrain(7300, 9700, 0)
 	_moving(6900, -170, Vector2(0, -120), 130, 0.25)
 	_pickup(ARMOR, 6900, -380)
-	_enemy(KNIFE, 7500, 0)
+	_enemy(SHIELD, 7500, 0)
 	_enemy(STREET, 7650, 0)
 	_han_gate(7950, "2. KAPI")
 	_story(7830, _sahne_kapi2)
@@ -105,7 +105,7 @@ func _build() -> void:
 	final.gate_left_x = 8200
 	final.gate_right_x = 9100
 	final.floor_y = 0
-	final.wave1 = _wave(KNIFE, STREET, RIFLE)
+	final.wave1 = _wave(KNIFE, STREET, BOMBER)
 	final.wave2 = _wave(MINIBOSS)
 	final.wave3 = _wave(ASSASSIN, BRUISER)
 	final.reward = HEALTH

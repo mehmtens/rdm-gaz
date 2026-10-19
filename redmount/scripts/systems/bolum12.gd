@@ -47,7 +47,7 @@ func _build() -> void:
 	armory.gate_left_x = 1750
 	armory.gate_right_x = 2850
 	armory.floor_y = 0
-	armory.wave1 = _wave(ELITE, KNIFE, RIFLE)
+	armory.wave1 = _wave(ELITE, KNIFE, BOMBER)
 	armory.wave2 = _wave(BRUISER, ELITE)
 	armory.wave3 = _wave(ASSASSIN, ELITE, ELITE)
 	armory.reward = HEALTH

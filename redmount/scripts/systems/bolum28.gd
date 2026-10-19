@@ -45,7 +45,7 @@ func _build() -> void:
 	_balcony(3330, -190, 110)
 	_coin_line(3290, 3, 40, -240)
 	_chimney(3600, -500, 140, 150, ARMOR)
-	_enemy(KNIFE, 3850, 0)
+	_enemy(SHIELD, 3850, 0)
 	_enemy(STREET, 3980, 0)
 
 	# --- 4. Çarşı: gizli han, tezgâhlar, erzak -------------------------------
@@ -106,7 +106,7 @@ func _build() -> void:
 	# --- 8. Kız Kulesi rıhtımı: son arena; Rıfat -------------------------------
 	_checkpoint(9050, 0)
 	_lantern(9150)
-	_fight(9200, 9800, _wave(KNIFE, ASSASSIN, RIFLE), _wave(BRUISER, ELITE))
+	_fight(9200, 9800, _wave(KNIFE, ASSASSIN, BOMBER), _wave(BRUISER, ELITE))
 	_story(9900, _sahne_rifat)
 	_han_gate(10150, "KUZGUNCUK")
 	_goal(10150, 0)

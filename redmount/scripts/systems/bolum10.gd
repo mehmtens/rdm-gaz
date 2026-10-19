@@ -72,7 +72,7 @@ func _build() -> void:
 	arena.gate_left_x = 5300
 	arena.gate_right_x = 6300
 	arena.floor_y = -380
-	arena.wave1 = _wave(KNIFE, STREET, RIFLE)
+	arena.wave1 = _wave(KNIFE, STREET, BOMBER)
 	arena.wave2 = _wave(ELITE, ASSASSIN)
 	arena.wave3 = _wave(BRUISER, ELITE)
 	arena.reward = HEALTH

@@ -42,7 +42,7 @@ func _build() -> void:
 	_flame(2300, 0.66)
 	_flame(2550, 0.0)
 	_coin_line(1900, 4, 210, -60)
-	_enemy(KNIFE, 2780, 0)
+	_enemy(SHIELD, 2780, 0)
 	_prop("varil", 2700, 0, HEALTH)
 	_factory(3000, 3300, -200)
 	_crates(2820, 1, 1)

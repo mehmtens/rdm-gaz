@@ -66,14 +66,14 @@ func _build() -> void:
 	arena.gate_right_x = 5100
 	arena.floor_y = 0
 	arena.wave1 = _wave(ELITE, KNIFE)
-	arena.wave2 = _wave(ASSASSIN, ELITE, KNIFE)
+	arena.wave2 = _wave(ASSASSIN, ELITE, SHIELD)
 	arena.wave3 = _wave(ELITE, ELITE)
 	arena.reward = HEALTH
 	add_child(arena)
 
 	# --- 4. Arşiv: sarnıç çukurunun üstünde çöken tahtalar ----------------------
 	_checkpoint(5300, 0)
-	_enemy(RIFLE, 5600, 0)
+	_enemy(BOMBER, 5600, 0)
 	_canal(6300, 7000, 120)
 	_terrain(6950, 7000, 60)
 	for k in 4:

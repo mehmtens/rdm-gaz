@@ -782,7 +782,48 @@ def patlayici():
     strip(frames).save(OUT / "patlama.png")
 
 
+def kalkan():
+    """Çevik kuvvet kalkanı (14x34): mat şeffaf gövde, metal çerçeve, bakış penceresi,
+    "ZABITA" bandı yerine kırmızı şerit; kırık sürümü çatlak + eğik."""
+    for name, broken in [("kalkan.png", False), ("kalkan_kirik.png", True)]:
+        c = Canvas(14, 34)
+        c.rect(1, 1, 12, 32, (92, 110, 130, 230))
+        c.rect(2, 2, 11, 31, (120, 140, 160, 210))
+        c.vline(3, 3, 30, (170, 190, 210, 220))
+        c.vline(11, 2, 31, (70, 84, 100, 240))
+        c.rect(3, 6, 10, 10, (40, 50, 64, 240))   # bakış penceresi
+        c.hline(3, 10, 6, (150, 170, 190, 255))
+        c.rect(1, 18, 12, 20, "red1")
+        c.hline(1, 12, 18, "red2")
+        c.rect(0, 0, 13, 0, "iron2"); c.rect(0, 33, 13, 33, "iron1")
+        c.vline(0, 0, 33, "iron2"); c.vline(13, 0, 33, "iron1")
+        if broken:
+            for (x, y) in [(5, 12), (6, 13), (6, 14), (7, 15), (8, 16), (8, 17), (7, 22), (6, 23), (6, 24), (5, 25)]:
+                c.put(x, y, "ink")
+            c.put(9, 13, "white"); c.put(4, 24, "white")
+        c.outline()
+        c.im.save(OUT / name)
+
+
+def bomba():
+    """El bombası (8x9) ve ikaz pırıltısı: koyu yeşil gövde, pim, kıvılcım."""
+    for name, lit in [("bomba.png", False), ("bomba_ikaz.png", True)]:
+        c = Canvas(8, 9)
+        c.disc(3.5, 5, 3.4, (52, 70, 44, 255))
+        c.disc(3.0, 4.5, 2.0, (76, 98, 60, 255))
+        c.put(2, 3, (130, 150, 100, 255))
+        c.rect(3, 0, 4, 1, "iron2")
+        c.put(6, 1, "iron3")
+        if lit:
+            c.disc(3.5, 5, 3.4, "red2")
+            c.disc(3.0, 4.5, 2.0, "red3")
+            c.put(5, 0, "gold3"); c.put(6, 0, "fire2")
+        c.outline()
+        c.im.save(OUT / name)
+
+
 GENERATORS = {
+    "kalkan": kalkan, "bomba": bomba,
     "patlayici": patlayici,
     "raf": raf, "asma_lamba": asma_lamba, "cerceve": cerceve, "ic_pencere": ic_pencere,
     "hatil": hatil, "sivali_tugla": sivali_tugla,

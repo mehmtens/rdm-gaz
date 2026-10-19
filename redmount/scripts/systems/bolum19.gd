@@ -58,7 +58,7 @@ func _build() -> void:
 	_scaffold(4200, -140, 130)
 	_scaffold(4350, -250, 130)
 	_pickup(PISTOL, 4350, -295)
-	_enemy(STREET, 4550, 0)
+	_enemy(SHIELD, 4550, 0)
 
 	# --- 4. Soyunmalık: galeri ödülü, menzilli düşman, arena, erzak --------------
 	_checkpoint(4750, 0)
@@ -78,8 +78,8 @@ func _build() -> void:
 	soy.gate_left_x = 5050
 	soy.gate_right_x = 5650
 	soy.floor_y = 0
-	soy.wave1 = _wave(RIFLE, KNIFE)
-	soy.wave2 = _wave(BRUISER, STREET)
+	soy.wave1 = _wave(BOMBER, KNIFE)
+	soy.wave2 = _wave(BRUISER, SHIELD)
 	soy.reward = HEALTH
 	add_child(soy)
 	var shop: LevelShop = SHOP.new()
@@ -107,7 +107,7 @@ func _build() -> void:
 	for cx in [7600.0, 7950.0]:
 		_fg("kolon", cx, 40.0, 380.0)
 	_enemy(ELITE, 7700, 0)
-	_enemy(RIFLE, 8050, 0)
+	_enemy(BOMBER, 8050, 0)
 	_prop("sandik", 8180, 0, AMMO)
 
 	# --- 7. Külhan yaklaşımı: yakıt rafı, alevler, son kanal ---------------------
