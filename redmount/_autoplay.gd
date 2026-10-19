@@ -137,7 +137,7 @@ func _physics_process(delta: float) -> void:
 				continue
 			var ex: float = e.global_position.x
 			var dy: float = e.global_position.y - y
-			if ex < gl or ex > gr or dy > -60.0 or dy < -260.0:
+			if ex < gl or ex > gr or absf(dy) < 60.0 or dy < -260.0:
 				continue
 			if up == null or absf(ex - x) < absf(up.global_position.x - x):
 				up = e
@@ -145,7 +145,14 @@ func _physics_process(delta: float) -> void:
 			var dx2: float = up.global_position.x - x
 			Input.action_press(&"move_right" if dx2 > 0.0 else &"move_left")
 			Input.action_release(&"move_left" if dx2 > 0.0 else &"move_right")
-			if absf(dx2) < 110.0 and on_floor:
+			var below := up.global_position.y > y + 60.0
+			if below:
+				# Düşman aşağıda: galeriden in (çömel + zıpla), ya da kenardan yürü.
+				if on_floor and absf(dx2) < 220.0:
+					Input.action_press(&"crouch")
+					_tap(&"jump")
+					_release_queue.append([&"crouch", _run_t + 0.3])
+			elif absf(dx2) < 110.0 and on_floor:
 				_tap(&"jump")
 			if absf(dx2) < 76.0:
 				_tap(&"attack")
