@@ -119,6 +119,9 @@ func _build() -> void:
 	add_child(final)
 	_story(9350, _sahne_gumruk)
 	_han_gate(9600, "GÜMRÜK")
+	# Çevresel tehlikeler.
+	_falling_pot(1950, -64)
+	_falling_pot(2560, -174)
 	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
 	_radio(2400, "gazelle", "GAZELLE", "Sevkiyat defterinde Haliç'teki eski han yazıyor. Kartal başının yeni sahibi var.")
 	_radio(5280, "redmount", "REDMOUNT", "Karahanlı düştü ama zincir kopmadı.")

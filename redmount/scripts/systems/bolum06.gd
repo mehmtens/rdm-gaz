@@ -119,6 +119,9 @@ func _build() -> void:
 	add_child(final)
 	_story(9200, _sahne_baca)
 	_han_gate(9500, "HADDEHANE")
+	# Çevresel tehlikeler.
+	_live_wire(6300, 6480, 0.0)
+	_live_wire(7450, 7600, 1.0)
 	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
 	_radio(2375, "telsiz", "USTABAŞI (telsiz)", "Kızı haddehaneye indirin. Alevleri açık bırakın, gelen yansın.")
 	_radio(5225, "redmount", "REDMOUNT", "Bu fabrikanın her bacası Karahanlı'nın imzası.")

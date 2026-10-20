@@ -133,6 +133,9 @@ func _build() -> void:
 	add_child(final)
 	_story(10050, _sahne_safak)
 	_han_gate(10150, "SARAÇHANE")
+	# Çevresel tehlikeler.
+	_live_wire(4400, 4560, 0.0)
+	_live_wire(7200, 7380, 1.2)
 	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
 	_radio(2537, "gazelle", "GAZELLE", "Aksaray pompa istasyonu. Emirler buradan çıkıyormuş.")
 	_radio(5582, "redmount", "REDMOUNT", "Pistonlar bir ritimle çalışıyor. Ritmi yakala, geç.")

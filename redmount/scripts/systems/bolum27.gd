@@ -122,6 +122,8 @@ func _build() -> void:
 	sign.position = Vector2(9850, -260)
 	add_child(sign)
 	_story(9950, _sahne_hat)
+	# Çevresel tehlikeler.
+	_falling_pot(1300, -74)
 	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
 	_radio(2537, "gazelle", "GAZELLE", "Kamondo merdivenleri. Babamla burada fotoğraf çekmiştik.")
 	_radio(5582, "redmount", "REDMOUNT", "Telgraf binası üç kat. İçeriden, kat kat çıkacağız.")

@@ -478,6 +478,24 @@ func _basin(x0: float, x1: float, depth: float, step := 90.0) -> void:
 	_holes.append([x0, x1, depth * 0.5])
 
 
+## Düşen saksı: balkondan (`top` yüksekliği) altından geçen oyuncunun üstüne düşer.
+## Önce yere gölge + üstte titreme (0.45 sn uyarı), sonra düşüp kırılır.
+func _falling_pot(x: float, top := -260.0) -> void:
+	var f := _FallingPot.new()
+	f.position = Vector2(x, top)
+	add_child(f)
+
+
+## Kopuk elektrik kablosu: `x0..x1` zeminde yatar; açık/kapalı döngüde kıvılcım
+## saçar (açılmadan önce titrer). Açıkken değen oyuncu çarpılır (hasar + sıçrama).
+func _live_wire(x0: float, x1: float, phase := 0.0, ground := 0.0) -> void:
+	var w := _LiveWire.new()
+	w.position = Vector2(x0, ground)
+	w.length = x1 - x0
+	w.t = phase
+	add_child(w)
+
+
 ## Kovalamaca (Dan the Man set-piece'i): oyuncu `x0`'ı geçince arkasından minibüs
 ## sokağı süpürerek gelir; yerde kalanı ezer (hasar + savrulma). Kaçış yolu yukarı:
 ## iskeleler, damlar. `x1`'de araç sokaktan çıkar. Hız oyuncunun koşusundan az yavaş.
@@ -1500,3 +1518,106 @@ class _Chaser extends Node2D:
 			var t := create_tween()
 			t.tween_property(self, ^"modulate:a", 0.0, 0.6)
 			t.tween_callback(queue_free)
+
+
+class _FallingPot extends Node2D:
+	const POT := preload("res://assets/environment/kit/pots.png")
+	var _state := 0
+	var _t := 0.0
+	var _vy := 0.0
+	var _ground := 0.0
+
+	func _ready() -> void:
+		z_index = 4
+		texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		var q := PhysicsRayQueryParameters2D.create(global_position + Vector2(0, 20), global_position + Vector2(0, 900), 1)
+		await get_tree().physics_frame
+		var h := get_world_2d().direct_space_state.intersect_ray(q)
+		_ground = h.position.y if not h.is_empty() else global_position.y + 300.0
+
+	func _physics_process(delta: float) -> void:
+		var p := get_tree().get_first_node_in_group(&"player") as Node2D
+		match _state:
+			0:
+				if p != null and absf(p.global_position.x - global_position.x) < 160.0 						and p.global_position.y > global_position.y + 60.0:
+					_state = 1
+					_t = 0.45
+					Sfx.play(&"step", 1.8)
+			1:
+				_t -= delta
+				if _t <= 0.0:
+					_state = 2
+			2:
+				_vy += 1600.0 * delta
+				global_position.y += _vy * delta
+				if p != null and (p.global_position + Vector2(0, -90) - global_position).length() < 46.0 						and p.has_method(&"apply_hit"):
+					p.apply_hit(12, Vector2(signf(p.global_position.x - global_position.x), -0.3).normalized(), 200.0)
+					_shatter()
+				elif global_position.y >= _ground - 10.0:
+					_shatter()
+		queue_redraw()
+
+	func _shatter() -> void:
+		_state = 3
+		Sfx.play(&"weapon_break", 1.3)
+		Fx.dust(Vector2(global_position.x, _ground), 0.0, 6, Color(0.66, 0.36, 0.24))
+		Fx.spark(global_position, Vector2(0, -1), 6, Color(0.85, 0.5, 0.3))
+		queue_free()
+
+	func _draw() -> void:
+		var s := POT.get_size() * 0.5
+		var off := Vector2(sin(_t * 70.0) * 3.0, 0) if _state == 1 else Vector2.ZERO
+		draw_texture_rect(POT, Rect2(-s.x * 0.5 + off.x, -s.y, s.x, s.y), false)
+		if _state >= 1:
+			# Yerdeki gölge: düşeceği yer.
+			var gy := _ground - global_position.y
+			var w := 26.0 + 18.0 * clampf(1.0 - gy / 400.0, 0.0, 1.0)
+			for i in 3:
+				draw_rect(Rect2(-w * 0.5 + i * 3.0, gy - 6.0 + i * 2.0, w - i * 6.0, 3.0), Color(0, 0, 0, 0.35))
+
+
+class _LiveWire extends Node2D:
+	const CABLE := preload("res://assets/environment/pixel/kablo.png")
+	const SPARK := preload("res://assets/environment/pixel/kivilcim.png")
+	const ON := 1.6
+	const OFF := 1.8
+	var length := 200.0
+	var t := 0.0
+	var _hit_cd := 0.0
+
+	func _ready() -> void:
+		z_index = 3
+		texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+
+	func _live() -> bool:
+		return fmod(t, ON + OFF) < ON
+
+	func _physics_process(delta: float) -> void:
+		var was := _live()
+		t += delta
+		if _live() and not was:
+			Sfx.play(&"hit", 1.9, -4.0)
+		_hit_cd = maxf(_hit_cd - delta, 0.0)
+		if _live() and _hit_cd <= 0.0:
+			var p := get_tree().get_first_node_in_group(&"player") as Node2D
+			if p != null and p.global_position.x > global_position.x - 10.0 and p.global_position.x < global_position.x + length + 10.0 					and absf(p.global_position.y - global_position.y) < 24.0 and p.has_method(&"apply_hit"):
+				_hit_cd = 0.8
+				p.apply_hit(10, Vector2(1, -1).normalized(), 300.0)
+				Fx.spark(p.global_position + Vector2(0, -40), Vector2(0, -1), 10, Color(0.6, 0.85, 1.0), 1.2)
+		queue_redraw()
+
+	func _draw() -> void:
+		var x := 0.0
+		while x < length:
+			var w := minf(48.0, length - x)
+			draw_texture_rect_region(CABLE, Rect2(x, -14.0, w, 18.0), Rect2(0, 0, w / 3.0, 6))
+			x += 48.0
+		var c := fmod(t, ON + OFF)
+		var warn := c > ON + OFF - 0.45
+		if _live() or (warn and int(t * 20.0) % 2 == 0):
+			var f := int(t * 14.0) % 3
+			var k := 0.0
+			while k < length:
+				var a := 1.0 if _live() else 0.35
+				draw_texture_rect_region(SPARK, Rect2(k + 4.0, -52.0, 48.0, 42.0), Rect2(f * 16, 0, 16, 14), Color(1, 1, 1, a))
+				k += 64.0

@@ -822,7 +822,36 @@ def bomba():
         c.im.save(OUT / name)
 
 
+def kablo():
+    """Kopuk elektrik kablosu (16x6 döşeme) + kıvılcım kareleri (3x 16x14)."""
+    c = Canvas(16, 6)
+    for x in range(16):
+        y = 3 + (1 if (x // 4) % 2 else 0)
+        c.put(x, y, "ink"); c.put(x, y - 1, (40, 40, 46, 255))
+    c.put(5, 1, "iron3"); c.put(11, 2, "iron3")
+    c.im.save(OUT / "kablo.png")
+    import random
+    rnd = random.Random(9)
+    frames = []
+    for f in range(3):
+        k = Canvas(16, 14)
+        x, y = 8, 13
+        for _ in range(7):
+            nx = max(1, min(14, x + rnd.choice([-2, -1, 1, 2])))
+            ny = y - 2
+            for t in range(3):
+                k.put(x + (nx - x) * t // 2, y - t * 2 // 2, "glow3" if t else (120, 200, 255, 255))
+            x, y = nx, ny
+            k.put(x, y, (180, 230, 255, 255))
+        for _ in range(4):
+            k.put(rnd.randint(2, 13), rnd.randint(4, 12), (120, 200, 255, 255))
+        frames.append(k)
+    from pixelart import strip
+    strip(frames).save(OUT / "kivilcim.png")
+
+
 GENERATORS = {
+    "kablo": kablo,
     "kalkan": kalkan, "bomba": bomba,
     "patlayici": patlayici,
     "raf": raf, "asma_lamba": asma_lamba, "cerceve": cerceve, "ic_pencere": ic_pencere,

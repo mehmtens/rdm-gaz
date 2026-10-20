@@ -19,7 +19,7 @@ Kurallar: her şey piksel art, şablon parkur yok, Türkçe metin, bölüm tasar
       bombacıya özgü piksel kıyafet (yeşil yelek, bomba kemeri).
 - [x] 6. **Boss desenleri** — Karahanlı, Ana Vana Muhafızı, Yayın Şefi'ne faz
       geçişli piksel uyarılı saldırılar + can çubuğu üstünde isim kartı.
-- [ ] 7. **Çevresel tehlike çeşitliliği** — düşen saksılar, kayan tabelalar,
+- [x] 7. **Çevresel tehlike çeşitliliği** — düşen saksılar, kayan tabelalar,
       elektrikli tel (piksel art), bölüm temasına göre.
 - [ ] 8. **Dokunmatik kontrol cilası** — piksel art düğmeler, kayma tekmesi
       kısayolu, titreşim.

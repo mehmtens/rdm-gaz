@@ -123,6 +123,8 @@ func _build() -> void:
 	_fight(9000, 9600, _wave(KNIFE, ASSASSIN, BOMBER), _wave(ELITE, ELITE))
 	_story(9700, _sahne_hisar)
 	_han_gate(9950, "ANADOLUHİSARI")
+	# Çevresel tehlikeler.
+	_live_wire(6300, 6460, 0.4)
 	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
 	_radio(2487, "telsiz", "NÜZHET HANIM (radyo)", "İstanbul, yarın sabah gerçekleri size ben okuyacağım.")
 	_radio(5472, "gazelle", "GAZELLE", "Annemi bana karşı kullanıyor... Devam edelim.")

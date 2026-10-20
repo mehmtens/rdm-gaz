@@ -139,6 +139,8 @@ func _build() -> void:
 	add_child(final)
 	_story(9500, _sahne_zeyrek)
 	_han_gate(9700, "ARŞİV")
+	# Çevresel tehlikeler.
+	_falling_pot(1950, -44)
 	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
 	_radio(2425, "gazelle", "GAZELLE", "Sahte mühür! Kâğıtlar resmi görünüyor ama mühür ters basılmış.")
 	_radio(5335, "redmount", "REDMOUNT", "Kim mühür basıyorsa, baskıhanede olmalı.")
