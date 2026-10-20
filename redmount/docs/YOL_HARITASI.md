@@ -13,8 +13,8 @@ Kurallar: her şey piksel art, şablon parkur yok, Türkçe metin, bölüm tasar
       çerçeveli büyük başlık, 2 sn, oyun akarken söner.
 - [x] 3. **Film ruloları** — 3 gizli alanın ödülü "film rulosu" olur (Gazelle'in
       kanıt fotoğrafları); menüde "Kanıt Arşivi" galerisi (piksel art kareler).
-- [ ] 4. **Kovalama set-piece'leri** — minibüs / tekne kovalamacası: kamera
-      ileri kayar, arkadan araç gelir, durmadan parkur (Bölüm 1, 5, 13, 36).
+- [x] 4. **Kovalama set-piece'leri** — arkadan sokağı süpüren minibüs (`_chase`):
+      Bölüm 13 Balat yokuşu, Bölüm 29 Kuzguncuk (polis). Durma, koş; balkonlar kaçış.
 - [ ] 5. **Bombacı & kalkanlı animasyonları** — atış/kalkan darbesi kareleri,
       bombacıya özgü piksel kıyafet (yeşil yelek, bomba kemeri).
 - [ ] 6. **Boss desenleri** — Karahanlı, Ana Vana Muhafızı, Yayın Şefi'ne faz

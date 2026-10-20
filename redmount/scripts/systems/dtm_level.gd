@@ -478,6 +478,18 @@ func _basin(x0: float, x1: float, depth: float, step := 90.0) -> void:
 	_holes.append([x0, x1, depth * 0.5])
 
 
+## Kovalamaca (Dan the Man set-piece'i): oyuncu `x0`'ı geçince arkasından minibüs
+## sokağı süpürerek gelir; yerde kalanı ezer (hasar + savrulma). Kaçış yolu yukarı:
+## iskeleler, damlar. `x1`'de araç sokaktan çıkar. Hız oyuncunun koşusundan az yavaş.
+func _chase(x0: float, x1: float, speed := 280.0, title := "KAÇ!") -> void:
+	var c := _Chaser.new()
+	c.x0 = x0
+	c.x1 = x1
+	c.speed = speed
+	c.title = title
+	add_child(c)
+
+
 ## Telsiz konuşması (oyunu durdurmaz): oyuncu `x`'i geçince alt panelde çıkar.
 ## who: gazelle / redmount / karahanli / telsiz (portre).
 func _radio(x: float, who: String, speaker: String, text: String) -> void:
@@ -1415,3 +1427,76 @@ class _TitleCard extends CanvasLayer:
 		_box.offset_top = 150.0 - (1.0 - clampf(_t * 4.0, 0.0, 1.0)) * 30.0
 		if _t > 3.6:
 			queue_free()
+
+
+## Kovalayan minibüs: zemini ışınla izler, yerdeki oyuncuya çarpar.
+class _Chaser extends Node2D:
+	const BUS := preload("res://assets/environment/mahalle/bus.png")
+	var x0 := 0.0
+	var x1 := 0.0
+	var speed := 280.0
+	var title := "KAÇ!"
+	var _on := false
+	var _done := false
+	var _hit_cd := 0.0
+	var _honk := 0.0
+	var _spr: Sprite2D
+
+	func _ready() -> void:
+		z_index = 3
+		_spr = Sprite2D.new()
+		_spr.texture = BUS
+		_spr.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		_spr.scale = Vector2(1.25, 1.25)
+		_spr.offset = Vector2(0, -BUS.get_height() * 0.5 + 4.0)
+		_spr.visible = false
+		add_child(_spr)
+
+	func _physics_process(delta: float) -> void:
+		var p := get_tree().get_first_node_in_group(&"player") as Node2D
+		if p == null or _done:
+			return
+		if not _on:
+			if p.global_position.x >= x0 and Cutscene.active == null:
+				_on = true
+				_spr.visible = true
+				global_position = Vector2(x0 - 620.0, 0.0)
+				Sfx.play(&"dash", 0.5, 2.0)
+				Combat.shake(4.0)
+				Fx.popup(p.global_position + Vector2(0, -150), title, Color(1.0, 0.4, 0.3), 34)
+			return
+		# Oyuncu çok gerideyse (öldü / geri döndü) yeniden başla.
+		if p.global_position.x < global_position.x - 300.0:
+			_on = false
+			_spr.visible = false
+			return
+		global_position.x += speed * delta
+		# Zemin: aracın önünde ve arkasında ışın, yüksek olanı al.
+		var space := get_world_2d().direct_space_state
+		var gy := 0.0
+		var best := INF
+		for dx in [-120.0, 120.0]:
+			var q := PhysicsRayQueryParameters2D.create(
+				Vector2(global_position.x + dx, -60.0), Vector2(global_position.x + dx, 400.0), 1)
+			var h := space.intersect_ray(q)
+			if not h.is_empty():
+				best = minf(best, h.position.y)
+		if best < INF:
+			gy = best
+		global_position.y = lerpf(global_position.y, gy, clampf(delta * 10.0, 0.0, 1.0))
+		_honk -= delta
+		if _honk <= 0.0:
+			_honk = 1.6
+			Sfx.play(&"step", 0.4, 4.0)
+			Fx.dust(global_position + Vector2(-230.0, 0.0), -1.0, 4)
+		_hit_cd = maxf(_hit_cd - delta, 0.0)
+		var rel := p.global_position - global_position
+		if _hit_cd <= 0.0 and rel.x > -250.0 and rel.x < 270.0 and rel.y > -150.0 and p.has_method(&"apply_hit"):
+			_hit_cd = 1.0
+			p.apply_hit(22, Vector2(1, -0.4).normalized(), 640.0)
+			Combat.shake(9.0)
+		if global_position.x > x1:
+			_done = true
+			var t := create_tween()
+			t.tween_property(self, ^"modulate:a", 0.0, 0.6)
+			t.tween_callback(queue_free)

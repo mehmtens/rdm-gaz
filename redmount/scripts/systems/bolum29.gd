@@ -27,9 +27,12 @@ func _build() -> void:
 		_lantern(float(x))
 	for vx in [520.0, 860.0, 1240.0]:
 		_fg("sarmasik", vx, -600.0)
-	_enemy(KNIFE, 900, 0)
-	_enemy(STREET, 1100, 0)
-	_prop("saksi", 1200)
+	# Kovalamaca: sahte manşet yüzünden aranan Gazelle için polis minibüsü sokağı tarar.
+	_chase(420, 1550, 285.0, "POLİS! KOŞ!")
+	_coin_line(600, 10, 80, -10)
+	_balcony(1150, -70, 110)
+	_balcony(1300, -170, 110)
+	_coin_line(1250, 3, 50, -220)
 
 	# --- 2. Renkli evler: tente -> çatılar ---------------------------------------
 	_checkpoint(1400, 0)

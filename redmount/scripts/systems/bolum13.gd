@@ -41,10 +41,14 @@ func _build() -> void:
 	_balcony(2560, -170, 120)
 	_pickup(ARMOR, 2560, -215)
 	_coin_line(2360, 4, 50, -120)
-	_enemy(KNIFE, 2700, 90)
-	_enemy(STREET, 2900, 90)
-	_prop("saksi", 3050, 90)
-	_prop("vazo", 3120, 90)
+	# Kovalamaca: Karahanlı'nın kalan adamları minibüsle yokuştan iner. Durma, koş;
+	# balkonlar isteğe bağlı kaçış + ödül yolu.
+	_chase(1560, 3350, 280.0, "MİNİBÜS! KOŞ!")
+	_balcony(2750, -60, 120)
+	_balcony(2950, -150, 120)
+	_coin_line(1750, 10, 70, -10)
+	_coin_line(2700, 6, 60, -200)
+	_prop("saksi", 3150, 90)
 
 	# --- 3. Kayıkçı iskelesi: kısa su boşlukları, sabit iskele -------------------
 	_checkpoint(3200, 90)
