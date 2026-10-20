@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" path="res://scenes/enemies/EnemyBase.tscn" id="1"]
 [ext_resource type="Script" path="res://scripts/enemies/bomber.gd" id="2"]
 [ext_resource type="Resource" path="res://resources/enemies/bomber.tres" id="3"]
-[ext_resource type="SpriteFrames" path="res://resources/anim/street_thug_frames.tres" id="4"]
+[ext_resource type="SpriteFrames" path="res://resources/anim/bomber_frames.tres" id="4"]
 
 [node name="Bomber" instance=ExtResource("1")]
 script = ExtResource("2")
@@ -15,5 +15,3 @@ config = ExtResource("3")
 frames = ExtResource("4")
 patrol_distance = 0.0
 
-[node name="Rig" parent="." index="1"]
-self_modulate = Color(0.86, 1.0, 0.7, 1)

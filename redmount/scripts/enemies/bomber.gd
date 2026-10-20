@@ -7,6 +7,27 @@
 extends EnemyBase
 
 
+var _held: Sprite2D
+
+
+func _ready() -> void:
+	super._ready()
+	# Nişan alırken elinde kıvılcımlı bomba görünür (atış uyarısı).
+	_held = Sprite2D.new()
+	_held.texture = preload("res://assets/environment/pixel/bomba_ikaz.png")
+	_held.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_held.scale = Vector2(3, 3)
+	_held.visible = false
+	add_child(_held)
+
+
+func _physics_process(delta: float) -> void:
+	super._physics_process(delta)
+	if _held != null:
+		_held.visible = _aiming and _state != State.DEAD
+		_held.position = Vector2(-_facing * 14.0, -128.0 + sin(Time.get_ticks_msec() * 0.02) * 2.0)
+
+
 func _fire_one() -> void:
 	var target := _player.global_position if _player != null else global_position + Vector2(_facing * 260.0, 0)
 	# Biraz önüne atar: koşan oyuncu ileri kaçarsa bomba önüne düşer.

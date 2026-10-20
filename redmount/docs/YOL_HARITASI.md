@@ -15,7 +15,7 @@ Kurallar: her şey piksel art, şablon parkur yok, Türkçe metin, bölüm tasar
       kanıt fotoğrafları); menüde "Kanıt Arşivi" galerisi (piksel art kareler).
 - [x] 4. **Kovalama set-piece'leri** — arkadan sokağı süpüren minibüs (`_chase`):
       Bölüm 13 Balat yokuşu, Bölüm 29 Kuzguncuk (polis). Durma, koş; balkonlar kaçış.
-- [ ] 5. **Bombacı & kalkanlı animasyonları** — atış/kalkan darbesi kareleri,
+- [x] 5. **Bombacı & kalkanlı animasyonları** — atış/kalkan darbesi kareleri,
       bombacıya özgü piksel kıyafet (yeşil yelek, bomba kemeri).
 - [ ] 6. **Boss desenleri** — Karahanlı, Ana Vana Muhafızı, Yayın Şefi'ne faz
       geçişli piksel uyarılı saldırılar + can çubuğu üstünde isim kartı.

@@ -42,6 +42,11 @@ func _physics_process(delta: float) -> void:
 	_shield.flip_h = _facing < 0
 	# Kalkan yukarıdayken gövdenin önünde dik; inikken yana sarkık.
 	var target := Vector2(_facing * 22.0, -56.0) if up else Vector2(_facing * 8.0, -34.0)
+	if _state == State.ATTACK:
+		# Kalkan darbesi: hazırlıkta geri çekilir, vuruşta öne fırlar.
+		target = Vector2(_facing * (6.0 if _phase == Phase.WINDUP else 46.0), -58.0)
+		_shield.texture = SHIELD_TEX
+		_shield.visible = true
 	_shield.position = _shield.position.lerp(target, clampf(delta * 14.0, 0.0, 1.0))
 	_shield.rotation = lerp_angle(_shield.rotation, 0.0 if up else deg_to_rad(28.0 * _facing), clampf(delta * 10.0, 0.0, 1.0))
 

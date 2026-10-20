@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" path="res://scenes/enemies/EnemyBase.tscn" id="1"]
 [ext_resource type="Script" path="res://scripts/enemies/shield_guard.gd" id="2"]
 [ext_resource type="Resource" path="res://resources/enemies/shield_guard.tres" id="3"]
-[ext_resource type="SpriteFrames" path="res://resources/anim/elite_guard_frames.tres" id="4"]
+[ext_resource type="SpriteFrames" path="res://resources/anim/shield_guard_frames.tres" id="4"]
 
 [node name="ShieldGuard" instance=ExtResource("1")]
 script = ExtResource("2")
@@ -15,5 +15,3 @@ config = ExtResource("3")
 frames = ExtResource("4")
 patrol_distance = 60.0
 
-[node name="Rig" parent="." index="1"]
-self_modulate = Color(0.78, 0.86, 1.0, 1)

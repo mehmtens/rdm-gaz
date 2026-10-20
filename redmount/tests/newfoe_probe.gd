@@ -43,9 +43,9 @@ func _ready() -> void:
 			Cutscene.active._skip = true
 		get_tree().paused = false
 		await get_tree().physics_frame
-		if not thrown and not get_tree().get_nodes_in_group(&"grenade").is_empty():
+		if not thrown and bm.get("_aiming"):
 			thrown = true
-			for k in 16:
+			for k in 10:
 				await get_tree().physics_frame
 			await RenderingServer.frame_post_draw
 			get_viewport().get_texture().get_image().save_png(OS.get_environment("REDMOUNT_CAPTURE_DIR").path_join("bomb.png"))
