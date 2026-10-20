@@ -9,7 +9,7 @@ Kurallar: her şey piksel art, şablon parkur yok, Türkçe metin, bölüm tasar
 - [x] 1. **Telsiz konuşmaları** — oynanışı durdurmayan alt panel (piksel portre +
       yazı): Gazelle/Komiser/Nüzhet bölüm içinde araya girer (Dan the Man'in
       oyun içi sohbeti). Her bölüme 2–3 hikâye satırı.
-- [ ] 2. **Bölüm açılış kartı** — DtM tarzı: bölüm numarası + adı + mekân, piksel
+- [x] 2. **Bölüm açılış kartı** — DtM tarzı: bölüm numarası + adı + mekân, piksel
       çerçeveli büyük başlık, 2 sn, oyun akarken söner.
 - [ ] 3. **Film ruloları** — 3 gizli alanın ödülü "film rulosu" olur (Gazelle'in
       kanıt fotoğrafları); menüde "Kanıt Arşivi" galerisi (piksel art kareler).

@@ -762,6 +762,9 @@ func _back_row() -> void:
 func _ready() -> void:
 	super._ready()
 	set_process(true)
+	var card := _TitleCard.new()
+	card.level = self
+	add_child(card)
 
 
 func _process(_delta: float) -> void:
@@ -1354,4 +1357,61 @@ class _RadioTrigger extends Node:
 		var p := get_tree().get_first_node_in_group(&"player") as Node2D
 		if p != null and p.global_position.x >= trigger_x:
 			RadioPanel.say(get_tree(), line[0], line[1], line[2])
+			queue_free()
+
+
+## Dan the Man tarzı bölüm başlığı: açılış sahnesi bitince ekranın ortasında
+## piksel çerçeveli kart (kitap · bölüm no, büyük ad, kitap adı) 3 sn kalır,
+## oyun akarken süzülerek kaybolur. Oyunu durdurmaz.
+class _TitleCard extends CanvasLayer:
+	var level: Node
+	var _t := -1.0
+	var _box: PanelContainer
+
+	func _ready() -> void:
+		layer = 45
+		process_mode = Node.PROCESS_MODE_ALWAYS
+		var idx := GameState.level_index
+		var book := idx / 12
+		_box = PanelContainer.new()
+		_box.add_theme_stylebox_override(&"panel", PixelUI.box("panel", 22))
+		_box.set_anchors_preset(Control.PRESET_CENTER_TOP)
+		_box.offset_left = -330
+		_box.offset_right = 330
+		_box.offset_top = 150
+		_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(_box)
+		var col := VBoxContainer.new()
+		col.alignment = BoxContainer.ALIGNMENT_CENTER
+		col.add_theme_constant_override(&"separation", 4)
+		_box.add_child(col)
+		var top := Label.new()
+		top.text = "KİTAP %d  ·  BÖLÜM %d" % [book + 1, idx % 12 + 1]
+		top.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		top.add_theme_color_override(&"font_color", Color(0.95, 0.55, 0.42))
+		col.add_child(top)
+		var name := Label.new()
+		name.text = String(GameState.LEVEL_NAMES[idx]).to_upper() if idx < GameState.LEVEL_NAMES.size() else ""
+		name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		name.add_theme_font_size_override(&"font_size", 48)
+		name.add_theme_color_override(&"font_color", Color(1.0, 0.82, 0.45))
+		col.add_child(name)
+		var sub := Label.new()
+		sub.text = GameState.BOOK_NAMES[clampi(book, 0, 2)]
+		sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		sub.add_theme_color_override(&"font_color", Color(0.72, 0.68, 0.74))
+		col.add_child(sub)
+		_box.modulate.a = 0.0
+
+	func _process(delta: float) -> void:
+		if _t < 0.0:
+			# Açılış sahnesi bitince başla.
+			if Cutscene.active == null and not get_tree().paused:
+				_t = 0.0
+			return
+		_t += delta
+		var a := clampf(_t * 4.0, 0.0, 1.0) * clampf((3.4 - _t) * 2.5, 0.0, 1.0)
+		_box.modulate.a = a
+		_box.offset_top = 150.0 - (1.0 - clampf(_t * 4.0, 0.0, 1.0)) * 30.0
+		if _t > 3.6:
 			queue_free()

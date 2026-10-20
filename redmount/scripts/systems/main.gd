@@ -219,6 +219,9 @@ func _play_story_intro() -> void:
 	var index := GameState.level_index
 	if not GameState.story_scenes or _story_shown_for == index or not StoryData.has(index):
 		return
+	# DtM bölümleri kendi oyun içi sahnesi + akan başlık kartıyla açılır.
+	if _level is DtmLevel:
+		return
 	_story_shown_for = index
 	var title: String = (_level as Level).display_name if _level is Level else ""
 	_story_card.present(StoryData.header(index), title, StoryData.brief(index), StoryData.goal(index))
