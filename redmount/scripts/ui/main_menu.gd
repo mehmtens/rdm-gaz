@@ -26,6 +26,10 @@ var _t := 0.0
 var _home: Control
 var _levels: Control
 var _settings: Control
+var _archive: Control
+var _arch_book := 0
+var _arch_tabs: Array[Button] = []
+var _arch_grid: GridContainer
 var _book := 0
 var _tabs: Array[Button] = []
 var _grid: GridContainer
@@ -45,6 +49,7 @@ func _ready() -> void:
 	_home = _build_home()
 	_levels = _build_levels()
 	_settings = _build_settings()
+	_archive = _build_archive()
 	_show(_home)
 
 
@@ -76,7 +81,7 @@ func _unhandled_input(event: InputEvent) -> void:
 # --- Sayfalar -------------------------------------------------------------------
 
 func _show(page: Control) -> void:
-	for p in [_home, _levels, _settings]:
+	for p in [_home, _levels, _settings, _archive]:
 		p.visible = p == page
 	_wipe_armed = false
 	if _wipe_button != null:
@@ -85,6 +90,9 @@ func _show(page: Control) -> void:
 	if page == _levels:
 		_select_book(_book)
 		focus = _tabs[_book]
+	elif page == _archive:
+		_select_arch(_arch_book)
+		focus = _arch_tabs[_arch_book]
 	elif page == _settings:
 		focus = page.find_child("Volume", true, false)
 	if focus != null:
@@ -170,6 +178,7 @@ func _build_home() -> Control:
 	_button(col, "BÖLÜM SEÇ").pressed.connect(func() -> void: _show(_levels))
 	_button(col, "SURVIVAL · DALGALAR").pressed.connect(func() -> void: Transition.go(SURVIVAL_SCENE))
 	_button(col, "MAĞAZA").pressed.connect(func() -> void: Transition.go(SHOP_SCENE))
+	_button(col, "KANIT ARŞİVİ").pressed.connect(func() -> void: _show(_archive))
 	_button(col, "AYARLAR").pressed.connect(func() -> void: _show(_settings))
 	if not OS.has_feature("web"):
 		_button(col, "ÇIKIŞ").pressed.connect(get_tree().quit)
@@ -177,7 +186,7 @@ func _build_home() -> Control:
 	# İstatistik paneli: coin, ilerleme, survival rekoru.
 	var stats := PanelContainer.new()
 	stats.add_theme_stylebox_override(&"panel", PixelUI.box("panel_hud", 16))
-	stats.position = Vector2(56, get_viewport_rect().size.y - 102)
+	stats.position = Vector2(get_viewport_rect().size.x - 560, 24)
 	page.add_child(stats)
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override(&"separation", 18)
@@ -311,6 +320,93 @@ func _card(i: int) -> Button:
 	for ch in v.get_children():
 		ch.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	return card
+
+
+## Kanıt Arşivi: her bölümün gizli alanlarından toplanan film ruloları (3 fotoğraf).
+func _build_archive() -> Control:
+	var page := Control.new()
+	page.set_anchors_preset(Control.PRESET_FULL_RECT)
+	add_child(page)
+	var panel := PanelContainer.new()
+	panel.add_theme_stylebox_override(&"panel", PixelUI.box("panel", 24))
+	panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	panel.offset_left = 40
+	panel.offset_right = -40
+	panel.offset_top = 24
+	panel.offset_bottom = -44
+	page.add_child(panel)
+	var col := VBoxContainer.new()
+	col.add_theme_constant_override(&"separation", 10)
+	panel.add_child(col)
+	var head := HBoxContainer.new()
+	head.add_theme_constant_override(&"separation", 10)
+	col.add_child(head)
+	var title := _label("KANIT ARŞİVİ", GOLD)
+	title.add_theme_font_size_override(&"font_size", 36)
+	head.add_child(title)
+	var total := 0
+	for i in GameState.level_count():
+		var sec: Array = Save.secrets_of(i)
+		if sec.size() == 2:
+			total += int(sec[0])
+	var count := _label("%d / %d" % [total, GameState.level_count() * 3], MUTED)
+	count.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	head.add_child(count)
+	for b in 3:
+		var tab := Button.new()
+		tab.text = "KİTAP %d" % (b + 1)
+		tab.custom_minimum_size = Vector2(150, 48)
+		tab.pressed.connect(_select_arch.bind(b))
+		tab.focus_entered.connect(_select_arch.bind(b))
+		head.add_child(tab)
+		_arch_tabs.append(tab)
+	var scroll := ScrollContainer.new()
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	col.add_child(scroll)
+	_arch_grid = GridContainer.new()
+	_arch_grid.columns = 2
+	_arch_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_arch_grid.add_theme_constant_override(&"h_separation", 24)
+	_arch_grid.add_theme_constant_override(&"v_separation", 10)
+	scroll.add_child(_arch_grid)
+	var back := _button(col, "GERİ", 46)
+	back.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	back.custom_minimum_size = Vector2(200, 46)
+	back.pressed.connect(func() -> void: _show(_home))
+	return page
+
+
+func _select_arch(b: int) -> void:
+	_arch_book = b
+	for i in _arch_tabs.size():
+		var sel := i == b
+		for st in ["normal", "hover", "pressed"]:
+			_arch_tabs[i].add_theme_stylebox_override(st, PixelUI.box("sekme_secili" if sel else "sekme", 10))
+		_arch_tabs[i].add_theme_color_override(&"font_color", GOLD if sel else MUTED)
+	for ch in _arch_grid.get_children():
+		ch.queue_free()
+	for k in PER_BOOK:
+		var i := b * PER_BOOK + k
+		var cell := VBoxContainer.new()
+		cell.add_theme_constant_override(&"separation", 2)
+		var found := 0
+		var sec: Array = Save.secrets_of(i)
+		if sec.size() == 2:
+			found = int(sec[0])
+		var known := i <= Save.unlocked_level
+		cell.add_child(_label("%d. %s" % [i + 1, GameState.LEVEL_NAMES[i] if known else "? ? ?"], CREAM if known else MUTED))
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override(&"separation", 8)
+		cell.add_child(row)
+		for p in 3:
+			var tr := TextureRect.new()
+			tr.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+			tr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			tr.custom_minimum_size = Vector2(148, 100)
+			tr.texture = load("res://assets/ui/photos/b%02d_%d.png" % [i + 1, p]) if p < found 				else load("res://assets/ui/photos/kilitli.png")
+			row.add_child(tr)
+		_arch_grid.add_child(cell)
 
 
 func _build_settings() -> Control:

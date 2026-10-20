@@ -14,11 +14,15 @@ func _ready() -> void:
 		add_child(node)
 		await get_tree().process_frame
 		# "menu_levels" / "menu_settings": ana menünün o sayfasını aç.
-		for page in ["levels", "settings"]:
+		for page in ["levels", "settings", "archive"]:
 			if f[1].ends_with(page):
 				node._show(node.get("_" + page))
 		if f[1].ends_with("tab2"):
 			node._select(1)
+		if f[1].ends_with("archive"):
+			for i in 36:
+				Save.secrets[i] = [i % 4, 3]
+			node._show(node._archive)
 		for i in 90:
 			await get_tree().process_frame
 		await RenderingServer.frame_post_draw

@@ -487,7 +487,8 @@ func _on_secret_found() -> void:
 	_secrets_found += 1
 	Sfx.play(&"checkpoint", 1.3)
 	GameState.add_coins(10)
-	_hud.show_place("GİZLİ ALAN", "%d / %d bulundu  ·  +10 coin" % [_secrets_found, _secrets_total], Color("ffd34e"))
+	_hud.show_place("FİLM RULOSU %d / %d" % [_secrets_found, _secrets_total],
+		"Gazelle'in kanıt fotoğrafı bulundu  ·  +10 coin  ·  Kanıt Arşivi'nde", Color("ffd34e"))
 
 
 func _respawn_player() -> void:

@@ -11,7 +11,7 @@ Kurallar: her şey piksel art, şablon parkur yok, Türkçe metin, bölüm tasar
       oyun içi sohbeti). Her bölüme 2–3 hikâye satırı.
 - [x] 2. **Bölüm açılış kartı** — DtM tarzı: bölüm numarası + adı + mekân, piksel
       çerçeveli büyük başlık, 2 sn, oyun akarken söner.
-- [ ] 3. **Film ruloları** — 3 gizli alanın ödülü "film rulosu" olur (Gazelle'in
+- [x] 3. **Film ruloları** — 3 gizli alanın ödülü "film rulosu" olur (Gazelle'in
       kanıt fotoğrafları); menüde "Kanıt Arşivi" galerisi (piksel art kareler).
 - [ ] 4. **Kovalama set-piece'leri** — minibüs / tekne kovalamacası: kamera
       ileri kayar, arkadan araç gelir, durmadan parkur (Bölüm 1, 5, 13, 36).
