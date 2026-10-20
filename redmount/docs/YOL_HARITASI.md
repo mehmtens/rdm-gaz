@@ -17,7 +17,7 @@ Kurallar: her şey piksel art, şablon parkur yok, Türkçe metin, bölüm tasar
       Bölüm 13 Balat yokuşu, Bölüm 29 Kuzguncuk (polis). Durma, koş; balkonlar kaçış.
 - [x] 5. **Bombacı & kalkanlı animasyonları** — atış/kalkan darbesi kareleri,
       bombacıya özgü piksel kıyafet (yeşil yelek, bomba kemeri).
-- [ ] 6. **Boss desenleri** — Karahanlı, Ana Vana Muhafızı, Yayın Şefi'ne faz
+- [x] 6. **Boss desenleri** — Karahanlı, Ana Vana Muhafızı, Yayın Şefi'ne faz
       geçişli piksel uyarılı saldırılar + can çubuğu üstünde isim kartı.
 - [ ] 7. **Çevresel tehlike çeşitliliği** — düşen saksılar, kayan tabelalar,
       elektrikli tel (piksel art), bölüm temasına göre.

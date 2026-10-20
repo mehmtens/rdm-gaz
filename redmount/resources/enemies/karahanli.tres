@@ -46,3 +46,5 @@ knockdown_damage_threshold = 20
 hurt_duration = 0.2
 knockdown_duration = 0.7
 getup_duration = 0.5
+slam_damage = 14
+slam_knockback = 320.0

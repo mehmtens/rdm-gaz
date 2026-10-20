@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=7 format=3]
 
 ; Karahanlı — Bölüm 5 son boss (Görev 12). EnemyBase'i miras alır.
 ; Sakin ama ağır: düz yumruk + gövde krosesi (guard_break) + öne hamle.
@@ -8,8 +8,14 @@
 [ext_resource type="Resource" path="res://resources/enemies/karahanli.tres" id="2"]
 [ext_resource type="SpriteFrames" path="res://resources/anim/karahanli_frames.tres" id="3"]
 
+[ext_resource type="Script" path="res://scripts/enemies/story_boss.gd" id="9"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/KnifeAgent.tscn" id="10"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/StreetThug.tscn" id="11"]
+
 [node name="Karahanli" instance=ExtResource("1")]
+script = ExtResource("9")
 rig_style = "karahanli"
 config = ExtResource("2")
 frames = ExtResource("3")
 patrol_distance = 0.0
+adds = Array[PackedScene]([ExtResource("10"), ExtResource("11")])
