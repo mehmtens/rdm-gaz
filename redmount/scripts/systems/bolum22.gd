@@ -133,6 +133,10 @@ func _build() -> void:
 	add_child(final)
 	_story(10050, _sahne_safak)
 	_han_gate(10150, "SARAÇHANE")
+	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
+	_radio(2537, "gazelle", "GAZELLE", "Aksaray pompa istasyonu. Emirler buradan çıkıyormuş.")
+	_radio(5582, "redmount", "REDMOUNT", "Pistonlar bir ritimle çalışıyor. Ritmi yakala, geç.")
+	_radio(8627, "gazelle", "GAZELLE", "Kapatma çizelgesi: şafakta Saraçhane ana vanası.")
 	_goal(10150, 0)
 
 

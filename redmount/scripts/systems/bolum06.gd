@@ -119,6 +119,10 @@ func _build() -> void:
 	add_child(final)
 	_story(9200, _sahne_baca)
 	_han_gate(9500, "HADDEHANE")
+	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
+	_radio(2375, "telsiz", "USTABAŞI (telsiz)", "Kızı haddehaneye indirin. Alevleri açık bırakın, gelen yansın.")
+	_radio(5225, "redmount", "REDMOUNT", "Bu fabrikanın her bacası Karahanlı'nın imzası.")
+	_radio(8075, "gazelle", "GAZELLE (ızgaradan, fısıltı)", "Redmount... buradayım. Haddehane bir tuzak, dikkat et!")
 	_goal(9500, 0)
 
 

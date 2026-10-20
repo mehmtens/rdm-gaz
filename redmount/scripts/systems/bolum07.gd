@@ -118,6 +118,10 @@ func _build() -> void:
 	sign.position = Vector2(8900, -260)
 	add_child(sign)
 	_story(8980, _sahne_verici)
+	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
+	_radio(2325, "karahanli", "KARAHANLI (hoparlör)", "Haddeme hoş geldin. Burada demir de, kahraman da bükülür.")
+	_radio(5115, "redmount", "REDMOUNT", "Verici çatıda. Onu susturursam yayınını da susturmuş olurum.")
+	_radio(7905, "gazelle", "GAZELLE (uzaktan)", "Kayıtları alıp götürüyorlar! Yeraltından!")
 	_goal(9300, 0)
 
 

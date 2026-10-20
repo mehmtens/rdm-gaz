@@ -112,6 +112,10 @@ func _build() -> void:
 	_coin_line(8960, 4, 50, -160)
 	_story(9500, _sahne_makbuz)
 	_han_gate(9800, "GALATA")
+	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
+	_radio(2450, "gazelle", "GAZELLE", "Garda her hoparlör beni arıyor. Başımı eğip yürüyorum.")
+	_radio(5390, "redmount", "REDMOUNT", "Komiser Rıfat dürüst biri. Kanıtı görürse dinler.")
+	_radio(8330, "gazelle", "GAZELLE", "Makbuz: Galata telgraf binası, acil. Hat kesilmeli.")
 	_goal(9800, 0)
 
 

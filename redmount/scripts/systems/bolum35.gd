@@ -100,6 +100,10 @@ func _build() -> void:
 	_enemy(SHIELD, 9500, 0)
 	_story(9650, _sahne_mavna)
 	_han_gate(9950, "GÖKSU")
+	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
+	_radio(2487, "gazelle", "GAZELLE", "Altı yüz yıllık surlar bir radyo kumandasını koruyor.")
+	_radio(5472, "redmount", "REDMOUNT", "Kumanda anahtarı burada. Bu kez kale bizim tarafımızda.")
+	_radio(8457, "telsiz", "NÜZHET HANIM (kayıt)", "Mavnada kendi jeneratörüm var. Durduramazsınız.")
 	_goal(9950, 0)
 
 

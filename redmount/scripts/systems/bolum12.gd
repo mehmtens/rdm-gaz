@@ -98,6 +98,10 @@ func _build() -> void:
 	add_child(throne)
 	_lantern(6800)
 	_lantern(8000)
+	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
+	_radio(2100, "karahanli", "KARAHANLI (hoparlör)", "İç kaleme kadar geldin. Saygı duyarım. Sonra da gömerim.")
+	_radio(4620, "gazelle", "GAZELLE (tutukevinden)", "Hasan'ın sesini duydun mu? Burada başkaları da var!")
+	_radio(7140, "redmount", "REDMOUNT", "Taht salonu. Bitti Karahanlı.")
 
 
 func _powerup(x: float, y: float, res: PowerupConfig) -> void:

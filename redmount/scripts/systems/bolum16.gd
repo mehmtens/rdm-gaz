@@ -138,6 +138,10 @@ func _build() -> void:
 	add_child(final)
 	_story(9830, _sahne_liste)
 	_han_gate(10000, "BEYAZIT YOLU")
+	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
+	_radio(2500, "gazelle", "GAZELLE", "Ciltçiler sokağı. Babam beni buraya getirirdi, kâğıt kokusu...")
+	_radio(5500, "redmount", "REDMOUNT", "Kâğıt kokusu artık barut kokusu.")
+	_radio(8500, "gazelle", "GAZELLE", "Asıl liste! Kemal Bey'in adı... editörüm. Olamaz.")
 	_goal(10000, 0)
 
 

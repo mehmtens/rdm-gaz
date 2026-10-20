@@ -478,6 +478,15 @@ func _basin(x0: float, x1: float, depth: float, step := 90.0) -> void:
 	_holes.append([x0, x1, depth * 0.5])
 
 
+## Telsiz konuşması (oyunu durdurmaz): oyuncu `x`'i geçince alt panelde çıkar.
+## who: gazelle / redmount / karahanli / telsiz (portre).
+func _radio(x: float, who: String, speaker: String, text: String) -> void:
+	var t := _RadioTrigger.new()
+	t.trigger_x = x
+	t.line = [who, speaker, text]
+	add_child(t)
+
+
 ## Engellemeyen öğretici ipucu (HintTrigger): `button` HintTrigger.BUTTONS anahtarı.
 func _hint(x: float, text: String, button := "", y := 0.0) -> void:
 	var h: HintTrigger = preload("res://scenes/systems/HintTrigger.tscn").instantiate()
@@ -1334,3 +1343,15 @@ class _SecretZone extends Area2D:
 			if not _done and b.is_in_group(&"player"):
 				_done = true
 				found.emit())
+
+
+## Telsiz tetiği: oyuncu x'i geçince satırı RadioPanel kuyruğuna yollar (bir kez).
+class _RadioTrigger extends Node:
+	var trigger_x := 0.0
+	var line: Array = []
+
+	func _process(_d: float) -> void:
+		var p := get_tree().get_first_node_in_group(&"player") as Node2D
+		if p != null and p.global_position.x >= trigger_x:
+			RadioPanel.say(get_tree(), line[0], line[1], line[2])
+			queue_free()

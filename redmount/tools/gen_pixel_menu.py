@@ -182,9 +182,23 @@ def ikon_yumruk():
     c.im.resize((48, 48), Image.NEAREST).save(OUT / "ikon_yumruk.png")
 
 
+def portre_telsiz():
+    """Kimliği gizli konuşmacı / telsiz portresi (16x16, 3x): el telsizi, anten, ışık."""
+    c = Canvas(16, 16)
+    c.rect(4, 4, 11, 15, "iron1")
+    c.rect(5, 5, 10, 8, (40, 70, 60, 255))
+    c.hline(5, 10, 5, (90, 160, 130, 255))
+    for y in (10, 12, 14):
+        c.hline(5, 10, y, "iron0")
+    c.vline(10, 0, 3, "iron2"); c.put(10, 0, "red3")
+    c.put(6, 3, "glow2")
+    c.outline()
+    c.im.resize((48, 48), Image.NEAREST).save(OUT / "portre_telsiz.png")
+
+
 if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
     logo()
     logo("İSTANBUL'UN SESİ", "logo_alt.png", top=(255, 222, 140), bottom=(190, 120, 40), k=1)
-    kilit(); coin(); odak(); kart(); sekme(); pip(); ikon_tufek(); ikon_yumruk()
+    kilit(); coin(); odak(); kart(); sekme(); pip(); ikon_tufek(); ikon_yumruk(); portre_telsiz()
     print("ok")

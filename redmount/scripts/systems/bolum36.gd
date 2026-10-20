@@ -135,6 +135,10 @@ func _build() -> void:
 	_story(14250, _sahne_sef)
 	_fight(14500, 15700, _wave(DIRECTOR), [])
 	_story(15800, _sahne_nuzhet)
+	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
+	_radio(4075, "gazelle", "GAZELLE", "Göksu'daki mavna. Antenleri ışıl ışıl.")
+	_radio(8965, "redmount", "REDMOUNT", "Üç bağlantı, bir jeneratör, bir Yayın Şefi.")
+	_radio(13855, "gazelle", "GAZELLE", "Mikrofon bende. Bu kez şehir benim sesimi duyacak.")
 	_goal(16300, 0)
 
 

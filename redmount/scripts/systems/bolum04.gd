@@ -123,6 +123,10 @@ func _build() -> void:
 	_story(9050, _sahne_duduk)
 	_coin_line(9100, 3, 50, -50)
 	_han_gate(9350, "ŞEHİR ÇIKIŞI")
+	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
+	_radio(2337, "telsiz", "KONTROL KULESİ (telsiz)", "Bariyer kapalı. Kim gelirse gelsin, kum torbalarının arkasından ateş.")
+	_radio(5142, "redmount", "REDMOUNT", "Kalkanlı zabıtalar... Karahanlı belediyeyi de satın almış.")
+	_radio(7947, "karahanli", "KARAHANLI (telsiz)", "Yüzbaşı Demir bekliyor seni. Bariyerden öteye ancak cesedin geçer.")
 	_goal(9350, 0)
 
 

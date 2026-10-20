@@ -139,6 +139,10 @@ func _build() -> void:
 	_story(8580, _sahne_esnaf_kurtulur)
 	_coin_line(8800, 4, 50, -140)
 	_han_gate(9050, "PAZAR ÇIKIŞI")
+	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
+	_radio(2262, "telsiz", "PAZAR GÖZCÜSÜ (telsiz)", "Esnafı topladık. Kızı gören herkes susacak.")
+	_radio(4977, "redmount", "REDMOUNT", "Bu şehirde herkes bir şey görür. Susanlar bile.")
+	_radio(7692, "telsiz", "KESİK TELSİZ", "...kız... yük treni... altıncı peron... (cızırtı)")
 	_goal(9050, 0)
 
 

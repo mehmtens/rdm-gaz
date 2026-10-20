@@ -130,6 +130,10 @@ func _build() -> void:
 	add_child(final)
 	_story(10000, _sahne_kemal)
 	_han_gate(10150, "YENİKAPI")
+	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
+	_radio(2537, "gazelle", "GAZELLE", "Samatya. Kemal Bey burada görülmüş. Ona sormam gereken çok şey var.")
+	_radio(5582, "redmount", "REDMOUNT", "Soru sormak için önce yakalamak lazım.")
+	_radio(8627, "gazelle", "GAZELLE", "Kayıkla kaçıyor! Çıkış fişi: Yenikapı gece vardiyası.")
 	_goal(10150, 0)
 
 

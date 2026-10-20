@@ -99,6 +99,10 @@ func _build() -> void:
 	_fight(8450, 9350, _wave(KNIFE, ASSASSIN, BOMBER), _wave(ELITE, SHIELD), _wave(BRUISER, RIFLE))
 	_story(9450, _sahne_harita)
 	_han_gate(9750, "KULELİ")
+	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
+	_radio(2437, "gazelle", "GAZELLE", "Bu konağı tanıyorum. Çocukken bayram ziyaretine gelirdik.")
+	_radio(5362, "telsiz", "NÜZHET HANIM (konak hoparlörü)", "Gazelle, kızım. Hâlâ o haber peşinde misin?")
+	_radio(8287, "gazelle", "GAZELLE", "Kâtip... Nüzhet Hanım. Annemin en yakın arkadaşı.")
 	_goal(9750, 0)
 
 

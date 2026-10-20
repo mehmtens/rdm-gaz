@@ -115,6 +115,10 @@ func _build() -> void:
 	add_child(final)
 	_story(9350, _sahne_gumruk)
 	_han_gate(9600, "GÜMRÜK")
+	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
+	_radio(2400, "gazelle", "GAZELLE", "Sevkiyat defterinde Haliç'teki eski han yazıyor. Kartal başının yeni sahibi var.")
+	_radio(5280, "redmount", "REDMOUNT", "Karahanlı düştü ama zincir kopmadı.")
+	_radio(8160, "gazelle", "GAZELLE", "Gümrük kaydında bir imza: tek harf, K. Mürekkebi beyaz.")
 	_goal(9600, 0)
 
 

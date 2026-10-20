@@ -114,6 +114,10 @@ func _build() -> void:
 	_lantern(8850)
 	_fight(8950, 9650, _wave(KNIFE, ASSASSIN, BOMBER), _wave(ELITE, BRUISER))
 	_han_gate(10050, "ÇENGELKÖY")
+	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
+	_radio(2512, "gazelle", "GAZELLE", "Beylerbeyi arşivi yanıyor! Annemin dosyası da içeride!")
+	_radio(5527, "redmount", "REDMOUNT", "Alevler katları yutuyor. Hızlı ama dikkatli.")
+	_radio(8542, "gazelle", "GAZELLE", "Kasada mühür odasının yeri: Çengelköy sahil konağı.")
 	_goal(10050, 0)
 
 

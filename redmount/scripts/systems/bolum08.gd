@@ -112,6 +112,10 @@ func _build() -> void:
 	add_child(final)
 	_story(9200, _sahne_gun_isigi)
 	_han_gate(9450, "DAĞ GEÇİDİ")
+	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
+	_radio(2362, "redmount", "REDMOUNT", "Tebeşir çizgisi. Gazelle, tünelin içinden de iz bırakmış.")
+	_radio(5197, "telsiz", "TÜNEL BEKÇİSİ (telsiz)", "Su yükseliyor. Sevkiyatı sarnıçtan geçirin, çabuk.")
+	_radio(8032, "gazelle", "GAZELLE (tebeşir notu)", "\"Zırhlı üs. Köprü. Acele et.\" — G.")
 	_goal(9450, 0)
 
 

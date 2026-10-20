@@ -134,6 +134,10 @@ func _build() -> void:
 	add_child(final)
 	_story(9950, _sahne_fis)
 	_han_gate(10050, "KAPALIÇARŞI")
+	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
+	_radio(2512, "gazelle", "GAZELLE", "Beyazıt postası her gazeteye aynı gün ulaşır. Yalan da öyle.")
+	_radio(5527, "redmount", "REDMOUNT", "Tasnif salonunda Kâtip'in zarfları var. Beyaz mürekkep.")
+	_radio(8542, "gazelle", "GAZELLE", "Telgraf: \"Kapalıçarşı arka hanı.\" Gidelim.")
 	_goal(10050, 0)
 
 

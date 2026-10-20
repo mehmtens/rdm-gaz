@@ -30,7 +30,8 @@ func _ready() -> void:
 		while Cutscene.active != null:
 			await get_tree().process_frame
 		player.global_position = Vector2(f[1].to_float(), f[2].to_float())
-		for i in 30:
+		var extra := OS.get_environment("REDMOUNT_SHOT_WAIT").to_int()
+		for i in 30 + extra:
 			await get_tree().physics_frame
 		await RenderingServer.frame_post_draw
 		get_viewport().get_texture().get_image().save_png(folder.path_join("%s.png" % f[0]))

@@ -111,6 +111,10 @@ func _build() -> void:
 	_enemy(ASSASSIN, 9250, 0)
 	_story(9500, _sahne_kablo)
 	_han_gate(9800, "KANDİLLİ")
+	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
+	_radio(2450, "gazelle", "GAZELLE", "Vaniköy. Tekne boş, kasalar boş.")
+	_radio(5390, "redmount", "REDMOUNT", "Kablolar yokuşa tırmanıyor. Verici yukarıda.")
+	_radio(8330, "gazelle", "GAZELLE", "Kandilli sırtı. Verici çalışırsa şehirde tek ses kalır.")
 	_goal(9800, 0)
 
 

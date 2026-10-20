@@ -106,6 +106,10 @@ func _build() -> void:
 	_scaffold(9150, -110, 220)
 	_fight(8750, 9550, _wave(KNIFE, ASSASSIN, BOMBER), _wave(BRUISER, ELITE))
 	_han_gate(9900, "VANİKÖY")
+	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
+	_radio(2475, "gazelle", "GAZELLE", "Kuleli fenerleri bir teknenin rotasını çiziyor.")
+	_radio(5445, "redmount", "REDMOUNT", "Fener kulesinin içi tırmanılır. Tepeden rota görünür.")
+	_radio(8415, "gazelle", "GAZELLE", "Fener defteri: tekne Vaniköy iskelesine yanaşmış.")
 	_goal(9900, 0)
 
 

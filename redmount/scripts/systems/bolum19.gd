@@ -136,6 +136,10 @@ func _build() -> void:
 	add_child(final)
 	_story(10050, _sahne_mektup)
 	_han_gate(10150, "SAMATYA")
+	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
+	_radio(2537, "gazelle", "GAZELLE", "Külhan sıcak. Belgeleri yakarak iz siliyorlar.")
+	_radio(5582, "redmount", "REDMOUNT", "Ateş ne kadar büyük olursa olsun, duman bir yere gider.")
+	_radio(8627, "gazelle", "GAZELLE", "Kemal Bey'in yarım yanmış mektubu: \"Samatya taş depoları.\"")
 	_goal(10150, 0)
 
 

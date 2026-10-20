@@ -116,6 +116,10 @@ func _build() -> void:
 	final.reward = HEALTH
 	add_child(final)
 	_story(9100, _sahne_tren_kalkar, 9380.0)
+	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
+	_radio(2355, "telsiz", "MAKİNİST (telsiz)", "Yedinci vagon kilitli. Kalkışa yarım saat.")
+	_radio(5181, "redmount", "REDMOUNT", "Yarım saat. Bana yeter.")
+	_radio(7724, "karahanli", "KARAHANLI (telsiz)", "Treni durdurursan şehri durdurursun Redmount. Bu yükü kimse istemez.")
 	_goal(9420, 0)
 
 

@@ -104,6 +104,10 @@ func _build() -> void:
 	final.reward = HEALTH
 	add_child(final)
 	_story(9000, _sahne_kor_nokta)
+	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
+	_radio(2312, "gazelle", "GAZELLE (ayna sinyali)", "Işık: kısa-uzun-kısa. \"Burçlar... dördüncü.\"")
+	_radio(5087, "redmount", "REDMOUNT", "Ayna sinyali. Gazelle hâlâ gazeteci gibi düşünüyor.")
+	_radio(7862, "telsiz", "SUR AĞASI (telsiz)", "Kör noktayı kapatın! Adam surun içinde!")
 	_goal(9250, -460)
 
 

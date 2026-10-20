@@ -144,6 +144,10 @@ func _build() -> void:
 	add_child(roof)
 	_story(10000, _sahne_cati)
 	_han_gate(10100, "ÇEMBERLİTAŞ")
+	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
+	_radio(2525, "gazelle", "GAZELLE", "Bedesten... Kâtip kalabalığın içinde saklanmayı seviyor.")
+	_radio(5555, "redmount", "REDMOUNT", "Çuvallarda sahte mühürlü evrak. Yüzlerce.")
+	_radio(8585, "gazelle", "GAZELLE", "Defterin son işareti: Çemberlitaş hamamının külhanı.")
 	_goal(10100, 0)
 
 

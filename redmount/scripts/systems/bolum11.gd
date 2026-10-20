@@ -101,6 +101,10 @@ func _build() -> void:
 	add_child(final)
 	_story(8450, _sahne_son_kapi)
 	_han_gate(8700, "İÇ KALE")
+	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
+	_radio(2175, "redmount", "REDMOUNT", "Sessiz koridor. Her adım bir pres, her gölge bir muhafız.")
+	_radio(4785, "gazelle", "GAZELLE (hücreden)", "Redmount! Karahanlı defteri taht salonunda saklıyor!")
+	_radio(7395, "telsiz", "MUHAFIZ BAŞI (telsiz)", "İç kale kapısını mühürleyin. Kimse geçmeyecek.")
 	_goal(8700, 0)
 
 

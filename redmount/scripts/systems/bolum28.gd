@@ -109,6 +109,10 @@ func _build() -> void:
 	_fight(9200, 9800, _wave(KNIFE, ASSASSIN, BOMBER), _wave(BRUISER, ELITE))
 	_story(9900, _sahne_rifat)
 	_han_gate(10150, "KUZGUNCUK")
+	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
+	_radio(2537, "gazelle", "GAZELLE", "Üsküdar'a vapurla geçtik. Kız Kulesi bize bakıyor.")
+	_radio(5582, "redmount", "REDMOUNT", "Röle salonu. Şerit makinesini kırarsak yayın aksar.")
+	_radio(8627, "telsiz", "KOMİSER RIFAT (telsiz)", "Makbuz gerçek. Gazelle Hanım... size bir gün veriyorum.")
 	_goal(10150, 0)
 
 

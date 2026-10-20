@@ -124,6 +124,10 @@ func _build() -> void:
 	add_child(final)
 	_story(9200, _sahne_gecit_acildi)
 	_han_gate(9450, "KUZEY GEÇİDİ")
+	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
+	_radio(2362, "telsiz", "ÜS NÖBETÇİSİ (telsiz)", "Köprüdeki araç geçti. Kız surların tepesinde, Binbaşı'nın yanında.")
+	_radio(5197, "redmount", "REDMOUNT", "Güçlendirici kasaları... Karahanlı ordu kuruyor.")
+	_radio(8032, "karahanli", "KARAHANLI (telsiz)", "Binbaşı Kaya'yı geçersen kuzey surlarında son kez konuşuruz.")
 	_goal(9450, 0)
 
 

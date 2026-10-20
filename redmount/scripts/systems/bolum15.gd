@@ -133,6 +133,10 @@ func _build() -> void:
 	add_child(final)
 	_story(9580, _sahne_teras)
 	_han_gate(9780, "SÜLEYMANİYE YOLU")
+	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
+	_radio(2445, "gazelle", "GAZELLE", "Zeyrek'te sular kesiliyor. Bu bir rastlantı değil, deneme.")
+	_radio(5379, "redmount", "REDMOUNT", "Vanayı kim çeviriyorsa, şehri susuz bırakarak susturmak istiyor.")
+	_radio(8313, "gazelle", "GAZELLE", "Teras kaydı: Süleymaniye arşivi. Kâtip kayıtları orada saklıyor.")
 	_goal(9780, 0)
 
 

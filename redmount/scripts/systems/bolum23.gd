@@ -130,6 +130,10 @@ func _build() -> void:
 	add_child(final)
 	_story(10050, _sahne_kemer)
 	_han_gate(10150, "BOZDOĞAN KEMERİ")
+	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
+	_radio(2537, "gazelle", "GAZELLE", "Saraçhane. Ana vana kapanırsa yarım şehir susuz kalır.")
+	_radio(5582, "redmount", "REDMOUNT", "Değiştirilmiş vana. Kırarsam yerel kesinti durur.")
+	_radio(8627, "gazelle", "GAZELLE", "Kontrol masasında Bozdoğan Kemeri servis kulesi yazıyor.")
 	_goal(10150, 0)
 
 

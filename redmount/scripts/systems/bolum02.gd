@@ -141,6 +141,10 @@ func _build() -> void:
 	_chalk(9200, -190, "G: GECE PAZARI")
 	_story(9100, _sahne_tebesir)
 	_coin_line(9250, 4, 50, -50)
+	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
+	_radio(2387, "redmount", "REDMOUNT", "Film rulosu... Gazelle bunu bilerek düşürdü. İz bırakıyor.")
+	_radio(5252, "telsiz", "KONVOY (telsiz)", "Arka sokaktan çıkıyoruz. Kız sessiz, ama gözleri her şeyi kaydediyor.")
+	_radio(7830, "karahanli", "KARAHANLI (telsiz)", "Kasap Rıza'yı geçersen gece pazarında görüşürüz. Geçemezsin.")
 	_goal(9550, 0)
 
 
