@@ -122,7 +122,7 @@ func _build_scenery() -> void:
 	add_child(gz)
 
 	var hint := Label.new()
-	hint.text = ("Sol: hareket · Sağ: zıpla, vur, ağır, ateş · EYLEM: etkileşim · II: duraklat"
+	hint.text = ("Sol: hareket · Sağ: zıpla, vur, ağır, ateş · Büfeye dokun: etkileşim · II: duraklat"
 		if TouchControls.active_on_device() else
 		"A/D yürü · Shift koş · Boşluk zıpla · J vur · K ağır · L ateş · Ctrl atıl · ESC duraklat · gamepad destekli")
 	hint.add_theme_color_override(&"font_color", MUTED)
@@ -306,7 +306,7 @@ func _card(i: int) -> Button:
 	else:
 		var best := Save.best_score(i)
 		var sec: Array = Save.secrets_of(i)
-		var line := "EN İYİ %d" % best if best > 0 else "YENİ"
+		var line := "KOŞU REKORU %d" % best if best > 0 else "YENİ"
 		var rk := Save.rank_of(i)
 		if rk != "":
 			var badge := _label(rk, Color(1.0, 0.85, 0.3) if rk == "S" else GOLD)

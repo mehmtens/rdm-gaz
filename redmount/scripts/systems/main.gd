@@ -31,6 +31,7 @@ var _elapsed: float = 0.0
 var _finished: bool = false
 var _ending_in_progress := false
 var _coins_at_level_start: int = 0
+var _score_at_level_start: int = 0
 
 # --- Rank (Görev 20) ---
 var _hits_taken: int = 0
@@ -100,6 +101,8 @@ func _process(_delta: float) -> void:
 	_touch.set_context(_player.has_gun(), _player.can_throw_nearby())
 	if _pause_menu.is_open() or _story_card.is_active() or LevelShop.is_any_open():
 		_touch.set_mode("hidden")
+	elif Cutscene.active != null:
+		_touch.set_mode("cutscene")
 	elif _dialogue.is_active():
 		_touch.set_mode("dialogue")
 	elif _ending_in_progress:
@@ -114,6 +117,9 @@ func _process(_delta: float) -> void:
 
 
 func _on_touch_pause() -> void:
+	if Cutscene.active != null:
+		Cutscene.active.request_skip()
+		return
 	if not _finished and not _ending_in_progress and not _dialogue.is_active() \
 			and not _story_card.is_active() and not LevelShop.is_any_open():
 		_pause_menu.toggle()
@@ -122,8 +128,22 @@ func _on_touch_pause() -> void:
 ## Çentik / yuvarlak köşe payı: HUD'u ekranın güvenli alanına çeker.
 func _apply_safe_area() -> void:
 	var insets := TouchControls.safe_insets(get_viewport())
+	var vertical := TouchControls.safe_vertical_insets(get_viewport())
 	_hud.offset_left = insets.x
 	_hud.offset_right = -insets.y
+	_hud.offset_top = vertical.x
+	_hud.offset_bottom = -vertical.y
+
+
+func _notification(what: int) -> void:
+	if what != NOTIFICATION_APPLICATION_PAUSED and what != NOTIFICATION_WM_WINDOW_FOCUS_OUT:
+		return
+	TouchControls.release_gameplay_inputs()
+	if not is_node_ready() or _finished or _ending_in_progress or get_tree().paused \
+			or _pause_menu.is_open() or _dialogue.is_active() or _story_card.is_active() \
+			or LevelShop.is_any_open():
+		return
+	_pause_menu.open()
 
 
 func _go_to_menu() -> void:
@@ -144,6 +164,7 @@ func _advance_after_clear() -> void:
 
 func _load_current_level() -> void:
 	get_tree().paused = false
+	_hud.set_level_context(GameState.level_index)
 
 	if _level != null and is_instance_valid(_level):
 		_level.queue_free()
@@ -203,6 +224,7 @@ func _load_current_level() -> void:
 			Music.play_for_biome(lv.biome)
 
 	_coins_at_level_start = GameState.coins
+	_score_at_level_start = GameState.score
 	_coin_pickups_at_start = GameState.coin_pickups
 	_hits_taken = 0
 	_last_health = _player.get_max_health()
@@ -365,7 +387,8 @@ func _trigger_ending() -> void:
 	_bank_level_clear()
 	get_tree().paused = true
 	_hud.show_results(GameState.coins, _enemy_defeated, _enemy_total, _elapsed,
-		GameState.score, "GAZELLE KURTARILDI", _compute_rank(), _hits_taken)
+		GameState.score, "GAZELLE KURTARILDI", _compute_rank(), _hits_taken,
+		GameState.score - _score_at_level_start)
 
 
 ## Biome'a göre ekran-kenarı vinyet rengi (ruh hâli).
@@ -464,7 +487,8 @@ func _on_goal_reached() -> void:
 	_hud.secrets_line = "Gizli alan: %d / %d" % [_secrets_found, _secrets_total] if _secrets_total > 0 else ""
 	if GameState.has_next_level():
 		_hud.show_stage_clear(GameState.level_index + 1, rank, _elapsed,
-			_enemy_defeated, _enemy_total, _hits_taken)
+			_enemy_defeated, _enemy_total, _hits_taken,
+			GameState.score - _score_at_level_start)
 	else:
 		var title := ("KİTAP 3 · BÖLÜM %d TAMAMLANDI" % (GameState.level_index - 23)
 			if GameState.level_index >= 24 else
@@ -472,12 +496,14 @@ func _on_goal_reached() -> void:
 			if GameState.level_index >= 12 else "OYUN TAMAMLANDI")
 		title = str(_level.get_meta(&"completion_title", title))
 		_hud.show_results(GameState.coins, _enemy_defeated, _enemy_total, _elapsed,
-			GameState.score, title, rank, _hits_taken)
+			GameState.score, title, rank, _hits_taken,
+			GameState.score - _score_at_level_start)
 
 
 func _bank_level_clear() -> void:
 	Save.record_level_clear(
-		GameState.level_index, GameState.coins - _coins_at_level_start, GameState.score,
+		GameState.level_index, GameState.coins - _coins_at_level_start,
+		GameState.score,
 	)
 	Save.record_secrets(GameState.level_index, _secrets_found, _secrets_total)
 

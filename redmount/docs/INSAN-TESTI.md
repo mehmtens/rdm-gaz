@@ -6,6 +6,35 @@ değişikliklerini insan gözüyle denemek içindir. Toplam süre 30–45 dakika
 Bot testleri insan oynanışı yerine geçmez. Bu oturumun amacı, botun ölçemediği
 şeyleri (zamanlama hissi, okunurluk, adalet, sıkıcılık) görmektir.
 
+## Yeni oyuncu mobil oturumu — ilk 10 dakika
+
+Bu bölüm, aşağıdaki geç kampanya denetiminden ayrı uygulanır. Güncel `redmount/`
+Android paketi, temiz kayıt ve ekran + dokunma kaydı kullanılır. Önce en az üç farklı
+yatay telefon oranında arayüz fotoğrafı alınır; ardından oyunu daha önce görmemiş beş
+kişiye Bölüm 1 **yardım ve kontrol açıklaması vermeden** oynatılır. Paket tarihi,
+telefon modeli, ekran oranı, işletim sistemi ve oyun sürümü forma yazılır. Eski
+`build/redmount-debug.apk` güncel sürüm kanıtı sayılmaz.
+
+| Zaman damgası / olay | Kaydedilecek somut veri | Karar sorusu |
+|---|---|---|
+| Ana menü → ilk kontrol | Başlama dokunuşu, ilk oynanabilir kare, sinematikte `DEVAM`/`ATLA` keşfi | Oyuncu ne zaman kontrol aldığını anladı mı? |
+| İlk 30 saniye kontrol | İlk yön, zıplama ve `VUR` denemesi; yanlış veya sonuçsuz dokunuş sayısı | Temel eylemleri bölüm içi yardımsız buldu mu? |
+| İlk düşman | İlk hasarın/kaçan vuruşun nedeni oyuncuya sorulur; tekrar denemesi sayılır | Düşman uyarısı ve vuruş menzili okunuyor mu? |
+| İlk arena | Giriş/çıkış zamanı, ölüm sayısı, dalga kaldığına dair oyuncunun tahmini | Üç dalga anlaşılır ve tempolu mu? |
+| İlk 10 dakika sonu | Ulaşılan konum/kontrol noktası, duraklama, parmak yorgunluğu (1–5), gönüllü devam isteği | Oyuncu nerede bıraktı ve neden? |
+
+Menü, sinematik, normal oyun, ilk arena, duraklatma, mağaza ve ölüm/sonuç
+ekranları görülürse her birinde düğme/metin kırpılması ile çentik çakışması
+işaretlenir. Hiç görülmeyen ekran için “geçti” yazılmaz. Kayda şunları da ekle:
+`beklediğim`, `olan`, `yardım istedim mi`, `ekranda görünmeyen tehlike`, `ses olmadan
+anlaşılıyor mu`. Testi yöneten kişi soruları ilk 10 dakika bittikten sonra sorar;
+oyun sırasında yalnız teknik kilitlenmede müdahale eder.
+
+**Öncelik kararı:** İlk kontrol veya saldırı bulunamıyorsa öğretimi düzelt; aynı
+düğmede tekrar eden yanlış basma varsa varsayılan yerleşimi düzelt; dalga sayısı
+bilinmiyorsa arena ilerleme göstergesini dene. Sonra aynı kesiti yeni oyuncularla
+yeniden ölç. Bu oturumdan çıkmayan sonuçlar için 36 bölüme toplu değişiklik yapma.
+
 ## Kurulum
 
 Gerekenler: Godot **4.7** (proje `config/features` = 4.7), Git, depo.

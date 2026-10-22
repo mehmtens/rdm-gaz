@@ -82,14 +82,18 @@ func _input(event: InputEvent) -> void:
 	if active != self:
 		return
 	if event.is_action_pressed(&"pause"):
-		_skip = true
-		_advance = true
+		request_skip()
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed(&"ui_accept") or event.is_action_pressed(&"attack") \
 			or event.is_action_pressed(&"jump") \
 			or (event is InputEventScreenTouch and event.pressed):
 		_advance = true
 		get_viewport().set_input_as_handled()
+
+
+func request_skip() -> void:
+	_skip = true
+	_advance = true
 
 
 func _run() -> void:
@@ -445,7 +449,8 @@ func _letterbox(show: bool) -> void:
 		_bottom.anchor_top = 1.0
 		_bottom.anchor_bottom = 1.0
 		_hint = Label.new()
-		_hint.text = "ESC: sahneyi geç     Enter / J: ilerlet"
+		_hint.text = ("Dokun: ilerlet     ATLA: sahneyi geç" if TouchControls.active_on_device() else
+			"ESC: sahneyi geç     Enter / J: ilerlet")
 		_hint.add_theme_font_size_override(&"font_size", 15)
 		_hint.add_theme_color_override(&"font_color", Color(0.75, 0.75, 0.8, 0.8))
 		_hint.anchor_left = 1.0

@@ -21,12 +21,14 @@ const BUTTONS := [
 	["next", "DEVAM", 80, Vector2(-210, 112)],
 	["menu", "MENÜ", 80, Vector2(-410, 112)],
 ]
+const GAMEPLAY_ACTIONS := ["move_left", "move_right", "crouch", "dash", "attack", "jump", "heavy_attack", "fire"]
 
 var _buttons: Dictionary = {}
 var _labels: Dictionary = {}
 var _mode := "hidden"
 var _has_gun := false
 var _can_throw := false
+var _has_next_level := true
 
 
 func _ready() -> void:
@@ -41,7 +43,7 @@ func _ready() -> void:
 		var button := TouchScreenButton.new()
 		button.name = key
 		button.visibility_mode = TouchScreenButton.VISIBILITY_ALWAYS
-		button.texture_normal = _disc(radius, Color(0.08, 0.07, 0.12, 0.48), Color(0.95, 0.76, 0.37, 0.7))
+		button.texture_normal = _disc(radius, Color(0.08, 0.07, 0.12, 0.28), Color(0.95, 0.76, 0.37, 0.55))
 		button.texture_pressed = _disc(radius, Color(0.95, 0.66, 0.19, 0.8), Color(1, 1, 1, 0.95))
 		var shape := CircleShape2D.new()
 		shape.radius = radius * 1.08
@@ -79,6 +81,8 @@ func is_enabled() -> bool:
 
 ## Çentik / yuvarlak köşe payı, görüntü birimiyle: Vector2(sol, sağ).
 static func safe_insets(viewport: Viewport) -> Vector2:
+	if not OS.has_feature("mobile"):
+		return Vector2.ZERO
 	var window := DisplayServer.window_get_size()
 	var safe := DisplayServer.get_display_safe_area()
 	if window.x <= 0 or safe.size.x <= 0:
@@ -101,14 +105,20 @@ func set_context(has_gun: bool, can_throw: bool) -> void:
 		return
 	_has_gun = has_gun
 	_can_throw = can_throw
-	_apply_mode()
+	_apply_mode(_has_next_level)
 
 
 func set_mode(mode: String, has_next_level: bool = true) -> void:
-	if not visible or _mode == mode:
+	if not visible or (_mode == mode and _has_next_level == has_next_level):
 		return
 	_mode = mode
+	_has_next_level = has_next_level
 	_apply_mode(has_next_level)
+
+
+static func release_gameplay_inputs() -> void:
+	for action in GAMEPLAY_ACTIONS:
+		Input.action_release(action)
 
 
 func _apply_mode(has_next_level: bool = true) -> void:
@@ -117,13 +127,15 @@ func _apply_mode(has_next_level: bool = true) -> void:
 		var show: bool = (mode == "play" and key not in ["retry", "next", "menu"]
 				and (key != "fire" or _has_gun)) \
 			or (mode == "dialogue" and key == "attack") \
+			or (mode == "cutscene" and key in ["attack", "pause"]) \
 			or (mode == "dead" and key in ["retry", "pause"]) \
 			or (mode == "results" and key in ["next", "menu"])
 		_buttons[key].visible = show
 		_labels[key].visible = show
 		if not show and InputMap.has_action(key):
 			Input.action_release(key)
-	_labels["attack"].text = "DEVAM" if mode == "dialogue" else "VUR"
+	_labels["attack"].text = "DEVAM" if mode in ["dialogue", "cutscene"] else "VUR"
+	_labels["pause"].text = "ATLA" if mode == "cutscene" else "II"
 	_labels["heavy_attack"].text = "FIRLAT" if _can_throw else "AĞIR"
 	_labels["next"].text = "SONRAKİ" if has_next_level else "BAŞTAN"
 
@@ -131,18 +143,35 @@ func _apply_mode(has_next_level: bool = true) -> void:
 func _layout() -> void:
 	var viewport_size := get_viewport().get_visible_rect().size
 	var insets := safe_insets(get_viewport())
+	var vertical := safe_vertical_insets(get_viewport())
+	var button_scale := clampf(viewport_size.y / 720.0, 0.85, 1.2)
 	for spec in BUTTONS:
 		var key: String = spec[0]
 		var radius: int = spec[2]
 		var offset: Vector2 = spec[3]
 		var center := Vector2(
-			offset.x + insets.x if offset.x > 0 else viewport_size.x + offset.x - insets.y,
-			viewport_size.y - offset.y if offset.y > 0 else -offset.y,
+			offset.x * button_scale + insets.x if offset.x > 0 else viewport_size.x + offset.x * button_scale - insets.y,
+			viewport_size.y - offset.y * button_scale - vertical.y if offset.y > 0 else -offset.y * button_scale + vertical.x,
 		)
 		if is_zero_approx(offset.x):
 			center.x = viewport_size.x * 0.5
-		_buttons[key].position = center - Vector2.ONE * radius
-		_labels[key].position = center - Vector2.ONE * radius
+		_buttons[key].scale = Vector2.ONE * button_scale
+		_labels[key].scale = Vector2.ONE * button_scale
+		_buttons[key].position = center - Vector2.ONE * radius * button_scale
+		_labels[key].position = center - Vector2.ONE * radius * button_scale
+
+
+static func safe_vertical_insets(viewport: Viewport) -> Vector2:
+	if not OS.has_feature("mobile"):
+		return Vector2.ZERO
+	var window := DisplayServer.window_get_size()
+	var safe := DisplayServer.get_display_safe_area()
+	if window.y <= 0 or safe.size.y <= 0:
+		return Vector2.ZERO
+	var unit := viewport.get_visible_rect().size.y / float(window.y)
+	return Vector2(
+		clampf(safe.position.y * unit, 0.0, 100.0),
+		clampf((window.y - safe.end.y) * unit, 0.0, 100.0))
 
 
 static func _disc(radius: int, fill: Color, ring: Color) -> GradientTexture2D:

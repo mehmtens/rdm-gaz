@@ -82,7 +82,9 @@ func save_game() -> void:
 	cfg.set_value("shop", "purchased", purchased)
 	cfg.set_value("shop", "upgrade_levels", upgrade_levels)
 	cfg.set_value("settings", "master_volume_db", master_volume_db)
-	cfg.save(_path)
+	var error := cfg.save(_path)
+	if error != OK:
+		push_error("Oyun kaydı yazılamadı: %s (%d)" % [_path, error])
 
 
 ## Bir bölüm tamamlanınca çağrılır.
@@ -103,7 +105,10 @@ func record_secrets(index: int, found: int, total: int) -> void:
 
 func record_rank(index: int, rank: String) -> void:
 	const ORDER := "CBAS"
-	if ORDER.find(rank) > ORDER.find(String(ranks.get(index, ""))):
+	if rank.length() != 1 or ORDER.find(rank) < 0:
+		return
+	var previous := String(ranks.get(index, ""))
+	if previous.is_empty() or ORDER.find(rank) > ORDER.find(previous):
 		ranks[index] = rank
 		save_game()
 

@@ -8,6 +8,7 @@ extends Camera2D
 @export var shake_decay: float = 40.0
 ## Bakış yönünde ne kadar öne bakılsın (px).
 @export var look_ahead: float = 64.0
+@export var mobile_look_ahead: float = 88.0
 ## Düşerken aşağı kayma (px).
 @export var fall_look: float = 40.0
 
@@ -36,7 +37,7 @@ func _process(delta: float) -> void:
 	if _body != null and _body.global_position.is_finite() and _body.velocity.is_finite():
 		var target := Vector2.ZERO
 		if absf(_body.velocity.x) > 20.0:
-			target.x = signf(_body.velocity.x) * look_ahead
+			target.x = signf(_body.velocity.x) * (mobile_look_ahead if TouchControls.active_on_device() else look_ahead)
 		if not _body.is_on_floor() and _body.velocity.y > 120.0:
 			target.y = fall_look
 		_lead = _lead.lerp(target, clampf(delta * 3.5, 0.0, 1.0))

@@ -17,7 +17,8 @@ extends Control
 @onready var _boss_fill: ColorRect = $BossBar/BossFill
 @onready var _boss_label: Label = $BossBar/BossLabel
 
-const BOSS_BAR_WIDTH: float = 628.0
+var _boss_bar_width: float = 628.0
+var _boss_ratio: float = 1.0
 @onready var _results: ColorRect = $ResultsPanel
 @onready var _results_stats: Label = $ResultsPanel/Stats
 @onready var _results_title: Label = $ResultsPanel/Title
@@ -33,17 +34,22 @@ const RANK_COLOR := {
 }
 @onready var _combo: Label = $ComboLabel
 
-const BAR_WIDTH: float = 256.0
+var _bar_width: float = 256.0
 
 var _coin_bump: float = 0.0
 var _place: _PlaceBanner
 var _combo_pulse: float = 0.0
+var _neighborhood_panel: Panel
+var _neighborhood_portrait: TextureRect
+var _neighborhood_name: Label
 
 
 func _ready() -> void:
 	_style()
-	if GameState.level_index == 0:
-		_style_neighborhood()
+	_style_neighborhood()
+	if TouchControls.active_on_device():
+		_style_mobile()
+	set_level_context(GameState.level_index)
 	_death.visible = false
 	_stage.visible = false  # bölüm / kitap numarası oyun içinde gösterilmez
 	_results.visible = false
@@ -54,7 +60,6 @@ func _ready() -> void:
 	GameState.coins_changed.connect(_on_coins_changed)
 	Combat.combo_changed.connect(_on_combo_changed)
 	Combat.combo_finished.connect(_on_combo_finished)
-	_on_coins_changed(GameState.coins)
 
 
 ## Tüm HUD'a okunaklı, tutarlı görünüm — dünya dokusu üstünde net dursun.
@@ -90,9 +95,10 @@ func _style() -> void:
 
 
 func _style_neighborhood() -> void:
+	var mobile := TouchControls.active_on_device()
 	var panel := Panel.new()
-	panel.position = Vector2(20, 20)
-	panel.size = Vector2(378, 118)
+	panel.position = Vector2(16, 16) if mobile else Vector2(20, 20)
+	panel.size = Vector2(320, 112) if mobile else Vector2(378, 118)
 	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var box := StyleBoxFlat.new()
 	box.bg_color = Color("242339ed")
@@ -103,30 +109,81 @@ func _style_neighborhood() -> void:
 	panel.add_theme_stylebox_override("panel", box)
 	add_child(panel)
 	move_child(panel, 0)
+	_neighborhood_panel = panel
 	var portrait := TextureRect.new()
 	portrait.texture = preload("res://assets/environment/mahalle/portrait.png")
-	portrait.position = Vector2(30, 34)
+	portrait.position = Vector2(22, 39) if mobile else Vector2(30, 34)
 	portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	portrait.size = Vector2(64, 80)
 	portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(portrait)
-	portrait.scale = Vector2(0.42, 0.42)
+	portrait.scale = Vector2(0.48, 0.48) if mobile else Vector2(0.42, 0.42)
+	_neighborhood_portrait = portrait
 	var name_label := Label.new()
 	name_label.text = "REDMOUNT"
-	name_label.position = Vector2(108, 25)
+	name_label.position = Vector2(82, 27) if mobile else Vector2(108, 25)
 	name_label.add_theme_font_size_override("font_size", 15)
 	name_label.add_theme_color_override("font_color", Color("ffd584"))
 	add_child(name_label)
-	$HealthBg.position = Vector2(108, 49)
-	_coins.position = Vector2(108, 84)
+	_neighborhood_name = name_label
+	$HealthBg.position = Vector2(82, 52) if mobile else Vector2(108, 49)
+	_coins.position = Vector2(82, 86) if mobile else Vector2(108, 84)
 	_coins.add_theme_font_size_override("font_size", 16)
-	_weapon.position = Vector2(108, 108)
+	_weapon.position = Vector2(20, 130) if mobile else Vector2(108, 108)
 	_weapon.add_theme_font_size_override("font_size", 14)
-	_ammo.position.y = 143
-	_armor.position.y = 165
-	_powerups.position.y = 187
+	_ammo.position.y = 158 if mobile else 143
+	_armor.position.y = 186 if mobile else 165
+	_powerups.position.y = 214 if mobile else 187
 	_stage.add_theme_color_override("font_color", Color("ffd584"))
+
+
+func _style_mobile() -> void:
+	_bar_width = 218.0
+	$HealthBg.size = Vector2(226, 30)
+	_boss_bar.anchor_top = 0.0
+	_boss_bar.anchor_bottom = 0.0
+	_boss_bar.anchor_left = 0.0
+	_boss_bar.anchor_right = 0.0
+	_boss_bar.offset_top = 96.0
+	_boss_bar.offset_bottom = 122.0
+	resized.connect(_layout_mobile_boss_bar)
+	_layout_mobile_boss_bar()
+
+
+func set_level_context(index: int) -> void:
+	var neighborhood := index == 0
+	var mobile := TouchControls.active_on_device()
+	_neighborhood_panel.visible = neighborhood
+	_neighborhood_portrait.visible = neighborhood
+	_neighborhood_name.visible = neighborhood
+	if not neighborhood:
+		$HealthBg.position = Vector2(16, 20 if mobile else 44)
+		_coins.position = Vector2(16, 62 if mobile else 80)
+		_weapon.position = Vector2(16, 90 if mobile else 104)
+		_ammo.position = Vector2(16, 118 if mobile else 128)
+		_armor.position = Vector2(16, 146 if mobile else 152)
+		_powerups.position = Vector2(16, 174 if mobile else 176)
+	else:
+		$HealthBg.position = Vector2(82, 52) if mobile else Vector2(108, 49)
+		_coins.position = Vector2(82, 86) if mobile else Vector2(108, 84)
+		_weapon.position = Vector2(20, 130) if mobile else Vector2(108, 108)
+		_ammo.position.y = 158 if mobile else 143
+		_armor.position.y = 186 if mobile else 165
+		_powerups.position.y = 214 if mobile else 187
+	if mobile:
+		_layout_mobile_boss_bar()
+	_on_coins_changed(GameState.coins)
+
+
+func _layout_mobile_boss_bar() -> void:
+	var hud_edge := 340.0 if GameState.level_index == 0 else 260.0
+	var width := minf(560.0, maxf(220.0, size.x - hud_edge - 16.0))
+	_boss_bar.offset_right = size.x - 16.0
+	_boss_bar.offset_left = _boss_bar.offset_right - width
+	_boss_bar_width = width - 12.0
+	_boss_label.offset_right = width - 8.0
+	_boss_fill.size.x = _boss_bar_width * _boss_ratio
 
 
 func _process(delta: float) -> void:
@@ -171,7 +228,7 @@ func _flash_big_combo(count: int, bonus: int) -> void:
 
 func set_health(current: int, maximum: int) -> void:
 	var ratio := 0.0 if maximum <= 0 else clampf(float(current) / float(maximum), 0.0, 1.0)
-	_fill.size.x = BAR_WIDTH * ratio
+	_fill.size.x = _bar_width * ratio
 	# Piksel dolgu (PixelUIBoot): asıl ColorRect saydam, renk piksel dolguya verilir.
 	_fill.color = Color(0, 0, 0, 0)
 	if _fill.get_child_count() > 0:
@@ -181,17 +238,18 @@ func set_health(current: int, maximum: int) -> void:
 
 func set_weapon(display_name: String, uses: int, max_uses: int) -> void:
 	if display_name.is_empty():
-		_weapon.text = "Silah: Yumruk"
+		_weapon.text = "YUMRUK" if TouchControls.active_on_device() else "Silah: Yumruk"
 	else:
-		_weapon.text = "Silah: %s  (%d/%d)" % [display_name, uses, max_uses]
+		_weapon.text = ("%s  %d/%d" if TouchControls.active_on_device() else "Silah: %s  (%d/%d)") % [display_name, uses, max_uses]
 
 
 func set_ammo(mag: int, reserve: int, has_gun: bool) -> void:
-	_ammo.text = "Mermi: %d | %d" % [mag, reserve] if has_gun else ""
+	_ammo.text = ("MERMİ %d/%d" if TouchControls.active_on_device() else "Mermi: %d | %d") % [mag, reserve] if has_gun else ""
 
 
 func set_armor(display_name: String, hp: int, max_hp: int) -> void:
-	_armor.text = "Zırh: %s %d/%d · hasar -%%50 · hız -%%15" % [display_name, hp, max_hp] if not display_name.is_empty() else ""
+	_armor.text = ("ZIRH %d/%d" % [hp, max_hp] if TouchControls.active_on_device() else
+		"Zırh: %s %d/%d · hasar -%%50 · hız -%%15" % [display_name, hp, max_hp]) if not display_name.is_empty() else ""
 
 
 func set_powerups(active: Array) -> void:
@@ -209,7 +267,8 @@ func set_boss_health(current: int, maximum: int) -> void:
 		_boss_bar.visible = false
 		return
 	_boss_bar.visible = true
-	_boss_fill.size.x = BOSS_BAR_WIDTH * clampf(float(current) / float(maximum), 0.0, 1.0)
+	_boss_ratio = clampf(float(current) / float(maximum), 0.0, 1.0)
+	_boss_fill.size.x = _boss_bar_width * _boss_ratio
 
 
 func show_death() -> void:
@@ -235,16 +294,17 @@ func show_place(title: String, story: String, accent: Color = Color("ffc857")) -
 
 
 func show_stage_clear(current: int, rank: String = "", seconds: float = 0.0,
-		defeated: int = 0, enemy_total: int = 0, hits: int = 0) -> void:
+		defeated: int = 0, enemy_total: int = 0, hits: int = 0,
+		stage_score: int = 0) -> void:
 	_results_title.text = ("KİTAP 3 · BÖLÜM %d TAMAMLANDI" % (current - 24)
 		if current > 24 else "KİTAP 2 · BÖLÜM %d TAMAMLANDI" % (current - 12)
 		if current > 12 else "BÖLÜM %d TAMAMLANDI" % current)
-	_results_stats.text = "Süre: %d:%02d      Düşman: %d/%d      Hasar: %d\nCoin: %d      Skor: %d" % [
+	_results_stats.text = "Süre: %d:%02d      Düşman: %d/%d      Hasar: %d\nCoin: %d\nBölüm skoru: %d      Toplam: %d" % [
 		int(seconds) / 60, int(seconds) % 60, defeated, enemy_total, hits,
-		GameState.coins, GameState.score,
+		GameState.coins, stage_score, GameState.score,
 	]
 	if secrets_line != "":
-		_results_stats.text += "      " + secrets_line
+		_results_stats.text += "\n" + secrets_line
 	_results_hint.text = "R — sonraki bölüm     ·     M — ana menü"
 	for it in Shop.ITEMS:
 		if int(it.get("unlock_level", 0)) == current and not Save.owns(it.id):
@@ -253,14 +313,21 @@ func show_stage_clear(current: int, rank: String = "", seconds: float = 0.0,
 
 
 func show_results(coins: int, defeated: int, enemy_total: int, seconds: float, score: int,
-		title: String = "OYUN TAMAMLANDI", rank: String = "", hits: int = 0) -> void:
+		title: String = "OYUN TAMAMLANDI", rank: String = "", hits: int = 0,
+		stage_score: int = -1) -> void:
 	_results_title.text = title
-	_results_stats.text = "Süre: %d:%02d\nCoin: %d\nDüşman: %d / %d\nHasar: %d\n\nSkor: %d" % [
-		int(seconds) / 60, int(seconds) % 60, coins, defeated, enemy_total, hits, score,
-	]
+	if TouchControls.active_on_device():
+		_results_stats.text = "Süre: %d:%02d   Düşman: %d/%d\nCoin: %d   Hasar: %d\nToplam skor: %d" % [
+			int(seconds) / 60, int(seconds) % 60, defeated, enemy_total, coins, hits, score,
+		]
+	else:
+		_results_stats.text = "Süre: %d:%02d\nCoin: %d\nDüşman: %d / %d\nHasar: %d\n\nSkor: %d" % [
+			int(seconds) / 60, int(seconds) % 60, coins, defeated, enemy_total, hits, score,
+		]
+	if stage_score >= 0:
+		_results_stats.text += "  ·  Bölüm: %d" % stage_score
 	if secrets_line != "":
-		_results_stats.text += "
-" + secrets_line
+		_results_stats.text += "\n" + secrets_line
 	_results_hint.text = ("R — sonraki bölüm     ·     M — ana menü"
 		if GameState.has_next_level() else "R — baştan başla     ·     M — ana menü")
 	_reveal(rank)
@@ -344,9 +411,8 @@ func hide_results() -> void:
 
 
 func _on_coins_changed(total: int) -> void:
-	_coins.text = (("COIN  %03d" if GameState.level_index == 0 else "COIN  %d  ·  II: CEPHANELİK")
-		if TouchControls.active_on_device() else
-		("COIN  %03d" if GameState.level_index == 0 else "COIN  %d  ·  ESC: CEPHANELİK")) % total
+	_coins.text = ("COIN  %03d" if TouchControls.active_on_device() or GameState.level_index == 0 else
+		"COIN  %d  ·  ESC: CEPHANELİK") % total
 	_coin_bump = 1.0
 
 

@@ -58,7 +58,10 @@ func _ready() -> void:
 	_touch.pause_requested.connect(_pause.toggle)
 	_touch.retry_requested.connect(_restart)
 	_touch.menu_requested.connect(_menu)
+	get_viewport().size_changed.connect(_apply_safe_area)
+	_apply_safe_area()
 	GameState.start_run()
+	_hud.set_level_context(-1)
 	GameState.coin_multiplier = 2 if Save.owns("double_coin") else 1
 	_hud.set_health(_player.get_health(), _player.get_max_health())
 	_hud.set_boss_health(0, 0)
@@ -71,6 +74,23 @@ func _process(_delta: float) -> void:
 	if not _touch.is_enabled():
 		return
 	_touch.set_mode("hidden" if _pause.is_open() else "dead" if _dead else "play")
+
+
+func _apply_safe_area() -> void:
+	var insets := TouchControls.safe_insets(get_viewport())
+	var vertical := TouchControls.safe_vertical_insets(get_viewport())
+	_hud.offset_left = insets.x
+	_hud.offset_right = -insets.y
+	_hud.offset_top = vertical.x
+	_hud.offset_bottom = -vertical.y
+
+
+func _notification(what: int) -> void:
+	if what != NOTIFICATION_APPLICATION_PAUSED and what != NOTIFICATION_WM_WINDOW_FOCUS_OUT:
+		return
+	TouchControls.release_gameplay_inputs()
+	if is_node_ready() and not _dead and not get_tree().paused and not _pause.is_open():
+		_pause.open()
 
 
 func _draw() -> void:

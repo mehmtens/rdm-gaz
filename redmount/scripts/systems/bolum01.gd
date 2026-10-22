@@ -19,8 +19,10 @@ func _build() -> void:
 	_prop("vazo", 400)
 	_coin_line(470, 4, 55, -50)
 	# İlk kavga geniş, düz sokakta: iki kabadayı, arkalarında kırılacak ödül.
-	_hint(640, "Koşarken çömel: kayma tekmesi düşmanı ayağından alır.", "slide")
+	# Açılış oyuncuyu x=470'e bırakır; önce temel eylemler, sonra özel hamle.
 	_hint(150, "Sağa değil sola bak: çatlak duvarların ardında gizli alanlar var.", "")
+	_hint(560, "Yön düğmeleriyle sokağa ilerle.", "move")
+	_hint(720, "Yaklaş ve VUR ile saldır.", "attack")
 	_enemy(STREET, 820, 0)
 	_enemy(STREET, 960, 0)
 	_prop("kasa", 1050)
@@ -33,6 +35,7 @@ func _build() -> void:
 	awning.height = 60
 	awning.position = Vector2(1200, 0)
 	add_child(awning)
+	_hint(1120, "Tenteye zıplayıp çatılara çık.", "jump")
 	_coins_arc(1150, 5, 45, -330)
 	var h1 := _house(1290, -240, 0)
 	_coin_line(h1 - 170, 3, 55, -290)
@@ -51,6 +54,7 @@ func _build() -> void:
 
 	# --- 3. Taş set, tüfekli, gizli oda ---------------------------------------
 	_checkpoint(2280, 0)
+	_hint(2300, "Koşarken çömel: kayma tekmesi düşmanı ayağından alır.", "slide")
 	_terrain(2200, 2480, 0)
 	_terrain(2480, 2580, -45)
 	_terrain(2580, 3060, -90)

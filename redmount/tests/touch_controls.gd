@@ -11,11 +11,19 @@ func _initialize() -> void:
 
 
 func _run() -> void:
+	GameState.level_index = 0
 	var main := (load("res://scenes/Main.tscn") as PackedScene).instantiate()
 	root.add_child(main)
+	# Bu test oyun girdilerini ölçer; otomatik açılış sahnesi bunları duraklatmasın.
+	for node in main._level.get_children():
+		if node is Cutscene:
+			node._started = true
 	await process_frame
 	var touch: TouchControls = main.get_node(^"TouchControls")
 	assert(touch.is_enabled())
+	if not OS.has_feature("mobile"):
+		assert(TouchControls.safe_insets(root.get_viewport()) == Vector2.ZERO,
+			"Masaüstü dokunmatik önizlemesinde ekran çentiği payı uygulanmamalı")
 	assert(touch.get_node(^"attack").visible)
 	assert(not touch.get_node(^"fire").visible, "Silah yokken ATEŞ düğmesi görünmemeli")
 	assert(touch.get_node(^"move_left").action == "move_left")
@@ -43,10 +51,20 @@ func _run() -> void:
 	await process_frame
 	assert(touch.get_node(^"fire").visible, "Silah alınınca ATEŞ düğmesi görünmeli")
 
-	touch.set_mode("results")
+	touch.set_mode("results", false)
 	assert(touch.get_node(^"next").visible)
+	assert(touch._labels["next"].text == "BAŞTAN")
+	touch.set_mode("results", true)
+	assert(touch._labels["next"].text == "SONRAKİ")
 	assert(not touch.get_node(^"attack").visible)
+	touch.set_mode("cutscene")
+	assert(touch.get_node(^"attack").visible and touch._labels["attack"].text == "DEVAM")
+	assert(touch.get_node(^"pause").visible and touch._labels["pause"].text == "ATLA")
+	assert(not touch.get_node(^"move_left").visible)
 	touch.set_mode("play")
+	Input.action_press(&"move_left")
+	TouchControls.release_gameplay_inputs()
+	assert(not Input.is_action_pressed(&"move_left"), "Uygulama odağı kaybında hareket bırakılmalı")
 	_touch(touch.get_node(^"pause"), 0, true)
 	await process_frame
 	assert(main.get_node(^"PauseMenu").is_open())
@@ -60,7 +78,7 @@ func _run() -> void:
 	paused = true
 	_touch(touch.get_node(^"next"), 0, true)
 	await process_frame
-	assert(main._level.scene_file_path == "res://scenes/levels/Level06.tscn",
+	assert(main._level.scene_file_path == "res://scenes/levels/Bolum02.tscn",
 		"Dokunmatik sonuç düğmesi sonraki bölüme geçmedi")
 	assert(not paused)
 	_touch(touch.get_node(^"next"), 0, false)
@@ -80,5 +98,5 @@ func _touch(button: TouchScreenButton, finger: int, pressed: bool) -> void:
 	var event := InputEventScreenTouch.new()
 	event.index = finger
 	event.pressed = pressed
-	event.position = button.position + button.texture_normal.get_size() / 2.0
+	event.position = button.position + button.texture_normal.get_size() * button.scale / 2.0
 	Input.parse_input_event(event)

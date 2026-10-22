@@ -23,14 +23,12 @@ func _run() -> void:
 	var menu := (load("res://scenes/MainMenu.tscn") as PackedScene).instantiate() as Control
 	root.add_child(menu)
 	await process_frame
-	var scroll := menu.get_node(^"Root/LevelsScroll") as ScrollContainer
-	var buttons := menu.get_node(^"Root/LevelsScroll/Levels") as HBoxContainer
-	assert(buttons.get_child_count() == GAME_STATE_SCRIPT.LEVELS.size(), "Menüde bölüm düğmesi eksik.")
-	scroll.scroll_horizontal = 99999
-	await process_frame
-	assert(scroll.scroll_horizontal > 0, "Son bölüm düğmeleri yatay kaydırma ile erişilebilir olmalı.")
-	var menu_root := menu.get_node(^"Root") as Control
-	assert(menu_root.position.y >= 0 and menu_root.position.y + menu_root.size.y <= root.get_viewport().get_visible_rect().size.y,
-		"Menü dikey olarak ekran dışına taşmamalı.")
+	menu._show(menu._levels)
+	assert(menu._tabs.size() == 3, "Kitap sekmeleri eksik.")
+	for book in 3:
+		menu._select_book(book)
+		await process_frame
+		assert(menu._grid.get_child_count() == 12, "Kitap %d bölüm kartları eksik." % (book + 1))
+		assert(menu._book_title.text.begins_with("KİTAP %d" % (book + 1)), "Kitap sekmesi değişmedi.")
 	menu.queue_free()
 	quit(0)
