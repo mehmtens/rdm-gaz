@@ -13,6 +13,8 @@ const PARMAKLIK_TEPE := preload("res://assets/environment/pixel/parmaklik_tepe.p
 
 signal cleared
 signal enemy_spawned(enemy: Node)
+## HUD göstergesi için: kaçıncı dalga / toplam dalga / o dalgada kalan düşman.
+signal wave_changed(wave: int, total: int, remaining: int)
 
 ## Bariyerlerin dünya-x konumları (arena genişliği).
 @export var gate_left_x: float = 0.0
@@ -159,10 +161,12 @@ func _spawn_wave() -> void:
 		enemy_spawned.emit(e)
 		Fx.ring(e.global_position + Vector2(0, -70), _accent, 8, 74, 0.35)
 	Fx.spark(Vector2((gate_left_x + gate_right_x) * 0.5, floor_y - 80.0), Vector2.ZERO, 7, _accent)
+	wave_changed.emit(_wave_idx, _waves.size(), _alive.size())
 
 
 func _on_enemy_down(e: Node) -> void:
 	_alive.erase(e)
+	wave_changed.emit(_wave_idx, _waves.size(), _alive.size())
 	if not _alive.is_empty():
 		return
 	if _wave_idx < _waves.size():

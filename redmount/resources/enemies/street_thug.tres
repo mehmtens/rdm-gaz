@@ -5,6 +5,8 @@
 [resource]
 script = ExtResource("1_cfg")
 display_name = "Sokak Eşkıyası"
+drop_scene = "res://scenes/pickups/BatPickup.tscn"
+drop_chance = 0.12
 max_health = 30
 score_value = 100
 move_speed = 95.0

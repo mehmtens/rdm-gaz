@@ -734,6 +734,7 @@ func apply_hit(damage: int, dir: Vector2, knockback: float) -> void:
 		Combat.hitstop(0.07)
 		if not _defeated_sent:
 			_defeated_sent = true
+			_drop_loot()
 			defeated.emit(self)
 		return
 
@@ -995,3 +996,17 @@ func _on_oneway() -> bool:
 			if body != null and body.get_collision_layer_value(8):
 				return true
 	return false
+
+
+## Elindeki silahı yere bırakır (EnemyConfig.drop_scene). Ölüm fizik sorgusu
+## sırasında gelebilir; Area2D pickup ertelenerek eklenir.
+func _drop_loot() -> void:
+	if config.drop_scene.is_empty() or randf() >= config.drop_chance:
+		return
+	var packed := load(config.drop_scene) as PackedScene
+	if packed == null or get_parent() == null:
+		return
+	var pickup: Node2D = packed.instantiate()
+	pickup.position = position + Vector2(0, -36)
+	get_parent().add_child.call_deferred(pickup)
+	Fx.ring(global_position + Vector2(0, -40), Color(1, 0.9, 0.5), 5, 26, 0.25)

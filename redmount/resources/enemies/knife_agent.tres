@@ -5,6 +5,8 @@
 [resource]
 script = ExtResource("1_cfg")
 display_name = "Bıçaklı Ajan"
+drop_scene = "res://scenes/pickups/KnifePickup.tscn"
+drop_chance = 0.6
 max_health = 22
 score_value = 140
 move_speed = 130.0

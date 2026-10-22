@@ -12,6 +12,12 @@ extends Resource
 ## Yenilince verilen skor / coin değeri (ileride kullanılacak).
 @export var score_value: int = 100
 
+@export_group("Ganimet")
+## Yenilince elindeki silahı bırakma (Dan the Man tarzı: düşmanın silahını kap).
+@export_file("*.tscn") var drop_scene: String = ""
+## 0..1 — bırakma olasılığı.
+@export var drop_chance: float = 0.0
+
 @export_group("Hareket")
 @export var move_speed: float = 90.0
 @export var patrol_speed: float = 45.0

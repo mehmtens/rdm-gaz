@@ -42,6 +42,8 @@ var _combo_pulse: float = 0.0
 var _neighborhood_panel: Panel
 var _neighborhood_portrait: TextureRect
 var _neighborhood_name: Label
+var _arena_panel: PanelContainer
+var _arena_label: Label
 
 
 func _ready() -> void:
@@ -55,6 +57,7 @@ func _ready() -> void:
 	_results.visible = false
 	_results_rank.visible = false
 	_build_results_card()
+	_build_arena_counter()
 	_boss_bar.visible = false
 	_combo.visible = false
 	GameState.coins_changed.connect(_on_coins_changed)
@@ -269,6 +272,40 @@ func set_boss_health(current: int, maximum: int) -> void:
 	_boss_bar.visible = true
 	_boss_ratio = clampf(float(current) / float(maximum), 0.0, 1.0)
 	_boss_fill.size.x = _boss_bar_width * _boss_ratio
+
+
+## Kilitli arena göstergesi: ekranın üst ortasında piksel çerçeveli dalga sayacı.
+func _build_arena_counter() -> void:
+	_arena_panel = PanelContainer.new()
+	_arena_panel.add_theme_stylebox_override(&"panel", PixelUI.box("panel_hud", 20))
+	_arena_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_arena_panel.anchor_left = 0.5
+	_arena_panel.anchor_right = 0.5
+	_arena_panel.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	_arena_panel.offset_top = 12.0
+	_arena_panel.visible = false
+	_arena_label = Label.new()
+	_arena_label.add_theme_font_size_override(&"font_size", 24)
+	_arena_label.add_theme_color_override(&"font_color", Color(1.0, 0.72, 0.42))
+	_arena_panel.add_child(_arena_label)
+	add_child(_arena_panel)
+
+
+## wave 0 → gösterge gizlenir (arena temizlendi / bölüm değişti).
+func set_arena_wave(wave: int, total: int, remaining: int) -> void:
+	if wave <= 0 or total <= 0:
+		_arena_panel.visible = false
+		return
+	_arena_panel.visible = true
+	_arena_label.text = "DALGA %d/%d  ·  %d DÜŞMAN" % [wave, total, remaining]
+	# Ortalanmış kalsın: piksel yazı teması uygulandıktan sonra metne göre ölç.
+	_fit_arena_panel.call_deferred()
+
+
+func _fit_arena_panel() -> void:
+	var w := _arena_panel.get_combined_minimum_size().x
+	_arena_panel.offset_left = -w * 0.5
+	_arena_panel.offset_right = w * 0.5
 
 
 func show_death() -> void:

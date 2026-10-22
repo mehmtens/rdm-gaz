@@ -9,6 +9,14 @@ extends Node2D
 
 const COIN := preload("res://scenes/pickups/Coin.tscn")
 const HEALTH := preload("res://scenes/pickups/HealthPickup.tscn")
+## Tür → ganimet tablosu: oyuncu neyi kırmaya değer olduğunu öğrensin (Dan the Man).
+## Kasa yiyecek, varil cephane, sandık silah verir; saksı/vazo/tüp yalnız coin.
+## Bölüm tasarımcısı drops_health / reward verdiyse tablo devreye girmez.
+const LOOT := {
+	"kasa": {"chance": 0.3, "scenes": ["res://scenes/pickups/HealthPickup.tscn"]},
+	"varil": {"chance": 0.35, "scenes": ["res://scenes/pickups/AmmoPickup.tscn"]},
+	"sandik": {"chance": 0.5, "scenes": ["res://scenes/pickups/BatPickup.tscn", "res://scenes/pickups/KnifePickup.tscn"]},
+}
 const VASE_SMALL := preload("res://assets/environment/mahalle/vase_small.png")
 const VASE_BIG := preload("res://assets/environment/mahalle/vase_big.png")
 const VASE_IZNIK := preload("res://assets/environment/mahalle/vase_iznik_v2.png")
@@ -171,8 +179,21 @@ func _break(dir: Vector2) -> void:
 		_drop.call_deferred(HEALTH, center + Vector2(0, -30))
 	if reward != null:
 		_drop.call_deferred(reward, center + Vector2(0, -46))
+	elif not drops_health:
+		var loot := roll_loot(kind, randf(), randi())
+		if loot != null:
+			_drop.call_deferred(loot, center + Vector2(0, -46))
 
 	queue_free()
+
+
+## LOOT tablosundan zar: roll < chance ise türün sahnelerinden biri, yoksa null.
+static func roll_loot(prop_kind: String, roll: float, pick: int) -> PackedScene:
+	var entry: Dictionary = LOOT.get(prop_kind, {})
+	if entry.is_empty() or roll >= float(entry["chance"]):
+		return null
+	var scenes: Array = entry["scenes"]
+	return load(scenes[pick % scenes.size()]) as PackedScene
 
 
 ## Dan the Man tarzı patlayıcı varil: çevredeki düşmanları savurur, oyuncuyu

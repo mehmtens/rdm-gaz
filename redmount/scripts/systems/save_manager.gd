@@ -9,6 +9,8 @@ const PATH := "user://redmount_save.cfg"
 ## kayıt kullanılır. Böylece test, oyuncunun açtığı bölümleri, coin'lerini ve
 ## mağaza alımlarını değiştirmez; test yükseltmesiz yeni bir oyuncu gibi başlar.
 const TEST_PATH := "user://redmount_test_save.cfg"
+## %100 ustalık (S rütbe + bölümün bütün gizli alanları) için tek seferlik coin.
+const MASTERY_REWARD := 50
 
 var _path := PATH
 
@@ -22,6 +24,10 @@ var best_scores: Dictionary = {}
 var secrets: Dictionary = {}
 ## Bölüm başına en iyi rütbe (S/A/B/C).
 var ranks: Dictionary = {}
+## Bölüm başına en kısa bitirme süresi (sn).
+var best_times: Dictionary = {}
+## %100 ustalık ödülü alınmış bölümler (index -> true). Ödül bölüm başına bir kez.
+var mastered: Dictionary = {}
 var survival_best_wave: int = 0
 var master_volume_db: float = 0.0
 ## Satın alınan mağaza ürün id'leri.
@@ -59,6 +65,8 @@ func load_game() -> void:
 	best_scores = cfg.get_value("progress", "best_scores", {})
 	secrets = cfg.get_value("progress", "secrets", {})
 	ranks = cfg.get_value("progress", "ranks", {})
+	best_times = cfg.get_value("progress", "best_times", {})
+	mastered = cfg.get_value("progress", "mastered", {})
 	survival_best_wave = int(cfg.get_value("progress", "survival_best_wave", 0))
 	purchased = cfg.get_value("shop", "purchased", [])
 	upgrade_levels = cfg.get_value("shop", "upgrade_levels", {})
@@ -78,6 +86,8 @@ func save_game() -> void:
 	cfg.set_value("progress", "best_scores", best_scores)
 	cfg.set_value("progress", "secrets", secrets)
 	cfg.set_value("progress", "ranks", ranks)
+	cfg.set_value("progress", "best_times", best_times)
+	cfg.set_value("progress", "mastered", mastered)
 	cfg.set_value("progress", "survival_best_wave", survival_best_wave)
 	cfg.set_value("shop", "purchased", purchased)
 	cfg.set_value("shop", "upgrade_levels", upgrade_levels)
@@ -111,6 +121,34 @@ func record_rank(index: int, rank: String) -> void:
 	if previous.is_empty() or ORDER.find(rank) > ORDER.find(previous):
 		ranks[index] = rank
 		save_game()
+
+
+func record_time(index: int, seconds: float) -> void:
+	if seconds <= 0.0:
+		return
+	if not best_times.has(index) or seconds < float(best_times[index]):
+		best_times[index] = seconds
+		save_game()
+
+
+func best_time(index: int) -> float:
+	return float(best_times.get(index, 0.0))
+
+
+## Bölüm %100 mü: en iyi rütbe S ve kayıtlı gizli alanların hepsi bulunmuş.
+func is_complete(index: int) -> bool:
+	var sec := secrets_of(index)
+	return rank_of(index) == "S" and (sec.size() < 2 or int(sec[0]) >= int(sec[1]))
+
+
+## %100'e ilk kez ulaşıldıysa ödülü cüzdana ekler ve miktarı döner; yoksa 0.
+func claim_mastery(index: int) -> int:
+	if mastered.has(index) or not is_complete(index):
+		return 0
+	mastered[index] = true
+	total_coins += MASTERY_REWARD
+	save_game()
+	return MASTERY_REWARD
 
 
 func rank_of(index: int) -> String:
@@ -171,6 +209,8 @@ func wipe() -> void:
 	best_scores = {}
 	secrets = {}
 	ranks = {}
+	best_times = {}
+	mastered = {}
 	survival_best_wave = 0
 	purchased = []
 	upgrade_levels = {}

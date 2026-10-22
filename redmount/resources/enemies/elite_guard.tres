@@ -5,6 +5,8 @@
 [resource]
 script = ExtResource("1_cfg")
 display_name = "Elit Muhafız"
+drop_scene = "res://scenes/pickups/PistolPickup.tscn"
+drop_chance = 0.3
 max_health = 40
 score_value = 220
 move_speed = 130.0

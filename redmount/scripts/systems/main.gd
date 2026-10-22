@@ -165,6 +165,7 @@ func _advance_after_clear() -> void:
 func _load_current_level() -> void:
 	get_tree().paused = false
 	_hud.set_level_context(GameState.level_index)
+	_hud.set_arena_wave(0, 0, 0)
 
 	if _level != null and is_instance_valid(_level):
 		_level.queue_free()
@@ -204,6 +205,8 @@ func _load_current_level() -> void:
 		sz.found.connect(_on_secret_found)
 	for ar in _in_group(_level, &"battle_arena"):
 		ar.enemy_spawned.connect(_register_arena_enemy)
+		ar.wave_changed.connect(_hud.set_arena_wave)
+		ar.cleared.connect(_hud.set_arena_wave.bind(0, 0, 0))
 	var goals := _in_group(_level, &"level_goal")
 	if not goals.is_empty():
 		goals[0].reached.connect(_on_goal_reached)
@@ -484,7 +487,11 @@ func _on_goal_reached() -> void:
 	get_tree().paused = true
 	var rank := _compute_rank()
 	Save.record_rank(GameState.level_index, rank)
+	Save.record_time(GameState.level_index, _elapsed)
 	_hud.secrets_line = "Gizli alan: %d / %d" % [_secrets_found, _secrets_total] if _secrets_total > 0 else ""
+	var mastery := Save.claim_mastery(GameState.level_index)
+	if mastery > 0:
+		_hud.secrets_line += ("  ·  " if _hud.secrets_line != "" else "") + "%%100 USTALIK +%d coin" % mastery
 	if GameState.has_next_level():
 		_hud.show_stage_clear(GameState.level_index + 1, rank, _elapsed,
 			_enemy_defeated, _enemy_total, _hits_taken,

@@ -267,7 +267,8 @@ func _select_book(b: int) -> void:
 		_grid.add_child(_card(b * PER_BOOK + k))
 
 
-## Bölüm kartı: üstte numara, ortada ad, altta en iyi skor ya da kilit.
+## Bölüm kartı: üstte numara, ortada ad, altta en iyi süre + gizli alan ya da kilit;
+## sağda rütbe rozeti, S + bütün gizli alanlarda "%100".
 func _card(i: int) -> Button:
 	var locked := i > Save.unlocked_level
 	var card := Button.new()
@@ -306,7 +307,9 @@ func _card(i: int) -> Button:
 	else:
 		var best := Save.best_score(i)
 		var sec: Array = Save.secrets_of(i)
-		var line := "KOŞU REKORU %d" % best if best > 0 else "YENİ"
+		var secs := Save.best_time(i)
+		var line := ("%d:%02d" % [floori(secs / 60.0), int(secs) % 60] if secs > 0.0
+			else "KOŞU REKORU %d" % best if best > 0 else "YENİ")
 		var rk := Save.rank_of(i)
 		if rk != "":
 			var badge := _label(rk, Color(1.0, 0.85, 0.3) if rk == "S" else GOLD)
@@ -314,9 +317,14 @@ func _card(i: int) -> Button:
 			badge.position = Vector2(236, 6)
 			badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			card.add_child(badge)
+		if Save.is_complete(i):
+			var full := _label("%100", Color(1.0, 0.85, 0.3))
+			full.position = Vector2(206, 52)
+			full.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			card.add_child(full)
 		if sec.size() == 2:
-			line += "  ·  GİZLİ %d/%d" % [int(sec[0]), int(sec[1])]
-		v.add_child(_label(line, Color(0.95, 0.55, 0.42) if best == 0 else MUTED))
+			line += " · GİZLİ %d/%d" % [int(sec[0]), int(sec[1])]
+		v.add_child(_label(line, Color(0.95, 0.55, 0.42) if line == "YENİ" else MUTED))
 	for ch in v.get_children():
 		ch.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	return card

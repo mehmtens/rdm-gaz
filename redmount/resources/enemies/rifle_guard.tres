@@ -5,6 +5,8 @@
 [resource]
 script = ExtResource("1_cfg")
 display_name = "Tüfekli Muhafız"
+drop_scene = "res://scenes/pickups/RiflePickup.tscn"
+drop_chance = 0.4
 max_health = 26
 score_value = 160
 move_speed = 110.0
