@@ -12,8 +12,9 @@ const LOCK := preload("res://assets/ui/pixel/kilit.png")
 const PIP_ON := preload("res://assets/ui/pixel/pip_dolu.png")
 const PIP_OFF := preload("res://assets/ui/pixel/pip_bos.png")
 const IDLE_SHEET := preload("res://assets/anim/redmount/idle.png")
-## Kostüm önizlemesi: idle sayfasının ilk karesinden gövde bölgesi (200×240 hücre).
-const PREVIEW_REGION := Rect2(52, 30, 100, 206)
+## Kostüm önizlemesi: idle sayfasının ilk karesinden gövde bölgesi (200×240 hücre);
+## üstte başlığa (kaptan şapkası) yer bırakılır.
+const PREVIEW_REGION := Rect2(52, 18, 100, 218)
 ## Oyundaki rig ölçeğiyle aynı (Redmount.tscn Rig 0.6) → sahadakiyle aynı pikseller.
 const PREVIEW_SCALE := 0.6
 const GOLD := Color(1.0, 0.82, 0.45)
@@ -194,6 +195,7 @@ func _costume_card(it: Dictionary) -> Control:
 	preview.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	row.add_child(preview)
 	row.move_child(preview, 0)
+	_preview_accessory(preview, id)
 	var right: HBoxContainer = card.get_meta(&"right")
 	var required := int(it.get("unlock_level", 0))
 	if Save.costume == id:
@@ -293,3 +295,20 @@ func _wear(id: String) -> void:
 		Sfx.play(&"coin")
 		_rebuild()
 		_back.grab_focus()
+
+
+## Önizlemenin üstüne kostümün başlığı: idle ilk karesinin baş çapası, önizleme ölçeğinde.
+func _preview_accessory(preview: TextureRect, id: String) -> void:
+	var tex := CostumeAccessory.texture_for(id)
+	var a := CostumeAccessory.anchor("idle", 0)
+	if tex == null or a.is_empty():
+		return
+	var p := CostumeAccessory.attach_point(a, String(Shop.costume(id).get("attach", "crown")))
+	var hat := TextureRect.new()
+	hat.texture = tex
+	hat.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	hat.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	hat.size = tex.get_size() * PREVIEW_SCALE
+	hat.position = (p - PREVIEW_REGION.position - CostumeAccessory.PIVOT) * PREVIEW_SCALE
+	hat.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	preview.add_child(hat)

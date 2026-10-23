@@ -1470,6 +1470,7 @@ func select_fists() -> void:
 ## Giyili kostümün palet malzemesini rig'e uygular (varsayılanda malzemesiz).
 ## Gece konturu (dtm_level) kostüm malzemesinin kendi kontur ayarını kullanır.
 func apply_costume() -> void:
+	CostumeAccessory.apply(rig as AnimatedSprite2D, Save.costume)
 	if rig.material != null and rig.material.has_meta(&"night_rim"):
 		return
 	rig.material = Shop.costume_material(Save.costume)

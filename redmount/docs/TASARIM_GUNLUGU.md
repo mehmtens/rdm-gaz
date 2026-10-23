@@ -7,9 +7,11 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Kostümlerin üçüncü dilimi: küçük piksel aksesuar katmanı (kasket, atkı, önlük); kare
-  başına baş/boyun konumu sayfadan (saç lekesinin tepesi) çıkarılıp bir tabloya yazılabilir.
-  Kostüm bonusları sonuç kartında/mağazada "giyili" rozetiyle hatırlatılabilir.
+- Kostüm bonusları sonuç kartında/duraklat menüsünde "giyili" rozetiyle hatırlatılsın
+  (ör. `VAPURCU · can +10`); başlıklar geldiği için kostüm artık sahada okunuyor.
+- Başlık katmanının iki eksiği: gece bölümlerinde başlığa kontur (rim) yok; kolun başın
+  önünden geçtiği birkaç karede (aparkat/şemsiye) başlık kolun üstünde çizilir. Gerekirse
+  `head_anchors.json`'a kare başına "arkada" bayrağı ya da başlığa `dark_rim` malzemesi.
 - Pantolon maskesinde kalan kaçaklar: koşu karelerinde ceketin arka eteği, tekmede dizde
   birkaç ceket rengi piksel; gölgedeki arka bacak bazen ceket rampasında. Gerekirse
   `tools/gen_costume_mask.py` sonrası kare başına elle düzeltme maskesi (küçük PNG).
@@ -35,6 +37,50 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-24 (3) — Kostümlerin üçüncü dilimi: piksel başlıklar
+
+**Neden şimdi:** Yol haritası ve OYNANIS-KALITE P1 sırası (1–7) bitti; birikimin başı.
+Kostümler yalnız giysi paletini değiştiriyordu: siluet aynıydı, oyun ölçeğinde (0,6) ve
+kalabalık arenada kostüm "renk farkı" olarak kalıyordu. DTM'de kıyafetin ilk okunan
+yeri baş/şapkadır.
+
+**Oyuncu ne hissedecek:** Satın aldığı kostüm sahada uzaktan tanınır: VAPURCU beyaz
+tepeli kaptan şapkası (altın çapa rozetli), HAMAL haki yün bere, KAHVECİ tüvit kasket,
+KIZIL DAĞ alında kırmızı bandana (arkada düğüm ve sarkan uçlar). Başlık her karede başla
+birlikte oynar, sola dönünce aynalanır; mağaza önizlemesinde, ana menüde ve ara
+sahnelerde de görünür.
+
+**Yapılanlar:**
+- `tools/gen_costume_accessory.py`: 38 sayfanın 236 hücresinde baş çapası `[cx, top,
+  brow]` (saç = doygun koyu kahve, ten = doygun açık turuncu; en büyük saç lekesi baş,
+  tek sivri tutam tepeyi yukarı çekmesin diye ≥4 piksellik ilk satır) →
+  `assets/anim/redmount/head_anchors.json`. Dört başlık 72×44, sayfalarla aynı piksel
+  yoğunluğunda (1 sanat pikseli = 1 hücre pikseli), palet + 4 ton gölge + kontur →
+  `assets/anim/costume_acc/*.png`. Araç tekrar çalıştırılabilir.
+- `CostumeAccessory` (Sprite2D): AnimatedSprite2D'ye çocuk; o anki AtlasTexture'ın
+  sayfa/hücresinden çapayı okur (sopa varyantları gibi kodla eklenen animasyonlar da
+  çalışır), dönüş/eğim/ölçek/modülasyon ebeveynden gelir. `apply(sprite, id)` tek giriş:
+  `Redmount.apply_costume`, ana menü, ara sahne. Mağaza önizlemesine `TextureRect` başlık;
+  önizleme bölgesi başlığa yer açmak için 12 px yukarı uzatıldı.
+- `Shop.COSTUMES`: `accessory` + `attach` ("crown"/"brow"). Kayıt formatı değişmedi.
+
+**Sayılar (hipotez):** Başlık saç tepesinin 16 px altına oturur (saç ~20 px kabarık; tepe
+örter, yanlardan kıvırcık saç taşar — karakterin saçı korunur); bandana alın çizgisinin
+2 px üstünde. Başlıklar ~54 px genişlik: saç lekesiyle aynı, siluete en fazla siper kadar
+(~15 px) ekler.
+
+**Testler:** `--import` SCRIPT ERROR yok; yeni `tests/costume_accessory.tscn` PASS (dört
+başlık dokusu, oyuncunun bütün animasyon karelerinde makul çapa, rig'de baş hizası ve
+sola dönünce aynalama, kostüm değişince değişme / sokak ceketinde çıkma, mağazada 4
+başlıklı önizleme); `tests/costumes.tscn` PASS; `survival_mode` OK; `campaign_smoke.gd`
+çıkış 0; `dtm_gaps` PASS; bot Bölüm 1 CLEARED (82,9 sn), Bölüm 13 (80,8), Bölüm 25 (90,8) —
+oyuncu rig'i ortak olduğu için üç bölüm. 1280×720 pencereli görüntüde 4 kostüm × 5 poz
+(idle/koşu/kombo/aynalı tekme/zıplama) oyun ölçeğinde ve 1,5x, ayrıca mağaza sekmesi
+incelendi; taşma yok. Telefonda görülmedi.
+
+**Sonraki öneri:** Pantolon maskesi kaçakları ya da günün dalgası dördüncü dilim (arşiv
+karesi ödülü, seri koruma); kostüm bonusunun duraklat menüsünde hatırlatılması küçük iş.
 
 ### 2026-10-24 (2) — Yeni silahların ikinci dilimi: kaldırım taşı ve tam cephanelik
 

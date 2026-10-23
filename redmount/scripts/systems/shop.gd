@@ -39,6 +39,8 @@ const UPGRADES: Array[Dictionary] = [
 ## ceket rengine düşse de gölge gibi okunur. "sokak" varsayılan, bedava.
 ## bonus anahtarları: max_health (can +), fist (yumruk hasarı ×), weapon_capacity
 ## (silah dayanıklılığı/cephane ×), heal (yiyecek iyileştirmesi ×).
+## `accessory`: başlık görüntüsü (`assets/anim/costume_acc/<ad>.png`, `CostumeAccessory`);
+## `attach`: "crown" (saç tepesi, varsayılan) | "brow" (alın, bandana).
 const DEFAULT_COSTUME := "sokak"
 const COSTUMES: Array[Dictionary] = [
 	{"id": "sokak", "name": "SOKAK ÇEKETİ", "desc": "Siyah deri. Redmount'un kendisi.", "cost": 0},
@@ -47,24 +49,28 @@ const COSTUMES: Array[Dictionary] = [
 		"cost": 120, "unlock_level": 3,
 		"shade": Color8(10, 18, 48), "light": Color8(70, 110, 180),
 		"pants_shade": Color8(12, 14, 24), "pants_light": Color8(118, 122, 132), "bonus": {"max_health": 10},
+		"accessory": "vapurcu",
 	},
 	{
 		"id": "hamal", "name": "HAMAL", "desc": "Haki iş tulumu. Silah dayanıklılığı +%15",
 		"cost": 150, "unlock_level": 8,
 		"shade": Color8(26, 28, 12), "light": Color8(120, 120, 70),
 		"pants_shade": Color8(22, 22, 12), "pants_light": Color8(92, 90, 56), "bonus": {"weapon_capacity": 0.15},
+		"accessory": "hamal",
 	},
 	{
 		"id": "kahveci", "name": "KAHVECİ", "desc": "Kahve tonu yelek. Yiyecek iyileştirmesi +%25",
 		"cost": 180, "unlock_level": 14,
 		"shade": Color8(40, 24, 12), "light": Color8(190, 140, 85),
 		"pants_shade": Color8(18, 12, 10), "pants_light": Color8(96, 76, 62), "bonus": {"heal": 0.25},
+		"accessory": "kahveci",
 	},
 	{
 		"id": "kizil", "name": "KIZIL DAĞ", "desc": "Adının rengi. Yumruk hasarı +%8",
 		"cost": 240, "unlock_level": 20,
 		"shade": Color8(40, 6, 10), "light": Color8(190, 50, 45),
 		"pants_shade": Color8(14, 10, 14), "pants_light": Color8(84, 74, 82), "bonus": {"fist": 0.08},
+		"accessory": "kizil", "attach": "brow",
 	},
 ]
 

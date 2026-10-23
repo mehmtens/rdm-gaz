@@ -116,6 +116,7 @@ func _build_scenery() -> void:
 	rm.flip_h = true
 	rm.play()
 	add_child(rm)
+	CostumeAccessory.apply(rm, Save.costume)
 	var gz := AnimatedSprite2D.new()
 	gz.sprite_frames = GAZELLE_FRAMES
 	var anims := GAZELLE_FRAMES.get_animation_names()
