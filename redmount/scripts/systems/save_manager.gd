@@ -9,8 +9,13 @@ const PATH := "user://redmount_save.cfg"
 ## kayıt kullanılır. Böylece test, oyuncunun açtığı bölümleri, coin'lerini ve
 ## mağaza alımlarını değiştirmez; test yükseltmesiz yeni bir oyuncu gibi başlar.
 const TEST_PATH := "user://redmount_test_save.cfg"
-## %100 ustalık (S rütbe + bölümün bütün gizli alanları) için tek seferlik coin.
+## %100 ustalık (bölümün 3 yıldızı) için tek seferlik coin.
 const MASTERY_REWARD := 50
+## Bölüm sonu yıldızları (bit maskesi): hız (par süre), hasarsız, bütün gizli alanlar.
+const STAR_SPEED := 1
+const STAR_FLAWLESS := 2
+const STAR_SECRETS := 4
+const STARS_PER_LEVEL := 3
 
 var _path := PATH
 
@@ -24,6 +29,9 @@ var best_scores: Dictionary = {}
 var secrets: Dictionary = {}
 ## Bölüm başına en iyi rütbe (S/A/B/C).
 var ranks: Dictionary = {}
+## Bölüm başına kazanılan yıldızlar (index -> bit maskesi; koşular birleşir).
+## Eski kayıtlarda yok → boş sözlük; yıldız yeniden oynanarak kazanılır.
+var stars: Dictionary = {}
 ## Bölüm başına en kısa bitirme süresi (sn).
 var best_times: Dictionary = {}
 ## %100 ustalık ödülü alınmış bölümler (index -> true). Ödül bölüm başına bir kez.
@@ -67,6 +75,7 @@ func load_game() -> void:
 	best_scores = cfg.get_value("progress", "best_scores", {})
 	secrets = cfg.get_value("progress", "secrets", {})
 	ranks = cfg.get_value("progress", "ranks", {})
+	stars = cfg.get_value("progress", "stars", {})
 	best_times = cfg.get_value("progress", "best_times", {})
 	mastered = cfg.get_value("progress", "mastered", {})
 	survival_best_wave = int(cfg.get_value("progress", "survival_best_wave", 0))
@@ -89,6 +98,7 @@ func save_game() -> void:
 	cfg.set_value("progress", "best_scores", best_scores)
 	cfg.set_value("progress", "secrets", secrets)
 	cfg.set_value("progress", "ranks", ranks)
+	cfg.set_value("progress", "stars", stars)
 	cfg.set_value("progress", "best_times", best_times)
 	cfg.set_value("progress", "mastered", mastered)
 	cfg.set_value("progress", "survival_best_wave", survival_best_wave)
@@ -127,6 +137,31 @@ func record_rank(index: int, rank: String) -> void:
 		save_game()
 
 
+## Bu koşunun yıldızlarını öncekilerle birleştirir (yıldız bir kez kazanılınca kalır).
+func record_stars(index: int, mask: int) -> void:
+	mask &= STAR_SPEED | STAR_FLAWLESS | STAR_SECRETS
+	var merged := stars_of(index) | mask
+	if merged != stars_of(index):
+		stars[index] = merged
+		save_game()
+
+
+func stars_of(index: int) -> int:
+	return int(stars.get(index, 0))
+
+
+func star_count(index: int) -> int:
+	var m := stars_of(index)
+	return int((m & STAR_SPEED) != 0) + int((m & STAR_FLAWLESS) != 0) + int((m & STAR_SECRETS) != 0)
+
+
+func total_stars() -> int:
+	var n := 0
+	for k in stars:
+		n += star_count(int(k))
+	return n
+
+
 func record_time(index: int, seconds: float) -> void:
 	if seconds <= 0.0:
 		return
@@ -139,10 +174,9 @@ func best_time(index: int) -> float:
 	return float(best_times.get(index, 0.0))
 
 
-## Bölüm %100 mü: en iyi rütbe S ve kayıtlı gizli alanların hepsi bulunmuş.
+## Bölüm %100 mü: üç yıldızın hepsi kazanılmış.
 func is_complete(index: int) -> bool:
-	var sec := secrets_of(index)
-	return rank_of(index) == "S" and (sec.size() < 2 or int(sec[0]) >= int(sec[1]))
+	return star_count(index) == STARS_PER_LEVEL
 
 
 ## %100'e ilk kez ulaşıldıysa ödülü cüzdana ekler ve miktarı döner; yoksa 0.
@@ -218,6 +252,7 @@ func wipe() -> void:
 	best_scores = {}
 	secrets = {}
 	ranks = {}
+	stars = {}
 	best_times = {}
 	mastered = {}
 	survival_best_wave = 0

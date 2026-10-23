@@ -29,7 +29,7 @@ func _ready() -> void:
 		await get_tree().process_frame
 	await _shot(folder, "b_pause")
 	main.get("_pause_menu").close()
-	main.get("_hud").show_results(42, 11, 14, 95.0, 6420, "BÖLÜM 1 TAMAMLANDI", "A", 3)
+	main.get("_hud").show_results(42, 11, 14, 95.0, 6420, "BÖLÜM 1 TAMAMLANDI", 5, 3)
 	for i in 240:
 		await get_tree().process_frame
 	await _shot(folder, "c_results")

@@ -14,6 +14,8 @@ const LOGO := preload("res://assets/ui/pixel/logo.png")
 const LOGO_SUB := preload("res://assets/ui/pixel/logo_alt.png")
 const LOCK := preload("res://assets/ui/pixel/kilit.png")
 const COIN := preload("res://assets/ui/pixel/coin.png")
+const STAR_FULL_S := preload("res://assets/ui/pixel/yildiz_dolu_kucuk.png")
+const STAR_EMPTY_S := preload("res://assets/ui/pixel/yildiz_bos_kucuk.png")
 const ROOF := preload("res://assets/environment/mahalle/roof_a.png")
 const REDMOUNT_FRAMES := preload("res://resources/anim/redmount_frames.tres")
 const GAZELLE_FRAMES := preload("res://resources/gazelle_frames.tres")
@@ -227,6 +229,17 @@ func _build_levels() -> Control:
 	title.add_theme_font_size_override(&"font_size", 36)
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	head.add_child(title)
+	## Toplam yıldız: bütün kampanyada kazanılan / kazanılabilir.
+	var star := TextureRect.new()
+	star.texture = STAR_FULL_S
+	star.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	star.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	star.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	star.custom_minimum_size = STAR_FULL_S.get_size() * 3.0
+	head.add_child(star)
+	var total := _label("%d/%d" % [Save.total_stars(), GameState.level_count() * Save.STARS_PER_LEVEL], CREAM)
+	total.custom_minimum_size.x = 120
+	head.add_child(total)
 	for b in 3:
 		var tab := Button.new()
 		tab.text = "KİTAP %d" % (b + 1)
@@ -268,7 +281,7 @@ func _select_book(b: int) -> void:
 
 
 ## Bölüm kartı: üstte numara, ortada ad, altta en iyi süre + gizli alan ya da kilit;
-## sağda rütbe rozeti, S + bütün gizli alanlarda "%100".
+## sağ üstte 3 yıldız (hız, hasarsız, gizli alan), üçü birden "%100".
 func _card(i: int) -> Button:
 	var locked := i > Save.unlocked_level
 	var card := Button.new()
@@ -310,13 +323,16 @@ func _card(i: int) -> Button:
 		var secs := Save.best_time(i)
 		var line := ("%d:%02d" % [floori(secs / 60.0), int(secs) % 60] if secs > 0.0
 			else "KOŞU REKORU %d" % best if best > 0 else "YENİ")
-		var rk := Save.rank_of(i)
-		if rk != "":
-			var badge := _label(rk, Color(1.0, 0.85, 0.3) if rk == "S" else GOLD)
-			badge.add_theme_font_size_override(&"font_size", 36)
-			badge.position = Vector2(236, 6)
-			badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
-			card.add_child(badge)
+		var mask := Save.stars_of(i)
+		for k in Save.STARS_PER_LEVEL:
+			var st := TextureRect.new()
+			st.texture = STAR_FULL_S if mask & (1 << k) else STAR_EMPTY_S
+			st.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+			st.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			st.size = STAR_FULL_S.get_size() * 3.0
+			st.position = Vector2(170 + k * 32, 10)
+			st.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			card.add_child(st)
 		if Save.is_complete(i):
 			var full := _label("%100", Color(1.0, 0.85, 0.3))
 			full.position = Vector2(206, 52)

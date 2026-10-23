@@ -26,7 +26,11 @@ Kurallar: her şey piksel art, şablon parkur yok, Türkçe metin, bölüm tasar
       piksel daire düğmeler + ok/duraklat ikonları, piksel yazı tipi; `KAY` düğmesi
       (`slide` eylemi); dokunma tıkı + duraklatma menüsünde `TİTREŞİM` ayarı.
       Kanıt: `tests/touch_polish.tscn` PASS, smoke PASS, bot 1/13/25 CLEARED.)*
-- [ ] 9. **Bölüm sonu yıldızları** — S/A/B/C yerine 3 yıldız (hız, hasarsızlık,
-      gizli alan) + menüde toplam yıldız.
+- [x] 9. **Bölüm sonu yıldızları** — S/A/B/C yerine 3 yıldız (hız, hasarsızlık,
+      gizli alan) + menüde toplam yıldız. *(23 Ekim: `tools/gen_pixel_stars.py` →
+      `yildiz_{dolu,bos}[_kucuk].png`; sonuç kartında HIZ/HASARSIZ/GİZLİ ALAN yıldızları
+      sırayla çakılır; `Save.stars` bit maskesi koşular arası birleşir, %100 = 3 yıldız;
+      bölüm kartlarında 3 küçük yıldız, BÖLÜM SEÇ başlığında toplam ★ x/108.
+      Kanıt: `tests/level_stars.tscn` PASS, dtm_gaps PASS, smoke PASS, bot 1/13/25 CLEARED.)*
 - [ ] 10. **Kitap geçiş sinematikleri** — kitap sonlarında piksel çizgi roman
       panelleri (3–4 kare).

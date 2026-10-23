@@ -38,12 +38,12 @@ func _loot_table() -> void:
 
 
 func _mastery() -> void:
-	Save.ranks[3] = "S"
-	Save.secrets[3] = [2, 3]
-	_check(not Save.is_complete(3), "eksik gizli alanla %100 sayılmamalı")
+	Save.record_stars(3, Save.STAR_SPEED | Save.STAR_FLAWLESS)
+	_check(not Save.is_complete(3), "eksik yıldızla %100 sayılmamalı")
 	_check(Save.claim_mastery(3) == 0, "eksik bölüm ödül vermemeli")
-	Save.secrets[3] = [3, 3]
-	_check(Save.is_complete(3), "S + bütün gizli alan = %100")
+	Save.record_stars(3, Save.STAR_SECRETS)
+	_check(Save.stars_of(3) == 7 and Save.star_count(3) == 3, "yıldızlar koşular arası birleşmeli")
+	_check(Save.is_complete(3), "3 yıldız = %100")
 	_check(Save.claim_mastery(3) == Save.MASTERY_REWARD, "ilk %100 ödülü")
 	_check(Save.total_coins == Save.MASTERY_REWARD, "ödül cüzdana eklenmeli")
 	_check(Save.claim_mastery(3) == 0, "ödül ikinci kez verilmemeli")
@@ -53,6 +53,7 @@ func _mastery() -> void:
 	_check(is_equal_approx(Save.best_time(3), 150.0), "en iyi süre en kısası olmalı")
 	Save.load_game()
 	_check(Save.mastered.has(3) and is_equal_approx(Save.best_time(3), 150.0), "ustalık ve süre kayda yazılmalı")
+	_check(Save.star_count(3) == 3 and Save.total_stars() == 3, "yıldızlar kayda yazılmalı")
 
 
 func _hud_counter() -> void:

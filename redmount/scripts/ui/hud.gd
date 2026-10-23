@@ -28,10 +28,14 @@ var _boss_ratio: float = 1.0
 ## Bölüm sonu istatistiğine eklenen satır (Main doldurur): "Gizli alan: 2 / 3".
 var secrets_line := ""
 
-const RANK_COLOR := {
-	"S": Color(1.0, 0.85, 0.3), "A": Color(0.8, 0.85, 0.95),
-	"B": Color(0.85, 0.6, 0.4), "C": Color(0.6, 0.62, 0.68),
-}
+const STAR_FULL := preload("res://assets/ui/pixel/yildiz_dolu.png")
+const STAR_EMPTY := preload("res://assets/ui/pixel/yildiz_bos.png")
+## Sonuç kartındaki yıldızlar: (bit, alt yazı) — soldan sağa açılış sırası.
+const STARS := [[1, "HIZ"], [2, "HASARSIZ"], [4, "GİZLİ ALAN"]]
+## Yıldız ölçeği (sanat pikseli -> ekran), açılış gecikmesi ve aralığı (sn).
+const STAR_SCALE := 4.0
+const STAR_DELAY := 0.45
+const STAR_STEP := 0.32
 @onready var _combo: Label = $ComboLabel
 
 var _bar_width: float = 256.0
@@ -57,6 +61,7 @@ func _ready() -> void:
 	_results.visible = false
 	_results_rank.visible = false
 	_build_results_card()
+	_build_star_row()
 	_build_arena_counter()
 	_boss_bar.visible = false
 	_combo.visible = false
@@ -330,7 +335,7 @@ func show_place(title: String, story: String, accent: Color = Color("ffc857")) -
 	_place.present(title, story, accent)
 
 
-func show_stage_clear(current: int, rank: String = "", seconds: float = 0.0,
+func show_stage_clear(current: int, stars: int = -1, seconds: float = 0.0,
 		defeated: int = 0, enemy_total: int = 0, hits: int = 0,
 		stage_score: int = 0) -> void:
 	_results_title.text = ("KİTAP 3 · BÖLÜM %d TAMAMLANDI" % (current - 24)
@@ -345,12 +350,12 @@ func show_stage_clear(current: int, rank: String = "", seconds: float = 0.0,
 	_results_hint.text = "R — sonraki bölüm     ·     M — ana menü"
 	for it in Shop.ITEMS:
 		if int(it.get("unlock_level", 0)) == current and not Save.owns(it.id):
-			_results_hint.text = "Yeni vuruş mağazada!  M — menü/mağaza     ·     R — sonraki bölüm"
-	_reveal(rank)
+			_results_hint.text = "Yeni vuruş mağazada!  M — mağaza  ·  R — sonraki bölüm"
+	_reveal(stars)
 
 
 func show_results(coins: int, defeated: int, enemy_total: int, seconds: float, score: int,
-		title: String = "OYUN TAMAMLANDI", rank: String = "", hits: int = 0,
+		title: String = "OYUN TAMAMLANDI", stars: int = -1, hits: int = 0,
 		stage_score: int = -1) -> void:
 	_results_title.text = title
 	if TouchControls.active_on_device():
@@ -367,27 +372,29 @@ func show_results(coins: int, defeated: int, enemy_total: int, seconds: float, s
 		_results_stats.text += "\n" + secrets_line
 	_results_hint.text = ("R — sonraki bölüm     ·     M — ana menü"
 		if GameState.has_next_level() else "R — baştan başla     ·     M — ana menü")
-	_reveal(rank)
+	_reveal(stars)
 
 
 var _reveal_t: float = 0.0
-var _reveal_rank: String = ""
+## Bu koşunun yıldız maskesi; -1 = yıldız gösterme (ör. survival).
+var _reveal_stars: int = -1
+var _star_row: Control
+var _star_icons: Array[TextureRect] = []
+var _star_lit: Array[bool] = []
 
 
-func _reveal(rank: String) -> void:
+func _reveal(stars: int) -> void:
 	_results.visible = true
 	_results.modulate.a = 0.0
 	_reveal_t = 0.0
-	_reveal_rank = rank
+	_reveal_stars = stars
 	_combo.visible = false
-	if rank.is_empty():
-		_results_rank.visible = false
-	else:
-		_results_rank.visible = true
-		_results_rank.text = rank
-		_results_rank.modulate = RANK_COLOR.get(rank, Color.WHITE)
-		_results_rank.pivot_offset = _results_rank.size * 0.5
-		_results_rank.scale = Vector2(4.0, 4.0)
+	_results_rank.visible = false
+	_star_row.visible = stars >= 0
+	for k in _star_icons.size():
+		_star_icons[k].texture = STAR_EMPTY
+		_star_icons[k].scale = Vector2.ONE
+		_star_lit[k] = false
 
 
 func _tick_reveal(delta: float) -> void:
@@ -395,14 +402,60 @@ func _tick_reveal(delta: float) -> void:
 		return
 	_reveal_t += delta
 	_results.modulate.a = minf(_results.modulate.a + delta * 5.0, 1.0)
-	if _reveal_rank.is_empty():
+	if _reveal_stars < 0:
 		return
-	if _reveal_t > 0.35:
-		var k := clampf((_reveal_t - 0.35) * 3.5, 0.0, 1.0)
-		_results_rank.scale = Vector2.ONE * lerpf(4.0, 1.0, ease(k, 0.32))
-		# hafif "nefes" — yerine oturduktan sonra sürekli küçük pulse
-		if k >= 1.0:
-			_results_rank.scale = Vector2.ONE * (1.0 + sin(_reveal_t * 4.0) * 0.03)
+	## Kazanılan yıldızlar sırayla "çakılır": büyükten yerine oturur + coin sesi.
+	for k in _star_icons.size():
+		if (_reveal_stars & int(STARS[k][0])) == 0:
+			continue
+		var t := _reveal_t - STAR_DELAY - STAR_STEP * k
+		if t < 0.0:
+			continue
+		var icon := _star_icons[k]
+		if not _star_lit[k]:
+			_star_lit[k] = true
+			icon.texture = STAR_FULL
+			Sfx.play(&"coin")
+		var e := clampf(t * 5.0, 0.0, 1.0)
+		icon.scale = Vector2.ONE * lerpf(1.8, 1.0, ease(e, 0.4))
+		if e >= 1.0:
+			icon.scale = Vector2.ONE * (1.0 + sin((_reveal_t - k * 0.5) * 4.0) * 0.04)
+
+
+## Sonuç kartının üstündeki üç yıldız yuvası + alt yazıları (piksel doku, NEAREST).
+func _build_star_row() -> void:
+	_star_row = Control.new()
+	_star_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_star_row.set_anchors_preset(Control.PRESET_CENTER)
+	_star_row.visible = false
+	_results.add_child(_star_row)
+	var art := STAR_FULL.get_size() * STAR_SCALE
+	for k in STARS.size():
+		var x := (k - 1) * 165.0
+		## orta yıldız bir tık yukarıda: yay biçimli dizilim
+		var y := -130.0 if k == 1 else -122.0
+		var icon := TextureRect.new()
+		icon.texture = STAR_EMPTY
+		icon.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		icon.stretch_mode = TextureRect.STRETCH_SCALE
+		icon.size = art
+		icon.position = Vector2(x - art.x * 0.5, y)
+		icon.pivot_offset = art * 0.5
+		icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_star_row.add_child(icon)
+		_star_icons.append(icon)
+		_star_lit.append(false)
+		var cap := Label.new()
+		cap.text = String(STARS[k][1])
+		cap.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		cap.add_theme_font_override(&"font", PixelUI.font())
+		cap.add_theme_font_size_override(&"font_size", PixelUI.snap(16))
+		cap.add_theme_color_override(&"font_color", Color(0.86, 0.78, 0.62))
+		cap.size = Vector2(164, 24)
+		cap.position = Vector2(x - 82.0, -122.0 + art.y + 2.0)
+		cap.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_star_row.add_child(cap)
 
 
 ## Bölüm sonu kartı: ekranın ortasında piksel panel, rütbe harfi madalya
@@ -424,9 +477,9 @@ func _build_results_card() -> void:
 	medal.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	medal.add_theme_stylebox_override(&"panel", PixelUI.box("kart", 14))
 	medal.set_anchors_preset(Control.PRESET_CENTER)
-	medal.offset_left = -80
-	medal.offset_right = 80
-	medal.offset_top = -140
+	medal.offset_left = -270
+	medal.offset_right = 270
+	medal.offset_top = -148
 	medal.offset_bottom = -12
 	_results.add_child(medal)
 	_results.move_child(medal, 1)

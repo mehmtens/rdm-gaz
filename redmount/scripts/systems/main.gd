@@ -270,29 +270,20 @@ func _on_health_changed(current: int, _maximum: int) -> void:
 	_last_health = current
 
 
-## Rank: S/A/B/C — süre + hasarsızlık + düşman + coin toplama.
-func _compute_rank() -> String:
-	var s := 40.0
-	if _hits_taken == 0: s += 26.0
-	elif _hits_taken <= 2: s += 16.0
-	elif _hits_taken <= 5: s += 6.0
-	if _enemy_total > 0:
-		s += 18.0 * (float(_enemy_defeated) / float(_enemy_total))
-	else:
-		s += 18.0
-	var got := GameState.coin_pickups - _coin_pickups_at_start
-	if _coins_available > 0:
-		s += 14.0 * clampf(float(got) / float(_coins_available), 0.0, 1.0)
-	else:
-		s += 7.0
+## Bölüm sonu yıldızları (Dan the Man tarzı, harf rütbesi yerine): par süre içinde
+## bitirmek, hiç hasar almamak, bölümün bütün gizli alanlarını bulmuş olmak (kayıtlı en
+## iyi sayı; gizli alanı olmayan bölümde bedava). Kayıt koşular arası birleştirir.
+func _compute_stars() -> int:
+	var mask := 0
 	if _elapsed <= _par_time:
-		s += 12.0
-	elif _elapsed <= _par_time * 1.4:
-		s += 6.0
-	if s >= 92.0: return "S"
-	if s >= 76.0: return "A"
-	if s >= 58.0: return "B"
-	return "C"
+		mask |= Save.STAR_SPEED
+	if _hits_taken == 0:
+		mask |= Save.STAR_FLAWLESS
+	var sec: Array = Save.secrets_of(GameState.level_index)
+	var found := maxi(_secrets_found, int(sec[0]) if sec.size() == 2 else 0)
+	if found >= _secrets_total:
+		mask |= Save.STAR_SECRETS
+	return mask
 
 
 func _physics_process(delta: float) -> void:
@@ -388,9 +379,11 @@ func _trigger_ending() -> void:
 	if not is_inside_tree():
 		return
 	_bank_level_clear()
+	var stars := _compute_stars()
+	Save.record_stars(GameState.level_index, stars)
 	get_tree().paused = true
 	_hud.show_results(GameState.coins, _enemy_defeated, _enemy_total, _elapsed,
-		GameState.score, "GAZELLE KURTARILDI", _compute_rank(), _hits_taken,
+		GameState.score, "GAZELLE KURTARILDI", stars, _hits_taken,
 		GameState.score - _score_at_level_start)
 
 
@@ -485,15 +478,15 @@ func _on_goal_reached() -> void:
 	Music.stop(0.7)
 	_bank_level_clear()
 	get_tree().paused = true
-	var rank := _compute_rank()
-	Save.record_rank(GameState.level_index, rank)
+	var stars := _compute_stars()
+	Save.record_stars(GameState.level_index, stars)
 	Save.record_time(GameState.level_index, _elapsed)
 	_hud.secrets_line = "Gizli alan: %d / %d" % [_secrets_found, _secrets_total] if _secrets_total > 0 else ""
 	var mastery := Save.claim_mastery(GameState.level_index)
 	if mastery > 0:
 		_hud.secrets_line += ("  ·  " if _hud.secrets_line != "" else "") + "%%100 USTALIK +%d coin" % mastery
 	if GameState.has_next_level():
-		_hud.show_stage_clear(GameState.level_index + 1, rank, _elapsed,
+		_hud.show_stage_clear(GameState.level_index + 1, stars, _elapsed,
 			_enemy_defeated, _enemy_total, _hits_taken,
 			GameState.score - _score_at_level_start)
 	else:
@@ -503,7 +496,7 @@ func _on_goal_reached() -> void:
 			if GameState.level_index >= 12 else "OYUN TAMAMLANDI")
 		title = str(_level.get_meta(&"completion_title", title))
 		_hud.show_results(GameState.coins, _enemy_defeated, _enemy_total, _elapsed,
-			GameState.score, title, rank, _hits_taken,
+			GameState.score, title, stars, _hits_taken,
 			GameState.score - _score_at_level_start)
 
 
