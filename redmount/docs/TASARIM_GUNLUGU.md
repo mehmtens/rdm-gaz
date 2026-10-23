@@ -7,8 +7,6 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Survival/Günün Dalgası arenası hâlâ `_draw()` ile düz dikdörtgen + çizgi (piksel art
-  kuralına aykırı): bir mekân atlasından (ör. Balat gece sokağı) arka plan + zemin karosu.
 - Günün dalgasının ikinci dilimi: 3/7/14 günlük seri için küçük ödül (coin ya da arşiv
   karesi) ve menüde seri rozeti; kural havuzuna 2–3 yeni kural (yalnız silah, hızlı düşman,
   boss dalgası önce). Kural dağılımı 30 günde ölçülüp eşitlenebilir.
@@ -34,6 +32,35 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-23 (7) — Survival arenası piksel art'a çevrildi (birikim 1. madde)
+
+**Neden şimdi:** Yol haritası ve OYNANIS-KALITE P1 sırası (1–7) bitti; birikimin en
+üstündeki madde. Survival ve yeni Günün Dalgası, `_draw()` ile çizilen koyu düz dikdörtgen
++ eğik çizgilerden ibaret bir boşlukta oynanıyordu — piksel art kuralına aykırı ve
+kampanya bölümlerinin yanında "bitmemiş prototip" gibi duruyordu. Günlük kip her gün
+açılan ekran olacağı için ilk izlenim önemli.
+
+**Oyuncu ne hissedecek:** Survival akşamüstü bir Balat arka sokağında: boyalı gökyüzü,
+arkada karartılmış ev sırası, kaldırım + taş dolgulu zemin, üç sokak feneri, büfe ve
+saksılar. Günün Dalgası aynı süslerle ama pazar sokağı/kemer arka planında — iki kip ilk
+bakışta ayrılır.
+
+**Yapılanlar:** `survival.gd` yeni sistem yazmadan DtmLevel'in çizim sınıflarını
+kullanıyor: `DtmLevel._Sky` + `_BackRow` (`level` = Survival düğümü; okudukları
+`sky_*`/`back_*` alanları Survival'a eklendi), zemin `_Art.A_TERRAIN` (zemin gövdesi
+bölümlerdeki gibi 520 px derin; çarpışma üstü y=0, değişmedi), `_Lantern`, mahalle
+süsleri (`BUFE`, `TREE_POT`, `PLANT`, `POTS`) ve `_night()` ile aynı hafif
+`CanvasModulate`. Atlas: `level06_backstreets_atlas.png` hücre 0 (Survival) / 1 (Günlük).
+`_draw()` kaldırıldı.
+
+**Testler:** `--import` hatasız; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn`
+PASS; `tests/daily_wave.tscn` PASS; `tests/survival_mode.tscn` OK. 1280×720 pencereli
+ekran görüntüsü (iki kip, orta ve sol kenar): taşma/boşluk yok, HUD/pankart okunuyor;
+sol kenarda arka sıra evler x≈-600'den başlıyor, arkada gökyüzü dolu (sorun görülmedi).
+Kampanya bölümleri değişmediği için bot koşusu yapılmadı. Telefonda görülmedi.
+
+**Sıradaki öneri:** birikimdeki günün dalgası ikinci dilimi (seri ödülü/rozeti, yeni kurallar).
 
 ### 2026-10-23 (6) — Günün Dalgası (OYNANIS-KALITE P1-7, ilk dilim)
 

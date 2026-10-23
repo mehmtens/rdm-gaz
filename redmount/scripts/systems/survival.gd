@@ -40,6 +40,15 @@ var _scored := false
 var _finished := false
 var _defeated := 0
 var _started_ms := 0
+## DtmLevel gökyüzü/arka sıra katmanlarının okuduğu alanlar (`level` = bu düğüm).
+var sky_atlas: Texture2D = preload("res://assets/backgrounds/level06_backstreets_atlas.png")
+var sky_cells: Array = [[0, -100000.0]]
+var sky_grid := 2
+var sky_tint := Color(0.86, 0.84, 0.92)
+var sky_shade := Color(0.08, 0.07, 0.1)
+var back_tint := Color(0.34, 0.36, 0.5)
+var back_row_skip: Array = []
+var camera_limit_right := 820
 
 
 static func enemy_count_for_wave(wave: int) -> int:
@@ -133,20 +142,53 @@ func _notification(what: int) -> void:
 		_pause.open()
 
 
-func _draw() -> void:
-	draw_rect(Rect2(-900, -720, 1800, 800), Color("111522"))
-	draw_rect(Rect2(-900, -30, 1800, 110), Color("30283b"))
-	for x in range(-800, 801, 160):
-		draw_line(Vector2(x, -30), Vector2(x + 80, -110), Color(0.6, 0.25, 0.2, 0.3), 5.0)
-
-
 func _build_arena() -> void:
-	_static_box(Vector2(0, 40), Vector2(1640, 80))
+	# Zemin bölümlerdeki gibi 520 px derin: kamera altı (y=180) taş dolguyla dolu kalır.
+	var floor_body := _static_box(Vector2(0, 260), Vector2(1800, 520))
+	floor_body.add_child(DtmLevel._Art.new(DtmLevel._Art.A_TERRAIN, Vector2(1800, 520)))
 	_static_box(Vector2(-840, -320), Vector2(40, 720))
 	_static_box(Vector2(840, -320), Vector2(40, 720))
+	_dress_arena()
 
 
-func _static_box(at: Vector2, size: Vector2) -> void:
+## Balat arka sokağı (piksel art): boyalı akşam gökyüzü + karartılmış arka sıra
+## evler (DtmLevel katmanları, `level` olarak bu düğüm) + fenerler ve süsler.
+## Günün dalgası pazar sokağında geçer: iki kip ilk bakışta ayırt edilsin.
+func _dress_arena() -> void:
+	if GameState.daily_run:
+		sky_cells = [[1, -100000.0]]
+	var sky := DtmLevel._Sky.new()
+	sky.level = self
+	add_child(sky)
+	var row := DtmLevel._BackRow.new()
+	row.level = self
+	add_child(row)
+	for x in [-620.0, 0.0, 620.0]:
+		var lamp := DtmLevel._Lantern.new()
+		lamp.position = Vector2(x, -170.0)
+		add_child(lamp)
+	_deco(DtmLevel.BUFE, -400.0, 0.62)
+	_deco(DtmLevel.TREE_POT, -230.0, 1.0)
+	_deco(DtmLevel.PLANT, 210.0, 0.9)
+	_deco(DtmLevel.POTS, 300.0, 1.0)
+	_deco(DtmLevel.TREE_POT, 470.0, 0.9)
+	var night := CanvasModulate.new()
+	night.color = Color(0.7, 0.7, 0.86).lerp(Color.WHITE, 0.4)
+	add_child(night)
+
+
+## Çarpışmasız süs: zemine (y=0) oturan, arka planda kalan piksel sprite.
+func _deco(tex: Texture2D, cx: float, scale_f: float) -> void:
+	var s := Sprite2D.new()
+	s.texture = tex
+	s.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	s.scale = Vector2(scale_f, scale_f)
+	s.position = Vector2(cx, -tex.get_height() * scale_f * 0.5)
+	s.z_index = -6
+	add_child(s)
+
+
+func _static_box(at: Vector2, size: Vector2) -> StaticBody2D:
 	var body := StaticBody2D.new()
 	body.position = at
 	var shape := CollisionShape2D.new()
@@ -155,6 +197,7 @@ func _static_box(at: Vector2, size: Vector2) -> void:
 	shape.shape = rect
 	body.add_child(shape)
 	add_child(body)
+	return body
 
 
 func _start_next_wave() -> void:
