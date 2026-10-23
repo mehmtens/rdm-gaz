@@ -21,8 +21,11 @@ Kurallar: her şey piksel art, şablon parkur yok, Türkçe metin, bölüm tasar
       geçişli piksel uyarılı saldırılar + can çubuğu üstünde isim kartı.
 - [x] 7. **Çevresel tehlike çeşitliliği** — düşen saksılar, kayan tabelalar,
       elektrikli tel (piksel art), bölüm temasına göre.
-- [ ] 8. **Dokunmatik kontrol cilası** — piksel art düğmeler, kayma tekmesi
-      kısayolu, titreşim.
+- [x] 8. **Dokunmatik kontrol cilası** — piksel art düğmeler, kayma tekmesi
+      kısayolu, titreşim. *(23 Ekim: `tools/gen_pixel_touch.py` → `touch_*.png`
+      piksel daire düğmeler + ok/duraklat ikonları, piksel yazı tipi; `KAY` düğmesi
+      (`slide` eylemi); dokunma tıkı + duraklatma menüsünde `TİTREŞİM` ayarı.
+      Kanıt: `tests/touch_polish.tscn` PASS, smoke PASS, bot 1/13/25 CLEARED.)*
 - [ ] 9. **Bölüm sonu yıldızları** — S/A/B/C yerine 3 yıldız (hız, hasarsızlık,
       gizli alan) + menüde toplam yıldız.
 - [ ] 10. **Kitap geçiş sinematikleri** — kitap sonlarında piksel çizgi roman

@@ -19,7 +19,7 @@ const BUTTONS := {
 	"dash": ["ATIL", "CTRL"],
 	"fire": ["ATEŞ", "L"],
 	"shop": ["DOKUN", "E"],
-	"slide": ["YÖN  +  ▼", "SHIFT  +  S"],
+	"slide": ["KAY", "SHIFT  +  S"],
 }
 const WIDTH := 440.0
 

@@ -328,7 +328,9 @@ func _process_normal(delta: float) -> void:
 		return
 
 	# Kayma tekmesi (Dan the Man): koşarken çömel -> yerde kayarak süpürme tekmesi.
-	if is_on_floor() and Input.is_action_just_pressed(&"crouch") 			and absf(velocity.x) >= movement.run_speed * 0.75:
+	# Dokunmatik KAY düğmesi (`slide`) koşu şartı olmadan aynı hamleyi başlatır;
+	# hamle kendi hızını verir, telefonda ◀▶ ile ▼'a aynı başparmak yetişmez.
+	if is_on_floor() and (Input.is_action_just_pressed(&"slide") or (Input.is_action_just_pressed(&"crouch") 			and absf(velocity.x) >= movement.run_speed * 0.75)):
 		_start_attack(Attack.HEAVY, "slide_kick")
 		return
 

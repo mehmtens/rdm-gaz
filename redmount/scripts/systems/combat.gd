@@ -95,7 +95,7 @@ func flash(color: Color, duration: float = 0.14) -> void:
 
 
 func rumble(strength: float) -> void:
-	if OS.has_feature("mobile"):
+	if OS.has_feature("mobile") and Save.vibration:
 		var amount := clampf(strength, 0.0, 1.0)
 		Input.vibrate_handheld(int(20.0 + amount * 45.0), amount)
 

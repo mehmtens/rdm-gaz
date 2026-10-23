@@ -30,6 +30,8 @@ var best_times: Dictionary = {}
 var mastered: Dictionary = {}
 var survival_best_wave: int = 0
 var master_volume_db: float = 0.0
+## Telefonda dokunma/isabet titreşimi (eski kayıtlarda yok → açık).
+var vibration: bool = true
 ## Satın alınan mağaza ürün id'leri.
 var purchased: Array = []
 ## Kalıcı kademeli geliştirmeler: ürün id -> kademe.
@@ -76,6 +78,7 @@ func load_game() -> void:
 		purchased.erase("tough_body")
 		save_game()
 	master_volume_db = float(cfg.get_value("settings", "master_volume_db", 0.0))
+	vibration = bool(cfg.get_value("settings", "vibration", true))
 	_apply_volume()
 
 
@@ -92,6 +95,7 @@ func save_game() -> void:
 	cfg.set_value("shop", "purchased", purchased)
 	cfg.set_value("shop", "upgrade_levels", upgrade_levels)
 	cfg.set_value("settings", "master_volume_db", master_volume_db)
+	cfg.set_value("settings", "vibration", vibration)
 	var error := cfg.save(_path)
 	if error != OK:
 		push_error("Oyun kaydı yazılamadı: %s (%d)" % [_path, error])
@@ -200,6 +204,11 @@ func buy_upgrade(item_id: String, cost: int, max_level: int) -> bool:
 func set_volume_db(db: float) -> void:
 	master_volume_db = clampf(db, -40.0, 6.0)
 	_apply_volume()
+	save_game()
+
+
+func set_vibration(on: bool) -> void:
+	vibration = on
 	save_game()
 
 

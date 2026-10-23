@@ -7,24 +7,35 @@ signal next_requested
 signal menu_requested
 
 # Offsets are measured from the nearest horizontal edge and from the bottom.
+## [eylem, yazı, yarıçap, konum, piksel düğme dokusu, piksel ikon ("" = yazı)]
 const BUTTONS := [
-	["move_left", "◀", 67, Vector2(90, 112)],
-	["move_right", "▶", 67, Vector2(238, 112)],
-	["crouch", "▼", 46, Vector2(164, 248)],
-	["dash", "ATIL", 46, Vector2(320, 252)],
-	["attack", "VUR", 69, Vector2(-95, 112)],
-	["jump", "ZIPLA", 69, Vector2(-245, 112)],
-	["heavy_attack", "AĞIR", 46, Vector2(-104, 253)],
-	["fire", "ATEŞ", 46, Vector2(-232, 253)],
-	["pause", "II", 36, Vector2(0, -52)],  # x = 0: yatayda ortalı
-	["retry", "TEKRAR", 80, Vector2(-210, 112)],
-	["next", "DEVAM", 80, Vector2(-210, 112)],
-	["menu", "MENÜ", 80, Vector2(-410, 112)],
+	["move_left", "", 68, Vector2(90, 112), "buyuk", "sol"],
+	["move_right", "", 68, Vector2(238, 112), "buyuk", "sag"],
+	["crouch", "", 46, Vector2(164, 248), "kucuk", "asagi"],
+	["dash", "ATIL", 46, Vector2(320, 252), "kucuk", ""],
+	["attack", "VUR", 68, Vector2(-95, 112), "buyuk", ""],
+	["jump", "ZIPLA", 68, Vector2(-245, 112), "buyuk", ""],
+	["heavy_attack", "AĞIR", 46, Vector2(-104, 253), "kucuk", ""],
+	["fire", "ATEŞ", 46, Vector2(-232, 253), "kucuk", ""],
+	## Kayma tekmesi kısayolu: telefonda koşarken ▼'a aynı başparmakla basmak zor.
+	["slide", "KAY", 46, Vector2(-372, 214), "kucuk", ""],
+	["pause", "", 36, Vector2(0, -52), "mini", "durdur"],  # x = 0: yatayda ortalı
+	["retry", "TEKRAR", 80, Vector2(-210, 112), "genis", ""],
+	["next", "DEVAM", 80, Vector2(-210, 112), "genis", ""],
+	["menu", "MENÜ", 80, Vector2(-410, 112), "genis", ""],
 ]
-const GAMEPLAY_ACTIONS := ["move_left", "move_right", "crouch", "dash", "attack", "jump", "heavy_attack", "fire"]
+const ART_DIR := "res://assets/ui/pixel/"
+## Dokunma geri bildirimi: kısa, hafif "tık" (ms, güç). Hareket okları hariç —
+## başparmak oklar arasında kayarken sürekli vızıldamasın.
+const TICK_MS := 12
+const TICK_STRENGTH := 0.3
+const GAMEPLAY_ACTIONS := ["move_left", "move_right", "crouch", "dash", "attack", "jump", "heavy_attack", "fire", "slide"]
 
 var _buttons: Dictionary = {}
 var _labels: Dictionary = {}
+var _icons: Dictionary = {}
+## Düğme dokusunun ekrandaki ölçeği (sanat pikseli → ekran), _layout ile çarpılır.
+var _art_scale: Dictionary = {}
 var _mode := "hidden"
 var _has_gun := false
 var _can_throw := false
@@ -40,32 +51,48 @@ func _ready() -> void:
 	for spec in BUTTONS:
 		var key: String = spec[0]
 		var radius: int = spec[2]
+		var art: String = spec[4]
+		var normal := load(ART_DIR + "touch_%s.png" % art) as Texture2D
 		var button := TouchScreenButton.new()
 		button.name = key
 		button.visibility_mode = TouchScreenButton.VISIBILITY_ALWAYS
-		button.texture_normal = _disc(radius, Color(0.08, 0.07, 0.12, 0.28), Color(0.95, 0.76, 0.37, 0.55))
-		button.texture_pressed = _disc(radius, Color(0.95, 0.66, 0.19, 0.8), Color(1, 1, 1, 0.95))
+		button.texture_normal = normal
+		button.texture_pressed = load(ART_DIR + "touch_%s_basili.png" % art) as Texture2D
+		button.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		var art_size := float(normal.get_width())
+		_art_scale[key] = radius * 2.0 / art_size
 		var shape := CircleShape2D.new()
-		shape.radius = radius * 1.08
+		shape.radius = art_size * 0.5 * 1.08
 		button.shape = shape
 		button.shape_centered = true
 		button.passby_press = key in ["move_left", "move_right"]
 		if InputMap.has_action(key) and key != "pause":
 			button.action = key
 		add_child(button)
+		var icon := Sprite2D.new()
+		icon.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		icon.position = Vector2.ONE * art_size * 0.5
+		if spec[5] != "":
+			icon.texture = load(ART_DIR + "touch_ikon_%s.png" % spec[5]) as Texture2D
+		button.add_child(icon)
 		var label := Label.new()
 		label.text = spec[1]
 		label.size = Vector2.ONE * radius * 2
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		label.add_theme_font_size_override("font_size", 33 if spec[1].length() <= 2 else 21)
+		label.add_theme_font_override("font", PixelUI.font())
+		label.add_theme_font_size_override("font_size", 36 if radius >= 68 else 24)
 		label.add_theme_color_override("font_color", Color(1, 0.97, 0.88))
 		label.add_theme_color_override("font_outline_color", Color(0.06, 0.04, 0.08))
-		label.add_theme_constant_override("outline_size", 5)
+		label.add_theme_constant_override("outline_size", 6)
 		add_child(label)
+		## Basılınca ikon/yazı bir sanat pikseli aşağı iner (düğme gömülür) + tık.
+		button.pressed.connect(_on_press.bind(key))
+		button.released.connect(_on_release.bind(key))
 		_buttons[key] = button
 		_labels[key] = label
+		_icons[key] = icon
 	_buttons["pause"].pressed.connect(func() -> void: pause_requested.emit())
 	_buttons["retry"].pressed.connect(func() -> void: retry_requested.emit())
 	_buttons["next"].pressed.connect(func() -> void: next_requested.emit())
@@ -135,7 +162,8 @@ func _apply_mode(has_next_level: bool = true) -> void:
 		if not show and InputMap.has_action(key):
 			Input.action_release(key)
 	_labels["attack"].text = "DEVAM" if mode in ["dialogue", "cutscene"] else "VUR"
-	_labels["pause"].text = "ATLA" if mode == "cutscene" else "II"
+	_labels["pause"].text = "ATLA" if mode == "cutscene" else ""
+	_icons["pause"].visible = mode != "cutscene"
 	_labels["heavy_attack"].text = "FIRLAT" if _can_throw else "AĞIR"
 	_labels["next"].text = "SONRAKİ" if has_next_level else "BAŞTAN"
 
@@ -155,7 +183,7 @@ func _layout() -> void:
 		)
 		if is_zero_approx(offset.x):
 			center.x = viewport_size.x * 0.5
-		_buttons[key].scale = Vector2.ONE * button_scale
+		_buttons[key].scale = Vector2.ONE * button_scale * float(_art_scale[key])
 		_labels[key].scale = Vector2.ONE * button_scale
 		_buttons[key].position = center - Vector2.ONE * radius * button_scale
 		_labels[key].position = center - Vector2.ONE * radius * button_scale
@@ -174,15 +202,19 @@ static func safe_vertical_insets(viewport: Viewport) -> Vector2:
 		clampf((window.y - safe.end.y) * unit, 0.0, 100.0))
 
 
-static func _disc(radius: int, fill: Color, ring: Color) -> GradientTexture2D:
-	var gradient := Gradient.new()
-	gradient.offsets = PackedFloat32Array([0.0, 0.82, 0.9, 1.0])
-	gradient.colors = PackedColorArray([fill, fill, ring, Color(ring, 0.0)])
-	var texture := GradientTexture2D.new()
-	texture.gradient = gradient
-	texture.fill = GradientTexture2D.FILL_RADIAL
-	texture.fill_from = Vector2(0.5, 0.5)
-	texture.fill_to = Vector2(1.0, 0.5)
-	texture.width = radius * 2
-	texture.height = radius * 2
-	return texture
+func _on_press(key: String) -> void:
+	_icons[key].offset.y = 1.0
+	_labels[key].position.y += _labels[key].scale.y * float(_art_scale[key])
+	if key not in ["move_left", "move_right"]:
+		haptic_tick()
+
+
+func _on_release(key: String) -> void:
+	_icons[key].offset.y = 0.0
+	_layout()
+
+
+## Kısa dokunma titreşimi; ayarlardan kapatılabilir (Save.vibration).
+static func haptic_tick() -> void:
+	if OS.has_feature("mobile") and Save.vibration:
+		Input.vibrate_handheld(TICK_MS, TICK_STRENGTH)

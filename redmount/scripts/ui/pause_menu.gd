@@ -125,6 +125,10 @@ func _build() -> void:
 	slider.value_changed.connect(func(v: float) -> void: Save.set_volume_db(v))
 	vol_row.add_child(slider)
 	_root.add_child(vol_row)
+	# Titreşim yalnız dokunmatik cihazda anlamlı; masaüstünde düğme gösterilmez.
+	if TouchControls.active_on_device():
+		var vib := _mk_btn(_vibration_text(), toggle_vibration)
+		vib.name = "Vibration"
 	_mk_btn("ANA MENÜ", func() -> void:
 		close()
 		menu_requested.emit())
@@ -171,6 +175,16 @@ func _build() -> void:
 	_armory_status.add_theme_color_override(&"font_color", MUTED)
 	col.add_child(_armory_status)
 	GameState.coins_changed.connect(_refresh_armory_coins)
+
+
+func toggle_vibration() -> void:
+	Save.set_vibration(not Save.vibration)
+	(_root.get_node(^"Vibration") as Button).text = _vibration_text()
+	TouchControls.haptic_tick()
+
+
+static func _vibration_text() -> String:
+	return "TİTREŞİM: AÇIK" if Save.vibration else "TİTREŞİM: KAPALI"
 
 
 func _mk_btn(text: String, cb: Callable) -> Button:
