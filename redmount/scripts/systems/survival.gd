@@ -13,6 +13,12 @@ const KNIFE_WEAPON := preload("res://resources/weapons/knife.tres")
 const PISTOL := preload("res://resources/weapons/pistol.tres")
 const RIFLE_WEAPON := preload("res://resources/weapons/rifle.tres")
 const BODY_ARMOR := preload("res://resources/armor/body_armor.tres")
+## Günün Dalgası planındaki düşman adları → sahne.
+const DAILY_SCENES := {
+	"thug": THUG, "knife": KNIFE, "rifle": RIFLE, "bruiser": BRUISER,
+	"elite": ELITE, "miniboss": MINIBOSS,
+}
+const SPOTS: Array[float] = [-650.0, -480.0, -310.0, -140.0, 140.0, 310.0, 480.0, 650.0]
 
 @onready var _player: CharacterBody2D = $Redmount
 @onready var _hud = $UI/HUD
@@ -25,6 +31,15 @@ var _dead := false
 var _between_waves := false
 var _cleared_wave := 0
 var _banked := false
+## Günün Dalgası (GameState.daily_run): plan, günün tarihi, puanlı mı (günün ilk
+## denemesi) ve son dalga temizlenince bitti mi.
+var _daily := false
+var _plan: Dictionary = {}
+var _day := ""
+var _scored := false
+var _finished := false
+var _defeated := 0
+var _started_ms := 0
 
 
 static func enemy_count_for_wave(wave: int) -> int:
@@ -66,6 +81,9 @@ func _ready() -> void:
 	_hud.set_health(_player.get_health(), _player.get_max_health())
 	_hud.set_boss_health(0, 0)
 	_hud.get_node(^"DeathLabel").text = "SURVIVAL BİTTİ"
+	_started_ms = Time.get_ticks_msec()
+	if GameState.daily_run:
+		_setup_daily()
 	Music.play_for_biome(0)
 	_start_next_wave()
 
@@ -73,7 +91,29 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if not _touch.is_enabled():
 		return
-	_touch.set_mode("hidden" if _pause.is_open() else "dead" if _dead else "play")
+	_touch.set_mode("hidden" if _pause.is_open() else "dead" if _dead or _finished else "play")
+
+
+## Günün kuralını uygular; günün ilk denemesiyse hakkı hemen kullanır (yarıda
+## bırakmak yeniden denemeye çevrilemesin).
+func _setup_daily() -> void:
+	_daily = true
+	_day = DailyWave.today()
+	_plan = DailyWave.plan(_day)
+	_scored = not Save.daily_attempted(_day)
+	if _scored:
+		Save.begin_daily(_day)
+	var rule: Dictionary = _plan.rule
+	match String(rule.weapon):
+		"bat": _player.equip_weapon(BAT)
+		"pistol": _player.equip_gun(PISTOL)
+	if rule.armor:
+		_player.equip_armor(BODY_ARMOR)
+	_hud.get_node(^"DeathLabel").text = "GÜNÜN DALGASI BİTTİ"
+	# Kural tabelası (mekân pankartı, 5,5 sn): oyuncu ilk dalga başlarken kuralı okur.
+	_hud.show_place(rule.name, "Günün dalgası · %s" % rule.desc if _scored
+		else "Antrenman · %s · ödül yarın" % rule.desc,
+		Color(1.0, 0.78, 0.34) if _scored else Color(0.6, 0.75, 0.9))
 
 
 func _apply_safe_area() -> void:
@@ -122,8 +162,11 @@ func _start_next_wave() -> void:
 		return
 	_between_waves = false
 	_wave += 1
-	_living = enemy_count_for_wave(_wave)
 	_hud.set_boss_health(0, 0)
+	if _daily:
+		_spawn_daily_wave()
+		return
+	_living = enemy_count_for_wave(_wave)
 	_hud.get_node(^"StageLabel").text = "SURVIVAL · DALGA %d · REKOR %d" % [_wave, Save.survival_best_wave]
 	var boss_wave := _wave % 10 == 0
 	Fx.popup(Vector2(0, -170), "BOSS DALGASI" if boss_wave else "DALGA %d" % _wave,
@@ -134,33 +177,92 @@ func _start_next_wave() -> void:
 	if not boss_wave and _wave >= 3: pool.append(RIFLE)
 	if not boss_wave and _wave >= 5: pool.append(BRUISER)
 	if not boss_wave and _wave >= 7: pool.append(ELITE)
-	var spots := [-650.0, -480.0, -310.0, -140.0, 140.0, 310.0, 480.0, 650.0]
 	for i in _living:
-		var enemy: EnemyBase = pool[(i + _wave) % pool.size()].instantiate()
-		enemy.position = Vector2(spots[i], 0)
-		enemy.defeated.connect(_on_enemy_defeated)
-		add_child(enemy)
-		if enemy.config.is_boss:
-			enemy.boss_health_changed.connect(_hud.set_boss_health)
-			_hud.get_node(^"BossBar/BossLabel").text = enemy.config.display_name
-			_hud.set_boss_health(enemy.get_health(), enemy.config.max_health)
+		_spawn(pool[(i + _wave) % pool.size()], SPOTS[i])
+
+
+## Günün planındaki dalga: düşmanlar iki kenardan dönüşümlü doğar (oyuncu ortada).
+func _spawn_daily_wave() -> void:
+	var list: Array = _plan.waves[_wave - 1]
+	_living = list.size()
+	var boss_wave := _wave == DailyWave.WAVES
+	_hud.get_node(^"StageLabel").text = "GÜNÜN DALGASI · %s%s" % [
+		_plan.rule.name, "" if _scored else " · ANTRENMAN"]
+	_hud.set_arena_wave(_wave, DailyWave.WAVES, _living)
+	Fx.popup(Vector2(0, -170), "SON DALGA · BOSS" if boss_wave else "DALGA %d/%d" % [_wave, DailyWave.WAVES],
+		Color(1.0, 0.35, 0.2) if boss_wave else Color(1.0, 0.72, 0.25), 30)
+	var order := [0, 7, 1, 6, 2, 5, 3, 4]
+	for i in _living:
+		_spawn(DAILY_SCENES[String(list[i])], SPOTS[order[i]])
+
+
+func _spawn(scene: PackedScene, x: float) -> void:
+	var enemy: EnemyBase = scene.instantiate()
+	enemy.position = Vector2(x, 0)
+	enemy.defeated.connect(_on_enemy_defeated)
+	add_child(enemy)
+	if enemy.config.is_boss:
+		enemy.boss_health_changed.connect(_hud.set_boss_health)
+		_hud.get_node(^"BossBar/BossLabel").text = enemy.config.display_name
+		_hud.set_boss_health(enemy.get_health(), enemy.config.max_health)
 
 
 func _on_enemy_defeated(enemy: Node) -> void:
 	_living -= 1
+	_defeated += 1
 	if enemy.config != null:
 		GameState.add_score(enemy.config.score_value)
+	if _daily and not _dead:
+		_hud.set_arena_wave(_wave, DailyWave.WAVES, _living)
 	if _living > 0 or _dead:
 		return
 	_cleared_wave = _wave
 	_between_waves = true
 	var before := GameState.coins
 	GameState.add_coins(reward_for_wave(_wave))
-	Save.record_survival(_cleared_wave, 0)
-	_player.heal(10)
-	Fx.popup(Vector2(0, -130), "DALGA TEMİZ · +%d COIN · II: CEPHANELİK" % (GameState.coins - before), Color(0.45, 1.0, 0.6), 24)
+	if _daily:
+		if _scored:
+			Save.record_daily_wave(_cleared_wave)
+		if _wave >= DailyWave.WAVES:
+			_finish_daily()
+			return
+	else:
+		Save.record_survival(_cleared_wave, 0)
+	var heal := int(_plan.rule.heal) if _daily else 10
+	if heal > 0:
+		_player.heal(heal)
+	var shop := "" if _daily and not _plan.rule.armory else " · II: CEPHANELİK"
+	Fx.popup(Vector2(0, -130), "DALGA TEMİZ · +%d COIN%s" % [GameState.coins - before, shop], Color(0.45, 1.0, 0.6), 24)
 	await get_tree().create_timer(4.0, false).timeout
 	_start_next_wave()
+
+
+## Son dalga temiz: puanlı denemede tamamlama ödülü + seri, sonuç kartı.
+func _finish_daily() -> void:
+	_finished = true
+	_hud.set_arena_wave(0, 0, 0)
+	_hud.set_boss_health(0, 0)
+	if _hud._place != null:
+		_hud._place.visible = false
+	var bonus := DailyWave.CLEAR_BONUS if _scored else 0
+	_bank_run()
+	var seconds := (Time.get_ticks_msec() - _started_ms) / 1000.0
+	_hud.secrets_line = ""
+	_hud.show_results(GameState.coins + bonus, _defeated, _defeated, seconds, GameState.score,
+		"GÜNÜN DALGASI TAMAM")
+	# Madalya çerçevesinde rütbe harfi yerine dalga sayısı; istatistikler kısa tutulur
+	# (kart 4 satırdan fazlasını ipucu düğmesinin altına taşırıyor).
+	_hud._results_rank.text = "%d/%d" % [_cleared_wave, DailyWave.WAVES]
+	_hud._results_rank.visible = true
+	_hud._results_stats.text = "%s  ·  Süre: %d:%02d  ·  Düşman: %d\n" % [
+		_plan.rule.name, int(seconds) / 60, int(seconds) % 60, _defeated]
+	if _scored:
+		_hud._results_stats.text += "Coin: %d + %d tamamlama\nSeri: %d gün  ·  Skor: %d" % [
+			GameState.coins, bonus, Save.daily_streak, GameState.score]
+	else:
+		_hud._results_stats.text += "Antrenman: coin yazılmadı\nYarın yeni dalga  ·  Skor: %d" % GameState.score
+	_hud._results_hint.text = "R — antrenman     ·     M — ana menü"
+	Sfx.play(&"powerup")
 
 
 func _on_death() -> void:
@@ -177,6 +279,7 @@ func _restart() -> void:
 
 func _menu() -> void:
 	_bank_run()
+	GameState.daily_run = false
 	get_tree().paused = false
 	Transition.go(MENU_SCENE)
 
@@ -185,7 +288,11 @@ func _bank_run() -> void:
 	if _banked:
 		return
 	_banked = true
-	Save.record_survival(_cleared_wave, GameState.coins)
+	if not _daily:
+		Save.record_survival(_cleared_wave, GameState.coins)
+	elif _scored:
+		var cleared := _cleared_wave >= DailyWave.WAVES
+		Save.finish_daily(_day, GameState.coins + (DailyWave.CLEAR_BONUS if cleared else 0), cleared)
 
 
 func _on_armory_requested(item_id: String) -> void:
@@ -193,7 +300,10 @@ func _on_armory_requested(item_id: String) -> void:
 		_player.select_fists()
 		_pause.show_armory_status("Yakın dövüş: Yumruk", true)
 		return
-	if not _between_waves:
+	if _daily and not _plan.rule.armory:
+		_pause.show_armory_status("Bugünün kuralı: cephanelik kapalı.")
+		return
+	if not _between_waves or _finished:
 		_pause.show_armory_status("Cephanelik yalnız dalga aralarında açık.")
 		return
 	var cost := armory_cost(item_id)
@@ -210,10 +320,10 @@ func _on_armory_requested(item_id: String) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed(&"pause") and not _dead:
+	if event.is_action_pressed(&"pause") and not _dead and not _finished:
 		_pause.toggle()
 	elif event is InputEventKey and event.pressed and not event.echo:
-		if event.keycode == KEY_R and _dead:
+		if event.keycode == KEY_R and (_dead or _finished):
 			_restart()
-		elif event.keycode == KEY_M and _dead:
+		elif event.keycode == KEY_M and (_dead or _finished):
 			_menu()

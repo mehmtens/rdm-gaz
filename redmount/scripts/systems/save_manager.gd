@@ -37,6 +37,13 @@ var best_times: Dictionary = {}
 ## %100 ustalık ödülü alınmış bölümler (index -> true). Ödül bölüm başına bir kez.
 var mastered: Dictionary = {}
 var survival_best_wave: int = 0
+## Günün Dalgası (DailyWave): puanlı denemenin günü ("YYYY-MM-DD"; boş = hiç),
+## o denemede temizlenen dalga, en son tamamen bitirilen gün ve ardışık gün serisi.
+## Eski kayıtlarda yok → boş/0; ilk deneme puanlı sayılır.
+var daily_day: String = ""
+var daily_waves: int = 0
+var daily_clear_day: String = ""
+var daily_streak: int = 0
 var master_volume_db: float = 0.0
 ## Telefonda dokunma/isabet titreşimi (eski kayıtlarda yok → açık).
 var vibration: bool = true
@@ -82,6 +89,10 @@ func load_game() -> void:
 	best_times = cfg.get_value("progress", "best_times", {})
 	mastered = cfg.get_value("progress", "mastered", {})
 	survival_best_wave = int(cfg.get_value("progress", "survival_best_wave", 0))
+	daily_day = String(cfg.get_value("daily", "day", ""))
+	daily_waves = int(cfg.get_value("daily", "waves", 0))
+	daily_clear_day = String(cfg.get_value("daily", "clear_day", ""))
+	daily_streak = int(cfg.get_value("daily", "streak", 0))
 	purchased = cfg.get_value("shop", "purchased", [])
 	upgrade_levels = cfg.get_value("shop", "upgrade_levels", {})
 	costume = String(cfg.get_value("shop", "costume", "sokak"))
@@ -106,6 +117,10 @@ func save_game() -> void:
 	cfg.set_value("progress", "best_times", best_times)
 	cfg.set_value("progress", "mastered", mastered)
 	cfg.set_value("progress", "survival_best_wave", survival_best_wave)
+	cfg.set_value("daily", "day", daily_day)
+	cfg.set_value("daily", "waves", daily_waves)
+	cfg.set_value("daily", "clear_day", daily_clear_day)
+	cfg.set_value("daily", "streak", daily_streak)
 	cfg.set_value("shop", "purchased", purchased)
 	cfg.set_value("shop", "upgrade_levels", upgrade_levels)
 	cfg.set_value("shop", "costume", costume)
@@ -212,6 +227,32 @@ func record_survival(wave: int, earned_coins: int) -> void:
 	save_game()
 
 
+## Günün puanlı denemesi bu gün zaten başladı mı (sonraki koşular antrenman).
+func daily_attempted(day: String) -> bool:
+	return daily_day == day
+
+
+## Puanlı denemeyi başlatır: yarıda bırakılsa da günün hakkı kullanılmış olur.
+func begin_daily(day: String) -> void:
+	daily_day = day
+	daily_waves = 0
+	save_game()
+
+
+func record_daily_wave(waves: int) -> void:
+	daily_waves = maxi(daily_waves, waves)
+	save_game()
+
+
+## Puanlı deneme biter: koşu coin'i cüzdana; bütün dalgalar temizse seri ilerler.
+func finish_daily(day: String, earned_coins: int, cleared: bool) -> void:
+	total_coins += maxi(earned_coins, 0)
+	if cleared:
+		daily_streak = DailyWave.next_streak(daily_clear_day, day, daily_streak)
+		daily_clear_day = day
+	save_game()
+
+
 func owns(item_id: String) -> bool:
 	return item_id in purchased
 
@@ -278,6 +319,10 @@ func wipe() -> void:
 	best_times = {}
 	mastered = {}
 	survival_best_wave = 0
+	daily_day = ""
+	daily_waves = 0
+	daily_clear_day = ""
+	daily_streak = 0
 	purchased = []
 	upgrade_levels = {}
 	costume = "sokak"

@@ -179,7 +179,23 @@ func _build_home() -> Control:
 		where.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		col.add_child(where)
 	_button(col, "BÖLÜM SEÇ").pressed.connect(func() -> void: _show(_levels))
-	_button(col, "SURVIVAL · DALGALAR").pressed.connect(func() -> void: Transition.go(SURVIVAL_SCENE))
+	# Survival ve Günün Dalgası aynı arenayı kullanır; yan yana (sütun 720'ye sığsın).
+	var modes := HBoxContainer.new()
+	modes.add_theme_constant_override(&"separation", 8)
+	col.add_child(modes)
+	var surv := _button(modes, "SURVIVAL")
+	surv.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	surv.pressed.connect(func() -> void:
+		GameState.daily_run = false
+		Transition.go(SURVIVAL_SCENE))
+	var today := DailyWave.today()
+	var daily := _button(modes, "GÜNLÜK %d/%d" % [Save.daily_waves, DailyWave.WAVES]
+		if Save.daily_attempted(today) else "GÜNÜN DALGASI")
+	daily.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	daily.tooltip_text = DailyWave.plan(today).rule.name
+	daily.pressed.connect(func() -> void:
+		GameState.daily_run = true
+		Transition.go(SURVIVAL_SCENE))
 	_button(col, "MAĞAZA").pressed.connect(func() -> void: Transition.go(SHOP_SCENE))
 	_button(col, "KANIT ARŞİVİ").pressed.connect(func() -> void: _show(_archive))
 	_button(col, "AYARLAR").pressed.connect(func() -> void: _show(_settings))

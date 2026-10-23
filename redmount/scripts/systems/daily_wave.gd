@@ -1,0 +1,89 @@
+## DailyWave — "Günün Dalgası" planı (OYNANIS-KALITE P1-7).
+##
+## Survival arenasında tarihten tohumlanan, 5 dalgalık kısa koşu. Aynı gün herkes
+## (aynı sürümde) aynı kuralı ve aynı düşman dizisini görür; sunucu gerekmez.
+## Günün ilk denemesi puanlıdır (coin + tamamlama ödülü), sonrakiler antrenmandır.
+class_name DailyWave
+extends RefCounted
+
+const WAVES := 5
+## Günün dalgası ilk denemede bitirilirse kalıcı cüzdana eklenen ödül.
+const CLEAR_BONUS := 60
+## Arenada 8 doğma noktası var (survival.gd); bir dalga bundan fazla olamaz.
+const MAX_PER_WAVE := 8
+
+## Günün kuralları. Her kural tek bir şeyi değiştirir; oyuncu açılış yazısından okur.
+##  weapon: başlangıç silahı ("" = yumruk) · armor: zırhla başla · heal: dalga arası can
+##  extra: dalga başına ek düşman · armory: cephanelik açık mı · pool: düşman havuzu üst sınırı
+const RULES: Array[Dictionary] = [
+	{"id": "sopa", "name": "SOPA GÜNÜ", "desc": "Sopayla başla, kalabalık gelir",
+		"weapon": "bat", "armor": false, "heal": 10, "extra": 1, "armory": true, "pool": 5},
+	{"id": "zirh", "name": "ZIRHLI GİR", "desc": "Zırhla başla, iyileşme yarım",
+		"weapon": "", "armor": true, "heal": 5, "extra": 0, "armory": true, "pool": 5},
+	{"id": "aclik", "name": "SİMİT YOK", "desc": "Dalga arası iyileşme yok",
+		"weapon": "", "armor": false, "heal": 0, "extra": 0, "armory": true, "pool": 4},
+	{"id": "ciplak", "name": "ÇIPLAK EL", "desc": "Cephanelik kapalı, yumrukla",
+		"weapon": "", "armor": false, "heal": 15, "extra": 0, "armory": false, "pool": 4},
+	{"id": "nisanci", "name": "NİŞANCI GÜNÜ", "desc": "Tabancayla başla, tüfekliler çok",
+		"weapon": "pistol", "armor": false, "heal": 10, "extra": 0, "armory": true, "pool": 5},
+	{"id": "kalabalik", "name": "PAZAR KALABALIĞI", "desc": "Her dalgada +2 eşkıya",
+		"weapon": "", "armor": false, "heal": 10, "extra": 2, "armory": true, "pool": 2},
+]
+
+## Düşman havuzu zorluk sırasıyla (survival.gd sahne eşlemesi). "pool" kuralı ilk N'i açar.
+const POOL: PackedStringArray = ["thug", "knife", "rifle", "bruiser", "elite"]
+
+## Test/geliştirme: boş değilse bugünün yerine bu tarih kullanılır ("YYYY-MM-DD").
+static var day_override: String = ""
+
+
+static func today() -> String:
+	if not day_override.is_empty():
+		return day_override
+	return Time.get_date_string_from_system()
+
+
+## Tarih dizgesinden kararlı tohum (hash() sürümler arasında değişebilir; elle FNV-1a).
+static func seed_for(day: String) -> int:
+	var h := 2166136261
+	for b in day.to_utf8_buffer():
+		h = ((h ^ b) * 16777619) & 0xFFFFFFFF
+	return h
+
+
+## Günün planı: {day, rule, waves: Array[Array[String]]}. Son dalga boss + iki koruma.
+static func plan(day: String) -> Dictionary:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = seed_for(day)
+	var rule: Dictionary = RULES[rng.randi_range(0, RULES.size() - 1)]
+	var waves: Array = []
+	for w in range(1, WAVES + 1):
+		var list: Array[String] = []
+		if w == WAVES:
+			list.append("miniboss")
+			for i in 2:
+				list.append(POOL[rng.randi_range(0, mini(int(rule.pool), 2) - 1)])
+		else:
+			# Dalga w'de havuzun ilk w+1 düşmanı açık: ilk dalga yalnız eşkıya/bıçaklı.
+			var open := clampi(w + 1, 1, int(rule.pool))
+			var count := mini(2 + w + int(rule.extra), MAX_PER_WAVE)
+			for i in count:
+				list.append(POOL[rng.randi_range(0, open - 1)])
+			# Nişancı gününde her dalgada en az bir tüfekli (kuralın vaadi görünsün).
+			if rule.id == "nisanci" and w >= 2 and not "rifle" in list:
+				list[0] = "rifle"
+		waves.append(list)
+	return {"day": day, "rule": rule, "waves": waves}
+
+
+## Bitirilen gün dünü takip ediyorsa seri sürer; aksi hâlde 1'den başlar.
+static func next_streak(last_clear_day: String, day: String, streak: int) -> int:
+	if last_clear_day == day:
+		return streak
+	if not last_clear_day.is_empty() and _day_number(day) - _day_number(last_clear_day) == 1:
+		return streak + 1
+	return 1
+
+
+static func _day_number(day: String) -> int:
+	return int(Time.get_unix_time_from_datetime_string(day + "T12:00:00") / 86400)

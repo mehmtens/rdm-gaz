@@ -77,6 +77,8 @@ var coin_multiplier: int = 1
 ## Bölüm başı hikâye kartı + bitiş konuşması. Menüden başlatılan oyunda açılır;
 ## Main'i doğrudan kuran test botları kapalı bırakır.
 var story_scenes: bool = false
+## Menü "GÜNÜN DALGASI"nı seçtiyse Survival sahnesi günün planıyla açılır.
+var daily_run: bool = false
 ## Toplanan coin ADEDİ (değeri değil) — rank ekranı toplama oranı için.
 var coin_pickups: int = 0
 

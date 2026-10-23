@@ -7,7 +7,11 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Günün dalgası (OYNANIS-KALITE P1-7): Survival'a tarih tohumlu tek denemelik kısa mod.
+- Survival/Günün Dalgası arenası hâlâ `_draw()` ile düz dikdörtgen + çizgi (piksel art
+  kuralına aykırı): bir mekân atlasından (ör. Balat gece sokağı) arka plan + zemin karosu.
+- Günün dalgasının ikinci dilimi: 3/7/14 günlük seri için küçük ödül (coin ya da arşiv
+  karesi) ve menüde seri rozeti; kural havuzuna 2–3 yeni kural (yalnız silah, hızlı düşman,
+  boss dalgası önce). Kural dağılımı 30 günde ölçülüp eşitlenebilir.
 - Kostümlerin ikinci dilimi: ceket ile pantolonu ayrı boyamak (sprite'ta y bandı ya da
   parlaklık eşiğiyle iki rampa) ve küçük piksel aksesuar katmanı (kasket, atkı, önlük).
   Kostüm bonusları sonuç kartında/mağazada "giyili" rozetiyle hatırlatılabilir.
@@ -30,6 +34,49 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-23 (6) — Günün Dalgası (OYNANIS-KALITE P1-7, ilk dilim)
+
+**Neden şimdi:** Yol haritası bitti; P1 sırasında yeni silahlar ve kostümlerden sonra
+sıradaki madde. Kampanya 36 bölüm ama telefonda "3 dakikam var" oturumuna uyan, her gün
+yeni bir sebep veren kısa bir mod yoktu; Survival sonsuz ve her seferinde aynı.
+
+**Oyuncu ne hissedecek:** Menüde GÜNÜN DALGASI'na basar, arenaya girer girmez pankartta
+günün kuralı ("PAZAR KALABALIĞI · Her dalgada +2 eşkıya"). Beş kısa dalga, üstte
+`DALGA 2/5 · 4 DÜŞMAN`, sonda Mini Boss. Bitince kartta büyük `5/5`, coin + tamamlama
+ödülü ve seri. Tek hak olduğu için ilk deneme gerilimli; tekrar istediği kadar antrenman
+yapar ama ödül yarın — yarın yeni kural ve dizi gelir.
+
+**Yapılanlar:**
+- `scripts/systems/daily_wave.gd` (`DailyWave`): FNV-1a tarih tohumu (Godot `hash()`
+  sürümler arası değişebilir), 6 kural, 5 dalgalık plan, `next_streak` (ay/yıl sınırı).
+- `survival.gd`: `GameState.daily_run` ile günlük kip; plan dalgaları kenarlardan
+  dönüşümlü doğar, kural silah/zırh/iyileşme/cephanelik uygular, arena sayacı ve
+  pankart HUD'un mevcut piksel parçalarıyla; sonuç kartında madalya çerçevesine `n/5`.
+  Doğurma kodu `_spawn` olarak ortaklaştı (normal survival aynı).
+- `Save`: `[daily] day/waves/clear_day/streak`, `begin_daily/record_daily_wave/finish_daily`.
+- `main_menu.gd`: SURVIVAL ile GÜNÜN DALGASI yan yana (sütun 720 px'e sığsın).
+
+**Sayılar (hipotez):** 5 dalga ≈ 2–4 dk (mobil oturum). Dalga başına 2+w (+kural ek)
+düşman, en çok 8; dalga w'de havuzun ilk w+1 tipi açık, ilk dalga yalnız eşkıya/bıçaklı.
+Tamamlama +60: dalga coin'leri (5–13, toplam 45) kadar — günde bir kez alınır, mağaza
+kostümü (120–240) 2–4 günlük hedef olur, kampanyanın bölüm coin'ini gölgelemez. Hak
+başlarken kullanılır: yarıda çıkıp yeniden denemek "puanlı tekrar" olmasın.
+
+**Testler:** `--import` hatasız; yeni `tests/daily_wave.tscn` PASS (aynı gün aynı plan,
+30 günde ≥4 kural ve ≥25 farklı dizi, boss yalnız son dalgada, seri ay/yıl sınırı, eski
+kayıt uyumu, gerçek Survival sahnesinde 5 dalga: coin + 60, seri 2→3, sonuç kartı,
+survival rekoru değişmez; ikinci deneme antrenman, coin yazmaz); `tests/campaign_smoke.gd`
+çıkış 0; `tests/dtm_gaps.tscn` PASS; `tests/costumes.tscn`, `tests/level_stars.tscn` PASS;
+bot Bölüm 1 (78,0 sn), 13 (75,1 sn), 25 (88,2 sn) CLEARED; normal Survival 300 kare
+hatasız. 1280×720 ekran görüntüsünde menü satırı, kural pankartı + dalga sayacı ve sonuç
+kartı kontrol edildi (ilk denemede kural `Fx.popup` ile hemen sönüyordu → pankarta
+taşındı; sonuç metni ipucu düğmesinin altına taşıyordu → 3 satıra indirildi). Telefonda
+görülmedi; insan oyuncuyla günlük koşu süresi ölçülmedi.
+
+**Sonraki öneri:** OYNANIS-KALITE P1 listesi ilk dilimleriyle bitti. Birikimin başı:
+Survival arenasının arka planını piksel art'a çevirmek (günlük mod artık oraya oyuncu
+çekiyor ve arena kurala aykırı biçimde kodla çiziliyor).
 
 ### 2026-10-23 (5) — Kostümler (OYNANIS-KALITE P1-6, ilk dilim)
 
