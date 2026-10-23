@@ -1,7 +1,7 @@
 ## ShopMenu — piksel art mağaza ekranı.
 ##
-## Tek panel, iki sekme: HAREKETLER (`Shop.ITEMS`, tek seferlik) ve GELİŞTİRMELER
-## (`Shop.UPGRADES`, 3 kademe). Her ürün bir kart: ad, açıklama, kademe baklavaları,
+## Tek panel, üç sekme: HAREKETLER (`Shop.ITEMS`, tek seferlik), GELİŞTİRMELER
+## (`Shop.UPGRADES`, 3 kademe) ve KOSTÜMLER (`Shop.COSTUMES`, al → giy). Her ürün bir kart: ad, açıklama, kademe baklavaları,
 ## sağda coin ikonlu fiyat düğmesi. `Save.total_coins` ile satın alınır; etkileri
 ## Main koşu başında uygular. Klavye / gamepad ile gezilir, ESC menüye döner.
 extends Control
@@ -11,6 +11,11 @@ const COIN := preload("res://assets/ui/pixel/coin.png")
 const LOCK := preload("res://assets/ui/pixel/kilit.png")
 const PIP_ON := preload("res://assets/ui/pixel/pip_dolu.png")
 const PIP_OFF := preload("res://assets/ui/pixel/pip_bos.png")
+const IDLE_SHEET := preload("res://assets/anim/redmount/idle.png")
+## Kostüm önizlemesi: idle sayfasının ilk karesinden gövde bölgesi (200×240 hücre).
+const PREVIEW_REGION := Rect2(52, 30, 100, 206)
+## Oyundaki rig ölçeğiyle aynı (Redmount.tscn Rig 0.6) → sahadakiyle aynı pikseller.
+const PREVIEW_SCALE := 0.6
 const GOLD := Color(1.0, 0.82, 0.45)
 const CREAM := Color(0.96, 0.92, 0.84)
 const MUTED := Color(0.72, 0.68, 0.74)
@@ -61,10 +66,10 @@ func _ready() -> void:
 	var spacer := Control.new()
 	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	head.add_child(spacer)
-	for i in 2:
+	for i in 3:
 		var tab := Button.new()
-		tab.text = ["HAREKETLER", "GELİŞTİRMELER"][i]
-		tab.custom_minimum_size = Vector2(230, 48)
+		tab.text = ["HAREKETLER", "GELİŞTİRMELER", "KOSTÜMLER"][i]
+		tab.custom_minimum_size = Vector2(210, 48)
 		tab.pressed.connect(_select.bind(i))
 		tab.focus_entered.connect(_select.bind(i))
 		head.add_child(tab)
@@ -122,9 +127,12 @@ func _rebuild() -> void:
 	if _tab == 0:
 		for it in Shop.ITEMS:
 			_grid.add_child(_item_card(it))
-	else:
+	elif _tab == 1:
 		for it in Shop.UPGRADES:
 			_grid.add_child(_upgrade_card(it))
+	else:
+		for it in Shop.COSTUMES:
+			_grid.add_child(_costume_card(it))
 
 
 ## Tek seferlik hareket / özellik kartı.
@@ -164,6 +172,44 @@ func _upgrade_card(it: Dictionary) -> Control:
 		var cost := int(costs[level])
 		var b := _price(cost)
 		b.pressed.connect(_upgrade.bind(String(it.id), cost, costs.size()))
+		right.add_child(b)
+	return card
+
+
+## Kostüm kartı: solda kostümle boyanmış Redmount, sağda fiyat / GİY / GİYİLDİ.
+func _costume_card(it: Dictionary) -> Control:
+	var id := String(it.id)
+	var card := _card(String(it.name), String(it.desc))
+	var row: HBoxContainer = card.get_child(0)
+	var preview := TextureRect.new()
+	var atlas := AtlasTexture.new()
+	atlas.atlas = IDLE_SHEET
+	atlas.region = PREVIEW_REGION
+	preview.texture = atlas
+	preview.material = Shop.costume_material(id)
+	preview.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	preview.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	preview.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	preview.custom_minimum_size = PREVIEW_REGION.size * PREVIEW_SCALE
+	preview.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	row.add_child(preview)
+	row.move_child(preview, 0)
+	var right: HBoxContainer = card.get_meta(&"right")
+	var required := int(it.get("unlock_level", 0))
+	if Save.costume == id:
+		right.add_child(_label("GİYİLDİ", GOLD))
+	elif Save.owns_costume(id):
+		var b := Button.new()
+		b.text = "GİY"
+		b.custom_minimum_size = Vector2(120, 48)
+		b.pressed.connect(_wear.bind(id))
+		right.add_child(b)
+	elif Save.unlocked_level < required:
+		right.add_child(_icon(LOCK))
+		right.add_child(_label("BÖLÜM %d" % required, MUTED))
+	else:
+		var b := _price(int(it.cost))
+		b.pressed.connect(_buy_costume.bind(id, int(it.cost)))
 		right.add_child(b)
 	return card
 
@@ -228,6 +274,22 @@ func _buy(item_id: String, cost: int) -> void:
 
 func _upgrade(item_id: String, cost: int, max_level: int) -> void:
 	if Save.buy_upgrade(item_id, cost, max_level):
+		Sfx.play(&"coin")
+		_rebuild()
+		_back.grab_focus()
+
+
+func _buy_costume(id: String, cost: int) -> void:
+	if Save.buy_costume(id, cost):
+		Sfx.play(&"coin")
+		# Alınan kostüm hemen giyilir; oyuncu sonucu bir sonraki koşuda görür.
+		Save.set_costume(id)
+		_rebuild()
+		_back.grab_focus()
+
+
+func _wear(id: String) -> void:
+	if Save.set_costume(id):
 		Sfx.play(&"coin")
 		_rebuild()
 		_back.grab_focus()

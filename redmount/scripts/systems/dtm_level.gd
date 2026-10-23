@@ -256,7 +256,14 @@ func _night(tint := Color(0.6, 0.62, 0.82)) -> void:
 func _rim_player() -> void:
 	var p := get_tree().get_first_node_in_group(&"player")
 	var rig: CanvasItem = p.get_node_or_null(^"Rig") if p != null else null
-	if rig == null or rig.material != null:
+	if rig == null:
+		return
+	if rig.material is ShaderMaterial and rig.material.has_meta(&"costume"):
+		# Kostüm malzemesi konturu kendisi çizer.
+		rig.material.set_shader_parameter(&"rim_enabled", true)
+		rig.material.set_shader_parameter(&"rim_color", Color(1.0, 0.82, 0.52, 0.9))
+		return
+	if rig.material != null:
 		return
 	var mat := ShaderMaterial.new()
 	mat.shader = preload("res://shaders/dark_rim.gdshader")
@@ -810,6 +817,8 @@ func _exit_tree() -> void:
 	var rig: CanvasItem = p.get_node_or_null(^"Rig") if p != null else null
 	if rig != null and rig.material != null and rig.material.has_meta(&"night_rim"):
 		rig.material = null
+	elif rig != null and rig.material is ShaderMaterial and rig.material.has_meta(&"costume"):
+		rig.material.set_shader_parameter(&"rim_enabled", false)
 	if _cam != null and is_instance_valid(_cam):
 		_cam.set("_base_zoom", Vector2.ONE)
 

@@ -7,6 +7,10 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- Günün dalgası (OYNANIS-KALITE P1-7): Survival'a tarih tohumlu tek denemelik kısa mod.
+- Kostümlerin ikinci dilimi: ceket ile pantolonu ayrı boyamak (sprite'ta y bandı ya da
+  parlaklık eşiğiyle iki rampa) ve küçük piksel aksesuar katmanı (kasket, atkı, önlük).
+  Kostüm bonusları sonuç kartında/mağazada "giyili" rozetiyle hatırlatılabilir.
 - Yeni silahların ikinci dilimi: fırlatılabilir kaldırım taşı (tek kullanımlık, mermi sistemi
   yeniden kullanılır) ve pause CEPHANELİK'e ANAHTAR/ŞEMSİYE.
 - Şemsiyeyle havaya kaldırılan düşmanı ikinci şemsiye vuruşunun tekrar kaldırması sonsuz
@@ -26,6 +30,50 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-23 (5) — Kostümler (OYNANIS-KALITE P1-6, ilk dilim)
+
+**Neden şimdi:** Yol haritası bitti; P1 sırasında yeni yakın silahların ilk dilimi yapıldı,
+sıradaki madde kostümler. Mağazadaki 4 hareket + 7×3 yükseltme ~2.200 coin'de bitiyor;
+sonrasında coin'in hiçbir karşılığı kalmıyordu. Kostüm hem uzun vadeli harcama hedefi
+hem de oyuncunun karakterine sahip çıkma hissi verir.
+
+**Oyuncu ne hissedecek:** Mağazada KOSTÜMLER sekmesinde Redmount'u beş giysiyle yan yana
+görür; kilitli olanlar hangi bölümde açılacağını söyler. Alınca hemen giyer; bölüme
+girince sahada, ara sahnede ve ana menü çatısında aynı renkte görür. Her kostümün tek
+küçük bonusu oyun tarzına göre seçim yaptırır (tank / silahçı / yiyecekle toparlanan /
+yumrukçu), ama hiçbiri zorunlu değil.
+
+**Yapılanlar:**
+- `shaders/player_costume.gdshader`: palet takası (doygunluk < 0,25 ve parlaklık
+  0,035–0,62 arası pikseller rampaya; kontur, ten, saç, ayakkabı korunur) + isteğe
+  bağlı gece konturu. Varsayılan kostümde malzeme yok (sıfır risk).
+- `Shop.COSTUMES`, `Shop.costume/costume_bonus/costume_material`; adlar Türkçe büyük
+  harfle (Godot `to_upper` "i"yi "I" yapıyordu).
+- `Save.costume` + `owns_costume/buy_costume/set_costume`; eski kayıt uyumlu.
+- `redmount.gd`: `apply_costume()`, can ve yumruk/silah kapasitesi çarpanlarına bonus;
+  `health_pickup.gd`: yiyecek bonusu (Survival dalga iyileştirmesi etkilenmez).
+- `dtm_level.gd`: gece konturu kostüm malzemesi varsa onun `rim_enabled`'ını açar/kapatır.
+- `cutscene.gd`, `main_menu.gd`: Redmount kuklası da giyili kostümle.
+- `shop_menu.gd`: üçüncü sekme ve kostüm kartı.
+
+**Sayılar (hipotez):** Fiyatlar 120–240: en pahalı yükseltme kademesinden (140) yüksek,
+böylece önce oynanışı değiştiren alımlar yapılır, kostüm "sonraki hedef" olur. Bonuslar
+yükseltmenin tek kademesinden küçük ya da ona yakın (can +10 < +15; yumruk %8 < %12;
+silah %15 < %20) — kostüm bir güç basamağı değil, tarz seçimi. Kahveci %25 yiyecek:
+30'luk simit 37'ye çıkar, tek başına bir isabeti karşılar. Açılış bölümleri (3/8/14/20)
+kitaplara yayılır, her kitapta yeni bir hedef görünsün.
+
+**Testler:** `--import` hatasız; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn`
+PASS; `tests/level_stars.tscn` PASS; `tests/new_melee_weapons.tscn` PASS; yeni
+`tests/costumes.tscn` PASS (eski kayıt, bilinmeyen id, satın alma/giyme, palet
+malzemesi + gece konturu parametresi, oyuncuya can/yumruk bonusu, mağaza sekmesi);
+bot Bölüm 1 (77,1 sn), 13 (79,0 sn), 25 (89,5 sn) CLEARED. 1280×720 ekran görüntüsünde
+mağaza sekmesi ve Bölüm 1 açılış sahnesinde lacivert Redmount kontrol edildi (ilk
+görüntüde ara sahne kuklası siyah kalıyordu → `cutscene.gd` düzeltildi). Gece bölümü
+ve telefon ekranında görülmedi.
+
+**Sonraki öneri:** OYNANIS-KALITE P1-7 — günün dalgası (Survival'a tarih tohumlu kısa mod).
 
 ### 2026-10-23 (4) — Yeni yakın silahlar: Boru Anahtarı ve Şemsiye (OYNANIS-KALITE P1-5, ilk dilim)
 

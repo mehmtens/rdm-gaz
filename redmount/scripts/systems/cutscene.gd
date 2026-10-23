@@ -187,6 +187,7 @@ func actor(id: String, kind: String, pos: Vector2, facing := 1) -> Node2D:
 				a.sprite_frames = REDMOUNT_FRAMES
 				a.scale = Vector2(0.6, 0.6)
 				a.offset = Vector2(0, -114)
+				a.material = Shop.costume_material(Save.costume)  # sahnede de giyili kostüm
 			"thug":
 				a.sprite_frames = THUG_FRAMES
 				a.scale = Vector2(0.6, 0.6)

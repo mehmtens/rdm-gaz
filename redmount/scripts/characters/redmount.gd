@@ -150,7 +150,8 @@ func _ready() -> void:
 		combat = CombatConfig.new()
 		push_warning("Redmount: 'combat' ayarı bağlı değil, varsayılan CombatConfig kullanılıyor.")
 
-	_bonus_health = 15 * Save.upgrade_level("max_health")
+	_bonus_health = 15 * Save.upgrade_level("max_health") + int(Shop.costume_bonus("max_health"))
+	apply_costume()
 	_health = get_max_health()
 	_last_safe_position = global_position
 	health_changed.emit(_health, get_max_health())
@@ -1058,7 +1059,7 @@ func _current_damage() -> int:
 
 
 func _melee_damage_multiplier() -> float:
-	return 1.0 + 0.12 * float(Save.upgrade_level("fist_power"))
+	return 1.0 + 0.12 * float(Save.upgrade_level("fist_power")) + Shop.costume_bonus("fist")
 
 
 func _finisher_damage_multiplier() -> float:
@@ -1070,7 +1071,7 @@ func _combo_time_multiplier() -> float:
 
 
 func _weapon_capacity_multiplier() -> float:
-	return 1.0 + 0.20 * float(Save.upgrade_level("weapon_capacity"))
+	return 1.0 + 0.20 * float(Save.upgrade_level("weapon_capacity")) + Shop.costume_bonus("weapon_capacity")
 
 
 func _weapon_damage_multiplier() -> float:
@@ -1461,6 +1462,14 @@ func _drop_weapon(play_break_sound := true) -> void:
 func select_fists() -> void:
 	if _weapon != null:
 		_drop_weapon(false)
+
+
+## Giyili kostümün palet malzemesini rig'e uygular (varsayılanda malzemesiz).
+## Gece konturu (dtm_level) kostüm malzemesinin kendi kontur ayarını kullanır.
+func apply_costume() -> void:
+	if rig.material != null and rig.material.has_meta(&"night_rim"):
+		return
+	rig.material = Shop.costume_material(Save.costume)
 
 
 ## Can takviyesi (HealthPickup).

@@ -44,6 +44,9 @@ var vibration: bool = true
 var purchased: Array = []
 ## Kalıcı kademeli geliştirmeler: ürün id -> kademe.
 var upgrade_levels: Dictionary = {}
+## Giyili kostüm id'si (`Shop.COSTUMES`; eski kayıtlarda yok → varsayılan).
+## Satın alınan kostümler `purchased` içinde "costume_<id>" olarak tutulur.
+var costume: String = "sokak"
 
 
 func _ready() -> void:
@@ -81,6 +84,7 @@ func load_game() -> void:
 	survival_best_wave = int(cfg.get_value("progress", "survival_best_wave", 0))
 	purchased = cfg.get_value("shop", "purchased", [])
 	upgrade_levels = cfg.get_value("shop", "upgrade_levels", {})
+	costume = String(cfg.get_value("shop", "costume", "sokak"))
 	# Eski tek seferlik can yükseltmesini yeni sistemin ilk kademesine taşı.
 	if "tough_body" in purchased:
 		upgrade_levels["max_health"] = maxi(upgrade_level("max_health"), 1)
@@ -104,6 +108,7 @@ func save_game() -> void:
 	cfg.set_value("progress", "survival_best_wave", survival_best_wave)
 	cfg.set_value("shop", "purchased", purchased)
 	cfg.set_value("shop", "upgrade_levels", upgrade_levels)
+	cfg.set_value("shop", "costume", costume)
 	cfg.set_value("settings", "master_volume_db", master_volume_db)
 	cfg.set_value("settings", "vibration", vibration)
 	var error := cfg.save(_path)
@@ -235,6 +240,23 @@ func buy_upgrade(item_id: String, cost: int, max_level: int) -> bool:
 	return true
 
 
+func owns_costume(id: String) -> bool:
+	return id == "sokak" or owns("costume_" + id)
+
+
+func buy_costume(id: String, cost: int) -> bool:
+	return buy("costume_" + id, cost)
+
+
+## Sahip olunan kostümü giyer; sahip değilse false.
+func set_costume(id: String) -> bool:
+	if not owns_costume(id):
+		return false
+	costume = id
+	save_game()
+	return true
+
+
 func set_volume_db(db: float) -> void:
 	master_volume_db = clampf(db, -40.0, 6.0)
 	_apply_volume()
@@ -258,6 +280,7 @@ func wipe() -> void:
 	survival_best_wave = 0
 	purchased = []
 	upgrade_levels = {}
+	costume = "sokak"
 	save_game()
 
 

@@ -6,4 +6,5 @@ extends PickupBase
 
 func _collect(player: Node) -> void:
 	if player.has_method(&"heal"):
-		player.heal(heal_amount)
+		# Kahveci kostümü yiyeceği daha doyurucu yapar.
+		player.heal(int(roundf(float(heal_amount) * (1.0 + Shop.costume_bonus("heal")))))

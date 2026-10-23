@@ -106,6 +106,7 @@ func _build_scenery() -> void:
 	var vs := get_viewport_rect().size
 	var rm := AnimatedSprite2D.new()
 	rm.sprite_frames = REDMOUNT_FRAMES
+	rm.material = Shop.costume_material(Save.costume)
 	rm.animation = &"idle"
 	rm.scale = Vector2(0.9, 0.9)
 	rm.position = Vector2(vs.x * 0.80, vs.y - 118.0)

@@ -1,0 +1,45 @@
+// Redmount kostümü: aynı sprite sayfaları, giysinin palet takası.
+// Ceket/pantolon/tişört doygunluğu düşük koyu-gri piksellerdir; parlaklıkları
+// kostümün koyu→açık rampasına eşlenir. Kontur (çok koyu), ten/saç (doygun) ve
+// beyaz ayakkabı/göz (açık) olduğu gibi kalır. Gece sahnesinde dark_rim'in
+// konturu da burada çizilir (oyuncu rig'inde tek malzeme olabildiği için).
+shader_type canvas_item;
+
+uniform vec4 shade : source_color = vec4(0.04, 0.07, 0.19, 1.0);
+uniform vec4 light : source_color = vec4(0.27, 0.43, 0.71, 1.0);
+uniform bool rim_enabled = false;
+uniform vec4 rim_color : source_color = vec4(1.0, 0.82, 0.52, 0.9);
+uniform float rim_width = 3.0;
+
+varying vec4 tint;
+
+void vertex() {
+	tint = COLOR;
+}
+
+void fragment() {
+	vec4 c = texture(TEXTURE, UV);
+	if (c.a < 0.5) {
+		if (rim_enabled) {
+			vec2 d = TEXTURE_PIXEL_SIZE * rim_width;
+			float a = 0.0;
+			a = max(a, texture(TEXTURE, UV + vec2(d.x, 0.0)).a);
+			a = max(a, texture(TEXTURE, UV - vec2(d.x, 0.0)).a);
+			a = max(a, texture(TEXTURE, UV + vec2(0.0, d.y)).a);
+			a = max(a, texture(TEXTURE, UV - vec2(0.0, d.y)).a);
+			if (a >= 0.5) {
+				COLOR = rim_color * tint;
+			}
+		}
+	} else {
+		float mx = max(c.r, max(c.g, c.b));
+		float mn = min(c.r, min(c.g, c.b));
+		float sat = mx > 0.0 ? (mx - mn) / mx : 0.0;
+		if (sat < 0.25) {
+			float w = smoothstep(0.035, 0.07, mx) * (1.0 - smoothstep(0.5, 0.62, mx));
+			vec3 ramp = mix(shade.rgb, light.rgb, smoothstep(0.03, 0.45, mx));
+			c.rgb = mix(c.rgb, ramp, w);
+		}
+		COLOR = c * tint;
+	}
+}
