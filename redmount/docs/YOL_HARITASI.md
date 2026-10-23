@@ -32,5 +32,9 @@ Kurallar: her şey piksel art, şablon parkur yok, Türkçe metin, bölüm tasar
       sırayla çakılır; `Save.stars` bit maskesi koşular arası birleşir, %100 = 3 yıldız;
       bölüm kartlarında 3 küçük yıldız, BÖLÜM SEÇ başlığında toplam ★ x/108.
       Kanıt: `tests/level_stars.tscn` PASS, dtm_gaps PASS, smoke PASS, bot 1/13/25 CLEARED.)*
-- [ ] 10. **Kitap geçiş sinematikleri** — kitap sonlarında piksel çizgi roman
-      panelleri (3–4 kare).
+- [x] 10. **Kitap geçiş sinematikleri** — kitap sonlarında piksel çizgi roman
+      panelleri (3–4 kare). *(23 Ekim: `tools/gen_comic_panels.py` → `assets/ui/comic/kK_P.png`
+      (100×60, 3x NEAREST): bölüm atlası kesiti + piksel portreler + elle boyanmış defter /
+      not / simit; `BookComic` Bölüm 12, 24 ve 36 bitince sonuç kartından önce 4 kareyi
+      soldan sağa çakar, alt yazı + "SIRADAKİ · KİTAP n" satırı. Kanıt: `tests/book_comic.tscn`
+      PASS, dtm_gaps PASS, smoke PASS, bot 1/12/13/24/25 CLEARED.)*

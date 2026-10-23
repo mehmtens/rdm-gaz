@@ -7,6 +7,10 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- Kanıt Arşivi'nde açılmış kitap şeritlerini yeniden izleme sekmesi (kitap sonu
+  kayıtta işaretli; `Save` alanı varsayılan boş).
+- Kitap şeridinde karelere küçük hareket: kare açılırken portrenin 1–2 sanat pikseli
+  kayması ya da konuşma balonu (DTM çizgi romanlarındaki canlılık).
 - Hız yıldızının par süresi bölüm başına ayarlanmalı: 34 bölümde düz 240 sn, bot
   ~80 sn'de bitiriyor. İnsan testinden gelen ortanca sürenin ~0,8'i hedef (ilk koşuda
   zor, ikinci koşuda alınabilir); `par_time` her `Bolum*.tscn`'de elle.
@@ -17,6 +21,45 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-23 (3) — Kitap geçiş sinematikleri (Yol haritası 10)
+
+**Neden şimdi:** Yol haritasındaki son açık madde. Kitap 1 ve 2'nin son bölümleri
+oyun içi sahneyle bitip doğrudan sonuç kartına düşüyordu; oyuncu bir kitabın
+kapandığını, sıradakinin neden başladığını hissetmiyordu. DTM bölüm aralarını
+çizgi roman kareleriyle bağlar — bu bir "nefes" ve ödül anıdır.
+
+**Oyuncu ne hissedecek:** Bölüm 12 / 24 / 36'nın son konuşması biter, ekran kararır,
+"KİTAP n SONU · ad" başlığının altında dört kare soldan sağa küçük bir sarsılmayla
+yerine çakılır; her karenin altında krem kutuda tek cümle. Son karede sarı
+"SIRADAKİ · KİTAP n+1 · ad" (finalde "SON · TEŞEKKÜRLER"). Sabırsız oyuncu J/dokunuşla
+kareleri öne alır, ESC bütün şeridi atlar.
+
+**Yapılanlar:**
+- `tools/gen_comic_panels.py` → `assets/ui/comic/k{1,2,3}_{0..3}.png`: bölümün kendi
+  atlasından kesit (96×56, kutu filtresi, 22 renk) + 48×48 piksel portreler (karşılıklı
+  bakış için aynalı) + elle boyanmış defter, Kâtip'in notu ve simit; 1 px mürekkep + krem
+  çerçeve. Tekrar eden ikili yakın planlar azaltıldı (matbaa genel planı, simit kapanışı).
+- `scripts/ui/book_comic.gd` (`BookComic`, CanvasLayer 8): metinler sahnelerdeki son
+  konuşmalarla aynı olayları özetler; `present/advance/is_active`.
+- `main.gd`: `_on_goal_reached` içinde oyun içi bitişten sonra, yalnız `story_scenes`
+  açıkken (menüden oyun) ve kitap sonu bölümde; `_ending_in_progress` dokunmatik
+  düğmeleri gizler ve ESC'nin duraklatma menüsünü açmasını engeller.
+
+**Sayılar (hipotez):** Kareler arası 1,1 sn (bir cümle okunur; tüm şerit ~4,5 sn,
+izleyen oyuncuyu sıkmaz), çakılma 0,18 sn; son kareden sonra 0,5 sn kapanma kilidi
+(basılı tutulan saldırı tuşu şeridi yutmasın). 3x ölçek: dört kare 1280'e 22 px
+pay ile sığar, alt yazı 24 px piksel yazıyla en fazla 3 satır.
+
+**Testler:** `--import` hatasız; yeni `tests/book_comic.tscn` PASS (yalnız 12/24/36,
+12 kare dokusu 100×60, otomatik akış, girdiyle öne alma, erken basış kilidi, ESC
+atlama); `tests/dtm_gaps.tscn` PASS; `tests/campaign_smoke.gd` çıkış 0; bot Bölüm 1 (81,3 sn), 12 (91,5 sn),
+13 (77,5 sn), 24 (193,1 sn), 25 (81,6 sn) CLEARED (bot `story_scenes` kapalı
+koştuğu için şerit yolunu değil, ortak bitiş akışını doğrular). 1280×720 ekran görüntüsünde üç şerit kontrol edildi (Kitap 2'nin son alt
+yazısı 4 satıra taşıyordu, kısaltıldı; kutular eşit boya getirildi). Telefonda görülmedi.
+
+**Sonraki öneri:** Yol haritası tamamlandı. Sıradaki tur OYNANIS-KALITE P1:
+yeni yakın silahlar.
 
 ### 2026-10-23 (2) — Bölüm sonu yıldızları (Yol haritası 9)
 

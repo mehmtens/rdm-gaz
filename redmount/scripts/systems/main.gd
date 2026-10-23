@@ -15,6 +15,7 @@ extends Node2D
 @onready var _touch: TouchControls = $TouchControls
 
 var _story_card: StoryCard
+var _book_comic: BookComic
 var _secrets_found := 0
 var _secrets_total := 0
 ## Hikâye kartı en son hangi bölüm için gösterildi (yeniden denemede tekrarlanmaz).
@@ -75,6 +76,8 @@ func _ready() -> void:
 	_touch.menu_requested.connect(_go_to_menu)
 	_story_card = StoryCard.new()
 	add_child(_story_card)
+	_book_comic = BookComic.new()
+	add_child(_book_comic)
 	get_viewport().size_changed.connect(_apply_safe_area)
 	_apply_safe_area()
 	if _touch.is_enabled():
@@ -470,6 +473,15 @@ func _on_goal_reached() -> void:
 		get_tree().paused = true
 		_dialogue.play(StoryData.outro(GameState.level_index))
 		await _dialogue.finished
+		if not is_inside_tree():
+			return
+		_ending_in_progress = false
+	# Kitabın son bölümü: sonuç kartından önce 4 karelik çizgi roman şeridi.
+	if GameState.story_scenes and BookComic.has_page(GameState.level_index):
+		_ending_in_progress = true
+		get_tree().paused = true
+		_book_comic.present(GameState.level_index)
+		await _book_comic.finished
 		if not is_inside_tree():
 			return
 		_ending_in_progress = false
