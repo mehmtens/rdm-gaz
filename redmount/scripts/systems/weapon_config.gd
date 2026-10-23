@@ -27,3 +27,11 @@ extends Resource
 @export var reach_offset: float = 70.0
 ## Kaç savuruş sonra kırılır.
 @export var durability: int = 12
+
+@export_group("Ayırt edici özellik")
+## Darbe bloğu deler: blok duruşundaki ya da blok şansı olan düşman (Kalkanlı
+## Zabıta, Zırhlı Kabadayı) savunamaz, hasarı tam alır. (Boru Anahtarı)
+@export var guard_break: bool = false
+## > 0 ise isabet düşmanı bu hızla havaya kaldırır; hava dizi (AIR_KNEE) ile
+## takip edilebilir. 0 = yalnız geri itme. (Şemsiye)
+@export var launch_speed: float = 0.0

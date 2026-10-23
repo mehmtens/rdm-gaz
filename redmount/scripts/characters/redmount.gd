@@ -268,7 +268,7 @@ func _spawn_attack_slash() -> void:
 			Fx.slash(origin + Vector2(_facing * 4, 0), _facing, 56.0, 2.8, Color(1, 0.8, 0.5, 0.9), 0.18)
 			Combat.shake(2.0)
 		Attack.WEAPON:
-			var kn := _weapon != null and _weapon.anim_prefix.begins_with("knife")
+			var kn := _weapon != null and (_weapon.anim_prefix.begins_with("knife") or _weapon.launch_speed > 0.0)
 			Fx.slash(origin, _facing, 38.0 if kn else 60.0, 2.0 if kn else 3.0,
 				Color(0.9, 0.95, 1, 0.9) if kn else Color(1, 0.95, 0.85, 0.9),
 				0.1 if kn else 0.2)
@@ -1144,9 +1144,18 @@ func _deal_attack_hit(target: Node, dash_counter := false) -> void:
 		and target.can_be_juggled()
 	var heavy: bool = _attack == Attack.HEAVY or _attack == Attack.WEAPON or finisher or juggle
 	var dmg := int(roundf(_current_damage() * _damage_mult()))
-	target.apply_hit(dmg, Vector2(_facing, 0.0), _current_knockback())
+	var armed := _attack == Attack.WEAPON and _weapon != null
+	# Boru Anahtarı: blok/kalkan savunmasını deler (yalnız düşman bunu destekliyorsa).
+	var guard_broken := false
+	if armed and _weapon.guard_break and target.has_method(&"apply_guard_break_hit"):
+		guard_broken = target.apply_guard_break_hit(dmg, Vector2(_facing, 0.0), _current_knockback())
+	else:
+		target.apply_hit(dmg, Vector2(_facing, 0.0), _current_knockback())
 	if target.has_method(&"launch"):
-		if juggle:
+		if armed and _weapon.launch_speed > 0.0:
+			# Şemsiye: kancayla düşmanı havaya kaldırır; hava dizi ile takip edilir.
+			target.launch(_weapon.launch_speed)
+		elif juggle:
 			target.launch(340.0)
 			velocity.y = -250.0
 		elif _special_move == "uppercut":
@@ -1177,6 +1186,8 @@ func _deal_attack_hit(target: Node, dash_counter := false) -> void:
 		Fx.popup(impact + Vector2(0, -42), "BİTİRİCİ!", Color(1.0, 0.65, 0.2), 20)
 	if juggle:
 		Fx.popup(impact + Vector2(0, -42), "HAVA TAKİBİ!", Color(0.45, 0.85, 1.0), 20)
+	if guard_broken:
+		Fx.popup(impact + Vector2(0, -42), "KALKAN DELİNDİ!", Color(0.75, 0.85, 0.95), 20)
 	if dash_counter:
 		Fx.popup(impact + Vector2(0, -42), "KARŞILIK!", Color(0.3, 0.95, 0.85), 20)
 
@@ -1432,6 +1443,10 @@ func equip_weapon(cfg: WeaponConfig) -> void:
 	_weapon_uses = _weapon_max_uses()
 	weapon_changed.emit(cfg.display_name, _weapon_uses, _weapon_max_uses())
 	Fx.ring(global_position + Vector2(0, -58), Color(1, 0.9, 0.5), 5, 24, 0.25)
+	# Ayırt edici özelliği alır almaz söyle (oyuncu neden bu silahı seçeceğini bilsin).
+	var trait_text := "BLOK DELER" if cfg.guard_break else ("HAVAYA KALDIRIR" if cfg.launch_speed > 0.0 else "")
+	if not trait_text.is_empty():
+		Fx.popup(global_position + Vector2(0, -150), trait_text, Color(1.0, 0.82, 0.45), 18)
 
 
 func _drop_weapon(play_break_sound := true) -> void:

@@ -23,6 +23,8 @@ func _build() -> void:
 		_lantern(float(x))
 	_stall(330)
 	_stall(720)
+	# Şemsiyeci tezgâhı: ilk ikiliden hemen önce — kancayla havaya kaldır, dizle karşıla.
+	_pickup(UMBRELLA, 760, -45)
 	_stall(1150)
 	_prop("vazo", 260)
 	_prop("saksi", 430)

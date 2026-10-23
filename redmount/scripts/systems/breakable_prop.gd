@@ -15,7 +15,8 @@ const HEALTH := preload("res://scenes/pickups/HealthPickup.tscn")
 const LOOT := {
 	"kasa": {"chance": 0.3, "scenes": ["res://scenes/pickups/HealthPickup.tscn"]},
 	"varil": {"chance": 0.35, "scenes": ["res://scenes/pickups/AmmoPickup.tscn"]},
-	"sandik": {"chance": 0.5, "scenes": ["res://scenes/pickups/BatPickup.tscn", "res://scenes/pickups/KnifePickup.tscn"]},
+	"sandik": {"chance": 0.5, "scenes": ["res://scenes/pickups/BatPickup.tscn", "res://scenes/pickups/KnifePickup.tscn",
+		"res://scenes/pickups/AnahtarPickup.tscn", "res://scenes/pickups/SemsiyePickup.tscn"]},
 }
 const VASE_SMALL := preload("res://assets/environment/mahalle/vase_small.png")
 const VASE_BIG := preload("res://assets/environment/mahalle/vase_big.png")

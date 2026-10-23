@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="WeaponConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/weapon_config.gd" id="1_wpn"]
+
+[resource]
+script = ExtResource("1_wpn")
+display_name = "Şemsiye"
+anim_prefix = "semsiye"
+damage = 10
+windup = 0.12
+active = 0.08
+recovery = 0.24
+knockback = 120.0
+step_forward = 90.0
+reach = Vector2(104, 56)
+reach_offset = 60.0
+durability = 16
+launch_speed = 320.0

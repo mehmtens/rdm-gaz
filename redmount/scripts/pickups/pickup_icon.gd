@@ -2,7 +2,7 @@
 ## Sanat dosyası yok; `kind`'e göre _draw ile çizilir + döner/nabız atar.
 extends Node2D
 
-## coin / health / ammo / armor / bat / knife / pistol / rifle /
+## coin / health / ammo / armor / bat / knife / anahtar / semsiye / pistol / rifle /
 ## pu_damage / pu_speed / pu_invis / pu_shield
 @export var kind: String = "coin"
 
@@ -23,6 +23,8 @@ const ART := {
 	"pu_shield": preload("res://assets/pickups/placeholder_shield.png"),
 	"bat": preload("res://assets/pickups/placeholder_bat.png"),
 	"knife": preload("res://assets/pickups/placeholder_knife.png"),
+	"anahtar": preload("res://assets/pickups/placeholder_anahtar.png"),
+	"semsiye": preload("res://assets/pickups/placeholder_semsiye.png"),
 	"pistol": preload("res://assets/pickups/placeholder_pistol.png"),
 	"pu_damage": preload("res://assets/pickups/placeholder_dmg2x.png"),
 	"pu_speed": preload("res://assets/pickups/placeholder_speed.png"),

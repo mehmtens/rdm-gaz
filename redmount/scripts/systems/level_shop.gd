@@ -30,6 +30,14 @@ const CATALOG := {
 		"label": "BIÇAK", "price": 30, "icon": "knife",
 		"scene": preload("res://scenes/pickups/KnifePickup.tscn"),
 	},
+	"anahtar": {
+		"label": "ANAHTAR", "price": 34, "icon": "anahtar",
+		"scene": preload("res://scenes/pickups/AnahtarPickup.tscn"),
+	},
+	"semsiye": {
+		"label": "ŞEMSİYE", "price": 26, "icon": "semsiye",
+		"scene": preload("res://scenes/pickups/SemsiyePickup.tscn"),
+	},
 	"zirh": {
 		"label": "ZIRH", "price": 45, "icon": "armor",
 		"scene": preload("res://scenes/pickups/ArmorPickup.tscn"),

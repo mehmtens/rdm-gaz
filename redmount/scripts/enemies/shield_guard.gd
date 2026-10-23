@@ -5,7 +5,8 @@
 ##  * arkadan vur (üstünden zıpla, dolan),
 ##  * alçaktan vur: çömel tekmesi / kayma tekmesi kalkanın altından girer,
 ##  * ağır darbe (ağır yumruk, dash vuruşu, patlama) kalkanı düşürür: kısa süre açık,
-##  * kendi kalkan darbesinin toparlanmasında kalkan iner.
+##  * kendi kalkan darbesinin toparlanmasında kalkan iner,
+##  * blok delen silah (Boru Anahtarı) kalkanı indirir ve tam hasar verir.
 ## Görsel: düşmanın önünde piksel art kalkan (assets/environment/pixel/kalkan*.png).
 extends EnemyBase
 
@@ -90,3 +91,16 @@ func apply_hit(damage: int, dir: Vector2, knockback: float) -> void:
 	if _blocks >= 3 and _attack_cd > 0.0:
 		_attack_cd = 0.0
 		_blocks = 0
+
+
+## Boru Anahtarı: önden kalkanı deler — kalkan iner, darbe tam hasarla geçer.
+func apply_guard_break_hit(damage: int, dir: Vector2, knockback: float) -> bool:
+	var from_front := signf(dir.x) == -float(_facing) or is_zero_approx(dir.x)
+	var pierced := _state != State.DEAD and _shield_up() and from_front
+	if pierced:
+		_shield_down = SHIELD_DOWN_TIME
+		_blocks = 0
+		Sfx.play(&"weapon_break", 0.8)
+		Combat.shake(5.0)
+		Fx.spark(global_position + Vector2(_facing * 24.0, -60.0), Vector2(-_facing, -0.4), 14, Color(0.75, 0.85, 1.0), 1.3)
+	return super.apply_guard_break_hit(damage, dir, knockback) or pierced

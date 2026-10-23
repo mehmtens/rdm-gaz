@@ -53,6 +53,8 @@ var _phase_full: float = 0.2
 var _alert_timer: float = 0.0
 var _hurt_timer: float = 0.0
 var _knockdown_timer: float = 0.0
+## apply_guard_break_hit sırasında true: blok bu darbeyi yutamaz.
+var _ignore_block: bool = false
 var _getup_timer: float = 0.0
 var _getting_up: bool = false
 var _hit_player_this_swing: bool = false
@@ -683,8 +685,8 @@ func apply_hit(damage: int, dir: Vector2, knockback: float) -> void:
 	if is_zero_approx(push):
 		push = -_facing
 
-	# Blok aktifken darbe tamamen boşa gider.
-	if _state == State.BLOCK:
+	# Blok aktifken darbe tamamen boşa gider (blok delen darbe hariç).
+	if _state == State.BLOCK and not _ignore_block:
 		Sfx.play(&"shield", 1.1)
 		Combat.shake(2.0)
 		return
@@ -694,7 +696,7 @@ func apply_hit(damage: int, dir: Vector2, knockback: float) -> void:
 	# Zırh kırık değilken: kalıcı zırh hasarı azaltır + bloka geçme şansı.
 	if not in_break:
 		damage = maxi(1, int(roundf(damage * config.damage_taken_mult)))
-		if config.block_chance > 0.0 and _block_cd <= 0.0 and _health > damage \
+		if config.block_chance > 0.0 and not _ignore_block and _block_cd <= 0.0 and _health > damage \
 				and _state in [State.CHASE, State.ALERT, State.RANGED] \
 				and randf() < config.block_chance:
 			_face_player()
@@ -767,6 +769,24 @@ func apply_hit(damage: int, dir: Vector2, knockback: float) -> void:
 	else:
 		_hurt_timer = config.hurt_duration
 		_set_state(State.HURT)
+
+
+## Blok delen silah darbesi (Boru Anahtarı): blok duruşu ve blok şansı bu
+## darbede işlemez. Gerçekten bir savunmayı deldiyse true döner (oyuncu
+## "KALKAN DELİNDİ" geri bildirimi alır).
+func apply_guard_break_hit(damage: int, dir: Vector2, knockback: float) -> bool:
+	# Yalnız gerçekten savunabilecek durumdaysa "delindi" sayılır (her vuruşta yazı çıkmasın).
+	var pierced := _state == State.BLOCK or (config.block_chance > 0.0 and _block_cd <= 0.0 \
+		and _state in [State.CHASE, State.ALERT, State.RANGED])
+	if _state == State.BLOCK:
+		_block_timer = 0.0
+		_block_cd = 1.6
+		Sfx.play(&"shield", 0.7)
+		Combat.shake(4.0)
+	_ignore_block = true
+	apply_hit(damage, dir, knockback)
+	_ignore_block = false
+	return pierced
 
 
 ## Aparkat ve kombo bitiricilerinin ortak havaya savurma tepkisi.

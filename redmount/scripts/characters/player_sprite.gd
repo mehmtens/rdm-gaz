@@ -11,6 +11,11 @@ extends AnimatedSprite2D
 
 const CELL_H := 240.0
 const FOOT_PAD := 6.0
+## Sopa gövde karelerini paylaşan yakın silahlar: sayfa adı → sopa animasyonu.
+## Sanat `tools/gen_pixel_weapons.py` ile sopa sayfalarından türetilir; burada
+## aynı bölge/zamanlamayla SpriteFrames'e eklenir (tres'i elle büyütmeden).
+const BAT_VARIANTS := ["anahtar", "semsiye"]
+const MELEE_PREFIXES := ["bat", "knife", "anahtar", "semsiye"]
 
 var facing: int = 1:
 	set(v):
@@ -22,7 +27,7 @@ var _attack := ""
 var _phase := 0
 var _pp := 0.0
 var _combo := 0
-var _prefix := ""          # "" | bat | knife | pistol | rifle
+var _prefix := ""          # "" | bat | knife | anahtar | semsiye | pistol | rifle
 var _rot := 0.0            # yumuşatılmış gövde eğimi (hurt/dead)
 var _t := 0.0
 var _action_override: StringName = &""
@@ -32,6 +37,7 @@ var _action_until_ms: int = 0
 func _ready() -> void:
 	centered = true
 	offset = Vector2(0, -(CELL_H * 0.5 - FOOT_PAD))
+	_register_bat_variants()
 	animation_finished.connect(_on_anim_finished)
 	play(&"idle")
 
@@ -52,6 +58,32 @@ func set_anim(state: String, attack: String, phase: int, pp: float, combo: int,
 	else:
 		_prefix = gun_prefix if gun_prefix != "" else weapon_prefix
 	_refresh()
+
+
+## Sopa animasyonlarını yeni silah sayfalarıyla çoğaltır (paylaşılan kaynak;
+## ikinci çağrı hiçbir şey yapmaz).
+func _register_bat_variants() -> void:
+	if sprite_frames == null:
+		return
+	for variant in BAT_VARIANTS:
+		for base in ["idle", "walk", "attack", "attack2"]:
+			var src := "bat_%s" % base
+			var dst := "%s_%s" % [variant, base]
+			var path := "res://assets/anim/redmount/%s.png" % dst
+			if sprite_frames.has_animation(dst) or not sprite_frames.has_animation(src) \
+					or not ResourceLoader.exists(path):
+				continue
+			var sheet: Texture2D = load(path)
+			sprite_frames.add_animation(dst)
+			sprite_frames.set_animation_loop(dst, sprite_frames.get_animation_loop(src))
+			sprite_frames.set_animation_speed(dst, sprite_frames.get_animation_speed(src))
+			for i in sprite_frames.get_frame_count(src):
+				var frame_tex := sprite_frames.get_frame_texture(src, i)
+				var atlas := AtlasTexture.new()
+				atlas.atlas = sheet
+				atlas.region = (frame_tex as AtlasTexture).region if frame_tex is AtlasTexture \
+					else Rect2(Vector2.ZERO, frame_tex.get_size())
+				sprite_frames.add_frame(dst, atlas, sprite_frames.get_frame_duration(src, i))
 
 
 func _p(base: String) -> String:
@@ -144,14 +176,14 @@ func _has(name: String) -> bool:
 func _attack_anim() -> String:
 	match _attack:
 		"COMBO":
-			if _prefix in ["bat", "knife"]:
+			if _prefix in MELEE_PREFIXES:
 				return _p("attack") if _combo % 2 == 0 else _p("attack2")
 			if _prefix in ["pistol", "rifle"]:
 				return _p("shoot")
 			# silahsız üçlü combo: jab-düz / kroşe / dönüşlü kroşe
 			return "combo_a" if _combo % 3 == 1 else "combo_b"
 		"HEAVY":
-			if _prefix in ["bat", "knife"]:
+			if _prefix in MELEE_PREFIXES:
 				return _p("attack2")
 			return "combo_b"
 		"LOW_KICK", "SLIDE_KICK":
@@ -186,7 +218,9 @@ func _attack_phase_frame(count: int) -> int:
 
 func play_action(base: StringName, duration := 0.18) -> void:
 	var action_name := _p(String(base))
-	if not _has(action_name):
+	# Sayfası olmayan eylem (ör. "weapon_swing") _p'de "idle"a düşer; o zaman
+	# savuruşun hazırlık kareleri 0,18 sn boyunca silahsız duruşla örtülüyordu.
+	if not _has(action_name) or (action_name == "idle" and String(base) != "idle"):
 		return
 	_action_override = base
 	_action_until_ms = Time.get_ticks_msec() + int(duration * 1000.0)

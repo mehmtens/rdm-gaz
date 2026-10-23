@@ -47,7 +47,9 @@ func _build() -> void:
 	_sandbags(2750, 100)
 	_sandbags(2880, 100)
 	_enemy(RIFLE, 3020, 0)
-	_hint(2900, "Kalkanlı Zabıta: arkasından vur, çömel tekmesiyle altından gir ya da ağır yumrukla (K) kalkanını düşür.", "heavy_attack")
+	# Su idaresi sandığından düşmüş boru anahtarı: kalkanlıdan hemen önce, bloğu delen seçenek.
+	_pickup(WRENCH, 2620, -45)
+	_hint(2900, "Kalkanlı Zabıta: arkasından vur, çömel tekmesiyle altından gir, ağır yumrukla (K) düşür ya da boru anahtarıyla del.", "heavy_attack")
 	_enemy(SHIELD, 3150, 0)
 	_prop("varil", 3080)
 	_sandbags(3300, 110)

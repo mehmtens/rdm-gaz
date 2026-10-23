@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="WeaponConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/weapon_config.gd" id="1_wpn"]
+
+[resource]
+script = ExtResource("1_wpn")
+display_name = "Boru Anahtarı"
+anim_prefix = "anahtar"
+damage = 20
+windup = 0.24
+active = 0.08
+recovery = 0.36
+knockback = 400.0
+step_forward = 50.0
+reach = Vector2(74, 64)
+reach_offset = 44.0
+durability = 10
+guard_break = true
