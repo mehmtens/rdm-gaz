@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="GunConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/gun_config.gd" id="1_gun"]
+
+[resource]
+script = ExtResource("1_gun")
+display_name = "Kaldırım Taşı"
+anim_prefix = "tas"
+damage = 22
+projectile_speed = 760.0
+projectile_knockback = 360.0
+fire_interval = 0.45
+mag_size = 1
+starting_reserve = 2
+reload_time = 0.3
+recoil = 0.0
+shoot_anim = &"combo_a"
+ammo_label = "TAŞ"
+projectile_gravity = 1100.0
+throw_lift = 0.35
+projectile_scene = "res://scenes/systems/TasMermi.tscn"
+fire_sfx = &"swing"

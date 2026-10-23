@@ -52,6 +52,8 @@ func _build() -> void:
 	_enemy(STREET, 2300, 0)
 	_crates(2600, 1, 1)
 	_crates(2690, 1, 2)
+	# Sökük kaldırım: tüfekliye yaklaşmadan menzilden cevap verilsin (üç taş).
+	_pickup(STONES, 2480, -45)
 	_enemy(RIFLE, 3050, 0)
 	_prop("saksi", 3250)
 	_prop("vazo", 3320)

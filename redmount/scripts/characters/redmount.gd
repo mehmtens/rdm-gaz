@@ -38,7 +38,7 @@ signal died
 ## Silah kuşanınca / kırılınca. name boşsa silahsız. (Görev 4)
 signal weapon_changed(display_name: String, uses: int, max_uses: int)
 ## Ateşli silah / cephane değişince. has_gun false ise menzilli silah yok. (Görev 7)
-signal ammo_changed(mag: int, reserve: int, has_gun: bool)
+signal ammo_changed(mag: int, reserve: int, has_gun: bool, label: String)
 ## Aktif güçlendirmeler değişince. Her eleman: {name, left, total, kind}. (Görev 8)
 signal powerups_changed(active: Array)
 ## Zırh kuşanınca / kırılınca. name boşsa zırhsız. (Görev 8)
@@ -171,7 +171,7 @@ func _ready() -> void:
 		_body_full_h = ($CollisionShape2D.shape as RectangleShape2D).size.y
 
 	weapon_changed.emit("", 0, 0)
-	ammo_changed.emit(0, 0, false)
+	ammo_changed.emit(0, 0, false, "")
 	powerups_changed.emit([])
 	armor_changed.emit("", 0, 0)
 	_set_state(State.IDLE)
@@ -543,15 +543,18 @@ func _fire_gun() -> void:
 	_mag -= 1
 	_fire_cd = _gun.fire_interval
 	velocity.x -= _facing * _gun.recoil
-	Projectile.spawn(
+	var shot := Projectile.spawn(
 		get_tree().current_scene, _muzzle.global_position,
-		Vector2(_facing, 0.0), _gun.projectile_speed,
+		Vector2(_facing, -_gun.throw_lift), _gun.projectile_speed,
 		_gun_damage(), _gun.projectile_knockback, false, self,
+		_gun.projectile_scene,
 	)
-	Sfx.play(&"shoot")
-	Combat.shake(2.5)
+	if shot != null:
+		shot.arc_gravity = _gun.projectile_gravity
+	Sfx.play(_gun.fire_sfx)
+	Combat.shake(2.5 if _gun.projectile_gravity <= 0.0 else 1.0)
 	_play(_gun.shoot_anim)
-	ammo_changed.emit(_mag, _reserve, true)
+	ammo_changed.emit(_mag, _reserve, true, _gun.ammo_label)
 
 	if _mag == 0:
 		if _reserve > 0:
@@ -575,7 +578,7 @@ func _finish_reload() -> void:
 	var take := mini(need, _reserve)
 	_mag += take
 	_reserve -= take
-	ammo_changed.emit(_mag, _reserve, true)
+	ammo_changed.emit(_mag, _reserve, true, _gun.ammo_label)
 
 
 ## Yerden tabanca alınınca (WeaponPickup benzeri).
@@ -587,7 +590,7 @@ func equip_gun(cfg: GunConfig) -> void:
 	_reserve = int(roundf(float(cfg.starting_reserve) * _weapon_capacity_multiplier()))
 	_reloading = false
 	_fire_cd = 0.0
-	ammo_changed.emit(_mag, _reserve, true)
+	ammo_changed.emit(_mag, _reserve, true, _gun.ammo_label)
 
 
 ## Cephane takviyesi (AmmoPickup).
@@ -595,7 +598,7 @@ func add_ammo(amount: int) -> void:
 	if _gun == null:
 		return
 	_reserve += amount
-	ammo_changed.emit(_mag, _reserve, true)
+	ammo_changed.emit(_mag, _reserve, true, _gun.ammo_label)
 
 
 func _drop_gun() -> void:
@@ -603,7 +606,7 @@ func _drop_gun() -> void:
 	_mag = 0
 	_reserve = 0
 	_reloading = false
-	ammo_changed.emit(0, 0, false)
+	ammo_changed.emit(0, 0, false, "")
 
 
 func has_gun() -> bool:
@@ -1379,7 +1382,7 @@ func revive() -> void:
 		_weapon_uses,
 		_weapon.durability if _weapon != null else 0,
 	)
-	ammo_changed.emit(_mag, _reserve, _gun != null)
+	ammo_changed.emit(_mag, _reserve, _gun != null, _gun.ammo_label if _gun != null else "")
 	_emit_powerups()
 	armor_changed.emit(
 		_armor.display_name if _armor != null else "",

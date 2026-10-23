@@ -20,3 +20,15 @@ extends Resource
 ## Atışta Redmount'a binen geri tepme (px/sn, ateş yönünün tersi).
 @export var recoil: float = 60.0
 @export var shoot_anim: StringName = &"shoot"
+
+@export_group("Fırlatma")
+## HUD'daki cephane adı ("MERMİ" / "TAŞ").
+@export var ammo_label: String = "MERMİ"
+## > 0 ise mermi yerçekimiyle yay çizer (px/sn²). Kaldırım taşı.
+@export var projectile_gravity: float = 0.0
+## Atış yönünün yukarı bileşeni (yatay 1'e göre); yayın tepesini belirler.
+@export var throw_lift: float = 0.0
+## Boşsa standart mermi (Bullet.tscn).
+@export_file("*.tscn") var projectile_scene: String = ""
+## Atış sesi.
+@export var fire_sfx: StringName = &"shoot"

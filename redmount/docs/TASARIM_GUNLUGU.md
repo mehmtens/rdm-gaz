@@ -15,8 +15,9 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   `tools/gen_costume_mask.py` sonrası kare başına elle düzeltme maskesi (küçük PNG).
 - Günün dalgası dördüncü dilim: seri ödülü olarak Kanıt Arşivi'nde açılan özel kare
   (ör. 7. gün); seri kopunca bir kerelik "seri koruma" (ör. 100 coin'e dünü kurtar).
-- Yeni silahların ikinci dilimi: fırlatılabilir kaldırım taşı (tek kullanımlık, mermi sistemi
-  yeniden kullanılır) ve pause CEPHANELİK'e ANAHTAR/ŞEMSİYE.
+- Kaldırım taşı üçüncü dilim: elde taş görünür değil, atış yumruk (combo_a) karesiyle
+  oynuyor. `tools/gen_pixel_weapons.py` ile tek "fırlatma" sayfası (geri çekiş → bırakış,
+  elde bazalt taş) ve yığının düşman varilinden/dükkândan da çıkması (`LevelShop` "tas").
 - Şemsiyeyle havaya kaldırılan düşmanı ikinci şemsiye vuruşunun tekrar kaldırması sonsuz
   dizi yaratabilir mi? İnsan testinde bakılacak; gerekirse havadaki düşmana kaldırma yok.
 
@@ -34,6 +35,52 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-24 (2) — Yeni silahların ikinci dilimi: kaldırım taşı ve tam cephanelik
+
+**Neden şimdi:** OYNANIS-KALITE P1 sırasında "yeni yakın silahlar" maddesinin kalanı açıktı
+(fırlatılabilir silah + duraklat cephaneliğinde yeni silahlar yok). Tüfekli muhafız gibi
+menzilli düşmana karşı oyuncunun yakın dövüşten başka cevabı yalnız tabancaydı; DTM'deki
+"yerden bir şey kapıp fırlat" kararı eksikti.
+
+**Oyuncu ne hissedecek:** Bölüm 2'nin alt sokağında tüfekliden önce sökük kaldırım
+yığını: üç taş, L ile kısa bir yay çizerek fırlatılır, ağır vurur ve düşmanı iter; taşlar
+bitince el boşalır. Duraklat menüsünde artık Anahtar, Şemsiye ve Taş da satılır; her
+kartın kuşanma notu silahın tek ayırt edici özelliğini söyler.
+
+**Yapılanlar:**
+- `GunConfig` "Fırlatma" grubu: `ammo_label`, `projectile_gravity`, `throw_lift`,
+  `projectile_scene`, `fire_sfx` (eski `.tres`'ler varsayılanla okunur). Yeni ateş/fırlatma
+  sistemi yazılmadı: taş bir GunConfig (`kaldirim_tasi.tres`, şarjör 1 + yedek 2; "yeniden
+  doldurma" yerden yeni taş almak).
+- `Projectile.arc_gravity` (Area2D'nin kendi `gravity` özelliğiyle çakışmasın diye bu ad):
+  yay + dönüş; zemine çarpınca toz ve tok ses. `spawn()` artık mermiyi döndürür ve isteğe
+  bağlı sahne alır; düşman çağrıları değişmedi.
+- Sanat (`tools/gen_pixel_weapons.py main_tas`): 48 px üç taşlık yığın ikonu, 12×10 uçan
+  bazalt taş (oyunda 2x NEAREST, `scenes/systems/TasMermi.tscn`). Yüz gibi okunan ilk
+  çatlak deseni değiştirildi.
+- HUD: fırlatılan silahta `TAŞ 3` / `Taş: 3` (toplam adet), ateşli silahta eskisi gibi
+  `MERMİ m/r`. `ammo_changed` sinyaline `label` eklendi.
+- Cephanelik tek kaynak: `PauseMenu.ARMORY` (kimlik, ad, fiyat, kaynak, not); Main ve
+  Survival aynı listeyi ve `armory_equip` kullanır (Survival'daki çift `knife` dalı ve
+  "Kuşanıldı: Anahtar" gibi ham kimlikli mesaj gitti).
+
+**Sayılar (hipotez):** Taş hasarı 22 (sopa 16, anahtar 20): üç atışla sınırlı ve nişan
+istiyor. Hız 760, kaldırış 0,35, yerçekimi 1100 → yayın tepesi ~29 px, aynı yükseklikte
+~330 px menzil: ayaktaki düşmana yol boyunca isabet eder, ekranın yarısını aşmaz. Geri
+itme 360 (tüfekliyi siperinden düşürecek kadar). Fiyatlar: taş 15 (en ucuz, tek
+kullanımlık), şemsiye 25, anahtar 30 (bölüm dükkânından ucuz, çünkü yalnız bu can için).
+
+**Testler:** `--import` SCRIPT ERROR yok; `tests/kaldirim_tasi.tscn` PASS (yeni: kaynak
+değerleri, pickup/ikon, 9 kartlı tek kaynak cephanelik, Bölüm 2 yığını, 15 coin alım, HUD,
+yay + 260 px'teki düşmana isabet, üç atıştan sonra el boşalır); `campaign_smoke.gd` çıkış 0;
+`dtm_gaps` PASS; `survival_mode`, `new_melee_weapons`, `daily_wave`, `costumes` PASS;
+bot Bölüm 2 CLEARED (70,9 sn), Bölüm 1 (81,0), Bölüm 13 (80,5), Bölüm 25 (85,9) — ortak
+mermi/HUD/cephanelik değiştiği için dört bölüm. 1280×720 pencereli görüntüde yığın, uçan
+taş ve 9 kartlı cephanelik incelendi; taşma yok. Telefonda görülmedi.
+
+**Sonraki öneri:** Kostüm aksesuar katmanı (birikimin başı) ya da kaldırım taşı için gerçek
+fırlatma sayfası.
 
 ### 2026-10-24 — Kostümlerin ikinci dilimi: ceket ve pantolon ayrı renk
 

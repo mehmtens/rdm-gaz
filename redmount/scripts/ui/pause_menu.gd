@@ -61,10 +61,36 @@ const ICONS := {
 	"fists": preload("res://assets/ui/pixel/ikon_yumruk.png"),
 	"bat": preload("res://assets/pickups/placeholder_bat.png"),
 	"knife": preload("res://assets/pickups/placeholder_knife.png"),
+	"anahtar": preload("res://assets/pickups/placeholder_anahtar.png"),
+	"semsiye": preload("res://assets/pickups/placeholder_semsiye.png"),
+	"tas": preload("res://assets/pickups/placeholder_tas.png"),
 	"pistol": preload("res://assets/pickups/placeholder_pistol.png"),
 	"rifle": preload("res://assets/ui/pixel/ikon_tufek.png"),
 	"armor": preload("res://assets/pickups/placeholder_armor.png"),
 }
+## Cep cephaneliği — TEK KAYNAK: Main ve Survival aynı kartları, fiyatları ve
+## kuşanma notunu kullanır. Sıra kart sırasıdır; `res` WeaponConfig, GunConfig
+## veya ArmorConfig (yumrukta null).
+const ARMORY := [
+	{"id": "fists", "label": "Yumruk", "cost": 0, "res": null,
+		"note": "Yakın dövüş: Yumruk"},
+	{"id": "bat", "label": "Sopa", "cost": 20, "res": preload("res://resources/weapons/bat.tres"),
+		"note": "Sopa kuşanıldı. J ile savur."},
+	{"id": "knife", "label": "Bıçak", "cost": 25, "res": preload("res://resources/weapons/knife.tres"),
+		"note": "Bıçak kuşanıldı. Hızlı ama kısa menzilli."},
+	{"id": "anahtar", "label": "Anahtar", "cost": 30, "res": preload("res://resources/weapons/anahtar.tres"),
+		"note": "Boru anahtarı: yavaş, kalkanı ve bloğu deler."},
+	{"id": "semsiye", "label": "Şemsiye", "cost": 25, "res": preload("res://resources/weapons/semsiye.tres"),
+		"note": "Şemsiye: uzun menzil, düşmanı havaya kaldırır."},
+	{"id": "tas", "label": "Taş", "cost": 15, "res": preload("res://resources/weapons/kaldirim_tasi.tres"),
+		"note": "Kaldırım taşı: 3 atış, L ile yay çizerek fırlat."},
+	{"id": "pistol", "label": "Tabanca", "cost": 40, "res": preload("res://resources/weapons/pistol.tres"),
+		"note": "Tabanca kuşanıldı. L ile ateş et."},
+	{"id": "rifle", "label": "Tüfek", "cost": 60, "res": preload("res://resources/weapons/rifle.tres"),
+		"note": "Tüfek kuşanıldı. L ile seri ateş et."},
+	{"id": "armor", "label": "Zırh", "cost": 30, "res": preload("res://resources/armor/body_armor.tres"),
+		"note": "Zırh: hasar -%50, hız -%15, 6 darbe."},
+]
 const COIN_ICON := preload("res://assets/ui/pixel/coin.png")
 const GOLD := Color(1.0, 0.82, 0.45)
 const MUTED := Color(0.72, 0.68, 0.74)
@@ -162,12 +188,8 @@ func _build() -> void:
 	grid.add_theme_constant_override(&"h_separation", 10)
 	grid.add_theme_constant_override(&"v_separation", 10)
 	col.add_child(grid)
-	_armory_button(grid, "Yumruk", "fists", 0)
-	_armory_button(grid, "Sopa", "bat", 20)
-	_armory_button(grid, "Bıçak", "knife", 25)
-	_armory_button(grid, "Tabanca", "pistol", 40)
-	_armory_button(grid, "Tüfek", "rifle", 60)
-	_armory_button(grid, "Zırh", "armor", 30)
+	for item in ARMORY:
+		_armory_button(grid, item.label, item.id, item.cost)
 	_armory_status = Label.new()
 	_armory_status.text = "Silahlar bu can için geçerli; ölünce yumruğa dönersin."
 	_armory_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -175,6 +197,31 @@ func _build() -> void:
 	_armory_status.add_theme_color_override(&"font_color", MUTED)
 	col.add_child(_armory_status)
 	GameState.coins_changed.connect(_refresh_armory_coins)
+
+
+## Kart kaydı; bilinmeyen kimlikte boş sözlük.
+static func armory_item(item_id: String) -> Dictionary:
+	for item in ARMORY:
+		if item.id == item_id:
+			return item
+	return {}
+
+
+## Fiyat; bilinmeyen kimlikte -1.
+static func armory_cost(item_id: String) -> int:
+	var item := armory_item(item_id)
+	return int(item.cost) if not item.is_empty() else -1
+
+
+## Kartın kaynağını türüne göre kuşandırır (yumruk ayrı: select_fists).
+static func armory_equip(player: Node, item: Dictionary) -> void:
+	var res: Resource = item.get("res")
+	if res is WeaponConfig:
+		player.equip_weapon(res)
+	elif res is GunConfig:
+		player.equip_gun(res)
+	elif res is ArmorConfig:
+		player.equip_armor(res)
 
 
 func toggle_vibration() -> void:

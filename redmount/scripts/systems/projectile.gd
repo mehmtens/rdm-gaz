@@ -18,17 +18,21 @@ var _damage: int = 6
 var _knockback: float = 120.0
 var _life: float = 2.5
 var _shooter: Node = null
+## > 0 ise yay çizer ve döner (fırlatılan taş). spawn() sonrası atanır.
+var arc_gravity: float = 0.0
 
 
-## Bir mermi oluştur ve `world` altına ekle.
+## Bir mermi oluştur ve `world` altına ekle. `scene_path` boşsa standart mermi.
 static func spawn(world: Node, pos: Vector2, dir: Vector2, speed: float,
-		damage: int, knockback: float, hostile_to_player: bool, shooter: Node) -> void:
+		damage: int, knockback: float, hostile_to_player: bool, shooter: Node,
+		scene_path := "") -> Projectile:
 	if world == null:
-		return
-	var b: Projectile = load(SCENE_PATH).instantiate()
+		return null
+	var b: Projectile = load(scene_path if scene_path != "" else SCENE_PATH).instantiate()
 	b.setup(dir, speed, damage, knockback, hostile_to_player, shooter)
 	world.add_child(b)
 	b.global_position = pos
+	return b
 
 
 func setup(dir: Vector2, speed: float, damage: int, knockback: float,
@@ -49,6 +53,9 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if arc_gravity > 0.0:
+		_velocity.y += arc_gravity * delta
+		rotation += signf(_velocity.x) * 14.0 * delta
 	global_position += _velocity * delta
 	_life -= delta
 	if _life <= 0.0:
@@ -67,4 +74,8 @@ func _on_area_entered(area: Area2D) -> void:
 
 
 func _on_body_entered(_body: Node) -> void:
+	if arc_gravity > 0.0:
+		# Taş kaldırıma çarpıp dağılır: toz + tok ses.
+		Fx.dust(global_position, -signf(_velocity.x), 4, Color(0.55, 0.57, 0.62))
+		Sfx.play(&"land", 1.4, -4.0)
 	queue_free()

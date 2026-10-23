@@ -42,11 +42,6 @@ var _coin_pickups_at_start: int = 0
 var _par_time: float = 75.0
 
 const MENU_SCENE := "res://scenes/MainMenu.tscn"
-const BAT := preload("res://resources/weapons/bat.tres")
-const KNIFE := preload("res://resources/weapons/knife.tres")
-const PISTOL := preload("res://resources/weapons/pistol.tres")
-const RIFLE := preload("res://resources/weapons/rifle.tres")
-const BODY_ARMOR := preload("res://resources/armor/body_armor.tres")
 
 
 func _ready() -> void:
@@ -541,30 +536,16 @@ func _respawn_player() -> void:
 
 
 func _on_armory_requested(item_id: String) -> void:
+	var item := PauseMenu.armory_item(item_id)
 	if item_id == "fists":
 		_player.select_fists()
-		_pause_menu.show_armory_status("Yakın dövüş: Yumruk", true)
+		_pause_menu.show_armory_status(item.note, true)
 		return
-	var cost: int = int({"bat": 20, "knife": 25, "pistol": 40, "rifle": 60, "armor": 30}.get(item_id, -1))
-	if cost < 0 or not GameState.spend_coins(cost):
+	if item.is_empty() or not GameState.spend_coins(int(item.cost)):
 		_pause_menu.show_armory_status("Yeterli coin yok.")
 		return
-	match item_id:
-		"bat":
-			_player.equip_weapon(BAT)
-			_pause_menu.show_armory_status("Sopa kuşanıldı. J ile savur.", true)
-		"knife":
-			_player.equip_weapon(KNIFE)
-			_pause_menu.show_armory_status("Bıçak kuşanıldı. Hızlı ama kısa menzilli.", true)
-		"pistol":
-			_player.equip_gun(PISTOL)
-			_pause_menu.show_armory_status("Tabanca kuşanıldı. L ile ateş et.", true)
-		"rifle":
-			_player.equip_gun(RIFLE)
-			_pause_menu.show_armory_status("Tüfek kuşanıldı. L ile seri ateş et.", true)
-		"armor":
-			_player.equip_armor(BODY_ARMOR)
-			_pause_menu.show_armory_status("Zırh: hasar -%50, hız -%15, 6 darbe.", true)
+	PauseMenu.armory_equip(_player, item)
+	_pause_menu.show_armory_status(item.note, true)
 
 
 ## `root` alt ağacında `group` grubundaki düğümleri toplar.

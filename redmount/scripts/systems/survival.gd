@@ -11,7 +11,6 @@ const MINIBOSS := preload("res://scenes/enemies/MiniBoss.tscn")
 const BAT := preload("res://resources/weapons/bat.tres")
 const KNIFE_WEAPON := preload("res://resources/weapons/knife.tres")
 const PISTOL := preload("res://resources/weapons/pistol.tres")
-const RIFLE_WEAPON := preload("res://resources/weapons/rifle.tres")
 const BODY_ARMOR := preload("res://resources/armor/body_armor.tres")
 ## Günün Dalgası planındaki düşman adları → sahne.
 const DAILY_SCENES := {
@@ -64,7 +63,7 @@ static func reward_for_wave(wave: int) -> int:
 
 
 static func armory_cost(item_id: String) -> int:
-	return int({"bat": 20, "knife": 25, "pistol": 40, "rifle": 60, "armor": 30}.get(item_id, -1))
+	return PauseMenu.armory_cost(item_id)
 
 
 func _ready() -> void:
@@ -357,7 +356,7 @@ func _bank_run() -> void:
 func _on_armory_requested(item_id: String) -> void:
 	if item_id == "fists":
 		_player.select_fists()
-		_pause.show_armory_status("Yakın dövüş: Yumruk", true)
+		_pause.show_armory_status(PauseMenu.armory_item("fists").note, true)
 		return
 	if _daily and not _plan.rule.armory:
 		_pause.show_armory_status("Bugünün kuralı: cephanelik kapalı.")
@@ -369,14 +368,9 @@ func _on_armory_requested(item_id: String) -> void:
 	if cost < 0 or not GameState.spend_coins(cost):
 		_pause.show_armory_status("Yeterli Survival coini yok.")
 		return
-	match item_id:
-		"bat": _player.equip_weapon(BAT)
-		"knife": _player.equip_weapon(KNIFE_WEAPON)
-		"pistol": _player.equip_gun(PISTOL)
-		"knife": _player.equip_weapon(KNIFE_WEAPON)
-		"rifle": _player.equip_gun(RIFLE_WEAPON)
-		"armor": _player.equip_armor(BODY_ARMOR)
-	_pause.show_armory_status("Kuşanıldı: %s" % item_id.capitalize(), true)
+	var item := PauseMenu.armory_item(item_id)
+	PauseMenu.armory_equip(_player, item)
+	_pause.show_armory_status(item.note, true)
 
 
 func _unhandled_input(event: InputEvent) -> void:

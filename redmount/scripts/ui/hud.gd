@@ -251,8 +251,17 @@ func set_weapon(display_name: String, uses: int, max_uses: int) -> void:
 		_weapon.text = ("%s  %d/%d" if TouchControls.active_on_device() else "Silah: %s  (%d/%d)") % [display_name, uses, max_uses]
 
 
-func set_ammo(mag: int, reserve: int, has_gun: bool) -> void:
-	_ammo.text = ("MERMİ %d/%d" if TouchControls.active_on_device() else "Mermi: %d | %d") % [mag, reserve] if has_gun else ""
+## `label` boşsa "MERMİ". Tek atımlık fırlatılan silah (TAŞ) toplam adet gösterir.
+func set_ammo(mag: int, reserve: int, has_gun: bool, label := "") -> void:
+	if not has_gun:
+		_ammo.text = ""
+		return
+	var unit := label if label != "" else "MERMİ"
+	if unit != "MERMİ":
+		_ammo.text = ("%s %d" if TouchControls.active_on_device() else "%s: %d") % [
+			unit if TouchControls.active_on_device() else unit.capitalize(), mag + reserve]
+		return
+	_ammo.text = ("MERMİ %d/%d" if TouchControls.active_on_device() else "Mermi: %d | %d") % [mag, reserve]
 
 
 func set_armor(display_name: String, hp: int, max_hp: int) -> void:

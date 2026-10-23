@@ -1,0 +1,10 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/pickups/PickupBase.tscn" id="1"]
+[ext_resource type="Script" path="res://scripts/pickups/gun_pickup.gd" id="2"]
+[ext_resource type="Resource" path="res://resources/weapons/kaldirim_tasi.tres" id="4"]
+
+[node name="TasPickup" instance=ExtResource("1")]
+script = ExtResource("2")
+kind = "tas"
+gun = ExtResource("4")

@@ -10,6 +10,9 @@
       Gövde kareleri ve zamanlama sopayla aynı kalır — yeni animasyon seti yok.
   assets/pickups/placeholder_{anahtar,semsiye}.png
       48×48 yerde duran ikon; 24×24 elle yerleştirilmiş piksel, 2x NEAREST.
+  assets/pickups/placeholder_tas.png, assets/fx/tas_mermi.png
+      Kaldırım taşı: yerde üç taşlık yığın (48×48) ve uçan tek taş (12×10,
+      oyunda 2x). Arnavut kaldırımı bazaltı: soğuk gri, üst yüz açık.
 """
 from collections import deque
 from pathlib import Path
@@ -28,6 +31,7 @@ RED = [(70, 16, 22), (122, 28, 32), (172, 46, 40), (214, 88, 62)]
 STEEL = [(48, 54, 62), (88, 96, 108), (142, 150, 160), (204, 210, 216)]
 BORDO = [(46, 14, 30), (88, 22, 46), (132, 38, 64), (178, 70, 92)]
 GRIP = [(26, 20, 18), (48, 36, 30), (72, 54, 42), (96, 74, 56)]
+BAZALT = [(40, 42, 52), (70, 74, 86), (108, 112, 124), (152, 156, 166)]
 
 
 def _is_bat(p) -> bool:
@@ -269,6 +273,64 @@ def icon_semsiye() -> Image.Image:
 	return im
 
 
+# Tek taş: üst yüz açık, yan yüz koyu, sağ altta gölge; '#' gövde, '+' üst yüz,
+# '*' parlak kenar, '-' koyu yan/çatlak.
+STONE = [
+	"..*++++*..",
+	".*+++++++.",
+	"#*++++++##",
+	"##+++++###",
+	"#######-##",
+	"-###--###-",
+	".--####--.",
+]
+
+
+def _stone(px, x0, y0, flip=False):
+	for j, row in enumerate(STONE):
+		for i, c in enumerate(row[::-1] if flip else row):
+			if c == ".":
+				continue
+			col = {"*": BAZALT[3], "+": BAZALT[2], "#": BAZALT[1], "-": BAZALT[0]}[c]
+			px[x0 + i, y0 + j] = col + (255,)
+
+
+def icon_tas() -> Image.Image:
+	im = _icon_canvas()
+	px = im.load()
+	# Üç taşlık yığın: altta iki, üstte bir (kaldırımdan sökülmüş).
+	_stone(px, 2, 14)
+	_stone(px, 12, 15, True)
+	_stone(px, 7, 8)
+	# Yığının dibinde toprak/harç kırıntısı.
+	for x, c in ((4, (92, 74, 56)), (11, (120, 98, 72)), (12, (92, 74, 56)), (20, (120, 98, 72))):
+		px[x, 21] = c + (255,)
+	_icon_outline(im)
+	return im
+
+
+def tas_mermi() -> Image.Image:
+	im = Image.new("RGBA", (12, 10), (0, 0, 0, 0))
+	px = im.load()
+	_stone(px, 1, 1)
+	pts = [(x, y) for y in range(10) for x in range(12) if px[x, y][3] > 0]
+	s = set(pts)
+	for (x, y) in pts:
+		for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+			q = (x + dx, y + dy)
+			if 0 <= q[0] < 12 and 0 <= q[1] < 10 and q not in s and px[q][3] == 0:
+				px[q] = OUTLINE
+	return im
+
+
+def main_tas() -> None:
+	icon_tas().resize((48, 48), Image.NEAREST).save(PICK / "placeholder_tas.png")
+	fx = ROOT / "assets" / "fx"
+	fx.mkdir(exist_ok=True)
+	tas_mermi().save(fx / "tas_mermi.png")
+	print("kaldırım taşı ikonu ve mermisi yazıldı")
+
+
 def main() -> None:
 	for weapon in ("anahtar", "semsiye"):
 		for name in SHEETS:
@@ -276,6 +338,7 @@ def main() -> None:
 	for name, fn in (("anahtar", icon_anahtar), ("semsiye", icon_semsiye)):
 		fn().resize((48, 48), Image.NEAREST).save(PICK / f"placeholder_{name}.png")
 	print("silah sayfaları ve ikonları yazıldı")
+	main_tas()
 
 
 if __name__ == "__main__":
