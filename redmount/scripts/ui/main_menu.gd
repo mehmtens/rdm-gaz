@@ -207,6 +207,18 @@ func _build_home() -> Control:
 	stats.add_theme_stylebox_override(&"panel", PixelUI.box("panel_hud", 16))
 	stats.position = Vector2(get_viewport_rect().size.x - 560, 24)
 	page.add_child(stats)
+	# Seri rozeti (istatistik panelinin altında; ana sütunu uzatmasın): canlı seri varsa
+	# gün sayısı ve sıradaki seri ödülü — yarın geri dönme sebebi.
+	if DailyWave.streak_alive(Save.daily_clear_day, today) and Save.daily_streak > 0:
+		var next := DailyWave.next_streak_reward(Save.daily_streak)
+		var badge := PanelContainer.new()
+		badge.add_theme_stylebox_override(&"panel", PixelUI.box("panel_hud", 16))
+		badge.position = stats.position + Vector2(0, 62)
+		page.add_child(badge)
+		var badge_text := Label.new()
+		badge_text.text = "SERİ %d GÜN · %d. günde +%d coin" % [Save.daily_streak, next[0], next[1]]
+		badge_text.add_theme_color_override(&"font_color", GOLD)
+		badge.add_child(badge_text)
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override(&"separation", 18)
 	stats.add_child(row)

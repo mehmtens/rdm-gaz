@@ -245,12 +245,17 @@ func record_daily_wave(waves: int) -> void:
 
 
 ## Puanlı deneme biter: koşu coin'i cüzdana; bütün dalgalar temizse seri ilerler.
-func finish_daily(day: String, earned_coins: int, cleared: bool) -> void:
+## Seri bir ödül gününe ulaştıysa ek coin de eklenir; dönüş değeri o ek coin.
+func finish_daily(day: String, earned_coins: int, cleared: bool) -> int:
 	total_coins += maxi(earned_coins, 0)
-	if cleared:
+	var reward := 0
+	if cleared and daily_clear_day != day:
 		daily_streak = DailyWave.next_streak(daily_clear_day, day, daily_streak)
 		daily_clear_day = day
+		reward = DailyWave.streak_reward(daily_streak)
+		total_coins += reward
 	save_game()
+	return reward
 
 
 func owns(item_id: String) -> bool:

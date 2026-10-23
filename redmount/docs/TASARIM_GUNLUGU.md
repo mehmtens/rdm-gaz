@@ -7,9 +7,8 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Günün dalgasının ikinci dilimi: 3/7/14 günlük seri için küçük ödül (coin ya da arşiv
-  karesi) ve menüde seri rozeti; kural havuzuna 2–3 yeni kural (yalnız silah, hızlı düşman,
-  boss dalgası önce). Kural dağılımı 30 günde ölçülüp eşitlenebilir.
+- Günün dalgası üçüncü dilim: kural dağılımını bir yılda ölçüp eşitlemek (şu an tohum
+  modülü; 9 kural); seri kırılınca "dün kaçırdın" uyarısı; seri ödülü olarak arşiv karesi.
 - Kostümlerin ikinci dilimi: ceket ile pantolonu ayrı boyamak (sprite'ta y bandı ya da
   parlaklık eşiğiyle iki rampa) ve küçük piksel aksesuar katmanı (kasket, atkı, önlük).
   Kostüm bonusları sonuç kartında/mağazada "giyili" rozetiyle hatırlatılabilir.
@@ -32,6 +31,49 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-23 (8) — Günün Dalgası ikinci dilim: seri ödülü, seri rozeti, 3 yeni kural
+
+**Neden şimdi:** Yol haritası ve OYNANIS-KALITE P1 listesi bitti; birikimin en üstündeki
+madde. Günlük kipin seri sayacı vardı ama hiçbir şey vermiyordu ve menüde görünmüyordu —
+"yarın da gel" çağrısı yoktu. 6 kural haftada bir tekrarlanıyordu.
+
+**Oyuncu ne hissedecek:** Ana menüde sağ üstte istatistik panelinin altında piksel
+çerçeveli `SERİ 6 GÜN · 7. günde +100 coin` rozeti (seri canlıyken). Ödül gününde sonuç
+kartında `SERİ ÖDÜLÜ +40`. Üç yeni gün türü: HIZLI ADIM (düşmanlar %30 hızlı, kaçma/
+pozisyon günü), ERKEN PATRON (3. dalga tek başına Mini Boss, sonra iki normal dalga ve
+final boss), BIÇAK GÜNÜ (bıçakla başla, her dalgada bıçaklı).
+
+**Yapılanlar:**
+- `DailyWave`: `STREAK_REWARDS` 3→40, 7→100, 14→200, sonra her 7 günde 100;
+  `streak_reward/next_streak_reward/streak_alive`; isteğe bağlı kural alanları `must`,
+  `speed`, `boss_at` (eski kurallar varsayılanla okunur; nişancı `must: rifle`a taşındı).
+- `Save.finish_daily` ödülü cüzdana ekleyip döndürür; aynı gün ikinci çağrı ödül vermez.
+  Kayıt formatı değişmedi.
+- `survival.gd`: bıçak başlangıcı, hızlı günde düşman config'inin kopyası hızlandırılır
+  (paylaşılan .tres bozulmaz), ara patron dalgasında "PATRON DALGASI" yazısı, sonuç kartında
+  seri ödülü.
+- `main_menu.gd`: seri rozeti istatistik panelinin altında (ilk denemede ana sütuna
+  konmuştu; ÇIKIŞ düğmesini alttaki tuş yardım satırına bindirdi → taşındı).
+
+**Sayılar (hipotez):** 3. gün 40 ≈ günlük tamamlamanın üçte ikisi (erken, kısa vadeli
+kanca); 7. gün 100 ≈ bir kostümün yarısı; 14. gün 200 ≈ en pahalı kostüm. Bir haftalık
+seri günlük 60+~45'in üstüne toplam 140 ekler — kampanyayı gölgelemez, geri dönmeyi
+ödüllendirir. Hızlı gün çarpanı 1,3: koşan oyuncu ~ düşman hızı farkını hisseder ama
+eşkıya yine de oyuncudan yavaş; insan testinde "kaçamadım" ölümü artarsa 1,2.
+Kural seçimi artık 9'da bir; değişiklik aynı tarih için eski sürümden farklı plan verir
+(sunucu olmadığından sorun değil).
+
+**Testler:** `--import` hatasız; `tests/daily_wave.tscn` PASS (yeni: bir yılda 9 kuralın
+hepsi çıkıyor, `must` vaadi her dalgada, erken patron 3. dalgada tek, seri ödül tablosu,
+aynı gün ödül tekrarlanmıyor, hızlı günde gerçek sahnede düşmanlar ×1,3 ve paylaşılan
+config değişmiyor, seri 2→3 koşusunda +40 ve sonuç kartı metni); `tests/campaign_smoke.gd`
+çıkış 0; `tests/dtm_gaps.tscn` PASS; `tests/costumes.tscn` PASS; bot Bölüm 1 (84,7 sn),
+13 (77,4 sn), 25 (98,6 sn) CLEARED. 1280×720 ekran görüntüsünde menü rozeti ve sonuç
+kartı kontrol edildi. Telefonda görülmedi.
+
+**Sonraki öneri:** Birikimin başı artık kostümlerin ikinci dilimi (ceket/pantolon ayrı
+rampa + küçük piksel aksesuar).
 
 ### 2026-10-23 (7) — Survival arenası piksel art'a çevrildi (birikim 1. madde)
 

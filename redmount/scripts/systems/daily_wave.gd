@@ -15,6 +15,8 @@ const MAX_PER_WAVE := 8
 ## Günün kuralları. Her kural tek bir şeyi değiştirir; oyuncu açılış yazısından okur.
 ##  weapon: başlangıç silahı ("" = yumruk) · armor: zırhla başla · heal: dalga arası can
 ##  extra: dalga başına ek düşman · armory: cephanelik açık mı · pool: düşman havuzu üst sınırı
+## İsteğe bağlı (yoksa varsayılan): must: dalga 2'den itibaren her dalgada en az bir bu
+##  düşman · speed: düşman koşu hızı çarpanı · boss_at: bu dalga tek başına Mini Boss
 const RULES: Array[Dictionary] = [
 	{"id": "sopa", "name": "SOPA GÜNÜ", "desc": "Sopayla başla, kalabalık gelir",
 		"weapon": "bat", "armor": false, "heal": 10, "extra": 1, "armory": true, "pool": 5},
@@ -25,10 +27,25 @@ const RULES: Array[Dictionary] = [
 	{"id": "ciplak", "name": "ÇIPLAK EL", "desc": "Cephanelik kapalı, yumrukla",
 		"weapon": "", "armor": false, "heal": 15, "extra": 0, "armory": false, "pool": 4},
 	{"id": "nisanci", "name": "NİŞANCI GÜNÜ", "desc": "Tabancayla başla, tüfekliler çok",
-		"weapon": "pistol", "armor": false, "heal": 10, "extra": 0, "armory": true, "pool": 5},
+		"weapon": "pistol", "armor": false, "heal": 10, "extra": 0, "armory": true, "pool": 5,
+		"must": "rifle"},
 	{"id": "kalabalik", "name": "PAZAR KALABALIĞI", "desc": "Her dalgada +2 eşkıya",
 		"weapon": "", "armor": false, "heal": 10, "extra": 2, "armory": true, "pool": 2},
+	{"id": "hizli", "name": "HIZLI ADIM", "desc": "Düşmanlar %30 daha hızlı",
+		"weapon": "", "armor": false, "heal": 15, "extra": 0, "armory": true, "pool": 4,
+		"speed": 1.3},
+	{"id": "erken", "name": "ERKEN PATRON", "desc": "3. dalgada patron gelir",
+		"weapon": "", "armor": false, "heal": 15, "extra": 0, "armory": true, "pool": 5,
+		"boss_at": 3},
+	{"id": "bicak", "name": "BIÇAK GÜNÜ", "desc": "Bıçakla başla, bıçaklılar çok",
+		"weapon": "knife", "armor": false, "heal": 10, "extra": 0, "armory": true, "pool": 5,
+		"must": "knife"},
 ]
+
+## Seri ödülleri: bu günlük seriye ulaşılan gün, temizlemenin üstüne bir kez eklenir.
+## 14'ten sonra her 7 günde bir STREAK_REPEAT (bkz. streak_reward).
+const STREAK_REWARDS := {3: 40, 7: 100, 14: 200}
+const STREAK_REPEAT := 100
 
 ## Düşman havuzu zorluk sırasıyla (survival.gd sahne eşlemesi). "pool" kuralı ilk N'i açar.
 const POOL: PackedStringArray = ["thug", "knife", "rifle", "bruiser", "elite"]
@@ -59,7 +76,9 @@ static func plan(day: String) -> Dictionary:
 	var waves: Array = []
 	for w in range(1, WAVES + 1):
 		var list: Array[String] = []
-		if w == WAVES:
+		if w == int(rule.get("boss_at", 0)):
+			list.append("miniboss")
+		elif w == WAVES:
 			list.append("miniboss")
 			for i in 2:
 				list.append(POOL[rng.randi_range(0, mini(int(rule.pool), 2) - 1)])
@@ -69,11 +88,36 @@ static func plan(day: String) -> Dictionary:
 			var count := mini(2 + w + int(rule.extra), MAX_PER_WAVE)
 			for i in count:
 				list.append(POOL[rng.randi_range(0, open - 1)])
-			# Nişancı gününde her dalgada en az bir tüfekli (kuralın vaadi görünsün).
-			if rule.id == "nisanci" and w >= 2 and not "rifle" in list:
-				list[0] = "rifle"
+			# Nişancı/bıçak gününde her dalgada en az bir tüfekli/bıçaklı (kuralın vaadi görünsün).
+			var must := String(rule.get("must", ""))
+			if not must.is_empty() and w >= 2 and not must in list:
+				list[0] = must
 		waves.append(list)
 	return {"day": day, "rule": rule, "waves": waves}
+
+
+## Seri bu güne ulaştığında verilen ek coin (0 = ödül günü değil).
+static func streak_reward(streak: int) -> int:
+	if STREAK_REWARDS.has(streak):
+		return int(STREAK_REWARDS[streak])
+	if streak > 14 and streak % 7 == 0:
+		return STREAK_REPEAT
+	return 0
+
+
+## Sıradaki ödül günü ve miktarı: [gün, coin].
+static func next_streak_reward(streak: int) -> Array:
+	var d := streak + 1
+	while streak_reward(d) == 0:
+		d += 1
+	return [d, streak_reward(d)]
+
+
+## Seri bugün hâlâ canlı mı: son temizleme bugün ya da dün.
+static func streak_alive(last_clear_day: String, day: String) -> bool:
+	if last_clear_day.is_empty():
+		return false
+	return last_clear_day == day or _day_number(day) - _day_number(last_clear_day) == 1
 
 
 ## Bitirilen gün dünü takip ediyorsa seri sürer; aksi hâlde 1'den başlar.

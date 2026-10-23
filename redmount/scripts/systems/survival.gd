@@ -40,6 +40,8 @@ var _scored := false
 var _finished := false
 var _defeated := 0
 var _started_ms := 0
+## Bu koşuda seri ödül gününe ulaşıldıysa eklenen coin (sonuç kartında gösterilir).
+var _streak_reward := 0
 ## DtmLevel gökyüzü/arka sıra katmanlarının okuduğu alanlar (`level` = bu düğüm).
 var sky_atlas: Texture2D = preload("res://assets/backgrounds/level06_backstreets_atlas.png")
 var sky_cells: Array = [[0, -100000.0]]
@@ -116,6 +118,7 @@ func _setup_daily() -> void:
 	match String(rule.weapon):
 		"bat": _player.equip_weapon(BAT)
 		"pistol": _player.equip_gun(PISTOL)
+		"knife": _player.equip_weapon(KNIFE_WEAPON)
 	if rule.armor:
 		_player.equip_armor(BODY_ARMOR)
 	_hud.get_node(^"DeathLabel").text = "GÜNÜN DALGASI BİTTİ"
@@ -228,11 +231,14 @@ func _start_next_wave() -> void:
 func _spawn_daily_wave() -> void:
 	var list: Array = _plan.waves[_wave - 1]
 	_living = list.size()
-	var boss_wave := _wave == DailyWave.WAVES
+	var boss_wave := "miniboss" in list
 	_hud.get_node(^"StageLabel").text = "GÜNÜN DALGASI · %s%s" % [
 		_plan.rule.name, "" if _scored else " · ANTRENMAN"]
 	_hud.set_arena_wave(_wave, DailyWave.WAVES, _living)
-	Fx.popup(Vector2(0, -170), "SON DALGA · BOSS" if boss_wave else "DALGA %d/%d" % [_wave, DailyWave.WAVES],
+	var title := "DALGA %d/%d" % [_wave, DailyWave.WAVES]
+	if boss_wave:
+		title = "SON DALGA · BOSS" if _wave == DailyWave.WAVES else "PATRON DALGASI"
+	Fx.popup(Vector2(0, -170), title,
 		Color(1.0, 0.35, 0.2) if boss_wave else Color(1.0, 0.72, 0.25), 30)
 	var order := [0, 7, 1, 6, 2, 5, 3, 4]
 	for i in _living:
@@ -242,6 +248,12 @@ func _spawn_daily_wave() -> void:
 func _spawn(scene: PackedScene, x: float) -> void:
 	var enemy: EnemyBase = scene.instantiate()
 	enemy.position = Vector2(x, 0)
+	# HIZLI ADIM: paylaşılan .tres bozulmasın diye bu düşmana özel kopya.
+	var speed := float(_plan.rule.get("speed", 1.0)) if _daily else 1.0
+	if speed != 1.0 and enemy.config != null:
+		enemy.config = enemy.config.duplicate()
+		enemy.config.move_speed *= speed
+		enemy.config.patrol_speed *= speed
 	enemy.defeated.connect(_on_enemy_defeated)
 	add_child(enemy)
 	if enemy.config.is_boss:
@@ -300,8 +312,11 @@ func _finish_daily() -> void:
 	_hud._results_stats.text = "%s  ·  Süre: %d:%02d  ·  Düşman: %d\n" % [
 		_plan.rule.name, int(seconds) / 60, int(seconds) % 60, _defeated]
 	if _scored:
-		_hud._results_stats.text += "Coin: %d + %d tamamlama\nSeri: %d gün  ·  Skor: %d" % [
-			GameState.coins, bonus, Save.daily_streak, GameState.score]
+		var streak := "Seri: %d gün" % Save.daily_streak
+		if _streak_reward > 0:
+			streak += " · SERİ ÖDÜLÜ +%d" % _streak_reward
+		_hud._results_stats.text += "Coin: %d + %d tamamlama\n%s  ·  Skor: %d" % [
+			GameState.coins, bonus, streak, GameState.score]
 	else:
 		_hud._results_stats.text += "Antrenman: coin yazılmadı\nYarın yeni dalga  ·  Skor: %d" % GameState.score
 	_hud._results_hint.text = "R — antrenman     ·     M — ana menü"
@@ -335,7 +350,8 @@ func _bank_run() -> void:
 		Save.record_survival(_cleared_wave, GameState.coins)
 	elif _scored:
 		var cleared := _cleared_wave >= DailyWave.WAVES
-		Save.finish_daily(_day, GameState.coins + (DailyWave.CLEAR_BONUS if cleared else 0), cleared)
+		_streak_reward = Save.finish_daily(_day,
+			GameState.coins + (DailyWave.CLEAR_BONUS if cleared else 0), cleared)
 
 
 func _on_armory_requested(item_id: String) -> void:
@@ -357,6 +373,7 @@ func _on_armory_requested(item_id: String) -> void:
 		"bat": _player.equip_weapon(BAT)
 		"knife": _player.equip_weapon(KNIFE_WEAPON)
 		"pistol": _player.equip_gun(PISTOL)
+		"knife": _player.equip_weapon(KNIFE_WEAPON)
 		"rifle": _player.equip_gun(RIFLE_WEAPON)
 		"armor": _player.equip_armor(BODY_ARMOR)
 	_pause.show_armory_status("Kuşanıldı: %s" % item_id.capitalize(), true)
