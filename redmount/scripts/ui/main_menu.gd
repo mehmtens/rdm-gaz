@@ -22,6 +22,8 @@ const GAZELLE_FRAMES := preload("res://resources/gazelle_frames.tres")
 const GOLD := Color(1.0, 0.82, 0.45)
 const CREAM := Color(0.96, 0.92, 0.84)
 const MUTED := Color(0.72, 0.68, 0.74)
+## Uyarı tonu (kopan seri).
+const FIRE := Color(1.0, 0.5, 0.32)
 const PER_BOOK := 12
 
 var _t := 0.0
@@ -209,15 +211,23 @@ func _build_home() -> Control:
 	page.add_child(stats)
 	# Seri rozeti (istatistik panelinin altında; ana sütunu uzatmasın): canlı seri varsa
 	# gün sayısı ve sıradaki seri ödülü — yarın geri dönme sebebi.
-	if DailyWave.streak_alive(Save.daily_clear_day, today) and Save.daily_streak > 0:
-		var next := DailyWave.next_streak_reward(Save.daily_streak)
+	# Seri yeni koptuysa aynı yerde uyarı: kaybı söyle, bugün yeniden başlamaya çağır.
+	var alive := DailyWave.streak_alive(Save.daily_clear_day, today) and Save.daily_streak > 0
+	var broken := DailyWave.streak_broken(Save.daily_clear_day, today, Save.daily_streak)
+	if alive or broken:
 		var badge := PanelContainer.new()
+		badge.name = "StreakBadge"
 		badge.add_theme_stylebox_override(&"panel", PixelUI.box("panel_hud", 16))
 		badge.position = stats.position + Vector2(0, 62)
 		page.add_child(badge)
 		var badge_text := Label.new()
-		badge_text.text = "SERİ %d GÜN · %d. günde +%d coin" % [Save.daily_streak, next[0], next[1]]
-		badge_text.add_theme_color_override(&"font_color", GOLD)
+		if alive:
+			var next := DailyWave.next_streak_reward(Save.daily_streak)
+			badge_text.text = "SERİ %d GÜN · %d. günde +%d coin" % [Save.daily_streak, next[0], next[1]]
+			badge_text.add_theme_color_override(&"font_color", GOLD)
+		else:
+			badge_text.text = "SERİ KOPTU (%d GÜN) · yeniden başla" % Save.daily_streak
+			badge_text.add_theme_color_override(&"font_color", FIRE)
 		badge.add_child(badge_text)
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override(&"separation", 18)

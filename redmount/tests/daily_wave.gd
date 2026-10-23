@@ -18,6 +18,9 @@ func _ready() -> void:
 	_legacy_save()
 	_new_rules()
 	_streak_rewards()
+	_rotation()
+	_broken_streak()
+	await _broken_badge()
 	await _speed_rule()
 	await _scored_run()
 	await _practice_run()
@@ -101,6 +104,65 @@ func _streak_rewards() -> void:
 	_check(Save.finish_daily(DAY, 10, true) == 100 and Save.total_coins == 110, "7. gün +100")
 	_check(Save.finish_daily(DAY, 0, true) == 0 and Save.total_coins == 110, "aynı gün ödül tekrarlanmaz")
 	_check(Save.finish_daily("2026-10-24", 0, false) == 0 and Save.daily_streak == 7, "temizlenmeyen gün seri vermez")
+	Save.wipe()
+
+
+## Üçüncü dilim: bir yılda her kural eşit çıkar (±1 blok), art arda aynı kural yok.
+func _rotation() -> void:
+	var counts := {}
+	var prev := ""
+	var repeats := 0
+	for d in 365:
+		var day := Time.get_date_string_from_unix_time(1767225600 + d * 86400)
+		var id := String(DailyWave.plan(day).rule.id)
+		counts[id] = int(counts.get(id, 0)) + 1
+		if id == prev:
+			repeats += 1
+		prev = id
+	var lo := 999
+	var hi := 0
+	for r in DailyWave.RULES:
+		lo = mini(lo, int(counts.get(r.id, 0)))
+		hi = maxi(hi, int(counts.get(r.id, 0)))
+	_check(hi - lo <= 2, "bir yılda kural dağılımı eşit: %d..%d" % [lo, hi])
+	_check(repeats == 0, "art arda aynı kural: %d" % repeats)
+	# Her 9 günlük blokta her kural tam bir kez.
+	var n0 := int(Time.get_unix_time_from_datetime_string("2026-10-23T12:00:00") / 86400)
+	var start := (floori(float(n0) / DailyWave.RULES.size()) + 1) * DailyWave.RULES.size()
+	var block := {}
+	for i in DailyWave.RULES.size():
+		var day := Time.get_date_string_from_unix_time((start + i) * 86400)
+		block[DailyWave.rule_index(day)] = true
+	_check(block.size() == DailyWave.RULES.size(), "blokta her kural bir kez: %d" % block.size())
+
+
+func _broken_streak() -> void:
+	_check(not DailyWave.streak_broken("2026-10-22", DAY, 5), "dün temizlendi → kopmadı")
+	_check(not DailyWave.streak_broken(DAY, DAY, 5), "bugün temizlendi → kopmadı")
+	_check(DailyWave.streak_broken("2026-10-21", DAY, 5), "dün kaçtı → koptu")
+	_check(DailyWave.streak_broken("2026-10-15", DAY, 5), "8 gün önce → hâlâ uyarı")
+	_check(not DailyWave.streak_broken("2026-10-01", DAY, 5), "uzun ara → uyarı yok")
+	_check(not DailyWave.streak_broken("2026-10-21", DAY, 0) and not DailyWave.streak_broken("", DAY, 3), "seri yoksa uyarı yok")
+
+
+## Menü rozeti: canlı seride altın ödül satırı, kopan seride uyarı, hiç seri yoksa rozet yok.
+func _broken_badge() -> void:
+	DailyWave.day_override = DAY
+	var cases := [["2026-10-22", 4, "SERİ 4 GÜN"], ["2026-10-20", 4, "SERİ KOPTU (4 GÜN)"], ["", 0, ""]]
+	for c in cases:
+		Save.daily_clear_day = c[0]
+		Save.daily_streak = c[1]
+		var menu: Node = (load("res://scenes/MainMenu.tscn") as PackedScene).instantiate()
+		add_child(menu)
+		await get_tree().process_frame
+		var badge := menu.find_child("StreakBadge", true, false)
+		if String(c[2]).is_empty():
+			_check(badge == null, "seri yokken rozet yok")
+		else:
+			_check(badge != null and String((badge.get_child(0) as Label).text).begins_with(c[2]), "rozet metni: %s" % c[2])
+		menu.queue_free()
+		await get_tree().process_frame
+	DailyWave.day_override = ""
 	Save.wipe()
 
 

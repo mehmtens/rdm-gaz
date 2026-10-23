@@ -72,7 +72,7 @@ static func seed_for(day: String) -> int:
 static func plan(day: String) -> Dictionary:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = seed_for(day)
-	var rule: Dictionary = RULES[rng.randi_range(0, RULES.size() - 1)]
+	var rule: Dictionary = RULES[rule_index(day)]
 	var waves: Array = []
 	for w in range(1, WAVES + 1):
 		var list: Array[String] = []
@@ -94,6 +94,34 @@ static func plan(day: String) -> Dictionary:
 				list[0] = must
 		waves.append(list)
 	return {"day": day, "rule": rule, "waves": waves}
+
+
+## Günün kural sırası: günler RULES.size()'lik bloklara bölünür, her blokta kurallar
+## bir kez ve karışık sırayla gelir (tohum modülüne göre eşit dağılım; aynı kural en geç
+## 2·N-1 gün sonra döner). Blok sınırında aynı kural art arda gelmesin diye ilk ikisi takas.
+static func rule_index(day: String) -> int:
+	var n := _day_number(day)
+	var size := RULES.size()
+	var block := floori(float(n) / size)
+	var order := _block_order(block)
+	if order[0] == _block_order(block - 1)[size - 1]:
+		var first: int = order[0]
+		order[0] = order[1]
+		order[1] = first
+	return order[posmod(n, size)]
+
+
+static func _block_order(block: int) -> Array:
+	var order: Array = range(RULES.size())
+	var rng := RandomNumberGenerator.new()
+	rng.seed = seed_for("blok-%d" % block)
+	# Fisher–Yates; Array.shuffle() genel tohumu kullanır, kararlı değil.
+	for i in range(order.size() - 1, 0, -1):
+		var j := rng.randi_range(0, i)
+		var t: int = order[i]
+		order[i] = order[j]
+		order[j] = t
+	return order
 
 
 ## Seri bu güne ulaştığında verilen ek coin (0 = ödül günü değil).
@@ -118,6 +146,18 @@ static func streak_alive(last_clear_day: String, day: String) -> bool:
 	if last_clear_day.is_empty():
 		return false
 	return last_clear_day == day or _day_number(day) - _day_number(last_clear_day) == 1
+
+
+## Seri yakın zamanda koptu mu (menüde "SERİ KOPTU" uyarısı): seri vardı, dün de bugün de
+## temizlenmedi ve kopuş BROKEN_NOTICE_DAYS günden eski değil (uzun aradan dönene suçlama yok).
+const BROKEN_NOTICE_DAYS := 7
+
+
+static func streak_broken(last_clear_day: String, day: String, streak: int) -> bool:
+	if streak <= 0 or last_clear_day.is_empty():
+		return false
+	var gap := _day_number(day) - _day_number(last_clear_day)
+	return gap >= 2 and gap <= BROKEN_NOTICE_DAYS + 1
 
 
 ## Bitirilen gün dünü takip ediyorsa seri sürer; aksi hâlde 1'den başlar.

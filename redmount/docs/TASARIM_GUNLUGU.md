@@ -7,11 +7,11 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Günün dalgası üçüncü dilim: kural dağılımını bir yılda ölçüp eşitlemek (şu an tohum
-  modülü; 9 kural); seri kırılınca "dün kaçırdın" uyarısı; seri ödülü olarak arşiv karesi.
 - Kostümlerin ikinci dilimi: ceket ile pantolonu ayrı boyamak (sprite'ta y bandı ya da
   parlaklık eşiğiyle iki rampa) ve küçük piksel aksesuar katmanı (kasket, atkı, önlük).
   Kostüm bonusları sonuç kartında/mağazada "giyili" rozetiyle hatırlatılabilir.
+- Günün dalgası dördüncü dilim: seri ödülü olarak Kanıt Arşivi'nde açılan özel kare
+  (ör. 7. gün); seri kopunca bir kerelik "seri koruma" (ör. 100 coin'e dünü kurtar).
 - Yeni silahların ikinci dilimi: fırlatılabilir kaldırım taşı (tek kullanımlık, mermi sistemi
   yeniden kullanılır) ve pause CEPHANELİK'e ANAHTAR/ŞEMSİYE.
 - Şemsiyeyle havaya kaldırılan düşmanı ikinci şemsiye vuruşunun tekrar kaldırması sonsuz
@@ -31,6 +31,40 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-23 (9) — Günün Dalgası üçüncü dilim: eşit kural rotasyonu, "seri koptu" uyarısı
+
+**Neden şimdi:** Yol haritası ve P1 listesi bitti; birikimin en üstündeki madde. Kural
+`randi_range` ile tohumdan seçiliyordu: 365 günde bazı kurallar ~50, bazıları ~30 kez
+çıkıyor, aynı kural art arda iki gün gelebiliyordu (dün SOPA GÜNÜ, bugün yine SOPA GÜNÜ
+"günlük" hissini öldürür). Seri koptuğunda ise rozet sessizce kayboluyordu — oyuncu
+neyi kaybettiğini ve geri dönebileceğini görmüyordu.
+
+**Oyuncu ne hissedecek:** Her gün bir öncekinden farklı kural; 9 günde 9 kuralın hepsi
+bir kez. Bir günü kaçıran oyuncu menüde seri rozetinin yerinde ateş renginde
+`SERİ KOPTU (6 GÜN) · yeniden başla` görür; bugün temizleyince rozet seri 1 ile altına döner.
+
+**Yapılanlar:**
+- `DailyWave.rule_index`: günler 9'luk bloklara bölünür, her blokta kurallar tohumlu
+  Fisher–Yates ile karışık sırada birer kez; blok sınırında önceki bloğun son kuralı
+  tekrar gelirse ilk ikisi takas edilir. Dalga dizisi hâlâ tarih tohumundan.
+- `DailyWave.streak_broken` + `BROKEN_NOTICE_DAYS = 7`; menüde aynı piksel panelde
+  uyarı (`StreakBadge`). Kayıt formatı değişmedi.
+
+**Sayılar (hipotez):** Uyarı kopuştan sonra 7 gün gösterilir: haftalık oynayan oyuncuya
+hatırlatma, aylarca sonra dönen oyuncuya suçlama yok. Rotasyonla aynı kural en erken
+2, en geç 17 gün sonra döner. Kural değişimi aynı tarihe eski sürümden farklı plan
+verir (sunucu yok, sorun değil).
+
+**Testler:** `--import` hatasız; `tests/daily_wave.tscn` PASS (yeni: bir yılda kural
+sayıları arasında en fazla 2 fark, art arda tekrar 0, blokta her kural bir kez, kopuş sınırları, menüde
+canlı/kopan/boş seri rozeti); `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn`
+PASS; bot Bölüm 1 CLEARED (82,0 sn; ortak sistem değişmedi, yalnız menü + günlük kip).
+1280×720 ekran görüntüsünde uyarı rozeti kontrol edildi (ilk metin panelin sağ kenarına
+değiyordu, kısaltıldı). Telefonda görülmedi.
+
+**Sonraki öneri:** Birikimin başı kostümlerin ikinci dilimi (ceket/pantolon ayrı rampa +
+küçük piksel aksesuar).
 
 ### 2026-10-23 (8) — Günün Dalgası ikinci dilim: seri ödülü, seri rozeti, 3 yeni kural
 
