@@ -7,9 +7,12 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Kostümlerin ikinci dilimi: ceket ile pantolonu ayrı boyamak (sprite'ta y bandı ya da
-  parlaklık eşiğiyle iki rampa) ve küçük piksel aksesuar katmanı (kasket, atkı, önlük).
+- Kostümlerin üçüncü dilimi: küçük piksel aksesuar katmanı (kasket, atkı, önlük); kare
+  başına baş/boyun konumu sayfadan (saç lekesinin tepesi) çıkarılıp bir tabloya yazılabilir.
   Kostüm bonusları sonuç kartında/mağazada "giyili" rozetiyle hatırlatılabilir.
+- Pantolon maskesinde kalan kaçaklar: koşu karelerinde ceketin arka eteği, tekmede dizde
+  birkaç ceket rengi piksel; gölgedeki arka bacak bazen ceket rampasında. Gerekirse
+  `tools/gen_costume_mask.py` sonrası kare başına elle düzeltme maskesi (küçük PNG).
 - Günün dalgası dördüncü dilim: seri ödülü olarak Kanıt Arşivi'nde açılan özel kare
   (ör. 7. gün); seri kopunca bir kerelik "seri koruma" (ör. 100 coin'e dünü kurtar).
 - Yeni silahların ikinci dilimi: fırlatılabilir kaldırım taşı (tek kullanımlık, mermi sistemi
@@ -31,6 +34,41 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-24 — Kostümlerin ikinci dilimi: ceket ve pantolon ayrı renk
+
+**Neden şimdi:** Yol haritası ve P1 listesi bitti; birikimin başı. Kostümler tek rampayla
+boyandığı için VAPURCU baştan ayağa lacivert, KIZIL DAĞ baştan ayağa kırmızı bir tulum
+gibi duruyordu; giysi değil "renk filtresi" okunuyordu. 240 coin'lik hedefin kıyafet gibi
+görünmesi gerekiyor.
+
+**Oyuncu ne hissedecek:** Kostüm giyince ceket rengini alır, pantolon ayrı ve daha sakin
+bir tonda kalır (lacivert ceket + füme pantolon, kızıl ceket + kömür pantolon); mağaza
+önizlemesi ve oyundaki karakter aynı.
+
+**Yapılanlar:**
+- `tools/gen_costume_mask.py`: her 200×240 karede pantolon piksellerinin alfasını 255→254
+  yapar (RGB'ye dokunmaz; kostümsüz çizimde fark yok). Ayrım: giysi gri pikselinin 7×7
+  yerel ortalaması ≥ 36 (ceket ~30, pantolon ~45), büyük beyaz lekeden (ayakkabı ≥ 30 px;
+  fermuar parıltısı elenir) başlayıp adaylar boyunca en fazla 60 adım (bacak boyu) büyüme,
+  sonra kıvrım/kontur deliklerinin kapatılması. 38 sayfanın tamamı işlendi; araç tekrar
+  çalıştırılabilir.
+- `player_costume.gdshader`: `pants_shade`/`pants_light`; alfa < 0,998 olan giysi pikseli
+  ikinci rampaya, alfa 1'e. `Shop.COSTUMES` dört kostüme pantolon rampası; alan yoksa
+  ceket rampası kullanılır (eski veri bozulmaz). Kayıt formatı değişmedi.
+
+**Sayılar (hipotez):** Eşik 36 / 60 adım, kopya sayfalarda 3 denemeyle seçildi: 40 arka
+bacağı kaybediyor, 74 adım koşuda ceket eteğine taşıyordu. Pantolon rampalarının koyu
+ucu ceketinkine yakın: maskenin kaçırdığı gölgeli bacak pikseli gölge gibi okunur.
+
+**Testler:** `--import` hatasız; `tests/costumes.tscn` PASS (yeni: idle karesinde bacakta
+>1000 işaretli piksel, baş/omuzda 0; malzemede pantolon rampası); `tests/campaign_smoke.gd`
+çıkış 0; `tests/dtm_gaps.tscn` PASS; bot Bölüm 1 CLEARED (80,4 sn), Bölüm 13 CLEARED (81,7 sn), Bölüm 25 CLEARED (103,4 sn) — ortak oyuncu sayfaları değiştiği için üç bölüm. 1280×720 pencereli görüntüde 5
+kostüm × 4 poz (idle/koşu/tekme/kombo) incelendi: ayrım net, kızılda tekme dizinde
+birkaç kırmızı piksel kalıyor (birikime yazıldı). Telefonda görülmedi.
+
+**Sonraki öneri:** Kostüm aksesuar katmanı ya da günün dalgası dördüncü dilim (arşiv
+karesi ödülü, seri koruma).
 
 ### 2026-10-23 (9) — Günün Dalgası üçüncü dilim: eşit kural rotasyonu, "seri koptu" uyarısı
 

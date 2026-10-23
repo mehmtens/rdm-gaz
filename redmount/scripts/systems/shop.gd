@@ -33,7 +33,10 @@ const UPGRADES: Array[Dictionary] = [
 ## Kostümler: aynı sprite, giysi palet takası (`shaders/player_costume.gdshader`)
 ## + tek küçük bonus. Coin'in yükseltmeler bittikten sonraki uzun vadeli hedefi.
 ## Adlar Türkçe büyük harfle yazılır (`to_upper` i/ı ayrımını bilmez).
-## `shade`/`light`: giysinin koyu → açık rampası. "sokak" varsayılan, bedava.
+## `shade`/`light`: ceketin koyu → açık rampası; `pants_shade`/`pants_light`: pantolonun
+## (yoksa ceketinki). Pantolon pikselleri sayfada işaretli (`tools/gen_costume_mask.py`).
+## İki rampanın koyu ucu yakın tutulur: maskenin kaçırdığı gölgeli bacak pikseli
+## ceket rengine düşse de gölge gibi okunur. "sokak" varsayılan, bedava.
 ## bonus anahtarları: max_health (can +), fist (yumruk hasarı ×), weapon_capacity
 ## (silah dayanıklılığı/cephane ×), heal (yiyecek iyileştirmesi ×).
 const DEFAULT_COSTUME := "sokak"
@@ -42,22 +45,26 @@ const COSTUMES: Array[Dictionary] = [
 	{
 		"id": "vapurcu", "name": "VAPURCU", "desc": "Lacivert iş ceketi. Azami can +10",
 		"cost": 120, "unlock_level": 3,
-		"shade": Color8(10, 18, 48), "light": Color8(70, 110, 180), "bonus": {"max_health": 10},
+		"shade": Color8(10, 18, 48), "light": Color8(70, 110, 180),
+		"pants_shade": Color8(12, 14, 24), "pants_light": Color8(118, 122, 132), "bonus": {"max_health": 10},
 	},
 	{
 		"id": "hamal", "name": "HAMAL", "desc": "Haki iş tulumu. Silah dayanıklılığı +%15",
 		"cost": 150, "unlock_level": 8,
-		"shade": Color8(26, 28, 12), "light": Color8(120, 120, 70), "bonus": {"weapon_capacity": 0.15},
+		"shade": Color8(26, 28, 12), "light": Color8(120, 120, 70),
+		"pants_shade": Color8(22, 22, 12), "pants_light": Color8(92, 90, 56), "bonus": {"weapon_capacity": 0.15},
 	},
 	{
 		"id": "kahveci", "name": "KAHVECİ", "desc": "Kahve tonu yelek. Yiyecek iyileştirmesi +%25",
 		"cost": 180, "unlock_level": 14,
-		"shade": Color8(40, 24, 12), "light": Color8(190, 140, 85), "bonus": {"heal": 0.25},
+		"shade": Color8(40, 24, 12), "light": Color8(190, 140, 85),
+		"pants_shade": Color8(18, 12, 10), "pants_light": Color8(96, 76, 62), "bonus": {"heal": 0.25},
 	},
 	{
 		"id": "kizil", "name": "KIZIL DAĞ", "desc": "Adının rengi. Yumruk hasarı +%8",
 		"cost": 240, "unlock_level": 20,
-		"shade": Color8(40, 6, 10), "light": Color8(190, 50, 45), "bonus": {"fist": 0.08},
+		"shade": Color8(40, 6, 10), "light": Color8(190, 50, 45),
+		"pants_shade": Color8(14, 10, 14), "pants_light": Color8(84, 74, 82), "bonus": {"fist": 0.08},
 	},
 ]
 
@@ -84,6 +91,8 @@ static func costume_material(id: String) -> ShaderMaterial:
 	mat.shader = preload("res://shaders/player_costume.gdshader")
 	mat.set_shader_parameter(&"shade", it.shade)
 	mat.set_shader_parameter(&"light", it.light)
+	mat.set_shader_parameter(&"pants_shade", it.get("pants_shade", it.shade))
+	mat.set_shader_parameter(&"pants_light", it.get("pants_light", it.light))
 	mat.set_meta(&"costume", it.id)
 	return mat
 

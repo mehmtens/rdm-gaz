@@ -3,10 +3,14 @@
 // kostümün koyu→açık rampasına eşlenir. Kontur (çok koyu), ten/saç (doygun) ve
 // beyaz ayakkabı/göz (açık) olduğu gibi kalır. Gece sahnesinde dark_rim'in
 // konturu da burada çizilir (oyuncu rig'inde tek malzeme olabildiği için).
+// Pantolon pikselleri sayfada alfa 254 ile işaretlidir (tools/gen_costume_mask.py);
+// onlar ikinci rampaya (pants_shade → pants_light) eşlenir, ceket ilk rampada kalır.
 shader_type canvas_item;
 
 uniform vec4 shade : source_color = vec4(0.04, 0.07, 0.19, 1.0);
 uniform vec4 light : source_color = vec4(0.27, 0.43, 0.71, 1.0);
+uniform vec4 pants_shade : source_color = vec4(0.04, 0.07, 0.19, 1.0);
+uniform vec4 pants_light : source_color = vec4(0.27, 0.43, 0.71, 1.0);
 uniform bool rim_enabled = false;
 uniform vec4 rim_color : source_color = vec4(1.0, 0.82, 0.52, 0.9);
 uniform float rim_width = 3.0;
@@ -32,12 +36,16 @@ void fragment() {
 			}
 		}
 	} else {
+		bool pants = c.a < 0.998;
+		c.a = 1.0;
 		float mx = max(c.r, max(c.g, c.b));
 		float mn = min(c.r, min(c.g, c.b));
 		float sat = mx > 0.0 ? (mx - mn) / mx : 0.0;
 		if (sat < 0.25) {
 			float w = smoothstep(0.035, 0.07, mx) * (1.0 - smoothstep(0.5, 0.62, mx));
-			vec3 ramp = mix(shade.rgb, light.rgb, smoothstep(0.03, 0.45, mx));
+			vec3 lo = pants ? pants_shade.rgb : shade.rgb;
+			vec3 hi = pants ? pants_light.rgb : light.rgb;
+			vec3 ramp = mix(lo, hi, smoothstep(0.03, 0.45, mx));
 			c.rgb = mix(c.rgb, ramp, w);
 		}
 		COLOR = c * tint;

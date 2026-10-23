@@ -14,6 +14,7 @@ func _ready() -> void:
 	Save.wipe()
 	_legacy_save()
 	_buy_and_wear()
+	_pants_mask()
 	await _player_bonus()
 	await _shop_tab()
 	Save.wipe()
@@ -61,6 +62,32 @@ func _buy_and_wear() -> void:
 	_check(mat.get_shader_parameter(&"rim_enabled") == true, "kostüm shader'ı gece konturunu taşımalı")
 	for it in Shop.COSTUMES:
 		_check(String(it.desc).length() <= 48, "kart açıklaması kısa kalmalı: %s" % it.id)
+
+
+## İkinci dilim: pantolon sayfada alfa 254 ile işaretli, malzeme ikinci rampayı taşır.
+func _pants_mask() -> void:
+	var img := (load("res://assets/anim/redmount/idle.png") as Texture2D).get_image()
+	if img.is_compressed():
+		img.decompress()
+	var top := 0
+	var legs := 0
+	for y in 240:
+		for x in 200:
+			var a := img.get_pixel(x, y).a8
+			if a == 254:
+				if y < 120:
+					top += 1
+				elif y >= 170:
+					legs += 1
+	_check(legs > 1000, "idle karesinde bacaklar işaretli: %d" % legs)
+	_check(top == 0, "baş/omuz işaretsiz kalmalı: %d" % top)
+	for it in Shop.COSTUMES:
+		var mat := Shop.costume_material(it.id)
+		if mat == null:
+			continue
+		_check(mat.get_shader_parameter(&"pants_light") == it.get("pants_light", it.light), "pantolon rampası: %s" % it.id)
+	var v := Shop.costume("vapurcu")
+	_check(v.pants_light != v.light, "vapurcu ceket ile pantolon ayrı renk")
 
 
 func _player_bonus() -> void:
