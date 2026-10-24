@@ -18,8 +18,6 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 - Şemsiyeyle havaya kaldırılan düşmanı ikinci şemsiye vuruşunun tekrar kaldırması sonsuz
   dizi yaratabilir mi? İnsan testinde bakılacak; gerekirse havadaki düşmana kaldırma yok.
 
-- Kanıt Arşivi'nde açılmış kitap şeritlerini yeniden izleme sekmesi (kitap sonu
-  kayıtta işaretli; `Save` alanı varsayılan boş).
 - Kitap şeridinde karelere küçük hareket: kare açılırken portrenin 1–2 sanat pikseli
   kayması ya da konuşma balonu (DTM çizgi romanlarındaki canlılık).
 - Hız yıldızının par süresi bölüm başına ayarlanmalı: 34 bölümde düz 240 sn, bot
@@ -33,6 +31,41 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-24 (21) — Kanıt Arşivi'nde kitap sonu şeridini yeniden izleme
+
+**Neden şimdi:** Yol haritası ve P1 maddeleri oyunda; birikimin üstündeki maddeler insan testi
+koşullu. Önceki turun önerisi buydu. Kitap sonu çizgi roman şeridi bir kez oynuyor, sonra
+kayboluyordu — DTM'de bölüm arası çizgi romanlar yeniden izlenebilir; hikâyeyi unutup ara
+verip dönen mobil oyuncu "nerede kalmıştık?" sorusunu arşivden yanıtlar.
+
+**Oyuncu ne hissedecek:** Kanıt Arşivi'nde her kitap sekmesinin altında, GERİ'nin yanında
+`▸ KİTAP 1 ŞERİDİ` düğmesi; basınca dört kare aynı çakılma ritmiyle oynar, kapanınca odak
+düğmeye döner (arşivden çıkmaz). Bitirilmemiş kitapta düğme soluk: `ŞERİT · KİTAP 2'Yİ BİTİR`
+(hedef). GÜNLÜK sekmesinde düğme yok.
+
+**Yapılanlar:**
+- `book_comic.gd`: `end_of(book)`, `is_unlocked(book)` — yeni kayıt alanı açmadım: son bölümün
+  bitiş süresi, skoru ya da sonraki bölümün açık olması yeterli (eski kayıtlarda da çalışır;
+  birikimdeki "Save alanı" fikrinden daha basit ve geriye uyumlu).
+- `main_menu.gd`: arşiv alt satırı `GERİ` + `ComicReplay`; sayfaya bir `BookComic` katmanı;
+  şerit açıkken menünün `ui_cancel` geri dönüşü yutulmaz (şerit ESC ile kapanır, sayfa kalır).
+- Kayıt formatı değişmedi.
+
+**Testler:** `--import` hatasız; yeni `tests/archive_comic.tscn` PASS (açılma kuralları, eski
+kayıt, kapalı/açık/GÜNLÜK düğme durumları, ikinci basış baştan başlatmıyor, kapanınca arşiv
+açık); `book_comic.tscn` PASS; `daily_wave.tscn` PASS (aynı menü); `dtm_gaps` PASS;
+`campaign_smoke.gd` çıkış 0; bot Bölüm 12 CLEARED (71,8 sn) — oyun içi şerit yolu değişmedi,
+kitap sonu bölümü kontrol için.
+
+**Görsel kanıt:** 1280×720 pencereli üç görüntü: açık düğme altın çerçeveli, kapalı düğme gri
+ve Türkçe ekle okunuyor, taşma yok; şerit arşivin üstünde tam karartmayla oynuyor. Telefonda
+görülmedi. (Pencereli koşuda görülen `pixel_ui_boot._pixelize` "Object to Object" hatası
+aynı karede iki kez sekme kurulmasından; önceden de var, bu turla ilgisiz.)
+
+**Sonraki öneri:** Birikimde insan testine bağlı olmayan somut iş: kitap şeridinde karelere
+küçük hareket (kare açılırken portrenin 1–2 sanat pikseli kayması). Ya da birikim yalnız
+insan testi koşullu kaldıysa yeni bir tasarım denetimi turu.
 
 ### 2026-10-24 (20) — Sonuç kartında önceden kazanılmış yıldız soluk okra
 

@@ -34,6 +34,8 @@ var _archive: Control
 var _arch_book := 0
 var _arch_tabs: Array[Button] = []
 var _arch_grid: GridContainer
+var _comic_button: Button
+var _comic: BookComic
 var _book := 0
 var _tabs: Array[Button] = []
 var _grid: GridContainer
@@ -84,6 +86,8 @@ func _draw() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if _comic != null and _comic.is_active():
+		return
 	if event.is_action_pressed(&"ui_cancel") and not _home.visible:
 		_show(_home)
 		get_viewport().set_input_as_handled()
@@ -457,11 +461,28 @@ func _build_archive() -> Control:
 	_arch_grid.add_theme_constant_override(&"h_separation", 24)
 	_arch_grid.add_theme_constant_override(&"v_separation", 10)
 	scroll.add_child(_arch_grid)
-	var back := _button(col, "GERİ", 46)
-	back.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	var foot := HBoxContainer.new()
+	foot.add_theme_constant_override(&"separation", 16)
+	col.add_child(foot)
+	var back := _button(foot, "GERİ", 46)
 	back.custom_minimum_size = Vector2(200, 46)
 	back.pressed.connect(func() -> void: _show(_home))
+	# Kitap sonu şeridini yeniden izleme (bitirilmiş kitaplarda; GÜNLÜK'te gizli).
+	_comic_button = _button(foot, "", 46)
+	_comic_button.name = "ComicReplay"
+	_comic_button.custom_minimum_size = Vector2(360, 46)
+	_comic_button.pressed.connect(_replay_comic)
+	_comic = BookComic.new()
+	_comic.name = "ArchiveComic"
+	_comic.finished.connect(func() -> void: _comic_button.call_deferred(&"grab_focus"))
+	page.add_child(_comic)
 	return page
+
+
+func _replay_comic() -> void:
+	var end := BookComic.end_of(_arch_book + 1)
+	if end >= 0 and BookComic.is_unlocked(_arch_book + 1) and not _comic.is_active():
+		_comic.present(end)
 
 
 func _select_arch(b: int) -> void:
@@ -473,6 +494,11 @@ func _select_arch(b: int) -> void:
 		_arch_tabs[i].add_theme_color_override(&"font_color", GOLD if sel else MUTED)
 	for ch in _arch_grid.get_children():
 		ch.queue_free()
+	_comic_button.visible = b < 3
+	if b < 3:
+		var open := BookComic.is_unlocked(b + 1)
+		_comic_button.disabled = not open
+		_comic_button.text = "▸ KİTAP %d ŞERİDİ" % (b + 1) if open else "ŞERİT · KİTAP %d%s BİTİR" % [b + 1, ["'İ", "'Yİ", "'Ü"][b]]
 	if b == 3:
 		_arch_grid.add_child(_daily_archive_cell())
 		return

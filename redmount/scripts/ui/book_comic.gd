@@ -69,6 +69,24 @@ static func has_page(level_index: int) -> bool:
 	return BOOK_END.has(level_index)
 
 
+## Kitabın (1 tabanlı) son bölüm indeksi; yoksa -1.
+static func end_of(book: int) -> int:
+	for i in BOOK_END:
+		if BOOK_END[i] == book:
+			return i
+	return -1
+
+
+## Kitabın şeridi görülmüş mü: son bölümü bir kez bitirildiyse Kanıt Arşivi'nde yeniden
+## izlenebilir. Yeni kayıt alanı yok; bitiş süresi, skor ve açılan bölüm yeterli (eski
+## kayıtlar da açılır).
+static func is_unlocked(book: int) -> bool:
+	var end := end_of(book)
+	if end < 0:
+		return false
+	return Save.best_time(end) > 0.0 or Save.best_score(end) > 0 or Save.unlocked_level > end
+
+
 func _ready() -> void:
 	layer = 8
 	process_mode = Node.PROCESS_MODE_ALWAYS
