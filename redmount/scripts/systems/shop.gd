@@ -88,6 +88,21 @@ static func costume_bonus(key: String) -> float:
 	return float(bonus.get(key, 0.0))
 
 
+## Kostüm bonusunun kısa, büyük harfli adı ("CAN +10", "YUMRUK +%8"); bonussuzda "".
+## Duraklat menüsündeki "giyili" rozeti kullanır; sayı `bonus` sözlüğünden gelir.
+static func costume_bonus_text(id: String) -> String:
+	var parts: PackedStringArray = []
+	var bonus: Dictionary = costume(id).get("bonus", {})
+	for key in bonus:
+		var v := float(bonus[key])
+		match key:
+			"max_health": parts.append("CAN +%d" % int(v))
+			"fist": parts.append("YUMRUK +%%%d" % roundi(v * 100.0))
+			"weapon_capacity": parts.append("SİLAH ÖMRÜ +%%%d" % roundi(v * 100.0))
+			"heal": parts.append("YİYECEK +%%%d" % roundi(v * 100.0))
+	return " · ".join(parts)
+
+
 ## Kostümün palet malzemesi; varsayılan kostümde null (rig malzemesiz kalır).
 static func costume_material(id: String) -> ShaderMaterial:
 	var it := costume(id)

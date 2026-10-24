@@ -16,6 +16,10 @@ var _root: VBoxContainer
 var _first_btn: Button
 var _armory_coins: Label
 var _armory_status: Label
+var _costume_badge: PanelContainer
+var _costume_icon: TextureRect
+var _costume_name: Label
+var _costume_bonus: Label
 
 
 func _ready() -> void:
@@ -44,6 +48,7 @@ func open() -> void:
 	get_tree().paused = true
 	Sfx.play(&"checkpoint", 1.4, -6.0)
 	_refresh_armory_coins(GameState.coins)
+	refresh_costume()
 	_first_btn.grab_focus()
 
 
@@ -129,6 +134,7 @@ func _build() -> void:
 	title.add_theme_font_size_override(&"font_size", 36)
 	title.add_theme_color_override(&"font_color", GOLD)
 	_root.add_child(title)
+	_build_costume_badge()
 	_first_btn = _mk_btn("DEVAM ET", close)
 	_mk_btn("KONTROL NOKTASINA DÖN", func() -> void:
 		close()
@@ -200,6 +206,48 @@ func _build() -> void:
 
 
 ## Kart kaydı; bilinmeyen kimlikte boş sözlük.
+## "Giyili" rozeti: başlık ikonu + kostüm adı + bonusu. Kostüm bonusu sahada
+## görünmez; duraklatınca oyuncu neyi taşıdığını hatırlasın. Bonussuz sokak
+## ceketinde rozet gizlenir.
+func _build_costume_badge() -> void:
+	_costume_badge = PanelContainer.new()
+	_costume_badge.name = "Costume"
+	_costume_badge.add_theme_stylebox_override(&"panel", PixelUI.box("panel_hud", 22))
+	_root.add_child(_costume_badge)
+	var hb := HBoxContainer.new()
+	hb.add_theme_constant_override(&"separation", 12)
+	_costume_badge.add_child(hb)
+	_costume_icon = TextureRect.new()
+	_costume_icon.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_costume_icon.stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
+	_costume_icon.custom_minimum_size = Vector2(72, 44)
+	_costume_icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	hb.add_child(_costume_icon)
+	var vb := VBoxContainer.new()
+	vb.add_theme_constant_override(&"separation", 2)
+	vb.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	hb.add_child(vb)
+	_costume_name = Label.new()
+	_costume_name.add_theme_color_override(&"font_color", MUTED)
+	vb.add_child(_costume_name)
+	_costume_bonus = Label.new()
+	_costume_bonus.add_theme_color_override(&"font_color", GOLD)
+	vb.add_child(_costume_bonus)
+	refresh_costume()
+
+
+func refresh_costume() -> void:
+	if _costume_badge == null:
+		return
+	var it := Shop.costume(Save.costume)
+	var bonus := Shop.costume_bonus_text(it.id)
+	_costume_badge.visible = bonus != ""
+	_costume_name.text = "GİYİLİ: " + String(it.name)
+	_costume_bonus.text = bonus
+	var acc := String(it.get("accessory", ""))
+	_costume_icon.texture = load("res://assets/anim/costume_acc/%s.png" % acc) if acc != "" else null
+
+
 static func armory_item(item_id: String) -> Dictionary:
 	for item in ARMORY:
 		if item.id == item_id:

@@ -7,8 +7,8 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Kostüm bonusları sonuç kartında/duraklat menüsünde "giyili" rozetiyle hatırlatılsın
-  (ör. `VAPURCU · can +10`); başlıklar geldiği için kostüm artık sahada okunuyor.
+- Kostüm "giyili" rozetinin sonuç kartına da eklenmesi (duraklat menüsünde var);
+  HUD'daki sonuç kartı dar, önce yer ölçülmeli.
 - Başlık katmanının iki eksiği: gece bölümlerinde başlığa kontur (rim) yok; kolun başın
   önünden geçtiği birkaç karede (aparkat/şemsiye) başlık kolun üstünde çizilir. Gerekirse
   `head_anchors.json`'a kare başına "arkada" bayrağı ya da başlığa `dark_rim` malzemesi.
@@ -37,6 +37,33 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-24 (4) — Duraklat menüsünde "giyili" kostüm rozeti
+
+**Neden şimdi:** Yol haritası ve P1 sırası bitti; birikimin başı. Kostüm bonusu (can,
+yumruk, silah ömrü, yiyecek) sahada hiçbir yerde yazmıyordu; oyuncu 240 coin verdiği
+KIZIL DAĞ'ın ne kazandırdığını mağazaya dönmeden hatırlayamıyordu. Küçük, okunurluğu
+doğrudan artıran iş.
+
+**Oyuncu ne hissedecek:** Duraklatınca menünün başında HUD çerçeveli küçük bir rozet:
+kostümün piksel başlığı + `GİYİLİ: VAPURCU` + altın `CAN +10`. Bonussuz sokak ceketinde
+rozet yok (menü eskisi gibi).
+
+**Yapılanlar:**
+- `Shop.costume_bonus_text(id)`: `bonus` sözlüğünden kısa metin (`CAN +10`,
+  `SİLAH ÖMRÜ +%15`, `YİYECEK +%25`, `YUMRUK +%8`); sayılar tek kaynaktan.
+- `PauseMenu`: `Costume` rozeti (`panel_hud` piksel çerçeve, başlık ikonu 1x NEAREST),
+  her açılışta `refresh_costume()`. Kayıt formatı değişmedi.
+
+**Testler:** `--import` SCRIPT ERROR yok; yeni `tests/costume_badge.tscn` PASS (dört bonus
+metni, varsayılanda gizli, kızıl dağda ad/bonus/ikon); `touch_polish` PASS;
+`campaign_smoke.gd` çıkış 0; `dtm_gaps` PASS; bot Bölüm 1 CLEARED (80,3 sn). 1280×720
+pencereli görüntüde hamal/kızıl/vapurcu rozeti incelendi: ilk denemede `kart` çerçevesinin
+kırmızı başlık şeridi yazıyla çakışıyordu, `panel_hud`'a geçildi; bandana çerçeveye
+değiyordu, iç pay 22'ye çıkarıldı.
+
+**Sonraki öneri:** Başlık katmanı eksikleri (gece kontur, kolun önünden geçtiği kareler)
+ya da günün dalgası dördüncü dilim.
 
 ### 2026-10-24 (3) — Kostümlerin üçüncü dilimi: piksel başlıklar
 
