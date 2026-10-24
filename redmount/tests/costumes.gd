@@ -145,6 +145,21 @@ func _weapon_mask() -> void:
 					if img.get_pixel(cell * 200 + x, y).a8 == 252:
 						n += 1
 			_check(n >= reload[sheet][0] and n <= reload[sheet][1], "%s/%d silah işareti: %d" % [sheet, cell, n])
+	## Bıçağın elle çokgenli kareleri: bele inen ağız pantolon (254) sayılmamalı, omuz üstündeki
+	## bıçak işaretli olmalı. Kutu: sayfa, kare, x0, y0, x1, y1, en az silah işareti.
+	for b in [["knife_walk", 5, 96, 139, 127, 159, 110], ["knife_walk", 6, 89, 139, 116, 158, 70],
+			["knife_walk", 7, 105, 142, 129, 159, 100], ["knife_attack2", 0, 34, 124, 50, 138, 40]]:
+		var img := (load("res://assets/anim/redmount/%s.png" % b[0]) as Texture2D).get_image()
+		if img.is_compressed():
+			img.decompress()
+		var weapon := 0
+		var pants := 0
+		for y in range(b[3], b[5]):
+			for x in range(b[2], b[4]):
+				var a: int = img.get_pixel(b[1] * 200 + x, y).a8
+				weapon += int(a == 252)
+				pants += int(a == 254)
+		_check(weapon >= b[6] and pants <= 1, "%s/%d bıçak: silah %d, pantolon %d" % [b[0], b[1], weapon, pants])
 
 
 ## Kaçaklar: koşuda ceketin parlak yamaları pantolon sayılmamalı (eski maskede bir karede

@@ -34,6 +34,7 @@ Yakın silahlar çokgen istemez (savuruşta döner, iz gövdeden kopuk):
     kenarlarındaki orta gri. Ağız/iz bileşenlerinin (açık, doygunluğu düşük, ≥ BLADE_MIN
     px, ayakkabı hizasının üstünde) BLADE_REACH px yakınındaki küçük giysi bileşenleri
     (≤ BLADE_PART px, en az yarısı ağza yakın) işaretlenir; ceket ve pantolon büyük bileşen olduğu için dışarıda kalır.
+    Kuralın kaçırdığı birkaç karede (`KNIFE_POLYS`) bıçak elle çizilmiş çokgendir.
 
   python tools/gen_weapon_mask.py                 # REGIONS'taki sayfalar + yakın silahlar
   python tools/gen_weapon_mask.py --preview DIR   # işaretli pikselleri kırmızı gösterir
@@ -219,6 +220,24 @@ BLADE_REACH = 2   # ağıza bu kadar yakın giysi pikseli kenar sayılır (px)
 BLADE_PART = 150  # bu boyu aşan giysi bileşeni ceket/pantolondur, işaretlenmez
 SHOE_Y = 200      # bu satırın altındaki açık pikseller ayakkabıdır
 
+## Bileşen kuralının kaçırdığı bıçak kareleri: yürüyüşte bele inen bıçağın orta gri
+## kenarı pantolon/ceket bileşenine yapışık; `attack2` 0'da omuz üstündeki bıçağın ağzı
+## açık gri sayılacak kadar büyük değil. Bu karelerde bıçak elle çizilmiş çokgendir,
+## işaret çokgenin içindeki giysi pikselleri (RELOADS'taki "strict" gibi).
+KNIFE_POLYS = {
+	"knife_walk": {
+		5: [[(97, 152), (108, 146), (118, 141), (124, 139), (126, 142), (118, 148), (110, 153), (100, 158), (96, 157)],
+			[(115, 146), (120, 146), (120, 151), (115, 151)]],
+		6: [[(89, 152), (100, 146), (110, 140), (114, 139), (115, 143), (106, 150), (96, 156), (89, 157)]],
+		7: [[(105, 152), (115, 147), (125, 142), (128, 143), (127, 148), (118, 153), (108, 158), (105, 157)],
+			[(135, 148), (140, 148), (140, 158), (135, 158)]],
+	},
+	"knife_attack2": {
+		0: [[(35, 131), (41, 127), (46, 124), (49, 127), (46, 132), (41, 135), (36, 137), (34, 135)],
+			[(58, 112), (64, 112), (64, 119), (59, 119)]],
+	},
+}
+
 
 def _load(name: str) -> np.ndarray:
 	return np.array(Image.open(os.path.join(ROOT, name + ".png")).convert("RGBA"))
@@ -260,7 +279,14 @@ def process_melee() -> dict:
 			pal = np.isin(_key(px), keys) & (px[..., 3] >= 128)
 			out[w + "_" + s] = _mark(w + "_" + s, px, diff | pal)
 		px = _load("knife_" + s)
-		out["knife_" + s] = _mark("knife_" + s, px, knife_mask(px))
+		m = knife_mask(px)
+		cloth = _cloth(px)
+		for f, polys in KNIFE_POLYS.get("knife_" + s, {}).items():
+			for poly in polys:
+				cell = np.zeros(cloth.shape, bool)
+				cell[:, f * CELL_W:(f + 1) * CELL_W] = _poly_mask(poly)
+				m |= cell & cloth
+		out["knife_" + s] = _mark("knife_" + s, px, m)
 	return out
 
 

@@ -7,16 +7,13 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Bıçakta kalan silah işareti boşlukları: `knife_walk` 6–7'de pantolona değen alçak bıçak
-  ve `knife_attack2` 0'da omuz üstündeki bıçak hâlâ boyanıyor (bileşen pantolonla/ceketle bir;
-  şarjör sayfalarındaki gibi kare başına çokgen çözer).
-- Pantolon maskesi kalıntıları: tekmenin (kick 2–3) diz arkasında ve koşuda ayakkabının arka
-  kenarında 2–4 piksel ceket rengi (kontura yapışık, kırıntı birleştirmesine girmiyor).
 - Günün dalgası dördüncü dilim: seri ödülü olarak Kanıt Arşivi'nde açılan özel kare
   (ör. 7. gün); seri kopunca bir kerelik "seri koruma" (ör. 100 coin'e dünü kurtar).
 - Kaldırım taşı üçüncü dilim: elde taş görünür değil, atış yumruk (combo_a) karesiyle
   oynuyor. `tools/gen_pixel_weapons.py` ile tek "fırlatma" sayfası (geri çekiş → bırakış,
   elde bazalt taş) ve yığının düşman varilinden/dükkândan da çıkması (`LevelShop` "tas").
+- Pantolon maskesi kalıntıları: tekmenin (kick 2–3) diz arkasında ve koşuda ayakkabının arka
+  kenarında 2–4 piksel ceket rengi (kontura yapışık, kırıntı birleştirmesine girmiyor).
 - Şemsiyeyle havaya kaldırılan düşmanı ikinci şemsiye vuruşunun tekrar kaldırması sonsuz
   dizi yaratabilir mi? İnsan testinde bakılacak; gerekirse havadaki düşmana kaldırma yok.
 
@@ -37,6 +34,33 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-24 (15) — Bıçağın son kareleri de kostüm rengine boyanmıyor
+
+**Neden şimdi:** Yol haritasında açık madde yok, P1'lerin ilk dilimleri oyunda; birikimin başı
+bıçaktaki son işaret boşluklarıydı. Ölçünce `knife_walk` 5–7'de bele inen bıçağın orta gri
+kenarındaki 7–23 piksel **pantolon** işaretli çıktı (Vapurcu/Kızıl Dağ'da bıçakta mavi lekeler),
+`knife_attack2` 0'da omuz üstündeki bıçağın tamamı (59 px) ceket rengine boyanıyordu.
+
+**Oyuncu ne hissedecek:** Bıçakla yürürken ve ikinci savuruşun hazırlığında bıçak hep çelik gri;
+kostüm rengi yalnız giyside.
+
+**Yapılanlar:**
+- `tools/gen_weapon_mask.py` `KNIFE_POLYS`: bileşen kuralının kaçırdığı dört karede elle çizilmiş
+  bıçak çokgeni (yürüyüş 5–7'de ağız + iki küçük uç parçası, `attack2` 0'da ağız + kabza ucu);
+  işaret çokgendeki giysi pikselleri. RGB değişmedi (doğrulandı), yalnız alfa; yalnız bu iki
+  sayfa değişti.
+- `tests/costumes.gd`: dört karede bıçak kutusunda en az silah işareti ve ≤ 1 pantolon pikseli.
+
+**Testler:** `--import` hata yok; `costumes` (genişletildi) PASS, `dtm_gaps` PASS;
+`campaign_smoke.gd` çıkış 0; bot Bölüm 1 (77,8 sn), 13 (77,5 sn), 25 (85,6 sn) CLEARED.
+
+**Görsel kanıt:** 1280×720 pencereli görüntü, Kızıl Dağ ve Vapurcu × dört kare: bıçaklar gri,
+kırmızı/mavi leke yok.
+
+**Sonraki öneri:** Kostüm görsel kalıntı turları burada kapanmalı. Birikimin yeni başı pantolon
+maskesi kalıntıları (2–4 px, düşük etki); ondan önce oynanış maddeleri (günün dalgası 4. dilim,
+kaldırım taşı fırlatma sayfası) daha çok değer katar — birikim sırası buna göre değiştirildi.
 
 ### 2026-10-24 (14) — Şarjör değiştirirken de silah kostüm rengine boyanmıyor
 
