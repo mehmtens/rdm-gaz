@@ -7,9 +7,12 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Başlık katmanının iki eksiği: gece bölümlerinde başlığa kontur (rim) yok; kolun başın
-  önünden geçtiği birkaç karede (aparkat/şemsiye) başlık kolun üstünde çizilir. Gerekirse
-  `head_anchors.json`'a kare başına "arkada" bayrağı ya da başlığa `dark_rim` malzemesi.
+- Başlık katmanının kalan eksiği: kolun başın önünden geçtiği birkaç karede
+  (aparkat/şemsiye) başlık kolun üstünde çizilir. Gerekirse `head_anchors.json`'a kare
+  başına "arkada" bayrağı (başlık `show_behind_parent`). Gece konturu 24 Ekim (6) bitti.
+- Gece bölümüne GEÇİŞTE düşman konturu: `enemy_base` `get_first_node_in_group("dark_scene")`
+  ile bölümü arıyor; eski bölüm aynı karede hâlâ ağaçtaysa yanlış bölümün kenar ışığını
+  (ya da hiç) alabilir. Gündüz→gece geçişinde düşman silüeti ekran görüntüsüyle denetlenmeli.
 - Pantolon maskesinde kalan kaçaklar: koşu karelerinde ceketin arka eteği, tekmede dizde
   birkaç ceket rengi piksel; gölgedeki arka bacak bazen ceket rampasında. Gerekirse
   `tools/gen_costume_mask.py` sonrası kare başına elle düzeltme maskesi (küçük PNG).
@@ -35,6 +38,40 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-24 (6) — Gece bölümlerinde kostüm başlığına fener konturu
+
+**Neden şimdi:** Yol haritası ve P1 sırası bitti; birikimin başı. Kitap 1'in yarısı gece
+(Bölüm 3, 4, 6, 7, 8…); başlıklı kostümde gövde fener ışığıyla konturlanırken başlık
+konturuz kalıyor, gövdenin kontur çizgisi de şapkanın altından saça doğru görünüyordu.
+
+**Oyuncu ne hissedecek:** Gece pazarında kaptan şapkası, bere, kasket gövdeyle aynı
+sıcak kontur içinde; karakter tek parça silüet olarak okunur, başlık "yapıştırılmış"
+görünmez.
+
+**Yapılanlar:**
+- `dark_rim.gdshader`: `rim_only` (yalnız kontur, gövde saydam). `CostumeAccessory`
+  rig'in malzemesinden gece konturunu okur (`rig_rim`: kostüm `rim_enabled` ya da
+  `night_rim`), açıksa başlık dokusunun kontur kopyasını rig'in kardeşi olarak
+  `show_behind_parent` ile ARKAYA çizer: yalnız silüetin dışına taşan kenar parlar,
+  şapkanın saça bindiği alt kenarda kontur yüze binmez. Başlık çıkınca kopya da silinir.
+- **Önceden var olan hata düzeltildi:** `main.gd` eski bölümü yenisi eklendikten sonra
+  siler; eski bölümün `_exit_tree`'si yeni gece bölümünün açtığı oyuncu konturunu
+  kapatıyordu (kostümsüzde malzemeyi bile siliyordu). Kontur yalnız menüden doğrudan
+  girişte görünüyordu; bölüm geçişinde ve TEKRAR'da kayboluyordu. `_owns_night_rim()`:
+  yalnız gece olan ve ağaçta başka gece bölümü kalmamış bölüm konturu kapatır.
+- `tests/costume_accessory.gd`: gece konturu açılınca kopya arkada/hizalı/aynı doku ve
+  renkte, kapanınca gizli, başlık çıkınca silinmiş denetimleri. Kayıt formatı değişmedi.
+
+**Görsel kanıt:** Bölüm 3 (gece) 1280×720 pencereli, vapurcu kostümü, ara sahne
+geçildikten sonra 5× büyütme; önce/sonra karşılaştırıldı.
+
+**Testler:** `--import` SCRIPT ERROR yok; `campaign_smoke.gd` çıkış 0; `dtm_gaps` PASS;
+`costume_accessory` (genişletildi), `costume_badge` PASS; bot Bölüm 1 (79,0 sn), 3 (gece,
+63,4 sn), 13 (77,2 sn), 25 (86,5 sn) CLEARED.
+
+**Sonraki öneri:** Birikimdeki başlık kol-önü kareleri ya da gece geçişinde düşman konturu
+denetimi.
 
 ### 2026-10-24 (5) — Sonuç kartında "giyili" kostüm künyesi
 

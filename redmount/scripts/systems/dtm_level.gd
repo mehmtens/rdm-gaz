@@ -812,8 +812,10 @@ func _process(_delta: float) -> void:
 
 
 func _exit_tree() -> void:
-	# Gece konturu yalnız bu bölüme ait: oyuncu sonraki bölüme taşınır.
-	var p := get_tree().get_first_node_in_group(&"player") if is_inside_tree() else null
+	# Gece konturu yalnız bu bölüme ait: oyuncu sonraki bölüme taşınır. Eski bölüm yenisi
+	# eklendikten SONRA silinir (main.gd queue_free); yeni bölüm de geceyse konturunu ya da
+	# gündüz bölümü hiç açmadığı konturu kapatmasın.
+	var p := get_tree().get_first_node_in_group(&"player") if is_inside_tree() and _owns_night_rim() else null
 	var rig: CanvasItem = p.get_node_or_null(^"Rig") if p != null else null
 	if rig != null and rig.material != null and rig.material.has_meta(&"night_rim"):
 		rig.material = null
@@ -821,6 +823,16 @@ func _exit_tree() -> void:
 		rig.material.set_shader_parameter(&"rim_enabled", false)
 	if _cam != null and is_instance_valid(_cam):
 		_cam.set("_base_zoom", Vector2.ONE)
+
+
+## Oyuncunun gece konturu bu bölümün mü: bölüm gece ve ağaçta başka gece bölümü yok.
+func _owns_night_rim() -> bool:
+	if not is_in_group(&"dark_scene"):
+		return false
+	for n in get_tree().get_nodes_in_group(&"dark_scene"):
+		if n != self and n.is_inside_tree():
+			return false
+	return true
 
 
 ## Level'in biome arka planı yerine kendi gökyüzü katmanımız var.

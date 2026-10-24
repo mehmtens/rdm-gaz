@@ -87,10 +87,38 @@ func _on_player() -> void:
 	await get_tree().process_frame
 	acc = rig.get_node_or_null(NodePath(CostumeAccessory.NODE_NAME)) as CostumeAccessory
 	_check(acc != null and acc.attach == "brow", "kızıl bandana alına bağlı")
+	await _night_rim(rig)
 	CostumeAccessory.apply(rig, Shop.DEFAULT_COSTUME)
 	await get_tree().process_frame
+	await get_tree().process_frame
 	_check(rig.get_node_or_null(NodePath(CostumeAccessory.NODE_NAME)) == null, "sokak ceketinde başlık yok")
+	_check(rig.get_node_or_null(NodePath(CostumeAccessory.RIM_NAME)) == null, "başlık çıkınca kontur kopyası da gider")
 	p.queue_free()
+
+
+## Gece: rig'in kostüm malzemesi konturu açınca başlığın kontur kopyası rig'in arkasında,
+## başlıkla aynı yerde ve aynı renkte görünür; kapanınca gizlenir.
+func _night_rim(rig: AnimatedSprite2D) -> void:
+	var acc := rig.get_node(NodePath(CostumeAccessory.NODE_NAME)) as CostumeAccessory
+	var mat := rig.material as ShaderMaterial
+	_check(mat != null and mat.has_meta(&"costume"), "rig'de kostüm malzemesi")
+	if mat == null:
+		return
+	_check(rig.get_node_or_null(NodePath(CostumeAccessory.RIM_NAME)) == null, "gündüz kontur kopyası yok")
+	var c := Color(1.0, 0.82, 0.52, 0.9)
+	mat.set_shader_parameter(&"rim_enabled", true)
+	mat.set_shader_parameter(&"rim_color", c)
+	await get_tree().process_frame
+	var rim := rig.get_node_or_null(NodePath(CostumeAccessory.RIM_NAME)) as Sprite2D
+	_check(rim != null and rim.visible and rim.show_behind_parent, "gece: başlık konturu rig'in arkasında")
+	if rim != null:
+		_check(rim.position == acc.position and rim.offset == acc.offset and rim.flip_h == acc.flip_h, "kontur başlıkla hizalı")
+		_check(rim.texture == acc.texture, "kontur aynı başlık dokusundan")
+		var rm := rim.material as ShaderMaterial
+		_check(rm != null and rm.get_shader_parameter(&"rim_only") == true and rm.get_shader_parameter(&"rim_color") == c, "yalnız kontur, fener rengi")
+	mat.set_shader_parameter(&"rim_enabled", false)
+	await get_tree().process_frame
+	_check(rim == null or not rim.visible, "gündüze dönünce kontur gizli")
 
 
 func _shop_preview() -> void:

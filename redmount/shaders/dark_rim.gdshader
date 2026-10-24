@@ -1,11 +1,13 @@
 // Gece sahnelerinde koyu giysili düşmanın silüetini fener ışığıyla ayırır:
 // saydam piksel, opak bir komşusu varsa ince bir kontur pikseli olur.
 // Bölümün kenar ışığı rengini kullanır (level.gd edge_light). Modülasyon
-// (vuruş parlaması, ölüm solması) korunur.
+// (vuruş parlaması, ölüm solması) korunur. `rim_only`: yalnız kontur çizilir, gövde
+// saydamlaşır (kostüm başlığının ebeveyn rig'in arkasına konan kontur kopyası).
 shader_type canvas_item;
 
 uniform vec4 rim_color : source_color = vec4(1.0, 0.78, 0.45, 0.7);
 uniform float width = 3.0;
+uniform bool rim_only = false;
 
 varying vec4 tint;
 
@@ -16,7 +18,11 @@ void vertex() {
 void fragment() {
 	// COLOR burada zaten doku × modülasyondur; yalnız dokunun saydam pikselleri değişir
 	// (ölüm solmasında modülasyon alfası düşse de gövde kontura dönmez).
-	if (texture(TEXTURE, UV).a < 0.5) {
+	if (texture(TEXTURE, UV).a >= 0.5) {
+		if (rim_only) {
+			COLOR.a = 0.0;
+		}
+	} else {
 		vec2 d = TEXTURE_PIXEL_SIZE * width;
 		float a = 0.0;
 		a = max(a, texture(TEXTURE, UV + vec2(d.x, 0.0)).a);
@@ -25,6 +31,8 @@ void fragment() {
 		a = max(a, texture(TEXTURE, UV - vec2(0.0, d.y)).a);
 		if (a >= 0.5) {
 			COLOR = rim_color * tint;
+		} else if (rim_only) {
+			COLOR.a = 0.0;
 		}
 	}
 }

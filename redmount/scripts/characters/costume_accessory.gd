@@ -4,6 +4,9 @@
 ## sayfa hücresinin baş çapasını (`head_anchors.json`, `tools/gen_costume_accessory.py`)
 ## okuyup oraya oturur. Dönüş/eğim/ölçek ebeveynden gelir; yön `flip_h` ile aynalanır.
 ## Ana menüdeki, ara sahnedeki ve oyundaki Redmount aynı yolu kullanır.
+## Gece bölümünde rig fener konturu taşıyorsa başlık da konturlanır: kontur kopyası
+## rig'in ARKASINA çizilir, böylece yalnız silüetin dışında kalan kenar parlar (başlığın
+## saça bindiği alt kenarda kontur yüze taşmaz).
 class_name CostumeAccessory
 extends Sprite2D
 
@@ -15,6 +18,8 @@ const PIVOT := Vector2(36, 30)
 ## Başlık saç tepesinin bu kadar altına oturur (hücre pikseli); bandana alnın üstüne.
 const TOP_DROP := 16
 const BROW_LIFT := 2
+const RIM_NAME := &"CostumeAccessoryRim"
+const RIM_SHADER := preload("res://shaders/dark_rim.gdshader")
 
 static var _anchors: Dictionary = {}
 
@@ -22,6 +27,8 @@ static var _anchors: Dictionary = {}
 var attach := "crown"
 var _sprite: AnimatedSprite2D
 var _key := ""
+## Rig'in kardeş çocuğu, `show_behind_parent`; yalnız gecede görünür.
+var _rim: Sprite2D
 
 
 ## Kostümün başlığını sprite'a takar; başlıksız kostümde eskisini çıkarır.
@@ -43,6 +50,7 @@ static func apply(sprite: AnimatedSprite2D, costume_id: String) -> CostumeAccess
 	acc.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	sprite.add_child(acc)
 	acc._follow()
+	acc._sync_rim()
 	return acc
 
 
@@ -80,6 +88,52 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	_follow()
+	_sync_rim()
+
+
+func _exit_tree() -> void:
+	if _rim != null and is_instance_valid(_rim):
+		_rim.queue_free()
+	_rim = null
+
+
+## Rig'in malzemesinden gece konturu açık mı ve rengi: kostüm malzemesi `rim_enabled`,
+## kostümsüz gecede `night_rim` meta'lı dark_rim. Kapalıysa şeffaf renk.
+static func rig_rim(sprite: CanvasItem) -> Color:
+	var m := sprite.material as ShaderMaterial if sprite != null else null
+	if m == null:
+		return Color.TRANSPARENT
+	if m.has_meta(&"night_rim") or (m.has_meta(&"costume") and m.get_shader_parameter(&"rim_enabled") == true):
+		var c = m.get_shader_parameter(&"rim_color")
+		return c if c is Color else Color(1.0, 0.82, 0.52, 0.9)
+	return Color.TRANSPARENT
+
+
+func _sync_rim() -> void:
+	var c := rig_rim(_sprite)
+	if c.a <= 0.0:
+		if _rim != null:
+			_rim.visible = false
+		return
+	if _rim == null or not is_instance_valid(_rim):
+		_rim = Sprite2D.new()
+		_rim.name = RIM_NAME
+		_rim.show_behind_parent = true
+		_rim.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		var mat := ShaderMaterial.new()
+		mat.shader = RIM_SHADER
+		mat.set_shader_parameter(&"rim_only", true)
+		_rim.material = mat
+		_sprite.add_child(_rim)
+	var rm := _rim.material as ShaderMaterial
+	if rm.get_shader_parameter(&"rim_color") != c:
+		rm.set_shader_parameter(&"rim_color", c)
+	_rim.texture = texture
+	_rim.centered = centered
+	_rim.position = position
+	_rim.offset = offset
+	_rim.flip_h = flip_h
+	_rim.visible = visible
 
 
 func _follow() -> void:
