@@ -8,6 +8,8 @@
 // Başlığın tepesinden taşan saç pikselleri alfa 255 - 2·bitler ile işaretlidir
 // (tools/gen_costume_accessory.py); `hair_bit` o kostümün başlığının bitidir, işaretli
 // piksel saydam sayılır (konturda da), böylece saç şapkayı delip çıkmaz.
+// Tabanca/tüfek pikselleri alfa 252 (kod 3) ile işaretlidir (tools/gen_weapon_mask.py):
+// silah da koyu gridir ama giysi değildir, boyanmaz.
 shader_type canvas_item;
 
 uniform vec4 shade : source_color = vec4(0.04, 0.07, 0.19, 1.0);
@@ -25,7 +27,7 @@ void vertex() {
 	tint = COLOR;
 }
 
-// Pikselin işaret kodu: 255 - alfa (0 işaretsiz, 1 pantolon, çift = saç bitleri × 2).
+// Pikselin işaret kodu: 255 - alfa (0 işaretsiz, 1 pantolon, 3 silah, çift = saç bitleri × 2).
 int mark_of(float a) {
 	return int(round((1.0 - a) * 255.0));
 }
@@ -56,12 +58,13 @@ void fragment() {
 			}
 		}
 	} else {
-		bool pants = mark_of(c.a) == 1;
+		int code = mark_of(c.a);
+		bool pants = code == 1;
 		c.a = 1.0;
 		float mx = max(c.r, max(c.g, c.b));
 		float mn = min(c.r, min(c.g, c.b));
 		float sat = mx > 0.0 ? (mx - mn) / mx : 0.0;
-		if (sat < 0.25) {
+		if (sat < 0.25 && code != 3) {
 			float w = smoothstep(0.035, 0.07, mx) * (1.0 - smoothstep(0.5, 0.62, mx));
 			vec3 lo = pants ? pants_shade.rgb : shade.rgb;
 			vec3 hi = pants ? pants_light.rgb : light.rgb;

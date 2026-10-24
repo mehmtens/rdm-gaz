@@ -7,10 +7,10 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Kostüm shader'ı koyu gri silahları da (sopa gövdesi, tüfek) ceket rampasıyla boyuyor:
-  giysi eşiği silahı ayırt etmiyor. Silah karelerinde sopa/tüfek piksellerini ayrı bir alfa
-  işaretiyle (saç bitleri 255 − 2·bit çift farklı, pantolon 254; boşta kalan tek bir alfa
-  değeri) boyamadan çıkarmak ya da silah katmanını rig'den ayırmak.
+- Silah işaretinin (alfa 252) ikinci dilimi: `pistol_reload`/`rifle_reload` (şarjör dönüyor,
+  kare başına çokgen gerekir) ve yakın silahlar — bıçak ağzı ile sopa savuruş izi pantolon
+  işaretli (pantolon rengine boyanıyor), sopanın kenarları ceket rengine geçiyor. Anahtar ve
+  şemsiye `gen_pixel_weapons.py`'de boyanırken işaretlenebilir (piksel kesin biliniyor).
 - Pantolon maskesi kalıntıları: tekmenin (kick 2–3) diz arkasında ve koşuda ayakkabının arka
   kenarında 2–4 piksel ceket rengi (kontura yapışık, kırıntı birleştirmesine girmiyor).
 - Günün dalgası dördüncü dilim: seri ödülü olarak Kanıt Arşivi'nde açılan özel kare
@@ -38,6 +38,43 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-24 (12) — Ateşli silahlar kostüm rengine boyanmıyor
+
+**Neden şimdi:** Yol haritasında açık madde yok, P1'lerin ilk dilimleri oyunda; birikimin başı
+buydu. Ölçünce en görünür kısım tüfek ve tabancaydı: shader'ın giysi eşiği (doygunluk < 0,25)
+koyu gri metali de giysi sayıyor, Kızıl Dağ kostümüyle kırmızı, Vapurcu ile lacivert tüfek
+çıkıyordu. Ateşli silah alınınca her karede elde göründüğü için kostümün en çok bozulduğu yer.
+
+**Oyuncu ne hissedecek:** Hangi kostümü giyerse giysin tabanca/tüfek silah gibi okunur
+(siyah-gri metal); kostüm rengi yalnız ceket ve pantolonda kalır.
+
+**Yapılanlar:**
+- Önce otomatik ayrım denendi ve atıldı: renk tonu ayırmıyor (aynı tüfek bir karede nötr,
+  ötekinde ceket kadar sıcak, r−b dağılımları örtüşüyor), kalınlık da ayırmıyor (morfolojik
+  açma r=5 sopa ve tüfek gövdesini de gövde sayıyor).
+- `tools/gen_weapon_mask.py` (yeni): her sayfanın ilk karesinde silah elle çizilmiş çokgen;
+  diğer karelere RGB+alfa şablon eşleştirmesiyle kaydırılarak taşınır (±26 px). Giysi
+  pikselleri 4-komşulu bileşenlere ayrılır, pikselinin ≥ %60'ı çokgende olan bileşen silahtır
+  (piksel art konturu silahı koldan ayırdığı için sınırı kontur çizer). Silah ceketle tek
+  bileşen olduğunda (tüfek gövde önünde: `rifle_idle`/`rifle_walk`, nişanda omza dayanan
+  dipçik, iki tekil kare) çokgenin kendisi kullanılır. İşaret alfa 252 = kod 3 (pantolon 1,
+  saç bitleri çift; çakışmaz, saç ve pantolon araçları bu değere dokunmuyor).
+- 8 sayfa / 46 kare: `pistol_{aim,idle,shoot,walk}` kare başına 140–327 px, `rifle_{aim,idle,
+  shoot,walk}` 833–1492 px.
+- `shaders/player_costume.gdshader`: kod 3 boyanmaz. `tests/costumes.gd` `_weapon_mask`:
+  her karede silah işareti (tabanca ≥ 100, tüfek ≥ 600 px), `idle` sayfasında hiç yok.
+
+**Testler:** `--import` hata yok; `campaign_smoke.gd` çıkış 0; `dtm_gaps`, `costumes`
+(genişletildi), `costume_accessory`, `costume_badge` PASS; bot Bölüm 1 (83,5 sn), 13 (77,4 sn),
+25 (80,8 sn) CLEARED.
+
+**Görsel kanıt:** 1280×720 pencereli görüntü (kızıl/vapurcu/hamal × tüfek nişan, yürüme,
+ateş, tabanca nişan, bekleme): silahlar her kostümde gri; ilk geçişte kırmızı kalan dipçik
+ayrı parçayla düzeltildi. Çokgen sınırında ceket üzerinde 1–2 px gri kalıntı olabilir.
+
+**Sonraki öneri:** Silah işaretinin ikinci dilimi (şarjör değiştirme kareleri + yakın
+silahlar; bıçak ağzı şu an pantolon rengine boyanıyor).
 
 ### 2026-10-24 (11) — Pantolon maskesindeki kaçaklar giderildi
 

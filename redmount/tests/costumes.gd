@@ -90,6 +90,28 @@ func _pants_mask() -> void:
 	_check(v.pants_light != v.light, "vapurcu ceket ile pantolon ayrı renk")
 	_pants_leaks("run")
 	_pants_leaks("walk")
+	_weapon_mask()
+
+
+## Silah işareti (alfa 252): tabanca/tüfek koyu gri ama giysi değil, kostüm boyamamalı.
+## Her karede silah işaretli olmalı (takip kaçarsa kare boş kalır); silahsız sayfada hiç yok.
+func _weapon_mask() -> void:
+	var need := {"pistol_aim": 100, "pistol_idle": 100, "pistol_shoot": 100, "pistol_walk": 100,
+		"rifle_aim": 600, "rifle_idle": 600, "rifle_shoot": 600, "rifle_walk": 600, "idle": 0}
+	for sheet in need:
+		var img := (load("res://assets/anim/redmount/%s.png" % sheet) as Texture2D).get_image()
+		if img.is_compressed():
+			img.decompress()
+		for cell in img.get_width() / 200:
+			var n := 0
+			for y in 240:
+				for x in 200:
+					if img.get_pixel(cell * 200 + x, y).a8 == 252:
+						n += 1
+			if need[sheet] == 0:
+				_check(n == 0, "%s/%d silah işareti olmamalı: %d" % [sheet, cell, n])
+			else:
+				_check(n >= need[sheet], "%s/%d silah işaretli: %d" % [sheet, cell, n])
 
 
 ## Kaçaklar: koşuda ceketin parlak yamaları pantolon sayılmamalı (eski maskede bir karede
