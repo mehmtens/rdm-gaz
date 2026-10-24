@@ -48,6 +48,10 @@ var _neighborhood_portrait: TextureRect
 var _neighborhood_name: Label
 var _arena_panel: PanelContainer
 var _arena_label: Label
+var _costume_badge: PanelContainer
+var _costume_icon: TextureRect
+var _costume_name: Label
+var _costume_bonus: Label
 
 
 func _ready() -> void:
@@ -62,6 +66,7 @@ func _ready() -> void:
 	_results_rank.visible = false
 	_build_results_card()
 	_build_star_row()
+	_build_costume_badge()
 	_build_arena_counter()
 	_boss_bar.visible = false
 	_combo.visible = false
@@ -359,7 +364,7 @@ func show_stage_clear(current: int, stars: int = -1, seconds: float = 0.0,
 	_results_hint.text = "R — sonraki bölüm     ·     M — ana menü"
 	for it in Shop.ITEMS:
 		if int(it.get("unlock_level", 0)) == current and not Save.owns(it.id):
-			_results_hint.text = "Yeni vuruş mağazada!  M — mağaza  ·  R — sonraki bölüm"
+			_results_hint.text = "Yeni vuruş mağazada!  M — mağaza  ·  R — devam"
 	_reveal(stars)
 
 
@@ -399,6 +404,7 @@ func _reveal(stars: int) -> void:
 	_reveal_stars = stars
 	_combo.visible = false
 	_results_rank.visible = false
+	_refresh_costume_badge()
 	_star_row.visible = stars >= 0
 	for k in _star_icons.size():
 		_star_icons[k].texture = STAR_EMPTY
@@ -501,6 +507,56 @@ func _build_results_card() -> void:
 	_results_hint.offset_top = 186
 	_results_hint.offset_bottom = 232
 	_results_hint.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+
+
+## Kartın hemen altında "giyili" kostüm künyesi: başlık ikonu + ad + bonus. Koşunun
+## hangi bonusla oynandığı sonuçla birlikte okunsun (duraklat menüsündeki rozetin
+## tek satırlık eşi). Kart içi istatistik satırları değişken uzunlukta olduğundan
+## rozet kartın dışında, alt kenara yaslı; bonussuz sokak ceketinde gizli.
+func _build_costume_badge() -> void:
+	var holder := CenterContainer.new()
+	holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	holder.set_anchors_preset(Control.PRESET_CENTER)
+	holder.offset_left = -330
+	holder.offset_right = 330
+	holder.offset_top = 258
+	holder.offset_bottom = 318
+	_results.add_child(holder)
+	_costume_badge = PanelContainer.new()
+	_costume_badge.name = "Costume"
+	_costume_badge.set_meta(&"pixel_done", true)
+	_costume_badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_costume_badge.add_theme_stylebox_override(&"panel", PixelUI.box("panel_hud", 20))
+	holder.add_child(_costume_badge)
+	var hb := HBoxContainer.new()
+	hb.add_theme_constant_override(&"separation", 14)
+	_costume_badge.add_child(hb)
+	_costume_icon = TextureRect.new()
+	_costume_icon.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_costume_icon.stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
+	_costume_icon.custom_minimum_size = Vector2(72, 44)
+	_costume_icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	hb.add_child(_costume_icon)
+	_costume_name = Label.new()
+	_costume_bonus = Label.new()
+	for l: Label in [_costume_name, _costume_bonus]:
+		l.add_theme_font_override(&"font", PixelUI.font())
+		l.add_theme_font_size_override(&"font_size", PixelUI.snap(16))
+		l.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		hb.add_child(l)
+	_costume_name.add_theme_color_override(&"font_color", Color(0.86, 0.78, 0.62))
+	_costume_bonus.add_theme_color_override(&"font_color", Color(1.0, 0.82, 0.45))
+	_refresh_costume_badge()
+
+
+func _refresh_costume_badge() -> void:
+	var it := Shop.costume(Save.costume)
+	var bonus := Shop.costume_bonus_text(it.id)
+	_costume_badge.visible = bonus != ""
+	_costume_name.text = "GİYİLİ: %s  ·" % String(it.name)
+	_costume_bonus.text = bonus
+	var acc := String(it.get("accessory", ""))
+	_costume_icon.texture = load("res://assets/anim/costume_acc/%s.png" % acc) if acc != "" else null
 
 
 func hide_results() -> void:

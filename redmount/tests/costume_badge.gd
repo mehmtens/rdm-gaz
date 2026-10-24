@@ -31,8 +31,21 @@ func _ready() -> void:
 		_check(pause._costume_bonus.text == "YUMRUK +%8", pause._costume_bonus.text)
 		_check(pause._costume_icon.texture != null, "başlık ikonu yüklenmeli")
 		pause.close()
-	Save.costume = Shop.DEFAULT_COSTUME
 	pause.queue_free()
+
+	## Sonuç kartının altındaki tek satırlık künye
+	var hud := (load("res://scenes/ui/HUD.tscn") as PackedScene).instantiate()
+	add_child(hud)
+	await get_tree().process_frame
+	hud.show_stage_clear(3, 5, 80.0, 10, 12, 0, 900)
+	_check(hud._costume_badge.visible, "sonuç kartında kızıl dağ künyesi görünür")
+	_check(hud._costume_bonus.text == "YUMRUK +%8", "kart bonusu: " + hud._costume_bonus.text)
+	_check(hud._costume_icon.texture != null, "kart başlık ikonu yüklenmeli")
+	hud.hide_results()
+	Save.costume = Shop.DEFAULT_COSTUME
+	hud.show_stage_clear(3, 5, 80.0, 10, 12, 0, 900)
+	_check(not hud._costume_badge.visible, "sokak ceketinde kart künyesi gizli")
+	hud.queue_free()
 	Save.wipe()
 	DirAccess.remove_absolute(ProjectSettings.globalize_path("user://costume_badge_test.cfg"))
 	print("COSTUME BADGE: %s" % ("PASS" if _fails == 0 else "FAIL (%d)" % _fails))

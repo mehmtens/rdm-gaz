@@ -7,8 +7,6 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Kostüm "giyili" rozetinin sonuç kartına da eklenmesi (duraklat menüsünde var);
-  HUD'daki sonuç kartı dar, önce yer ölçülmeli.
 - Başlık katmanının iki eksiği: gece bölümlerinde başlığa kontur (rim) yok; kolun başın
   önünden geçtiği birkaç karede (aparkat/şemsiye) başlık kolun üstünde çizilir. Gerekirse
   `head_anchors.json`'a kare başına "arkada" bayrağı ya da başlığa `dark_rim` malzemesi.
@@ -37,6 +35,33 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-24 (5) — Sonuç kartında "giyili" kostüm künyesi
+
+**Neden şimdi:** Yol haritası ve P1 sırası bitti; birikimin başı. Bir önceki turda
+duraklat menüsüne eklenen rozetin eşi: bölüm sonucunu okuyan oyuncu o koşuyu hangi
+bonusla oynadığını da görsün (ör. HASARSIZ yıldızı VAPURCU'nun +10 canıyla alındı).
+
+**Oyuncu ne hissedecek:** Sonuç kartının hemen altında tek satırlık piksel künye:
+başlık ikonu + `GİYİLİ: HAMAL · SİLAH ÖMRÜ +%15`. Sokak ceketinde künye yok.
+
+**Yapılanlar:**
+- `hud.gd`: `_build_costume_badge()` / `_refresh_costume_badge()`; künye kartın
+  dışında (kart alt kenarı +258..318), `panel_hud` piksel çerçeve, piksel yazı tipi,
+  her `_reveal`'da yenilenir. Kart içine konmadı: oyun sonu istatistiği masaüstünde
+  7 satıra çıkıyor, iç boşluk değişken. Metin ve ikon `Shop` tek kaynağından.
+- Önceden kalan taşma: "Yeni vuruş mağazada!" ipucu kartın sağ çerçevesine
+  biniyordu; `R — devam` olarak kısaltıldı.
+- `tests/costume_badge.gd`: HUD sonuç kartında görünürlük/bonus/ikon ve sokak
+  ceketinde gizlilik denetimi eklendi. Kayıt formatı değişmedi.
+
+**Testler:** `--import` SCRIPT ERROR yok; `campaign_smoke.gd` çıkış 0; `dtm_gaps`
+PASS; `costume_badge` (genişletildi), `level_stars`, `touch_polish` PASS; bot Bölüm 1
+(80,7 sn), 13 (80,9 sn), 25 (85,4 sn) CLEARED. 1280×720 pencereli görüntüde vapurcu ve
+hamal künyesi incelendi: ilk hâlde bonus yazısı çerçeveye değiyordu ve ad ile bonus
+bitişikti; iç pay 20'ye çıkarıldı, araya `·` kondu.
+
+**Sonraki öneri:** Başlık katmanı eksikleri (gece kontur, kolun önünden geçtiği kareler).
 
 ### 2026-10-24 (4) — Duraklat menüsünde "giyili" kostüm rozeti
 
