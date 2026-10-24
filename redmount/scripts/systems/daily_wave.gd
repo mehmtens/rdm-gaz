@@ -160,6 +160,26 @@ static func streak_broken(last_clear_day: String, day: String, streak: int) -> b
 	return gap >= 2 and gap <= BROKEN_NOTICE_DAYS + 1
 
 
+## Seri koruma: yalnız dün kaçırıldıysa (bugün henüz temizlenmedi) oyuncu RESCUE_COST
+## coin ödeyip dünü "temizlenmiş" sayabilir; seri sayısı artmaz, yalnız köprü kurulur.
+## Bir kurtarma sonrası RESCUE_COOLDOWN gün yeniden kurtarma yok (alışkanlık bedava olmasın).
+const RESCUE_COST := 80
+const RESCUE_COOLDOWN := 7
+
+
+static func rescue_available(last_clear_day: String, day: String, streak: int, rescue_day: String) -> bool:
+	if streak <= 0 or last_clear_day.is_empty():
+		return false
+	if _day_number(day) - _day_number(last_clear_day) != 2:
+		return false
+	return rescue_day.is_empty() or _day_number(day) - _day_number(rescue_day) >= RESCUE_COOLDOWN
+
+
+## Verilen günden bir önceki gün ("YYYY-MM-DD").
+static func yesterday(day: String) -> String:
+	return Time.get_date_string_from_unix_time((_day_number(day) - 1) * 86400 + 43200)
+
+
 ## Bitirilen gün dünü takip ediyorsa seri sürer; aksi hâlde 1'den başlar.
 static func next_streak(last_clear_day: String, day: String, streak: int) -> int:
 	if last_clear_day == day:

@@ -47,8 +47,15 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	Music.play("menu")
 	theme = UIStyle.menu_theme()
+	_rebuild()
+
+
+## Sayfaları baştan kurar (açılış ve kayıt değişince, ör. seri kurtarma sonrası).
+func _rebuild() -> void:
 	for ch in get_children():
 		ch.queue_free()
+	_tabs.clear()
+	_arch_tabs.clear()
 	_build_scenery()
 	_home = _build_home()
 	_levels = _build_levels()
@@ -226,10 +233,25 @@ func _build_home() -> Control:
 			var next := DailyWave.next_streak_reward(Save.daily_streak)
 			badge_text.text = "SERİ %d GÜN · %d. günde +%d coin" % [Save.daily_streak, next[0], next[1]]
 			badge_text.add_theme_color_override(&"font_color", GOLD)
+		elif Save.can_rescue_daily(today):
+			badge_text.text = "SERİ KOPTU (%d GÜN) · dünü kurtar" % Save.daily_streak
+			badge_text.add_theme_color_override(&"font_color", FIRE)
 		else:
 			badge_text.text = "SERİ KOPTU (%d GÜN) · yeniden başla" % Save.daily_streak
 			badge_text.add_theme_color_override(&"font_color", FIRE)
 		badge.add_child(badge_text)
+		# Seri koruma: yalnız dün kaçtıysa, haftada bir; coin yetmiyorsa düğme kapalı görünür.
+		if broken and Save.can_rescue_daily(today):
+			var rescue := Button.new()
+			rescue.name = "StreakRescue"
+			rescue.text = "DÜNÜ KURTAR · %d coin" % DailyWave.RESCUE_COST
+			rescue.disabled = Save.total_coins < DailyWave.RESCUE_COST
+			rescue.custom_minimum_size = Vector2(0, 40)
+			rescue.position = badge.position + Vector2(0, 58)
+			page.add_child(rescue)
+			rescue.pressed.connect(func() -> void:
+				if Save.rescue_daily(today):
+					_rebuild.call_deferred())
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override(&"separation", 18)
 	stats.add_child(row)

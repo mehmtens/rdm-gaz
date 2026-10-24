@@ -7,11 +7,11 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Günün dalgası dördüncü dilim: seri ödülü olarak Kanıt Arşivi'nde açılan özel kare
-  (ör. 7. gün); seri kopunca bir kerelik "seri koruma" (ör. 100 coin'e dünü kurtar).
 - Kaldırım taşı üçüncü dilim: elde taş görünür değil, atış yumruk (combo_a) karesiyle
   oynuyor. `tools/gen_pixel_weapons.py` ile tek "fırlatma" sayfası (geri çekiş → bırakış,
   elde bazalt taş) ve yığının düşman varilinden/dükkândan da çıkması (`LevelShop` "tas").
+- Günün dalgası beşinci dilim: seri ödülü olarak Kanıt Arşivi'nde açılan özel kare
+  (ör. 7. gün). (Seri koruma 4. dilimde yapıldı.)
 - Pantolon maskesi kalıntıları: tekmenin (kick 2–3) diz arkasında ve koşuda ayakkabının arka
   kenarında 2–4 piksel ceket rengi (kontura yapışık, kırıntı birleştirmesine girmiyor).
 - Şemsiyeyle havaya kaldırılan düşmanı ikinci şemsiye vuruşunun tekrar kaldırması sonsuz
@@ -34,6 +34,45 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-24 (16) — Günün Dalgası dördüncü dilim: seri koruma ("dünü kurtar")
+
+**Neden şimdi:** Yol haritasında açık madde yok, P1'lerin ilk dilimleri oyunda; önceki tur
+kostüm kalıntı turlarını kapatıp oynanış maddelerini öne aldı, birikimin başı günün dalgası.
+Seri tek kaçırılan günde sıfırlanıyordu: 13 günlük seriyi bir gün unutan oyuncu 14. gün
+ödülünü (200) ve rozetini kaybedip "baştan" uyarısını görüyordu — mobilde en çok bırakma
+anlarından biri.
+
+**Oyuncu ne hissedecek:** Yalnız dünü kaçırdıysa menüde rozet `SERİ KOPTU (6 GÜN) · dünü kurtar`
+der, altında piksel `DÜNÜ KURTAR · 80 coin` düğmesi çıkar. Basınca coin düşer, rozet hemen
+`SERİ 6 GÜN · 7. günde +100 coin`a döner; bugün dalgayı temizlerse seri 7 olur. Coin yetmezse
+düğme kapalı görünür (hedef olarak).
+
+**Yapılanlar:**
+- `DailyWave.RESCUE_COST/RESCUE_COOLDOWN`, `rescue_available`, `yesterday`.
+- `Save.daily_rescue_day` (yeni alan, eski kayıtta boş), `can_rescue_daily`, `rescue_daily`:
+  coin düşer, `daily_clear_day` düne çekilir, seri sayısı artmaz (kaçırılan gün sayılmaz,
+  yalnız köprü). Bugünün puanlı denemesi kullanıldıysa kurtarma yok (boşa coin harcatmasın).
+- `main_menu.gd`: `StreakRescue` düğmesi rozetin altında; kurtarınca sayfalar `_rebuild()` ile
+  yeniden kurulur (coin ve rozet anında güncellenir).
+
+**Sayılar (hipotez):** 80 coin = bir günlük tamamlama (60) + üçte biri: bedava değil ama
+14. gün (200) ve sonrasındaki her 7 günlük 100'lük ödülün altında, uzun seriyi korumak kârlı.
+Yalnız 1 gün boşluk (2+ gün kaçıran zaten "geri dönen oyuncu", suçlama yok) ve 7 günde bir:
+alışkanlığın yerine geçmesin. İnsan testinde kurtarma oranı çok yüksekse maliyet 100'e.
+
+**Testler:** `--import` hatasız; `tests/daily_wave.tscn` PASS (yeni: dün hesabı + yıl sınırı,
+kurtarma koşulları, bekleme süresi, coin yetmezliği, kayıttan okuma, kurtarılan serinin bugün
+7'ye çıkıp 100 ödül vermesi, denenmiş günde kurtarma yok, menüde kapalı/açık düğme ve basınca
+rozetin canlı seriye dönmesi, eski kayıtta alan boş); `campaign_smoke.gd` çıkış 0;
+`dtm_gaps` PASS; `costumes` PASS; bot Bölüm 1 CLEARED (76,9 sn; bölüm sistemleri değişmedi,
+yalnız menü + kayıt).
+
+**Görsel kanıt:** 1280×720 pencereli görüntü, kurtarma öncesi (rozet + düğme, coin 140) ve
+sonrası (coin 60, altın seri rozeti, düğme yok): piksel düğme, taşma yok. Telefonda görülmedi.
+
+**Sonraki öneri:** Kaldırım taşı üçüncü dilim (elde görünür taş + fırlatma sayfası) — birikimde
+oynanışa en çok değer katan madde; ardından günün dalgası 5. dilim (arşiv karesi).
 
 ### 2026-10-24 (15) — Bıçağın son kareleri de kostüm rengine boyanmıyor
 

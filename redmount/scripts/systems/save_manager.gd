@@ -44,6 +44,8 @@ var daily_day: String = ""
 var daily_waves: int = 0
 var daily_clear_day: String = ""
 var daily_streak: int = 0
+## Son seri kurtarmanın günü (DailyWave.rescue_available; eski kayıtlarda yok → boş).
+var daily_rescue_day: String = ""
 var master_volume_db: float = 0.0
 ## Telefonda dokunma/isabet titreşimi (eski kayıtlarda yok → açık).
 var vibration: bool = true
@@ -93,6 +95,7 @@ func load_game() -> void:
 	daily_waves = int(cfg.get_value("daily", "waves", 0))
 	daily_clear_day = String(cfg.get_value("daily", "clear_day", ""))
 	daily_streak = int(cfg.get_value("daily", "streak", 0))
+	daily_rescue_day = String(cfg.get_value("daily", "rescue_day", ""))
 	purchased = cfg.get_value("shop", "purchased", [])
 	upgrade_levels = cfg.get_value("shop", "upgrade_levels", {})
 	costume = String(cfg.get_value("shop", "costume", "sokak"))
@@ -121,6 +124,7 @@ func save_game() -> void:
 	cfg.set_value("daily", "waves", daily_waves)
 	cfg.set_value("daily", "clear_day", daily_clear_day)
 	cfg.set_value("daily", "streak", daily_streak)
+	cfg.set_value("daily", "rescue_day", daily_rescue_day)
 	cfg.set_value("shop", "purchased", purchased)
 	cfg.set_value("shop", "upgrade_levels", upgrade_levels)
 	cfg.set_value("shop", "costume", costume)
@@ -258,6 +262,23 @@ func finish_daily(day: String, earned_coins: int, cleared: bool) -> int:
 	return reward
 
 
+## Kopan seri bugün kurtarılabilir mi (bugünün puanlı denemesi henüz kullanılmadıysa).
+func can_rescue_daily(day: String) -> bool:
+	return not daily_attempted(day) and DailyWave.rescue_available(
+		daily_clear_day, day, daily_streak, daily_rescue_day)
+
+
+## Seriyi coin karşılığı kurtarır: dün temizlenmiş sayılır, bugün temizlenirse seri sürer.
+func rescue_daily(day: String) -> bool:
+	if not can_rescue_daily(day) or total_coins < DailyWave.RESCUE_COST:
+		return false
+	total_coins -= DailyWave.RESCUE_COST
+	daily_clear_day = DailyWave.yesterday(day)
+	daily_rescue_day = day
+	save_game()
+	return true
+
+
 func owns(item_id: String) -> bool:
 	return item_id in purchased
 
@@ -328,6 +349,7 @@ func wipe() -> void:
 	daily_waves = 0
 	daily_clear_day = ""
 	daily_streak = 0
+	daily_rescue_day = ""
 	purchased = []
 	upgrade_levels = {}
 	costume = "sokak"

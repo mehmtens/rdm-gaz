@@ -21,6 +21,8 @@ func _ready() -> void:
 	_rotation()
 	_broken_streak()
 	await _broken_badge()
+	_rescue_rules()
+	await _rescue_menu()
 	await _speed_rule()
 	await _scored_run()
 	await _practice_run()
@@ -166,6 +168,71 @@ func _broken_badge() -> void:
 	Save.wipe()
 
 
+## Seri koruma: yalnız dün kaçtıysa, haftada bir, coin karşılığı; bugün temizlenince seri sürer.
+func _rescue_rules() -> void:
+	_check(DailyWave.yesterday(DAY) == "2026-10-22" and DailyWave.yesterday("2027-01-01") == "2026-12-31", "dün hesabı")
+	_check(DailyWave.rescue_available("2026-10-21", DAY, 5, ""), "dün kaçtı → kurtarılabilir")
+	_check(not DailyWave.rescue_available("2026-10-20", DAY, 5, ""), "iki gün kaçtı → kurtarma yok")
+	_check(not DailyWave.rescue_available("2026-10-22", DAY, 5, ""), "seri canlı → kurtarma yok")
+	_check(not DailyWave.rescue_available("2026-10-21", DAY, 0, ""), "seri yok → kurtarma yok")
+	_check(not DailyWave.rescue_available("2026-10-21", DAY, 5, "2026-10-18"), "5 gün önce kurtarıldı → yok")
+	_check(DailyWave.rescue_available("2026-10-21", DAY, 5, "2026-10-16"), "7 gün sonra yeniden")
+	Save.wipe()
+	Save.daily_clear_day = "2026-10-21"
+	Save.daily_streak = 6
+	Save.total_coins = DailyWave.RESCUE_COST - 1
+	_check(not Save.rescue_daily(DAY) and Save.daily_clear_day == "2026-10-21", "coin yetmez → kurtarma yok")
+	Save.total_coins = DailyWave.RESCUE_COST + 20
+	_check(Save.rescue_daily(DAY), "kurtarma yapıldı")
+	_check(Save.total_coins == 20 and Save.daily_clear_day == "2026-10-22" and Save.daily_streak == 6, "coin düştü, dün köprülendi, seri aynı")
+	_check(Save.daily_rescue_day == DAY and not Save.can_rescue_daily(DAY), "aynı gün ikinci kurtarma yok")
+	Save.load_game()
+	_check(Save.daily_rescue_day == DAY and Save.daily_clear_day == "2026-10-22", "kurtarma kayıttan okunur")
+	_check(Save.finish_daily(DAY, 0, true) == DailyWave.streak_reward(7) and Save.daily_streak == 7, "kurtarılan seri bugün 7'ye çıkar")
+	Save.wipe()
+	Save.daily_clear_day = "2026-10-21"
+	Save.daily_streak = 6
+	Save.total_coins = 500
+	Save.begin_daily(DAY)
+	_check(not Save.can_rescue_daily(DAY), "bugün denendiyse kurtarma yok")
+	Save.wipe()
+
+
+## Menüde kurtarma düğmesi: basınca coin düşer, rozet canlı seriye döner, düğme kalkar.
+func _rescue_menu() -> void:
+	DailyWave.day_override = DAY
+	Save.daily_clear_day = "2026-10-21"
+	Save.daily_streak = 6
+	Save.total_coins = 30
+	var menu: Node = (load("res://scenes/MainMenu.tscn") as PackedScene).instantiate()
+	add_child(menu)
+	await get_tree().process_frame
+	var btn := menu.find_child("StreakRescue", true, false) as Button
+	_check(btn != null and btn.disabled, "coin yetmezken düğme kapalı")
+	menu.queue_free()
+	await get_tree().process_frame
+	Save.total_coins = 100
+	menu = (load("res://scenes/MainMenu.tscn") as PackedScene).instantiate()
+	add_child(menu)
+	await get_tree().process_frame
+	btn = menu.find_child("StreakRescue", true, false) as Button
+	_check(btn != null and not btn.disabled, "kurtarma düğmesi açık")
+	var badge := menu.find_child("StreakBadge", true, false)
+	_check(badge != null and "dünü kurtar" in String((badge.get_child(0) as Label).text), "rozet kurtarmayı söylüyor")
+	if btn != null:
+		btn.pressed.emit()
+	await get_tree().process_frame
+	await get_tree().process_frame
+	_check(Save.total_coins == 100 - DailyWave.RESCUE_COST, "menüden kurtarma coin düşürdü")
+	_check(menu.find_child("StreakRescue", true, false) == null, "kurtarma sonrası düğme yok")
+	badge = menu.find_child("StreakBadge", true, false)
+	_check(badge != null and String((badge.get_child(0) as Label).text).begins_with("SERİ 6 GÜN"), "rozet canlı seriye döndü")
+	menu.queue_free()
+	await get_tree().process_frame
+	DailyWave.day_override = ""
+	Save.wipe()
+
+
 ## HIZLI ADIM: günlük koşuda düşman hızlanır, paylaşılan .tres değişmez.
 func _speed_rule() -> void:
 	var day := ""
@@ -206,6 +273,7 @@ func _legacy_save() -> void:
 	_check(Save.daily_day == "" and Save.daily_waves == 0 and Save.daily_streak == 0, "eski kayıtta günlük alanlar boş")
 	_check(not Save.daily_attempted(DAY), "eski kayıtta günün hakkı açık")
 	_check(Save.total_coins == 40, "eski coin korunur")
+	_check(Save.daily_rescue_day == "", "eski kayıtta kurtarma günü boş")
 
 
 ## Survival sahnesini günlük modda açar, bütün dalgaları temizler; sahneyi döndürür.
