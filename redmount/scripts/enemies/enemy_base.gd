@@ -173,7 +173,7 @@ const _DARK_RIM := preload("res://shaders/dark_rim.gdshader")
 func _apply_dark_rim() -> void:
 	if not is_inside_tree():
 		return
-	var lvl := get_tree().get_first_node_in_group(&"dark_scene")
+	var lvl := Level.dark_scene_of(self)
 	if lvl == null or not (sprite is CanvasItem):
 		return
 	var mat := ShaderMaterial.new()

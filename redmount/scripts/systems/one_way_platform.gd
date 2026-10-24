@@ -212,7 +212,7 @@ func _tile_down(tex: Texture2D, r: Rect2) -> void:
 ## Gece sahnesinde ince platformun basılacak kenarı: level.gd'deki kenar ışığı +
 ## altındaki koyu dudak kuralının aynısı.
 static func draw_dark_edge(ci: CanvasItem, x0: float, x1: float, y: float) -> void:
-	var lvl := ci.get_tree().get_first_node_in_group(&"dark_scene") if ci.is_inside_tree() else null
+	var lvl := Level.dark_scene_of(ci)
 	if lvl == null:
 		return
 	ci.draw_line(Vector2(x0, y + 4.0), Vector2(x1, y + 4.0), Color(0, 0, 0, 0.28), 3.0)

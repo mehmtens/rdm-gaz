@@ -40,6 +40,24 @@ var _tint: Color = Color.WHITE
 
 
 
+## Düğümün AİT OLDUĞU gece bölümü (grup "dark_scene"), yoksa null. Bölüm geçişinde
+## eski bölüm yenisiyle bir kare ağaçta kalır (main.gd queue_free); grubun ilk düğümü
+## eski bölüm olabileceği için ata zincirinden aranır. Bölüm dışındaki düğüm (test,
+## önizleme) için ağaçta tek gece bölümü varsa o kabul edilir.
+static func dark_scene_of(n: Node) -> Node:
+	if n == null or not n.is_inside_tree():
+		return null
+	var a := n
+	while a != null:
+		if a is Level:
+			return a if a.is_in_group(&"dark_scene") else null
+		if a.is_in_group(&"dark_scene"):
+			return a
+		a = a.get_parent()
+	var all := n.get_tree().get_nodes_in_group(&"dark_scene")
+	return all[0] if all.size() == 1 else null
+
+
 func _ready() -> void:
 	edge_light = BIOME_EDGE[clampi(biome, 0, 3)]
 	_tint = BIOME_TINT[clampi(biome, 0, 3)]

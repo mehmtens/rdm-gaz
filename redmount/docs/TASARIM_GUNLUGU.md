@@ -7,9 +7,6 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Gece bölümüne GEÇİŞTE düşman konturu: `enemy_base` `get_first_node_in_group("dark_scene")`
-  ile bölümü arıyor; eski bölüm aynı karede hâlâ ağaçtaysa yanlış bölümün kenar ışığını
-  (ya da hiç) alabilir. Gündüz→gece geçişinde düşman silüeti ekran görüntüsüyle denetlenmeli.
 - Başlık ön katmanı gece konturu almıyor (kasıtlı: kesik kenarda kolun ortasına kontur
   çizgisi çıkarırdı). Gece Bölüm 3'te baş üstü sopa savuruşunda sopanın şapka üstündeki
   kısmı konturdan yoksun mu, ekran görüntüsüyle bakılmalı; gerekirse kontur yalnız
@@ -39,6 +36,35 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-24 (8) — Gece konturu bölüm kapsamında
+
+**Neden şimdi:** Yol haritası ve P1 sırası bitti; birikimin başı. `main.gd` bölüm
+değiştirirken eskisini `queue_free` edip yenisini aynı karede ekliyor; düşman konturu
+ertelenmiş kurulduğu için o karede ağaçta iki bölüm var ve `get_first_node_in_group`
+eski bölümü döndürüyordu. Test bunu doğruladı: gece bölümünden (ör. 12, 19) sonra gelen
+gündüz bölümünün düşmanları fener konturuyla doğuyordu; gece→gece geçişte de eski
+bölümün kenar ışığı alınıyordu.
+
+**Oyuncu ne hissedecek:** Gündüz bölümünde düşman silüeti gündüz gibi temiz; turuncu
+gece hâlesi yalnız gece bölümlerinde. Bölüm sırasına göre "bazen parlayan" düşman yok.
+
+**Yapılanlar:**
+- `Level.dark_scene_of(n)`: düğümün ata zincirindeki bölümü bulur; bölüm gündüzse null.
+  Bölüm dışındaki düğümde (test/önizleme) ağaçta TEK gece bölümü varsa onu kabul eder.
+- `enemy_base._apply_dark_rim` ve `one_way_platform.draw_dark_edge` bu yardımcıyı
+  kullanıyor (iskele kenar ışığı da aynı geçiş karesinde yanlış bölüme bakabiliyordu).
+- `tests/dark_rim_scope.gd`: main.gd'nin değişimini taklit eder (eskiyi queue_free +
+  yeniyi aynı karede ekle) — gece→gündüz kontursuz, gündüz→gece konturlu, gece→gece
+  yeni bölümün rengi, bölüm dışı düğüm kuralları. Eski kodla 2 denetim düşüyor.
+- Görsel kanıt ekran görüntüsü yerine deterministik testle: değişiklik kontur
+  görünümünü değil hangi bölüme bakıldığını etkiliyor.
+
+**Testler:** `--import` SCRIPT ERROR yok; `campaign_smoke.gd` çıkış 0; `dtm_gaps` PASS;
+`dark_rim_scope` PASS; bot Bölüm 1 (80,8 sn), 3 (gece, 66,6 sn), 13 (77,6 sn),
+20 (geceden sonraki gündüz, 92,0 sn), 25 (86,4 sn) CLEARED.
+
+**Sonraki öneri:** Başlık ön katmanının gece konturu denetimi (birikimin yeni başı).
 
 ### 2026-10-24 (7) — Başlığın önünden geçen kol ve silah
 
