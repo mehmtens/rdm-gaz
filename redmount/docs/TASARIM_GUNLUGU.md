@@ -7,9 +7,9 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Silah işaretinin üçüncü dilimi: `pistol_reload`/`rifle_reload` (şarjör dönüyor, kare
-  başına çokgen gerekir). Bıçakta kalanlar: `knife_walk` 6–7'de pantolona değen alçak bıçak
-  ve `knife_attack2` 0'da omuz üstündeki bıçak hâlâ boyanıyor (bileşen pantolonla/ceketle bir).
+- Bıçakta kalan silah işareti boşlukları: `knife_walk` 6–7'de pantolona değen alçak bıçak
+  ve `knife_attack2` 0'da omuz üstündeki bıçak hâlâ boyanıyor (bileşen pantolonla/ceketle bir;
+  şarjör sayfalarındaki gibi kare başına çokgen çözer).
 - Pantolon maskesi kalıntıları: tekmenin (kick 2–3) diz arkasında ve koşuda ayakkabının arka
   kenarında 2–4 piksel ceket rengi (kontura yapışık, kırıntı birleştirmesine girmiyor).
 - Günün dalgası dördüncü dilim: seri ödülü olarak Kanıt Arşivi'nde açılan özel kare
@@ -37,6 +37,37 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-24 (14) — Şarjör değiştirirken de silah kostüm rengine boyanmıyor
+
+**Neden şimdi:** Yol haritası ve P1 ilk dilimleri bitti; birikimin başı silah işaretinin
+üçüncü dilimiydi. Ölçünce şarjör değiştirme karelerinde tüfeğin ve tabancanın tamamı (ve
+yere düşen şarjör) ceket rengine, tüfeğin bir kısmı (1169 px) pantolon rengine boyanıyordu.
+Cephane bitince her seferinde oynayan animasyon olduğu için kostümün en görünür kalan kusuruydu.
+
+**Oyuncu ne hissedecek:** Kızıl Dağ ya da Vapurcu giyerken şarjör değiştirmek tüfeği bir
+anlığına kırmızı/lacivert yapmıyor; silah ve şarjör hep siyah-gri metal.
+
+**Yapılanlar:**
+- `tools/gen_weapon_mask.py` `RELOADS`: silah karede döndüğü ve şarjör elden ayrıldığı için
+  ilk kareden taşıma işe yaramıyor; her karenin elle çizilmiş çokgeni var (tabanca 1. karede
+  düşen şarjör ayrı parça). Kare kare aynı bileşen kuralı; bileşen silahın yarısından azını
+  bulursa (gövde önünde kontur ceketle birleşik) o parça çokgenin kendisi.
+- İşaret: `pistol_reload` 192–364 px/kare, `rifle_reload` 1066–1574 px/kare (3. kare yalnız
+  elde şarjör: 280 px). RGB değişmedi (doğrulandı), yalnız alfa; araç diğer sayfalarda aynı sonucu
+  üretiyor (git farkı yok).
+- `tests/costumes.gd`: şarjör sayfalarında kare başına alt/üst sınır (tabanca 150–450,
+  tüfek 200–1800; üst sınır ceketin işarete karışmadığını gösterir).
+
+**Testler:** `--import` hata yok; `costumes` (genişletildi) PASS, `dtm_gaps` PASS;
+`campaign_smoke.gd` çıkış 0; bot Bölüm 1 (80,9 sn), 13 (80,7 sn), 25 (86,6 sn) CLEARED.
+
+**Görsel kanıt:** 1280×720 pencereli görüntü, Vapurcu ve Kızıl Dağ × iki şarjör sayfasının 8
+karesi: silahlar ve düşen şarjör her karede gri; kostüm rengi yalnız ceket/pantolonda.
+
+**Sonraki öneri:** Birikimin yeni başı pantolon maskesi kalıntıları (tekmede diz arkası) ya da
+bıçağın kalan iki karesi; ikisi de küçük. Görsel kalıntı turları doygunluğa yaklaştı, sonraki
+turlarda oynanış maddelerine (günün dalgası 4. dilim, kaldırım taşı fırlatma sayfası) geçilmeli.
 
 ### 2026-10-24 (13) — Yakın silahlar da kostüm rengine boyanmıyor
 

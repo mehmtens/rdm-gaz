@@ -131,6 +131,20 @@ func _weapon_mask() -> void:
 				_check(n <= melee[w][1], "%s_%s/%d silah işareti fazla: %d" % [w, s, cell, n])
 				total += n
 			_check(total >= melee[w][0], "%s_%s silah işaretli: %d" % [w, s, total])
+	## Şarjör değiştirme: kare başına çokgen. Alt sınır her karede silah (ya da elde şarjör)
+	## işaretli, üst sınır ceketin çokgene karışmadığını gösterir.
+	var reload := {"pistol_reload": [150, 450], "rifle_reload": [200, 1800]}
+	for sheet in reload:
+		var img := (load("res://assets/anim/redmount/%s.png" % sheet) as Texture2D).get_image()
+		if img.is_compressed():
+			img.decompress()
+		for cell in img.get_width() / 200:
+			var n := 0
+			for y in 240:
+				for x in 200:
+					if img.get_pixel(cell * 200 + x, y).a8 == 252:
+						n += 1
+			_check(n >= reload[sheet][0] and n <= reload[sheet][1], "%s/%d silah işareti: %d" % [sheet, cell, n])
 
 
 ## Kaçaklar: koşuda ceketin parlak yamaları pantolon sayılmamalı (eski maskede bir karede

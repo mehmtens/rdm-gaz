@@ -18,6 +18,9 @@ aynı tüfek bir karede ceketten nötr, ötekinde ceket kadar sıcak; kalınlık
   3. İşaretli piksellerin alfası 252 olur (işaret kodu 255 − alfa = 3: pantolon 1, saç
      bitleri çift — çakışmaz). Gözle fark edilmez; shader kod 3'ü boyamaz.
 
+Şarjör değiştirme sayfalarında (`RELOADS`) silah döndüğü için her karenin kendi çokgeni
+vardır; takip yapılmaz, aynı bileşen kuralı kare kare uygulanır.
+
 Araç tekrar çalıştırılabilir: önce eski işaretleri (252) siler. Pantolon işaretini
 (254) yalnız silahın üstünde ezer; `gen_costume_mask.py` yalnız alfa 255'e yazdığı için
 sonradan çalışsa da silah işaretine dokunmaz.
@@ -76,6 +79,42 @@ STRICT = {"rifle_idle", "rifle_walk"}
 STOCKS = {
 	"rifle_aim": [(70, 121), (100, 121), (100, 134), (70, 134)],
 	"rifle_shoot": [(70, 142), (97, 142), (97, 149), (70, 149)],
+}
+
+
+## Şarjör değiştirme sayfaları: silah kareden kareye döner, şarjör elden ayrılır; ilk kareden
+## taşınamaz, bu yüzden her karenin kendi çokgeni var (birden çok parça: liste listesi).
+## Bileşen yöntemi silahın yarısından azını bulursa (gövde önünde konturu ceketle birleşik)
+## o parça için çokgenin kendisi kullanılır.
+RELOADS = {
+	"pistol_reload": [
+		[(120, 112), (138, 95), (146, 98), (146, 110), (140, 120), (132, 128), (122, 128)],
+		[[(115, 128), (135, 108), (144, 112), (142, 125), (135, 135), (130, 148), (118, 148), (115, 138)],
+			[(135, 160), (145, 158), (155, 165), (153, 176), (138, 174)]],
+		[(118, 120), (138, 102), (146, 105), (145, 118), (138, 128), (130, 135), (118, 135)],
+		[(118, 135), (138, 117), (145, 120), (143, 132), (135, 140), (120, 145)],
+		[(115, 140), (140, 130), (146, 135), (144, 143), (130, 145), (125, 160), (115, 160)],
+		[(115, 135), (135, 124), (141, 128), (138, 140), (132, 150), (118, 155), (115, 145)],
+		[(110, 148), (118, 143), (140, 150), (142, 158), (128, 160), (120, 155), (110, 155)],
+		[(108, 138), (140, 133), (152, 135), (152, 145), (132, 146), (128, 155), (115, 158), (108, 150)],
+	],
+	"rifle_reload": [
+		[(80, 135), (115, 133), (135, 126), (150, 117), (162, 120), (160, 128), (140, 138), (130, 145), (127, 160),
+			(118, 165), (110, 158), (100, 153), (80, 150)],
+		[(85, 140), (110, 135), (135, 120), (150, 105), (160, 108), (155, 118), (135, 135), (125, 150), (112, 160),
+			(100, 162), (85, 155)],
+		[(85, 138), (115, 132), (140, 120), (155, 113), (163, 118), (158, 126), (135, 145), (133, 165), (132, 178),
+			(118, 178), (115, 160), (100, 157), (85, 157)],
+		[(135, 158), (150, 152), (158, 156), (156, 175), (145, 180), (135, 175)],
+		[(95, 132), (110, 122), (140, 104), (152, 98), (157, 103), (150, 112), (130, 133), (130, 158), (115, 170),
+			(100, 165), (95, 150)],
+		[(85, 168), (110, 150), (140, 128), (160, 118), (167, 122), (162, 130), (150, 138), (125, 160), (115, 175),
+			(113, 192), (95, 192), (85, 182)],
+		[(60, 158), (90, 150), (120, 140), (150, 130), (162, 125), (175, 130), (172, 138), (150, 145), (130, 155),
+			(110, 165), (103, 188), (88, 190), (84, 172), (60, 172)],
+		[(75, 140), (110, 136), (140, 130), (158, 124), (165, 128), (163, 135), (145, 140), (130, 150), (125, 178),
+			(110, 178), (105, 163), (75, 160)],
+	],
 }
 
 
@@ -149,6 +188,26 @@ def process(name: str, poly) -> list:
 		first = first or int(m.sum())
 		cell[..., 3][m] = MARK
 		counts.append((dx, dy, int(m.sum())))
+	Image.fromarray(px, "RGBA").save(path)
+	return counts
+
+
+def process_reload(name: str, frames) -> list:
+	path = os.path.join(ROOT, name + ".png")
+	px = np.array(Image.open(path).convert("RGBA"))
+	alpha = px[..., 3]
+	alpha[alpha == MARK] = 255
+	counts = []
+	for f, polys in enumerate(frames):
+		cell = px[:, f * CELL_W:(f + 1) * CELL_W]
+		solid = cell[..., 3] >= 253
+		m = np.zeros(solid.shape, bool)
+		for poly in (polys if isinstance(polys[0], list) else [polys]):
+			part = weapon_mask(cell, poly, 0, 0) & solid
+			strict = weapon_mask(cell, poly, 0, 0, True) & solid
+			m |= part if part.sum() >= FALLBACK * strict.sum() else strict
+		cell[..., 3][m] = MARK
+		counts.append(int(m.sum()))
 	Image.fromarray(px, "RGBA").save(path)
 	return counts
 
@@ -238,7 +297,7 @@ def preview(name: str, out_dir: str) -> None:
 if __name__ == "__main__":
 	if "--preview" in sys.argv:
 		out = sys.argv[sys.argv.index("--preview") + 1]
-		for n in REGIONS:
+		for n in list(REGIONS) + list(RELOADS):
 			preview(n, out)
 		for w in ("bat", "anahtar", "semsiye", "knife"):
 			for s in MELEE_SHEETS:
@@ -247,5 +306,7 @@ if __name__ == "__main__":
 		for n, p in REGIONS.items():
 			c = process(n, p)
 			print("%-14s %s" % (n, " ".join("%+d,%+d:%d" % t for t in c)))
+		for n, fr in RELOADS.items():
+			print("%-14s %s" % (n, " ".join(str(k) for k in process_reload(n, fr))))
 		for n, k in process_melee().items():
 			print("%-16s %d" % (n, k))
