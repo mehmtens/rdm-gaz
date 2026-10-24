@@ -7,9 +7,12 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Pantolon maskesinde kalan kaçaklar: koşu karelerinde ceketin arka eteği, tekmede dizde
-  birkaç ceket rengi piksel; gölgedeki arka bacak bazen ceket rampasında. Gerekirse
-  `tools/gen_costume_mask.py` sonrası kare başına elle düzeltme maskesi (küçük PNG).
+- Kostüm shader'ı koyu gri silahları da (sopa gövdesi, tüfek) ceket rampasıyla boyuyor:
+  giysi eşiği silahı ayırt etmiyor. Silah karelerinde sopa/tüfek piksellerini ayrı bir alfa
+  işaretiyle (saç bitleri 255 − 2·bit çift farklı, pantolon 254; boşta kalan tek bir alfa
+  değeri) boyamadan çıkarmak ya da silah katmanını rig'den ayırmak.
+- Pantolon maskesi kalıntıları: tekmenin (kick 2–3) diz arkasında ve koşuda ayakkabının arka
+  kenarında 2–4 piksel ceket rengi (kontura yapışık, kırıntı birleştirmesine girmiyor).
 - Günün dalgası dördüncü dilim: seri ödülü olarak Kanıt Arşivi'nde açılan özel kare
   (ör. 7. gün); seri kopunca bir kerelik "seri koruma" (ör. 100 coin'e dünü kurtar).
 - Kaldırım taşı üçüncü dilim: elde taş görünür değil, atış yumruk (combo_a) karesiyle
@@ -35,6 +38,39 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-24 (11) — Pantolon maskesindeki kaçaklar giderildi
+
+**Neden şimdi:** Yol haritası ve P1 maddelerinin ilk dilimleri bitti; birikimin başı bu
+kusurdu. Önce/sonra görselleştirmesinde (ceket mor, pantolon camgöbeği) koşu karelerinin
+üçünde ceketin parlak fermuar/etek yamaları pantolon rengine geçiyor (bir karede 387 px),
+gölgedeki arka bacak ise ceket renginde kalıyordu; kostümlü koşu en çok görülen kare
+olduğu için oyuncunun kostümü "lekeli" görünüyordu.
+
+**Oyuncu ne hissedecek:** Vapurcu/Kızıl Dağ gibi kostümlerde ceket tek parça renk, pantolon
+koşarken de tek parça; ayakkabının gri gölgesi artık ceket rengine boyanmıyor.
+
+**Yapılanlar:**
+- `tools/gen_costume_mask.py`: parlaklık eşiği tek başına yetmiyordu (siyah deri ceketin
+  parlak yamaları kot kadar açık). Ölçünce asıl ayırt edici doku çıktı: 7×7 pencerede
+  çok koyu (≤ 22) giysi pikseli oranı ceket derisinde ~0,4–0,8, kotta (gölgedeki arka bacak
+  dahil) ~0–0,1. Aday = yerel ortalama ≥ 26 **ve** koyu oran ≤ 0,2 (eski: ortalama ≥ 36).
+  Pantolona değen < 25 px giysi kırıntıları ve ayakkabıya 2 px yakın açık gri (≥ 90)
+  gölge pantolona katılır. İşaretli piksel 756 797 → 735 791; yalnız alfa 254/255 değişti
+  (RGB ve saç bitleri aynen, doğrulandı).
+- İşaretçili watershed (ayakkabı/el tohumları) de denendi; ceket arkasına taşıyordu, atıldı.
+- `tests/costumes.gd`: koşu ve yürüme karelerinde gövdenin üst %45'inde ≤ 10 pantolon
+  pikseli ve alt dörtte birin ≥ %68'i pantolon (eski maske ikisinde de düşüyordu).
+
+**Testler:** `--import` hata yok; `campaign_smoke.gd` çıkış 0; `dtm_gaps`, `costumes`
+(genişletildi), `costume_accessory`, `costume_badge` PASS; bot Bölüm 1 (85,8 sn), 13 (76,0 sn), 25 (86,5 sn) CLEARED.
+
+**Görsel kanıt:** 38 sayfanın mor/camgöbeği önizlemesi ve 1280×720 pencereli oyun içi
+görüntü (vapurcu + kızıl, koşu 4 kare + tekme 2 kare): ceket ve pantolon temiz ayrılıyor.
+Kalan 2–4 px kalıntı ve silahların ceket rengine boyanması birikime yazıldı.
+
+**Sonraki öneri:** Birikimin yeni başı: kostüm shader'ının sopa/tüfek gibi koyu gri
+silahları ceket rengine boyaması.
 
 ### 2026-10-24 (10) — Bıçak savuruşunda şapkanın üstündeki tutamlar
 

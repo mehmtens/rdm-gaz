@@ -88,6 +88,40 @@ func _pants_mask() -> void:
 		_check(mat.get_shader_parameter(&"pants_light") == it.get("pants_light", it.light), "pantolon rampası: %s" % it.id)
 	var v := Shop.costume("vapurcu")
 	_check(v.pants_light != v.light, "vapurcu ceket ile pantolon ayrı renk")
+	_pants_leaks("run")
+	_pants_leaks("walk")
+
+
+## Kaçaklar: koşuda ceketin parlak yamaları pantolon sayılmamalı (eski maskede bir karede
+## 387 piksel), gölgedeki arka bacak da ceket kalmamalı (alt dörtte birin ≥ %68'i pantolon).
+func _pants_leaks(sheet: String) -> void:
+	var img := (load("res://assets/anim/redmount/%s.png" % sheet) as Texture2D).get_image()
+	if img.is_compressed():
+		img.decompress()
+	for cell in img.get_width() / 200:
+		var top := 240
+		var bot := 0
+		for y in 240:
+			for x in 200:
+				if img.get_pixel(cell * 200 + x, y).a8 >= 128:
+					top = mini(top, y)
+					bot = maxi(bot, y)
+		var mid := top + int((bot - top) * 0.45)
+		var low := top + int((bot - top) * 0.75)
+		var upper := 0
+		var legs := 0
+		var opaque := 0
+		for y in range(top, bot + 1):
+			for x in 200:
+				var a := img.get_pixel(cell * 200 + x, y).a8
+				if y < mid and a == 254:
+					upper += 1
+				elif y >= low and a >= 128:
+					opaque += 1
+					if a == 254:
+						legs += 1
+		_check(upper <= 10, "%s/%d gövdede pantolon kaçağı: %d" % [sheet, cell, upper])
+		_check(legs * 100 >= opaque * 68, "%s/%d bacaklar pantolon: %d/%d" % [sheet, cell, legs, opaque])
 
 
 func _player_bonus() -> void:

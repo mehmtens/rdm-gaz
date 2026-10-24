@@ -7,11 +7,13 @@ shader ise `a < 0.999` olan pikselleri ikinci rampaya (pantolon) eşler.
 
 Ayrım (kare başına):
   1. Giysi pikseli: doygunluğu düşük, kontur ile beyaz arasındaki gri (shader'la aynı eşik).
-  2. Pantolon kumaşı ceketten açık gridir: giysi piksellerinin 7×7 yerel ortalama
-     parlaklığı PANT_MEAN üstündeyse aday.
+  2. Pantolon kumaşı düzgün, ceketten açık gridir; siyah deri ceket çok koyu piksellerle
+     beneklidir (parlak yamaları kot kadar açık olsa da). 7×7 pencerede yerel ortalama
+     PANT_MEAN üstünde ve çok koyu giysi oranı DARK_FRAC altındaysa aday.
   3. Pantolon ayakkabıdan (beyaz, doygunluğu düşük, çok açık) başlayıp adaylar boyunca
      en fazla bacak boyu kadar büyütülür; bele değen ceket yamaları uzakta kalır.
-  4. Kontur ve kıvrım gölgeleri pantolon bölgesinin içinde kalıyorsa (kapanış) dahil edilir.
+  4. Kontur ve kıvrım gölgeleri pantolon bölgesinin içinde kalıyorsa (kapanış) dahil edilir;
+     pantolona değen küçük kırıntılar ve ayakkabının açık gri gölgesi de pantolona katılır.
 
 Araç tekrar çalıştırılabilir: önce eski işaretleri (254) siler.
 
@@ -29,11 +31,15 @@ from scipy import ndimage
 ROOT = os.path.join(os.path.dirname(__file__), "..", "assets", "anim", "redmount")
 CELL_W, CELL_H = 200, 240
 MARK = 254
-PANT_MEAN = 36.0      # yerel ortalama parlaklık (0–255); ceket ~30, pantolon ~45
+PANT_MEAN = 26.0      # yerel ortalama parlaklık (0–255); ceket ~20, pantolon ~30–60
+DARK_MAX = 22         # bu parlaklığın altındaki giysi pikseli "çok koyu" (ceket derisi)
+DARK_FRAC = 0.2       # 7×7 penceredeki çok koyu giysi oranı; ceket ~0,4–0,8, pantolon ~0–0,1
 SHOE_MIN = 170        # ayakkabı: çok açık, doygunluğu düşük
 MIN_AREA = 40         # bu kadar pikselden küçük pantolon parçası gürültüdür
 SHOE_AREA = 30        # ayakkabı lekesinin en küçük boyu (piksel)
 LEG_STEPS = 60        # ayakkabı üstünden bele bacak boyu (kare pikseli, 0,6 ölçekten önce)
+CRUMB_AREA = 25       # pantolona değen bundan küçük giysi lekesi kırıntıdır
+SHOE_SHADE = 90       # ayakkabıya 2 px yakın bu parlaklıktaki gri, ayakkabı gölgesidir
 
 
 def _frame_mask(rgba: np.ndarray) -> np.ndarray:
@@ -57,7 +63,11 @@ def _frame_mask(rgba: np.ndarray) -> np.ndarray:
 	s = ndimage.convolve(np.where(cloth, mx, 0), k, mode="constant")
 	n = ndimage.convolve(cloth.astype(np.float32), k, mode="constant")
 	mean = np.where(n > 0, s / np.maximum(n, 1), 0)
-	cand = cloth & (mean >= PANT_MEAN)
+	# siyah deri ceketin kumaşı çok koyu piksellerle beneklidir; kot pantolon (gölgedeki
+	# arka bacak dahil) düzgün gridir. Yerel koyu oranı ceketi, parlak yamalarıyla birlikte ayırır.
+	dark_n = ndimage.convolve((cloth & (mx <= DARK_MAX)).astype(np.float32), k, mode="constant")
+	frac = np.where(n > 0, dark_n / np.maximum(n, 1), 1)
+	cand = cloth & (mean >= PANT_MEAN) & (frac <= DARK_FRAC)
 	cand = ndimage.binary_closing(cand, np.ones((3, 3)), iterations=2) & cloth
 	# ayakkabıdan aday pikseller boyunca en fazla LEG_STEPS adım (bacak boyu) büyü:
 	# ceketin parlayan yamaları bele değse bile ayakkabıdan uzakta kaldıkları için girmez.
@@ -76,7 +86,18 @@ def _frame_mask(rgba: np.ndarray) -> np.ndarray:
 	# kıvrım gölgeleri/kontur deliklerini doldur; yalnız giysi ve koyu kontur pikselleri
 	filled = ndimage.binary_fill_holes(ndimage.binary_closing(pants, np.ones((3, 3)), iterations=2))
 	dark = opaque & (mx <= 9)
-	return filled & (cloth | dark) & ~shoe
+	pants = filled & (cloth | dark) & ~shoe
+	# pantolona değen küçük giysi kırıntıları (dizdeki kıvrım, paçadaki gölge) ve ayakkabının
+	# açık gri gölgesi ceket rengine boyanmasın: pantolona katılır
+	rest = cloth & ~pants
+	rlab, rcnt = ndimage.label(rest, np.ones((3, 3)))
+	if rcnt:
+		rsize = ndimage.sum(np.ones_like(rlab), rlab, index=np.arange(rcnt + 1))
+		touch = np.zeros(rcnt + 1, bool)
+		touch[np.unique(rlab[ndimage.binary_dilation(pants, np.ones((3, 3))) & rest])] = True
+		pants |= ((rsize < CRUMB_AREA) & touch)[rlab] & (rlab > 0)
+	shoe_shade = cloth & (mx >= SHOE_SHADE) & ndimage.binary_dilation(shoe, np.ones((5, 5)))
+	return pants | shoe_shade
 
 
 def process(path: str) -> int:
