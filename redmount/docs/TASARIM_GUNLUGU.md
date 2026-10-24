@@ -7,9 +7,9 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Kaldırım taşı üçüncü dilim: elde taş görünür değil, atış yumruk (combo_a) karesiyle
-  oynuyor. `tools/gen_pixel_weapons.py` ile tek "fırlatma" sayfası (geri çekiş → bırakış,
-  elde bazalt taş) ve yığının düşman varilinden/dükkândan da çıkması (`LevelShop` "tas").
+- Kaldırım taşı dördüncü dilim: yığının düşman varilinden/bölüm dükkânından da çıkması
+  (`LevelShop` "tas"); havada (zıplarken) fırlatmada elde taş görünmüyor (jump sayfası
+  silahsız) — insan testinde fark edilirse `tas_jump`.
 - Günün dalgası beşinci dilim: seri ödülü olarak Kanıt Arşivi'nde açılan özel kare
   (ör. 7. gün). (Seri koruma 4. dilimde yapıldı.)
 - Pantolon maskesi kalıntıları: tekmenin (kick 2–3) diz arkasında ve koşuda ayakkabının arka
@@ -34,6 +34,49 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-24 (17) — Kaldırım taşı üçüncü dilim: elde görünen taş + fırlatma kareleri
+
+**Neden şimdi:** Yol haritasında açık madde yok, P1 ilk dilimleri oyunda; birikimin başı
+kaldırım taşıydı. Taş kuşanılınca Redmount boş elle duruyor, atış da düz yumruk (combo_a
+1–5) oynuyordu: oyuncu elinde ne olduğunu ve kaç atış kaldığını yalnız HUD'dan okuyordu.
+DTM'de eldeki eşya her zaman karakterin silüetinde görünür.
+
+**Oyuncu ne hissedecek:** Taşı alınca öndeki yumrukta gri bazalt taş görünür (bekleme ve
+yürüme/koşu). L'ye basınca geri çekiş → kol önde bırakış → toparlanma oynar, taş anında
+çıkar; el boşalır, yedek taş varsa 0,25 sn sonra elde yenisi belirir. Kostüm ne olursa
+olsun taş gri kalır.
+
+**Yapılanlar:**
+- `tools/gen_pixel_weapons.py gen_tas_sheets`: `tas_idle`, `tas_walk` sayfaları silahsız
+  sayfaların kopyası (pantolon/saç işaretleri korunur) + öndeki yumruğun (kalça altındaki en
+  sağdaki ten lekesi) üstüne 2x taş ve kontur, silah işaretiyle (alfa 252) — kostüm shader'ı
+  boyamaz. Uçan taşla aynı desen.
+- `player_sprite.gd TAS_SHEETS`: taş animasyonları kaynak animasyonun bölge/zamanlamasıyla
+  SpriteFrames'e eklenir; `tas_shoot` ayrı sayfa değil, `combo_a` 2–5. kareleri.
+- İlk denemede fırlatma sayfası omuzda/geri çekişte elde taş taşıyordu; mermi tuşa basıldığı
+  anda doğduğu için iki kare boyunca ekranda iki taş vardı. Atış gecikmesi eklemek dokunmatik
+  tepkiyi bozacağından elde taş fırlatma karelerinden çıkarıldı (anında bırakış).
+- `kaldirim_tasi.tres shoot_anim = &"shoot"`; `redmount.gd _play`: yerçekimli mermili
+  silahın atış animasyonu 0,25 sn (4 kare × 16 fps).
+- `CostumeAccessory.SHEET_ALIAS`: `tas_*` sayfaları kaynağın baş çapasını/ön parçasını
+  kullanır (`head_anchors.json` yeniden üretilmedi; şapka taşla da doğru oturur).
+
+**Sayılar (hipotez):** Taş 2x (20×14 sayfa pikseli ≈ 12×8 oyun pikseli): yumruktan büyük,
+telefonda okunur, uçan taştan (20×14 oyun pikseli) küçük — "elde" ve "havada" aynı nesne gibi
+okunuyor ama elde silüeti bozmuyor. Atış animasyonu 0,25 sn < atış aralığı 0,45 sn.
+
+**Testler:** `--import` hatasız; `tests/kaldirim_tasi.tscn` PASS (yeni: her bekleme/yürüme
+karesinde silah işaretli taş, başlık çapası paylaşımı, beklerken `tas_idle`, kare sayıları,
+atışta `tas_shoot`); `campaign_smoke.gd` çıkış 0; `dtm_gaps` PASS; `costumes`,
+`new_melee_weapons`, `survival_mode` PASS; bot Bölüm 2 CLEARED (75,5 sn), Bölüm 1 (84,8),
+Bölüm 13 (80,3), Bölüm 25 (85,5) — oyuncu sprite'ı ve kostüm çapası ortak olduğu için dört bölüm.
+
+**Görsel kanıt:** 1280×720 pencereli görüntü, Bölüm 2, vapurcu kostümü: elde taş gri ve
+okunur, şapka yerinde; atışta el boş, taş havada; ardından elde yeni taş. Telefonda görülmedi.
+
+**Sonraki öneri:** Günün dalgası 5. dilim (7. gün arşiv karesi) ya da taşın dördüncü dilimi
+(varil/dükkân kaynağı).
 
 ### 2026-10-24 (16) — Günün Dalgası dördüncü dilim: seri koruma ("dünü kurtar")
 

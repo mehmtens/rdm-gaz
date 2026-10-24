@@ -49,6 +49,21 @@ func _resources() -> void:
 	_check(Survival.armory_cost("tas") == PauseMenu.armory_cost("tas") and PauseMenu.armory_cost("tas") == 15,
 		"Survival fiyatı tek kaynaktan")
 	_check(Survival.armory_cost("rifle") == 60 and PauseMenu.armory_cost("yok") == -1, "eski fiyatlar")
+	# Elde taş sayfaları: her bekleme/yürüme karesinde silah işaretli (alfa 252) taş.
+	for sheet in ["tas_idle", "tas_walk"]:
+		var img := Image.load_from_file(ProjectSettings.globalize_path("res://assets/anim/redmount/%s.png" % sheet))
+		_check(img != null and img.get_height() == 240, "%s sayfası" % sheet)
+		if img == null:
+			continue
+		for c in img.get_width() / 200:
+			var marked := 0
+			for y in range(120, 200):
+				for x in range(c * 200 + 40, c * 200 + 180):
+					if img.get_pixel(x, y).a8 == 252:
+						marked += 1
+			_check(marked > 100, "%s %d. kare taş işareti (%d px)" % [sheet, c, marked])
+	_check(CostumeAccessory.anchor("tas_idle", 2) == CostumeAccessory.anchor("idle", 2)
+		and not CostumeAccessory.anchor("tas_walk", 7).is_empty(), "taş sayfaları başlık çapasını paylaşır")
 
 
 func _in_level() -> void:
@@ -87,9 +102,19 @@ func _in_level() -> void:
 	player.global_position = enemy.global_position + Vector2(-260, 0)
 	player._facing = 1
 	enemy.set_physics_process(false)
-	await get_tree().physics_frame
+	var rig: AnimatedSprite2D = player.rig
+	# Işınlanınca iniş/çömelme karesi oynar; yere oturup durunca bekleme.
+	for i in 60:
+		await get_tree().physics_frame
+		if rig.animation == &"tas_idle":
+			break
+	_check(rig.animation == &"tas_idle", "beklerken elde taş görünür (%s)" % rig.animation)
+	_check(rig.sprite_frames.get_frame_count(&"tas_walk") == 8
+		and rig.sprite_frames.get_frame_count(&"tas_shoot") == 4, "taş animasyon kare sayıları")
 	var hp: int = enemy.get_health()
 	player._fire_gun()
+	await get_tree().physics_frame
+	_check(rig.animation == &"tas_shoot", "atışta fırlatma sayfası oynar (%s)" % rig.animation)
 	var stone: Projectile = null
 	for node in get_tree().current_scene.get_children():
 		if node is Projectile:

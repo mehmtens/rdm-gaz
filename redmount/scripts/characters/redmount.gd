@@ -1494,6 +1494,9 @@ func _play(anim: StringName) -> void:
 		var duration := 0.18
 		if anim == &"reload" and _gun != null:
 			duration = _gun.reload_time
+		elif _gun != null and anim == _gun.shoot_anim and _gun.projectile_gravity > 0.0:
+			# Fırlatma: geri çekiş → bırakış → toparlanma okunsun (combo_a hızında 4 kare).
+			duration = 0.25
 		rig.play_action(anim, duration)
 
 

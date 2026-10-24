@@ -29,6 +29,14 @@ const FRONT_PATH := ACC_DIR + "head_front.png"
 ## kostüm shader'ı `hair_bit` ile bu bitli pikselleri saydam sayar. Bandana saçı örtmez.
 const HAIR_BITS := {"vapurcu": 1, "hamal": 2, "kahveci": 4}
 
+## Gövde kareleri başka sayfanın kopyası olan sayfalar: ad → [kaynak sayfa, hücre kayması].
+## Elde taş sayfaları (`gen_pixel_weapons.py gen_tas_sheets`) yalnız yumruğa taş ekler;
+## çapa ve ön parça kaynağınkiyle aynıdır.
+const SHEET_ALIAS := {
+	"tas_idle": ["idle", 0],
+	"tas_walk": ["walk", 0],
+}
+
 static var _anchors: Dictionary = {}
 static var _fronts: Dictionary = {}
 
@@ -85,6 +93,9 @@ static func anchor(sheet: String, index: int) -> Array:
 		var res = load(ANCHORS_PATH) if ResourceLoader.exists(ANCHORS_PATH) else null
 		if res is JSON and res.data is Dictionary:
 			_anchors = res.data.get("sheets", {})
+	if not _anchors.has(sheet) and SHEET_ALIAS.has(sheet):
+		index += int(SHEET_ALIAS[sheet][1])
+		sheet = SHEET_ALIAS[sheet][0]
 	var cells: Array = _anchors.get(sheet, [])
 	return cells[index] if index >= 0 and index < cells.size() else []
 
@@ -96,6 +107,9 @@ static func front_piece(sheet: String, index: int) -> Array:
 		var res = load(ANCHORS_PATH) if ResourceLoader.exists(ANCHORS_PATH) else null
 		if res is JSON and res.data is Dictionary:
 			_fronts = res.data.get("front", {})
+	if not _fronts.has(sheet) and SHEET_ALIAS.has(sheet):
+		index += int(SHEET_ALIAS[sheet][1])
+		sheet = SHEET_ALIAS[sheet][0]
 	var cells: Dictionary = _fronts.get(sheet, {})
 	return cells.get(str(index), [])
 

@@ -16,6 +16,16 @@ const FOOT_PAD := 6.0
 ## aynı bölge/zamanlamayla SpriteFrames'e eklenir (tres'i elle büyütmeden).
 const BAT_VARIANTS := ["anahtar", "semsiye"]
 const MELEE_PREFIXES := ["bat", "knife", "anahtar", "semsiye"]
+## Elde kaldırım taşı: gövde kareleri silahsız sayfaların kopyası, yumrukta taş
+## (`gen_pixel_weapons.py gen_tas_sheets`). Animasyon → [kaynak animasyon, kaynak kareler].
+## Kare listesi verilenin ayrı sayfası yok, kaynağın kareleri kullanılır: fırlatma
+## `combo_a`'nın geri çekiş → bırakış → toparlanma kareleri, elde taş olmadan (mermi
+## tuşa basıldığı anda doğar; elde taş kalsa ekranda iki taş olurdu).
+const TAS_SHEETS := {
+	"tas_idle": [&"idle", []],
+	"tas_walk": [&"walk", []],
+	"tas_shoot": [&"combo_a", [2, 3, 4, 5]],
+}
 
 var facing: int = 1:
 	set(v):
@@ -27,7 +37,7 @@ var _attack := ""
 var _phase := 0
 var _pp := 0.0
 var _combo := 0
-var _prefix := ""          # "" | bat | knife | anahtar | semsiye | pistol | rifle
+var _prefix := ""          # "" | bat | knife | anahtar | semsiye | pistol | rifle | tas
 var _rot := 0.0            # yumuşatılmış gövde eğimi (hurt/dead)
 var _t := 0.0
 var _action_override: StringName = &""
@@ -38,6 +48,7 @@ func _ready() -> void:
 	centered = true
 	offset = Vector2(0, -(CELL_H * 0.5 - FOOT_PAD))
 	_register_bat_variants()
+	_register_tas_sheets()
 	animation_finished.connect(_on_anim_finished)
 	play(&"idle")
 
@@ -84,6 +95,34 @@ func _register_bat_variants() -> void:
 				atlas.region = (frame_tex as AtlasTexture).region if frame_tex is AtlasTexture \
 					else Rect2(Vector2.ZERO, frame_tex.get_size())
 				sprite_frames.add_frame(dst, atlas, sprite_frames.get_frame_duration(src, i))
+
+
+## Taş animasyonlarını SpriteFrames'e ekler: kendi sayfası olan, kaynağın bölgeleriyle
+## (aynı hücre düzeni); kare listeli olan, kaynağın o kareleriyle (paylaşılan kaynak;
+## ikinci çağrı hiçbir şey yapmaz).
+func _register_tas_sheets() -> void:
+	if sprite_frames == null:
+		return
+	for dst in TAS_SHEETS:
+		var src: StringName = TAS_SHEETS[dst][0]
+		var picks: Array = TAS_SHEETS[dst][1]
+		var path := "res://assets/anim/redmount/%s.png" % dst
+		if sprite_frames.has_animation(dst) or not sprite_frames.has_animation(src) \
+				or (picks.is_empty() and not ResourceLoader.exists(path)):
+			continue
+		var sheet: Texture2D = load(path) if picks.is_empty() else null
+		sprite_frames.add_animation(dst)
+		sprite_frames.set_animation_loop(dst, sprite_frames.get_animation_loop(src))
+		sprite_frames.set_animation_speed(dst, sprite_frames.get_animation_speed(src))
+		var order: Array = picks if not picks.is_empty() else range(sprite_frames.get_frame_count(src))
+		for i in order:
+			var frame_tex := sprite_frames.get_frame_texture(src, i)
+			if sheet != null and frame_tex is AtlasTexture:
+				var atlas := AtlasTexture.new()
+				atlas.atlas = sheet
+				atlas.region = (frame_tex as AtlasTexture).region
+				frame_tex = atlas
+			sprite_frames.add_frame(dst, frame_tex, sprite_frames.get_frame_duration(src, i))
 
 
 func _p(base: String) -> String:

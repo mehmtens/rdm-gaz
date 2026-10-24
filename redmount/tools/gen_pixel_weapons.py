@@ -13,6 +13,12 @@
   assets/pickups/placeholder_tas.png, assets/fx/tas_mermi.png
       Kaldırım taşı: yerde üç taşlık yığın (48×48) ve uçan tek taş (12×10,
       oyunda 2x). Arnavut kaldırımı bazaltı: soğuk gri, üst yüz açık.
+  assets/anim/redmount/tas_{idle,walk}.png
+      Elde taş: silahsız sayfaların kopyası + yumrukta 2x taş (silah işaretli, alfa
+      252). Fırlatma combo_a'nın 2–5. kareleri (player_sprite.gd TAS_SHEETS). Yalnız bunları yeniden üretmek için:
+      python -c "import sys; sys.path.insert(0, 'tools'); import gen_pixel_weapons as g; g.main_tas()"
+      (tam `main()` anahtar/şemsiye sayfalarını da yeniden yazar; ardından
+      `gen_weapon_mask.py` çalıştırılmalı.)
 """
 from collections import deque
 from pathlib import Path
@@ -323,12 +329,71 @@ def tas_mermi() -> Image.Image:
 	return im
 
 
+# --- Elde taş: tas_{idle,walk} sayfaları ----------------------------------
+#
+# Gövde kareleri silahsız sayfalardan birebir kopyalanır (pantolon/saç işaretleri
+# korunur, kostüm çapaları aynı kalır); öndeki yumruğun üstüne 2x bazalt taş çizilir.
+# Taş pikselleri silah işaretiyle (alfa 252) yazılır: kostüm shader'ı gri taşı ceket
+# rengine boyamaz. Fırlatmanın ayrı sayfası yok (combo_a kareleri, elde taş olmadan):
+# mermi tuşa basıldığı anda doğar, geri çekiş karesinde elde taş kalsa ekranda iki taş olurdu.
+
+WEAPON_MARK = 252
+STONE_SCALE = 2
+
+
+def _front_fist(px, x0, h):
+	## Kalça hizasının altındaki en öndeki (en sağdaki) ten lekesinin merkezi.
+	pts = [(x, y) for y in range(140, h) for x in range(x0, x0 + CELL_W) if _is_skin(px[x, y])]
+	if not pts:
+		return None
+	right = max(x for x, _ in pts)
+	blob = [(x, y) for x, y in pts if x >= right - 12]
+	return (sum(x for x, _ in blob) // len(blob) - x0, sum(y for _, y in blob) // len(blob))
+
+
+def _held_stone(px, cx, cy) -> None:
+	## Yumruğun önüne 2x taş + kontur; yumruğun alt boğumu görünür kalsın diye
+	## taş merkezi yumruğun biraz üstünde.
+	s = STONE_SCALE
+	w, h = len(STONE[0]) * s, len(STONE) * s
+	ox, oy = cx - w // 2 + 2, cy - h + 4
+	pts = set()
+	for j, row in enumerate(STONE):
+		for i, c in enumerate(row):
+			if c == ".":
+				continue
+			col = {"*": BAZALT[3], "+": BAZALT[2], "#": BAZALT[1], "-": BAZALT[0]}[c]
+			for dy in range(s):
+				for dx in range(s):
+					q = (ox + i * s + dx, oy + j * s + dy)
+					px[q] = col + (WEAPON_MARK,)
+					pts.add(q)
+	for (x, y) in list(pts):
+		for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+			q = (x + dx, y + dy)
+			if q not in pts:
+				px[q] = OUTLINE[:3] + (WEAPON_MARK,)
+
+
+def gen_tas_sheets() -> None:
+	for base in ("idle", "walk"):
+		im = Image.open(ANIM / f"{base}.png").convert("RGBA")
+		w, h = im.size
+		px = im.load()
+		for x0 in range(0, w, CELL_W):
+			fist = _front_fist(px, x0, h)
+			if fist is not None:
+				_held_stone(px, x0 + fist[0], fist[1])
+		im.save(ANIM / f"tas_{base}.png")
+
+
 def main_tas() -> None:
 	icon_tas().resize((48, 48), Image.NEAREST).save(PICK / "placeholder_tas.png")
 	fx = ROOT / "assets" / "fx"
 	fx.mkdir(exist_ok=True)
 	tas_mermi().save(fx / "tas_mermi.png")
-	print("kaldırım taşı ikonu ve mermisi yazıldı")
+	gen_tas_sheets()
+	print("kaldırım taşı ikonu, mermisi ve elde taş sayfaları yazıldı")
 
 
 def main() -> None:
