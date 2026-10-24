@@ -81,7 +81,7 @@ func _build() -> void:
 	var shop: LevelShop = SHOP.new()
 	shop.position = Vector2(5600, 0)
 	shop.title = "İSTASYON BÜFESİ"
-	shop.items = PackedStringArray(["can", "sopa", "zirh"])
+	shop.items = PackedStringArray(["can", "sopa", "tas", "zirh"])
 	shop.accent = Color("e7a449")
 	add_child(shop)
 

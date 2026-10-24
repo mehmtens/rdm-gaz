@@ -137,3 +137,24 @@ func _in_level() -> void:
 		player._fire_gun()
 	_check(not player.has_gun(), "üçüncü taştan sonra elde taş kalmaz")
 	_check(main._hud._ammo.text == "", "HUD taş satırı gizlenir")
+
+	# Dördüncü dilim: varil ganimeti oyuncunun eline göre, büfede taş, kutu sınırı.
+	var ammo := load(BreakableProp.AMMO_PATH) as PackedScene
+	_check(BreakableProp.adapt_loot(ammo, player).resource_path == BreakableProp.STONES_PATH,
+		"silahsızken varilden cephane yerine taş")
+	_check(BreakableProp.adapt_loot(null, player) == null, "boş zar boş kalır")
+	var crate := load("res://scenes/pickups/HealthPickup.tscn") as PackedScene
+	_check(BreakableProp.adapt_loot(crate, player) == crate, "yiyecek değişmez")
+	player.equip_gun(PISTOL)
+	_check(BreakableProp.adapt_loot(ammo, player) == ammo, "tabancalıyken cephane kalır")
+	player.equip_gun(STONE)
+	var reserve: int = player._reserve
+	player.add_ammo(16)
+	_check(player._reserve == reserve + 3, "cephane kutusu taşa bir yığın ekler (%d)" % (player._reserve - reserve))
+	_check(LevelShop.CATALOG.has("tas") and LevelShop.CATALOG["tas"]["scene"].resource_path == BreakableProp.STONES_PATH,
+		"büfe kataloğunda taş")
+	var shop_has := false
+	for node in main._level.get_children():
+		if node is LevelShop and node.items.has("tas"):
+			shop_has = true
+	_check(shop_has, "Bölüm 2 bakkalında taş satılıyor")

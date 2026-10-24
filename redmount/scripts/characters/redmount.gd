@@ -593,10 +593,13 @@ func equip_gun(cfg: GunConfig) -> void:
 	ammo_changed.emit(_mag, _reserve, true, _gun.ammo_label)
 
 
-## Cephane takviyesi (AmmoPickup).
+## Cephane takviyesi (AmmoPickup). Fırlatılan silahta (taş) kutu 16 taş değil,
+## bir yığın kadar (şarjör + başlangıç yedeği) ekler; yoksa taş tabancayı geçerdi.
 func add_ammo(amount: int) -> void:
 	if _gun == null:
 		return
+	if _gun.projectile_gravity > 0.0:
+		amount = mini(amount, _gun.mag_size + _gun.starting_reserve)
 	_reserve += amount
 	ammo_changed.emit(_mag, _reserve, true, _gun.ammo_label)
 

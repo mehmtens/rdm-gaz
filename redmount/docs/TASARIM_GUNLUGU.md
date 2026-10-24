@@ -7,9 +7,9 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Kaldırım taşı dördüncü dilim: yığının düşman varilinden/bölüm dükkânından da çıkması
-  (`LevelShop` "tas"); havada (zıplarken) fırlatmada elde taş görünmüyor (jump sayfası
-  silahsız) — insan testinde fark edilirse `tas_jump`.
+- Kaldırım taşı: havada (zıplarken) fırlatmada elde taş görünmüyor (jump sayfası
+  silahsız) — insan testinde fark edilirse `tas_jump`. Taş yalnız 2 ve 5'teki büfede;
+  insan testinde taş çok seçiliyorsa diğer büfelerde de denenebilir.
 - Günün dalgası beşinci dilim: seri ödülü olarak Kanıt Arşivi'nde açılan özel kare
   (ör. 7. gün). (Seri koruma 4. dilimde yapıldı.)
 - Pantolon maskesi kalıntıları: tekmenin (kick 2–3) diz arkasında ve koşuda ayakkabının arka
@@ -34,6 +34,40 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-24 (18) — Kaldırım taşı dördüncü dilim: varilden ve büfeden taş
+
+**Neden şimdi:** Yol haritasında açık madde yok, P1 ilk dilimleri oyunda; birikimin başı
+taşın dördüncü dilimiydi. Taş yalnız Bölüm 2'deki tek yığından ve duraklat cephaneliğinden
+geliyordu; oyuncu bölüm içinde taşa ulaşamıyordu. Üstelik silahsız oyuncu için varilden çıkan
+cephane kutusu (%35) hiçbir işe yaramıyordu — DTM'de kırılan her kap "değdi" hissi verir.
+
+**Oyuncu ne hissedecek:** Elinde ateşli/fırlatılan silah yokken varil kırınca cephane kutusu
+yerine taş yığını düşer: bir sonraki kalabalığa üç taşla girer. Tabancalıyken varil yine
+cephane verir. Bölüm 2 ve 5 büfelerinde `TAŞ · 14 C` kartı var. Taş elindeyken cephane kutusu
+alırsa 16 değil 3 taş kazanır.
+
+**Yapılanlar:**
+- `BreakableProp.adapt_loot(scene, player)`: zar cephane çıkarırsa ve oyuncunun silahı yoksa
+  `TasPickup` döner; diğer ganimetler değişmez. `_break` zarı bundan geçirir.
+- `LevelShop.CATALOG["tas"]` (14 coin); `bolum02.gd` ve `bolum05.gd` büfelerine 4. kart.
+- `redmount.gd add_ammo`: yerçekimli (fırlatılan) silahta ekleme `mag_size + starting_reserve`
+  ile sınırlı.
+
+**Sayılar (hipotez):** 14 coin: cephanelik (15) ile aynı düzeyde, can (15) ile yan yana en
+ucuz seçenek; duraklat menüsüne gitmeden bölüm içinden alınabildiği için 1 coin indirim.
+Kutu taşa 3 ekler (bir yığın): 16 taş, 22 hasarlı yay atışla tabancayı (16 mermi) geçerdi.
+Varil zarı (%35) değişmedi; yalnız ne düştüğü değişti — ganimet sıklığı aynı kalır.
+
+**Testler:** `--import` hatasız; `tests/kaldirim_tasi.tscn` PASS (yeni: silahsızken varil →
+taş, tabancalıyken cephane, boş zar/yiyecek değişmez, kutu taşa +3, büfe kataloğu, Bölüm 2
+bakkalında taş); `campaign_smoke.gd` çıkış 0; `dtm_gaps` PASS; `new_melee_weapons` PASS;
+`survival_mode` OK; bot Bölüm 2 CLEARED (74,3 sn), Bölüm 5 (96,6), Bölüm 1 (84,5), Bölüm 13 (77,4), Bölüm 25 (83,6) — büfe değişen iki bölüm + ortak varil/oyuncu sistemi için 0, 12, 24.
+
+**Görsel kanıt:** 1280×720 pencereli görüntü, Bölüm 2 bakkalı: 4 kart (CAN/BIÇAK/TAŞ/ZIRH)
+panele sığıyor, taş ikonu piksel art ve okunur, coin yetmeyen kart kırmızı. Telefonda görülmedi.
+
+**Sonraki öneri:** Günün dalgası 5. dilim (7. gün Kanıt Arşivi karesi).
 
 ### 2026-10-24 (17) — Kaldırım taşı üçüncü dilim: elde görünen taş + fırlatma kareleri
 

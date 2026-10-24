@@ -9,6 +9,8 @@ extends Node2D
 
 const COIN := preload("res://scenes/pickups/Coin.tscn")
 const HEALTH := preload("res://scenes/pickups/HealthPickup.tscn")
+const AMMO_PATH := "res://scenes/pickups/AmmoPickup.tscn"
+const STONES_PATH := "res://scenes/pickups/TasPickup.tscn"
 ## Tür → ganimet tablosu: oyuncu neyi kırmaya değer olduğunu öğrensin (Dan the Man).
 ## Kasa yiyecek, varil cephane, sandık silah verir; saksı/vazo/tüp yalnız coin.
 ## Bölüm tasarımcısı drops_health / reward verdiyse tablo devreye girmez.
@@ -181,7 +183,7 @@ func _break(dir: Vector2) -> void:
 	if reward != null:
 		_drop.call_deferred(reward, center + Vector2(0, -46))
 	elif not drops_health:
-		var loot := roll_loot(kind, randf(), randi())
+		var loot := adapt_loot(roll_loot(kind, randf(), randi()), get_tree().get_first_node_in_group(&"player"))
 		if loot != null:
 			_drop.call_deferred(loot, center + Vector2(0, -46))
 
@@ -195,6 +197,17 @@ static func roll_loot(prop_kind: String, roll: float, pick: int) -> PackedScene:
 		return null
 	var scenes: Array = entry["scenes"]
 	return load(scenes[pick % scenes.size()]) as PackedScene
+
+
+## Ganimeti oyuncunun eline göre uyarlar: elinde menzilli silah yokken varilden
+## çıkan cephane kutusu işe yaramaz, onun yerine kaldırım taşı yığını düşer —
+## silahsız oyuncu da varili kırmaya değer bulur ve menzilli seçenek kazanır.
+static func adapt_loot(scene: PackedScene, player: Node) -> PackedScene:
+	if scene == null or scene.resource_path != AMMO_PATH:
+		return scene
+	if player != null and player.has_method(&"has_gun") and not player.has_gun():
+		return load(STONES_PATH) as PackedScene
+	return scene
 
 
 ## Dan the Man tarzı patlayıcı varil: çevredeki düşmanları savurur, oyuncuyu
