@@ -7,10 +7,9 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Başlık ön katmanı gece konturu almıyor (kasıtlı: kesik kenarda kolun ortasına kontur
-  çizgisi çıkarırdı). Gece Bölüm 3'te baş üstü sopa savuruşunda sopanın şapka üstündeki
-  kısmı konturdan yoksun mu, ekran görüntüsüyle bakılmalı; gerekirse kontur yalnız
-  parçanın hücre içi gerçek kenarında (kesik kenar hariç) maskeyle.
+- Bıçak savuruşu (`knife_attack` 4): savuruş izi büyük parça olarak korunduğu için altındaki
+  saç tutamları kasket/kaptan şapkasının üstünde kalıyor (tek hızlı kare). Gerekirse
+  korumayı ize değil yalnız saç olmayan, izden 2 px'ten uzak pikselle sınırla.
 - Pantolon maskesinde kalan kaçaklar: koşu karelerinde ceketin arka eteği, tekmede dizde
   birkaç ceket rengi piksel; gölgedeki arka bacak bazen ceket rampasında. Gerekirse
   `tools/gen_costume_mask.py` sonrası kare başına elle düzeltme maskesi (küçük PNG).
@@ -36,6 +35,55 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-24 (9) — Şapkanın üstünden taşan saç gizlendi
+
+**Neden şimdi:** Yol haritası ve P1 sırası bitti; birikimin başı "başlık ön katmanı gece
+konturu" denetimiydi. 1280×720 pencereli görüntüde (dört başlık × sopa/şemsiye/anahtar
+saldırı ve bekleme kareleri, gece konturu açık, 5× büyütme) ön parçanın konturu SORUNSUZ
+çıktı: rig'in konturu rig'in saydam piksellerinde, ön parça yalnız opak silah/el
+piksellerini taşıdığı için konturu örtmüyor; kesik kenar başlığın içinde kalıyor. Aynı
+görüntüde asıl kusur görüldü: başlık saç tepesinin 16 px altına oturduğu için sivri saç
+tutamları kaptan şapkasının ve kasketin tepesinden dışarı taşıyor, gece konturu bunları
+şapkanın üstünde tırtıklı bir hâle olarak çiziyordu (saç şapkayı delmiş gibi; gündüz de
+koyu kırıntı olarak görünüyordu).
+
+**Oyuncu ne hissedecek:** Kasket, bere ve kaptan şapkası başın üstünde temiz bir silüet;
+gece fener konturu şapkanın düzgün kenarını izler. Sopa/eller şapkanın üstüne çıktığında
+kesilmez. Bandana saçı örtmediği için değişmedi.
+
+**Yapılanlar:**
+- `tools/gen_costume_accessory.py` 1c: her hücrede her taç başlık için başlığın sütun
+  sütun tepe çizgisinin üstünde kalan baş pikselleri (saç lekesi, `HAIR_REACH` = 8 px
+  içindeki koyu tutam/kontur pikselleri; ten hariç) sayfa alfasına bit olarak gömülür:
+  alfa = 255 − 2·bit (vapurcu 1, hamal 2, kahveci 4; pantolon işareti 254 tek sayı,
+  çakışmaz). Baş dışındaki ≥ 60 px parçalar (el, silah) saç olmayan pikseller boyunca
+  baş bölgesine doğru büyütülerek korunur (ilk denemede sopanın şapkaya yakın ucu
+  kırpılıyordu). Başlığın önüne çizilen ön parçalar (`front_mask`) ve 2 px kenarları da
+  korunur (yoksa şapka üstünde silah/kol konturu siliniyordu). 38 sayfada 31 949
+  piksel/bit; araç idempotent (eski işaretleri siler, ön parçaları işaretsiz keser).
+  Çapa ve ön parça çıktıları değişmedi.
+- `player_costume.gdshader`: `hair_bit`; kendi bitini taşıyan piksel saydam sayılır,
+  konturda da (kontur yeni silüeti, yani şapkanın kenarını izler). Pantolon ayrımı
+  artık kodla (`255 − alfa == 1`).
+- `CostumeAccessory.HAIR_BITS` / `hair_bit()`, `Shop.costume_material` bunu malzemeye
+  yazar. Malzemesiz (varsayılan) çizimde işaretli saç alfası ≥ 241/255, fark edilmez.
+- `tests/costume_accessory.gd`: malzemelerde doğru bit, bandanada 0; koşu sayfasında üç
+  başlığın da işareti var ve hepsi başlık tepesinin üstünde.
+- Eşikler (8 px erişim, 60 px koruma) önce/sonra önizlemesiyle seçildi: 2 px erişimde
+  koyu tutamlar kalıyordu, korumasız sopa ucu kırpılıyordu.
+
+**Testler:** `--import` SCRIPT/SHADER ERROR yok; `campaign_smoke.gd` çıkış 0; `dtm_gaps`
+PASS; `costume_accessory` (genişletildi), `costumes`, `costume_badge`,
+`new_melee_weapons`, `kaldirim_tasi`, `dark_rim_scope` PASS; bot Bölüm 1 (80,7 sn),
+3 (gece, 67,7 sn), 13 (81,7 sn), 25 (95,8 sn) CLEARED.
+
+**Görsel kanıt:** Araç önce/sonra önizlemesi (3 başlık × 12 kare) ve 1280×720 pencereli
+oyun içi gece konturlu görüntü: kaptan şapkası ve kasketin tepesindeki tırtıklı hâle
+gitti, kontur şapka kenarını izliyor; sopa/şemsiye/eller kesilmedi.
+
+**Sonraki öneri:** Birikimin yeni başı: bıçak savuruşu karesindeki kalan tutamlar (küçük),
+ardından pantolon maskesindeki kaçaklar.
 
 ### 2026-10-24 (8) — Gece konturu bölüm kapsamında
 

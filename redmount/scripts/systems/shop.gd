@@ -114,6 +114,7 @@ static func costume_material(id: String) -> ShaderMaterial:
 	mat.set_shader_parameter(&"light", it.light)
 	mat.set_shader_parameter(&"pants_shade", it.get("pants_shade", it.shade))
 	mat.set_shader_parameter(&"pants_light", it.get("pants_light", it.light))
+	mat.set_shader_parameter(&"hair_bit", CostumeAccessory.hair_bit(it.id))
 	mat.set_meta(&"costume", it.id)
 	return mat
 

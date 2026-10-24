@@ -95,6 +95,8 @@ def build_anchors(front: dict | None = None) -> dict:
 	for path in sorted(glob.glob(os.path.join(SHEETS, "*.png"))):
 		name = os.path.splitext(os.path.basename(path))[0]
 		im = np.array(Image.open(path).convert("RGBA"))
+		# ön parçalar saç işaretsiz kesilir (araç ikinci kez çalışınca da aynı atlas)
+		clear_hair_marks(im)
 		cols, rows = im.shape[1] // CELL_W, im.shape[0] // CELL_H
 		cells = []
 		last = [100, 40, 62]
@@ -135,6 +137,22 @@ def _footprint():
 
 def front_piece(cell: np.ndarray, a: list, footprint: np.ndarray):
 	"""[x, y, w, h, rgba] (hücre pikseli) ya da None."""
+	keep = front_mask(cell, a, footprint)
+	if keep is None:
+		return None
+	ys, xs = np.nonzero(keep)
+	x0, y0 = xs.min() - FRONT_PAD, ys.min() - FRONT_PAD
+	x1, y1 = xs.max() + 1 + FRONT_PAD, ys.max() + 1 + FRONT_PAD
+	crop = np.zeros((y1 - y0, x1 - x0, 4), np.uint8)
+	sub = keep[max(y0, 0):y1, max(x0, 0):x1]
+	src = cell[max(y0, 0):y1, max(x0, 0):x1]
+	dst = crop[max(0, -y0):max(0, -y0) + sub.shape[0], max(0, -x0):max(0, -x0) + sub.shape[1]]
+	dst[sub] = src[sub]
+	return [int(x0), int(y0), int(x1 - x0), int(y1 - y0), crop]
+
+
+def front_mask(cell: np.ndarray, a: list, footprint: np.ndarray):
+	"""Başlığın önüne çizilecek pikseller (hücre maskesi) ya da None."""
 	cx, top, brow = a
 	hair, skin = _masks(cell)
 	opaque = cell[..., 3] >= 128
@@ -170,15 +188,7 @@ def front_piece(cell: np.ndarray, a: list, footprint: np.ndarray):
 	keep = np.isin(fl, np.nonzero(sizes >= FRONT_MIN)[0] + 1)
 	if not keep.any():
 		return None
-	ys, xs = np.nonzero(keep)
-	x0, y0 = xs.min() - FRONT_PAD, ys.min() - FRONT_PAD
-	x1, y1 = xs.max() + 1 + FRONT_PAD, ys.max() + 1 + FRONT_PAD
-	crop = np.zeros((y1 - y0, x1 - x0, 4), np.uint8)
-	sub = keep[max(y0, 0):y1, max(x0, 0):x1]
-	src = cell[max(y0, 0):y1, max(x0, 0):x1]
-	dst = crop[max(0, -y0):max(0, -y0) + sub.shape[0], max(0, -x0):max(0, -x0) + sub.shape[1]]
-	dst[sub] = src[sub]
-	return [int(x0), int(y0), int(x1 - x0), int(y1 - y0), crop]
+	return keep
 
 
 def pack_front(front: dict, path: str) -> dict:
@@ -201,6 +211,103 @@ def pack_front(front: dict, path: str) -> dict:
 		table.setdefault(s, {})[i] = [ax, ay, p[2], p[3], p[0], p[1]]
 	Image.fromarray(atlas, "RGBA").save(path)
 	return table
+
+
+# --- 1c. başlığın üstünden taşan saç ---------------------------------------
+#
+# Başlık saç tepesinin TOP_DROP altına oturur; sivri tutamlar şapkanın tepesinden
+# dışarı çıkıyor, gece fener konturu da bunları şapkanın üstünde tırtıklı bir hâle
+# olarak çiziyordu (şapka saçı delip geçmiş gibi). Her taç başlık için o hücrede
+# başlığın tepe çizgisinin üstünde kalan baş pikselleri sayfanın alfasına bit olarak
+# gömülür: alfa = 255 - 2·bitler (pantolon işareti 254 tektir, çakışmaz). Kostüm
+# shader'ı (`hair_bit`) kendi başlığının bitini taşıyan pikseli saydam sayar.
+
+HAIR_BITS = {"vapurcu": 1, "hamal": 2, "kahveci": 4}
+HAIR_MIN_ALPHA = 255 - 2 * 7      # 241: bu aralık (241..253, çift fark) saç işaretidir
+HAIR_REACH = 8          # saç lekesinden bu kadar uzaktaki koyu tutam pikselleri de baştır
+PROTECT_MIN = 60        # baş dışındaki bu boydan büyük parçalar (el, silah) dokunulmaz
+
+
+def clear_hair_marks(px: np.ndarray) -> None:
+	a = px[..., 3]
+	m = (a >= HAIR_MIN_ALPHA) & (a < 254) & ((255 - a.astype(np.int16)) % 2 == 0)
+	a[m] = 255
+
+
+_HAT_MASKS: dict = {}
+
+
+def _hat_mask(hat_id: str) -> np.ndarray:
+	if hat_id not in _HAT_MASKS:
+		_HAT_MASKS[hat_id] = np.array(ACCESSORIES[hat_id]().im)[..., 3] > 0
+	return _HAT_MASKS[hat_id]
+
+
+def hair_over_hat(cell: np.ndarray, a: list, footprint: np.ndarray) -> np.ndarray:
+	"""Hücre maskesi: her pikselin gizlendiği başlıkların bitleri (0 = görünür)."""
+	cx, top, _brow = a
+	hair, skin = _masks(cell)
+	opaque = cell[..., 3] >= 128
+	bits = np.zeros(opaque.shape, np.uint8)
+	lab, n = ndimage.label(ndimage.binary_closing(hair, np.ones((5, 5))))
+	if n == 0:
+		return bits
+	sizes = ndimage.sum(hair, lab, index=np.arange(1, n + 1))
+	head = (lab == int(np.argmax(sizes)) + 1) & hair
+	# saç tutamlarının koyu kontur/gölge pikselleri doygun saç maskesine girmez; baş
+	# bölgesi bu yüzden HAIR_REACH kadar genişletilir
+	near = ndimage.binary_dilation(ndimage.binary_fill_holes(head), iterations=HAIR_REACH)
+	# baştan ayrı büyük parçalar (eller, silah) korunur
+	far = opaque & ~near
+	fl, fn_ = ndimage.label(far)
+	protect = np.zeros(opaque.shape, bool)
+	if fn_:
+		fs = ndimage.sum(far, fl, index=np.arange(1, fn_ + 1))
+		protect = np.isin(fl, np.nonzero(fs >= PROTECT_MIN)[0] + 1)
+	if protect.any():
+		# el/silah baş bölgesine girdiği yerde de korunur: saç olmayan pikseller boyunca büyüt
+		for _ in range(HAIR_REACH + 2):
+			protect = ndimage.binary_dilation(protect) & opaque & ~hair
+		protect = ndimage.binary_dilation(protect)
+	# başlığın önüne çizilen parçalar (el, silah, savuruş izi) ve kenar konturları korunur;
+	# yalnız 2 px: daha fazlası izin altındaki saç tutamlarına yayılıyordu
+	keep = front_mask(cell, a, footprint)
+	if keep is not None:
+		protect |= ndimage.binary_dilation(keep, iterations=2)
+	cand = opaque & near & ~protect & ~skin
+	h, w = opaque.shape
+	for hat_id, bit in HAIR_BITS.items():
+		hm = _hat_mask(hat_id)
+		x0, y0 = cx - PIVOT[0], top + 16 - PIVOT[1]
+		for hx in range(ACC_W):
+			col = np.nonzero(hm[:, hx])[0]
+			x = x0 + hx
+			if col.size == 0 or x < 0 or x >= w:
+				continue
+			y_top = max(0, min(h, y0 + int(col.min())))
+			sel = cand[:y_top, x]
+			bits[:y_top, x][sel] |= bit
+	return bits
+
+
+def mark_hair(anchors: dict) -> int:
+	"""Sayfalara saç işaretlerini gömer (önce eskileri siler); işaretli piksel sayısı."""
+	total = 0
+	footprint = _footprint()
+	for path in sorted(glob.glob(os.path.join(SHEETS, "*.png"))):
+		name = os.path.splitext(os.path.basename(path))[0]
+		px = np.array(Image.open(path).convert("RGBA"))
+		clear_hair_marks(px)
+		cols, rows = px.shape[1] // CELL_W, px.shape[0] // CELL_H
+		for i, a in enumerate(anchors[name]):
+			r, c = divmod(i, cols)
+			cell = px[r * CELL_H:(r + 1) * CELL_H, c * CELL_W:(c + 1) * CELL_W]
+			bits = hair_over_hat(cell, a, footprint)
+			m = (bits > 0) & (cell[..., 3] == 255)
+			cell[..., 3][m] = 255 - 2 * bits[m]
+			total += int(m.sum())
+		Image.fromarray(px, "RGBA").save(path)
+	return total
 
 
 # --- 2. başlıklar ----------------------------------------------------------
@@ -370,8 +477,10 @@ def main() -> None:
 			separators=(",", ":"))
 	for acc_id, fn in ACCESSORIES.items():
 		fn().im.save(os.path.join(OUT_DIR, acc_id + ".png"))
+	hidden = mark_hair(anchors)
 	print("çapa:", sum(len(v) for v in anchors.values()), "hücre,", len(anchors), "sayfa;",
-		"ön parça:", sum(len(v) for v in table.values()), "hücre")
+		"ön parça:", sum(len(v) for v in table.values()), "hücre;",
+		"şapka üstü saç:", hidden, "px")
 	if "--preview" in sys.argv:
 		dst = sys.argv[sys.argv.index("--preview") + 1] if len(sys.argv) > sys.argv.index("--preview") + 1 else "acc_preview.png"
 		preview(anchors, dst)

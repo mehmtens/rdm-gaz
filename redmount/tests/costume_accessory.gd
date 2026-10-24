@@ -15,6 +15,7 @@ func _ready() -> void:
 	Save.wipe()
 	_textures()
 	_every_frame_has_anchor()
+	_hair_over_hat()
 	await _on_player()
 	await _shop_preview()
 	Save.wipe()
@@ -56,6 +57,41 @@ func _every_frame_has_anchor() -> void:
 				_check(a[0] > 40 and a[0] < 170 and a[1] >= 0 and a[1] < 180, "%s/%d çapa hücrede: %s" % [anim, i, a])
 			n += 1
 	_check(n > 150, "kare sayısı %d" % n)
+
+
+## Şapkanın tepesinden taşan saç: sayfada başlık bitiyle işaretli, işaretler başlığın
+## tepe çizgisinin üstünde; kostüm malzemesi kendi başlığının bitini taşır.
+func _hair_over_hat() -> void:
+	for id in CostumeAccessory.HAIR_BITS:
+		var m := Shop.costume_material(id)
+		_check(m != null and m.get_shader_parameter(&"hair_bit") == CostumeAccessory.HAIR_BITS[id], "%s malzemesinde hair_bit" % id)
+	var mk := Shop.costume_material("kizil")
+	_check(mk != null and mk.get_shader_parameter(&"hair_bit") == 0, "bandana saçı gizlemez")
+	var img: Image = (load("res://assets/anim/redmount/run.png") as Texture2D).get_image()
+	if img.is_compressed():
+		img.decompress()
+	var marked := {1: 0, 2: 0, 4: 0}
+	var above := 0
+	var total := 0
+	var cols := img.get_width() / 200
+	for i in cols * (img.get_height() / 240):
+		var a := CostumeAccessory.anchor("run", i)
+		var ox := (i % cols) * 200
+		var oy := (i / cols) * 240
+		for y in 240:
+			for x in 200:
+				var al := roundi(img.get_pixel(ox + x, oy + y).a * 255.0)
+				var code := 255 - al
+				if al < 241 or al > 253 or code % 2 != 0:
+					continue
+				for b in marked:
+					if (code / 2) & b:
+						marked[b] += 1
+				total += 1
+				if y < int(a[1]) + 16:
+					above += 1
+	_check(marked[1] > 0 and marked[2] > 0 and marked[4] > 0, "koşu sayfasında üç başlığın saç işareti: %s" % marked)
+	_check(total > 0 and above == total, "saç işaretleri başlığın tepesinin üstünde (%d / %d)" % [above, total])
 
 
 func _on_player() -> void:

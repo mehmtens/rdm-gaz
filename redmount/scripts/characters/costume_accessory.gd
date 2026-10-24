@@ -25,6 +25,9 @@ const RIM_NAME := &"CostumeAccessoryRim"
 const RIM_SHADER := preload("res://shaders/dark_rim.gdshader")
 const FRONT_NAME := &"CostumeAccessoryFront"
 const FRONT_PATH := ACC_DIR + "head_front.png"
+## Başlığın tepesinden taşan saçı gizleyen sayfa işaretinin biti (araçtaki HAIR_BITS);
+## kostüm shader'ı `hair_bit` ile bu bitli pikselleri saydam sayar. Bandana saçı örtmez.
+const HAIR_BITS := {"vapurcu": 1, "hamal": 2, "kahveci": 4}
 
 static var _anchors: Dictionary = {}
 static var _fronts: Dictionary = {}
@@ -38,6 +41,11 @@ var _rim: Sprite2D
 ## Rig'in kardeş çocuğu, başlıktan SONRA eklenir (üstüne çizilir); ön parçası olan karede görünür.
 var _front: Sprite2D
 var _front_mat_src: Material
+
+
+## Kostümün başlığının sayfa saç işareti biti; başlıksız ya da saçı örtmeyen kostümde 0.
+static func hair_bit(costume_id: String) -> int:
+	return int(HAIR_BITS.get(costume_id, 0))
 
 
 ## Kostümün başlığını sprite'a takar; başlıksız kostümde eskisini çıkarır.
