@@ -153,6 +153,11 @@ static func next_streak_reward(streak: int) -> Array:
 	return [d, streak_reward(d)]
 
 
+## Seri `day` gününe ulaşınca yeni bir arşiv karesi açılır mı (en uzun seri henüz oraya varmadıysa).
+static func day_opens_photo(day: int, best_streak: int) -> bool:
+	return day in ARCHIVE_DAYS and day > best_streak
+
+
 ## Seri bugün hâlâ canlı mı: son temizleme bugün ya da dün.
 static func streak_alive(last_clear_day: String, day: String) -> bool:
 	if last_clear_day.is_empty():

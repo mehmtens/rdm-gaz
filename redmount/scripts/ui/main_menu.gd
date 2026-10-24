@@ -236,6 +236,9 @@ func _build_home() -> Control:
 		if alive:
 			var next := DailyWave.next_streak_reward(Save.daily_streak)
 			badge_text.text = "SERİ %d GÜN · %d. günde +%d coin" % [Save.daily_streak, next[0], next[1]]
+			# Ödül günü yeni bir Kanıt Arşivi karesi de açıyorsa söyle: coin'den daha kalıcı hedef.
+			if DailyWave.day_opens_photo(next[0], Save.daily_best_streak):
+				badge_text.text += " + kare"
 			badge_text.add_theme_color_override(&"font_color", GOLD)
 		elif Save.can_rescue_daily(today):
 			badge_text.text = "SERİ KOPTU (%d GÜN) · dünü kurtar" % Save.daily_streak

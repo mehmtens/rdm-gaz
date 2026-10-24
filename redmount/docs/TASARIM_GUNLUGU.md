@@ -10,9 +10,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 - Kaldırım taşı: havada (zıplarken) fırlatmada elde taş görünmüyor (jump sayfası
   silahsız) — insan testinde fark edilirse `tas_jump`. Taş yalnız 2 ve 5'teki büfede;
   insan testinde taş çok seçiliyorsa diğer büfelerde de denenebilir.
-- Günün dalgası: ana menü seri rozetinde sıradaki arşiv karesini de göstermek
-  ("7. günde +100 coin · kare"); GÜNLÜK sekmesine 21/28. gün kareleri (insan testinde seri
-  14'ü geçen oyuncu çıkarsa).
+- Günün dalgası: GÜNLÜK sekmesine 21/28. gün kareleri (insan testinde seri 14'ü geçen
+  oyuncu çıkarsa).
 - Pantolon maskesi kalıntıları: tekmenin (kick 2–3) diz arkasında ve koşuda ayakkabının arka
   kenarında 2–4 piksel ceket rengi (kontura yapışık, kırıntı birleştirmesine girmiyor).
 - Şemsiyeyle havaya kaldırılan düşmanı ikinci şemsiye vuruşunun tekrar kaldırması sonsuz
@@ -31,6 +30,29 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-24 (22) — Seri rozeti sıradaki arşiv karesini söylüyor
+
+**Neden şimdi:** Yol haritası ve P1 maddeleri oyunda; birikimin en üstündeki taş maddesi insan
+testi koşullu, ikincisi (rozette arşiv karesi) koşulsuz ve küçük. Seri rozeti yalnız coin
+söylüyordu; 3/7/14. gün aynı zamanda Kanıt Arşivi'nde kalıcı bir kare açıyor ama oyuncu bunu ancak
+kare açıldığında öğreniyordu. Coin harcanıp biter, kare koleksiyonda kalır — DTM'de olduğu gibi
+"yarın dön" çağrısının en güçlü hâli kalıcı ödülü önceden göstermek.
+
+**Oyuncu ne hissedecek:** Ana menüde `SERİ 4 GÜN · 7. günde +100 coin + kare`. Kare daha önce
+açıldıysa (en uzun seri o güne zaten ulaştıysa) ya da 21+ gibi kare vermeyen ödül günündeyse
+`+ kare` yazmaz — yalan vaat yok.
+
+**Yapılan:** `DailyWave.day_opens_photo(day, best_streak)` (gün `ARCHIVE_DAYS` içinde ve en uzun
+seriden büyük); `main_menu.gd` rozet metnine ekleme. Yeni kayıt alanı yok.
+
+**Test:** `tests/daily_wave.tscn` PASS (rozet durumları: kare açacak / kare zaten açık / 21. gün /
+kopuk seri / seri yok), derleme temiz, `tests/dtm_gaps.tscn` PASS, 36 sahne smoke çıkış 0, Bölüm 1
+bot CLEARED. 1280×720 ekran görüntüsünde rozet piksel çerçeveye sığıyor (sağda ~100 px pay).
+
+**Sıradaki öneri:** Birikimdeki koşulsuz madde kalmadı sayılır (hepsi insan testi/cihaz
+koşullu); bir sonraki tur TASARIM DENETİMİ — Kitap 2'den bir bölümü (ör. 15) bot ile oynatıp
+ritim/set-piece/ödül karşılaştırması ve yeni birikim.
 
 ### 2026-10-24 (21) — Kanıt Arşivi'nde kitap sonu şeridini yeniden izleme
 

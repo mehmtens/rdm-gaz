@@ -151,18 +151,26 @@ func _broken_streak() -> void:
 ## Menü rozeti: canlı seride altın ödül satırı, kopan seride uyarı, hiç seri yoksa rozet yok.
 func _broken_badge() -> void:
 	DailyWave.day_override = DAY
-	var cases := [["2026-10-22", 4, "SERİ 4 GÜN"], ["2026-10-20", 4, "SERİ KOPTU (4 GÜN)"], ["", 0, ""]]
+	_check(DailyWave.day_opens_photo(7, 4) and not DailyWave.day_opens_photo(7, 9), "7. gün karesi yalnız ilk kez")
+	_check(not DailyWave.day_opens_photo(21, 0), "21. gün kare açmaz")
+	## [son temizleme, seri, en uzun seri, rozet başı, rozet sonu]
+	var cases := [["2026-10-22", 4, 4, "SERİ 4 GÜN", "+100 coin + kare"],
+		["2026-10-22", 4, 9, "SERİ 4 GÜN", "+100 coin"],
+		["2026-10-22", 15, 15, "SERİ 15 GÜN", "+100 coin"],
+		["2026-10-20", 4, 4, "SERİ KOPTU (4 GÜN)", ""], ["", 0, 0, "", ""]]
 	for c in cases:
 		Save.daily_clear_day = c[0]
 		Save.daily_streak = c[1]
+		Save.daily_best_streak = c[2]
 		var menu: Node = (load("res://scenes/MainMenu.tscn") as PackedScene).instantiate()
 		add_child(menu)
 		await get_tree().process_frame
 		var badge := menu.find_child("StreakBadge", true, false)
-		if String(c[2]).is_empty():
+		if String(c[3]).is_empty():
 			_check(badge == null, "seri yokken rozet yok")
 		else:
-			_check(badge != null and String((badge.get_child(0) as Label).text).begins_with(c[2]), "rozet metni: %s" % c[2])
+			var t := String((badge.get_child(0) as Label).text) if badge != null else ""
+			_check(t.begins_with(c[3]) and t.ends_with(c[4]), "rozet metni: %s" % t)
 		menu.queue_free()
 		await get_tree().process_frame
 	DailyWave.day_override = ""
