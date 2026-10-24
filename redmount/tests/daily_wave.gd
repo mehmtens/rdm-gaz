@@ -23,6 +23,7 @@ func _ready() -> void:
 	await _broken_badge()
 	_rescue_rules()
 	await _rescue_menu()
+	await _archive_photos()
 	await _speed_rule()
 	await _scored_run()
 	await _practice_run()
@@ -274,6 +275,34 @@ func _legacy_save() -> void:
 	_check(not Save.daily_attempted(DAY), "eski kayıtta günün hakkı açık")
 	_check(Save.total_coins == 40, "eski coin korunur")
 	_check(Save.daily_rescue_day == "", "eski kayıtta kurtarma günü boş")
+	_check(Save.daily_best_streak == 0, "eski kayıtta en uzun seri 0")
+	cfg.set_value("daily", "streak", 5)
+	cfg.save(PATH)
+	Save.load_game()
+	_check(Save.daily_best_streak == 5, "en uzun seri alanı yoksa güncel seriden: %d" % Save.daily_best_streak)
+
+
+## Kanıt Arşivi GÜNLÜK sekmesi: en uzun seriye göre 3/7/14. gün kareleri.
+func _archive_photos() -> void:
+	_check(DailyWave.archive_photos(0) == 0 and DailyWave.archive_photos(3) == 1, "3. günde ilk kare")
+	_check(DailyWave.archive_photos(13) == 2 and DailyWave.archive_photos(40) == 3, "7/14. gün kareleri")
+	for d in DailyWave.ARCHIVE_DAYS:
+		_check(ResourceLoader.exists("res://assets/ui/photos/gun_%d.png" % d), "kare dosyası: gun_%d" % d)
+	Save.daily_best_streak = 7
+	var menu: Node = (load("res://scenes/MainMenu.tscn") as PackedScene).instantiate()
+	add_child(menu)
+	await get_tree().process_frame
+	_check(menu._arch_tabs.size() == 4 and menu._arch_tabs[3].text == "GÜNLÜK", "arşivde GÜNLÜK sekmesi: %s" % [menu._arch_tabs.map(func(t): return t.text)])
+	menu._select_arch(3)
+	await get_tree().process_frame
+	var shots: Array[String] = []
+	for tr in menu._arch_grid.find_children("*", "TextureRect", true, false):
+		if not tr.is_queued_for_deletion():
+			shots.append((tr as TextureRect).texture.resource_path.get_file())
+	_check(shots == ["gun_3.png", "gun_7.png", "kilitli.png"], "seri 7 → iki kare açık: %s" % [shots])
+	menu.queue_free()
+	await get_tree().process_frame
+	Save.wipe()
 
 
 ## Survival sahnesini günlük modda açar, bütün dalgaları temizler; sahneyi döndürür.
@@ -314,9 +343,10 @@ func _scored_run() -> void:
 	_check(s._defeated == _plan_total(), "plandaki bütün düşmanlar: %d" % s._defeated)
 	_check(s._hud._results.visible and s._hud._results_title.text == "GÜNÜN DALGASI TAMAM", "sonuç kartı")
 	_check(s._streak_reward == 40 and "SERİ ÖDÜLÜ +40" in s._hud._results_stats.text, "sonuç kartında seri ödülü")
+	_check(Save.daily_best_streak == 3 and s._new_photo and "ARŞİVE KARE" in s._hud._results_stats.text, "3. gün arşiv karesi açıldı")
 	_check(Save.survival_best_wave == 0, "günlük, survival rekorunu değiştirmez")
 	Save.load_game()
-	_check(Save.daily_streak == 3 and Save.daily_day == DAY, "kayıttan okunur")
+	_check(Save.daily_streak == 3 and Save.daily_day == DAY and Save.daily_best_streak == 3, "kayıttan okunur")
 	s.queue_free()
 	await get_tree().process_frame
 

@@ -41,6 +41,8 @@ var _defeated := 0
 var _started_ms := 0
 ## Bu koşuda seri ödül gününe ulaşıldıysa eklenen coin (sonuç kartında gösterilir).
 var _streak_reward := 0
+## Bu koşuda Kanıt Arşivi'nin GÜNLÜK sekmesinde yeni kare açıldı mı.
+var _new_photo := false
 ## DtmLevel gökyüzü/arka sıra katmanlarının okuduğu alanlar (`level` = bu düğüm).
 var sky_atlas: Texture2D = preload("res://assets/backgrounds/level06_backstreets_atlas.png")
 var sky_cells: Array = [[0, -100000.0]]
@@ -314,8 +316,10 @@ func _finish_daily() -> void:
 		var streak := "Seri: %d gün" % Save.daily_streak
 		if _streak_reward > 0:
 			streak += " · SERİ ÖDÜLÜ +%d" % _streak_reward
-		_hud._results_stats.text += "Coin: %d + %d tamamlama\n%s  ·  Skor: %d" % [
-			GameState.coins, bonus, streak, GameState.score]
+		# Yeni arşiv karesi kısa coin satırına yazılır (seri satırı skorla zaten dolu).
+		var photo := "  ·  ARŞİVE KARE" if _new_photo else ""
+		_hud._results_stats.text += "Coin: %d + %d tamamlama%s\n%s  ·  Skor: %d" % [
+			GameState.coins, bonus, photo, streak, GameState.score]
 	else:
 		_hud._results_stats.text += "Antrenman: coin yazılmadı\nYarın yeni dalga  ·  Skor: %d" % GameState.score
 	_hud._results_hint.text = "R — antrenman     ·     M — ana menü"
@@ -349,8 +353,10 @@ func _bank_run() -> void:
 		Save.record_survival(_cleared_wave, GameState.coins)
 	elif _scored:
 		var cleared := _cleared_wave >= DailyWave.WAVES
+		var photos := DailyWave.archive_photos(Save.daily_best_streak)
 		_streak_reward = Save.finish_daily(_day,
 			GameState.coins + (DailyWave.CLEAR_BONUS if cleared else 0), cleared)
+		_new_photo = DailyWave.archive_photos(Save.daily_best_streak) > photos
 
 
 func _on_armory_requested(item_id: String) -> void:

@@ -46,6 +46,8 @@ var daily_clear_day: String = ""
 var daily_streak: int = 0
 ## Son seri kurtarmanın günü (DailyWave.rescue_available; eski kayıtlarda yok → boş).
 var daily_rescue_day: String = ""
+## Ulaşılan en uzun seri (Kanıt Arşivi'nin GÜNLÜK kareleri; eski kayıtta yok → güncel seri).
+var daily_best_streak: int = 0
 var master_volume_db: float = 0.0
 ## Telefonda dokunma/isabet titreşimi (eski kayıtlarda yok → açık).
 var vibration: bool = true
@@ -96,6 +98,7 @@ func load_game() -> void:
 	daily_clear_day = String(cfg.get_value("daily", "clear_day", ""))
 	daily_streak = int(cfg.get_value("daily", "streak", 0))
 	daily_rescue_day = String(cfg.get_value("daily", "rescue_day", ""))
+	daily_best_streak = maxi(int(cfg.get_value("daily", "best_streak", 0)), daily_streak)
 	purchased = cfg.get_value("shop", "purchased", [])
 	upgrade_levels = cfg.get_value("shop", "upgrade_levels", {})
 	costume = String(cfg.get_value("shop", "costume", "sokak"))
@@ -125,6 +128,7 @@ func save_game() -> void:
 	cfg.set_value("daily", "clear_day", daily_clear_day)
 	cfg.set_value("daily", "streak", daily_streak)
 	cfg.set_value("daily", "rescue_day", daily_rescue_day)
+	cfg.set_value("daily", "best_streak", daily_best_streak)
 	cfg.set_value("shop", "purchased", purchased)
 	cfg.set_value("shop", "upgrade_levels", upgrade_levels)
 	cfg.set_value("shop", "costume", costume)
@@ -256,6 +260,7 @@ func finish_daily(day: String, earned_coins: int, cleared: bool) -> int:
 	if cleared and daily_clear_day != day:
 		daily_streak = DailyWave.next_streak(daily_clear_day, day, daily_streak)
 		daily_clear_day = day
+		daily_best_streak = maxi(daily_best_streak, daily_streak)
 		reward = DailyWave.streak_reward(daily_streak)
 		total_coins += reward
 	save_game()
@@ -350,6 +355,7 @@ func wipe() -> void:
 	daily_clear_day = ""
 	daily_streak = 0
 	daily_rescue_day = ""
+	daily_best_streak = 0
 	purchased = []
 	upgrade_levels = {}
 	costume = "sokak"

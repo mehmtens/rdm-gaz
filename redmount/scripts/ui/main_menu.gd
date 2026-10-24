@@ -438,9 +438,10 @@ func _build_archive() -> Control:
 	var count := _label("%d / %d" % [total, GameState.level_count() * 3], MUTED)
 	count.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	head.add_child(count)
-	for b in 3:
+	# Üç kitap + GÜNLÜK (Günün Dalgası seri kareleri, DailyWave.ARCHIVE_DAYS).
+	for b in 4:
 		var tab := Button.new()
-		tab.text = "KİTAP %d" % (b + 1)
+		tab.text = "KİTAP %d" % (b + 1) if b < 3 else "GÜNLÜK"
 		tab.custom_minimum_size = Vector2(150, 48)
 		tab.pressed.connect(_select_arch.bind(b))
 		tab.focus_entered.connect(_select_arch.bind(b))
@@ -472,6 +473,9 @@ func _select_arch(b: int) -> void:
 		_arch_tabs[i].add_theme_color_override(&"font_color", GOLD if sel else MUTED)
 	for ch in _arch_grid.get_children():
 		ch.queue_free()
+	if b == 3:
+		_arch_grid.add_child(_daily_archive_cell())
+		return
 	for k in PER_BOOK:
 		var i := b * PER_BOOK + k
 		var cell := VBoxContainer.new()
@@ -493,6 +497,31 @@ func _select_arch(b: int) -> void:
 			tr.texture = load("res://assets/ui/photos/b%02d_%d.png" % [i + 1, p]) if p < found 				else load("res://assets/ui/photos/kilitli.png")
 			row.add_child(tr)
 		_arch_grid.add_child(cell)
+
+
+## GÜNLÜK sekmesi: en uzun seriye göre açılan Günün Dalgası kareleri; kilitlinin altında
+## kaç gün gerektiği yazar (oyuncu hedefi arşivden de okusun).
+func _daily_archive_cell() -> Control:
+	var cell := VBoxContainer.new()
+	cell.add_theme_constant_override(&"separation", 2)
+	var best := Save.daily_best_streak
+	cell.add_child(_label("GÜNÜN DALGASI · EN UZUN SERİ %d GÜN" % best, CREAM))
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override(&"separation", 8)
+	cell.add_child(row)
+	for d in DailyWave.ARCHIVE_DAYS:
+		var open := best >= d
+		var v := VBoxContainer.new()
+		v.add_theme_constant_override(&"separation", 2)
+		row.add_child(v)
+		var tr := TextureRect.new()
+		tr.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		tr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		tr.custom_minimum_size = Vector2(148, 100)
+		tr.texture = load("res://assets/ui/photos/gun_%d.png" % d) if open 			else load("res://assets/ui/photos/kilitli.png")
+		v.add_child(tr)
+		v.add_child(_label("%d GÜN" % d if open else "%d GÜN SERİ" % d, GOLD if open else MUTED))
+	return cell
 
 
 func _build_settings() -> Control:

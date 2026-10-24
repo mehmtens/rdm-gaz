@@ -10,8 +10,9 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 - Kaldırım taşı: havada (zıplarken) fırlatmada elde taş görünmüyor (jump sayfası
   silahsız) — insan testinde fark edilirse `tas_jump`. Taş yalnız 2 ve 5'teki büfede;
   insan testinde taş çok seçiliyorsa diğer büfelerde de denenebilir.
-- Günün dalgası beşinci dilim: seri ödülü olarak Kanıt Arşivi'nde açılan özel kare
-  (ör. 7. gün). (Seri koruma 4. dilimde yapıldı.)
+- Günün dalgası: ana menü seri rozetinde sıradaki arşiv karesini de göstermek
+  ("7. günde +100 coin · kare"); GÜNLÜK sekmesine 21/28. gün kareleri (insan testinde seri
+  14'ü geçen oyuncu çıkarsa).
 - Pantolon maskesi kalıntıları: tekmenin (kick 2–3) diz arkasında ve koşuda ayakkabının arka
   kenarında 2–4 piksel ceket rengi (kontura yapışık, kırıntı birleştirmesine girmiyor).
 - Şemsiyeyle havaya kaldırılan düşmanı ikinci şemsiye vuruşunun tekrar kaldırması sonsuz
@@ -34,6 +35,47 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-24 (19) — Günün Dalgası beşinci dilim: Kanıt Arşivi'nde seri kareleri
+
+**Neden şimdi:** Yol haritasında açık madde yok, P1 maddelerinin hepsi oyunda; birikimin ilk
+maddesi (taşın havada görünmemesi) insan testi koşullu, sıradaki somut iş buydu. Seri şimdiye
+kadar yalnız coin veriyordu; coin ekonomisi kostümlerden sonra doyuyor. DTM'de günlük ödülün
+kalıcı bir izi olur — oyuncu "o haftayı" bir koleksiyonda görür.
+
+**Oyuncu ne hissedecek:** Seri 3., 7. ve 14. güne ulaşınca sonuç kartında coin ödülünün
+yanında `ARŞİVE KARE` yazar. Kanıt Arşivi'nde yeni GÜNLÜK sekmesinde arenanın akşamüstü
+tonlu kareleri, köşede kırmızı piksel gün damgası; kilitliyse altında `14 GÜN SERİ` hedefi.
+Seri kopsa da kare gitmez (en uzun seri saklanır).
+
+**Yapılanlar:**
+- `DailyWave.ARCHIVE_DAYS = [3, 7, 14]`, `archive_photos(best)`.
+- `Save.daily_best_streak` (`[daily] best_streak`; eski kayıtta `max(0, streak)` →
+  geriye uyumlu, mevcut seriyle başlar), `finish_daily` günceller, `wipe` sıfırlar.
+- `survival.gd`: puanlı koşu öncesi/sonrası açık kare sayısı karşılaştırılır (`_new_photo`);
+  yazı kısa coin satırına konur (seri satırı skorla birlikte kartı dolduruyordu).
+- `main_menu.gd`: arşivde 4. sekme GÜNLÜK, `_daily_archive_cell()`.
+- `tools/gen_photos.py daily_photo`: survival arenasının atlasından (`level06_backstreets`)
+  3 kare, mor-turuncu akşamüstü tonu (kitap karelerinin sepyasından ayrılsın), 3×5 piksel
+  rakamlı gün damgası. Mevcut 108 kare yeniden üretildi, bayt bayt aynı kaldı.
+
+**Sayılar (hipotez):** Kare günleri ilk üç coin ödülüyle aynı — "ödül anı" tek yerde toplanır,
+oyuncu iki ayrı takvim öğrenmez. 14'ten sonra kare yok: koleksiyon kapanır, sonsuz kovalamaca
+yaratmaz; insan testinde 14'ü geçen oyuncu olursa 21/28 eklenir.
+
+**Testler:** `--import` hatasız; `tests/daily_wave.tscn` PASS (yeni: eski kayıtta en uzun seri
+0 / yalnız `streak` varsa ondan, `archive_photos` sınırları, kare dosyaları, arşivde GÜNLÜK
+sekmesi ve seri 7'de 2 açık + 1 kilitli, puanlı 3. gün koşusunda `ARŞİVE KARE` ve kayıttan
+okuma); `campaign_smoke.gd` çıkış 0; `dtm_gaps` PASS; `survival_mode` OK; bot Bölüm 1
+CLEARED (79,7 sn), Bölüm 13 (77,6), Bölüm 25 (82,4) — kayıt sistemi ortak olduğu için.
+
+**Görsel kanıt:** 1280×720 pencereli görüntü: GÜNLÜK sekmesinde 4 sekme başlığa sığıyor, iki
+açık kare okunur, damga görünür; sonuç kartında `ARŞİVE KARE` coin satırında, taşma yok.
+İlk denemede not seri satırına eklenmişti ve satır kartın kenarına dayanıyordu — taşındı.
+Telefonda görülmedi.
+
+**Sonraki öneri:** Hız yıldızı par sürelerinin bölüm başına ayarı için insan testi verisi
+gelene kadar, sonuç kartında önceki koşulardan kazanılmış yıldızı soluk altınla gösterme.
 
 ### 2026-10-24 (18) — Kaldırım taşı dördüncü dilim: varilden ve büfeden taş
 

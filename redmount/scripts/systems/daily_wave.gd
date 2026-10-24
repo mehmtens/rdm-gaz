@@ -46,6 +46,9 @@ const RULES: Array[Dictionary] = [
 ## 14'ten sonra her 7 günde bir STREAK_REPEAT (bkz. streak_reward).
 const STREAK_REWARDS := {3: 40, 7: 100, 14: 200}
 const STREAK_REPEAT := 100
+## Kanıt Arşivi'nin GÜNLÜK sekmesi: bu seri günlerine ulaşınca birer kare açılır
+## (assets/ui/photos/gun_N.png). İlk üç seri ödülüyle aynı günler: ödül anı tek yerde.
+const ARCHIVE_DAYS: PackedInt32Array = [3, 7, 14]
 
 ## Düşman havuzu zorluk sırasıyla (survival.gd sahne eşlemesi). "pool" kuralı ilk N'i açar.
 const POOL: PackedStringArray = ["thug", "knife", "rifle", "bruiser", "elite"]
@@ -131,6 +134,15 @@ static func streak_reward(streak: int) -> int:
 	if streak > 14 and streak % 7 == 0:
 		return STREAK_REPEAT
 	return 0
+
+
+## En uzun seriye göre açılmış arşiv karesi sayısı (0–ARCHIVE_DAYS.size()).
+static func archive_photos(best_streak: int) -> int:
+	var n := 0
+	for d in ARCHIVE_DAYS:
+		if best_streak >= d:
+			n += 1
+	return n
 
 
 ## Sıradaki ödül günü ve miktarı: [gün, coin].
