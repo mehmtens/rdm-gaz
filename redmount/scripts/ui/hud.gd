@@ -27,9 +27,13 @@ var _boss_ratio: float = 1.0
 @onready var _stage: Label = $StageLabel
 ## Bölüm sonu istatistiğine eklenen satır (Main doldurur): "Gizli alan: 2 / 3".
 var secrets_line := ""
+## Bu koşudan önce kayıtta olan yıldız maskesi (Main doldurur); kartta soluk gösterilir.
+var earned_stars := 0
 
 const STAR_FULL := preload("res://assets/ui/pixel/yildiz_dolu.png")
 const STAR_EMPTY := preload("res://assets/ui/pixel/yildiz_bos.png")
+## Önceki koşuda kazanılmış, bu koşuda alınmamış yıldız: sönük okra (kalıcı olduğu okunsun).
+const STAR_FAINT := preload("res://assets/ui/pixel/yildiz_soluk.png")
 ## Sonuç kartındaki yıldızlar: (bit, alt yazı) — soldan sağa açılış sırası.
 const STARS := [[1, "HIZ"], [2, "HASARSIZ"], [4, "GİZLİ ALAN"]]
 ## Yıldız ölçeği (sanat pikseli -> ekran), açılış gecikmesi ve aralığı (sn).
@@ -407,9 +411,11 @@ func _reveal(stars: int) -> void:
 	_refresh_costume_badge()
 	_star_row.visible = stars >= 0
 	for k in _star_icons.size():
-		_star_icons[k].texture = STAR_EMPTY
+		var before := (earned_stars & int(STARS[k][0])) != 0
+		_star_icons[k].texture = STAR_FAINT if before else STAR_EMPTY
 		_star_icons[k].scale = Vector2.ONE
 		_star_lit[k] = false
+	earned_stars = 0
 
 
 func _tick_reveal(delta: float) -> void:

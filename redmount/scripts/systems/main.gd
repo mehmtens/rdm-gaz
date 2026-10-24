@@ -378,6 +378,7 @@ func _trigger_ending() -> void:
 		return
 	_bank_level_clear()
 	var stars := _compute_stars()
+	_hud.earned_stars = Save.stars_of(GameState.level_index)
 	Save.record_stars(GameState.level_index, stars)
 	get_tree().paused = true
 	_hud.show_results(GameState.coins, _enemy_defeated, _enemy_total, _elapsed,
@@ -486,6 +487,7 @@ func _on_goal_reached() -> void:
 	_bank_level_clear()
 	get_tree().paused = true
 	var stars := _compute_stars()
+	_hud.earned_stars = Save.stars_of(GameState.level_index)
 	Save.record_stars(GameState.level_index, stars)
 	Save.record_time(GameState.level_index, _elapsed)
 	_hud.secrets_line = "Gizli alan: %d / %d" % [_secrets_found, _secrets_total] if _secrets_total > 0 else ""

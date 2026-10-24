@@ -1,5 +1,5 @@
 ## Bölüm sonu yıldızları (Yol haritası 9): kayıt birleştirme, eski kayıt uyumu,
-## sonuç kartında yalnız kazanılan yıldızların dolması.
+## sonuç kartında yalnız kazanılan yıldızların dolması, önceden kazanılanların soluk kalması.
 ##
 ##  godot --headless --path . res://tests/level_stars.tscn
 extends Node
@@ -63,6 +63,17 @@ func _results_card() -> void:
 	_check(hud._star_icons[0].texture == hud.STAR_FULL, "HIZ yıldızı dolu")
 	_check(hud._star_icons[1].texture == hud.STAR_EMPTY, "HASARSIZ yıldızı boş")
 	_check(hud._star_icons[2].texture == hud.STAR_FULL, "GİZLİ ALAN yıldızı dolu")
+	## Önceden kazanılmış ama bu koşuda alınmamış yıldız soluk; bu koşununki yine dolu.
+	hud.earned_stars = Save.STAR_FLAWLESS | Save.STAR_SECRETS
+	hud.show_stage_clear(2, Save.STAR_SECRETS, 60.0, 3, 4, 1, 900)
+	_check(hud._star_icons[1].texture == hud.STAR_FAINT, "önceki HASARSIZ soluk")
+	_check(hud._star_icons[0].texture == hud.STAR_EMPTY, "hiç alınmamış HIZ boş")
+	_check(hud.earned_stars == 0, "önceki maske kartta tüketilmeli")
+	await get_tree().create_timer(1.6).timeout
+	_check(hud._star_icons[2].texture == hud.STAR_FULL, "bu koşunun GİZLİ ALAN'ı dolu")
+	_check(hud._star_icons[1].texture == hud.STAR_FAINT, "soluk yıldız açılışta kalmalı")
+	hud.show_stage_clear(2, 0, 60.0, 3, 4, 1, 900)
+	_check(hud._star_icons[1].texture == hud.STAR_EMPTY, "sonraki kartta eski maske sızmamalı")
 	hud.show_results(0, 0, 0, 10.0, 0, "SURVIVAL", -1)
 	_check(not hud._star_row.visible, "yıldızsız sonuçta sıra gizli")
 	hud.queue_free()

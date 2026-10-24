@@ -5,6 +5,8 @@
 Büyük yıldız sonuç kartında ~4x, küçük yıldız bölüm seçme kartında ~2x NEAREST
 ölçeklenir. Dil: koyu kontur, sol üstte altın ışık, sağ altta koyu altın gölge;
 boş yuva aynı siluetin oyulmuş mürdüm hâli (kazanılmamış yıldız okunur kalsın).
+Soluk yıldız: önceki koşuda kazanılmış, bu koşuda alınmamış — sönük okra, parıltısız
+(kalıcı olduğu okunsun ama bu koşunun altınıyla karışmasın).
 """
 from pathlib import Path
 
@@ -37,7 +39,7 @@ SMALL = [
 ]
 
 
-def _star(rows, full):
+def _star(rows, full, faded=False):
     h = len(rows)
     w = len(rows[0])
     c = Canvas(w + 2, h + 2)
@@ -48,7 +50,11 @@ def _star(rows, full):
             if ch != "#":
                 continue
             side = (x - cx) + (y - cy) * 1.3
-            if full:
+            if faded:
+                col = (150, 122, 78, 255) if side < -2.5 else (122, 98, 64, 255) if side < 1.5 else (98, 78, 54, 255)
+                if y + 1 < h and x + 1 < w and rows[y + 1][x] != "#" and side > 0:
+                    col = (74, 58, 44, 255)
+            elif full:
                 col = "gold3" if side < -2.5 else "gold2" if side < 1.5 else "gold1"
                 # alt-sağ kenarı koyu altın: hacim
                 if y + 1 < h and x + 1 < w and rows[y + 1][x] != "#" and side > 0:
@@ -56,7 +62,7 @@ def _star(rows, full):
             else:
                 col = (104, 82, 100, 255) if side < 0 else (74, 56, 72, 255)
             c.put(x + 1, y + 1, col)
-    if full:
+    if full and not faded:
         # tepe noktasında tek parıltı pikseli
         c.put(int(cx) + 1, 2, "white")
     c.outline("ink")
@@ -68,4 +74,5 @@ if __name__ == "__main__":
     for suffix, rows in (("", BIG), ("_kucuk", SMALL)):
         _star(rows, True).im.save(OUT / f"yildiz_dolu{suffix}.png")
         _star(rows, False).im.save(OUT / f"yildiz_bos{suffix}.png")
+        _star(rows, True, faded=True).im.save(OUT / f"yildiz_soluk{suffix}.png")
     print("ok")

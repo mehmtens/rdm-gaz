@@ -25,8 +25,6 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 - Hız yıldızının par süresi bölüm başına ayarlanmalı: 34 bölümde düz 240 sn, bot
   ~80 sn'de bitiriyor. İnsan testinden gelen ortanca sürenin ~0,8'i hedef (ilk koşuda
   zor, ikinci koşuda alınabilir); `par_time` her `Bolum*.tscn`'de elle.
-- Sonuç kartında önceki koşularda kazanılmış ama bu koşuda alınamamış yıldızı soluk
-  altınla göstermek (oyuncu neyin kalıcı olduğunu görsün).
 - Bıçak savuruşu (`knife_attack` 4) kalıntısı: şapkanın üstünde 1–2 sanat pikseli koyu nokta
   kalıyor (iz ön parçasının içinde ya da ≥ 8 px). İnsan testinde fark edilirse ön parçadan da
   tutam kenarı ayıkla.
@@ -35,6 +33,39 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-24 (20) — Sonuç kartında önceden kazanılmış yıldız soluk okra
+
+**Neden şimdi:** Yol haritası ve P1 maddeleri oyunda; birikimin ilk iki maddesi insan testi
+koşullu. Önceki turun önerisi buydu ve küçük, kendi başına tamamlanan bir okunurluk işi.
+Şimdiye kadar tekrar koşuda alınmayan yıldız boş yuva olarak görünüyordu — oyuncu "kaybettim mi?"
+diye düşünebiliyordu; kayıt aslında yıldızları birleştiriyor.
+
+**Oyuncu ne hissedecek:** Sonuç kartında bu koşuda kazanılan yıldızlar eskisi gibi altın
+çakılır; daha önce kazanılmış ama bu koşuda alınmamış olanlar baştan sönük okra (parıltısız)
+durur, hiç alınmamışlar boş mürdüm yuva. Üç durum bir bakışta ayrılıyor: "bu koşu / kalıcı /
+eksik". DTM'deki "hedef kalıcı, tekrar koşu ek şans" hissi.
+
+**Yapılanlar:**
+- `tools/gen_pixel_stars.py`: `faded` modu → `yildiz_soluk[_kucuk].png` (dolu/boş bayt bayt
+  aynı kaldı).
+- `hud.gd`: `STAR_FAINT`, `earned_stars` (Main doldurur, `_reveal` tüketip sıfırlar — sonraki
+  karta sızmaz).
+- `main.gd`: iki bitiş yolunda `record_stars` öncesi `_hud.earned_stars = Save.stars_of(...)`.
+- Kayıt formatı değişmedi.
+
+**Testler:** `--import` hatasız; `level_stars.tscn` PASS (yeni: önceki HASARSIZ soluk, hiç
+alınmamış HIZ boş, bu koşunun yıldızı yine dolu, maske sonraki karta sızmıyor); `dtm_gaps` PASS;
+`campaign_smoke.gd` çıkış 0; bot Bölüm 1 CLEARED (78,9 sn), Bölüm 13 (77,3), Bölüm 25 (83,9)
+— bitiş yolu (`main.gd`) ortak olduğu için.
+
+**Görsel kanıt:** 1280×720 pencereli görüntü: iki soluk + bir altın yıldız; soluk okra
+altından açıkça ayrılıyor, boş yuvayla karışmıyor, taşma yok. Telefonda görülmedi.
+
+**Sonraki öneri:** Bölüm seçme kartındaki küçük yıldızlarda da aynı dil hazır
+(`yildiz_soluk_kucuk.png`) ama orada "bu koşu" yok; kullanılmadı. Birikimden hız yıldızı par
+süreleri insan testi bekliyor; insan testi verisi yoksa Kanıt Arşivi'nde kitap şeritlerini
+yeniden izleme sekmesi sıradaki somut iş.
 
 ### 2026-10-24 (19) — Günün Dalgası beşinci dilim: Kanıt Arşivi'nde seri kareleri
 
