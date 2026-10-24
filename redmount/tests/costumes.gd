@@ -112,6 +112,25 @@ func _weapon_mask() -> void:
 				_check(n == 0, "%s/%d silah işareti olmamalı: %d" % [sheet, cell, n])
 			else:
 				_check(n >= need[sheet], "%s/%d silah işaretli: %d" % [sheet, cell, n])
+	## Yakın silahlar: sopa/anahtar/şemsiye sopa farkıyla, bıçak ağız kenarıyla işaretli.
+	## Silahın görünmediği kareler var (savuruşta arkada), bu yüzden sayfa toplamı; kare
+	## başına üst sınır ceketin/pantolonun işarete karışmadığını gösterir.
+	var melee := {"bat": [1500, 1000], "anahtar": [1500, 1000], "semsiye": [1500, 1000], "knife": [100, 400]}
+	for w in melee:
+		for s in ["idle", "walk", "attack", "attack2"]:
+			var img := (load("res://assets/anim/redmount/%s_%s.png" % [w, s]) as Texture2D).get_image()
+			if img.is_compressed():
+				img.decompress()
+			var total := 0
+			for cell in img.get_width() / 200:
+				var n := 0
+				for y in 240:
+					for x in 200:
+						if img.get_pixel(cell * 200 + x, y).a8 == 252:
+							n += 1
+				_check(n <= melee[w][1], "%s_%s/%d silah işareti fazla: %d" % [w, s, cell, n])
+				total += n
+			_check(total >= melee[w][0], "%s_%s silah işaretli: %d" % [w, s, total])
 
 
 ## Kaçaklar: koşuda ceketin parlak yamaları pantolon sayılmamalı (eski maskede bir karede

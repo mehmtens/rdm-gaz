@@ -8,7 +8,8 @@
 // Başlığın tepesinden taşan saç pikselleri alfa 255 - 2·bitler ile işaretlidir
 // (tools/gen_costume_accessory.py); `hair_bit` o kostümün başlığının bitidir, işaretli
 // piksel saydam sayılır (konturda da), böylece saç şapkayı delip çıkmaz.
-// Tabanca/tüfek pikselleri alfa 252 (kod 3) ile işaretlidir (tools/gen_weapon_mask.py):
+// Silah pikselleri (tabanca, tüfek, sopa, anahtar, şemsiye, bıçak) alfa 252 (kod 3) ile
+// işaretlidir (tools/gen_weapon_mask.py):
 // silah da koyu gridir ama giysi değildir, boyanmaz.
 shader_type canvas_item;
 

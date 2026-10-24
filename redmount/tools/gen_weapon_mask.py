@@ -22,7 +22,17 @@ Araç tekrar çalıştırılabilir: önce eski işaretleri (252) siler. Pantolon
 (254) yalnız silahın üstünde ezer; `gen_costume_mask.py` yalnız alfa 255'e yazdığı için
 sonradan çalışsa da silah işaretine dokunmaz.
 
-  python tools/gen_weapon_mask.py                 # REGIONS'taki sayfalar
+Yakın silahlar çokgen istemez (savuruşta döner, iz gövdeden kopuk):
+  - Sopa: `anahtar_*` sayfaları `bat_*`'tan `gen_pixel_weapons.py` ile türetildi; iki
+    sayfanın RGB farkı tam olarak sopa (ve savuruş izi) pikselleridir.
+  - Anahtar / şemsiye: aynı fark + üreticinin rampalarıyla birebir aynı renkli pikseller
+    (anahtarın sonradan eklenen çenesi). Bu renkler çıplak sayfalarda yok (≤ 2 px).
+  - Bıçak: ağız ve savuruş izi açık gridir (giysi eşiğinin üstü), boyanan yalnız
+    kenarlarındaki orta gri. Ağız/iz bileşenlerinin (açık, doygunluğu düşük, ≥ BLADE_MIN
+    px, ayakkabı hizasının üstünde) BLADE_REACH px yakınındaki küçük giysi bileşenleri
+    (≤ BLADE_PART px, en az yarısı ağza yakın) işaretlenir; ceket ve pantolon büyük bileşen olduğu için dışarıda kalır.
+
+  python tools/gen_weapon_mask.py                 # REGIONS'taki sayfalar + yakın silahlar
   python tools/gen_weapon_mask.py --preview DIR   # işaretli pikselleri kırmızı gösterir
 """
 import os
@@ -143,6 +153,78 @@ def process(name: str, poly) -> list:
 	return counts
 
 
+## Yakın silah sayfaları.
+MELEE_SHEETS = ["idle", "walk", "attack", "attack2"]
+BLADE_MIN = 10    # ağız/iz sayılan açık bileşenin en küçük boyu (göz akı daha küçük)
+BLADE_REACH = 2   # ağıza bu kadar yakın giysi pikseli kenar sayılır (px)
+BLADE_PART = 150  # bu boyu aşan giysi bileşeni ceket/pantolondur, işaretlenmez
+SHOE_Y = 200      # bu satırın altındaki açık pikseller ayakkabıdır
+
+
+def _load(name: str) -> np.ndarray:
+	return np.array(Image.open(os.path.join(ROOT, name + ".png")).convert("RGBA"))
+
+
+def _mark(name: str, px: np.ndarray, m: np.ndarray) -> int:
+	## Eski silah işaretini siler, yenisini yazar (saydam kenar piksellerine dokunmaz).
+	alpha = px[..., 3]
+	alpha[alpha == MARK] = 255
+	m = m & (alpha >= 240)
+	alpha[m] = MARK
+	Image.fromarray(px, "RGBA").save(os.path.join(ROOT, name + ".png"))
+	return int(m.sum())
+
+
+def _palette_keys() -> list:
+	sys.path.insert(0, os.path.dirname(__file__))
+	import gen_pixel_weapons as gpw
+	cols = set()
+	for ramp in (gpw.RED, gpw.STEEL, gpw.BORDO, gpw.GRIP):
+		cols |= set(ramp)
+	return [r * 65536 + g * 256 + b for r, g, b in cols]
+
+
+def _key(px: np.ndarray) -> np.ndarray:
+	return px[..., 0].astype(np.int32) * 65536 + px[..., 1].astype(np.int32) * 256 + px[..., 2]
+
+
+def process_melee() -> dict:
+	out = {}
+	keys = _palette_keys()
+	for s in MELEE_SHEETS:
+		bat = _load("bat_" + s)
+		ref = _load("anahtar_" + s)
+		diff = (bat[..., :3] != ref[..., :3]).any(axis=2) & (bat[..., 3] >= 128)
+		out["bat_" + s] = _mark("bat_" + s, bat, diff)
+		for w in ("anahtar", "semsiye"):
+			px = _load(w + "_" + s)
+			pal = np.isin(_key(px), keys) & (px[..., 3] >= 128)
+			out[w + "_" + s] = _mark(w + "_" + s, px, diff | pal)
+		px = _load("knife_" + s)
+		out["knife_" + s] = _mark("knife_" + s, px, knife_mask(px))
+	return out
+
+
+def knife_mask(px: np.ndarray) -> np.ndarray:
+	rgb = px[..., :3].astype(np.int32)
+	mx = rgb.max(axis=2)
+	mn = rgb.min(axis=2)
+	sat = np.where(mx > 0, (mx - mn) / np.maximum(mx, 1), 0)
+	bright = (px[..., 3] >= 128) & (sat < 0.25) & (mx >= 158)
+	bright[SHOE_Y:] = False
+	lab, cnt = ndimage.label(bright, np.ones((3, 3), bool))
+	size = ndimage.sum(np.ones_like(lab), lab, index=np.arange(cnt + 1))
+	blade = (size >= BLADE_MIN)[lab] & (lab > 0)
+	near = ndimage.binary_dilation(blade, np.ones((2 * BLADE_REACH + 1,) * 2, bool))
+	cloth = _cloth(px)
+	clab, ccnt = ndimage.label(cloth)
+	csize = ndimage.sum(np.ones_like(clab), clab, index=np.arange(ccnt + 1))
+	small = (csize <= BLADE_PART)[clab] & (clab > 0)
+	# Ağız kenarı: küçük bileşenin en az yarısı ağzın yakınında (ceket kırıntısı değil).
+	hit = ndimage.sum(near, clab, index=np.arange(ccnt + 1)) >= 0.5 * np.maximum(csize, 1)
+	return small & hit[clab]
+
+
 def preview(name: str, out_dir: str) -> None:
 	px = np.array(Image.open(os.path.join(ROOT, name + ".png")).convert("RGBA"))
 	vis = px.copy()
@@ -158,7 +240,12 @@ if __name__ == "__main__":
 		out = sys.argv[sys.argv.index("--preview") + 1]
 		for n in REGIONS:
 			preview(n, out)
+		for w in ("bat", "anahtar", "semsiye", "knife"):
+			for s in MELEE_SHEETS:
+				preview(w + "_" + s, out)
 	else:
 		for n, p in REGIONS.items():
 			c = process(n, p)
 			print("%-14s %s" % (n, " ".join("%+d,%+d:%d" % t for t in c)))
+		for n, k in process_melee().items():
+			print("%-16s %d" % (n, k))

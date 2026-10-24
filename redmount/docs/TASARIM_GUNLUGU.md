@@ -7,10 +7,9 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Silah işaretinin (alfa 252) ikinci dilimi: `pistol_reload`/`rifle_reload` (şarjör dönüyor,
-  kare başına çokgen gerekir) ve yakın silahlar — bıçak ağzı ile sopa savuruş izi pantolon
-  işaretli (pantolon rengine boyanıyor), sopanın kenarları ceket rengine geçiyor. Anahtar ve
-  şemsiye `gen_pixel_weapons.py`'de boyanırken işaretlenebilir (piksel kesin biliniyor).
+- Silah işaretinin üçüncü dilimi: `pistol_reload`/`rifle_reload` (şarjör dönüyor, kare
+  başına çokgen gerekir). Bıçakta kalanlar: `knife_walk` 6–7'de pantolona değen alçak bıçak
+  ve `knife_attack2` 0'da omuz üstündeki bıçak hâlâ boyanıyor (bileşen pantolonla/ceketle bir).
 - Pantolon maskesi kalıntıları: tekmenin (kick 2–3) diz arkasında ve koşuda ayakkabının arka
   kenarında 2–4 piksel ceket rengi (kontura yapışık, kırıntı birleştirmesine girmiyor).
 - Günün dalgası dördüncü dilim: seri ödülü olarak Kanıt Arşivi'nde açılan özel kare
@@ -38,6 +37,40 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-24 (13) — Yakın silahlar da kostüm rengine boyanmıyor
+
+**Neden şimdi:** Yol haritası ve P1 ilk dilimleri bitti; birikimin başı silah işaretinin ikinci
+dilimiydi. Ölçünce kostümlü oyuncunun en sık gördüğü yakın silah kareleri bozuktu: sopa
+savuruş izi ve bıçak ağzının kenarı pantolon rengine (Vapurcu'da lacivert iz), anahtar çenesi
+ve şemsiye ucunun koyu çelik tonları ceket rengine boyanıyordu (sayfa başına 80–1700 px).
+
+**Oyuncu ne hissedecek:** Hangi kostümle olursa olsun sopa ahşap, anahtar kırmızı-çelik,
+şemsiye bordo, bıçak ve savuruş izi gümüş okunur; kostüm rengi yalnız giyside.
+
+**Yapılanlar:**
+- `tools/gen_weapon_mask.py` yakın silah bölümü (çokgen yok, savuruşta silah dönüyor):
+  sopa = `bat_*` ile `anahtar_*` sayfalarının RGB farkı (anahtar sopadan türetildiği için
+  fark tam olarak sopa + iz); anahtar/şemsiye = aynı fark + `gen_pixel_weapons.py`
+  rampalarıyla birebir aynı renkler (çıplak sayfalarda ≤ 2 px, yani güvenli). Bıçak renkle
+  ayrılmıyor (b−r dağılımı ceketle aynı); ağız ve iz açık gri olduğundan, açık bileşenlerin
+  (≥ 10 px, ayakkabı hizası y < 200 üstünde) 2 px yakınında, en az yarısı ağza değen küçük
+  (≤ 150 px) giysi bileşenleri işaretlenir. 60 px sınırı ağzın üst kenarını (62 px) kaçırdı,
+  150'ye çıkarıldı; ceket/pantolon parçaları yüzlerce piksel.
+- 16 sayfa işaretlendi: sopa/şemsiye 2,6k–5,5k, anahtar 2,8k–5,9k, bıçak 106–860 px/sayfa.
+  Shader değişmedi (kod 3 zaten boyanmıyor), yalnız yorumu güncellendi.
+- `tests/costumes.gd`: yakın silah sayfalarında toplam işaret alt sınırı + kare başına üst
+  sınır (ceket/pantolon işarete karışmasın: sopa ≤ 1000, bıçak ≤ 400).
+
+**Testler:** `--import` hata yok; `costumes` (genişletildi) PASS, `dtm_gaps` PASS;
+`campaign_smoke.gd` çıkış 0 (36 sahne); bot Bölüm 1 (75,4 sn), 13 (80,7 sn), 25 (80,8 sn) CLEARED.
+
+**Görsel kanıt:** 1280×720 pencereli görüntü, kırmızı ceket + lacivert pantolon kostümüyle
+bıçak saldırısı, sopa saldırısı 2, anahtar yürüme, şemsiye saldırısı: silahlar ve izler
+kendi renginde; kostüm rengine geçen silah pikseli görülmedi.
+
+**Sonraki öneri:** Pantolon maskesi kalıntıları (tekmede diz arkası, koşuda ayakkabı arkası)
+ya da şarjör değiştirme karelerinin silah işareti.
 
 ### 2026-10-24 (12) — Ateşli silahlar kostüm rengine boyanmıyor
 
