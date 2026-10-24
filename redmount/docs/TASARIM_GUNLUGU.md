@@ -7,12 +7,13 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Başlık katmanının kalan eksiği: kolun başın önünden geçtiği birkaç karede
-  (aparkat/şemsiye) başlık kolun üstünde çizilir. Gerekirse `head_anchors.json`'a kare
-  başına "arkada" bayrağı (başlık `show_behind_parent`). Gece konturu 24 Ekim (6) bitti.
 - Gece bölümüne GEÇİŞTE düşman konturu: `enemy_base` `get_first_node_in_group("dark_scene")`
   ile bölümü arıyor; eski bölüm aynı karede hâlâ ağaçtaysa yanlış bölümün kenar ışığını
   (ya da hiç) alabilir. Gündüz→gece geçişinde düşman silüeti ekran görüntüsüyle denetlenmeli.
+- Başlık ön katmanı gece konturu almıyor (kasıtlı: kesik kenarda kolun ortasına kontur
+  çizgisi çıkarırdı). Gece Bölüm 3'te baş üstü sopa savuruşunda sopanın şapka üstündeki
+  kısmı konturdan yoksun mu, ekran görüntüsüyle bakılmalı; gerekirse kontur yalnız
+  parçanın hücre içi gerçek kenarında (kesik kenar hariç) maskeyle.
 - Pantolon maskesinde kalan kaçaklar: koşu karelerinde ceketin arka eteği, tekmede dizde
   birkaç ceket rengi piksel; gölgedeki arka bacak bazen ceket rampasında. Gerekirse
   `tools/gen_costume_mask.py` sonrası kare başına elle düzeltme maskesi (küçük PNG).
@@ -38,6 +39,43 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-24 (7) — Başlığın önünden geçen kol ve silah
+
+**Neden şimdi:** Yol haritası ve P1 sırası bitti; birikimin başı. Başlıklı kostümle sopa/
+şemsiye/anahtarın baş üstü savuruşunda (ikinci vuruş ve hazırlık kareleri) şapka eli ve
+silahı örtüyordu: oyuncu vuruşun hangi karede tepeye kalktığını göremiyor, silah şapkanın
+içinden çıkıyormuş gibi okunuyordu. Ayrıca sopalı bir karede sopa ahşabı saç sanıldığı
+için başlık başın 45 px üstünde havada asılı kalıyordu.
+
+**Oyuncu ne hissedecek:** Kasketle sopayı tepeye kaldırınca eller ve sopa şapkanın önünde;
+şapka başta kalır, savuruşun tepe noktası okunur. Kostüm boyası kolda da sürer.
+
+**Yapılanlar:**
+- `tools/gen_costume_accessory.py`: saç maskesine doygunluk eşiği (> 0,46; saç ≥ ~0,52,
+  sopa ahşabı ≤ ~0,41 ölçüldü) — `bat_attack2` 0. karede çapa 15→54. Yeni "ön parça"
+  çıktısı: her hücrede dört başlığın birleşik izdüşümüne düşen, başa (saç lekesi + ona
+  değen yüz ten lekesi, delikler dolu, 4 px genişletilmiş) ait olmayan, ≥ 30 px opak
+  bölgeler `costume_acc/head_front.png` atlasına kesilir; tablo `head_anchors.json`
+  `front` alanında. 236 hücreden 40'ında parça var (sopa/şemsiye/anahtar saldırı,
+  bekleme ve yürüme kareleri, bıçak savuruş izi).
+- `CostumeAccessory`: ön parçayı rig'in çocuğu olarak başlıktan SONRA ekler (üstte),
+  aynı çapa/aynalama hesabıyla yerleştirir; malzeme rig'in kostüm malzemesinin
+  kontursuz kopyası. Parçası olmayan karede gizli; başlık çıkınca silinir.
+- `tests/costume_accessory.gd`: sopalı karede çapa doğrulaması, ön parçanın başlığın
+  üstünde/hizalı/aynalı, kostüm boyalı-kontursuz ve parçasız karede gizli olması.
+- Eşikler (0,46 doygunluk, 30 px, 4 px) önizleme sayfasında elle seçildi: 12 px / 2 px
+  ile saç tutamı uçları şapkanın üstüne leke olarak çıkıyordu.
+
+**Görsel kanıt:** Araç önizlemesi (kasket/kaptan, 8 silah sayfası) ve 1280×720 pencereli
+oyun içi görüntü (kasketle `bat_attack2` 0/1/7, `bat_attack` 7, `bat_walk` 3): sopa ve
+eller şapkanın önünde, şapka başta.
+
+**Testler:** `--import` SCRIPT ERROR yok; `campaign_smoke.gd` çıkış 0; `dtm_gaps` PASS;
+`costume_accessory` (genişletildi), `costumes`, `costume_badge`, `kaldirim_tasi`,
+`new_melee_weapons` PASS; bot Bölüm 1 (83,2 sn), 13 (81,8 sn), 25 (80,8 sn) CLEARED.
+
+**Sonraki öneri:** Gece geçişinde düşman konturu denetimi (birikimin yeni başı).
 
 ### 2026-10-24 (6) — Gece bölümlerinde kostüm başlığına fener konturu
 

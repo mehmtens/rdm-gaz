@@ -7,6 +7,9 @@
 ## Gece bölümünde rig fener konturu taşıyorsa başlık da konturlanır: kontur kopyası
 ## rig'in ARKASINA çizilir, böylece yalnız silüetin dışında kalan kenar parlar (başlığın
 ## saça bindiği alt kenarda kontur yüze taşmaz).
+## Baş üstü savuruşta kol/silah başın önünden geçer: o karelerin başa ait olmayan
+## pikselleri `head_front.png` atlasından başlığın ÜSTÜNE, rig'in kostüm malzemesiyle
+## (kontursuz) yeniden çizilir; böylece şapka sopayı/eli yutmaz.
 class_name CostumeAccessory
 extends Sprite2D
 
@@ -20,8 +23,11 @@ const TOP_DROP := 16
 const BROW_LIFT := 2
 const RIM_NAME := &"CostumeAccessoryRim"
 const RIM_SHADER := preload("res://shaders/dark_rim.gdshader")
+const FRONT_NAME := &"CostumeAccessoryFront"
+const FRONT_PATH := ACC_DIR + "head_front.png"
 
 static var _anchors: Dictionary = {}
+static var _fronts: Dictionary = {}
 
 ## "crown" (saç tepesi) | "brow" (alın)
 var attach := "crown"
@@ -29,6 +35,9 @@ var _sprite: AnimatedSprite2D
 var _key := ""
 ## Rig'in kardeş çocuğu, `show_behind_parent`; yalnız gecede görünür.
 var _rim: Sprite2D
+## Rig'in kardeş çocuğu, başlıktan SONRA eklenir (üstüne çizilir); ön parçası olan karede görünür.
+var _front: Sprite2D
+var _front_mat_src: Material
 
 
 ## Kostümün başlığını sprite'a takar; başlıksız kostümde eskisini çıkarır.
@@ -73,6 +82,16 @@ static func anchor(sheet: String, index: int) -> Array:
 
 
 ## Çapanın, başlık pivotunun gideceği hücre noktası.
+## Sayfa adı + hücre sırası → [atlas_x, atlas_y, w, h, hücre_x, hücre_y]; yoksa boş.
+static func front_piece(sheet: String, index: int) -> Array:
+	if _fronts.is_empty():
+		var res = load(ANCHORS_PATH) if ResourceLoader.exists(ANCHORS_PATH) else null
+		if res is JSON and res.data is Dictionary:
+			_fronts = res.data.get("front", {})
+	var cells: Dictionary = _fronts.get(sheet, {})
+	return cells.get(str(index), [])
+
+
 static func attach_point(a: Array, mode: String) -> Vector2:
 	if mode == "brow":
 		return Vector2(a[0], a[2] - BROW_LIFT)
@@ -95,6 +114,51 @@ func _exit_tree() -> void:
 	if _rim != null and is_instance_valid(_rim):
 		_rim.queue_free()
 	_rim = null
+	if _front != null and is_instance_valid(_front):
+		_front.queue_free()
+	_front = null
+
+
+## Bu karenin ön parçasını başlığın üstüne yerleştirir; yoksa gizler.
+func _sync_front(sheet: String, idx: int, region: Rect2) -> void:
+	var f := front_piece(sheet, idx)
+	if f.is_empty() or not ResourceLoader.exists(FRONT_PATH):
+		if _front != null and is_instance_valid(_front):
+			_front.visible = false
+		return
+	if _front == null or not is_instance_valid(_front):
+		_front = Sprite2D.new()
+		_front.name = FRONT_NAME
+		_front.texture = load(FRONT_PATH)
+		_front.region_enabled = true
+		_front.centered = true
+		_front.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		_sprite.add_child(_front)
+	_sync_front_material()
+	var size := Vector2(f[2], f[3])
+	_front.region_rect = Rect2(f[0], f[1], f[2], f[3])
+	var c := Vector2(f[4], f[5]) + size * 0.5
+	var local := c - region.size * 0.5 if _sprite.centered else c
+	if _sprite.flip_h:
+		local.x = -local.x if _sprite.centered else region.size.x - c.x
+	_front.position = local + _sprite.offset
+	_front.flip_h = _sprite.flip_h
+	_front.visible = visible
+
+
+## Ön parça rig'in kostüm boyasını taşır ama kontursuz: kesik kenarda fener konturu
+## kolun ortasına çizgi çekerdi (rig'in kendi konturu altta zaten var).
+func _sync_front_material() -> void:
+	var src := _sprite.material
+	if src == _front_mat_src:
+		return
+	_front_mat_src = src
+	if src is ShaderMaterial and (src as ShaderMaterial).has_meta(&"costume"):
+		var m := (src as ShaderMaterial).duplicate() as ShaderMaterial
+		m.set_shader_parameter(&"rim_enabled", false)
+		_front.material = m
+	else:
+		_front.material = null
 
 
 ## Rig'in malzemesinden gece konturu açık mı ve rengi: kostüm malzemesi `rim_enabled`,
@@ -155,6 +219,7 @@ func _follow() -> void:
 	_key = key
 	var a := anchor(sheet, idx)
 	visible = not a.is_empty()
+	_sync_front(sheet, idx, region)
 	if a.is_empty():
 		return
 	var p := attach_point(a, attach)

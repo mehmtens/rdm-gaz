@@ -82,6 +82,8 @@ func _on_player() -> void:
 		rig.facing = -1
 		acc._follow()
 		_check(acc.flip_h and is_equal_approx(acc.position.x, -right), "sola bakınca aynalanır: %s / %s" % [right, acc.position.x])
+		rig.facing = 1
+		_front_layer(rig, acc)
 	# kostüm değişince değişir; başlıksız kostümde çıkar
 	CostumeAccessory.apply(rig, "kizil")
 	await get_tree().process_frame
@@ -94,6 +96,52 @@ func _on_player() -> void:
 	_check(rig.get_node_or_null(NodePath(CostumeAccessory.NODE_NAME)) == null, "sokak ceketinde başlık yok")
 	_check(rig.get_node_or_null(NodePath(CostumeAccessory.RIM_NAME)) == null, "başlık çıkınca kontur kopyası da gider")
 	p.queue_free()
+
+
+## Baş üstü savuruş: sopanın/elin başın önünden geçtiği karede ön parça başlığın
+## ÜSTÜNDE (rig'de başlıktan sonra), kostüm boyalı ama kontursuz; aynalanır; ön parçası
+## olmayan karede gizlenir. Sopa ahşabı saç sanılıp çapa havaya kaçmamalı.
+func _front_layer(rig: AnimatedSprite2D, acc: CostumeAccessory) -> void:
+	_check(CostumeAccessory.anchor("bat_attack2", 0)[1] > 40, "sopalı karede çapa sopada değil: %s" % [CostumeAccessory.anchor("bat_attack2", 0)])
+	var hit := _find_frame(rig.sprite_frames, true)
+	var miss := _find_frame(rig.sprite_frames, false)
+	_check(not hit.is_empty() and not miss.is_empty(), "ön parçalı ve parçasız kare bulundu")
+	if hit.is_empty() or miss.is_empty():
+		return
+	rig.animation = hit[0]
+	rig.frame = hit[1]
+	acc._follow()
+	var front := rig.get_node_or_null(NodePath(CostumeAccessory.FRONT_NAME)) as Sprite2D
+	_check(front != null and front.visible, "%s/%d: ön parça görünür" % hit)
+	if front == null:
+		return
+	_check(front.get_index() > acc.get_index() and not front.show_behind_parent, "ön parça başlığın üstüne çizilir")
+	var fm := front.material as ShaderMaterial
+	_check(fm != null and fm.has_meta(&"costume") and fm.get_shader_parameter(&"rim_enabled") == false, "ön parça kostüm boyalı, kontursuz")
+	_check(absf(front.position.y - acc.position.y) < 50 and absf(front.position.x - acc.position.x) < 60, "ön parça başlığın üstünde: %s / %s" % [front.position, acc.position])
+	var x := front.position.x
+	rig.facing = -1
+	acc._follow()
+	_check(front.flip_h and is_equal_approx(front.position.x, -x), "ön parça aynalanır")
+	rig.facing = 1
+	rig.animation = miss[0]
+	rig.frame = miss[1]
+	acc._follow()
+	_check(not front.visible, "%s/%d: ön parça gizli" % miss)
+
+
+## [animasyon, kare]: ön parçası olan (want) ya da olmayan ilk kare.
+func _find_frame(frames: SpriteFrames, want: bool) -> Array:
+	for anim in frames.get_animation_names():
+		for i in frames.get_frame_count(anim):
+			var at := frames.get_frame_texture(anim, i) as AtlasTexture
+			if at == null:
+				continue
+			var cols := int(at.atlas.get_width() / at.region.size.x)
+			var idx := int(at.region.position.y / at.region.size.y) * cols + int(at.region.position.x / at.region.size.x)
+			if CostumeAccessory.front_piece(at.atlas.resource_path.get_file().get_basename(), idx).is_empty() != want:
+				return [anim, i]
+	return []
 
 
 ## Gece: rig'in kostüm malzemesi konturu açınca başlığın kontur kopyası rig'in arkasında,

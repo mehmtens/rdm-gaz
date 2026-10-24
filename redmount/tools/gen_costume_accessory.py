@@ -45,7 +45,9 @@ def _masks(rgba: np.ndarray):
 	sat = np.where(mx > 0, (mx - mn) / np.maximum(mx, 1), 0)
 	r, g, b = rgb[..., 0], rgb[..., 1], rgb[..., 2]
 	warm = (a >= 128) & (r >= g) & (g >= b) & (sat > 0.28) & (r - b > 14)
-	hair = warm & (mx < 120)
+	# saç doygun koyu kahve (doygunluk ≥ ~0,52); sopa ahşabı grimsi kahve (≤ ~0,41).
+	# Eşik olmadan baş üstü savuruşta sopa saçla tek leke olup çapayı yukarı çekiyordu.
+	hair = warm & (mx < 120) & (sat > 0.46)
 	skin = warm & (mx >= 150)
 	return hair, skin
 
@@ -86,8 +88,10 @@ def cell_anchor(rgba: np.ndarray):
 	return [cx, top, brow]
 
 
-def build_anchors() -> dict:
+def build_anchors(front: dict | None = None) -> dict:
+	"""Çapalar; `front` verilirse kare başına başlığın ÖNÜNE çizilecek parçaları da toplar."""
 	out = {}
+	footprint = _footprint() if front is not None else None
 	for path in sorted(glob.glob(os.path.join(SHEETS, "*.png"))):
 		name = os.path.splitext(os.path.basename(path))[0]
 		im = np.array(Image.open(path).convert("RGBA"))
@@ -102,8 +106,101 @@ def build_anchors() -> dict:
 					a = list(last)
 				cells.append(a)
 				last = a
+				if front is not None:
+					piece = front_piece(cell, a, footprint)
+					if piece is not None:
+						front.setdefault(name, {})[str(len(cells) - 1)] = piece
 		out[name] = cells
 	return out
+
+
+# --- 1b. başlığın önündeki parçalar ---------------------------------------
+#
+# Baş üstü savuruşta (sopa/şemsiye/anahtar ikinci vuruşu) kol ve silah başın ÖNÜNDEN
+# geçer; tek katmanlı başlık bunların üstüne çizilince şapka silahı "yutuyordu". Her
+# hücrede başlık izdüşümüne düşen, başa (saç + yüz) ait olmayan opak pikseller ayrı bir
+# atlasa kesilir; oyunda başlığın üstüne, rig'in kostüm malzemesiyle çizilir.
+
+FRONT_PAD = 1
+FRONT_MIN = 30          # bundan küçük kırıntılar (saç tutamı ucu, kontur) atlanır
+
+
+def _footprint():
+	"""Dört başlığın birleşik opak maskesi, pivot (36,30) merkezli; (maske, kayma)."""
+	m = np.zeros((ACC_H, ACC_W), bool)
+	for fn in ACCESSORIES.values():
+		m |= np.array(fn().im)[..., 3] > 0
+	return m
+
+
+def front_piece(cell: np.ndarray, a: list, footprint: np.ndarray):
+	"""[x, y, w, h, rgba] (hücre pikseli) ya da None."""
+	cx, top, brow = a
+	hair, skin = _masks(cell)
+	opaque = cell[..., 3] >= 128
+	# başlık izdüşümü: taç başlıklar tepeye, bandana alına oturur
+	fp = np.zeros(opaque.shape, bool)
+	for ay in (top + 16, brow - 2):
+		x0, y0 = cx - PIVOT[0], ay - PIVOT[1]
+		ys, xs = np.nonzero(footprint)
+		ys, xs = ys + y0, xs + x0
+		ok = (ys >= 0) & (ys < fp.shape[0]) & (xs >= 0) & (xs < fp.shape[1])
+		fp[ys[ok], xs[ok]] = True
+	# baş: çapadaki saç lekesi + ona değen en büyük ten lekesi (yüz), delikleri (göz,
+	# kaş) dolu, kontur ve tutam uçları için 4 px genişletilmiş
+	lab, n = ndimage.label(ndimage.binary_closing(hair, np.ones((5, 5))))
+	head = np.zeros(opaque.shape, bool)
+	if n:
+		sizes = ndimage.sum(hair, lab, index=np.arange(1, n + 1))
+		head = (lab == int(np.argmax(sizes)) + 1) & hair
+	near = ndimage.binary_dilation(head, iterations=3)
+	sl, sn = ndimage.label(skin)
+	if sn:
+		ids = np.unique(sl[near & skin])
+		ids = ids[ids > 0]
+		if ids.size:
+			sizes = ndimage.sum(skin, sl, index=ids)
+			head |= sl == ids[int(np.argmax(sizes))]
+	head = ndimage.binary_dilation(ndimage.binary_fill_holes(head), iterations=4)
+	front = opaque & fp & ~head
+	fl, fn_ = ndimage.label(front)
+	if fn_ == 0:
+		return None
+	sizes = ndimage.sum(front, fl, index=np.arange(1, fn_ + 1))
+	keep = np.isin(fl, np.nonzero(sizes >= FRONT_MIN)[0] + 1)
+	if not keep.any():
+		return None
+	ys, xs = np.nonzero(keep)
+	x0, y0 = xs.min() - FRONT_PAD, ys.min() - FRONT_PAD
+	x1, y1 = xs.max() + 1 + FRONT_PAD, ys.max() + 1 + FRONT_PAD
+	crop = np.zeros((y1 - y0, x1 - x0, 4), np.uint8)
+	sub = keep[max(y0, 0):y1, max(x0, 0):x1]
+	src = cell[max(y0, 0):y1, max(x0, 0):x1]
+	dst = crop[max(0, -y0):max(0, -y0) + sub.shape[0], max(0, -x0):max(0, -x0) + sub.shape[1]]
+	dst[sub] = src[sub]
+	return [int(x0), int(y0), int(x1 - x0), int(y1 - y0), crop]
+
+
+def pack_front(front: dict, path: str) -> dict:
+	"""Parçaları raf yöntemiyle tek atlasa dizer; {sayfa: {hücre: [ax, ay, w, h, x, y]}}."""
+	items = sorted(((s, i, p) for s, d in front.items() for i, p in d.items()),
+		key=lambda t: -t[2][3])
+	width, x, y, shelf = 512, 0, 0, 0
+	placed = []
+	for s, i, p in items:
+		w, h = p[2], p[3]
+		if x + w > width:
+			x, y, shelf = 0, y + shelf, 0
+		placed.append((s, i, p, x, y))
+		x += w
+		shelf = max(shelf, h)
+	atlas = np.zeros((max(1, y + shelf), width, 4), np.uint8)
+	table: dict = {}
+	for s, i, p, ax, ay in placed:
+		atlas[ay:ay + p[3], ax:ax + p[2]] = p[4]
+		table.setdefault(s, {})[i] = [ax, ay, p[2], p[3], p[0], p[1]]
+	Image.fromarray(atlas, "RGBA").save(path)
+	return table
 
 
 # --- 2. başlıklar ----------------------------------------------------------
@@ -264,13 +361,17 @@ def preview(anchors: dict, path: str) -> None:
 
 
 def main() -> None:
-	anchors = build_anchors()
-	with open(os.path.join(SHEETS, "head_anchors.json"), "w", encoding="utf-8") as f:
-		json.dump({"cell": [CELL_W, CELL_H], "sheets": anchors}, f, separators=(",", ":"))
 	os.makedirs(OUT_DIR, exist_ok=True)
+	front: dict = {}
+	anchors = build_anchors(front)
+	table = pack_front(front, os.path.join(OUT_DIR, "head_front.png"))
+	with open(os.path.join(SHEETS, "head_anchors.json"), "w", encoding="utf-8") as f:
+		json.dump({"cell": [CELL_W, CELL_H], "sheets": anchors, "front": table}, f,
+			separators=(",", ":"))
 	for acc_id, fn in ACCESSORIES.items():
 		fn().im.save(os.path.join(OUT_DIR, acc_id + ".png"))
-	print("çapa:", sum(len(v) for v in anchors.values()), "hücre,", len(anchors), "sayfa")
+	print("çapa:", sum(len(v) for v in anchors.values()), "hücre,", len(anchors), "sayfa;",
+		"ön parça:", sum(len(v) for v in table.values()), "hücre")
 	if "--preview" in sys.argv:
 		dst = sys.argv[sys.argv.index("--preview") + 1] if len(sys.argv) > sys.argv.index("--preview") + 1 else "acc_preview.png"
 		preview(anchors, dst)
