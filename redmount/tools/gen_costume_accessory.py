@@ -52,6 +52,34 @@ def _masks(rgba: np.ndarray):
 	return hair, skin
 
 
+def _tufts(rgba: np.ndarray, head: np.ndarray) -> np.ndarray:
+	"""Baş lekesinden kopuk koyu saç tutamları (doygun saç maskesine girmeyenler).
+
+	Bıçak savuruşunda (`knife_attack` 4) sivri tutamlar neredeyse siyah çizilmiş ve iz
+	tutamların dibinden geçtiği için baştan kopuk; `hair` maskesine girmeyip izle tek
+	parça olunca ön parça sayılıyor, şapkanın önüne çiziliyordu. Tutam: başa HAIR_REACH
+	içinde yaklaşan, orta boy (TUFT_MIN_PX..TUFT_MAX_PX), çoğu sıcak koyu (r − b ≥ 6)
+	ayrı leke. Başa değen koyu lekeler (kontur + el + sopa tek parça) bilerek dışarıda:
+	geodezik büyüme sopa ve elin ön parçasını da yiyordu.
+	"""
+	rgb = rgba[..., :3].astype(np.int16)
+	r, b = rgb[..., 0], rgb[..., 2]
+	mx = rgb.max(axis=2)
+	dark = (rgba[..., 3] >= 128) & (mx < TUFT_MAX) & (r >= b) & ((r - b >= 6) | (mx < 16))
+	warm = dark & (r - b >= 6) & (mx >= 16)
+	out = np.zeros(head.shape, bool)
+	lab, n = ndimage.label(dark & ~head, np.ones((3, 3)))
+	if n == 0 or not head.any():
+		return out
+	idx = np.arange(1, n + 1)
+	size = ndimage.sum(dark, lab, index=idx)
+	frac = ndimage.mean(warm, lab, index=idx)
+	dist = ndimage.distance_transform_edt(~head)
+	dmin = ndimage.minimum(dist, lab, index=idx)
+	ok = (frac >= TUFT_WARM) & (dmin > 1.5) & (dmin <= HAIR_REACH) & (size >= TUFT_MIN_PX) & (size <= TUFT_MAX_PX)
+	return np.isin(lab, idx[ok])
+
+
 def cell_anchor(rgba: np.ndarray):
 	hair, skin = _masks(rgba)
 	if not hair.any():
@@ -125,6 +153,11 @@ def build_anchors(front: dict | None = None) -> dict:
 
 FRONT_PAD = 1
 FRONT_MIN = 30          # bundan küçük kırıntılar (saç tutamı ucu, kontur) atlanır
+TUFT_MAX = 70           # koyu saç tutamının en parlak kanalı (sopa ahşabı daha açık)
+TUFT_WARM = 0.5         # ayrı koyu lekenin tutam sayılması için sıcak piksel oranı
+TUFT_MAX_PX = 400       # bundan büyük koyu leke tutam değil (kol, sopa)
+TUFT_MIN_PX = 40        # bundan küçük koyu kırıntı (kol kıvrımı, kaş) tutam değil
+SPECK_PX = 8            # tutam yanında bundan küçük görünür kırıntı da gizlenir
 
 
 def _footprint():
@@ -171,6 +204,7 @@ def front_mask(cell: np.ndarray, a: list, footprint: np.ndarray):
 	if n:
 		sizes = ndimage.sum(hair, lab, index=np.arange(1, n + 1))
 		head = (lab == int(np.argmax(sizes)) + 1) & hair
+		head |= _tufts(cell, head)
 	near = ndimage.binary_dilation(head, iterations=3)
 	sl, sn = ndimage.label(skin)
 	if sn:
@@ -254,9 +288,16 @@ def hair_over_hat(cell: np.ndarray, a: list, footprint: np.ndarray) -> np.ndarra
 		return bits
 	sizes = ndimage.sum(hair, lab, index=np.arange(1, n + 1))
 	head = (lab == int(np.argmax(sizes)) + 1) & hair
+	tufts = _tufts(cell, head)
+	if tufts.any():
+		# tutamın izle karıştığı kenar pikselleri (gri-kahve ara ton) da tutamdır; yoksa
+		# şapkanın üstünde kahve kırıntılar kalıyordu
+		rgb = cell[..., :3].astype(np.int16)
+		warmish = (rgb[..., 0] - rgb[..., 2] >= 6) & (rgb.max(axis=2) < 160) & opaque & ~skin
+		tufts |= ndimage.binary_dilation(tufts, iterations=3) & warmish
 	# saç tutamlarının koyu kontur/gölge pikselleri doygun saç maskesine girmez; baş
 	# bölgesi bu yüzden HAIR_REACH kadar genişletilir
-	near = ndimage.binary_dilation(ndimage.binary_fill_holes(head), iterations=HAIR_REACH)
+	near = ndimage.binary_dilation(ndimage.binary_fill_holes(head), iterations=HAIR_REACH) | tufts
 	# baştan ayrı büyük parçalar (eller, silah) korunur
 	far = opaque & ~near
 	fl, fn_ = ndimage.label(far)
@@ -267,8 +308,8 @@ def hair_over_hat(cell: np.ndarray, a: list, footprint: np.ndarray) -> np.ndarra
 	if protect.any():
 		# el/silah baş bölgesine girdiği yerde de korunur: saç olmayan pikseller boyunca büyüt
 		for _ in range(HAIR_REACH + 2):
-			protect = ndimage.binary_dilation(protect) & opaque & ~hair
-		protect = ndimage.binary_dilation(protect)
+			protect = ndimage.binary_dilation(protect) & opaque & ~hair & ~tufts
+		protect = ndimage.binary_dilation(protect) & ~tufts
 	# başlığın önüne çizilen parçalar (el, silah, savuruş izi) ve kenar konturları korunur;
 	# yalnız 2 px: daha fazlası izin altındaki saç tutamlarına yayılıyordu
 	keep = front_mask(cell, a, footprint)
@@ -276,6 +317,7 @@ def hair_over_hat(cell: np.ndarray, a: list, footprint: np.ndarray) -> np.ndarra
 		protect |= ndimage.binary_dilation(keep, iterations=2)
 	cand = opaque & near & ~protect & ~skin
 	h, w = opaque.shape
+	above = np.zeros(opaque.shape, bool)
 	for hat_id, bit in HAIR_BITS.items():
 		hm = _hat_mask(hat_id)
 		x0, y0 = cx - PIVOT[0], top + 16 - PIVOT[1]
@@ -287,6 +329,21 @@ def hair_over_hat(cell: np.ndarray, a: list, footprint: np.ndarray) -> np.ndarra
 			y_top = max(0, min(h, y0 + int(col.min())))
 			sel = cand[:y_top, x]
 			bits[:y_top, x][sel] |= bit
+			above[:y_top, x] = True
+		if tufts.any():
+			# gizlenen tutamın dış kontur halkası şapkanın üstünde tek tük nokta bırakıyordu:
+			# tutam yanında kalan küçük görünür kırıntılar da gizlenir (iz çizgileri büyük kalır)
+			vis = opaque & above & ((bits & bit) == 0)
+			if keep is not None:
+				vis &= ~keep
+			vl, vn = ndimage.label(vis, np.ones((3, 3)))
+			if vn:
+				idx = np.arange(1, vn + 1)
+				vs = ndimage.sum(vis, vl, index=idx)
+				near_t = ndimage.binary_dilation(tufts, iterations=4)
+				touch = ndimage.maximum(near_t, vl, index=idx) > 0
+				bits[np.isin(vl, idx[(vs < SPECK_PX) & touch])] |= bit
+		above[:] = False
 	return bits
 
 

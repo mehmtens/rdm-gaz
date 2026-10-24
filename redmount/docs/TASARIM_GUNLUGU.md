@@ -7,9 +7,6 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Bıçak savuruşu (`knife_attack` 4): savuruş izi büyük parça olarak korunduğu için altındaki
-  saç tutamları kasket/kaptan şapkasının üstünde kalıyor (tek hızlı kare). Gerekirse
-  korumayı ize değil yalnız saç olmayan, izden 2 px'ten uzak pikselle sınırla.
 - Pantolon maskesinde kalan kaçaklar: koşu karelerinde ceketin arka eteği, tekmede dizde
   birkaç ceket rengi piksel; gölgedeki arka bacak bazen ceket rampasında. Gerekirse
   `tools/gen_costume_mask.py` sonrası kare başına elle düzeltme maskesi (küçük PNG).
@@ -30,11 +27,49 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   zor, ikinci koşuda alınabilir); `par_time` her `Bolum*.tscn`'de elle.
 - Sonuç kartında önceki koşularda kazanılmış ama bu koşuda alınamamış yıldızı soluk
   altınla göstermek (oyuncu neyin kalıcı olduğunu görsün).
+- Bıçak savuruşu (`knife_attack` 4) kalıntısı: şapkanın üstünde 1–2 sanat pikseli koyu nokta
+  kalıyor (iz ön parçasının içinde ya da ≥ 8 px). İnsan testinde fark edilirse ön parçadan da
+  tutam kenarı ayıkla.
 - Telefonda dokunmatik ölçüm: yanlış/kaçırılan basış sayacı (insan testi formuyla bağlanacak).
 - KAY düğmesinin yeri gerçek cihazda başparmak erişimiyle doğrulanacak; gerekirse
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-24 (10) — Bıçak savuruşunda şapkanın üstündeki tutamlar
+
+**Neden şimdi:** Yol haritasında açık madde yok, P1 maddelerinin hepsinin ilk dilimleri
+oyunda; birikimin başı bu kusurdu. Ölçünce sorun notta sanılandan büyük çıktı: bu karede
+sivri tutamlar neredeyse siyah çizildiği için doygun saç maskesine girmiyor, bıçak izi
+tutamların dibinden geçtiği için de baştan kopuk duruyor; iz ile tek parça olunca **ön
+parça** sayılıp şapkanın ÖNÜNE çiziliyordu (kaptan şapkasında yalnız 2 piksel gizliydi).
+
+**Oyuncu ne hissedecek:** Başlıklı kostümle bıçak sallarken saç şapkayı delmiyor; şapka
+silüeti diğer karelerle aynı, savuruş izi şapkanın üstünden geçmeye devam ediyor.
+
+**Yapılanlar:**
+- `tools/gen_costume_accessory.py` `_tufts()`: baş lekesine HAIR_REACH (8 px) içinde
+  yaklaşan, 40–400 px boyunda, çoğu sıcak koyu (r − b ≥ 6, en parlak kanal < 70) ayrı
+  koyu leke saç tutamıdır. `front_mask` bunu başa katar (ön parça olmaz); `hair_over_hat`
+  bunları korumadan çıkarır, izle karışan gri-kahve kenarlarını (3 px, < 160) ve tutam
+  yanında kalan < 8 px görünür kırıntıları da gizler.
+- İlk deneme (baştan koyu pikseller boyunca geodezik büyüme) sopa/anahtar/şemsiye
+  karelerinde el ve sopanın ön parçasını yiyordu (bat_attack2/0: 178 → 0 px); ikinci
+  denemede 40 px alt sınır yokken kol kıvrımı kırıntıları tutam sayılıp kolu şapkanın
+  arkasına atıyordu. Son hâlde 236 hücrenin ön parça/işaret sayılarını önce/sonra
+  karşılaştırdım: **yalnız `knife_attack/4` değişiyor** (ön parça 525 → 126 px; gizli
+  tutam vapurcu 2 → 396, hamal 8 → 309, kahveci 62 → 535 px).
+- `tests/costume_accessory.gd`: bıçak karesinde kaptan şapkası bitli > 300 piksel.
+
+**Testler:** `--import` hata yok; `campaign_smoke.gd` çıkış 0; `dtm_gaps` PASS;
+`costume_accessory` (genişletildi), `costumes` PASS; bot Bölüm 1 (95,3 sn), 13 (78,7 sn),
+25 (80,2 sn) CLEARED.
+
+**Görsel kanıt:** Araç önce/sonra önizlemesi (3 başlık, 3× büyütme) ve 1280×720 pencereli
+oyun içi görüntü (üç kostüm, `knife_attack` 4. kare): tırtıklı tutamlar gitti, iz duruyor;
+şapka üstünde 1 piksellik koyu nokta kaldı (birikimde).
+
+**Sonraki öneri:** Pantolon maskesindeki kaçaklar (birikimin yeni başı).
 
 ### 2026-10-24 (9) — Şapkanın üstünden taşan saç gizlendi
 

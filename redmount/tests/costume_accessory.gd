@@ -92,6 +92,21 @@ func _hair_over_hat() -> void:
 					above += 1
 	_check(marked[1] > 0 and marked[2] > 0 and marked[4] > 0, "koşu sayfasında üç başlığın saç işareti: %s" % marked)
 	_check(total > 0 and above == total, "saç işaretleri başlığın tepesinin üstünde (%d / %d)" % [above, total])
+	## bıçak savuruşu 4. kare: iz tutamların dibinden geçiyor, kopuk koyu tutamlar da gizlenmeli
+	## (eskiden ön parça sayılıp şapkanın önüne çiziliyordu; yalnız 2 piksel işaretliydi)
+	var kimg: Image = (load("res://assets/anim/redmount/knife_attack.png") as Texture2D).get_image()
+	if kimg.is_compressed():
+		kimg.decompress()
+	var kcols := kimg.get_width() / 200
+	var kox := (4 % kcols) * 200
+	var koy := (4 / kcols) * 240
+	var knife := 0
+	for y in 240:
+		for x in 200:
+			var al := roundi(kimg.get_pixel(kox + x, koy + y).a * 255.0)
+			if al >= 241 and al <= 253 and (255 - al) % 2 == 0 and ((255 - al) / 2) & 1:
+				knife += 1
+	_check(knife > 300, "bıçak savuruşunda kaptan şapkası üstü tutamlar gizli (%d px)" % knife)
 
 
 func _on_player() -> void:
