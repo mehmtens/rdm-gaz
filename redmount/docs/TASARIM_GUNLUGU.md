@@ -49,7 +49,14 @@ yalnız `logo()` çağrılarak üretildi (aracın `main`'i yeniden boyanmış ik
 
 **Testler:** `--import` hatasız; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn` PASS; bot Bölüm 1 (84,2 sn) CLEARED (yalnız menü dokusu değişti). Görsel: ana menü 1280×720 — "ait".
 
-**Sonraki öneri:** Stil listesi 5 — portre_* kontrolü.
+**Ek (aynı tur, portre kontrolü):** `portre_gazelle/karahanli/redmount` 845–1217 renkli,
+ChatGPT karakter karelerinden kesit — dokunulmadı. `portre_telsiz` 9 renkli Claude çizimi:
+`ikonlar(["portre_telsiz"])` ile aynı malzeme rampalarından geçirildi (yeşil ekran rengi
+korunur). Testler: `--import` hatasız, `tests/campaign_smoke.gd` çıkış 0, `dtm_gaps` PASS;
+yalnız doku değişti.
+
+**Sonraki öneri:** Stil listesi 6 — `environment/kit/*` ve `mahalle/*` küçük parçaların
+kaynak kontrolü.
 
 ### 2026-10-26 (10) — Arayüz ikonları ChatGPT tarzında (stil listesi 5/ikonlar)
 

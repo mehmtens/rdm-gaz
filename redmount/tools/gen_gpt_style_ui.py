@@ -223,6 +223,9 @@ ICONS = {  # ad: sanat ölçeği (dosya bu kat NEAREST büyütülmüş)
     "cubuk_zemin": 3, "cubuk_dolgu": 3, "ikon_tufek": 3, "ikon_yumruk": 3,
     "yildiz_dolu": 1, "yildiz_bos": 1, "yildiz_soluk": 1,
     "yildiz_dolu_kucuk": 1, "yildiz_bos_kucuk": 1, "yildiz_soluk_kucuk": 1,
+    # Portreler: gazelle/karahanli/redmount ChatGPT karakter karelerinden kesit (dokunulmaz);
+    # telsiz Claude çizimi.
+    "portre_telsiz": 3,
 }
 
 
@@ -276,8 +279,10 @@ def restyle(img, rnd):
     return out
 
 
-def ikonlar():
+def ikonlar(only=None):
     for name, k in ICONS.items():
+        if only and name not in only:
+            continue
         path = OUT / (name + ".png")
         big = Image.open(path).convert("RGBA")
         small = big.resize((big.width // k, big.height // k), Image.NEAREST)
