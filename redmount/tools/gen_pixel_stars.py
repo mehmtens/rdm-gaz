@@ -7,6 +7,9 @@ Büyük yıldız sonuç kartında ~4x, küçük yıldız bölüm seçme kartınd
 boş yuva aynı siluetin oyulmuş mürdüm hâli (kazanılmamış yıldız okunur kalsın).
 Soluk yıldız: önceki koşuda kazanılmış, bu koşuda alınmamış — sönük okra, parıltısız
 (kalıcı olduğu okunsun ama bu koşunun altınıyla karışmasın).
+
+Not (26 Ekim): ikonlar ChatGPT tarzına yeniden boyandı. Bu araç yeniden çalıştırılırsa
+ardından bir kez `cd tools && python gen_gpt_style_ui.py --ikonlar` çalıştırılmalı.
 """
 from pathlib import Path
 

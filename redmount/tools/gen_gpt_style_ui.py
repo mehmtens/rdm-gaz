@@ -215,7 +215,81 @@ def dugmeler():
         save(img, name + ".png")
 
 
+# --- İkonlar: tasarım korunur, malzeme sınıfına göre ChatGPT rampalarıyla yeniden boyanır ---
+
+SKIN = [(64, 30, 24), (110, 56, 36), (160, 92, 56), (204, 134, 86), (232, 172, 120), (246, 206, 160)]
+ICONS = {  # ad: sanat ölçeği (dosya bu kat NEAREST büyütülmüş)
+    "coin": 3, "kilit": 3, "film": 3, "odak": 3, "pip_bos": 3, "pip_dolu": 3, "tutamac": 3,
+    "cubuk_zemin": 3, "cubuk_dolgu": 3, "ikon_tufek": 3, "ikon_yumruk": 3,
+    "yildiz_dolu": 1, "yildiz_bos": 1, "yildiz_soluk": 1,
+    "yildiz_dolu_kucuk": 1, "yildiz_bos_kucuk": 1, "yildiz_soluk_kucuk": 1,
+}
+
+
+def _material(r, g, b):
+    mx, mn = max(r, g, b), min(r, g, b)
+    sat = (mx - mn) / mx if mx else 0.0
+    if sat < 0.22:
+        return STEEL if b >= r else PLUM
+    if r >= g >= b:
+        if r > 140 and b > 0.42 * r:
+            return SKIN  # ten: mavi kanal altından belirgin yüksek
+        if g > 0.62 * r:
+            return BRASS  # altın / pirinç
+        if r > 150 and sat < 0.62:
+            return SKIN
+        if r > 1.9 * max(g, 1):
+            return RED
+        return WOOD
+    if r > g and r > b and r > 1.6 * max(g, 1):
+        return RED
+    return None  # yeşil/mavi ekran vb.: rengi korunur, yalnız ışık kuralı
+
+
+def restyle(img, rnd):
+    ## Kontur → koyu mor; diğer pikseller sınıf rampasında, parlaklığı korunarak sol üst
+    ## ışık eğimi, kumaş/metal titreşimi, sağ kenarda ay ışığı, en açıkta sıcak parlama.
+    w, h = img.size
+    src = img.load()
+    out = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = out.load()
+    for y in range(h):
+        for x in range(w):
+            r, g, b, a = src[x, y]
+            if a == 0:
+                continue
+            if max(r, g, b) < 30:
+                px[x, y] = OUTLINE[:3] + (a,)
+                continue
+            lum = (r * 3 + g * 4 + b) / 8 / 255.0
+            ramp = _material(r, g, b)
+            grad = 0.1 * (1.0 - (x / max(1, w - 1) + y / max(1, h - 1)))
+            lift = 0.18 if ramp is RED else 0.0  # can çubuğu kırmızısı okunur kalsın
+            v = min(max(lum * 1.08 + grad - 0.04 + lift, 0.0), 0.999)
+            c = pick(ramp, v, rnd, 0.3) if ramp else (r, g, b)
+            if v > 0.86:
+                c = mix(c, WARM, 0.2)
+            right = src[x + 1, y] if x + 1 < w else (0, 0, 0, 0)
+            if right[3] == 0 or max(right[:3]) < 30:
+                c = mix(c, MOON, 0.22)
+            px[x, y] = c + (a,)
+    return out
+
+
+def ikonlar():
+    for name, k in ICONS.items():
+        path = OUT / (name + ".png")
+        big = Image.open(path).convert("RGBA")
+        small = big.resize((big.width // k, big.height // k), Image.NEAREST)
+        res = restyle(small, random.Random(sum(map(ord, name))))
+        res.resize(big.size, Image.NEAREST).save(path)
+
+
 if __name__ == "__main__":
+    import sys
+    if "--ikonlar" in sys.argv:
+        # Bir kez: eski düz ikonları yeniden boyar (tekrar çalıştırmak rampayı yeniden uygular).
+        ikonlar()
     dugmeler()
     panels()
     kartlar()

@@ -4,6 +4,9 @@
 
 Dil: koyu mürdüm/ahşap zemin, koyu kontur, içte ince altın çizgi, köşelerde
 Osmanlı tarzı küçük altın süs. Godot'da StyleBoxTexture olarak 3x ölçekle.
+
+Not (26 Ekim): ikonlar ChatGPT tarzına yeniden boyandı. Bu araç yeniden çalıştırılırsa
+ardından bir kez `cd tools && python gen_gpt_style_ui.py --ikonlar` çalıştırılmalı.
 """
 from pathlib import Path
 

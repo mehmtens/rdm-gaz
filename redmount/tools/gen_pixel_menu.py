@@ -6,6 +6,9 @@ Logo oyunun piksel yazısından (assets/ui/redmount_pixel.ttf, 12 px ızgara)
 türetilir: her yazı pikseli 2x2 sanat pikseli olur, içi kırmızı degrade, üstte
 ışık çizgisi, koyu kontur ve altta derinlik gölgesi. Düşük çözünürlükte (1x)
 kaydedilir; oyunda NEAREST ile tam sayı katlarla büyütülür. Çerçeveler 3x.
+
+Not (26 Ekim): ikonlar ChatGPT tarzına yeniden boyandı. Bu araç yeniden çalıştırılırsa
+ardından bir kez `cd tools && python gen_gpt_style_ui.py --ikonlar` çalıştırılmalı.
 """
 from pathlib import Path
 

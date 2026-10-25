@@ -31,6 +31,29 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-10-26 (10) — Arayüz ikonları ChatGPT tarzında (stil listesi 5/ikonlar)
+
+**Neden şimdi:** Stil listesi 5'in sıradaki maddesi. 17 küçük ikon (coin, kilit, film, odak,
+pip, tutamaç, çubuk zemin/dolgu, tüfek/yumruk ikonu, üç hâlde iki boy yıldız) 3–4 sabit
+tonla boyanmış düz şekillerdi.
+
+**Oyuncu ne hissedecek:** Tasarımlar aynı (oyuncu ikonları tanıyor), ama malzemeleri artık
+sahnedeki gibi: pirinç/altın, soğuk demir, ahşap, ten ve kırmızı kendi 8–9 tonluk rampasında;
+sol üstten ışık eğimi, sağ kenarda ay ışığı, en açık tonda sıcak parlama, koyu mor kontur.
+Yıldızın üç hâli (dolu altın / önceki koşudan soluk okra / boş mürdüm) ayrık kaldı.
+
+**Yapılanlar:** `tools/gen_gpt_style_ui.py`: `ikonlar()` her ikonu sanat ölçeğine indirir
+(ölçek ölçüldü: 11 ikon 3x, yıldızlar 1x), pikselleri malzeme sınıfına göre (`_material`:
+doygunluk/ton) rampaya oturtur, geri büyütür. Bir kez çalışır (`--ikonlar`); eski üreticilere
+(`gen_pixel_menu/ui/stars`) "yeniden çalıştırırsan ardından `--ikonlar`" notu eklendi. İlk
+geçişte yumruk teni altına, can çubuğu bordoya, boş pip kontura düştü: ten sınıfı (mavi kanal
+> 0,42·kırmızı) altından önce, kırmızıya +0,18 ışık, kontur eşiği 45 → 30.
+
+**Testler:** `--import` hatasız; `touch_polish`, `level_stars`, `costume_badge` PASS; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn` PASS; bot Bölüm 1 (83,3 sn), 13 (81,7 sn), 25 (79,3 sn) CLEARED. Görsel: bölüm seçme (yıldızlar), mağaza (coin, sekme), Bölüm 2 HUD
+1280×720 — "ait".
+
+**Sonraki öneri:** Stil listesi 5 — logo, logo_alt.
+
 ### 2026-10-26 (9) — Menü ve dokunmatik düğmeler ChatGPT tarzında (stil listesi 5/düğmeler)
 
 **Neden şimdi:** Stil listesi 5'te "mobilde sürekli ekranda, yüksek öncelik" diye işaretli
