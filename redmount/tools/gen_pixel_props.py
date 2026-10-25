@@ -1,7 +1,8 @@
 """REDMOUNT piksel art sahne parçaları üreticisi.
 
-    python tools/gen_pixel_props.py          # hepsi -> assets/environment/pixel/
-    python tools/gen_pixel_props.py sancak   # tek parça
+    python tools/gen_pixel_props.py          # eski tarzda kalanlar (golge, huzme)
+    python tools/gen_pixel_props.py golge    # tek parça
+Diğer parçalar tools/gen_gpt_style_props.py'ye taşındı (GPT_STYLE).
 
 Her parça düşük çözünürlükte (1 sanat pikseli = oyunda 3 px) çizilir.
 """
@@ -866,8 +867,15 @@ GENERATORS = {
     "alev": alev, "varil": varil, "halat": halat, "huzme": huzme, "golge": golge,
 }
 
+## Bu parçalar artık tools/gen_gpt_style_props.py ile ChatGPT temel sanatının tarzında
+## üretiliyor; buradaki eski çizimler çalıştırılırsa yenilerin üstüne yazar.
+GPT_STYLE = {name for name in GENERATORS if name not in ("golge", "huzme")}
+
 if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
     for name in (sys.argv[1:] or GENERATORS.keys()):
+        if name in GPT_STYLE:
+            print("atlandı", name, "(tools/gen_gpt_style_props.py üretir)")
+            continue
         GENERATORS[name]()
         print("ok", name)

@@ -31,6 +31,30 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-10-25 (10) — Kontrol noktası sancağı ChatGPT tarzında; gölge kontrolü (stil listesi 1 tamam)
+
+**Neden şimdi:** Stil listesi bölüm 1'in son iki maddesi. Kaynak kontrolü: `sancak.png`
+ChatGPT bayrağı değil, `tools/gen_pixel_props.py` çizimi (16 Ekim, 22 renk, düz kırmızı
+bant) → yeniden çizildi. `golge.png` koyu mor (8,6,12) yarı saydam dither; tarzın gölge
+tonuyla uyumlu → değiştirilmedi.
+
+**Oyuncu ne hissedecek:** Kontrol noktası her bölümde birkaç kez görülen "güvendesin" işareti:
+pasifken direğe sarılı, iple bağlı soluk bez; dokununca kırlangıç kuyruklu sancak
+dalgalanıyor — kıvrımın ışığa bakan yüzü sıcak, çukuru bordo, ay-yıldız krem ve kıvrımla
+gölgeleniyor; pirinç alem, bilezik, altın saçak ve püskül; taş kaidede AO.
+
+**Yapılanlar:** `tools/gen_gpt_style_props.py` → `DUSK_CLOTH`, `_sancak_frame`, `make_sancak`
+(5×30×82; direk x=5 ve kare düzeni aynı, `checkpoint.gd` değişmedi).
+`tools/gen_pixel_props.py`: argümansız çalıştırılınca ChatGPT tarzına taşınmış 30+ parçayı
+eski çizimle ezerdi → `GPT_STYLE` kümesi atlanıyor (yalnız `golge`, `huzme` eski üreticide).
+
+**Testler:** `--import` hatasız; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn`
+PASS; bot Bölüm 2 (70,0 sn) CLEARED; `gen_pixel_props.py sancak golge` → sancak atlandı,
+golge birebir aynı. 1280×720 ekran görüntüsü: Bölüm 2 ilk kontrol noktası — "ait".
+
+**Sonraki öneri:** Stil listesi bölüm 2 — kodla çizilen görseller (`level01_long_route.gd`,
+`level01_dressing.gd`).
+
 ### 2026-10-25 (9) — Kalkanlı Zabıta'nın kalkanı ChatGPT tarzında (stil listesi 1/kalkan)
 
 **Neden şimdi:** Stil listesinin sıradaki maddesi. Kalkan düz açık gri levha + düz kırmızı

@@ -15,7 +15,7 @@ fener,fener_hale,asma_lamba,on_kolon,on_kolon_bas,on_kolon_kaide,on_sarmasik,zin
 diken,alev_izgara,kablo,bomba,bomba_ikaz,alev,kivilcim,patlama,
 tugla,sivali_tugla,ic_duvar,hatil,ic_pencere,fabrika_pencere,tavan,han_kapisi,
 pres,pres_kol,ray,su_govde,su_yuzey,anten,kule_ayak,kule_kulube,ahsap_kat,
-kalkan,kalkan_kirik}.png
+kalkan,kalkan_kirik,sancak}.png
 Oyunda 2x NEAREST ölçeklenir (1 sanat pikseli = 2 ekran pikseli).
 """
 import math
@@ -1769,6 +1769,116 @@ def riot_shield(rnd, broken):
     return img
 
 
+DUSK_CLOTH = [(14, 10, 22), (26, 22, 36), (40, 36, 52), (56, 52, 66), (76, 72, 84), (100, 94, 102)]
+
+
+def _sancak_frame(rnd, active, phase):
+    """Kontrol noktası sancağı karesi (30×82). Direk x=5, taş kaide 74–80, bez y=11'den.
+    Pasif: direğe sarılı, iple bağlı soluk bez. Aktif: dalgalanan kırlangıç kuyruklu
+    kırmızı sancak; kıvrımın ışığa bakan yüzü sıcak, çukuru bordo-mor; ay-yıldız krem,
+    kıvrımla birlikte gölgelenir; altın saçak ve püskül."""
+    w, h = 30, 82
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    pole_x = 5
+
+    def put(x, y, c):
+        if 0 <= x < w and 0 <= y < h:
+            px[x, y] = c + (255,)
+    # Taş kaide: üst pah ışıkta, sağ yüz ayda, dipte AO.
+    for y in range(74, 81):
+        for x in range(0, 13):
+            if y == 74 and x in (0, 12):
+                continue
+            lv = 0.75 if y == 74 else (0.5 if y == 75 else 0.36 - (y - 76) * 0.05)
+            c = pick(STONE, lv, rnd, 0.4)
+            if x >= 11:
+                c = mix(c, MOON, 0.25)
+            if y == 80:
+                c = STONE[1]
+            put(x, y, c)
+    # Ahşap direk: silindir ışığı, budak.
+    for y in range(9, 74):
+        for i, x in enumerate((pole_x - 1, pole_x, pole_x + 1)):
+            lv = (0.82, 0.5, 0.2)[i] + (-0.12 if (y * 7) % 11 == 0 else 0.0)
+            put(x, y, pick(WOOD, lv, rnd, 0.3))
+    for x, lv in ((pole_x - 1, 0.8), (pole_x, 0.55), (pole_x + 1, 0.25)):
+        put(x, 44, pick(BRASS, lv, rnd, 0.1))  # pirinç bilezik
+        put(x, 73, pick(BRASS, lv - 0.1, rnd, 0.1))
+    # Alem: pirinç top + hilal kolları.
+    for y in range(3, 10):
+        for x in range(pole_x - 3, pole_x + 4):
+            d = math.hypot(x - pole_x, y - 6)
+            if d <= 2.4:
+                u = (x - pole_x) / 2.4
+                put(x, y, pick(BRASS, light(u) * 0.9 + 0.1 - max(0, y - 6) * 0.08, rnd, 0.2))
+    for (x, y) in [(pole_x - 2, 0), (pole_x - 3, 1), (pole_x - 3, 2), (pole_x - 2, 3)]:
+        put(x, y, BRASS[3])
+    for (x, y) in [(pole_x + 2, 0), (pole_x + 3, 1), (pole_x + 3, 2), (pole_x + 2, 3)]:
+        put(x, y, BRASS[2])
+    put(pole_x - 1, 5, BRASS[4])
+    top, bh, bw = 11, 26, 22
+    if not active:
+        # Direğe sarılı soluk bez: kat kat sarım, aralarda gölge, iki ip bağı.
+        for y in range(top, top + 34):
+            width = 3 + int(round(1.5 * math.sin(y * 0.55))) + (y - top) // 12
+            for k, x in enumerate(range(pole_x + 2, pole_x + 2 + width)):
+                fold = math.sin(y * 0.9 + k * 0.6)
+                lv = 0.45 + fold * 0.22 - k * 0.06
+                c = pick(DUSK_CLOTH, lv, rnd, 0.3)
+                if k == width - 1:
+                    c = mix(c, MOON, 0.25)
+                put(x, y, c)
+        for ry in (top + 8, top + 22):
+            for x in range(pole_x + 2, pole_x + 7):
+                put(x, ry, pick(HEMP, 0.6 if x == pole_x + 2 else 0.35, rnd, 0.2))
+    else:
+        ph = phase * math.pi / 2
+        crest = {}
+        for col in range(bw):
+            x = pole_x + 2 + col
+            amp = 2.0 * (col / bw) + 0.3
+            wave = int(round(math.sin(col * 0.42 - ph) * amp))
+            slope = math.cos(col * 0.42 - ph)  # >0: kıvrım ışığa bakıyor
+            y0 = top + wave
+            crest[col] = (y0, slope)
+            notch = max(0, col - (bw - 7))
+            for y in range(y0, y0 + bh):
+                rel = y - y0
+                if notch and (bh // 2 - notch) < rel < (bh // 2 + notch):
+                    continue
+                lv = 0.64 + slope * 0.22 - rel * 0.005 - (0.1 if col == 0 else 0.0)
+                c = pick(RED, lv, rnd, 0.35)
+                if rel <= 1 or rel >= bh - 2:
+                    c = pick(BRASS, (0.8 if rel in (0, bh - 2) else 0.45) + slope * 0.15, rnd, 0.2)
+                if col >= bw - 3 and 1 < rel < bh - 2:
+                    c = mix(c, MOON, 0.18)
+                put(x, y, c)
+        # Ay-yıldız: kıvrımla birlikte gölgelenen krem.
+        mc = 7
+        cx, cy = pole_x + 2 + mc, top + bh // 2 + int(round(math.sin(mc * 0.42 - ph)))
+        sl = crest[mc][1]
+        moon = CREAM[4] if sl > -0.3 else CREAM[3]
+        moon_dark = CREAM[3] if sl > -0.3 else CREAM[2]
+        for y in range(-4, 5):
+            for x in range(-4, 5):
+                if x * x + y * y <= 16 and (x - 1.6) ** 2 + y * y > 9:
+                    put(cx + x, cy + y, moon if y < 1 else moon_dark)
+        for (x, y) in [(5, -2), (3, -1), (4, -1), (5, -1), (6, -1), (7, -1), (4, 0), (5, 0), (6, 0), (4, 1), (6, 1)]:
+            put(cx + x, cy + y, moon if y < 0 else moon_dark)
+        # Püskül.
+        for y in range(top + bh, top + bh + 4):
+            put(pole_x + 2, y, BRASS[2] if y % 2 else BRASS[3])
+        put(pole_x + 2, top + bh + 4, BRASS[4])
+    outline(img)
+    return img
+
+
+def make_sancak(rnd):
+    frames = [_sancak_frame(rnd, False, 0)] + [_sancak_frame(rnd, True, k) for k in range(4)]
+    return strip_frames(frames)
+
+
 def main():
     rnd = random.Random(7)
     make_varil(rnd).save(OUT + "varil.png")
@@ -1817,6 +1927,7 @@ def main():
     make_ahsap_kat(random.Random(173)).save(OUT + "ahsap_kat.png")
     riot_shield(random.Random(181), False).save(OUT + "kalkan.png")
     riot_shield(random.Random(181), True).save(OUT + "kalkan_kirik.png")
+    make_sancak(random.Random(191)).save(OUT + "sancak.png")
 
 
 if __name__ == "__main__":
