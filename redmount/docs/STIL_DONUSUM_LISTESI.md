@@ -40,9 +40,9 @@ PNG piksel art'a taşınacak. Satır sayıları 25 Ekim taramasından.
 
 ## 3. Silah ve karakter ekleri (otomasyonun 23–25 Ekim üretimi)
 
-- [ ] Boru anahtarı: `anim/redmount/anahtar_*`, `pickups/placeholder_anahtar`
-- [ ] Şemsiye: `anim/redmount/semsiye_*`, `pickups/placeholder_semsiye`
-- [ ] Kaldırım taşı: `anim/redmount/tas_*`, `pickups/placeholder_tas`, `fx/tas_mermi`
+- [x] Boru anahtarı: `anim/redmount/anahtar_*`, `pickups/placeholder_anahtar` (768e1661)
+- [x] Şemsiye: `anim/redmount/semsiye_*`, `pickups/placeholder_semsiye` (768e1661)
+- [x] Kaldırım taşı: `anim/redmount/tas_*`, `pickups/placeholder_tas`, `fx/tas_mermi` (768e1661)
 - [ ] Kostüm başlıkları: `anim/costume_acc/{hamal,kahveci,kizil,vapurcu,head_front}`
 - [ ] Kostüm palet takası: ChatGPT karakter karelerinin üstünde renkler tarza uyuyor mu (`tools/gen_costume_mask.py`)
 - [ ] Sopa/bıçak/tabanca/tüfek elde görünümü (`tools/gen_pixel_weapons.py`, `gen_weapon_mask.py`) — karakter karesiyle aynı yoğunlukta mı
