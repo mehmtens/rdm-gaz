@@ -31,6 +31,37 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-10-26 (7) — Kostüm palet takası ChatGPT ışık kuralına (stil listesi 3/palet takası)
+
+**Neden şimdi:** Stil listesi 3'ün "kontrol" maddesi. Bulgu: kostüm shader'ı ceket/pantolon
+grisini iki uçlu doğrusal karışımla (`shade` → `light`) boyuyordu; sonuç tek tonlu ve
+doygundu — özellikle vapurcu ceketi gece sahnesinde parlak mavi bir leke gibi okunuyordu.
+ChatGPT karelerinde gölge mor-laciverte, ışık turuncu-altına kayar.
+
+**Oyuncu ne hissedecek:** Kostümler karakterin kendi deri ceketiyle aynı ışıkta: koyu
+kıvrımlar mora iner, fener tarafı hafif sıcaklaşır; renk kimliği (lacivert/haki/kahve/
+kızıl) korunur ama sahneden kopmaz.
+
+**Yapılanlar:** `shaders/player_costume.gdshader`: rampa üstüne gölge ucunda %30'a kadar
+(0.13,0.08,0.2) mor karışım, açık uçta (k>0.6) %60'a kadar sıcak çarpan (1.12,1,0.82).
+`shop.gd`: vapurcu `light` (70,110,180) → (64,92,150). Sayılar hipotez: mor karışım,
+kontur ve gölge mürdümüyle aynı aileden; daha fazlası ceketi siyaha yaklaştırıp renk
+kimliğini siliyor.
+
+**Testler:** `--import` hatasız (shader derlendi); `costumes`, `costume_accessory`,
+`costume_badge`, `new_melee_weapons` PASS; `tests/campaign_smoke.gd` çıkış 0;
+`tests/dtm_gaps.tscn` PASS; bot Bölüm 1 (77,3 sn), 13 (82,0 sn), 25 (93,3 sn) CLEARED.
+Görsel: Bölüm 13 çekiminde dört kostümün önce/sonra karşılaştırması — "ait".
+
+**Aynı turda kontrol edilen iki madde (değişiklik yok):**
+- Sopa/bıçak/tabanca/tüfek elde görünümü (`bat_*`, `knife_*`, `pistol_*`, `rifle_*`): sayfalar
+  ilk commit'ten (960cc98d) beri karakterle birlikte çizilmiş temel sanat; `gen_pixel_weapons`
+  ve `gen_weapon_mask` onlara yalnız görünmez kostüm işareti (alfa 252) yazar. Yoğunluk aynı.
+- Pickup ikonları (stil listesi 4: ammo…speed): hepsi ilk commit'ten, hiçbir üreticide yok,
+  zengin tonlu ve sol üst ışıklı — kaynak ChatGPT/temel sanat; kurala göre dokunulmadı.
+
+**Sonraki öneri:** Stil listesi 5 — arayüz çerçeveleri (panel, kart, sekme, balon).
+
 ### 2026-10-26 (6) — Kostüm başlıkları ChatGPT tarzında (stil listesi 3/kostüm başlıkları)
 
 **Neden şimdi:** Stil listesi 3'ün sıradaki maddesi. Dört başlık (kahveci kasketi, hamal

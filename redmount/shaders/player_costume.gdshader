@@ -69,7 +69,11 @@ void fragment() {
 			float w = smoothstep(0.035, 0.07, mx) * (1.0 - smoothstep(0.5, 0.62, mx));
 			vec3 lo = pants ? pants_shade.rgb : shade.rgb;
 			vec3 hi = pants ? pants_light.rgb : light.rgb;
-			vec3 ramp = mix(lo, hi, smoothstep(0.03, 0.45, mx));
+			float k = smoothstep(0.03, 0.45, mx);
+			vec3 ramp = mix(lo, hi, k);
+			// ChatGPT temel tarzı: gölge mor-laciverte, ışık turuncu-altına kayar.
+			ramp = mix(ramp, vec3(0.13, 0.08, 0.2), (1.0 - k) * 0.3);
+			ramp = mix(ramp, ramp * vec3(1.12, 1.0, 0.82), smoothstep(0.6, 1.0, k) * 0.6);
 			c.rgb = mix(c.rgb, ramp, w);
 		}
 		COLOR = c * tint;

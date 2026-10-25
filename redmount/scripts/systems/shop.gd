@@ -47,7 +47,7 @@ const COSTUMES: Array[Dictionary] = [
 	{
 		"id": "vapurcu", "name": "VAPURCU", "desc": "Lacivert iş ceketi. Azami can +10",
 		"cost": 120, "unlock_level": 3,
-		"shade": Color8(10, 18, 48), "light": Color8(70, 110, 180),
+		"shade": Color8(10, 18, 48), "light": Color8(64, 92, 150),
 		"pants_shade": Color8(12, 14, 24), "pants_light": Color8(118, 122, 132), "bonus": {"max_health": 10},
 		"accessory": "vapurcu",
 	},
