@@ -21,7 +21,7 @@ Her madde: yeniden çiz → oyun içi ekran görüntüsünde ChatGPT arka planı
 - [x] kum_torbasi, raf, kaset, cerceve, tas_blok — siper/dekor (c0d3a221)
 - [x] diken, alev, alev_izgara, kivilcim, kablo, bomba, bomba_ikaz, patlama — tehlike/efekt (67e753bc)
 - [x] han_kapisi, ic_duvar, ic_pencere, fabrika_pencere, tavan, tugla, sivali_tugla, hatil — iç mekân (844606dc)
-- [ ] pres, pres_kol, ray, su_govde, su_yuzey, anten, kule_ayak, kule_kulube, ahsap_kat — set-piece
+- [x] pres, pres_kol, ray, su_govde, su_yuzey, anten, kule_ayak, kule_kulube, ahsap_kat — set-piece (c698388f)
 - [ ] kalkan, kalkan_kirik — Kalkanlı Zabıta
 - [ ] golge — temas gölgesi (yalnız ton kontrolü)
 - [ ] sancak — ChatGPT bayrağı olabilir: kontrol et, ChatGPT ise DOKUNMA
