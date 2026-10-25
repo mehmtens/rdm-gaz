@@ -39,6 +39,7 @@ const SPIKES := preload("res://scenes/systems/Spikes.tscn")
 const ARENA := preload("res://scenes/systems/BattleArena.tscn")
 const PROP := preload("res://scripts/systems/breakable_prop.gd")
 const SHOP := preload("res://scripts/systems/level_shop.gd")
+const _OWP := preload("res://scripts/systems/one_way_platform.gd")
 
 var _serial := 0
 
@@ -664,9 +665,10 @@ class _BlockSurface extends Node2D:
 			draw_texture_rect_region(AWNING, Rect2(left, top, width, 66), Rect2(6, 147, 2161, 320))
 		elif height < 60 or scaffold:
 			var floor_depth := maxf(-get_parent().position.y, 75.0)
+			# Piksel art iskele: iki çelik dikme + aralarında yatay kuşak (one_way_platform dokuları).
+			_OWP.tile_across(self, _OWP.KUSAK_CELIK, Rect2(left + 10.0, top + 52.0, width - 20.0, 8.0))
 			for support_x in [left + 10.0, -left - 10.0]:
-				draw_line(Vector2(support_x, top + 26), Vector2(support_x, floor_depth), Color("343b40"), 7)
-			draw_line(Vector2(left + 10, top + 52), Vector2(-left - 10, floor_depth - 10), Color("55514a"), 4)
+				_OWP.tile_down(self, _OWP.DIKME_CELIK, Rect2(support_x - 5.0, top + 26.0, 10.0, floor_depth - top - 26.0))
 			draw_texture_rect_region(SCAFFOLD, Rect2(left, top, width, 65), Rect2(26, 148, 1931, 535))
 		else:
 			draw_texture_rect(ROOF, Rect2(left, top, width, height + 18), false)

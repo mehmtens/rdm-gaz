@@ -17,6 +17,7 @@ const COIN := preload("res://assets/ui/pixel/coin.png")
 const STAR_FULL_S := preload("res://assets/ui/pixel/yildiz_dolu_kucuk.png")
 const STAR_EMPTY_S := preload("res://assets/ui/pixel/yildiz_bos_kucuk.png")
 const ROOF := preload("res://assets/environment/mahalle/roof_a.png")
+const BRICK := preload("res://assets/environment/pixel/tugla.png")
 const REDMOUNT_FRAMES := preload("res://resources/anim/redmount_frames.tres")
 const GAZELLE_FRAMES := preload("res://resources/gazelle_frames.tres")
 const GOLD := Color(1.0, 0.82, 0.45)
@@ -80,9 +81,19 @@ func _draw() -> void:
 	while x < vs.x + 40.0:
 		draw_texture_rect(ROOF, Rect2(x, y, 220.0, 46.0), false, Color(0.55, 0.42, 0.42))
 		x += 210.0
-	draw_rect(Rect2(vs.x * 0.56, y + 40.0, vs.x * 0.44 + 40.0, 120.0), Color(0.08, 0.05, 0.08))
-	# Alt şerit: kontrol ipucu.
-	draw_rect(Rect2(0, vs.y - 34.0, vs.x, 34.0), Color(0.05, 0.03, 0.06, 0.85))
+	# Çatıların altı: gölgede kalan tuğla duvar (piksel doku, 2x).
+	var wall := Rect2(vs.x * 0.56, y + 40.0, vs.x * 0.44 + 40.0, 120.0)
+	var bw := BRICK.get_width() * 2.0
+	var bh := BRICK.get_height() * 2.0
+	var by := wall.position.y
+	while by < wall.end.y:
+		var bx := wall.position.x
+		while bx < wall.end.x:
+			draw_texture_rect(BRICK, Rect2(bx, by, bw, bh), false, Color(0.26, 0.2, 0.26))
+			bx += bw
+		by += bh
+	# Alt şerit: kontrol ipucu (piksel HUD çerçevesi).
+	draw_style_box(PixelUI.box("panel_hud", 6), Rect2(-12.0, vs.y - 40.0, vs.x + 24.0, 52.0))
 
 
 func _unhandled_input(event: InputEvent) -> void:

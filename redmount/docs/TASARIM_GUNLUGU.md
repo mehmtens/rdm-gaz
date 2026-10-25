@@ -31,6 +31,38 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-10-26 (4) — Kalan kodla şekil çizimleri dokuya (stil listesi 2/diğerleri — bölüm tamam)
+
+**Neden şimdi:** Stil listesi 2'nin son maddesi. Kalan şekiller: eski bölümlerde
+(Level02/04/06–12, story_blockout tabanlı) iskele direkleri ve çapraz `draw_line`,
+kale yüzeylerinin üstünde düz `draw_rect` şerit; düşen saksının yer gölgesi üç
+siyah `draw_rect`; arka plan zerreleri `draw_circle`; ana menüde çatıların altı düz
+koyu blok ve alt ipucu şeridi düz yarı saydam dikdörtgen.
+
+**Oyuncu ne hissedecek:** İskeleler yeni platformlarla aynı perçinli çelik dikme +
+yatay kuşak; kale taşının dudağı ışık yakalayan taş şerit; saksı gölgesi karakterlerle
+aynı dither gölge; havadaki toz/kıvılcım zerreleri yumuşak daire değil piksel kare.
+Ana menüde çatı sırası gölgede kalan tuğla duvara oturuyor, kontrol ipucu HUD'la aynı
+piksel çerçevede.
+
+**Bilinçli olarak dokunulmayanlar (şekil değil, ton):** `dtm_level` gök karartma
+bantları, `ui_style.draw_city_bg` menü karartma bantları, `backdrop._SkyLayer` adımlı
+gök degradesi — bunlar sahnenin üstüne konan yarı saydam renk katmanı, nesne çizimi
+değil. `Fx.px` 3 px ızgaraya oturan piksel karedir; efektlerin piksel ilkelidir.
+
+**Yapılanlar:** `story_blockout.gd`, `level02_redesign.gd` (`_OWP` sabiti; alt sınıflar
+level04/level11 bunu miras alır — ilk denemede yinelenen sabit ayrıştırma hatası verdi,
+yalnız pencereli çekimde görüldü; kaldırıldı), `level04/11_redesign.gd` (`KENAR_TAS`),
+`dtm_level.gd` (`PIX_SHADOW` = pixel/golge), `backdrop.gd` (`Fx.px`), `main_menu.gd`
+(`tugla` döşeme + `PixelUI.box("panel_hud")`).
+
+**Testler:** `--import` hatasız; geçici `_parse_all` sahnesi `res://scripts` altındaki
+153 betiği yükledi, hata yok (kampanya smoke'u eski Level0x sahnelerini kapsamıyor);
+`tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn` PASS; bot Bölüm 1 (83,1 sn), 13 (78,4 sn), 25 (91,4 sn) CLEARED.
+1280×720 çekim: ana menü, Level04 (kale), Level06 (iskele), Level02 — "ait".
+
+**Sonraki öneri:** Stil listesi 3 — boru anahtarı animasyon kareleri ve pickup'ı.
+
 ### 2026-10-26 (3) — char_rig / weapon_visual kontrolü: ölü kod, silindi (stil listesi 2)
 
 **Neden şimdi:** Stil listesi 2'nin "görsel mi, hata ayıklama mı kontrol et" maddesi.

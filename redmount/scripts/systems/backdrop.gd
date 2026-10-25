@@ -160,5 +160,6 @@ class _MoteLayer extends Node2D:
 			y = fposmod(y + 500.0, 900.0) - 500.0
 			var x: float = m.p.x + sin(_t * 0.4 + m.p.y) * m.drift
 			x = fposmod(x + 900.0, 1800.0) - 900.0
-			draw_circle(Vector2(x, y), m.r,
+			# Piksel zerre: 3 px ızgaraya oturan kare (Fx.px), büyükler 6 px.
+			Fx.px(self, Vector2(x, y), m.r * 2.4,
 				Color(_pal.mote.r, _pal.mote.g, _pal.mote.b, 0.35))

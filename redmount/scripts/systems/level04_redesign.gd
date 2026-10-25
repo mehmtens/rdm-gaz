@@ -161,7 +161,7 @@ class _FortressSurface extends Node2D:
 		var left := -_width * 0.5
 		var top := -_height * 0.5
 		draw_texture_rect(FORTRESS_STONE, Rect2(left, top, _width, _height), true)
-		draw_rect(Rect2(left, top, _width, 6), Color("6f7188"))
+		_OWP.tile_across(self, _OWP.KENAR_TAS, Rect2(left, top, _width, 6.0))
 
 
 class _FortressBackdrop extends Node2D:

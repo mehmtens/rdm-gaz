@@ -48,6 +48,7 @@ const PIX_BRICK_PATCH := preload("res://assets/environment/pixel/sivali_tugla.pn
 const PIX_SHELF := preload("res://assets/environment/pixel/raf.png")
 const PIX_HANG_LAMP := preload("res://assets/environment/pixel/asma_lamba.png")
 const PIX_FRAME := preload("res://assets/environment/pixel/cerceve.png")
+const PIX_SHADOW := preload("res://assets/environment/pixel/golge.png")
 const PIX_IN_WINDOW := preload("res://assets/environment/pixel/ic_pencere.png")
 const PIX_FG_VINE := preload("res://assets/environment/pixel/on_sarmasik.png")
 const PIX_CHAIN := preload("res://assets/environment/pixel/zincir.png")
@@ -1594,8 +1595,7 @@ class _FallingPot extends Node2D:
 			# Yerdeki gölge: düşeceği yer.
 			var gy := _ground - global_position.y
 			var w := 26.0 + 18.0 * clampf(1.0 - gy / 400.0, 0.0, 1.0)
-			for i in 3:
-				draw_rect(Rect2(-w * 0.5 + i * 3.0, gy - 6.0 + i * 2.0, w - i * 6.0, 3.0), Color(0, 0, 0, 0.35))
+			draw_texture_rect(PIX_SHADOW, Rect2(roundf(-w * 0.5), gy - 8.0, roundf(w / 2.0) * 2.0, 12.0), false)
 
 
 class _LiveWire extends Node2D:

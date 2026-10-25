@@ -179,7 +179,7 @@ class _StoneFace extends Node2D:
 		var top := -height * 0.5
 		draw_texture_rect(STONE if height > 150.0 else PLATFORM_STONE,
 			Rect2(left, top, width, height), true)
-		draw_rect(Rect2(left, top, width, 6), Color("6f7188" if height > 150.0 else "a89eaa"))
+		_OWP.tile_across(self, _OWP.KENAR_TAS, Rect2(left, top, width, 6.0))
 
 
 class _Backdrop extends Node2D:

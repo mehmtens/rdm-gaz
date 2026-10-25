@@ -6,6 +6,7 @@ const BACKGROUND := preload("res://assets/backgrounds/level02_armed_checkpoint.p
 const LOCATION_ATLAS := preload("res://assets/backgrounds/level02_locations_atlas.png")
 const PROP := preload("res://scripts/systems/breakable_prop.gd")
 const SHOP := preload("res://scripts/systems/level_shop.gd")
+const _OWP := preload("res://scripts/systems/one_way_platform.gd")
 const ONEWAY := preload("res://scenes/systems/OneWayPlatform.tscn")
 const COIN := preload("res://scenes/pickups/Coin.tscn")
 const ARMOR := preload("res://scenes/pickups/ArmorPickup.tscn")
@@ -302,7 +303,7 @@ class _Surface extends Node2D:
 		elif _color == METAL:
 			var floor_depth := maxf(-get_parent().position.y, 75.0)
 			for support_x in [left + 10.0, -left - 10.0]:
-				draw_line(Vector2(support_x, top + 26), Vector2(support_x, floor_depth), Color("343b40"), 7)
+				_OWP.tile_down(self, _OWP.DIKME_CELIK, Rect2(support_x - 5.0, top + 26.0, 10.0, floor_depth - top - 26.0))
 			draw_texture_rect_region(SCAFFOLD, Rect2(left, top, _width, 70), Rect2(26, 148, 1931, 535))
 		else:
 			draw_texture_rect(ROOF, Rect2(left, top, _width, _height + 18), false)
