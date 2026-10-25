@@ -36,7 +36,28 @@ def _glyph_mask(text, size=12):
     return im
 
 
-def logo(text="REDMOUNT", name="logo.png", top=(255, 170, 70), bottom=(150, 24, 28), k=2):
+# ChatGPT temel tarzı logo rampaları (gölge mora, ışık turuncu-altına kayar).
+LOGO_RED = [(34, 10, 24), (62, 16, 28), (96, 24, 30), (132, 36, 32), (168, 56, 36),
+            (200, 88, 44), (226, 128, 62), (244, 172, 96), (252, 214, 150)]
+LOGO_GOLD = [(44, 26, 22), (92, 60, 30), (150, 106, 44), (204, 160, 72), (240, 210, 120),
+             (252, 236, 180)]
+INK_GPT = (12, 7, 18, 255)
+MOON = (110, 116, 170)
+
+
+def _noise(x, y):
+    n = (x * 374761393 + y * 668265263) & 0xffffffff
+    n = ((n ^ (n >> 13)) * 1274126177) & 0xffffffff
+    return (n & 0xffff) / 65535.0
+
+
+def _mixc(a, b, t):
+    return tuple(int(a[i] + (b[i] - a[i]) * t) for i in range(3))
+
+
+def logo(text="REDMOUNT", name="logo.png", ramp=LOGO_RED, k=2):
+    """Boyalı tabela harfleri: üstten alta rampa (2x2 kümeli boya dokusu, yer yer kalkmış
+    boya), harf üstü fener ışığında, sağ kenar ay ışığı, mora kayan derinlik, koyu mor kontur."""
     m = _glyph_mask(text)
     w, h = m.size
     W, H = w * k + 8, h * k + 10
@@ -50,25 +71,27 @@ def logo(text="REDMOUNT", name="logo.png", top=(255, 170, 70), bottom=(150, 24, 
                         body.add((x * k + dx + 3, y * k + dy + 3))
     ys = [p[1] for p in body]
     y0, y1 = min(ys), max(ys)
-    # derinlik: 3 piksel aşağı koyu kırmızı-mor blok
+    # derinlik: 3 piksel aşağı, mor-bordo
     for (x, y) in body:
         for d in (1, 2, 3):
-            c.put(x, y + d, (52, 10, 20, 255) if d < 3 else (26, 6, 14, 255))
+            c.put(x, y + d, (44, 12, 32, 255) if d < 3 else INK_GPT)
+    n = len(ramp)
     for (x, y) in body:
         t = (y - y0) / max(1, y1 - y0)
-        col = tuple(int(top[i] + (bottom[i] - top[i]) * t) for i in range(3)) + (255,)
-        # bantlı degrade (piksel art: 4 ton)
-        band = int(t * 4) / 4.0
-        col = tuple(int(top[i] + (bottom[i] - top[i]) * band) for i in range(3)) + (255,)
-        c.put(x, y, col)
-    # üst ışık: her harfin üst kenarı
+        v = 0.84 - t * 0.6 + (_noise(x // 2, y // 2) - 0.5) * 0.12
+        if _noise(x + 11, y + 5) < 0.035:
+            v -= 0.25  # kalkmış boya
+        col = ramp[int(max(0, min(n - 1, v * n)))]
+        if (x + 1, y) not in body:
+            col = _mixc(col, MOON, 0.28)
+        c.put(x, y, col + (255,))
+    # üst ışık: harfin üst kenarı sıcak krem, sol kenar bir ton açık
     for (x, y) in body:
-        if (x, y - 1) not in body and y <= y0 + 1:
-            c.put(x, y, (255, 236, 196, 255))
-        elif (x - 1, y) not in body and (x, y - 1) in body:
-            c.put(x, y, tuple(min(255, v + 30) for v in c.get(x, y)[:3]) + (255,))
-    c.outline()
-    c.outline((96, 20, 26, 255))
+        if (x, y - 1) not in body:
+            c.put(x, y, _mixc(ramp[-2], (255, 236, 196), 0.25) + (255,))
+        elif (x - 1, y) not in body:
+            c.put(x, y, tuple(min(255, v + 26) for v in c.get(x, y)[:3]) + (255,))
+    c.outline(INK_GPT)
     c.im.save(OUT / name)
 
 
@@ -202,7 +225,7 @@ def portre_telsiz():
 if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
     logo()
-    logo("İSTANBUL'UN SESİ", "logo_alt.png", top=(255, 222, 140), bottom=(190, 120, 40), k=1)
+    logo("İSTANBUL'UN SESİ", "logo_alt.png", ramp=LOGO_GOLD, k=1)
     # kart / sekme artık tools/gen_gpt_style_ui.py'de (ChatGPT tarzı).
     kilit(); coin(); odak(); pip(); ikon_tufek(); ikon_yumruk(); portre_telsiz()
     print("ok")

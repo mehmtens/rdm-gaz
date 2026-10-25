@@ -31,6 +31,26 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-10-26 (11) — Logo ve alt başlık ChatGPT tarzında (stil listesi 5/logo)
+
+**Neden şimdi:** Stil listesi 5'in sıradaki maddesi. REDMOUNT logosu 4 bantlı düz turuncu→
+kırmızı degrade, alt başlık 4 bantlı altındı.
+
+**Oyuncu ne hissedecek:** Ana menüde logo boyalı bir tabela harfi gibi: 9 tonluk kırmızı-
+turuncu rampa, 2×2 kümeli boya dokusu ve yer yer kalkmış boya, harf üstünde ince fener ışığı,
+sağ kenarda ay ışığı, mora inen 3 piksellik derinlik, koyu mor kontur. Alt başlık 6 tonluk
+pirinç rampada. İlk denemede üst kenar krem şeridi fazla genişti ve kırmızı kimlik zayıfladı;
+rampa kırmızıya kaydırıldı (`0.84 - t*0.6`), ışık şeridi `ramp[-2]` + %25 kreme indi.
+**Hipotez:** yeni logo alacakaranlık göğünde eskisinden daha az parlıyor (sahneyle bütün,
+ama marka vurgusu azaldı) — insan testi gerekirse rampanın üst ucunu bir ton açmak yeter.
+
+**Yapılanlar:** `tools/gen_pixel_menu.py` `logo()` yeniden yazıldı (`LOGO_RED`, `LOGO_GOLD`);
+yalnız `logo()` çağrılarak üretildi (aracın `main`'i yeniden boyanmış ikonları ezerdi).
+
+**Testler:** `--import` hatasız; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn` PASS; bot Bölüm 1 (84,2 sn) CLEARED (yalnız menü dokusu değişti). Görsel: ana menü 1280×720 — "ait".
+
+**Sonraki öneri:** Stil listesi 5 — portre_* kontrolü.
+
 ### 2026-10-26 (10) — Arayüz ikonları ChatGPT tarzında (stil listesi 5/ikonlar)
 
 **Neden şimdi:** Stil listesi 5'in sıradaki maddesi. 17 küçük ikon (coin, kilit, film, odak,
