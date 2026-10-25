@@ -57,7 +57,7 @@ PNG piksel art'a taşınacak. Satır sayıları 25 Ekim taramasından.
 ChatGPT tarzına yaklaştır: aynı mor gölge / altın ışık rampası, doku, koyu mor kontur.
 
 - [x] panel, panel_hud, kart, kart_kilitli, sekme, sekme_secili, balon* — çerçeveler (13fd5834)
-- [ ] button_* , touch_* — düğmeler (mobilde sürekli ekranda; yüksek öncelik)
+- [x] button_* , touch_* — düğmeler (mobilde sürekli ekranda; yüksek öncelik) (ac3b2de5)
 - [ ] coin, kilit, film, pip_*, yildiz_*, ikon_*, odak, tutamac, cubuk_* — ikonlar
 - [ ] logo, logo_alt
 - [ ] portre_* — ChatGPT karakter portresinden mi? kontrol et; Claude çizimiyse dönüştür
