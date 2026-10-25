@@ -14,7 +14,8 @@ Kural seti (assets/backgrounds ve book03_final_* sayfalarından ölçüldü):
 fener,fener_hale,asma_lamba,on_kolon,on_kolon_bas,on_kolon_kaide,on_sarmasik,zincir,halat,kum_torbasi,tas_blok,raf,kaset,cerceve,
 diken,alev_izgara,kablo,bomba,bomba_ikaz,alev,kivilcim,patlama,
 tugla,sivali_tugla,ic_duvar,hatil,ic_pencere,fabrika_pencere,tavan,han_kapisi,
-pres,pres_kol,ray,su_govde,su_yuzey,anten,kule_ayak,kule_kulube,ahsap_kat}.png
+pres,pres_kol,ray,su_govde,su_yuzey,anten,kule_ayak,kule_kulube,ahsap_kat,
+kalkan,kalkan_kirik}.png
 Oyunda 2x NEAREST ölçeklenir (1 sanat pikseli = 2 ekran pikseli).
 """
 import math
@@ -1701,6 +1702,73 @@ def make_ahsap_kat(rnd):
     return img
 
 
+POLY = [(10, 10, 20), (20, 22, 36), (32, 36, 52), (46, 52, 68), (62, 70, 86), (82, 92, 106),
+        (110, 118, 128), (150, 150, 146), (198, 186, 160)]
+
+
+def riot_shield(rnd, broken):
+    """Çevik kuvvet kalkanı (14×34): kavisli füme polikarbon, kauçuk kenar, üstte gözetleme
+    camı, ortada kırmızı zabıta bandı, çizik ve kir. Işık sol üstten (dikey parlama
+    şeridi), sağ kenarda ay. Kırık sürümde darbe noktasından yayılan çatlaklar, kopmuş
+    sağ üst köşe ve sarkık bant."""
+    w, h = 14, 34
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    for y in range(h):
+        for x in range(w):
+            corner = (x in (0, w - 1)) and (y in (0, h - 1))
+            if corner:
+                continue
+            u = (x - 6.5) / 6.5
+            lv = light(u) * 0.7 + 0.12 - y * 0.004
+            c = pick(POLY, lv, rnd, 0.3)
+            if x == 3 and 2 <= y <= h - 4:
+                c = pick(POLY, 0.85 - y * 0.008, rnd, 0.1)  # kavis parlaması
+            if 4 <= y <= 8 and 2 <= x <= w - 3:
+                # Gözetleme camı: koyu, çapraz soğuk yansıma.
+                c = pick(POLY, 0.12, rnd, 0.2)
+                if x - 2 == y - 4 or x - 3 == y - 4:
+                    c = mix(c, MOON, 0.55)
+                if y == 4:
+                    c = POLY[1]
+            if 15 <= y <= 18:
+                lv2 = {15: 0.8, 16: 0.6, 17: 0.45, 18: 0.25}[y] - max(0.0, u) * 0.2
+                c = pick(RED, lv2, rnd, 0.3)
+                if y == 15 and x % 3 == 0:
+                    c = CREAM[3]  # yansıtıcı şerit
+            if x >= w - 2:
+                c = mix(c, MOON, 0.3)
+            if x in (0, w - 1) or y in (0, h - 1):
+                c = pick(IRON, 0.18 if x != 0 else 0.3, rnd, 0.2)  # kauçuk kenar
+            if 20 <= y <= h - 3 and rnd.random() < 0.06:
+                c = pick(POLY, lv + 0.2, rnd, 0.2)  # çizik
+            if y >= h - 5 and 1 <= x <= w - 2 and rnd.random() < 0.4:
+                c = mix(c, (60, 40, 34), 0.4)  # dipte çamur
+            px[x, y] = c + (255,)
+    if broken:
+        # Kopmuş sağ üst köşe (tırtıklı).
+        for y in range(0, 7):
+            for x in range(w - 1 - max(0, 5 - y) - (y % 2), w):
+                px[x, y] = (0, 0, 0, 0)
+        # Darbe noktası ve yayılan çatlaklar: koyu çizgi + alt yanında ışık.
+        ix, iy = 6, 22
+        for dx, dy, n in ((1, -1, 7), (-1, -1, 5), (1, 1, 5), (-1, 1, 4), (0, -1, 6)):
+            x, y = ix, iy
+            for i in range(n):
+                x += dx if i % 2 == 0 else 0
+                y += dy
+                if 1 <= x < w - 1 and 1 <= y < h - 1 and px[x, y][3]:
+                    px[x, y] = POLY[0] + (255,)
+                    if px[x + 1, y][3] and x + 1 < w - 1:
+                        px[x + 1, y] = POLY[5] + (255,)
+        px[ix, iy] = POLY[8] + (255,)
+        # Bant ucu kopup sarkıyor.
+        for y in range(18, 22):
+            px[w - 3, y] = pick(RED, 0.5 - (y - 18) * 0.1, rnd, 0.2) + (255,)
+    outline(img)
+    return img
+
+
 def main():
     rnd = random.Random(7)
     make_varil(rnd).save(OUT + "varil.png")
@@ -1747,6 +1815,8 @@ def main():
     make_kule_ayak(random.Random(163)).save(OUT + "kule_ayak.png")
     make_kule_kulube(random.Random(167)).save(OUT + "kule_kulube.png")
     make_ahsap_kat(random.Random(173)).save(OUT + "ahsap_kat.png")
+    riot_shield(random.Random(181), False).save(OUT + "kalkan.png")
+    riot_shield(random.Random(181), True).save(OUT + "kalkan_kirik.png")
 
 
 if __name__ == "__main__":

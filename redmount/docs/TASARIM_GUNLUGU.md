@@ -31,6 +31,25 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-10-25 (9) — Kalkanlı Zabıta'nın kalkanı ChatGPT tarzında (stil listesi 1/kalkan)
+
+**Neden şimdi:** Stil listesinin sıradaki maddesi. Kalkan düz açık gri levha + düz kırmızı
+şeritti; ChatGPT çizimi lacivert zırhlı zabıtanın önünde oyuncak gibi duruyordu.
+
+**Oyuncu ne hissedecek:** Füme polikarbon, kavisli dikey parlama şeridi, kauçuk kenar,
+gözetleme camında soğuk yansıma, yansıtıcı kenarlı kırmızı zabıta bandı, dipte çamur.
+Kalkan düşünce (kırık sürüm) sağ üst köşe kopmuş, darbe noktasından çatlaklar yayılıyor,
+bant ucu sarkıyor — "kalkan açıldı, şimdi vur" anı daha net okunur.
+
+**Yapılanlar:** `tools/gen_gpt_style_props.py` → `POLY` rampası, `riot_shield(broken)`
+(14×34, kalkan.png / kalkan_kirik.png). Ölçü aynı; kod değişmedi.
+
+**Testler:** `--import` hatasız; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn`
+PASS; bot Bölüm 20 (81,9 sn) CLEARED. 1280×720 ekran görüntüsü: Bölüm 20'de oyuncuya
+kalkanla vuran zabıta — "ait".
+
+**Sonraki öneri:** Stil listesi — golge (ton kontrolü), sancak (kaynak kontrolü).
+
 ### 2026-10-25 (8) — Set-piece parçaları ChatGPT tarzında (stil listesi 1/set-piece)
 
 **Neden şimdi:** Stil listesinin sıradaki açık maddesi. Pres, ray, kanal suyu, gözetleme
