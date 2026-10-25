@@ -24,6 +24,7 @@ const MELEE_PREFIXES := ["bat", "knife", "anahtar", "semsiye"]
 const TAS_SHEETS := {
 	"tas_idle": [&"idle", []],
 	"tas_walk": [&"walk", []],
+	"tas_jump": [&"jump", []],
 	"tas_shoot": [&"combo_a", [2, 3, 4, 5]],
 }
 

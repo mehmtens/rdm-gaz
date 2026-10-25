@@ -456,6 +456,36 @@ def _front_fist(px, x0, h):
 	return (sum(x for x, _ in blob) // len(blob) - x0, sum(y for _, y in blob) // len(blob))
 
 
+def _front_fist_crouched(px, x0, h):
+	## Çömelmiş/zıplama pozu: yüz kalça eşiğinin altına indiği için ten bileşenlerine
+	## bakılır; en yüksek leke yüzdür, yüzün hemen altındakiler (çene, boyun) dışarıda;
+	## kalanların en öndeki fırlatan yumruktur.
+	skin = {(x, y) for y in range(h) for x in range(x0, x0 + CELL_W) if _is_skin(px[x, y])}
+	comps = []
+	while skin:
+		q = deque([skin.pop()])
+		comp = [q[0]]
+		while q:
+			cx, cy = q.popleft()
+			for dx in (-1, 0, 1):
+				for dy in (-1, 0, 1):
+					n = (cx + dx, cy + dy)
+					if n in skin:
+						skin.remove(n)
+						q.append(n)
+						comp.append(n)
+		if len(comp) >= 12:
+			comps.append(comp)
+	cen = [(sum(p[0] for p in c) / len(c), sum(p[1] for p in c) / len(c)) for c in comps]
+	face = min(cen, key=lambda c: c[1])
+	# Yüz ve hemen altındaki (çene/boyun/yüze yakın kalkık yumruk) lekeler dışarıda.
+	rest = [c for c in cen if not (abs(c[0] - face[0]) < 25 and c[1] - face[1] < 32)]
+	if not rest:
+		return _front_fist(px, x0, h)
+	fx, fy = max(rest, key=lambda c: c[0])  # en öndeki: fırlatan yumruk
+	return (int(fx) - x0, int(fy))
+
+
 def _held_stone(px, cx, cy) -> None:
 	## Yumruğun önüne 2x taş + kontur; yumruğun alt boğumu görünür kalsın diye
 	## taş merkezi yumruğun biraz üstünde.
@@ -482,12 +512,12 @@ def _held_stone(px, cx, cy) -> None:
 
 
 def gen_tas_sheets() -> None:
-	for base in ("idle", "walk"):
+	for base in ("idle", "walk", "jump"):
 		im = Image.open(ANIM / f"{base}.png").convert("RGBA")
 		w, h = im.size
 		px = im.load()
 		for x0 in range(0, w, CELL_W):
-			fist = _front_fist(px, x0, h)
+			fist = _front_fist_crouched(px, x0, h) if base == "jump" else _front_fist(px, x0, h)
 			if fist is not None:
 				_held_stone(px, x0 + fist[0], fist[1])
 		im.save(ANIM / f"tas_{base}.png")

@@ -7,9 +7,8 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Kaldırım taşı: havada (zıplarken) fırlatmada elde taş görünmüyor (jump sayfası
-  silahsız) — insan testinde fark edilirse `tas_jump`. Taş yalnız 2 ve 5'teki büfede;
-  insan testinde taş çok seçiliyorsa diğer büfelerde de denenebilir.
+- Kaldırım taşı: taş yalnız 2 ve 5'teki büfede; insan testinde taş çok seçiliyorsa
+  diğer büfelerde de denenebilir.
 - Günün dalgası: GÜNLÜK sekmesine 21/28. gün kareleri (insan testinde seri 14'ü geçen
   oyuncu çıkarsa).
 - Pantolon maskesi kalıntıları: tekmenin (kick 2–3) diz arkasında ve koşuda ayakkabının arka
@@ -30,6 +29,28 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (13) — Havada elde kaldırım taşı (`tas_jump`, birikim)
+
+**Neden şimdi:** Stil listesi, yol haritası ve üçüncü denetimin P1'leri bitti; birikimin en
+üstündeki madde. Taş tutan oyuncu zıpladığında `jump` sayfası silahsız olduğu için taş elden
+kayboluyor, havada fırlatınca mermi boş elden çıkıyordu.
+
+**Oyuncu ne hissedecek:** Zıplama boyunca taş öndeki yumrukta; havada atış artık elden çıkan
+taş gibi okunuyor. İniş karesinde öndeki el yüze yapışık olduğundan taş arka elde (5 kareden
+1'i; okunur).
+
+**Yapılanlar:** `gen_tas_sheets` `jump` sayfasını da üretir; çömelmiş pozda yüz kalça eşiğinin
+altına indiği için yumruk ten bileşenleriyle bulunur (`_front_fist_crouched`: en yüksek leke
+yüz, yüzün hemen altı dışarıda, kalanların en öndeki). İlk iki kural (en alçak / en üst hariç
+en sağ) taşı yüze ya da arka ele koydu. `PlayerSprite.TAS_SHEETS["tas_jump"]`. Idle/walk
+sayfaları birebir aynı kaldı.
+
+**Testler:** `--import` hatasız; `kaldirim_tasi`, `new_melee_weapons`, `costumes`, `costume_accessory` PASS; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn` PASS; bot Bölüm 1 (79,9 sn), 13 (80,6 sn), 25 (80,7 sn) CLEARED. Görsel: Bölüm 13'te taşla zıplama dört kare — animasyon `tas_jump`,
+taş elde, "ait".
+
+**Sonraki öneri:** Birikimde kalanlar insan testine bağlı; bir sonraki tur TASARIM DENETİMİ
+(bot ile 1–2 bölüm, DTM karşılaştırması, yeni birikim).
 
 ### 2026-10-26 (12) — Stil listesi 6: kaynak kontrolü + kitap şeridi katmanları
 
