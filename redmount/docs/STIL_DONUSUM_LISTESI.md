@@ -17,7 +17,7 @@ Her madde: yeniden çiz → oyun içi ekran görüntüsünde ChatGPT arka planı
 - [x] varil, patlayici, parmaklik, parmaklik_tepe (e785cec4)
 - [x] tup (gaz tüpü) — BreakableProp, birçok bölümde (ba989e3f)
 - [x] fener, fener_hale, asma_lamba — her bölümde ışık kaynağı (2a8bbb7b)
-- [ ] on_kolon, on_kolon_bas, on_kolon_kaide, on_sarmasik, zincir, halat — ön plan
+- [x] on_kolon, on_kolon_bas, on_kolon_kaide, on_sarmasik, zincir, halat — ön plan (826b52d3)
 - [ ] kum_torbasi, raf, kaset, cerceve, tas_blok — siper/dekor
 - [ ] diken, alev, alev_izgara, kivilcim, kablo, bomba, bomba_ikaz, patlama — tehlike/efekt
 - [ ] han_kapisi, ic_duvar, ic_pencere, fabrika_pencere, tavan, tugla, sivali_tugla, hatil — iç mekân
