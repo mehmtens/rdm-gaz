@@ -31,6 +31,32 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-10-26 (6) — Kostüm başlıkları ChatGPT tarzında (stil listesi 3/kostüm başlıkları)
+
+**Neden şimdi:** Stil listesi 3'ün sıradaki maddesi. Dört başlık (kahveci kasketi, hamal
+beresi, vapurcu kaptan şapkası, Kızıl Dağ bandanası) 4 tonla ve düzenli `(x+y)%2` dama
+dither'ıyla boyanıyordu — ChatGPT karelerinin yanında desen gibi parlıyordu.
+
+**Oyuncu ne hissedecek:** Başlık artık karakterin üstüne yapıştırılmış çıkartma değil, aynı
+ışığın altında: 8–9 tonluk rampa (tüvit kahve, haki yün, krem tepe + lacivert bant, kırmızı
+pamuk), 2×2 kümeli kumaş gürültüsü, sol üstte sıcak fener parlaması, sağ kenarda ay ışığı,
+cilalı siper, pirinç çapa rozeti, koyu mor kontur.
+
+**Yapılanlar:** `tools/gen_costume_accessory.py`: `_ramp` rampa uzunluğundan bağımsız,
+konuma bağlı sabit `_noise`; `TWEED/KHAKI/CREAM/NAVY/RED` rampaları, adlı palet renkleri
+(`wood0`, `iron2`, `gold1`...) rampa indekslerine çevrildi. Yeni `main_hats()` yalnız dört
+PNG'yi yazar. **Not:** aracın `--preview` bayrağı önizlemeden önce tam `main()`'i (çapa
+tablosu, ön saç atlası, saç işaretleri) çalıştırır; başlık işinde `main_hats()` + `preview()`
+kullanılmalı. Ön saç atlası (`head_front.png`) karakter karelerinden kesildiği için
+temel sanattır, dokunulmadı.
+
+**Testler:** `--import` hatasız; `costumes`, `costume_accessory`, `costume_badge` PASS; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn` PASS; bot Bölüm 1 (88,8 sn), 13 (77,6 sn), 25 (80,7 sn) CLEARED. Görsel: Bölüm 13 (Haliç) pencereli çekiminde dört kostüm palet
+takası + başlıkla — "ait"; ilk sürümde tek pikselli gürültü kumlu duruyordu, 2×2 kümeye
+ve daha düşük genliğe çekildi.
+
+**Sonraki öneri:** Stil listesi 3 — kostüm palet takası kontrolü (vapurcu laciverti
+çekimde fazla doygun mavi görünüyor; `gen_costume_mask.py` / kostüm rampaları).
+
 ### 2026-10-26 (5) — Boru anahtarı, şemsiye ve kaldırım taşı ChatGPT tarzında (stil listesi 3)
 
 **Neden şimdi:** Stil listesi 3'ün ilk maddesi. Anahtarın eldeki kareleri sopa

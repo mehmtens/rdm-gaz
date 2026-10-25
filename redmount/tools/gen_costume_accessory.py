@@ -26,6 +26,7 @@ from scipy import ndimage
 
 sys.path.insert(0, os.path.dirname(__file__))
 from pixelart import Canvas, P  # noqa: E402
+import gen_gpt_style_props as _gpt  # noqa: E402
 
 HERE = os.path.dirname(__file__)
 SHEETS = os.path.join(HERE, "..", "assets", "anim", "redmount")
@@ -368,9 +369,36 @@ def mark_hair(anchors: dict) -> int:
 
 
 # --- 2. başlıklar ----------------------------------------------------------
+#
+# ChatGPT temel tarzı (gen_gpt_style_props): 8–9 tonluk rampa, gölge mor/laciverte,
+# ışık turuncu-altına kayar; düzenli dama dither yerine kumaş gürültüsü; sağ kenarda
+# soğuk ay ışığı; kontur koyu mor.
+
+INK = _gpt.OUTLINE
+TWEED = _gpt.WOOD
+KHAKI = [(20, 20, 14, 255), (34, 34, 20, 255), (50, 50, 28, 255), (68, 68, 36, 255),
+         (88, 86, 46, 255), (110, 106, 58, 255), (136, 128, 74, 255), (170, 156, 100, 255)]
+CREAM = [(54, 44, 54, 255), (86, 76, 80, 255), (120, 110, 106, 255), (156, 146, 132, 255),
+         (190, 180, 158, 255), (216, 206, 180, 255), (234, 226, 200, 255), (248, 242, 220, 255)]
+NAVY = [(8, 8, 24, 255), (14, 16, 40, 255), (22, 26, 58, 255), (32, 40, 78, 255),
+        (44, 56, 100, 255), (60, 76, 124, 255), (84, 100, 146, 255), (120, 130, 166, 255)]
+RED = _gpt.RED
+
+
+def _rgba(col):
+	return tuple(col[:3]) + (255,)
+
+
+def _noise(x, y):
+	## Konuma bağlı sabit gürültü (0..1): her çalıştırmada aynı doku.
+	n = (x * 374761393 + y * 668265263) & 0xffffffff
+	n = ((n ^ (n >> 13)) * 1274126177) & 0xffffffff
+	return (n & 0xffff) / 65535.0
+
 
 def _ramp(c: Canvas, mask, ramp, light_dir=(-0.6, -0.8), dith=True):
-	"""Maskeyi 4 tonla boyar: sol üstten ışık, kenara doğru koyulaşan gölge."""
+	"""Maskeyi rampayla boyar: sol üstten sıcak ışık, kenara doğru mora kayan gölge,
+	kumaş gürültüsü (dith) ve sağ kenarda ay ışığı."""
 	pts = [(x, y) for y in range(c.h) for x in range(c.w) if mask(x, y)]
 	if not pts:
 		return
@@ -378,13 +406,19 @@ def _ramp(c: Canvas, mask, ramp, light_dir=(-0.6, -0.8), dith=True):
 	ys = [p[1] for p in pts]
 	cx, cy = (min(xs) + max(xs)) / 2, (min(ys) + max(ys)) / 2
 	hw, hh = max((max(xs) - min(xs)) / 2, 1), max((max(ys) - min(ys)) / 2, 1)
+	n = len(ramp)
 	for x, y in pts:
 		u, v = (x - cx) / hw, (y - cy) / hh
 		t = -(u * light_dir[0] + v * light_dir[1])     # -1 (gölge) … 1 (ışık)
-		lv = 1.5 + 1.3 * t
-		if dith and (x + y) % 2 == 0:
-			lv += 0.35
-		c.put(x, y, ramp[int(max(0, min(3, lv)))])
+		lv = 0.42 + 0.34 * t
+		if dith:
+			lv += (_noise(x // 2, y // 2) - 0.5) * 0.14 + (_noise(x, y) - 0.5) * 0.05
+		col = ramp[int(max(0, min(n - 1, lv * n)))]
+		if lv > 0.74:
+			col = _gpt.mix(col, (240, 200, 140), 0.18)
+		if u > 0.78:
+			col = _gpt.mix(col, _gpt.MOON, 0.28)
+		c.put(x, y, _rgba(col))
 
 
 def _ell(cx, cy, rx, ry):
@@ -395,26 +429,26 @@ def kasket() -> Canvas:
 	"""KAHVECİ: kahve tonu tüvit kasket; tepe öne doğru basık, kısa siper."""
 	c = Canvas(ACC_W, ACC_H)
 	px, py = PIVOT
-	tweed = ["wood0", "wood1", "wood2", "wood3"]
+	tweed = TWEED
 	crown = lambda x, y: _ell(px - 2, py - 3, 27, 11)(x, y) and y <= py + 1 and \
 		y >= py - 13 + max(0, (x - px - 6)) // 5
 	_ramp(c, crown, tweed)
 	# tüvit beneği
 	for y in range(c.h):
 		for x in range(c.w):
-			if crown(x, y) and (x * 7 + y * 3) % 11 == 0:
-				c.put(x, y, "sand2")
+			if crown(x, y) and _noise(x + 7, y) < 0.08:
+				c.put(x, y, _rgba(TWEED[7]))
 	# tepe düğmesi ve dikiş
-	c.put(px - 3, py - 14, "wood2")
-	c.put(px - 2, py - 14, "wood3")
+	c.put(px - 3, py - 14, _rgba(TWEED[5]))
+	c.put(px - 2, py - 14, _rgba(TWEED[8]))
 	for x in range(px - 22, px + 20, 2):
 		if crown(x, py - 2):
-			c.put(x, py - 2, "wood0")
+			c.put(x, py - 2, _rgba(TWEED[1]))
 	# siper: öne uzanan kısa, koyu bant
 	for i, x in enumerate(range(px + 18, px + 33)):
 		for y in range(py - 2 + i // 6, py + 2):
-			c.put(x, y, "wood1" if y < py else "wood0")
-	c.outline()
+			c.put(x, y, _rgba(TWEED[3] if y < py - 1 else TWEED[1] if y < py else TWEED[0]))
+	c.outline(INK)
 	return c
 
 
@@ -422,21 +456,23 @@ def bere() -> Canvas:
 	"""HAMAL: haki yün bere; kıvrık ağız bandı, üstte örgü izleri."""
 	c = Canvas(ACC_W, ACC_H)
 	px, py = PIVOT
-	khaki = [(52, 54, 26, 255), (84, 86, 44, 255), (116, 116, 64, 255), (150, 148, 92, 255)]
+	khaki = KHAKI
 	dome = lambda x, y: _ell(px, py - 4, 26, 17)(x, y) and y <= py - 3
 	_ramp(c, dome, khaki)
 	for x in range(px - 20, px + 22, 4):
 		for y in range(py - 18, py - 3):
 			if dome(x, y) and (y % 3) != 0:
-				c.put(x, y, khaki[0] if dome(x + 1, y) else khaki[1])
+				c.put(x, y, khaki[1] if dome(x + 1, y) else khaki[3])
 	# kıvrık bant: 5 px, dikey ribler
 	for y in range(py - 4, py + 2):
 		for x in range(px - 26, px + 27):
 			if abs(x - px) <= 26 - max(0, y - py) * 2:
 				rib = (x % 3 == 0)
-				lv = 2 if y < py - 1 else 1
-				c.put(x, y, khaki[lv - 1] if rib else khaki[lv])
-	c.outline()
+				lv = 5 if y < py - 1 else 3
+				if x > px + 20:
+					lv -= 1
+				c.put(x, y, khaki[lv - 2] if rib else khaki[lv])
+	c.outline(INK)
 	return c
 
 
@@ -444,27 +480,27 @@ def kaptan() -> Canvas:
 	"""VAPURCU: beyaz tepeli kaptan şapkası, lacivert bant, siyah siper, altın çapa."""
 	c = Canvas(ACC_W, ACC_H)
 	px, py = PIVOT
-	white = ["cream", (226, 220, 204, 255), "white", (255, 252, 240, 255)]
-	navy = [(10, 16, 40, 255), (22, 32, 70, 255), (40, 56, 108, 255), (70, 92, 150, 255)]
+	white = CREAM
+	navy = NAVY
 	# yayvan tepe: bandın üstünde, arkaya taşan
 	top = lambda x, y: _ell(px - 3, py - 11, 29, 6)(x, y)
-	_ramp(c, top, white, dith=False)
+	_ramp(c, top, white)
 	band = lambda x, y: abs(x - px + 1) <= 23 and py - 7 <= y <= py
-	_ramp(c, band, navy, dith=False)
+	_ramp(c, band, navy)
 	for x in range(px - 22, px + 23):
-		c.put(x, py - 7, navy[3] if x % 2 == 0 else navy[2])
+		c.put(x, py - 7, navy[6] if _noise(x, 3) > 0.35 else navy[4])  # bant üst dikişi
 	# altın çapa rozeti (önde)
 	ax, ay = px + 13, py - 5
-	for dx, dy, col in ((0, 0, "gold3"), (0, 1, "gold2"), (0, 2, "gold2"), (-1, 3, "gold1"),
-			(1, 3, "gold1"), (0, 3, "gold2"), (-1, 1, "gold1"), (1, 1, "gold1")):
-		c.put(ax + dx, ay + dy, col)
+	for dx, dy, k in ((0, 0, 4), (0, 1, 3), (0, 2, 3), (-1, 3, 2),
+			(1, 3, 2), (0, 3, 3), (-1, 1, 2), (1, 1, 2)):
+		c.put(ax + dx, ay + dy, _rgba(_gpt.BRASS[k]))
 	# siper: önde aşağı eğik, parlak kenar
 	for i, x in enumerate(range(px + 16, px + 33)):
 		y0 = py - 1 + i // 5
-		c.put(x, y0, "iron2" if i < 14 else "iron1")
-		c.put(x, y0 + 1, "iron0")
-		c.put(x, y0 + 2, "iron0")
-	c.outline()
+		c.put(x, y0, _rgba(_gpt.IRON[6] if i < 12 else _gpt.IRON[4]))  # cilalı siper kenarı
+		c.put(x, y0 + 1, _rgba(_gpt.IRON[2]))
+		c.put(x, y0 + 2, _rgba(_gpt.IRON[1]))
+	c.outline(INK)
 	return c
 
 
@@ -472,30 +508,30 @@ def bandana() -> Canvas:
 	"""KIZIL DAĞ: alına bağlı kırmızı bandana; arkada düğüm ve iki sarkan uç."""
 	c = Canvas(ACC_W, ACC_H)
 	px, py = PIVOT
-	red = ["red0", "red1", "red2", "red3"]
+	red = [_rgba(RED[k]) for k in (1, 3, 5, 7)]
 	# başa dolanan bant: önde aşağı, arkada yukarı hafif eğik
 	for x in range(px - 24, px + 25):
 		yc = py - 3 - (px - x) // 10
 		for y in range(yc - 3, yc + 3):
 			lv = 3 if y == yc - 3 else (2 if y <= yc else 1)
-			if (x + y) % 5 == 0 and lv == 2:
-				lv = 1
+			if _noise(x, y) < 0.2 and lv == 2:
+				lv = 1  # kumaş kırışığı
 			c.put(x, y, red[lv])
 	# beyaz puantiye (bandana deseni)
 	for x in range(px - 20, px + 22, 6):
 		yc = py - 3 - (px - x) // 10
-		c.put(x, yc - 1, "cream")
+		c.put(x, yc - 1, _rgba(CREAM[5]))
 	# arka düğüm + sarkan uçlar
 	kx, ky = px - 25, py - 6
-	c.disc(kx, ky, 3, "red1")
-	c.put(kx - 1, ky - 1, "red3")
+	c.disc(kx, ky, 3, red[1])
+	c.put(kx - 1, ky - 1, red[3])
 	for i in range(11):
 		c.put(kx - 2 - i // 2, ky + 2 + i, red[1 + (i % 2)])
 		c.put(kx - 3 - i // 2, ky + 2 + i, red[1])
 	for i in range(8):
 		c.put(kx - 5 - i, ky + 1 + i // 2, red[2])
 		c.put(kx - 5 - i, ky + 2 + i // 2, red[0])
-	c.outline()
+	c.outline(INK)
 	return c
 
 
@@ -522,6 +558,12 @@ def preview(anchors: dict, path: str) -> None:
 	for i, r in enumerate(rows):
 		out.alpha_composite(r, (0, 130 * i))
 	out.resize((out.width * 2 // 2, out.height * 2 // 2), Image.NEAREST).save(path)
+
+
+def main_hats() -> None:
+	"""Yalnız dört başlık PNG'si (çapa tablosu, ön saç ve saç işaretlerine dokunmaz)."""
+	for acc_id, fn in ACCESSORIES.items():
+		fn().im.save(os.path.join(OUT_DIR, acc_id + ".png"))
 
 
 def main() -> None:
