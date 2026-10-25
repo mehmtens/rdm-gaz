@@ -17,8 +17,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 - Şemsiyeyle havaya kaldırılan düşmanı ikinci şemsiye vuruşunun tekrar kaldırması sonsuz
   dizi yaratabilir mi? İnsan testinde bakılacak; gerekirse havadaki düşmana kaldırma yok.
 
-- Kitap şeridinde karelere küçük hareket: kare açılırken portrenin 1–2 sanat pikseli
-  kayması ya da konuşma balonu (DTM çizgi romanlarındaki canlılık).
+- Kitap şeridinde konuşma balonu: karelerin bir kısmında alt yazı yerine portrenin
+  ağzından kısa piksel balon (hareket katmanı bu turda girdi; balon ayrı dilim).
 - Hız yıldızının par süresi bölüm başına ayarlanmalı: 34 bölümde düz 240 sn, bot
   ~80 sn'de bitiriyor. İnsan testinden gelen ortanca sürenin ~0,8'i hedef (ilk koşuda
   zor, ikinci koşuda alınabilir); `par_time` her `Bolum*.tscn`'de elle.
@@ -30,6 +30,37 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-25 — Kitap şeridi karelerinde piksel adımlı hareket
+
+**Neden şimdi:** Yol haritası ve P1 maddeleri oyunda; birikimin üstündeki maddeler insan testi
+koşullu, pantolon maskesi kalıntısı için önceki turlar "kostüm kalıntı turları kapanmalı" dedi.
+Kitap şeridi kareleri tamamen durağandı; DTM'nin bölüm arası çizgi romanları küçük hareketle
+canlı durur. Şerit artık Kanıt Arşivi'nden de izlendiği için daha sık görülüyor.
+
+**Oyuncu ne hissedecek:** Kare çakıldığında portreler/nesneler 3 sanat pikseli aşağıdan piksel
+piksel yerine oturur (sahne sabit kalır, hafif derinlik); sonra her karede ara ara 1 piksellik
+"nefes" — kareler birbirinden kayık nefes alır, hepsi aynı anda zıplamaz.
+
+**Yapılanlar:**
+- `tools/gen_comic_panels.py`: birleşik `kK_P.png` aynen (bayt bayt değişmedi) + yeni
+  `kK_P_bg.png` (çerçeve + sahne) ve `kK_P_on.png` (96×56 ön katman).
+- `book_comic.gd`: sahne + kırpılmış ön katman; `layer_offset(i)` (sanat pikseli), konum her
+  zaman `SCALE` katı — kayan alt piksel yok. Kırpma çerçevenin iç alanı: katman aşağı inince
+  portrenin altı kaybolur, boşluk açılmaz. Kayıt formatı değişmedi.
+
+**Sayılar (hipotez):** Oturma 3 px × 0,07 sn = 0,21 sn (çakılma 0,18 sn ile aynı ritim, hemen
+ardından). Nefes 1,6 sn'de bir 0,4 sn boyunca 1 px; kareler arası 0,4 sn kayma. Daha büyük
+genlik okunan alt yazıdan göz kaçırır diye 1 px'te tutuldu.
+
+**Testler:** `--import` hatasız; `tests/book_comic.tscn` PASS (yeni: katmanlar birleşince eski
+kareyle piksel piksel aynı, oturma/nefes adımları, konum tam sanat pikseli); `archive_comic.tscn`
+PASS; `dtm_gaps` PASS; `campaign_smoke.gd` çıkış 0; bot Bölüm 12 (kitap sonu) CLEARED (88,2 sn).
+1280×720 pencereli görüntüde dört kare: portreler çerçeve içinde kırpılıyor, taşma yok.
+Telefonda görülmedi.
+
+**Sonraki öneri:** Birikimdeki koşulsuz iş bitti sayılır; bir sonraki tur TASARIM DENETİMİ —
+Kitap 2'den bir bölüm (ör. 15) bot ile oynatılıp ritim/set-piece/ödül karşılaştırması.
 
 ### 2026-10-24 (22) — Seri rozeti sıradaki arşiv karesini söylüyor
 

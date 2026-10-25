@@ -5,6 +5,9 @@
 ## duraklatılmıştır). Kareler soldan sağa sırayla "çakılır"; dokunma / `attack` /
 ## `jump` / Enter bir sonraki kareyi hemen getirir, hepsi açıkken kapatır. Duraklat
 ## tuşu şeridi atlar. Kare resimleri: tools/gen_comic_panels.py -> assets/ui/comic/.
+## Her kare iki katmandır: sahne (`_bg`) sabit, portre/nesne katmanı (`_on`) kare
+## çakılırken alttan yerine oturur, sonra ara ara 1 sanat pikseli "nefes" alır — çizgi
+## roman karesi canlı durur, hareket piksel adımlıdır (kayan alt piksel yok).
 class_name BookComic
 extends CanvasLayer
 
@@ -51,6 +54,14 @@ const STEP := 1.1
 const SLAM := 0.18
 ## Son kare açıldıktan sonra yanlışlıkla (basılı tuşla) kapanmasın diye bekleme.
 const MIN_CLOSE := 0.5
+## Ön katman: açılışta kaç sanat pikseli aşağıdan başlar, her adım kaç sn sürer.
+const SETTLE_PX := 3
+const SETTLE_STEP := 0.07
+## Nefes: her BREATH sn'nin son BREATH_DOWN sn'sinde katman 1 piksel iner; kareler
+## arasında BREATH_PHASE kadar kayık (hepsi aynı anda inip kalkmasın).
+const BREATH := 1.6
+const BREATH_DOWN := 0.4
+const BREATH_PHASE := 0.4
 
 var _root: Control
 var _header: Label
@@ -59,6 +70,9 @@ var _hint: Label
 var _cells: Array[Control] = []
 var _captions: Array[Label] = []
 var _textures: Array[TextureRect] = []
+var _layers: Array[TextureRect] = []
+## Her karenin açılıştan beri geçen süresi (açılmamışsa -1).
+var _ages: Array[float] = [-1.0, -1.0, -1.0, -1.0]
 var _active := false
 var _shown := 0
 var _t := 0.0
@@ -143,6 +157,22 @@ func _build() -> void:
 		tex.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 		tex.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		inner.add_child(tex)
+		# Ön katman sahnenin iç alanına (2 piksellik çerçevenin içi) kırpılır: aşağı
+		# kaydığında portrenin altı çerçevenin altında kaybolur, boşluk açılmaz.
+		var clip := Control.new()
+		clip.position = Vector2(2, 2) * SCALE
+		clip.size = PANEL_SIZE - Vector2(4, 4) * SCALE
+		clip.clip_contents = true
+		clip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		tex.add_child(clip)
+		var on := TextureRect.new()
+		on.size = clip.size
+		on.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		on.stretch_mode = TextureRect.STRETCH_SCALE
+		on.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		on.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		clip.add_child(on)
+		_layers.append(on)
 		var box := PanelContainer.new()
 		box.add_theme_stylebox_override(&"panel", PixelUI.box("balon", 12))
 		box.custom_minimum_size = Vector2(0, 88)  # üç satır; kutular eşit boyda dursun
@@ -185,6 +215,18 @@ func shown_count() -> int:
 	return _shown
 
 
+## Karenin ön katmanının sanat pikseli cinsinden aşağı kayması (0 = yerinde).
+func layer_offset(i: int) -> int:
+	var age := _ages[i]
+	if age < 0.0:
+		return SETTLE_PX
+	var settle := SETTLE_PX - int(age / SETTLE_STEP)
+	if settle > 0:
+		return settle
+	var since := age - SETTLE_PX * SETTLE_STEP + i * BREATH_PHASE
+	return 1 if fmod(since, BREATH) >= BREATH - BREATH_DOWN else 0
+
+
 func present(level_index: int) -> void:
 	var book: int = BOOK_END.get(level_index, 0)
 	if book == 0:
@@ -193,7 +235,10 @@ func present(level_index: int) -> void:
 	var page: Dictionary = PAGES[book]
 	_header.text = "KİTAP %d SONU  ·  %s" % [book, GameState.BOOK_NAMES[book - 1]]
 	for i in 4:
-		_textures[i].texture = load("res://assets/ui/comic/k%d_%d.png" % [book, i])
+		_textures[i].texture = load("res://assets/ui/comic/k%d_%d_bg.png" % [book, i])
+		_layers[i].texture = load("res://assets/ui/comic/k%d_%d_on.png" % [book, i])
+		_layers[i].position.y = SETTLE_PX * SCALE
+		_ages[i] = -1.0
 		_captions[i].text = page["captions"][i]
 		_cells[i].modulate.a = 0.0
 	_next.text = page["next"]
@@ -218,6 +263,7 @@ func _reveal_next() -> void:
 	tw.tween_property(cell, ^"position:y", 0.0, SLAM).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	tw.tween_property(cell, ^"scale", Vector2.ONE, SLAM).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	Sfx.play(&"land", 0.9 + 0.08 * _shown)
+	_ages[_shown] = 0.0
 	_shown += 1
 	_t = 0.0
 	_since = 0.0
@@ -230,6 +276,10 @@ func _process(delta: float) -> void:
 		return
 	_t += delta
 	_since += delta
+	for i in 4:
+		if _ages[i] >= 0.0:
+			_ages[i] += delta
+			_layers[i].position.y = layer_offset(i) * SCALE
 	if _shown < 4 and _t >= STEP:
 		_reveal_next()
 	if _shown == 4 and _since >= MIN_CLOSE:

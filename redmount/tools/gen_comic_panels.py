@@ -1,6 +1,7 @@
 """Kitap geçiş sinematikleri: kitap sonlarında 4 karelik piksel çizgi roman paneli.
 
     python tools/gen_comic_panels.py  -> assets/ui/comic/kK_P.png (100x60, piksel art)
+                                         + kK_P_bg.png (yalnız sahne) + kK_P_on.png (ön katman 96x56)
 
 Her kare: bölümün boyalı arka plan atlasından bir kesit (kutu filtresiyle 96x56'ya
 küçültülür, 22 renge indirilir) + oyunun 48x48 piksel portreleri (yakın plan) veya
@@ -109,10 +110,15 @@ def frame(art):
 
 
 def panel(atlas, box, layers, tint=None):
-    art = scene(atlas, box, tint)
+    """(birleşik kare, yalnız sahne karesi, ön katman 96x56) — oyun ön katmanı ayrıca
+    oynatır (portre kare açılırken yerine oturur, sonra 1 piksel nefes alır)."""
+    bg = scene(atlas, box, tint)
+    on = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     for img, x, y in layers:
-        art.alpha_composite(img, (x, y))
-    return frame(art)
+        on.alpha_composite(img, (x, y))
+    art = bg.copy()
+    art.alpha_composite(on)
+    return frame(art), frame(bg), on
 
 
 def scaled(img, k):
@@ -156,5 +162,8 @@ if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
     for k, panels in BOOKS.items():
         for p, spec in enumerate(panels):
-            panel(*spec).save(OUT / ("k%d_%d.png" % (k, p)))
+            full, bg, on = panel(*spec)
+            full.save(OUT / ("k%d_%d.png" % (k, p)))
+            bg.save(OUT / ("k%d_%d_bg.png" % (k, p)))
+            on.save(OUT / ("k%d_%d_on.png" % (k, p)))
     print("ok")
