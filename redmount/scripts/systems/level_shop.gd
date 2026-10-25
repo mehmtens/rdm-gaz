@@ -13,6 +13,11 @@ const WORKSHOP := preload("res://assets/environment/shop_haddehane.png")
 const UNDERGROUND := preload("res://assets/environment/shop_underground.png")
 const FORTRESS := preload("res://assets/environment/shop_fortress.png")
 const ICON := preload("res://scripts/pickups/pickup_icon.gd")
+## Pirinç fiyat levhası, rozet ve ucu (tools/gen_shop_ui.py, ChatGPT tarzı piksel art).
+const ETIKET := preload("res://assets/ui/pixel/etiket_fiyat.png")
+const ETIKET_YOK := preload("res://assets/ui/pixel/etiket_fiyat_yok.png")
+const ROZET := preload("res://assets/ui/pixel/rozet_dokun.png")
+const ROZET_KUYRUK := preload("res://assets/ui/pixel/rozet_kuyruk.png")
 const CATALOG := {
 	"can": {
 		"label": "CAN", "price": 15, "icon": "health",
@@ -216,11 +221,25 @@ func _draw_sign(canvas: CanvasItem) -> void:
 	var hint := "DOKUN" if TouchControls.active_on_device() else "E"
 	var tag_w := PixelText.width(hint, 3.0) + 24.0
 	var tag := Rect2(roundf(center - tag_w * 0.5), board.position.y - 56.0 + bob, tag_w, 40.0)
-	canvas.draw_rect(tag.grow(3.0), Color("17131f"))
-	canvas.draw_rect(tag, Color("ffc857"))
-	canvas.draw_rect(Rect2(tag.position.x, tag.end.y - 6.0, tag.size.x, 6.0), Color("d18b2c"))
-	canvas.draw_rect(Rect2(center - 6.0, tag.end.y + 3.0, 12.0, 6.0), Color("17131f"))
+	canvas.draw_style_box(plate(ROZET, 6), tag.grow(3.0))
+	canvas.draw_texture(ROZET_KUYRUK, Vector2(center - 6.0, tag.end.y + 2.0))
 	PixelText.draw_centered(canvas, center, tag.position.y + 2.0, hint, 3.0, Color("2a1c12"))
+
+
+## 9 parçalı piksel levha (kenar payı `m` ekran pikseli); dokuya göre önbellekli.
+static var _plates := {}
+
+
+static func plate(tex: Texture2D, m: int) -> StyleBoxTexture:
+	if _plates.has(tex):
+		return _plates[tex]
+	var sb := StyleBoxTexture.new()
+	sb.texture = tex
+	sb.set_texture_margin_all(m)
+	sb.axis_stretch_horizontal = StyleBoxTexture.AXIS_STRETCH_MODE_TILE_FIT
+	sb.axis_stretch_vertical = StyleBoxTexture.AXIS_STRETCH_MODE_TILE_FIT
+	_plates[tex] = sb
+	return sb
 
 
 class _Sign extends Node2D:
@@ -266,7 +285,7 @@ class _Panel extends CanvasLayer:
 		add_child(center)
 
 		var frame := PanelContainer.new()
-		frame.add_theme_stylebox_override(&"panel", _box(Color("2a2036"), Color("8a5c3c"), 6, 22))
+		frame.add_theme_stylebox_override(&"panel", PixelUI.box("panel", 22))
 		center.add_child(frame)
 		var column := VBoxContainer.new()
 		column.add_theme_constant_override(&"separation", 16)
@@ -299,9 +318,10 @@ class _Panel extends CanvasLayer:
 		back.custom_minimum_size = Vector2(220, 58)
 		back.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 		back.add_theme_font_size_override(&"font_size", 22)
-		back.add_theme_stylebox_override(&"normal", _box(Color("5a3a2a"), Color("d9b36a"), 3, 8))
-		back.add_theme_stylebox_override(&"hover", _box(Color("7a4d33"), Color("ffd98a"), 3, 8))
-		back.add_theme_stylebox_override(&"pressed", _box(Color("3a2419"), Color("d9b36a"), 3, 8))
+		back.add_theme_font_override(&"font", PixelUI.font())
+		back.add_theme_stylebox_override(&"normal", PixelUI.box("button_normal", 12))
+		back.add_theme_stylebox_override(&"hover", PixelUI.box("button_hover", 12))
+		back.add_theme_stylebox_override(&"pressed", PixelUI.box("button_pressed", 12))
 		back.pressed.connect(_shop.close)
 		column.add_child(back)
 		_refresh()
@@ -310,15 +330,6 @@ class _Panel extends CanvasLayer:
 		_coins.text = "COIN  %d" % GameState.coins
 		for card in _cards:
 			card.queue_redraw()
-
-	static func _box(fill: Color, border: Color, border_w: int, margin: int) -> StyleBoxFlat:
-		var sb := StyleBoxFlat.new()
-		sb.bg_color = fill
-		sb.border_color = border
-		sb.set_border_width_all(border_w)
-		sb.set_content_margin_all(margin)
-		sb.anti_aliasing = false
-		return sb
 
 
 ## Panel başlığı — büfenin adı, tabelayla aynı piksel yazıyla.
@@ -365,6 +376,8 @@ class _Card extends Button:
 		if _flash > 0.0 or _bought_t > 0.0:
 			_flash = maxf(_flash - delta * 2.4, 0.0)
 			_bought_t = maxf(_bought_t - delta * 1.6, 0.0)
+			# Satın alınca yeşile, yetmeyince kırmızıya parlayan kart (renk boyası, şekil yok).
+			self_modulate = Color.WHITE.lerp(Color(0.7, 1.35, 0.75), _bought_t * 0.6).lerp(Color(1.4, 0.6, 0.6), _flash * 0.6)
 			queue_redraw()
 
 	func _on_pressed() -> void:
@@ -382,15 +395,9 @@ class _Card extends Button:
 		var body := Rect2(Vector2.ZERO, size)
 		# Piksel art kart çerçevesi (PixelUI); alınamıyorsa sönük.
 		draw_style_box(PixelUI.box("panel" if afford else "button_disabled"), body)
-		if _bought_t > 0.0:
-			draw_rect(body.grow(-4.0), Color(0.45, 0.95, 0.55, _bought_t * 0.35))
-		if _flash > 0.0:
-			draw_rect(body.grow(-4.0), Color(1.0, 0.25, 0.25, _flash * 0.4))
 		PixelText.draw_centered(self, size.x * 0.5, 14.0, _data["label"], 3.0, Color("f4e6c8"), ink)
 		# Fiyat etiketi — karşılanamıyorsa kırmızı okunur.
 		var tag := Rect2(22, size.y - 62.0, size.x - 44.0, 44.0)
-		var tone := Color("ffc857") if afford else Color("b94a4a")
-		draw_rect(tag, ink)
-		draw_rect(tag.grow(-3.0), tone)
-		draw_rect(Rect2(tag.position.x + 3, tag.end.y - 9.0, tag.size.x - 6.0, 6.0), tone.darkened(0.25))
-		PixelText.draw_centered(self, size.x * 0.5, tag.position.y + 4.0, "%d C" % price, 3.0, Color("2a1c12"))
+		draw_style_box(LevelShop.plate(LevelShop.ETIKET if afford else LevelShop.ETIKET_YOK, 9), tag)
+		var price_ink := Color("17131f") if afford else Color("f4e6c8")
+		PixelText.draw_centered(self, size.x * 0.5, tag.position.y + 4.0, "%d C" % price, 3.0, price_ink)

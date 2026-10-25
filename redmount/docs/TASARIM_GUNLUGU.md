@@ -31,6 +31,32 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-10-26 (2) — Büfe fiyat levhası ve "E/DOKUN" rozeti piksel art (stil listesi 2/level_shop)
+
+**Neden şimdi:** Stil listesi 2'nin sıradaki maddesi. Büfe tabelasının üstündeki
+etkileşim rozeti dört `draw_rect` (düz sarı kutu + kara çerçeve + kare uç), ürün
+kartındaki fiyat etiketi üç `draw_rect`, satın alma/yetmeme parlaması iki yarı saydam
+`draw_rect` idi; panel çerçevesi ve KAPAT düğmesi `StyleBoxFlat` düz renkti.
+
+**Oyuncu ne hissedecek:** Fiyat, perçinli fırçalanmış pirinç levhada; parası yetmiyorsa
+levha pas kırmızısı emaye ve yazı açık renk — kart sönükleşmenin yanında ikinci okunur
+işaret. Tabelanın üstünde zıplayan rozet aynı pirinç malzemeden, aşağı bakan ucuyla.
+Panel ve KAPAT, oyunun geri kalan menüleriyle aynı piksel çerçeve ailesinde.
+
+**Yapılanlar:** yeni `tools/gen_shop_ui.py` → `assets/ui/pixel/{etiket_fiyat,
+etiket_fiyat_yok}.png` (16×14, 3x — UI ölçeği), `rozet_dokun.png` + `rozet_kuyruk.png`
+(2x — dünya ölçeği). `level_shop.gd`: önbellekli 9 parça `LevelShop.plate()`;
+parlama `self_modulate` boyası; panel/düğme `PixelUI.box`; `_box` (StyleBoxFlat) silindi.
+Kodla çizim 9 → 0. İlk denemede levha gürültüsü fiyatı okunmaz yapıyordu: yüzey
+satır satır sakin ışığa çekildi, açıldı, yazı koyu mora alındı.
+
+**Testler:** `--import` hatasız; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn`
+PASS; bot Bölüm 1 (79,8 sn), 13 (84,7 sn), 25 (89,8 sn) CLEARED. 1280×720 geçici sahnede (Bölüm 1, Balat)
+rozet tabelanın üstünde ve açık panelde alınabilir/alınamaz kartlar çekildi — "ait".
+
+**Sonraki öneri:** Stil listesi 2 — `char_rig.gd` (42) / `weapon_visual.gd` (5) görsel mi
+hata ayıklama mı kontrolü.
+
 ### 2026-10-26 — Platform destekleri ve kenarları piksel art (stil listesi 2/one_way + moving)
 
 **Neden şimdi:** Stil listesi 2'nin sıradaki maddesi. Koridor, kale, raf ve iskele
