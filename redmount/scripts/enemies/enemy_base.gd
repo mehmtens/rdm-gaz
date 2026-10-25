@@ -982,7 +982,7 @@ func _set_state(new_state: State) -> void:
 	if new_state == _state:
 		return
 	_state = new_state
-	# Görsel = char_rig (durum-güdümlü).
+	# Görsel = enemy_sprite (durum-güdümlü).
 
 
 ## Eski API — görsel artık rig'de, no-op.

@@ -31,6 +31,20 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-10-26 (3) — char_rig / weapon_visual kontrolü: ölü kod, silindi (stil listesi 2)
+
+**Neden şimdi:** Stil listesi 2'nin "görsel mi, hata ayıklama mı kontrol et" maddesi.
+**Bulgu:** İkisi de görsel değil, hiç çalışmıyor: hiçbir sahne/betik bu dosyaları (ne
+yolla ne uid ile) yüklemiyor. Redmount'un `Rig` düğümü `player_sprite.gd`'li
+AnimatedSprite2D, düşmanlar `enemy_sprite.gd`; silah elde görünümü sprite karelerinde.
+Prosedürel iskeletin kalıntısı olan 47 satırlık kodla çizim oyuncuya hiç ulaşmıyordu.
+**Yapılanlar:** iki dosya silindi; `redmount.gd` / `enemy_base.gd`'de "Görsel = char_rig"
+diyen eski yorumlar gerçek düğüme (player_sprite / enemy_sprite) çevrildi.
+**Testler:** `--import` hatasız; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn`
+PASS; bot Bölüm 1 (80,5 sn), 13 (77,2 sn), 25 (80,8 sn) CLEARED. Görsel değişiklik yok.
+**Sonraki öneri:** Stil listesi 2 — "diğerleri" (story_blockout/level02 destek çizgileri,
+level04/11 kenar şeridi, dtm_level saksı gölgesi, backdrop zerreleri, ana menü blokları).
+
 ### 2026-10-26 (2) — Büfe fiyat levhası ve "E/DOKUN" rozeti piksel art (stil listesi 2/level_shop)
 
 **Neden şimdi:** Stil listesi 2'nin sıradaki maddesi. Büfe tabelasının üstündeki

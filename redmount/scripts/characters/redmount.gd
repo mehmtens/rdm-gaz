@@ -25,7 +25,7 @@ enum Phase { WINDUP, ACTIVE, RECOVERY }
 ## Tüm dövüş / can değerleri buradan gelir. Bkz. combat_config.gd
 @export var combat: CombatConfig
 
-## Parçalara ayrılmış prosedürel iskelet (Görev 21). Bkz. char_rig.gd
+## Çizim sayfalı gövde sprite'ı (AnimatedSprite2D). Bkz. player_sprite.gd
 @onready var rig: Node2D = $Rig
 @onready var _hitbox: Area2D = $Hitbox
 @onready var _hitbox_shape: CollisionShape2D = $Hitbox/CollisionShape2D
@@ -218,7 +218,7 @@ func _physics_process(delta: float) -> void:
 
 # --- Prosedürel iskelet animasyonu (Görev 21) ---------------------------
 ##
-## Durumu char_rig'e aktarır (rig kol/bacak/gövde kemiklerini kendi kore eder)
+## Durumu gövde sprite'ına aktarır (player_sprite kareyi ve koreografiyi seçer)
 ## ve [[fx]] ile toz / hayalet iz spawn eder.
 func _apply_proc_anim(delta: float) -> void:
 	rig.facing = _facing
@@ -1430,7 +1430,7 @@ func _set_state(new_state: State) -> void:
 	if new_state == _state:
 		return
 	_state = new_state
-	# Görsel = char_rig (durum-güdümlü); ayrı "anim oynat" gerekmez.
+	# Görsel = player_sprite (durum-güdümlü); ayrı "anim oynat" gerekmez.
 
 
 func _apply_hitbox_profile(reach: Vector2, offset: float) -> void:
