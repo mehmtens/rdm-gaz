@@ -31,6 +31,33 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-10-26 — Platform destekleri ve kenarları piksel art (stil listesi 2/one_way + moving)
+
+**Neden şimdi:** Stil listesi 2'nin sıradaki maddesi. Koridor, kale, raf ve iskele
+platformlarının direkleri, çapraz kuşakları ve basılacak üst kenarı `draw_line` ile
+düz renkli çizgiydi; ray platformunun tekerleği `draw_circle`, gece sahnesi kenar
+ışığı (`draw_dark_edge`, parkour setleri de kullanıyor) iki düz çizgiydi.
+
+**Oyuncu ne hissedecek:** Platformun altındaki çerçeve artık sahnenin malzemesi:
+perçinli, pas akıntılı çelik boru ya da damarlı ahşap direk, aralarında eksene
+hizalı yatay kuşaklar (eski çapraz çizgi 2x NEAREST'te merdivenleşiyordu). Kale
+asansörü iki zincirle asılı; ray platformunun altından piksel makaralar görünüyor.
+Basılacak dudak ışığı yakalayan taş/çelik şerit; gece kenar ışığı dithered doku.
+
+**Yapılanlar:** yeni `tools/gen_platform_supports.py` (gen_gpt_style_props
+yardımcılarıyla) → `pixel/{dikme_celik,dikme_ahsap,kusak_celik,kusak_ahsap,
+kenar_tas,kenar_celik,kenar_isik,makara}.png`. `one_way_platform.gd`: statik
+`tile_down/tile_across`, `_draw_frame` (iki direk + ~64 px'te bir kuşak),
+`draw_dark_edge` doku + edge_light boyası. `moving_platform.gd` bu yardımcıları
+kullanıyor. Kodla çizim: one_way 13 → 0, moving 9 → 0.
+
+**Testler:** `--import` hatasız; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn`
+PASS; bot Bölüm 1 (78,6 sn), 13 (76,3 sn), 25 (91,3 sn) CLEARED. 1280×720 geçici sahnede
+Book02Level12 ve Book03Level05 arka planı önünde dört tek yönlü + dört hareketli stil
+çekildi — "ait"; makara ilk çekimde ray dokusunun altında kalıyordu, 7 px indirildi.
+
+**Sonraki öneri:** Stil listesi 2 — `level_shop.gd`.
+
 ### 2026-10-25 (12) — Kırılabilir kaplarda kodla çizim kalmadı (stil listesi 2/breakable_prop)
 
 **Neden şimdi:** Stil listesi 2'nin sıradaki maddesi. Her kırılabilir kabın altında

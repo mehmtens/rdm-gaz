@@ -10,6 +10,9 @@ const HALAT := preload("res://assets/environment/pixel/halat.png")
 const RAIL := preload("res://assets/environment/underground_ground.png")
 const FORTRESS_PLATFORM := preload("res://assets/environment/fortress_platform.png")
 const CORRIDOR := preload("res://assets/environment/corridor_ground.png")
+const ZINCIR := preload("res://assets/environment/pixel/zincir.png")
+const MAKARA := preload("res://assets/environment/pixel/makara.png")
+const _OWP := preload("res://scripts/systems/one_way_platform.gd")
 
 ## Başlangıç konumuna göre uç nokta ofseti (px).
 @export var travel: Vector2 = Vector2(220, 0)
@@ -59,23 +62,24 @@ func _physics_process(delta: float) -> void:
 func _draw() -> void:
 	var hw := width * 0.5
 	if style == "fortress":
-		draw_line(Vector2(-hw + 12, -10), Vector2(-hw + 12, -55), Color("8c7155"), 4)
-		draw_line(Vector2(hw - 12, -10), Vector2(hw - 12, -55), Color("8c7155"), 4)
+		# Kale asansörü yukarıdan iki zincirle asılı.
+		for x in [-hw + 12.0, hw - 12.0]:
+			_OWP.tile_down(self, ZINCIR, Rect2(x - 6.0, -58.0, 12.0, 48.0))
 		draw_texture_rect(FORTRESS_PLATFORM, Rect2(-hw, -10, width, 36), true)
-		draw_line(Vector2(-hw, -10), Vector2(hw, -10), Color("ac9990"), 5)
+		_OWP.tile_across(self, _OWP.KENAR_TAS, Rect2(-hw, -13.0, width, 6.0))
 		return
 	if style == "corridor":
+		_OWP.tile_across(self, _OWP.KUSAK_CELIK, Rect2(-hw + 12.0, 88.0, width - 24.0, 8.0))
 		for x in [-hw + 12.0, hw - 12.0]:
-			draw_line(Vector2(x, 24), Vector2(x, 160), Color("414653"), 5)
-		draw_line(Vector2(-hw + 12, 160), Vector2(hw - 12, 24), Color("616672"), 3)
+			_OWP.tile_down(self, _OWP.DIKME_CELIK, Rect2(x - 5.0, 24.0, 10.0, 136.0))
 		draw_texture_rect(CORRIDOR, Rect2(-hw, -10, width, 36), true)
-		draw_line(Vector2(-hw, -10), Vector2(hw, -10), Color("a2a7b7"), 5)
+		_OWP.tile_across(self, _OWP.KENAR_CELIK, Rect2(-hw, -13.0, width, 6.0))
 		return
 	if style == "rail":
-		draw_line(Vector2(-hw + 18, -52), Vector2(hw - 18, -52), Color("414c56"), 5)
+		_OWP.tile_across(self, _OWP.KUSAK_CELIK, Rect2(-hw + 14.0, -56.0, width - 28.0, 8.0))
 		for x in [-hw + 18.0, hw - 18.0]:
-			draw_line(Vector2(x, -52), Vector2(x, -10), Color("8d785d"), 4)
-			draw_circle(Vector2(x, 15), 8, Color("27313d"))
+			_OWP.tile_down(self, _OWP.DIKME_CELIK, Rect2(x - 5.0, -50.0, 10.0, 40.0))
+			draw_texture_rect(MAKARA, Rect2(x - 9.0, 13.0, 18.0, 18.0), false)
 		draw_texture_rect(RAIL, Rect2(-hw, -10, width, 32), true)
 		return
 	# Vinç halatları ve iskele paleti aynı malzeme dilini taşır.

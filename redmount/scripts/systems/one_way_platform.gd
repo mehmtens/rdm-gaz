@@ -24,6 +24,14 @@ const CORRIDOR := preload("res://assets/environment/corridor_ground.png")
 const CLOUD_ART := preload("res://assets/environment/mahalle/cloud_puff.png")
 const POST := preload("res://assets/environment/kit/scaffold_post.png")
 const PILLAR := preload("res://assets/environment/kit/wall_pillar.png")
+## Destek ve kenar dokuları (tools/gen_platform_supports.py, ChatGPT tarzı piksel art).
+const DIKME_CELIK := preload("res://assets/environment/pixel/dikme_celik.png")
+const DIKME_AHSAP := preload("res://assets/environment/pixel/dikme_ahsap.png")
+const KUSAK_CELIK := preload("res://assets/environment/pixel/kusak_celik.png")
+const KUSAK_AHSAP := preload("res://assets/environment/pixel/kusak_ahsap.png")
+const KENAR_TAS := preload("res://assets/environment/pixel/kenar_tas.png")
+const KENAR_CELIK := preload("res://assets/environment/pixel/kenar_celik.png")
+const KENAR_ISIK := preload("res://assets/environment/pixel/kenar_isik.png")
 @export var width: float = 200.0
 @export_enum("metal", "cloud", "roof", "awning", "scaffold", "wood_shelf", "industrial", "underground", "fortress", "corridor") var style: String = "metal"
 
@@ -150,18 +158,16 @@ func _draw() -> void:
 		_draw_cloud()
 		return
 	if style == "fortress":
-		draw_line(Vector2(-hw + 12, 29), Vector2(-hw + 12, 90), Color("55556b"), 6)
-		draw_line(Vector2(hw - 12, 29), Vector2(hw - 12, 90), Color("55556b"), 6)
+		for x in [-hw + 12.0, hw - 12.0]:
+			tile_down(self, DIKME_CELIK, Rect2(x - 5.0, 29.0, 10.0, 61.0))
 		draw_texture_rect(FORTRESS_PLATFORM, Rect2(-hw, -6, width, 36), true)
-		draw_line(Vector2(-hw, -7), Vector2(hw, -7), Color("9c92a0"), 5)
+		tile_across(self, KENAR_TAS, Rect2(-hw, -9.0, width, 6.0))
 		return
 	if style == "corridor":
 		var base := maxf(-position.y, 74.0)
-		for x in [-hw + 12.0, hw - 12.0]:
-			draw_line(Vector2(x, 26), Vector2(x, base), Color("39404e"), 5)
-		draw_line(Vector2(-hw + 12, 26), Vector2(hw - 12, base), Color("59606d"), 3)
+		_draw_frame(DIKME_CELIK, KUSAK_CELIK, hw - 12.0, 26.0, base, 10.0)
 		draw_texture_rect(CORRIDOR, Rect2(-hw, -6, width, 36), true)
-		draw_line(Vector2(-hw, -7), Vector2(hw, -7), Color("a2a7b7"), 5)
+		tile_across(self, KENAR_CELIK, Rect2(-hw, -9.0, width, 6.0))
 		return
 	if style == "awning":
 		# Tezgâh tentesi iki ahşap direğe oturur.
@@ -171,17 +177,12 @@ func _draw() -> void:
 		draw_texture_rect_region(AWNING, Rect2(-hw, -6, width, 62), Rect2(6, 147, 2161, 320))
 	elif style == "wood_shelf":
 		var base := maxf(-position.y, 74.0)
-		for x in [-hw + 13.0, hw - 13.0]:
-			draw_line(Vector2(x, 27), Vector2(x, base), Color("4a3026"), 9)
-		draw_line(Vector2(-hw + 13, 44), Vector2(hw - 13, base - 12), Color("75503a"), 5)
+		_draw_frame(DIKME_AHSAP, KUSAK_AHSAP, hw - 13.0, 27.0, base, 12.0)
 		draw_texture_rect_region(WOOD, Rect2(-hw, -6, width, 45), Rect2(220, 255, 615, 175))
 		draw_dark_edge(self, -hw, hw, -6.0)
 	elif style in ["scaffold", "industrial", "underground"]:
 		var base := maxf(-position.y, 74.0)
-		for x in [-hw + 9.0, hw - 9.0]:
-			draw_line(Vector2(x, 32), Vector2(x, base), Color("343b40"), 7.0)
-		draw_line(Vector2(-hw + 9, 55), Vector2(hw - 9, base - 10), Color("55514a"), 4.0)
-		draw_line(Vector2(hw - 9, 55), Vector2(-hw + 9, base - 10), Color("55514a"), 4.0)
+		_draw_frame(DIKME_CELIK, KUSAK_CELIK, hw - 9.0, 32.0, base, 10.0)
 		if style in ["industrial", "underground"]:
 			var surface := INDUSTRIAL if style == "industrial" else UNDERGROUND
 			draw_texture_rect(surface,
@@ -193,27 +194,49 @@ func _draw() -> void:
 		# Çatı iki taş direğe oturur (revak): altından yürünerek geçilir.
 		if _support_depth > 0.0:
 			for px in [-hw + 8.0, hw - 36.0]:
-				_tile_down(PILLAR, Rect2(px, 24.0, 28.0, _support_depth - 24.0))
+				tile_down(self, PILLAR, Rect2(px, 24.0, 28.0, _support_depth - 24.0))
 		draw_texture_rect(ROOF, Rect2(-hw, -6, width, 44), false)
 	else:
 		draw_texture_rect(LEDGE, Rect2(-hw, -6, width, 62), false)
 
 
-func _tile_down(tex: Texture2D, r: Rect2) -> void:
+## İki direk (±`ox`) `y0`'dan zemine (`base`) iner; aralarında her ~64 px'te bir
+## yatay kuşak. Eski çapraz çizgi yerine eksene hizalı piksel doku.
+func _draw_frame(post: Texture2D, beam: Texture2D, ox: float, y0: float, base: float, post_w: float) -> void:
+	var y := y0 + 24.0
+	while y < base - 16.0:
+		tile_across(self, beam, Rect2(-ox, y, ox * 2.0, 8.0))
+		y += 64.0
+	for x in [-ox, ox]:
+		tile_down(self, post, Rect2(x - post_w * 0.5, y0, post_w, base - y0))
+
+
+## Dokuyu genişliğe ölçekleyip aşağı doğru döşer; son parça kırpılır (esnetilmez).
+static func tile_down(ci: CanvasItem, tex: Texture2D, r: Rect2) -> void:
 	var tile_h := r.size.x * tex.get_height() / tex.get_width()
 	var y := r.position.y
 	while y < r.end.y - 0.5:
 		var h := minf(tile_h, r.end.y - y)
-		draw_texture_rect_region(tex, Rect2(r.position.x, y, r.size.x, h),
+		ci.draw_texture_rect_region(tex, Rect2(r.position.x, y, r.size.x, h),
 			Rect2(0, 0, tex.get_width(), tex.get_height() * h / tile_h))
 		y += h
 
 
+## Dokuyu yüksekliğe ölçekleyip yana doğru döşer; son parça kırpılır.
+static func tile_across(ci: CanvasItem, tex: Texture2D, r: Rect2, tint := Color.WHITE) -> void:
+	var tile_w := r.size.y * tex.get_width() / tex.get_height()
+	var x := r.position.x
+	while x < r.end.x - 0.5:
+		var w := minf(tile_w, r.end.x - x)
+		ci.draw_texture_rect_region(tex, Rect2(x, r.position.y, w, r.size.y),
+			Rect2(0, 0, tex.get_width() * w / tile_w, tex.get_height()), tint)
+		x += w
+
+
 ## Gece sahnesinde ince platformun basılacak kenarı: level.gd'deki kenar ışığı +
-## altındaki koyu dudak kuralının aynısı.
+## altındaki koyu dudak kuralının aynısı (bölümün edge_light rengiyle boyanan doku).
 static func draw_dark_edge(ci: CanvasItem, x0: float, x1: float, y: float) -> void:
 	var lvl := Level.dark_scene_of(ci)
 	if lvl == null:
 		return
-	ci.draw_line(Vector2(x0, y + 4.0), Vector2(x1, y + 4.0), Color(0, 0, 0, 0.28), 3.0)
-	ci.draw_line(Vector2(x0, y), Vector2(x1, y), lvl.get("edge_light"), 3.0)
+	tile_across(ci, KENAR_ISIK, Rect2(x0, y - 2.0, x1 - x0, 8.0), lvl.get("edge_light"))
