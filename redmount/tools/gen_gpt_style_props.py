@@ -11,7 +11,7 @@ Kural seti (assets/backgrounds ve book03_final_* sayfalarından ölçüldü):
 - Silüet hacimli (fıçı göbekli), zemine temas eden altta ortam kapanması (AO).
 
 Çıktı: assets/environment/pixel/{varil,patlayici,parmaklik,parmaklik_tepe,tup,
-fener,fener_hale,asma_lamba,on_kolon,on_kolon_bas,on_kolon_kaide,on_sarmasik,zincir,halat}.png
+fener,fener_hale,asma_lamba,on_kolon,on_kolon_bas,on_kolon_kaide,on_sarmasik,zincir,halat,kum_torbasi,tas_blok,raf,kaset,cerceve}.png
 Oyunda 2x NEAREST ölçeklenir (1 sanat pikseli = 2 ekran pikseli).
 """
 import math
@@ -627,6 +627,213 @@ def make_halat(rnd):
     return img
 
 
+BURLAP = [(26, 16, 28), (46, 32, 38), (70, 50, 46), (98, 72, 54), (126, 96, 64),
+          (154, 122, 80), (182, 150, 98), (208, 178, 120)]
+BOOK_RED = [(34, 10, 24), (66, 18, 30), (104, 30, 34), (142, 48, 40), (182, 78, 54)]
+BOOK_TEAL = [(10, 18, 28), (18, 36, 44), (28, 58, 62), (44, 84, 80), (74, 116, 100)]
+SEA = [(16, 20, 42), (24, 38, 66), (34, 58, 88), (52, 86, 110), (90, 124, 132)]
+
+
+def make_kum_torbasi(rnd):
+    """Kum torbası duvarı (32×24, iki yönde döşenir): şaşırtmalı iki sıra yastık torba.
+    Çuval dokusu, bağ ucu büzgüsü; üstten fener ışığı, altta ve aralarda mor AO."""
+    w, h = 32, 24
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    for y in range(h):
+        row = y // 12
+        ly = y % 12
+        off = 8 if row else 0
+        for x in range(w):
+            lx = (x + off) % 16
+            # Yastık silüeti: köşeler yuvarlak, torbalar arası koyu derz.
+            nx = (lx - 7.5) / 8.0
+            ny = (ly - 5.5) / 6.0
+            if nx ** 4 + ny ** 4 > 0.9:
+                px[x, y] = OUTLINE if ly >= 10 or abs(nx) > 0.9 else BURLAP[0] + (255,)
+                continue
+            u = nx
+            lv = light(u) * 0.55 + (0.32 - ly * 0.05)  # üst yüz ışık alır
+            lv -= max(0.0, ly - 8) * 0.08  # alt kıvrım AO
+            if (x + y) % 2 == 0:
+                lv += 0.05  # çuval örgüsü
+            c = pick(BURLAP, lv, rnd, 0.5)
+            if abs(nx) > 0.72 and ly in (4, 6):
+                c = pick(BURLAP, lv - 0.25, rnd, 0.1)  # bağ ucu büzgüsü
+            if lx > 13:
+                c = mix(c, MOON, 0.2)
+            px[x, y] = c + (255,)
+    # Sızan kum ve leke.
+    for _ in range(10):
+        x, y = rnd.randrange(w), rnd.randrange(h)
+        if px[x, y][:3] != OUTLINE[:3]:
+            px[x, y] = BURLAP[2 + rnd.randrange(2)] + (255,)
+    return img
+
+
+def make_tas_blok(rnd):
+    """Kesme taş blok (30×30, ızgarada döşenir): pahlı kenar, keski izi, kırık köşe,
+    ortada oyma rozet (sekiz kollu yıldız), dipte yosun. Oyunda (0.78,0.7,0.6) tonlanır."""
+    n = 30
+    img = Image.new("RGBA", (n, n), (0, 0, 0, 0))
+    px = img.load()
+    c0 = (n - 1) / 2.0
+    for y in range(n):
+        for x in range(n):
+            if x == n - 1 or y == n - 1:
+                px[x, y] = OUTLINE  # derz (sağ/alt; döşemede tek derz)
+                continue
+            lv = 0.48 + (rnd.random() - 0.5) * 0.08
+            if x == 0 or y == 0:
+                lv = 0.78  # pah: fener ışığı sol üstte
+            elif x == 1 or y == 1:
+                lv = 0.62
+            elif x == n - 2 or y == n - 2:
+                lv = 0.18  # alt/sağ pah gölgede
+            elif x == n - 3 or y == n - 3:
+                lv = 0.32
+            if (x * 3 + y * 7) % 11 == 0 and 2 < x < n - 3 and 2 < y < n - 3:
+                lv -= 0.12  # keski izi
+            # Çökük oyma pano: üst/sol iç kenar gölgede, alt/sağ iç kenar ışık yakalar;
+            # ortada küçük kabartma baklava.
+            if 7 <= x <= 21 and 7 <= y <= 21:
+                if x == 7 or y == 7:
+                    lv = 0.14
+                elif x == 21 or y == 21:
+                    lv = 0.66
+                else:
+                    lv -= 0.1
+                    d = abs(x - c0) + abs(y - c0)
+                    if d <= 3.5:
+                        lv = 0.66 if (x - c0) + (y - c0) < 0 else 0.24
+            c = pick(STONE, lv, rnd, 0.35)
+            if x > n - 6:
+                c = mix(c, MOON, 0.18)
+            px[x, y] = c + (255,)
+    # Kırık köşe (sağ üst) ve çatlak.
+    for x, y in ((27, 0), (28, 0), (28, 1), (27, 1)):
+        px[x, y] = OUTLINE
+    for x, y in ((26, 1), (27, 2)):
+        px[x, y] = pick(STONE, 0.2, rnd, 0.1) + (255,)
+    for x, y in ((3, 22), (4, 23), (4, 24), (5, 25)):
+        px[x, y] = STONE[1] + (255,)
+        px[x + 1, y] = pick(STONE, 0.62, rnd, 0.1) + (255,)
+    # Dipte yosun.
+    for x in range(2, 27):
+        if rnd.random() < 0.4:
+            px[x, 27] = LEAF[2 + rnd.randrange(3)] + (255,)
+            if rnd.random() < 0.4:
+                px[x, 26] = LEAF[2 + rnd.randrange(2)] + (255,)
+    return img
+
+
+def make_raf(rnd):
+    """Duvar rafı (30×22): koyu ahşap kasa, üç rafta cilt sırtları, kavanoz, pirinç şamdan."""
+    w, h = 30, 22
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    # Kasa: arka pano karanlık, yan dikmeler ve raf tahtaları ışık alır.
+    for y in range(h):
+        for x in range(w):
+            if x in (0, 1) or x in (w - 2, w - 1) or y in (0, 7, 14, 21):
+                lv = 0.55 if (y in (0, 7, 14) or x == 0) else 0.25
+                c = pick(WOOD, lv, rnd, 0.4)
+            else:
+                c = pick(WOOD, 0.05 + (0.08 if y % 7 == 1 else 0.0), rnd, 0.3)  # arka pano
+            px[x, y] = c + (255,)
+    # Raf içerikleri: her rafın satırları 1..6.
+    for shelf in range(3):
+        base = shelf * 7 + 6
+        x = 3
+        while x < w - 4:
+            kind = rnd.random()
+            if kind < 0.62:
+                ramp = [BOOK_RED, BOOK_TEAL, CREAM, WOOD][rnd.randrange(4)]
+                bw = rnd.choice((1, 2, 2))
+                bh = rnd.randrange(3, 6)
+                for bx in range(x, min(x + bw, w - 3)):
+                    for by in range(base - bh + 1, base + 1):
+                        lv = 0.62 if bx == x else 0.35
+                        if by == base - bh + 2:
+                            lv += 0.25  # sırt yaldız şeridi
+                        px[bx, by] = pick(ramp, lv, rnd, 0.3) + (255,)
+                x += bw
+            elif kind < 0.82:
+                for bx in range(x, min(x + 2, w - 3)):
+                    for by in range(base - 2, base + 1):
+                        px[bx, by] = pick(BRASS if rnd.random() < 0.5 else CREAM, 0.6 if bx == x else 0.3, rnd, 0.3) + (255,)
+                x += 3
+            else:
+                x += 1  # boşluk
+    outline(img)
+    return img
+
+
+def make_kaset(rnd):
+    """Kaset (16×11, ipucu): bej plastik gövde, kâğıt etiket, iki makara penceresi, vida."""
+    w, h = 16, 11
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    for y in range(h):
+        for x in range(w):
+            if (x in (0, w - 1)) and (y in (0, h - 1)):
+                continue
+            u = (x - 7.5) / 8.0
+            lv = light(u) * 0.55 + 0.25 - y * 0.02
+            c = pick(CREAM, lv, rnd, 0.3)
+            if 2 <= x <= 13 and 1 <= y <= 7:
+                # Etiket: soluk turuncu üst şerit + krem kâğıt, ortada makara penceresi.
+                c = pick(ORANGE, 0.7 if y == 1 else 0.55, rnd, 0.3) if y <= 2 else pick(CREAM, 0.62, rnd, 0.2)
+                if 4 <= y <= 6 and 4 <= x <= 11:
+                    c = pick(IRON, 0.1, rnd, 0.1)  # pencere
+                    if x in (5, 10) and y == 5:
+                        c = CREAM[4]  # makara göbeği
+                    elif x in (4, 6, 9, 11) and y == 5 or x in (5, 10) and y in (4, 6):
+                        c = pick(ORANGE, 0.3, rnd, 0.1)  # sarılı bant
+            if y == 9 and 4 <= x <= 11:
+                c = pick(CREAM, 0.15, rnd, 0.1)  # alt çıkıntı gölgesi
+            if u > 0.75:
+                c = mix(c, MOON, 0.25)
+            px[x, y] = c + (255,)
+    px[2, 9] = IRON[2] + (255,)  # vidalar
+    px[13, 9] = IRON[2] + (255,)
+    outline(img)
+    return img
+
+
+def make_cerceve(rnd):
+    """Duvar tablosu (16×12): yaldızlı oyma çerçeve, içinde gece Boğaz'ı ve vapur silüeti."""
+    w, h = 16, 12
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    for y in range(h):
+        for x in range(w):
+            if x <= 1 or x >= w - 2 or y <= 1 or y >= h - 2:
+                lv = 0.75 if (x <= 1 and y < h - 2) or y <= 1 else 0.3
+                if (x + y) % 3 == 0:
+                    lv -= 0.18  # oyma
+                c = pick(BRASS, lv, rnd, 0.3)
+            elif y <= 5:
+                # Gökyüzü: üstte lacivert, ufka doğru turuncu ışık.
+                c = mix(SEA[1], ORANGE[4], max(0.0, (y - 2) / 4.0) * 0.6)
+            elif y == 6:
+                c = (40, 28, 44)  # karşı kıyı silüeti
+                if x in (5, 9, 12):
+                    c = BRASS[3]  # kıyıda ışık
+            else:
+                c = pick(SEA, 0.55 - (y - 7) * 0.12, rnd, 0.6)
+            px[x, y] = c + (255,)
+    # Vapur: koyu gövde, ışıklı lomboz, baca.
+    for x in range(4, 9):
+        px[x, 7] = (26, 18, 30, 255)
+    px[5, 7] = BRASS[3] + (255,)
+    px[7, 7] = BRASS[3] + (255,)
+    px[6, 6] = (26, 18, 30, 255)
+    px[6, 5] = (26, 18, 30, 255)
+    outline(img)
+    return img
+
+
 def main():
     rnd = random.Random(7)
     make_varil(rnd).save(OUT + "varil.png")
@@ -643,6 +850,11 @@ def main():
     make_on_sarmasik(random.Random(23)).save(OUT + "on_sarmasik.png")
     make_zincir(random.Random(29)).save(OUT + "zincir.png")
     make_halat(random.Random(31)).save(OUT + "halat.png")
+    make_kum_torbasi(random.Random(37)).save(OUT + "kum_torbasi.png")
+    make_tas_blok(random.Random(41)).save(OUT + "tas_blok.png")
+    make_raf(random.Random(43)).save(OUT + "raf.png")
+    make_kaset(random.Random(47)).save(OUT + "kaset.png")
+    make_cerceve(random.Random(53)).save(OUT + "cerceve.png")
 
 
 if __name__ == "__main__":

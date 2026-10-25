@@ -31,6 +31,33 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-10-25 (5) — Kum torbası, taş blok, raf, kaset, çerçeve ChatGPT tarzında (stil listesi 1/siper-dekor)
+
+**Neden şimdi:** Stil listesinin sıradaki açık maddesi. Bölüm 4'ün siperleri, Bölüm 20'nin
+taş depoları ve 15 bölümdeki iç mekân süsleri hâlâ eski düz renkli çizimdi; ChatGPT
+arka planlarının önünde yapıştırılmış gibi duruyordu. (Önceki oturum üreticiyi yazıp
+commit edemeden kesilmişti; bu tur doğrulayıp tamamladı.)
+
+**Oyuncu ne hissedecek:** Kum torbaları şaşırtmalı yastık çuvallar (örgü dokusu, bağ ucu
+büzgüsü, aralarda mor AO, sağ kenarda ay ışığı); taş bloklar pahlı kesme taş, çökük oyma
+pano, keski izi, kırık köşe ve dipte yosun; raflarda yaldız şeritli cilt sırtları ve pirinç
+kavanozlar; kaset bej plastik + turuncu etiketli makara penceresi; tabloda gece Boğaz'ı ve
+ışıklı vapur.
+
+**Yapılanlar:** `tools/gen_gpt_style_props.py` → `BURLAP/BOOK_RED/BOOK_TEAL/SEA`
+rampaları, `make_kum_torbasi` (32×24, döşenir), `make_tas_blok` (30×30, döşenir),
+`make_raf` (30×22), `make_kaset` (16×11), `make_cerceve` (16×12). Ölçüler eskisiyle aynı;
+kod değişmedi.
+
+**Testler:** `--import` hatasız; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn` PASS;
+bot Bölüm 4 (104,9 sn), 2 (76,5 sn), 20 (85,3 sn) CLEARED. 1280×720 ekran
+görüntüleri: Bölüm 4 siperi, Bölüm 2 iç mekân rafı, Bölüm 20 taş yığını — "ait"
+(taş blok oyunda (0.78,0.7,0.6) tonlandığı için kahverengiye kayıyor, arka plandaki
+taş evlerle uyumlu).
+
+**Sonraki öneri:** Stil listesi — tehlike/efekt grubu (diken, alev, alev_izgara, kivilcim,
+kablo, bomba, bomba_ikaz, patlama).
+
 ### 2026-10-25 (4) — Ön plan kolonu, sarmaşık, zincir, halat ChatGPT tarzında (stil listesi 1/on_kolon)
 
 **Neden şimdi:** Stil listesinin sıradaki açık maddesi. Ön plan kolonları 8 bölümde
