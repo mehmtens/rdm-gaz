@@ -200,5 +200,6 @@ if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
     logo()
     logo("İSTANBUL'UN SESİ", "logo_alt.png", top=(255, 222, 140), bottom=(190, 120, 40), k=1)
-    kilit(); coin(); odak(); kart(); sekme(); pip(); ikon_tufek(); ikon_yumruk(); portre_telsiz()
+    # kart / sekme artık tools/gen_gpt_style_ui.py'de (ChatGPT tarzı).
+    kilit(); coin(); odak(); pip(); ikon_tufek(); ikon_yumruk(); portre_telsiz()
     print("ok")

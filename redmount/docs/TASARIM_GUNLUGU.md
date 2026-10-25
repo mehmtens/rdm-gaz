@@ -31,6 +31,29 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-10-26 (8) — Arayüz çerçeveleri ChatGPT tarzında (stil listesi 5/çerçeveler)
+
+**Neden şimdi:** Stil listesi 5'in ilk maddesi. Panel, HUD paneli, bölüm kartı, kitap
+sekmesi ve konuşma balonu `Canvas.rect` ile düz renkli dikdörtgen + tek renkli altın
+çizgiydi; oyuncu bunlara menüde, HUD'da ve her diyalogda bakıyor.
+
+**Oyuncu ne hissedecek:** Çerçeveler sahnedeki ahşap ve pirinçle aynı malzeme: sakin damarlı
+koyu mürdüm ahşap zemin (yazının altı bilerek düşük kontrastlı), üst/sol kenarı fener
+ışığında ahşap pah, içte eski Osmanlı çizgisi korunarak ışık-gölgeli altın, köşede sıcak
+parlamalı perçin; kartın üstünde kırmızı lake şerit; balon sıcak kâğıt. İlk denemede iç
+altın çizgi kaybolmuş, kenar sert sarıydı ve kâğıt yazı altında fazla gürültülüydü —
+eski dilin üstüne yeniden kuruldu, kâğıt titreşimi 0,25 → 0,1'e indi.
+
+**Yapılanlar:** yeni `tools/gen_gpt_style_ui.py` → `assets/ui/pixel/{panel,panel_hud,kart,
+kart_kilitli,sekme,sekme_secili,balon,balon_kuyruk,balon_ad}.png` (boyut ve 9 parça payları
+aynı, 3x). `gen_pixel_ui.py` / `gen_pixel_menu.py` artık bu dosyaları yazmıyor (yeniden
+çalıştırınca ezilmesin).
+
+**Testler:** `--import` hatasız; `touch_polish`, `level_stars`, `costume_badge` PASS; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn` PASS; bot Bölüm 1 (76,3 sn), 13 (80,6 sn), 25 (87,8 sn) CLEARED. Görsel: ana menü bölüm seçme ekranı (12 kart + 3 sekme) ve Bölüm 1
+(HUD paneli, başlık kartı, Gazelle'in konuşma balonu) 1280×720 — "ait", yazılar okunuyor.
+
+**Sonraki öneri:** Stil listesi 5 — düğmeler (`button_*`, `touch_*`; mobilde sürekli ekranda).
+
 ### 2026-10-26 (7) — Kostüm palet takası ChatGPT ışık kuralına (stil listesi 3/palet takası)
 
 **Neden şimdi:** Stil listesi 3'ün "kontrol" maddesi. Bulgu: kostüm shader'ı ceket/pantolon

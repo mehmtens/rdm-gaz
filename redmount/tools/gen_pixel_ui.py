@@ -119,9 +119,8 @@ def knob():
 
 if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
-    panel()
+    # panel / panel_hud / balon* artık tools/gen_gpt_style_ui.py'de (ChatGPT tarzı).
     buttons()
-    bubble()
     bars()
     knob()
     print("ok")
