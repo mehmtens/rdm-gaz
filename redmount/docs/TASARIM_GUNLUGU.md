@@ -31,6 +31,27 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-10-25 (2) — Gaz tüpü ChatGPT temel sanatının tarzında (stil listesi 1/tup)
+
+**Neden şimdi:** Stil dönüşüm listesinin ilk açık maddesi. Tüp 1 ve 2. bölümde sık
+kırılan prop; eski 11×20 çizim düz kırmızı gövde + beyaz şeritti, ChatGPT arka planının
+önünde yapıştırılmış gibi duruyordu.
+
+**Oyuncu ne hissedecek:** Mahalle tüpü artık sahnenin parçası: boyası kalkmış turuncu
+çelik gövde, kaynak dikişinden aşağı pas akıntısı, soluk damgalı etiket kuşağı, çelik
+koruma tacı içinde pirinç vana; sol üstten fener ışığı, sağ kenarda ay ışığı, koyu mor kontur.
+
+**Yapılanlar:** `tools/gen_gpt_style_props.py` → `make_tup` (17×27 sanat pikseli, oyunda
+34×54 = 2x; ölçü/çarpışma değişmedi). Yeni ORANGE/CREAM/BRASS rampaları aynı kural
+setinden (gölge mor, ışık altın). Diğer proplar deterministik, değişmedi (md5 aynı).
+
+**Testler:** `--import` hatasız; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn`
+PASS; bot Bölüm 2 CLEARED (74,6 sn). Bölüm 2'de tüpün yanında 1280×720 ekran görüntüsü:
+ton ve ışık arka planla uyumlu, "ait" (ilk denemede taç siyah bir blok gibiydi, çelik
+dudak ve içi gölgeli taç olarak yeniden çizildi).
+
+**Sonraki öneri:** Stil listesi — fener, fener_hale, asma_lamba.
+
 ### 2026-10-25 — Kitap şeridi karelerinde piksel adımlı hareket
 
 **Neden şimdi:** Yol haritası ve P1 maddeleri oyunda; birikimin üstündeki maddeler insan testi

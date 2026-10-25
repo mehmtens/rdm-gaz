@@ -10,7 +10,7 @@ Kural seti (assets/backgrounds ve book03_final_* sayfalarından ölçüldü):
   pas akıntısı, boya kalkması; düz renk alan yok.
 - Silüet hacimli (fıçı göbekli), zemine temas eden altta ortam kapanması (AO).
 
-Çıktı: assets/environment/pixel/{varil,patlayici,parmaklik,parmaklik_tepe}.png
+Çıktı: assets/environment/pixel/{varil,patlayici,parmaklik,parmaklik_tepe,tup}.png
 Oyunda 2x NEAREST ölçeklenir (1 sanat pikseli = 2 ekran pikseli).
 """
 import math
@@ -29,6 +29,10 @@ RED = [(34, 10, 24), (56, 14, 28), (82, 20, 30), (110, 26, 32), (138, 34, 34),
        (166, 50, 38), (196, 82, 48), (226, 128, 70)]
 HAZARD = [(54, 32, 22), (108, 72, 26), (162, 116, 34), (204, 156, 50), (236, 200, 96)]
 RUST = [(56, 27, 27), (92, 44, 30), (132, 66, 34), (168, 96, 46)]
+ORANGE = [(34, 12, 24), (62, 20, 28), (96, 32, 30), (132, 48, 32), (168, 70, 36),
+          (196, 96, 44), (222, 132, 62), (240, 176, 96)]
+CREAM = [(40, 30, 40), (78, 62, 62), (120, 100, 84), (168, 146, 112), (214, 196, 150)]
+BRASS = [(44, 26, 22), (92, 60, 30), (150, 106, 44), (204, 160, 72), (240, 210, 120)]
 MOON = (110, 116, 170)
 
 
@@ -202,12 +206,92 @@ def make_parmaklik_tepe(rnd):
     return img
 
 
+def make_tup(rnd):
+    """Mahalle gaz tüpü: boyalı çelik gövde, kaynak dikişi, soluk etiket kuşağı,
+    tepede tutamaklı koruma tacı içinde pirinç vana, altta çelik ayak halkası."""
+    w, h = 17, 27
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    cx = (w - 1) / 2.0
+
+    def half_at(y):
+        if y <= 5:
+            return 4.6  # taç
+        if y <= 9:
+            return 5.6 + (8.5 - 5.6) * math.sin((y - 5) / 4.0 * math.pi / 2)  # omuz
+        if y <= 22:
+            return 8.5
+        if y <= 23:
+            return 8.0
+        return 7.4  # ayak halkası
+
+    for y in range(h):
+        half = half_at(y)
+        for x in range(w):
+            dx = x - cx
+            if abs(dx) > half:
+                continue
+            u = dx / half
+            lv = light(u)
+            if y <= 5:
+                # Koruma tacı: içi gölgede, yanlarda tutamak deliği, dudağı ışık yakalar.
+                if 1 <= y <= 3 and abs(dx) < 2.6:
+                    c = pick(IRON, 0.05 + (0.12 if y == 3 else 0.0), rnd, 0.2)
+                elif y == 3 and 2.6 <= abs(dx) <= 3.6:
+                    c = IRON[0]  # tutamak deliği
+                else:
+                    c = pick(IRON, lv * 0.75 + 0.3 + (0.3 if y <= 1 else 0.0), rnd, 0.3)
+            elif y >= 24:
+                c = pick(IRON, lv * 0.7 + 0.12 - (y - 24) * 0.1 + (0.3 if y == 24 else 0.0), rnd, 0.3)
+            else:
+                # Omuz kubbesi üstten ışık alır; altta AO.
+                top = max(0.0, (9 - y) * 0.09)
+                ao = max(0.0, (y - 19) * 0.07)
+                c = pick(ORANGE, lv + top - ao, rnd, 0.55)
+                if 12 <= y <= 15:
+                    c = pick(CREAM, lv * 0.85 + (0.12 if y == 12 else 0.0), rnd, 0.4)
+                    if y == 13 and -5 <= dx <= 2 and x % 4 != 0:
+                        c = CREAM[1]  # damgalı yazı satırı
+                    elif y == 14 and -5 <= dx <= -1:
+                        c = CREAM[1]
+                elif y == 18:
+                    c = pick(ORANGE, lv - 0.35, rnd, 0.2)  # kaynak dikişi
+                elif y == 19:
+                    c = pick(ORANGE, lv + 0.22, rnd, 0.2)  # dikişin alt dudağı
+                elif rnd.random() < 0.06:
+                    c = pick(ORANGE, lv - 0.2, rnd, 0.1)  # boya ezikleri
+            if u > 0.78:
+                c = mix(c, MOON, 0.3)
+            px[x, y] = c + (255,)
+    # Pirinç vana tacın içinde: gövde + volan.
+    for y in range(1, 4):
+        for x in range(int(cx) - 1, int(cx) + 2):
+            u = (x - cx) / 1.5
+            px[x, y] = pick(BRASS, light(u) + (0.3 if y == 1 else 0.0), rnd, 0.3) + (255,)
+    for x in range(int(cx) - 2, int(cx) + 3):
+        px[x, 2] = pick(BRASS, light((x - cx) / 2.5) + 0.25, rnd, 0.2) + (255,)
+    # Boya kalkması ve pas akıntıları: kaynak dikişinden ve omuzdan aşağı.
+    for _ in range(14):
+        x, y = rnd.randrange(2, w - 2), rnd.randrange(7, 23)
+        if px[x, y][3] and not (12 <= y <= 15):
+            px[x, y] = RUST[rnd.randrange(len(RUST))] + (255,)
+    for x in (4, 11, 13):
+        for y in range(19, 19 + rnd.randrange(2, 5)):
+            if px[x, y][3]:
+                px[x, y] = RUST[y % 3] + (255,)
+    for y in range(8, 11):
+        px[3, y] = RUST[1 + y % 2] + (255,)
+    outline(img)
+    return img
+
+
 def main():
     rnd = random.Random(7)
     make_varil(rnd).save(OUT + "varil.png")
     make_patlayici(rnd).save(OUT + "patlayici.png")
     make_parmaklik(rnd).save(OUT + "parmaklik.png")
     make_parmaklik_tepe(rnd).save(OUT + "parmaklik_tepe.png")
+    make_tup(random.Random(11)).save(OUT + "tup.png")
 
 
 if __name__ == "__main__":
