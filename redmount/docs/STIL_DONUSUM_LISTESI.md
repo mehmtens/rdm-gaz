@@ -33,7 +33,7 @@ PNG piksel art'a taşınacak. Satır sayıları 25 Ekim taramasından.
 - [x] `scripts/systems/level01_long_route.gd` (77) ve `level01_dressing.gd` (24) — yalnız eski prototip `Level01.tscn`, kampanyada yok; dönüştürülmedi
 - [x] `scripts/pickups/pickup_icon.gd` (39) — pickup ikonları (12a92155)
 - [x] `scripts/systems/breakable_prop.gd` (28) — saksı/tüp/varil yedek çizimleri, kıymık (26059c44)
-- [ ] `scripts/systems/one_way_platform.gd` (13), `moving_platform.gd` (9)
+- [x] `scripts/systems/one_way_platform.gd` (13), `moving_platform.gd` (9) — direk/kuşak/kenar/makara dokuları (03b9a28e)
 - [ ] `scripts/systems/level_shop.gd` (9)
 - [ ] `scripts/characters/char_rig.gd` (42), `weapon_visual.gd` (5) — gerçekten görsel mi, yoksa hata ayıklama mı kontrol et
 - [ ] diğerleri (1–3 satır): dtm_level, story_blockout, backdrop, main_menu, ui_style, level02/04/11_redesign, fx
