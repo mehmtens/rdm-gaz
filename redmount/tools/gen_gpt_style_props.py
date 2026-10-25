@@ -11,7 +11,8 @@ Kural seti (assets/backgrounds ve book03_final_* sayfalarından ölçüldü):
 - Silüet hacimli (fıçı göbekli), zemine temas eden altta ortam kapanması (AO).
 
 Çıktı: assets/environment/pixel/{varil,patlayici,parmaklik,parmaklik_tepe,tup,
-fener,fener_hale,asma_lamba,on_kolon,on_kolon_bas,on_kolon_kaide,on_sarmasik,zincir,halat,kum_torbasi,tas_blok,raf,kaset,cerceve}.png
+fener,fener_hale,asma_lamba,on_kolon,on_kolon_bas,on_kolon_kaide,on_sarmasik,zincir,halat,kum_torbasi,tas_blok,raf,kaset,cerceve,
+diken,alev_izgara,kablo,bomba,bomba_ikaz,alev,kivilcim,patlama}.png
 Oyunda 2x NEAREST ölçeklenir (1 sanat pikseli = 2 ekran pikseli).
 """
 import math
@@ -834,6 +835,248 @@ def make_cerceve(rnd):
     return img
 
 
+FIRE = [(34, 10, 24), (74, 18, 30), (124, 30, 32), (172, 52, 34), (210, 88, 40),
+        (234, 132, 56), (246, 182, 92), (252, 226, 160)]
+SMOKE = [(14, 9, 20), (30, 22, 34), (48, 38, 50), (68, 58, 68), (92, 82, 88)]
+ARC = [(30, 26, 70), (56, 64, 132), (96, 130, 196), (160, 206, 240), (232, 246, 255)]
+OLIVE = [(12, 14, 16), (24, 30, 26), (38, 48, 34), (56, 68, 42), (80, 92, 52), (118, 124, 70)]
+
+
+def make_diken(rnd):
+    """Çivi şeridi (20×10, yatay döşenir): ikaz boyalı paslı taban lama üstünde dört dövme kazık.
+    Kazığın sol yüzü fener ışığında (uca doğru parlar), sağ yüzü ayda; diplerde pas."""
+    w, h = 20, 10
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    # Kazıklar konturlu çizilirse 5 piksellik genişlikte şişe gibi okunur: kontur yalnız
+    # gölgedeki sağ kenarda, sol yüz ışıkta; uç tek parlak piksel.
+    for cx in (2, 7, 12, 17):
+        for y in range(0, 7):
+            half = min(2, (y + 1) // 3)
+            for x in range(cx - half, cx + half + 1):
+                if x == cx + half and half == 2:
+                    c = OUTLINE[:3]
+                elif x < cx:
+                    c = IRON[7] if y <= 3 else pick(IRON, 0.86 - y * 0.04, rnd, 0.15)
+                elif x == cx:
+                    c = IRON[7] if y <= 1 else pick(IRON, 0.7 - y * 0.05, rnd, 0.15)
+                else:
+                    c = mix(pick(IRON, 0.3, rnd, 0.2), MOON, 0.4)
+                if y >= 6 and x != cx + half and rnd.random() < 0.3:
+                    c = pick(RUST, 0.4 + (0.3 if x < cx else 0.0), rnd, 0.2)
+                px[x % w, y] = c + (255,)
+    # Taban lama: aşınmış sarı-siyah ikaz şeridi (koyu zeminde tehlike okunsun).
+    for y in (7, 8, 9):
+        for x in range(w):
+            stripe = (x + y) // 3 % 2 == 0
+            lv = {7: 0.8, 8: 0.5, 9: 0.2}[y]
+            c = pick(HAZARD, lv, rnd, 0.4) if stripe else pick(IRON, lv * 0.45, rnd, 0.3)
+            if rnd.random() < 0.22:
+                c = pick(RUST, 0.45, rnd, 0.4)  # boya kalkması
+            if x >= w - 3 and y < 9:
+                c = mix(c, MOON, 0.15)
+            px[x, y] = c + (255,)
+    for x in range(w):
+        px[x, 9] = OUTLINE
+    return img
+
+
+def make_alev_izgara(rnd):
+    """Alev bacası ızgarası (22×6): kalın demir çerçeve, aralıkta közün turuncu ışığı."""
+    w, h = 22, 6
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    for y in range(1, h):
+        for x in range(w):
+            lv = {1: 0.75, 2: 0.5, 3: 0.35, 4: 0.25, 5: 0.1}[y]
+            c = pick(IRON, lv, rnd, 0.4)
+            if 2 <= y <= 4 and 2 <= x <= w - 3 and x % 3 != 1:
+                c = pick(FIRE, 0.75 - (y - 2) * 0.22, rnd, 0.4)  # yarıktan sızan kor
+            elif rnd.random() < 0.18:
+                c = pick(RUST, 0.45, rnd, 0.4)
+            if x >= w - 2:
+                c = mix(c, MOON, 0.2)
+            px[x, y] = c + (255,)
+    outline(img)
+    return img
+
+
+def make_kablo(rnd):
+    """Kopuk kablo (16×6, yatay döşenir): bükülü iki damarlı kauçuk, bant sargısı, sıyrık bakır."""
+    w, h = 16, 6
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    for x in range(w):
+        for y in range(1, 5):
+            strand = (x + (y - 1) * 2) // 4 % 2
+            lv = {1: 0.7, 2: 0.45, 3: 0.3, 4: 0.12}[y] - strand * 0.12
+            c = pick(IRON, lv, rnd, 0.3)
+            if x in (6, 7) and y in (1, 2, 3, 4):
+                c = pick(HAZARD, 0.55 if y <= 2 else 0.25, rnd, 0.3)  # izole bant
+            if x == 12 and y == 1:
+                c = pick(BRASS, 0.8, rnd, 0.1)  # sıyrıkta bakır parlaması
+            if x == 13 and y == 1:
+                c = pick(RUST, 0.7, rnd, 0.1)
+            px[x, y] = c + (255,)
+    for x in range(w):
+        px[x, 0] = OUTLINE
+        px[x, 5] = OUTLINE
+    return img
+
+
+def grenade(rnd, lit):
+    """El bombası (8×9): zeytin dökme gövde, oluk dilimleri, pirinç tapa; ikazda kırmızı kor."""
+    w, h = 8, 9
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    for y in range(2, 9):
+        ny = (y - 5.3) / 3.4
+        for x in range(w):
+            nx = (x - 3.5) / 3.6
+            if nx * nx + ny * ny > 1.0:
+                continue
+            lv = light(nx) * 0.85 + (0.1 if ny < -0.3 else 0.0)
+            if y in (4, 6) or x == 3:
+                lv -= 0.18  # dilim olukları
+            c = pick(RED if lit else OLIVE, lv, rnd, 0.25)
+            if nx > 0.55:
+                c = mix(c, MOON, 0.25)
+            px[x, y] = c + (255,)
+    for x in (3, 4):
+        px[x, 1] = pick(BRASS, 0.75 if x == 3 else 0.4, rnd, 0.1) + (255,)
+        px[x, 2] = pick(BRASS, 0.5 if x == 3 else 0.25, rnd, 0.1) + (255,)
+    px[5, 1] = IRON[4] + (255,)  # mandal
+    outline(img)
+    if lit:
+        px[4, 0] = FIRE[7] + (255,)
+        px[5, 0] = FIRE[5] + (255,)
+        px[3, 0] = FIRE[4] + (255,)
+    return img
+
+
+def make_alev(rnd):
+    """Alev sütunu (4 kare × 16×46): dalgalanan dil; kenar koyu bordo-mor, içe doğru
+    turuncu, çekirdek krem. Kontur yok (ışık kaynağı); dipte ızgaraya oturan kalın gövde."""
+    frames = []
+    for f in range(4):
+        img = Image.new("RGBA", (16, 46), (0, 0, 0, 0))
+        px = img.load()
+        for y in range(46):
+            t = y / 45.0  # 0 tepe, 1 dip
+            half = 1.0 + (1.0 - abs(t - 0.78) * 1.5) * 5.5
+            half += math.sin(y * 0.55 + f * 1.7) * 0.8 * (1 - t)
+            sway = math.sin(y * 0.3 + f * 1.57) * 2.2 * (1 - t) ** 1.3
+            cx = 7.5 + sway
+            for x in range(16):
+                d = abs(x - cx) / max(half, 0.6)
+                if d > 1.0:
+                    continue
+                lv = (1.0 - d) * 0.75 + t * 0.35 - 0.05
+                if (x * 5 + y * 3 + f * 7) % 13 == 0 and t < 0.6:
+                    lv -= 0.25  # yırtık dil
+                if lv < 0.08:
+                    continue
+                px[x, y] = pick(FIRE, lv, rnd, 0.5) + (255,)
+        # Kopan alev parçacıkları.
+        for _ in range(3):
+            x, y = rnd.randrange(3, 13), rnd.randrange(0, 12)
+            if px[x, y][3] == 0:
+                px[x, y] = FIRE[3 + rnd.randrange(3)] + (255,)
+        frames.append(img)
+    return strip_frames(frames)
+
+
+def make_kivilcim(rnd):
+    """Elektrik arkı (3 kare × 16×14): kırık zikzak; dış hale mor-lacivert, çekirdek beyaz-mavi."""
+    frames = []
+    for f in range(3):
+        img = Image.new("RGBA", (16, 14), (0, 0, 0, 0))
+        px = img.load()
+        pts = [(rnd.randrange(2, 6), 13)]
+        while pts[-1][1] > 1:
+            x, y = pts[-1]
+            pts.append((min(14, max(1, x + rnd.choice((-2, -1, 1, 2, 2)))), y - rnd.randrange(2, 4)))
+        path = []
+        for (x0, y0), (x1, y1) in zip(pts, pts[1:]):
+            n = max(abs(x1 - x0), abs(y1 - y0))
+            for i in range(n + 1):
+                path.append((round(x0 + (x1 - x0) * i / n), max(0, round(y0 + (y1 - y0) * i / n))))
+        for x, y in path:
+            for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                nx, ny = x + dx, y + dy
+                if 0 <= nx < 16 and 0 <= ny < 14 and px[nx, ny][3] == 0:
+                    px[nx, ny] = ARC[1] + (200,)
+        for i, (x, y) in enumerate(path):
+            px[x, y] = (ARC[4] if i % 3 else ARC[3]) + (255,)
+        # Dal ve sıçrayan noktalar.
+        for _ in range(4):
+            x, y = rnd.randrange(16), rnd.randrange(14)
+            if px[x, y][3] == 0:
+                px[x, y] = ARC[2 + rnd.randrange(2)] + (255,)
+        frames.append(img)
+    return strip_frames(frames)
+
+
+def make_patlama(rnd):
+    """Patlama (6 kare × 40×40): beyaz-krem parlama → turuncu ateş topu (alt-sağı bordo-mor
+    gölgede) → içi sönen kor → mor-gri duman halkası. Düz renk yok: her halka titreşimli."""
+    frames = []
+    radii = [6, 11, 16, 18, 17, 18]
+    for f in range(6):
+        img = Image.new("RGBA", (40, 40), (0, 0, 0, 0))
+        px = img.load()
+        r = radii[f]
+        for y in range(40):
+            for x in range(40):
+                dx, dy = x - 19.5, y - 19.5
+                ang = math.atan2(dy, dx)
+                rr = r + (math.sin(ang * 3 + f) * 0.9 + math.sin(ang * 5 + 2.1 + f * 0.7) * 0.8
+                           + math.sin(ang * 11 + f * 2.3) * 0.5) + (rnd.random() - 0.5) * 1.4
+                d = math.hypot(dx, dy) / rr
+                if d > 1.0:
+                    continue
+                shade = (-dx - dy) / (rr * 1.6)  # sol üst ışıklı, sağ alt gölgede
+                if f <= 2:
+                    lv = (1.0 - d) * 0.9 + 0.3 - f * 0.08 + shade * 0.25
+                    c = pick(FIRE, lv, rnd, 0.6)
+                elif f == 3:
+                    if d < 0.45:
+                        c = pick(FIRE, 0.45 + (rnd.random() * 0.15), rnd, 0.4)
+                    elif d < 0.75:
+                        c = pick(FIRE, 0.7 + shade * 0.2, rnd, 0.5)
+                    else:
+                        c = pick(SMOKE, 0.5 + shade * 0.4, rnd, 0.6)
+                elif f == 4:
+                    if d < 0.55:
+                        c = pick(FIRE, 0.18 + (1 - d) * 0.25, rnd, 0.6)
+                    else:
+                        c = pick(SMOKE, 0.45 + shade * 0.5, rnd, 0.6)
+                else:
+                    if d < 0.62 or rnd.random() < 0.25:
+                        continue
+                    c = pick(SMOKE, 0.4 + shade * 0.5, rnd, 0.6)
+                a = 255 if f < 5 else 210
+                px[x, y] = c + (a,)
+        if f >= 1:
+            # Uçuşan kıvılcım parçaları.
+            for _ in range(6 + f * 2):
+                ang = rnd.random() * math.tau
+                dd = r + 1 + rnd.random() * 3
+                x, y = int(19.5 + math.cos(ang) * dd), int(19.5 + math.sin(ang) * dd)
+                if 0 <= x < 40 and 0 <= y < 40 and px[x, y][3] == 0:
+                    px[x, y] = (FIRE[5 + rnd.randrange(3)] if f < 4 else SMOKE[3]) + (255,)
+        frames.append(img)
+    return strip_frames(frames)
+
+
+def strip_frames(frames):
+    w, h = frames[0].size
+    out = Image.new("RGBA", (w * len(frames), h), (0, 0, 0, 0))
+    for i, f in enumerate(frames):
+        out.paste(f, (i * w, 0))
+    return out
+
+
 def main():
     rnd = random.Random(7)
     make_varil(rnd).save(OUT + "varil.png")
@@ -855,6 +1098,14 @@ def main():
     make_raf(random.Random(43)).save(OUT + "raf.png")
     make_kaset(random.Random(47)).save(OUT + "kaset.png")
     make_cerceve(random.Random(53)).save(OUT + "cerceve.png")
+    make_diken(random.Random(59)).save(OUT + "diken.png")
+    make_alev_izgara(random.Random(61)).save(OUT + "alev_izgara.png")
+    make_kablo(random.Random(67)).save(OUT + "kablo.png")
+    grenade(random.Random(71), False).save(OUT + "bomba.png")
+    grenade(random.Random(71), True).save(OUT + "bomba_ikaz.png")
+    make_alev(random.Random(73)).save(OUT + "alev.png")
+    make_kivilcim(random.Random(79)).save(OUT + "kivilcim.png")
+    make_patlama(random.Random(83)).save(OUT + "patlama.png")
 
 
 if __name__ == "__main__":

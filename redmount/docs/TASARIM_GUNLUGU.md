@@ -31,6 +31,37 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-10-25 (6) — Tehlike ve efektler ChatGPT tarzında (stil listesi 1/tehlike-efekt)
+
+**Neden şimdi:** Stil listesinin sıradaki açık maddesi. Alev bacası, kopuk kablo, çivi,
+el bombası ve patlama oyuncunun en çok bakması gereken şeyler (tehlike telegrafı) ama
+düz turuncu/mavi bantlı eski çizimlerdi; fabrika arka planının sıcak, kirli tonlarından
+kopuk duruyorlardı.
+
+**Oyuncu ne hissedecek:** Alev dili kenarda bordo-mor, içe doğru turuncu, çekirdekte krem;
+yırtık dil ve kopan közler. Patlama düzensiz bulut kenarlı ateş topu (sol üstü ışıkta,
+sağ altı bordo gölgede) → içi sönen kor → mor-gri duman halkası. Çiviler ışıkta parlayan
+uçlu dövme kazık; taban lamada aşınmış sarı-siyah ikaz boyası (koyu zeminde tehlike
+hemen okunsun). Izgara yarıklarından kor sızıyor; kablo bükülü kauçuk + sarı bant +
+sıyrık bakır; ark mor-lacivert haleli beyaz-mavi zikzak; bomba zeytin dökme gövde, pirinç
+tapa, ikazda kırmızı kor + fitil kıvılcımı.
+
+**Yapılanlar:** `tools/gen_gpt_style_props.py` → `FIRE/SMOKE/ARC/OLIVE` rampaları,
+`strip_frames`, `make_diken`, `make_alev_izgara`, `make_kablo`, `grenade(lit)`,
+`make_alev` (4×16×46), `make_kivilcim` (3×16×14), `make_patlama` (6×40×40). Kare düzeni
+ve ölçüler eskisiyle aynı; kod değişmedi.
+İlk denemede kazıklar konturla şişe gibi okunuyordu, sonra birbirine kaynayıp taç gibi
+duruyordu; kontur yalnız gölge kenarına alındı, taban genişliği 5 piksele sınırlandı.
+Patlamanın 7 kollu düzenli yıldız silüeti çark gibi duruyordu → üç frekanslı düzensiz kenar.
+
+**Testler:** `--import` hatasız; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn`
+PASS; bot Bölüm 6 (135,0 sn), 7 (97,2 sn) CLEARED. 1280×720 ekran görüntüleri (geçici
+yakalama sahnesi, Bölüm 6 fabrikası): alev bacaları, kablo + ark, çivi şeridi, iki bomba ve
+patlama kareleri yan yana — "ait"; çiviler koyu zeminde ikaz şeridiyle okunuyor.
+
+**Sonraki öneri:** Stil listesi — iç mekân grubu (han_kapisi, ic_duvar, ic_pencere,
+fabrika_pencere, tavan, tugla, sivali_tugla, hatil).
+
 ### 2026-10-25 (5) — Kum torbası, taş blok, raf, kaset, çerçeve ChatGPT tarzında (stil listesi 1/siper-dekor)
 
 **Neden şimdi:** Stil listesinin sıradaki açık maddesi. Bölüm 4'ün siperleri, Bölüm 20'nin
