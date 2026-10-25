@@ -13,7 +13,8 @@ Kural seti (assets/backgrounds ve book03_final_* sayfalarından ölçüldü):
 Çıktı: assets/environment/pixel/{varil,patlayici,parmaklik,parmaklik_tepe,tup,
 fener,fener_hale,asma_lamba,on_kolon,on_kolon_bas,on_kolon_kaide,on_sarmasik,zincir,halat,kum_torbasi,tas_blok,raf,kaset,cerceve,
 diken,alev_izgara,kablo,bomba,bomba_ikaz,alev,kivilcim,patlama,
-tugla,sivali_tugla,ic_duvar,hatil,ic_pencere,fabrika_pencere,tavan,han_kapisi}.png
+tugla,sivali_tugla,ic_duvar,hatil,ic_pencere,fabrika_pencere,tavan,han_kapisi,
+pres,pres_kol,ray,su_govde,su_yuzey,anten,kule_ayak,kule_kulube,ahsap_kat}.png
 Oyunda 2x NEAREST ölçeklenir (1 sanat pikseli = 2 ekran pikseli).
 """
 import math
@@ -1143,15 +1144,17 @@ def make_sivali_tugla(rnd):
 
 
 def make_ic_duvar(rnd):
-    """Kireç sıvalı iç duvar (48×32, döşenir; oyunda koyu tonlanır): bulutlu sıva,
-    rutubet lekesi, ince çatlak, alttan yükselen kir. Tekrarı belli olmasın diye
-    özellikler küçük ve dağınık."""
+    """Kireç sıvalı iç duvar (48×32, döşenir; oyunda koyu tonlanır): bulutlu sıva ve
+    yumuşak rutubet lekesi. Keskin çatlak/kabarma yok: 144 ekran pikselinde bir tekrar
+    edip desen gibi okunuyordu (çatlak hissini sıvası dökülmüş yamalar verir)."""
     w, h = 48, 32
     img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     px = img.load()
     for y in range(h):
         for x in range(w):
-            cloud = (math.sin(x * 0.27 + y * 0.11) + math.sin(x * 0.09 - y * 0.31 + 1.3)) * 0.06
+            # Periyodik bulut: döşeme dikişinde süreksizlik olmasın.
+            cloud = (math.sin(x / w * math.tau * 2 + y / h * math.tau)
+                     + math.sin(x / w * math.tau - y / h * math.tau * 2 + 1.3)) * 0.06
             lv = 0.58 + cloud + (rnd.random() - 0.5) * 0.08
             px[x, y] = pick(PLASTER, lv, rnd, 0.4) + (255,)
     # Rutubet lekesi (yumuşak koyu halka).
@@ -1160,19 +1163,7 @@ def make_ic_duvar(rnd):
         for x in range(w):
             d = math.hypot((x - cx) / 7.0, (y - cy) / 5.0)
             if d < 1.0 and rnd.random() < 0.8:
-                px[x, y] = pick(PLASTER, 0.38 + d * 0.15, rnd, 0.3) + (255,)
-    # İnce çatlak: koyu çizgi + alt yanında ışık.
-    x, y = 9, 4
-    for _ in range(11):
-        if 0 <= x < w - 1 and 0 <= y < h:
-            px[x, y] = PLASTER[1] + (255,)
-            px[x + 1, y] = PLASTER[6] + (255,)
-        y += 1
-        x += rnd.choice((-1, 0, 0, 1))
-    # Sıva kabarması.
-    for x, y in ((22, 9), (23, 9), (22, 10)):
-        px[x, y] = PLASTER[6] + (255,)
-    px[23, 10] = PLASTER[2] + (255,)
+                px[x, y] = pick(PLASTER, 0.46 + d * 0.1, rnd, 0.3) + (255,)
     return img
 
 
@@ -1420,6 +1411,296 @@ def make_han_kapisi(rnd):
     return img
 
 
+STEEL = [(10, 8, 16), (24, 20, 32), (38, 34, 48), (54, 50, 64), (72, 68, 80), (96, 90, 98),
+         (128, 118, 116), (170, 152, 130), (214, 190, 150)]
+WATER = [(8, 14, 26), (12, 22, 38), (16, 32, 50), (22, 44, 62), (30, 58, 74), (44, 78, 88),
+         (70, 108, 110), (120, 150, 140), (186, 196, 170)]
+
+
+def make_pres(rnd):
+    """Pres başlığı (34×22): perçinli dövme çelik blok, sarı-siyah ikaz bandı, altta
+    dişli ezme yüzü. Üst kenar fener ışığında, sağ kenarda ay, alt dişler gölgede."""
+    w, h = 34, 22
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    for y in range(h - 3):
+        for x in range(w):
+            u = (x - 16.5) / 17.0
+            lv = 0.5 - y * 0.018 - max(0.0, u) * 0.18
+            if y <= 1:
+                lv = 0.82 if y == 0 else 0.62  # üst pah
+            if x <= 1:
+                lv += 0.12
+            c = pick(STEEL, lv, rnd, 0.4)
+            if 12 <= y <= 15:
+                stripe = (x + y) // 3 % 2 == 0  # ikaz bandı
+                c = pick(HAZARD, 0.75 - (y - 12) * 0.12, rnd, 0.3) if stripe else pick(STEEL, 0.1, rnd, 0.2)
+                if rnd.random() < 0.12:
+                    c = pick(RUST, 0.5, rnd, 0.3)  # boya kalkması
+            if y in (11, 16):
+                c = STEEL[1]
+            if x >= w - 3:
+                c = mix(c, MOON, 0.25)
+            if y > 2 and rnd.random() < 0.05:
+                c = pick(RUST, 0.4, rnd, 0.3)
+            px[x, y] = c + (255,)
+    # Perçinler ve yağ akıntısı.
+    for x in (4, 12, 21, 29):
+        px[x, 4] = STEEL[7] + (255,)
+        px[x + 1, 5] = STEEL[1] + (255,)
+    for y in range(6, 11):
+        px[8, y] = mix(px[8, y][:3], (16, 12, 20), 0.5) + (255,)
+    # Ezme dişleri.
+    for y in range(h - 3, h):
+        for x in range(w):
+            k = x % 4
+            if (y - (h - 3)) > (1 if k in (1, 2) else 0) + (0 if k in (1, 2) else -1) + 1:
+                continue
+            if y == h - 1 and k not in (1, 2):
+                continue
+            px[x, y] = pick(STEEL, 0.55 if k == 1 else 0.22, rnd, 0.2) + (255,)
+    outline(img)
+    return img
+
+
+def make_pres_kol(rnd):
+    """Pres pistonu (8×16, dikey döşenir): parlatılmış çelik silindir, ince yağ izi."""
+    w, h = 8, 16
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    for y in range(h):
+        for x in range(1, w - 1):
+            u = (x - 3.5) / 3.0
+            lv = light(u) * 0.95 + 0.05
+            c = pick(STEEL, lv, rnd, 0.2)
+            if u > 0.6:
+                c = mix(c, MOON, 0.35)
+            if x == 4 and y in (5, 6, 7, 12):
+                c = mix(c, (30, 22, 20), 0.5)  # yağ izi
+            px[x, y] = c + (255,)
+    for y in (0, 1):
+        for x in range(1, w - 1):
+            px[x, y] = mix(px[x, y][:3], STEEL[2], 0.4) + (255,)  # bilezik gölgesi
+    outline_sides(img)
+    return img
+
+
+def make_ray(rnd):
+    """Ray (16×6, yatay döşenir; üst 2 satır korniş olarak da kullanılır): parlak çelik
+    mantar, gövde, altta katranlı ahşap travers ve çivisi."""
+    w, h = 16, 6
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    for x in range(w):
+        px[x, 0] = mix(pick(STEEL, 0.9, rnd, 0.2), (240, 200, 140), 0.25) + (255,)  # ışık
+        px[x, 1] = pick(STEEL, 0.5, rnd, 0.3) + (255,)
+        px[x, 2] = pick(STEEL, 0.15, rnd, 0.2) + (255,)
+    for x in range(2, 14):
+        for y in (3, 4, 5):
+            lv = {3: 0.45, 4: 0.28, 5: 0.12}[y]
+            c = pick(WOOD, lv, rnd, 0.5)
+            if x in (2, 13) and y > 3:
+                c = OUTLINE[:3]
+            px[x, y] = c + (255,)
+    for x in (4, 11):
+        px[x, 3] = STEEL[6] + (255,)  # travers çivisi
+    for x in range(2, 14):
+        px[x, 5] = OUTLINE
+    return img
+
+
+def make_su_govde(rnd):
+    """Su gövdesi (32×16, iki yönde döşenir): derin bulanık su; periyodik dalgalı ışık
+    şeritleri (dikişsiz) ve dağınık askıda tortu."""
+    w, h = 32, 16
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    for y in range(h):
+        for x in range(w):
+            wave = math.sin((x / w) * math.tau * 2 + (y / h) * math.tau) * 0.5 + \
+                math.sin((x / w) * math.tau - (y / h) * math.tau * 2 + 1.0) * 0.5
+            lv = 0.24 + wave * 0.06
+            if (x + y * 3) % 7 == 0:
+                lv -= 0.05
+            px[x, y] = pick(WATER, lv, rnd, 0.3) + (255,)
+    for _ in range(6):
+        x, y = rnd.randrange(w), rnd.randrange(h)
+        px[x, y] = WATER[4] + (255,)  # tortu
+    return img
+
+
+def make_su_yuzey(rnd):
+    """Su yüzeyi (3 kare × 32×12, yatay döşenir): dalga sırtında köpük ve sıcak fener
+    yansıması, altında gövdeye karışan koyu su. Kareler dalgayı kaydırır."""
+    frames = []
+    for f in range(3):
+        img = Image.new("RGBA", (32, 12), (0, 0, 0, 0))
+        px = img.load()
+        ph = f / 3.0 * math.tau
+        for x in range(32):
+            crest = 2.5 + math.sin(x / 32 * math.tau * 2 + ph) * 1.5 + math.sin(x / 32 * math.tau * 3 - ph) * 0.6
+            for y in range(12):
+                if y < crest:
+                    continue
+                dy = y - crest
+                if dy < 1:
+                    c = WATER[8] if math.sin(x * 0.9 + ph) > 0.2 else WATER[7]  # köpük
+                elif dy < 2:
+                    c = WATER[6]
+                else:
+                    lv = 0.55 - dy * 0.05
+                    c = pick(WATER, lv, rnd, 0.3)
+                    if (y == 6 and (x + f * 4) % 13 < 3) or (y == 9 and (x + 7 - f * 3) % 16 < 2):
+                        c = mix(c, (220, 150, 80), 0.4)  # fener yansıması: yatay kısa parıltı
+                px[x, y] = c + (255,)
+        frames.append(img)
+    return strip_frames(frames)
+
+
+def make_anten(rnd):
+    """Radyo anteni (24×96): incelen çelik kafes direk, çapraz örgü, iki ara platform,
+    tepede kırmızı ikaz lambası. Sol bacak ışıkta, sağ bacak ay kenarında."""
+    w, h = 24, 96
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    cx = 11.5
+    top = 6
+
+    def half_at(y):
+        return 1.5 + (y - top) / (h - top) * 9.0
+
+    def put(x, y, c):
+        if 0 <= x < w and 0 <= y < h:
+            px[x, y] = c + (255,)
+    for y in range(top, h):
+        hw_ = half_at(y)
+        lx, rx = int(round(cx - hw_)), int(round(cx + hw_))
+        put(lx, y, pick(STEEL, 0.7, rnd, 0.2))
+        put(rx, y, mix(pick(STEEL, 0.35, rnd, 0.2), MOON, 0.35))
+        # Çapraz örgü: her bölmede X.
+        seg = 8
+        t = (y - top) % seg / seg
+        for xx in (int(round(lx + (rx - lx) * t)), int(round(rx - (rx - lx) * t))):
+            put(xx, y, pick(STEEL, 0.3, rnd, 0.3))
+        if (y - top) % seg == 0:
+            for xx in range(lx, rx + 1):
+                put(xx, y, pick(STEEL, 0.45, rnd, 0.2))
+    for py in (34, 62):
+        hw_ = half_at(py) + 2
+        for xx in range(int(cx - hw_), int(cx + hw_) + 1):
+            put(xx, py, pick(STEEL, 0.6, rnd, 0.2))
+            put(xx, py + 1, STEEL[1])
+    # Tepe direği ve ikaz lambası (hâle).
+    for y in range(1, top + 1):
+        put(11, y, STEEL[5])
+        put(12, y, STEEL[3])
+    for dx, dy, c in ((0, 0, RED[7]), (1, 0, RED[5]), (0, 1, RED[4]), (1, 1, RED[3])):
+        put(11 + dx, dy, c)
+    outline(img)
+    px[11, 0] = (255, 190, 150, 255)
+    return img
+
+
+def make_kule_ayak(rnd):
+    """Gözetleme kulesi ayağı (40×20, dikey döşenir): iki perçinli çelik bacak + X kuşak."""
+    w, h = 40, 20
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    for y in range(h):
+        for x in range(w):
+            if x in (1, 2, 3) or x in (36, 37, 38):
+                u = -0.6 if x in (1, 36) else (0.0 if x in (2, 37) else 0.7)
+                c = pick(STEEL, light(u) * 0.75 + 0.05, rnd, 0.2)
+                if x >= 36:
+                    c = mix(c, MOON, 0.2)
+                if y in (0, 19) and x in (2, 37):
+                    c = STEEL[7]  # perçin
+                px[x, y] = c + (255,)
+    for i in range(h):
+        t = i / (h - 1)
+        for xx in (int(4 + t * 31), int(35 - t * 31)):
+            for d in (0, 1):
+                if 4 <= xx + d <= 35:
+                    px[xx + d, i] = pick(STEEL, 0.4 if d == 0 else 0.15, rnd, 0.2) + (255,)
+    for x in range(4, 36):
+        px[x, 0] = pick(STEEL, 0.55, rnd, 0.2) + (255,)
+        px[x, 1] = STEEL[1] + (255,)
+    outline_sides(img)
+    return img
+
+
+def make_kule_kulube(rnd):
+    """Kule kulübesi (40×30): paslı kırmızı teneke çatı, dikey tahta duvar, içeriden
+    yanan pencere, önde korkuluk; altında döşeme kirişi."""
+    w, h = 40, 30
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    for y in range(h):
+        for x in range(w):
+            if y < 6:
+                inset = max(0, 5 - y) // 2
+                if x < inset or x >= w - inset:
+                    continue
+                lv = 0.75 - y * 0.08 + (0.1 if x % 4 == 0 else 0.0)
+                c = pick(RED, lv, rnd, 0.4)
+                if rnd.random() < 0.15:
+                    c = pick(RUST, 0.5, rnd, 0.3)
+                if y == 5:
+                    c = RED[0]
+            elif y < 25:
+                if x < 2 or x >= w - 2:
+                    continue
+                plank = x % 4
+                lv = 0.38 + (0.12 if plank == 0 else -0.08 if plank == 3 else 0.0) - (y - 6) * 0.008
+                if y < 9:
+                    lv -= 0.18  # saçak gölgesi
+                c = pick(WOOD, lv, rnd, 0.5)
+                if 9 <= y <= 16 and 8 <= x <= 31:
+                    if x in (8, 31, 19, 20) or y in (9, 16, 12):
+                        c = pick(WOOD, 0.2, rnd, 0.2)  # pencere kasası
+                    else:
+                        c = pick(WARM_GLASS, 0.8 - (y - 9) * 0.06, rnd, 0.3)
+                if x >= w - 5:
+                    c = mix(c, MOON, 0.2)
+                if 19 <= y <= 24 and (y == 19 or x % 6 == 2):
+                    c = pick(WOOD, 0.55, rnd, 0.3)  # korkuluk
+            else:
+                lv = 0.5 if y == 25 else 0.2
+                c = pick(WOOD, lv, rnd, 0.3)
+                if y >= 27 and x % 10 not in (1, 2, 3):
+                    continue  # kiriş uçları
+            px[x, y] = c + (255,)
+    outline(img)
+    return img
+
+
+def make_ahsap_kat(rnd):
+    """Ahşap kat döşemesi (32×8, yatay döşenir): üst yüz ışıkta, uç uca tahtalar ve
+    çivileri, altta iki kiriş başı."""
+    w, h = 32, 8
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    for y in range(5):
+        for x in range(w):
+            lv = {0: 0.8, 1: 0.5, 2: 0.4, 3: 0.3, 4: 0.12}[y]
+            if x % 16 == 15:
+                lv = 0.08  # tahta eki
+            c = pick(WOOD, lv, rnd, 0.5)
+            px[x, y] = c + (255,)
+    for x in (2, 13, 18, 29):
+        px[x, 2] = IRON[5] + (255,)  # çivi
+    for bx in (5, 21):
+        for y in range(5, 8):
+            for x in range(bx, bx + 5):
+                px[x, y] = pick(WOOD, 0.35 if x == bx else 0.15, rnd, 0.3) + (255,)
+            px[bx + 4, y] = OUTLINE
+        for x in range(bx, bx + 5):
+            px[x, 7] = OUTLINE
+    for x in range(w):
+        px[x, 4] = OUTLINE if not any(bx <= x < bx + 5 for bx in (5, 21)) else px[x, 4]
+    return img
+
+
 def main():
     rnd = random.Random(7)
     make_varil(rnd).save(OUT + "varil.png")
@@ -1457,6 +1738,15 @@ def main():
     make_fabrika_pencere(random.Random(109)).save(OUT + "fabrika_pencere.png")
     make_tavan(random.Random(113)).save(OUT + "tavan.png")
     make_han_kapisi(random.Random(127)).save(OUT + "han_kapisi.png")
+    make_pres(random.Random(131)).save(OUT + "pres.png")
+    make_pres_kol(random.Random(137)).save(OUT + "pres_kol.png")
+    make_ray(random.Random(139)).save(OUT + "ray.png")
+    make_su_govde(random.Random(149)).save(OUT + "su_govde.png")
+    make_su_yuzey(random.Random(151)).save(OUT + "su_yuzey.png")
+    make_anten(random.Random(157)).save(OUT + "anten.png")
+    make_kule_ayak(random.Random(163)).save(OUT + "kule_ayak.png")
+    make_kule_kulube(random.Random(167)).save(OUT + "kule_kulube.png")
+    make_ahsap_kat(random.Random(173)).save(OUT + "ahsap_kat.png")
 
 
 if __name__ == "__main__":

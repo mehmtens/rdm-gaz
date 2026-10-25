@@ -31,6 +31,37 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-10-25 (8) — Set-piece parçaları ChatGPT tarzında (stil listesi 1/set-piece)
+
+**Neden şimdi:** Stil listesinin sıradaki açık maddesi. Pres, ray, kanal suyu, gözetleme
+kulesi, anten ve iç kat döşemesi bölümlerin akılda kalan anlarının parçaları; eski
+hâlleri düz gri levha, düz turkuaz dither ve tek renk kafes çizgisiydi.
+
+**Oyuncu ne hissedecek:** Pres perçinli dövme çelik, aşınmış ikaz bandı ve dişli ezme yüzü
+(tehlike hemen okunur); piston parlatılmış silindir. Ray parlak mantarlı, katranlı
+traversli. Kanal suyu derin bulanık gövde + köpüklü dalga sırtı ve yatay fener
+parıltıları (3 kare). Kule çelik bacak + X kuşak, kulübe paslı kırmızı teneke çatı ve
+içeriden yanan pencere; anten incelen kafes, ara platformlar, kırmızı ikaz lambası.
+Ek düzeltme: iç duvar dokusundaki çatlak/kabarma 144 pikselde bir tekrar edip desen
+gibi okunuyordu (Bölüm 2 ekran görüntüsü) — kaldırıldı, sıva bulutu periyodik yapıldı.
+
+**Yapılanlar:** `tools/gen_gpt_style_props.py` → `STEEL/WATER` rampaları, `make_pres` (34×22),
+`make_pres_kol` (8×16, dikey döşenir), `make_ray` (16×6; üst 2 satır korniş), `make_su_govde`
+(32×16, periyodik), `make_su_yuzey` (3×32×12), `make_anten` (24×96), `make_kule_ayak`
+(40×20, dikey döşenir), `make_kule_kulube` (40×30), `make_ahsap_kat` (32×8). Ölçüler ve
+kare düzeni eskisiyle aynı; kod değişmedi.
+
+**Testler:** `--import` hatasız; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn`
+PASS; bot Bölüm 4 (104,4 sn), 5 (99,3 sn), 27 (84,5 sn) CLEARED. 1280×720 ekran görüntüleri:
+Bölüm 6 presleri, Bölüm 4 kulesi, Bölüm 2 kanalı ve iç mekânı — "ait".
+
+**Not:** Pencereli yakalamada ardışık çalıştırmalarda zaman zaman duraklatma menüsü
+açılıyor (odak kaybı) — çekimi tekrarlamak yetiyor; anten z=-9 arkada olduğu için oyun
+içinde kadraja alınamadı, oyun ölçeği ve tonuyla ekran görüntüsü üzerine bindirilerek
+değerlendirildi.
+
+**Sonraki öneri:** Stil listesi — kalkan, kalkan_kirik (Kalkanlı Zabıta).
+
 ### 2026-10-25 (7) — İç mekân, fabrika ve tavan dokuları ChatGPT tarzında (stil listesi 1/iç mekân)
 
 **Neden şimdi:** Stil listesinin sıradaki açık maddesi. Bu dokular en büyük ekran
