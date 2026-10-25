@@ -60,7 +60,7 @@ ChatGPT tarzına yaklaştır: aynı mor gölge / altın ışık rampası, doku, 
 - [x] button_* , touch_* — düğmeler (mobilde sürekli ekranda; yüksek öncelik) (ac3b2de5)
 - [x] coin, kilit, film, pip_*, yildiz_*, ikon_*, odak, tutamac, cubuk_* — ikonlar (5c301dc2)
 - [x] logo, logo_alt (ea69219c)
-- [ ] portre_* — ChatGPT karakter portresinden mi? kontrol et; Claude çizimiyse dönüştür
+- [x] portre_* — ChatGPT karakter portresinden mi? kontrol et; Claude çizimiyse dönüştür — üçü ChatGPT kesiti (dokunulmadı), telsiz dönüştürüldü (f9e7bc14)
 
 ## 6. Kontrol edilecek (ChatGPT kaynaklı olabilir — ChatGPT ise dokunma)
 
