@@ -42,6 +42,19 @@ const STAR_DELAY := 0.45
 const STAR_STEP := 0.32
 @onready var _combo: Label = $ComboLabel
 
+## Düşük can uyarısı: can oranı bunun altına inince ekran kenarı kızarır ve nabız gibi atar;
+## KRİTİK altında nabız hızlanır. Mevcut can çubuğu renk eşiğiyle (0,3) aynı.
+const DANGER_RATIO := 0.3
+const DANGER_CRITICAL := 0.15
+## Nabız periyodu (sn): normal / kritik. İkinci atış ilkinden DANGER_BEAT2 sn sonra.
+const DANGER_PERIOD := 1.0
+const DANGER_PERIOD_CRITICAL := 0.62
+const DANGER_BEAT2 := 0.17
+const DANGER_EDGE := preload("res://assets/ui/pixel/tehlike_kenar.png")
+var _danger: TextureRect
+var _hp_ratio := 1.0
+var _danger_t := 0.0
+
 var _bar_width: float = 256.0
 
 var _coin_bump: float = 0.0
@@ -72,6 +85,7 @@ func _ready() -> void:
 	_build_star_row()
 	_build_costume_badge()
 	_build_arena_counter()
+	_build_danger_edge()
 	_boss_bar.visible = false
 	_combo.visible = false
 	GameState.coins_changed.connect(_on_coins_changed)
@@ -205,6 +219,7 @@ func _layout_mobile_boss_bar() -> void:
 
 func _process(delta: float) -> void:
 	_tick_reveal(delta)
+	_tick_danger(delta)
 	if _coin_bump > 0.0:
 		_coin_bump = maxf(_coin_bump - delta * 4.0, 0.0)
 		_coins.scale = Vector2.ONE * (1.0 + _coin_bump * 0.5)
@@ -245,12 +260,53 @@ func _flash_big_combo(count: int, bonus: int) -> void:
 
 func set_health(current: int, maximum: int) -> void:
 	var ratio := 0.0 if maximum <= 0 else clampf(float(current) / float(maximum), 0.0, 1.0)
+	if ratio <= DANGER_RATIO and _hp_ratio > DANGER_RATIO:
+		_danger_t = 0.0  # tehlikeye girerken ilk atış hemen
+	_hp_ratio = ratio
 	_fill.size.x = _bar_width * ratio
 	# Piksel dolgu (PixelUIBoot): asıl ColorRect saydam, renk piksel dolguya verilir.
 	_fill.color = Color(0, 0, 0, 0)
 	if _fill.get_child_count() > 0:
 		(_fill.get_child(0) as CanvasItem).self_modulate = Color.WHITE if ratio > 0.3 else Color(1.0, 0.75, 0.3)
 	_label.text = "CAN  %d / %d" % [current, maximum]
+
+
+## Tam ekran piksel kenar (HUD öğelerinin arkasında, dokunuşu engellemez).
+func _build_danger_edge() -> void:
+	_danger = TextureRect.new()
+	_danger.name = "DangerEdge"
+	_danger.texture = DANGER_EDGE
+	_danger.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_danger.stretch_mode = TextureRect.STRETCH_SCALE
+	_danger.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_danger.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_danger.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_danger.modulate.a = 0.0
+	add_child(_danger)
+	move_child(_danger, 0)
+
+
+## Kalp atışı gibi çift vuruş: atışta kenar parlar, sonra söner. Can 0'da (ölüm) ve
+## tehlike dışında yavaşça kaybolur.
+func _tick_danger(delta: float) -> void:
+	if _danger == null:
+		return
+	var active := _hp_ratio > 0.0 and _hp_ratio <= DANGER_RATIO and not _results.visible \
+		and not get_tree().paused
+	if not active:
+		_danger.modulate.a = move_toward(_danger.modulate.a, 0.0, delta * 2.5)
+		return
+	var period := DANGER_PERIOD_CRITICAL if _hp_ratio <= DANGER_CRITICAL else DANGER_PERIOD
+	var prev := _danger_t
+	_danger_t = fmod(_danger_t + delta, period)
+	var p := _danger_t
+	var beat := maxf(exp(-p * 9.0), exp(-maxf(p - DANGER_BEAT2, 0.0) * 11.0) * 0.7 if p >= DANGER_BEAT2 else 0.0)
+	var base := 0.3 if _hp_ratio > DANGER_CRITICAL else 0.45
+	_danger.modulate.a = base + (1.0 - base) * beat
+	if _fill.get_child_count() > 0:
+		(_fill.get_child(0) as CanvasItem).self_modulate = Color(1.0, 0.75, 0.3).lerp(Color(1.0, 0.35, 0.3), beat)
+	if p < prev or (prev == 0.0 and p > 0.0 and p < delta * 1.5):
+		Sfx.play(&"land", 0.55, -14.0)  # kalp atışı
 
 
 func set_weapon(display_name: String, uses: int, max_uses: int) -> void:

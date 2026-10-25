@@ -7,6 +7,20 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- **[Denetim 26 Ekim]** HUD metin kalabalığı: `COIN 32 · ESC: CEPHANELİK` + `Silah: Yumruk` her
+  karede düz yazı; ESC ipucu ilk iki bölümden sonra (ya da cephanelik bir kez açılınca) gizlensin,
+  silah satırı ikon + sayıya insin. Ölçüt: HUD'daki sabit karakter sayısı ~45 → ~15.
+- **[Denetim 26 Ekim]** Bölüm 7'deki uzun tuğla cephe (`dtm_level._interior`, stil 0): aynı pencere
+  ızgarası 4×6 tekrar ediyor, ChatGPT arka planının yanında şablon gibi duruyor. Pencere çeşitlemesi
+  (kepenk, kırık cam, ışıklı/karanlık, saksı), kat silmesi ve alt katta dükkân. Ölçüt: aynı pencere
+  dokusunun yan yana tekrar sayısı ≤ 2.
+- **[Denetim 26 Ekim]** Karakter/zemin ayrışması: alacakaranlık bölümlerinde koyu ceketli düşmanlar
+  koyu zemine karışıyor (gece kenar ışığı yalnız `dark_scene`'de). Alacakaranlıkta da zayıf (%50)
+  kenar ışığı denenmeli. Ölçüt: düşman silüeti ile 8 px çevresi arasındaki parlaklık farkı.
+- **[Denetim 26 Ekim]** Saldırı uyarısı (`!`) bu çekimlerde hiç yakalanmadı; 0,32 sn hazırlık + küçük
+  işaret. İşaret 2x büyüklükte ve düşmanın üstünde 1 piksellik beyaz kontur kırpışmasıyla birlikte
+  denenmeli (P1 "saldırı okunurluğu" ile birlikte, insan testinde ilk hasar nedeni ölçülerek).
+
 - Kaldırım taşı: taş yalnız 2 ve 5'teki büfede; insan testinde taş çok seçiliyorsa
   diğer büfelerde de denenebilir.
 - Günün dalgası: GÜNLÜK sekmesine 21/28. gün kareleri (insan testinde seri 14'ü geçen
@@ -29,6 +43,32 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (14) — Tasarım denetimi (Bölüm 7) + düşük can uyarısı
+
+**Neden şimdi:** Stil listesi, yol haritası ve P1'ler bitti; birikimin kalanı insan testine bağlı.
+Kural gereği denetim: Bölüm 7 (Karahanlı Haddehanesi) pencereli bot koşusu (104 sn, CLEARED),
+7 sn'de bir 15 kare; 8'i DTM sütunlarıyla karşılaştırıldı.
+
+**Bulgular (etki/maliyet sırasıyla birikime yazıldı):** (1) düşük can için hiçbir geri bildirim
+yok — bot 15/115 cana kadar iniyor, ekranda yalnız küçük çubuk sarıya dönüyor (DTM'de kenar
+kızarır, kalp atar); (2) HUD düz metin kalabalığı; (3) tekrar eden tuğla cephe şablon gibi;
+(4) alacakaranlıkta koyu düşman koyu zemine karışıyor; (5) saldırı `!` işareti küçük. İyi
+çalışanlar: kombo yazısı (EFSANE x18), dalga sayacı, büfe tabelası, konuşma panelleri.
+
+**Bu turda uygulanan (1):** `hud.gd` düşük can uyarısı — can ≤ %30'da tam ekran piksel art kenar
+(`assets/ui/pixel/tehlike_kenar.png`, 320×180, 4×4 Bayer dither, kırmızı rampa, `gen_gpt_style_ui.
+tehlike_kenar()`), kalp atışı gibi çift vuruşla parlar; ≤ %15'te nabız 1,0 → 0,62 sn. Can çubuğu
+dolgusu atışla kızarır; her atışta `land` sesi 0,55 perde, −14 dB. Duraklatmada, sonuç kartında,
+ölümde ve iyileşince söner. Kenar HUD öğelerinin arkasında, dokunuşu engellemez.
+**Sayılar (hipotez):** %30 mevcut çubuk renk eşiğiyle aynı; taban parlaklık 0,3/0,45 (kritik) —
+sürekli görünür ama oyun alanını kapatmaz; ikinci atış 0,17 sn sonra %70 güçte (lub-dub).
+İlk sürüm 160×90'dı ve kaba "ekran kapısı" deseni veriyordu → 320×180, bant 0,2 → 0,13.
+
+**Testler:** `--import` hatasız; `touch_polish`, `level_stars`, `costume_badge` PASS; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn` PASS; bot Bölüm 1 (77,2 sn), 13 (81,7 sn), 25 (80,8 sn) CLEARED. Yeni `tests/low_health.tscn` PASS (görünmezlik, atış zirvesi > 0,8, taban
+≥ 0,29, kritik bölge, ölümde/iyileşince sönme, dokunuş geçirgenliği). Görsel: Bölüm 7, can 12/115.
+
+**Sonraki öneri:** Birikimin en üstü — HUD metin kalabalığı.
 
 ### 2026-10-26 (13) — Havada elde kaldırım taşı (`tas_jump`, birikim)
 

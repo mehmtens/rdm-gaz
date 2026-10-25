@@ -292,6 +292,26 @@ def ikonlar(only=None):
         res.resize(big.size, Image.NEAREST).save(path)
 
 
+def tehlike_kenar():
+    ## Düşük can uyarısı: ekran kenarında dither'lı (4×4 Bayer) kırmızı çerçeve; kenarda koyu
+    ## mor-bordo, içe doğru seyrelir; köşeler daha yoğun. 320×180, oyunda tam ekran NEAREST.
+    w, h = 320, 180
+    bayer = [[0, 8, 2, 10], [12, 4, 14, 6], [3, 11, 1, 9], [15, 7, 13, 5]]
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    for y in range(h):
+        for x in range(w):
+            dx = min(x, w - 1 - x) / (w * 0.5)
+            dy = min(y, h - 1 - y) / (h * 0.5)
+            d = min(dx, dy) * 0.75 + dx * dy * 0.25  # köşeler daha yoğun
+            a = 1.0 - d / 0.13
+            if a <= (bayer[y % 4][x % 4] + 0.5) / 16.0:
+                continue
+            c = pick(RED, 0.15 + (1.0 - a) * 0.55, random.Random(x * 31 + y), 0.2)
+            px[x, y] = c + (int(110 + 110 * min(1.0, a)),)
+    img.save(OUT / "tehlike_kenar.png")
+
+
 if __name__ == "__main__":
     import sys
     if "--ikonlar" in sys.argv:
