@@ -44,13 +44,13 @@ PNG piksel art'a taşınacak. Satır sayıları 25 Ekim taramasından.
 - [x] Şemsiye: `anim/redmount/semsiye_*`, `pickups/placeholder_semsiye` (768e1661)
 - [x] Kaldırım taşı: `anim/redmount/tas_*`, `pickups/placeholder_tas`, `fx/tas_mermi` (768e1661)
 - [x] Kostüm başlıkları: `anim/costume_acc/{hamal,kahveci,kizil,vapurcu,head_front}` — dört başlık yeniden çizildi; head_front karakter karelerinden kesit (temel sanat), dokunulmadı (a3107554)
-- [ ] Kostüm palet takası: ChatGPT karakter karelerinin üstünde renkler tarza uyuyor mu (`tools/gen_costume_mask.py`)
-- [ ] Sopa/bıçak/tabanca/tüfek elde görünümü (`tools/gen_pixel_weapons.py`, `gen_weapon_mask.py`) — karakter karesiyle aynı yoğunlukta mı
+- [x] Kostüm palet takası: ChatGPT karakter karelerinin üstünde renkler tarza uyuyor mu (`tools/gen_costume_mask.py`) — shader'a gölge→mor, ışık→altın kayması; vapurcu söndürüldü (36fd22a7)
+- [x] Sopa/bıçak/tabanca/tüfek elde görünümü (`tools/gen_pixel_weapons.py`, `gen_weapon_mask.py`) — karakter karesiyle aynı yoğunlukta mı — temel sanat (960cc98d), araçlar yalnız alfa işareti yazıyor; dokunulmadı (36fd22a7)
 - Not: Redmount'un gövde kareleri temel sanattır; yalnız Claude'un eklediği silah/aksesuar katmanları dönüştürülür.
 
 ## 4. Pickup ikonları — `assets/pickups/placeholder_*` (48×48)
 
-- [ ] ammo, armor, bat, coin, dmg2x, health, invis, knife, pistol, shield, speed
+- [x] ammo, armor, bat, coin, dmg2x, health, invis, knife, pistol, shield, speed — ilk commit'ten, zengin tonlu temel sanat; dokunulmadı (36fd22a7)
 
 ## 5. Arayüz — `assets/ui/pixel/` (Claude çizimi)
 
