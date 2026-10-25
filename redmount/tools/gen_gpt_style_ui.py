@@ -232,8 +232,10 @@ ICONS = {  # ad: sanat ölçeği (dosya bu kat NEAREST büyütülmüş)
 def _material(r, g, b):
     mx, mn = max(r, g, b), min(r, g, b)
     sat = (mx - mn) / mx if mx else 0.0
+    if mx > 175 and sat < 0.32:
+        return PAPER  # kâğıt / krem
     if sat < 0.22:
-        return STEEL if b >= r else PLUM
+        return STEEL  # nötr gri: soğuk-sıcak çelik (mürdüm rampasının açık ucu yok)
     if r >= g >= b:
         if r > 140 and b > 0.42 * r:
             return SKIN  # ten: mavi kanal altından belirgin yüksek
@@ -267,7 +269,7 @@ def restyle(img, rnd):
             lum = (r * 3 + g * 4 + b) / 8 / 255.0
             ramp = _material(r, g, b)
             grad = 0.1 * (1.0 - (x / max(1, w - 1) + y / max(1, h - 1)))
-            lift = 0.18 if ramp is RED else 0.0  # can çubuğu kırmızısı okunur kalsın
+            lift = 0.18 if ramp is RED else 0.1 if ramp is WOOD else 0.0  # kırmızı/ahşap okunur kalsın
             v = min(max(lum * 1.08 + grad - 0.04 + lift, 0.0), 0.999)
             c = pick(ramp, v, rnd, 0.3) if ramp else (r, g, b)
             if v > 0.86:

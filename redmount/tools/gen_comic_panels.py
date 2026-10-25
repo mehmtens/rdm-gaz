@@ -13,6 +13,9 @@ from pathlib import Path
 from PIL import Image
 
 from pixelart import P
+from gen_gpt_style_ui import restyle  # ChatGPT tarzı malzeme rampası (26 Ekim)
+from gen_gpt_style_props import OUTLINE
+import random
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "assets" / "ui" / "comic"
@@ -72,7 +75,7 @@ SIMIT = [
 SHADES = {
     "k": P["ink"], "b": P["red0"], "B": P["red1"], "w": P["cream"], "i": P["stone0"],
     "r": P["red2"], "c": P["sand2"],
-    "g": P["brick1"], "G": P["wood3"], "s": P["white"],
+    "g": P["wood1"], "G": P["wood3"], "s": P["white"],
 }
 
 
@@ -82,7 +85,8 @@ def sprite(rows):
         for x, ch in enumerate(row):
             if ch != ".":
                 img.putpixel((x, y), SHADES[ch])
-    return img
+    # Elle boyanmış nesne, sahnedeki gibi rampa + ışık + ay kenarı + koyu mor konturla.
+    return restyle(img, random.Random(len(rows) * 131 + len(rows[0])))
 
 
 def portrait(name, flip=False):
@@ -103,7 +107,7 @@ def scene(atlas, box, tint=None):
 
 
 def frame(art):
-    out = Image.new("RGBA", (W + 4, H + 4), P["ink"])
+    out = Image.new("RGBA", (W + 4, H + 4), OUTLINE)
     out.paste(Image.new("RGBA", (W + 2, H + 2), P["cream"]), (1, 1))
     out.paste(art, (2, 2))
     return out

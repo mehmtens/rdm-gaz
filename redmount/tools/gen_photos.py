@@ -11,6 +11,11 @@ import re
 from pathlib import Path
 from PIL import Image, ImageOps
 
+INK = (12, 7, 18)  # ChatGPT temel tarzı kontur (koyu mor)
+# Mühür mürekkebi rampası (gen_gpt_style_props.RED): gölge mora, ışık turuncuya.
+STAMP = [(34, 10, 24), (56, 14, 28), (82, 20, 30), (110, 26, 32), (138, 34, 34),
+         (166, 50, 38), (196, 82, 48), (226, 128, 70)]
+
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "assets" / "ui" / "photos"
 DEFAULT = "assets/backgrounds/book02_suleymaniye_streets_atlas.png"
@@ -33,7 +38,7 @@ def photo(img, cell, n, k):
     r = r.point(lambda v: min(255, int(v * 1.06 + 10)))
     b = b.point(lambda v: int(v * 0.86))
     q = Image.merge("RGB", (r, g, b))
-    q = ImageOps.expand(q, border=1, fill=(26, 18, 24))
+    q = ImageOps.expand(q, border=1, fill=INK)
     q.save(OUT / ("b%02d_%d.png" % (n, k)))
 
 
@@ -69,13 +74,18 @@ def daily_photo(img, cell, day):
     for y in range(9):
         for x in range(sw):
             edge = x in (0, sw - 1) or y in (0, 8)
-            px[x0 + x, y0 + y] = (88, 22, 26) if edge else (178, 44, 40)
+            # Basılmış mühür: üstte mürekkep dolu, altta incelir; kenar koyu, yer yer
+            # kâğıda tutmamış piksel (fotoğraf alttan görünür).
+            v = 3 if edge else 6 - y // 3 - (1 if (x * 7 + y * 3) % 11 == 0 else 0)
+            if not edge and (x * 5 + y * 9) % 23 == 0:
+                continue
+            px[x0 + x, y0 + y] = STAMP[max(0, min(7, v))]
     for i, ch in enumerate(text):
         for y, row in enumerate(DIGITS[ch]):
             for x, bit in enumerate(row):
                 if bit == "1":
                     px[x0 + 2 + i * 4 + x, y0 + 2 + y] = (246, 226, 188)
-    q = ImageOps.expand(q, border=1, fill=(26, 18, 24))
+    q = ImageOps.expand(q, border=1, fill=INK)
     q.save(OUT / ("gun_%d.png" % day))
 
 

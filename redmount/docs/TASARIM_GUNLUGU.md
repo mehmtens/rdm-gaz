@@ -31,6 +31,34 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-10-26 (12) — Stil listesi 6: kaynak kontrolü + kitap şeridi katmanları
+
+**Neden şimdi:** Stil listesi 6'nın "kontrol et" maddeleri; liste bitmeden başka işe geçilmiyor.
+
+**Bulgular:**
+- `environment/kit/*` (16 parça) ve `mahalle/{plant_small,tree_pot,vase_*,wall_*,portrait}`:
+  hepsi 2 800–322 000 renkli, 4 Ekim'den beri değişmemiş — ChatGPT kesitleri. Dokunulmadı.
+- `ui/comic/*`: sahne kesitleri arka plan atlaslarından (ChatGPT); Claude katmanları elle
+  boyanmış defter, not kâğıdı, simit (düz palet) ve mürekkep çerçeve. Bunlar ikon geçişinden
+  (`restyle`) geçirildi, çerçeve konturu koyu mor; yeni film/telsiz dokuları karelere girdi.
+
+**İkon geçişine düzeltme (önceki turun ikonları da yeniden boyandı):** nötr griler koyu
+mürdüm rampasına düşüp açık uçlarını kaybediyordu (film rulosunun delikleri, telsiz gövdesi
+silindi) → nötr gri artık `STEEL`. Kâğıt/krem için ayrı `PAPER` sınıfı (not kâğıdı tene
+kayıyordu), ahşaba +0,1 ışık; simidin kabuk rengi kaynağı tuğla yerine ahşap kahvesi (kırmızı
+halkalı çörek gibi duruyordu). Tüm ikonlar orijinal düz hâllerinden yeniden üretildi.
+
+- `ui/photos/*` (Kanıt Arşivi): fotoğraflar arka plan atlası kesiti (ChatGPT). Claude katmanı
+  1 px çerçeve ve Günün Dalgası "N. GÜN" damgası (düz kırmızı kutu): çerçeve koyu mor,
+  damga 8 tonluk mühür mürekkebi rampasında, üstte dolu altta incelen, yer yer kâğıda
+  tutmamış piksel (`tools/gen_photos.py`). 111 dosya çerçeve rengi yüzünden değişti.
+
+**Testler:** `--import` hatasız; `archive_comic`, `book_comic`, `daily_wave`, `touch_polish`, `level_stars`, `costume_badge` PASS; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn` PASS; bot Bölüm 1 (80,9 sn), 13 (77,3 sn), 25 (80,7 sn) CLEARED. Görsel: 12 kitap karesi, ikonlar ve üç fotoğraf önce/sonra — "ait".
+(Bir test turu, `grep book` filtresi 24 uzun `book0x_level_play` testini yakaladığı için
+durduruldu ve hedefli testlerle yeniden koşturuldu.)
+
+**Sonraki öneri:** Stil dönüşüm listesi bitti → yol haritaları / tasarım birikimi.
+
 ### 2026-10-26 (11) — Logo ve alt başlık ChatGPT tarzında (stil listesi 5/logo)
 
 **Neden şimdi:** Stil listesi 5'in sıradaki maddesi. REDMOUNT logosu 4 bantlı düz turuncu→
