@@ -15,7 +15,7 @@ fener,fener_hale,asma_lamba,on_kolon,on_kolon_bas,on_kolon_kaide,on_sarmasik,zin
 diken,alev_izgara,kablo,bomba,bomba_ikaz,alev,kivilcim,patlama,
 tugla,sivali_tugla,ic_duvar,hatil,ic_pencere,fabrika_pencere,tavan,han_kapisi,
 pres,pres_kol,ray,su_govde,su_yuzey,anten,kule_ayak,kule_kulube,ahsap_kat,
-kalkan,kalkan_kirik,sancak}.png
+kalkan,kalkan_kirik,sancak,catlak,kiymik}.png
 ve assets/pickups/placeholder_rifle.png
 Oyunda 2x NEAREST ölçeklenir (1 sanat pikseli = 2 ekran pikseli).
 """
@@ -1942,6 +1942,71 @@ def make_tufek_ikon(rnd):
     return img
 
 
+SHARD = [(40, 30, 40), (92, 80, 84), (150, 138, 128), (200, 190, 172), (240, 232, 214)]
+
+
+def make_catlak(rnd):
+    """Hasar çatlağı (3 aşama × 12×16, kabın gövdesine bindirilir; oyunda 3x): koyu mor
+    çatlak çizgisi, alt-sağ kenarında kırık yüzeyin yakaladığı sıcak ışık; son aşamada
+    dallanma ve kopmuş parça çukuru. Aşamalar birikimli: önceki çatlak kalır, uzar."""
+    w, h = 12, 16
+    frames = []
+    # Ana çatlak yolu (üstten aşağı zikzak) + dallar; aşama başına kaç adım çizileceği.
+    main = [(5, 1), (6, 2), (6, 3), (5, 4), (5, 5), (6, 6), (7, 7), (7, 8), (6, 9), (6, 10),
+            (5, 11), (5, 12), (4, 13), (4, 14)]
+    branch1 = [(6, 6), (4, 7), (3, 8), (2, 8)]
+    branch2 = [(6, 10), (8, 11), (9, 12), (10, 12)]
+    branch3 = [(5, 4), (3, 3), (2, 2)]
+    stages = [(main[:6], []), (main[:11], [branch1]), (main, [branch1, branch2, branch3])]
+    for path, branches in stages:
+        img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+        px = img.load()
+        lines = [path] + branches
+        for line in lines:
+            for x, y in line:
+                px[x, y] = OUTLINE[:3] + (235,)
+        for line in lines:
+            for x, y in line:
+                if x + 1 < w and px[x + 1, y][3] == 0:
+                    px[x + 1, y] = (206, 166, 106, 120)  # kırık kenar ışığı
+        if len(branches) == 3:
+            # Kopmuş parça çukuru: koyu iç, üst kenarı gölgede, alt kenarı ışıkta.
+            for x, y, a in ((6, 7, 235), (7, 6, 235), (6, 8, 235), (8, 7, 200), (7, 9, 200)):
+                px[x, y] = (34, 22, 37, a)
+            px[8, 8] = (206, 166, 106, 140)
+            px[7, 10] = (206, 166, 106, 140)
+        frames.append(img)
+    return strip_frames(frames)
+
+
+def make_kiymik(rnd):
+    """Kırılma kıymıkları (4 parça × 7×7): rastgele köşeli kırık parça, nötr açık rampada;
+    oyunda malzeme rengiyle çarpılır (modulate), ışık/gölge malzemenin tonunda kalır.
+    Işık sol üst yüzde, kontur koyu mor."""
+    n = 7
+    frames = []
+    for f in range(4):
+        img = Image.new("RGBA", (n, n), (0, 0, 0, 0))
+        px = img.load()
+        base = rnd.random() * math.tau
+        pts = []
+        for k in range(5):
+            an = base + k * math.tau / 5 + (rnd.random() - 0.5) * 0.7
+            r = 2.4 + rnd.random() * 0.9
+            pts.append((3.0 + math.cos(an) * r, 3.0 + math.sin(an) * r))
+        for y in range(n):
+            for x in range(n):
+                cx, cy = x + 0.0, y + 0.0
+                inside = all((bx - ax) * (cy - ay) - (by - ay) * (cx - ax) >= -0.2
+                             for (ax, ay), (bx, by) in zip(pts, pts[1:] + pts[:1]))
+                if inside:
+                    lv = 0.95 - (x + y) * 0.07
+                    px[x, y] = pick(SHARD, lv, rnd, 0.2) + (255,)
+        outline(img)
+        frames.append(img)
+    return strip_frames(frames)
+
+
 def main():
     rnd = random.Random(7)
     make_varil(rnd).save(OUT + "varil.png")
@@ -1992,6 +2057,8 @@ def main():
     riot_shield(random.Random(181), True).save(OUT + "kalkan_kirik.png")
     make_sancak(random.Random(191)).save(OUT + "sancak.png")
     make_tufek_ikon(random.Random(197)).save("assets/pickups/placeholder_rifle.png")
+    make_catlak(random.Random(199)).save(OUT + "catlak.png")
+    make_kiymik(random.Random(211)).save(OUT + "kiymik.png")
 
 
 if __name__ == "__main__":

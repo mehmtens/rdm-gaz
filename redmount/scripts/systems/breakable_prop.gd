@@ -21,17 +21,19 @@ const LOOT := {
 		"res://scenes/pickups/AnahtarPickup.tscn", "res://scenes/pickups/SemsiyePickup.tscn"]},
 }
 const VASE_SMALL := preload("res://assets/environment/mahalle/vase_small.png")
-const VASE_BIG := preload("res://assets/environment/mahalle/vase_big.png")
-const VASE_IZNIK := preload("res://assets/environment/mahalle/vase_iznik_v2.png")
 const CRATE := preload("res://assets/environment/mahalle/crate_wood_v2.png")
 const CHEST := preload("res://assets/environment/mahalle/chest_ottoman_v2.png")
 const POTS := preload("res://assets/environment/kit/pots.png")
-## Varsayılan sanat: setteki piksel çizimler (tüp / varil prosedürel kalır).
+## Varsayılan sanat: setteki piksel çizimler (her tür PNG; kodla çizim yok).
 const DEFAULT_ART := {"vazo": VASE_SMALL, "saksi": POTS, "kasa": CRATE, "sandik": CHEST,
 	"varil": preload("res://assets/environment/pixel/varil.png"),
 	"tup": preload("res://assets/environment/pixel/tup.png"),
 	"patlayici": preload("res://assets/environment/pixel/patlayici.png")}
 const BOOM := preload("res://assets/environment/pixel/patlama.png")
+## Temas gölgesi, hasar çatlağı (3 aşama, 12x16) ve kıymık (4 parça, 7x7) piksel dokuları.
+const GOLGE := preload("res://assets/environment/pixel/golge.png")
+const CATLAK := preload("res://assets/environment/pixel/catlak.png")
+const KIYMIK := preload("res://assets/environment/pixel/kiymik.png")
 ## Patlama yarıçapı (px) ve hasarı: düşmana tam, oyuncuya hafif.
 const BLAST_RADIUS := 180.0
 const BLAST_DAMAGE := 45
@@ -265,146 +267,40 @@ func _draw() -> void:
 	if _data.is_empty():
 		return
 	var size := _size()
-	var body: Color = _data["body"]
-	var trim: Color = _data["trim"]
 	# Hasar aldıkça koyulaşır; son darbede belirgin biçimde yıpranmış görünür.
 	var wear := 1.0 - float(_hp) / float(_max_hp)
-	body = body.darkened(wear * 0.22)
 	var off := Vector2(sin(_shake * 5.0) * _shake * 0.5, 0)
 	draw_set_transform(off, 0.0, Vector2.ONE)
 
-	# Temas gölgesi — kap zemine oturmuş görünsün.
-	draw_colored_polygon(_ellipse(Vector2(0, -3), size.x * 0.52, 8.0),
-		Color(0.04, 0.04, 0.08, 0.35))
+	# Temas gölgesi — kap zemine oturmuş görünsün (karakterlerle aynı piksel dither).
+	var gw := size.x * 1.04
+	var gh := gw * GOLGE.get_height() / GOLGE.get_width()
+	draw_texture_rect(GOLGE, Rect2(-gw * 0.5, -3.0 - gh * 0.5, gw, gh), false)
 
-	if art != null:
-		var dst := Rect2(Vector2(-size.x * 0.5, -size.y), size)
-		var tint := Color.WHITE.darkened(wear * 0.22)
-		if ART_REGION.has(kind):
-			draw_texture_rect_region(art, dst, ART_REGION[kind], tint)
-		else:
-			draw_texture_rect(art, dst, false, tint)
-		_draw_cracks(size, wear)
+	if art == null:
 		return
-
-	match kind:
-		"saksi":
-			_draw_saksi(size, body, trim)
-		"vazo":
-			_draw_vazo(size, body, trim)
-		"kasa":
-			_draw_kasa(size, body, trim)
-		"tup":
-			_draw_tup(size, body, trim)
-		"varil":
-			_draw_varil(size, body, trim)
-		"sandik":
-			_draw_sandik(size, body, trim)
-
+	var dst := Rect2(Vector2(-size.x * 0.5, -size.y), size)
+	var tint := Color.WHITE.darkened(wear * 0.22)
+	if ART_REGION.has(kind):
+		draw_texture_rect_region(art, dst, ART_REGION[kind], tint)
+	else:
+		draw_texture_rect(art, dst, false, tint)
 	_draw_cracks(size, wear)
 
 
 ## Kalan dayanıklılık çatlak olarak okunur: 1 darbelik kap çatlaksız, sağlam kap
-## kırılmadan önce ilerleyen çatlaklarla oyuncuya "bir vuruş daha" der.
+## kırılmadan önce büyüyen piksel çatlakla (3 aşama) oyuncuya "bir vuruş daha" der.
 func _draw_cracks(size: Vector2, wear: float) -> void:
 	if wear <= 0.0:
 		return
-	var rng := RandomNumberGenerator.new()
-	rng.seed = int(_seed * 1000.0)
-	var lines := int(wear * 5.0) + 1
-	for i in lines:
-		var x := rng.randf_range(-size.x * 0.32, size.x * 0.32)
-		var y := rng.randf_range(-size.y * 0.78, -size.y * 0.2)
-		var pts := PackedVector2Array([
-			Vector2(x, y),
-			Vector2(x + rng.randf_range(-9, 9), y + 13),
-			Vector2(x + rng.randf_range(-11, 11), y + 27),
-		])
-		# Piksel çatlak: 3 px'lik kareler (çizgi değil), ızgaraya oturur.
-		for k in 2:
-			var a := pts[k]
-			var b := pts[k + 1]
-			for t in 6:
-				var q := a.lerp(b, float(t) / 5.0)
-				draw_rect(Rect2(roundf(q.x / 3.0) * 3.0, roundf(q.y / 3.0) * 3.0, 3.0, 3.0), Color(0.06, 0.05, 0.09, 0.8))
-
-
-func _draw_vazo(size: Vector2, body: Color, trim: Color) -> void:
-	var texture: Texture2D = VASE_IZNIK if _max_hp >= 3 else (VASE_BIG if _max_hp == 2 else VASE_SMALL)
-	var source := Rect2(97, 86, 879, 1333) if _max_hp >= 3 else (Rect2(0, 0, VASE_BIG.get_width(), VASE_BIG.get_height()) if _max_hp == 2 else Rect2(0, 0, 52, 79))
-	draw_texture_rect_region(texture, Rect2(-size.x * 0.5, -size.y, size.x, size.y), source)
-
-
-func _draw_saksi(size: Vector2, body: Color, trim: Color) -> void:
-	var h := size.y
-	var w := size.x
-	draw_colored_polygon(PackedVector2Array([
-		Vector2(-w * 0.38, -h * 0.72), Vector2(w * 0.38, -h * 0.72),
-		Vector2(w * 0.28, 0), Vector2(-w * 0.28, 0),
-	]), body)
-	draw_rect(Rect2(-w * 0.44, -h * 0.82, w * 0.88, 13), trim)
-	# Sardunya: gövdeden taşan birkaç yaprak + kırmızı çiçek.
-	var leaf := Color(0.29, 0.52, 0.28)
-	for i in 5:
-		var a := -PI * 0.5 + (float(i) - 2.0) * 0.42
-		var tip := Vector2(cos(a), sin(a)) * (h * 0.42)
-		draw_line(Vector2(0, -h * 0.78), Vector2(0, -h * 0.78) + tip, leaf, 5.0)
-		draw_circle(Vector2(0, -h * 0.78) + tip, 7.0, leaf.lightened(0.15))
-	draw_circle(Vector2(0, -h * 1.18), 8.0, Color(0.82, 0.29, 0.31))
-
-
-func _draw_kasa(size: Vector2, body: Color, trim: Color) -> void:
-	draw_texture_rect_region(CRATE, Rect2(-size.x * 0.5, -size.y, size.x, size.y), Rect2(226, 192, 895, 783))
-
-
-func _draw_tup(size: Vector2, body: Color, trim: Color) -> void:
-	var h := size.y
-	var w := size.x
-	var edge := Color("312c2c")
-	draw_rect(Rect2(-w * 0.46, -h * 0.87, w * 0.92, h * 0.84), edge)
-	draw_rect(Rect2(-w * 0.4, -h * 0.83, w * 0.8, h * 0.76), body)
-	draw_rect(Rect2(-w * 0.4, -h * 0.83, 6, h * 0.76), body.lightened(0.22))
-	draw_rect(Rect2(w * 0.24, -h * 0.83, 8, h * 0.76), body.darkened(0.28))
-	draw_rect(Rect2(-w * 0.34, -h * 0.94, w * 0.68, 8), edge)
-	draw_rect(Rect2(-w * 0.25, -h, w * 0.5, 6), Color("91867a"))
-	draw_rect(Rect2(-w * 0.11, -h * 1.05, w * 0.22, 5), edge)
-	draw_rect(Rect2(-w * 0.4, -h * 0.58, w * 0.8, 17), edge)
-	draw_rect(Rect2(-w * 0.34, -h * 0.54, w * 0.68, 9), trim)
-	draw_rect(Rect2(-w * 0.15, -h * 0.51, w * 0.3, 4), body.darkened(0.5))
-	draw_rect(Rect2(-w * 0.35, -h * 0.08, w * 0.7, 5), edge)
-
-
-func _draw_varil(size: Vector2, body: Color, trim: Color) -> void:
-	var h := size.y
-	var w := size.x
-	var edge := Color("252b30")
-	draw_rect(Rect2(-w * 0.5, -h * 0.91, w, h * 0.88), edge)
-	draw_rect(Rect2(-w * 0.44, -h * 0.88, w * 0.88, h * 0.81), body)
-	draw_rect(Rect2(-w * 0.37, -h * 0.84, 7, h * 0.7), body.lightened(0.2))
-	draw_rect(Rect2(w * 0.28, -h * 0.84, 7, h * 0.7), body.darkened(0.3))
-	draw_colored_polygon(_ellipse(Vector2(0, -h * 0.91), w * 0.47, 9), edge)
-	draw_colored_polygon(_ellipse(Vector2(0, -h * 0.92), w * 0.39, 5), body.lightened(0.1))
-	for ry in [-h * 0.78, -h * 0.43, -h * 0.12]:
-		draw_rect(Rect2(-w * 0.48, ry, w * 0.96, 7), edge)
-		draw_rect(Rect2(-w * 0.43, ry + 2, w * 0.86, 2), trim)
-	var rng := RandomNumberGenerator.new()
-	rng.seed = int(_seed * 733.0)
-	for i in 13:
-		var x := rng.randi_range(-int(w * 0.35), int(w * 0.3))
-		var y := rng.randi_range(-int(h * 0.72), -int(h * 0.2))
-		draw_rect(Rect2(x, y, rng.randi_range(3, 8), rng.randi_range(3, 10)), trim.darkened(0.18))
-
-
-func _draw_sandik(size: Vector2, body: Color, trim: Color) -> void:
-	draw_texture_rect_region(CHEST, Rect2(-size.x * 0.5, -size.y, size.x, size.y), Rect2(121, 210, 1197, 704))
-
-
-func _ellipse(center: Vector2, rx: float, ry: float) -> PackedVector2Array:
-	var pts := PackedVector2Array()
-	for i in 20:
-		var a := TAU * float(i) / 20.0
-		pts.append(center + Vector2(cos(a) * rx, sin(a) * ry))
-	return pts
+	var stage := clampi(int(wear * 3.0 - 0.001), 0, 2)
+	# Küçük kapta (tüp, saksı) 2x: 3x'te çatlak bütün gövdeyi kaplıyordu.
+	var cs := Vector2(12.0, 16.0) * (2.0 if size.x < 45.0 else 3.0)
+	# Kaba göre hafif kaydırılır ve yarı yarıya aynalanır: her kap aynı çatlağı taşımasın.
+	var dx := (fmod(_seed, 1.0) - 0.5) * size.x * 0.3
+	var flip := -1.0 if fmod(_seed * 7.0, 2.0) < 1.0 else 1.0
+	var r := Rect2(dx - cs.x * 0.5 * flip, -size.y * 0.55 - cs.y * 0.5, cs.x * flip, cs.y)
+	draw_texture_rect_region(CATLAK, r, Rect2(stage * 12, 0, 12, 16))
 
 
 ## Kırılma parçası — kısa ömürlü, yerçekimli döner kıymık.
@@ -433,10 +329,13 @@ class _Shard extends Node2D:
 		if _life > 0.7:
 			queue_free()
 
+	func _ready() -> void:
+		texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+
 	func _draw() -> void:
-		draw_colored_polygon(PackedVector2Array([
-			Vector2(-6, -5), Vector2(7, -7), Vector2(5, 6), Vector2(-5, 4),
-		]), _color)
+		# Nötr tonlu piksel kıymık, malzeme rengiyle çarpılır (ışık/gölge malzemede kalır).
+		var f := int(absf(_spin) * 10.0) % 4
+		draw_texture_rect_region(KIYMIK, Rect2(-10.5, -10.5, 21, 21), Rect2(f * 7, 0, 7, 7), _color.lightened(0.15))
 
 
 ## Piksel art patlama: 6 kare (40x40 sanat, 4x), sonra kendini siler.

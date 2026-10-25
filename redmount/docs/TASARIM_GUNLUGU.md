@@ -31,6 +31,31 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-10-25 (12) — Kırılabilir kaplarda kodla çizim kalmadı (stil listesi 2/breakable_prop)
+
+**Neden şimdi:** Stil listesi 2'nin sıradaki maddesi. Her kırılabilir kabın altında
+`draw_colored_polygon` elips gölge, hasar çatlakları 3 px `draw_rect` kareleri, kırılma
+kıymıkları düz renkli dörtgen çokgendi; `_draw_saksi/_vazo/_kasa/_tup/_varil/_sandik`
+yedekleri ise her türün PNG'si olduğu için hiç çalışmayan ölü koddu.
+
+**Oyuncu ne hissedecek:** Kaplar karakterlerle aynı piksel dither gölgeye oturuyor. Vurdukça
+büyüyen çatlak artık el çizimi: koyu mor yarık, kırık kenarında sıcak ışık, son aşamada
+dallanma ve kopmuş parça çukuru (kaba göre kaydırılıp aynalanır; küçük kapta 2x).
+Kırılınca saçılan kıymıklar köşeli piksel parçalar; malzeme rengiyle çarpıldığı için
+toprak saksıdan kiremit, sandıktan ahşap tonunda parça uçuyor.
+
+**Yapılanlar:** `tools/gen_gpt_style_props.py` → `make_catlak` (3×12×16, aşamalar birikimli),
+`make_kiymik` (4×7×7, nötr `SHARD` rampası). `breakable_prop.gd`: `GOLGE/CATLAK/KIYMIK`;
+`_draw` yalnız doku; çatlak aşaması `int(wear*3)`; `_Shard` doku + modulate; ölü yedek
+çizimler, `_ellipse`, kullanılmayan `VASE_BIG/VASE_IZNIK` kaldırıldı (kodla çizim 28 → 0).
+
+**Testler:** `--import` hatasız; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn`
+PASS; `tests/barrel_probe.tscn` (pencereli) düşman 30→0, zincir varil kırıldı; bot Bölüm 1
+(80,8 sn), 2 (74,3 sn), 6 (129,5 sn) CLEARED. 1280×720 ekran görüntüsü (geçici sahne): farklı
+hasar aşamasında tüp/varil/sandık + kırılan kasanın kıymıkları — "ait".
+
+**Sonraki öneri:** Stil listesi 2 — `one_way_platform.gd`, `moving_platform.gd`.
+
 ### 2026-10-25 (11) — Toplanabilir ikonlar tamamen piksel art (stil listesi 2/pickup_icon)
 
 **Neden şimdi:** Stil listesi bölüm 1 bitti; bölüm 2 (kodla çizilen görseller) başladı.
