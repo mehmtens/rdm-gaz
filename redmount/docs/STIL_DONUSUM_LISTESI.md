@@ -35,7 +35,7 @@ PNG piksel art'a taşınacak. Satır sayıları 25 Ekim taramasından.
 - [x] `scripts/systems/breakable_prop.gd` (28) — saksı/tüp/varil yedek çizimleri, kıymık (26059c44)
 - [x] `scripts/systems/one_way_platform.gd` (13), `moving_platform.gd` (9) — direk/kuşak/kenar/makara dokuları (03b9a28e)
 - [x] `scripts/systems/level_shop.gd` (9) — fiyat levhası, rozet, PixelUI panel (1afcba48)
-- [ ] `scripts/characters/char_rig.gd` (42), `weapon_visual.gd` (5) — gerçekten görsel mi, yoksa hata ayıklama mı kontrol et
+- [x] `scripts/characters/char_rig.gd` (42), `weapon_visual.gd` (5) — ölü kod (hiç yüklenmiyor), silindi (ea5eda26)
 - [ ] diğerleri (1–3 satır): dtm_level, story_blockout, backdrop, main_menu, ui_style, level02/04/11_redesign, fx
 
 ## 3. Silah ve karakter ekleri (otomasyonun 23–25 Ekim üretimi)
