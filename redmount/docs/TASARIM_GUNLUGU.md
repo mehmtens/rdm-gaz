@@ -31,6 +31,29 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-10-26 (9) — Menü ve dokunmatik düğmeler ChatGPT tarzında (stil listesi 5/düğmeler)
+
+**Neden şimdi:** Stil listesi 5'te "mobilde sürekli ekranda, yüksek öncelik" diye işaretli
+madde. Menü düğmeleri düz renk gövde + tek renk altın çizgi, dokunmatik daireler düz mürdüm
+disk + 4 sabit altın tonuydu.
+
+**Oyuncu ne hissedecek:** Telefonda başparmağın altındaki halkalar artık sahnedeki fener
+pirinciyle aynı: açıya göre gölgelenen pirinç halka (sol üst sıcak, sağ alt ay ışığı), yarı
+saydam mürdüm gövdede hafif doku; basınca içe gömülen ateş rengi. Menü düğmeleri ahşap/lake
+levha: üst/sol pah ışıkta, basılıyken ters, içte ışık-gölgeli altın çizgi; devre dışı soğuk
+demir. İkonlar (ok, duraklat) krem rampa.
+
+**Yapılanlar:** `tools/gen_pixel_touch.py` yerinde ChatGPT kurallarına çevrildi (boyutlar,
+saydamlık ve basılı/normal mantığı aynı). Menü düğmeleri `tools/gen_gpt_style_ui.py`
+`dugmeler()`'e taşındı; `gen_pixel_ui.py`'deki eski `buttons()` silindi.
+
+**Testler:** `--import` hatasız; `touch_polish`, `level_stars` PASS; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn` PASS; bot Bölüm 1 (82,6 sn), 13 (75,7 sn), 25 (77,2 sn) CLEARED. Görsel: ana menü ve `REDMOUNT_TOUCH_CONTROLS=1` ile Bölüm 13
+dokunmatik düzeni 1280×720 — "ait", yazılar ve ikonlar okunuyor. Basılı hâl yalnız doku
+önizlemesinde görüldü (çekimde dokunuş üretilmedi).
+
+**Sonraki öneri:** Stil listesi 5 — ikonlar (coin, kilit, film, pip, yıldız, ikon_*, odak,
+tutamaç, çubuk).
+
 ### 2026-10-26 (8) — Arayüz çerçeveleri ChatGPT tarzında (stil listesi 5/çerçeveler)
 
 **Neden şimdi:** Stil listesi 5'in ilk maddesi. Panel, HUD paneli, bölüm kartı, kitap

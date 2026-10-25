@@ -56,21 +56,6 @@ def panel():
     save(h, "panel_hud.png")
 
 
-def buttons():
-    states = {
-        "button_normal": ((92, 56, 32, 255), "wood2", "wood0"),
-        "button_hover": ((150, 52, 34, 255), "red3", "red0"),
-        "button_pressed": ((96, 30, 22, 255), "red0", "red2"),
-        "button_disabled": ((50, 44, 52, 255), "grey1", "grey0"),
-    }
-    for name, (fill, hi, lo) in states.items():
-        c = Canvas(18, 14)
-        _frame(c, 18, 14, fill, hi, lo, gold=False)
-        if name != "button_disabled":
-            c.hline(3, 14, 3, "gold1" if name != "button_pressed" else "gold0")
-        save(c, (name + ".png"))
-
-
 def bubble():
     c = Canvas(18, 18)
     _frame(c, 18, 18, "white", "white", "cream", gold=False)
@@ -119,8 +104,7 @@ def knob():
 
 if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
-    # panel / panel_hud / balon* artık tools/gen_gpt_style_ui.py'de (ChatGPT tarzı).
-    buttons()
+    # panel / panel_hud / balon* / button_* artık tools/gen_gpt_style_ui.py'de (ChatGPT tarzı).
     bars()
     knob()
     print("ok")

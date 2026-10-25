@@ -16,7 +16,7 @@ from pathlib import Path
 
 from PIL import Image
 
-from gen_gpt_style_props import BRASS, IRON, MOON, OUTLINE, RED, mix, pick
+from gen_gpt_style_props import BRASS, IRON, MOON, OUTLINE, RED, STEEL, WOOD, mix, pick
 
 OUT = Path(__file__).resolve().parent.parent / "assets" / "ui" / "pixel"
 SCALE = 3
@@ -178,7 +178,45 @@ def balon():
     save(n, "balon_ad.png")
 
 
+def dugmeler():
+    ## Menü düğmesi (18×14, pay 4): lake/ahşap gövde, üst/sol pah ışıkta (basılıyken ters),
+    ## içte altın çizgi; devre dışı soğuk demir.
+    states = (("button_normal", WOOD, 0.42, False, 443), ("button_hover", RED, 0.6, False, 449),
+              ("button_pressed", RED, 0.32, True, 457), ("button_disabled", STEEL, 0.3, False, 461))
+    for name, ramp, base, sunk, seed in states:
+        rnd = random.Random(seed)
+        img = Image.new("RGBA", (18, 14), (0, 0, 0, 0))
+        px = img.load()
+        for y in range(14):
+            for x in range(18):
+                edge = x in (0, 17) or y in (0, 13)
+                if edge:
+                    if not (x in (0, 17) and y in (0, 13)):
+                        px[x, y] = OUTLINE
+                    continue
+                v = base + (0.06 if y < 7 else -0.04) + (rnd.random() - 0.5) * 0.06
+                ring = min(x, y, 17 - x, 13 - y)
+                if ring == 1:
+                    lit = (y == 1 and x < 16) or (x == 1 and y < 12)
+                    if sunk:
+                        lit = not lit
+                    v = base + (0.32 if lit else -0.22)
+                c = pick(ramp, v, rnd, 0.2)
+                if ring == 1 and v > base and x < 7:
+                    c = mix(c, WARM, 0.2)
+                if x == 16 and 1 < y < 12:
+                    c = mix(c, MOON, 0.25)
+                px[x, y] = c + (255,)
+        if name != "button_disabled":
+            for x in range(3, 15):
+                v = (0.82 if not sunk else 0.5) - (x - 3) * 0.025
+                c = pick(BRASS, v, rnd, 0.2)
+                px[x, 3] = (mix(c, WARM, 0.25) if x < 7 else c) + (255,)
+        save(img, name + ".png")
+
+
 if __name__ == "__main__":
+    dugmeler()
     panels()
     kartlar()
     sekmeler()
