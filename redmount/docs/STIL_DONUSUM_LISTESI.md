@@ -59,7 +59,7 @@ ChatGPT tarzına yaklaştır: aynı mor gölge / altın ışık rampası, doku, 
 - [x] panel, panel_hud, kart, kart_kilitli, sekme, sekme_secili, balon* — çerçeveler (13fd5834)
 - [x] button_* , touch_* — düğmeler (mobilde sürekli ekranda; yüksek öncelik) (ac3b2de5)
 - [x] coin, kilit, film, pip_*, yildiz_*, ikon_*, odak, tutamac, cubuk_* — ikonlar (5c301dc2)
-- [ ] logo, logo_alt
+- [x] logo, logo_alt (ea69219c)
 - [ ] portre_* — ChatGPT karakter portresinden mi? kontrol et; Claude çizimiyse dönüştür
 
 ## 6. Kontrol edilecek (ChatGPT kaynaklı olabilir — ChatGPT ise dokunma)
