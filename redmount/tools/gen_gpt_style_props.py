@@ -12,7 +12,8 @@ Kural seti (assets/backgrounds ve book03_final_* sayfalarından ölçüldü):
 
 Çıktı: assets/environment/pixel/{varil,patlayici,parmaklik,parmaklik_tepe,tup,
 fener,fener_hale,asma_lamba,on_kolon,on_kolon_bas,on_kolon_kaide,on_sarmasik,zincir,halat,kum_torbasi,tas_blok,raf,kaset,cerceve,
-diken,alev_izgara,kablo,bomba,bomba_ikaz,alev,kivilcim,patlama}.png
+diken,alev_izgara,kablo,bomba,bomba_ikaz,alev,kivilcim,patlama,
+tugla,sivali_tugla,ic_duvar,hatil,ic_pencere,fabrika_pencere,tavan,han_kapisi}.png
 Oyunda 2x NEAREST ölçeklenir (1 sanat pikseli = 2 ekran pikseli).
 """
 import math
@@ -1077,6 +1078,348 @@ def strip_frames(frames):
     return out
 
 
+BRICK = [(20, 10, 22), (40, 18, 28), (62, 28, 32), (84, 38, 36), (106, 52, 42),
+         (128, 68, 50), (152, 90, 62), (182, 122, 82)]
+PLASTER = [(30, 22, 32), (56, 44, 50), (84, 70, 70), (112, 96, 88), (140, 122, 104),
+           (166, 148, 122), (190, 172, 140), (214, 198, 160)]
+WARM_GLASS = [(62, 20, 28), (120, 52, 32), (176, 92, 40), (218, 140, 58), (240, 190, 100),
+              (252, 230, 160)]
+
+
+def make_tugla(rnd):
+    """Fabrika tuğlası (16×16, iki yönde döşenir): şaşırtmalı 4 sıra; her tuğlanın üst
+    kenarı fener ışığında, alt kenarı mor gölgede; derz koyu mor; yer yer is ve kırık."""
+    n = 16
+    img = Image.new("RGBA", (n, n), (0, 0, 0, 0))
+    px = img.load()
+    soot = {(rnd.randrange(4), rnd.randrange(2)) for _ in range(2)}
+    for y in range(n):
+        row, ly = y // 4, y % 4
+        off = 4 if row % 2 else 0
+        for x in range(n):
+            lx = (x + off) % 8
+            bi = ((x + off) // 8 % 2, row)
+            if ly == 3 or lx == 7:
+                px[x, y] = pick(BRICK, 0.05, rnd, 0.3) + (255,)  # derz
+                continue
+            lv = {0: 0.5, 1: 0.36, 2: 0.24}[ly]
+            lv += ((bi[0] * 7 + row * 3) % 5 - 2) * 0.04  # tuğla başına ton farkı
+            if lx == 0:
+                lv += 0.08
+            if lx == 6:
+                lv -= 0.1
+            if (bi[0] * 2 + row % 2, row // 2) in soot:
+                lv -= 0.18  # is lekesi
+            px[x, y] = pick(BRICK, lv, rnd, 0.5) + (255,)
+    # Kırık köşeler.
+    for x, y in ((5, 4), (12, 9), (2, 13)):
+        px[x, y] = BRICK[1] + (255,)
+    return img
+
+
+def make_sivali_tugla(rnd):
+    """Sıvası dökülmüş yama (24×14): düzensiz kenarlı kireç kırığı, içinde tuğla, alt
+    kenarında sıva kalınlığı ışık yakalar, üst iç kenar gölgede."""
+    w, h = 24, 14
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    bricks = make_tugla(random.Random(rnd.random()))
+    bp = bricks.load()
+    for y in range(h):
+        for x in range(w):
+            nx, ny = (x - 11.5) / 12.0, (y - 6.5) / 7.0
+            r = nx * nx + ny * ny + math.sin(x * 1.3 + y * 0.7) * 0.12 + (rnd.random() - 0.5) * 0.1
+            if r > 1.0:
+                continue
+            if r > 0.72:
+                # Sıva kırık kenarı: altta/sağda kalınlık ışıkta, üstte gölgede.
+                c = pick(PLASTER, 0.75 if ny > 0 else 0.3, rnd, 0.3)
+            else:
+                c = bp[x % 16, y % 16][:3]
+                if ny < -0.4:
+                    c = mix(c, (20, 10, 22), 0.35)  # üst iç kenar gölgesi
+            px[x, y] = c + (255,)
+    return img
+
+
+def make_ic_duvar(rnd):
+    """Kireç sıvalı iç duvar (48×32, döşenir; oyunda koyu tonlanır): bulutlu sıva,
+    rutubet lekesi, ince çatlak, alttan yükselen kir. Tekrarı belli olmasın diye
+    özellikler küçük ve dağınık."""
+    w, h = 48, 32
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    for y in range(h):
+        for x in range(w):
+            cloud = (math.sin(x * 0.27 + y * 0.11) + math.sin(x * 0.09 - y * 0.31 + 1.3)) * 0.06
+            lv = 0.58 + cloud + (rnd.random() - 0.5) * 0.08
+            px[x, y] = pick(PLASTER, lv, rnd, 0.4) + (255,)
+    # Rutubet lekesi (yumuşak koyu halka).
+    cx, cy = 34, 20
+    for y in range(h):
+        for x in range(w):
+            d = math.hypot((x - cx) / 7.0, (y - cy) / 5.0)
+            if d < 1.0 and rnd.random() < 0.8:
+                px[x, y] = pick(PLASTER, 0.38 + d * 0.15, rnd, 0.3) + (255,)
+    # İnce çatlak: koyu çizgi + alt yanında ışık.
+    x, y = 9, 4
+    for _ in range(11):
+        if 0 <= x < w - 1 and 0 <= y < h:
+            px[x, y] = PLASTER[1] + (255,)
+            px[x + 1, y] = PLASTER[6] + (255,)
+        y += 1
+        x += rnd.choice((-1, 0, 0, 1))
+    # Sıva kabarması.
+    for x, y in ((22, 9), (23, 9), (22, 10)):
+        px[x, y] = PLASTER[6] + (255,)
+    px[23, 10] = PLASTER[2] + (255,)
+    return img
+
+
+def make_hatil(rnd):
+    """Ahşap hatıl (8×8; yatayda üst 4 satır, dikeyde sol 4–5 sütun kullanılır):
+    koyu meşe, dağınık damar, sol üst kenar ışıkta."""
+    n = 8
+    img = Image.new("RGBA", (n, n), (0, 0, 0, 0))
+    px = img.load()
+    for y in range(n):
+        for x in range(n):
+            lv = 0.32 + (rnd.random() - 0.5) * 0.12
+            if y == 0 or x == 0:
+                lv = 0.62
+            elif y == 3 or x == 4:
+                lv = 0.14  # kirişin alt / dikmenin sağ kenarı gölgede
+            if (x * 3 + y * 5) % 7 == 0 and 0 < x < 4 and 0 < y < 3:
+                lv -= 0.12  # damar
+            px[x, y] = pick(WOOD, lv, rnd, 0.3) + (255,)
+    px[2, 1] = WOOD[1] + (255,)  # budak
+    px[2, 6] = WOOD[1] + (255,)
+    return img
+
+
+def arch_window(w, h, rnd, glass):
+    """Kemerli pencere ortak gövdesi: taş söve (sol üstte ışık, sağda ay), kemer, demir kayıt."""
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    cx = (w - 1) / 2.0
+    r = w / 2.0
+    for y in range(h):
+        for x in range(w):
+            if y < r:
+                d = math.hypot(x - cx, y - r + 0.5) / r
+                if d > 1.0:
+                    continue
+                frame = d > 0.72
+            else:
+                d = abs(x - cx) / r
+                frame = d > 0.72 or y >= h - 3
+            if frame:
+                lv = 0.7 if (x < cx and y < h - 2) else 0.32
+                if y >= h - 3:
+                    lv = 0.8 if y == h - 3 else 0.25  # denizlik
+                c = pick(STONE, lv, rnd, 0.4)
+                if x > w - 3:
+                    c = mix(c, MOON, 0.25)
+            else:
+                c = glass(x, y, d)
+            px[x, y] = c + (255,)
+    outline(img)
+    return img
+
+
+def make_ic_pencere(rnd):
+    """İç mekân penceresi (18×26): taş söveli kemer, dışarıda gece gökyüzü + ay hâlesi,
+    demir kayıt; camın sağ üstünde soğuk yansıma."""
+    w, h = 18, 26
+
+    def glass(x, y, d):
+        if x == 8 or x == 9 or y == 13:
+            return IRON[2]  # kayıt
+        t = y / h
+        c = pick(SEA, 0.7 - t * 0.6, rnd, 0.3)
+        if math.hypot(x - 12, y - 7) < 2.2:
+            c = mix(c, (200, 206, 220), 0.6)  # ay
+        elif rnd.random() < 0.04 and y < 12:
+            c = (200, 206, 220)  # yıldız
+        if x == 11 and 15 <= y <= 19:
+            c = mix(c, MOON, 0.6)  # yansıma
+        return c
+    return arch_window(w, h, rnd, glass)
+
+
+def make_fabrika_pencere(rnd):
+    """Fabrika penceresi (14×20): içeriden yanan sıcak ışık, demir kayıtlar, çatlak cam."""
+    w, h = 14, 20
+
+    def glass(x, y, d):
+        if x in (4, 9) or y in (8, 13):
+            return IRON[1]  # demir kayıt
+        lv = 0.85 - d * 0.35 - (y / h) * 0.25 + (rnd.random() - 0.5) * 0.12
+        return pick(WARM_GLASS, lv, rnd, 0.3)
+    img = arch_window(w, h, rnd, glass)
+    px = img.load()
+    for x, y in ((2, 11), (3, 12)):
+        px[x, y] = WARM_GLASS[1] + (255,)  # kırık cam
+    return img
+
+
+def bx_seed(x, y):
+    return x * 0.7 + y * 1.3
+
+
+def make_tavan(rnd):
+    """Mağara/sarnıç tavanı (48×30): üst 20 satır iki yönde döşenen kaya dolgu (yuvarlak
+    taş kütleleri, alt kenarları gölgede), alt 10 satır sarkıtlı şerit."""
+    w, h = 48, 30
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    blobs = []
+    # Çok sayıda, farklı boyda kütle: 48 piksellik döşeme tekrarı ızgara gibi okunmasın.
+    for _ in range(24):
+        blobs.append((rnd.uniform(0, w), rnd.uniform(0, 20), rnd.uniform(3, 9), rnd.uniform(2.5, 5)))
+    for y in range(20):
+        for x in range(w):
+            best, by = 9.0, 0.0
+            for bx, byc, rx, ry in blobs:
+                for ox in (-w, 0, w):
+                    for oy in (-20, 0, 20):
+                        d = ((x - bx - ox) / rx) ** 2 + ((y - byc - oy) / ry) ** 2
+                        if d < best:
+                            best, by = d, (y - byc - oy) / ry
+            if best > 1.15:
+                c = pick(STONE, 0.1, rnd, 0.3)  # kütleler arası derin çatlak
+            else:
+                lv = 0.42 - by * 0.16 - best * 0.1 + math.sin(bx_seed(x, y)) * 0.04
+                c = pick(STONE, lv, rnd, 0.5)
+            px[x, y] = c + (255,)
+    # Sarkıt şeridi: kalın dolgu, aşağı inen sivri sarkıtlar, uçlarda nem parıltısı.
+    tips = [(x, rnd.randrange(6, 11)) for x in range(3, w, 6)]
+    for y in range(20, h):
+        for x in range(w):
+            on = y < 22
+            side = 0.0
+            for tx, tl in tips:
+                half = 3.0 * max(0.0, 1 - (y - 20) / max(tl, 1)) ** 0.8
+                if abs(x - tx) <= half and y < 20 + tl:
+                    on = True
+                    side = 0.14 if x < tx else (0.02 if x == tx else -0.12)
+            if on:
+                lv = 0.36 - (y - 20) * 0.02 + side
+                px[x, y] = pick(STONE, lv, rnd, 0.4) + (255,)
+    for tx, tl in tips:
+        if 20 + tl - 1 < h:
+            px[tx, 20 + tl - 1] = mix(STONE[5], MOON, 0.5) + (255,)
+    # Kontur yalnız sarkıtların alt hattında.
+    edge = []
+    for y in range(20, h):
+        for x in range(w):
+            if px[x, y][3] and (y == h - 1 or px[x, y + 1][3] == 0):
+                edge.append((x, y))
+    for x, y in edge:
+        if px[x, y][:3] != mix(STONE[5], MOON, 0.5):
+            px[x, y] = OUTLINE
+    return img
+
+
+def make_han_kapisi(rnd):
+    """Han kapısı (86×100): kesme taş cephe, kırmızı-krem almaşık taşlı (ablak) yuvarlak
+    kemer, çift kanatlı ahşap kapı (çivili demir lamalar, pirinç tokmak), üstte kiremit
+    saçak. Işık sol üstten; kemerin içi derin gölge, eşikte AO."""
+    w, h = 86, 100
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    roof_h = 7
+    cx = (w - 1) / 2.0
+    r_out, r_in = 34.0, 27.0
+    spring = 46  # kemer üzengi satırı
+    for y in range(h):
+        for x in range(w):
+            if y < roof_h:
+                # Kiremit saçak: oluklu sıra, alt kenarda koyu gölge şeridi.
+                lv = 0.75 - y * 0.08 + (0.12 if x % 6 < 3 else -0.08)
+                c = pick(RED, lv, rnd, 0.4)
+                if y == roof_h - 1:
+                    c = RED[0]
+                px[x, y] = c + (255,)
+                continue
+            dy = y - spring
+            d = math.hypot(x - cx, dy) if dy < 0 else abs(x - cx)
+            if d <= r_in:
+                continue  # kapı boşluğu: aşağıda doldurulur
+            if d <= r_out and dy < 0:
+                # Almaşık kemer taşları: açıya göre dilim, kırmızı/krem sırayla.
+                ang = math.atan2(-dy, x - cx)
+                k = int(ang / math.pi * 11)
+                ramp = RED if k % 2 else CREAM
+                lv = 0.62 - (d - r_in) / (r_out - r_in) * 0.25
+                if x > cx:
+                    lv -= 0.15
+                if abs((ang / math.pi * 11) - round(ang / math.pi * 11)) < 0.08:
+                    c = OUTLINE[:3]  # taş derzi
+                else:
+                    c = pick(ramp, lv, rnd, 0.4)
+                px[x, y] = c + (255,)
+                continue
+            if abs(x - cx) <= r_out and dy >= 0 and abs(x - cx) > r_in:
+                # Söve ayakları.
+                lv = 0.6 if x < cx else 0.3
+                if (y - spring) % 9 == 0:
+                    c = OUTLINE[:3]
+                else:
+                    c = pick(STONE, lv, rnd, 0.4)
+                px[x, y] = c + (255,)
+                continue
+            # Kesme taş cephe: 9 satırlık şaşırtmalı sıralar.
+            row, ly = (y - roof_h) // 9, (y - roof_h) % 9
+            lx = (x + (7 if row % 2 else 0)) % 14
+            if ly == 8 or lx == 13:
+                c = STONE[1]
+            else:
+                lv = 0.42 + (0.12 if ly == 0 or lx == 0 else 0.0) - (0.1 if ly == 7 else 0.0)
+                lv -= (y / h) * 0.12
+                c = pick(STONE, lv, rnd, 0.5)
+                if x > w - 6:
+                    c = mix(c, MOON, 0.15)
+            px[x, y] = c + (255,)
+    # Kapı kanatları: dikey tahta, iki yatay demir lama, çiviler; ortada derz, tokmaklar.
+    for y in range(roof_h, h):
+        for x in range(w):
+            if px[x, y][3]:
+                continue
+            dy = y - spring
+            d = math.hypot(x - cx, dy) if dy < 0 else abs(x - cx)
+            if d > r_in:
+                continue
+            u = (x - cx) / r_in
+            plank = int(x - cx + 100) % 5
+            lv = 0.36 + (0.12 if plank == 0 else -0.06 if plank == 4 else 0.0) - abs(u) * 0.1
+            if d > r_in - 1.5 and dy < 0:
+                lv -= 0.25  # kemerin iç kenarı gölgede
+            if y < spring - 18:
+                lv -= 0.15  # tepe gölgesi
+            c = pick(WOOD, lv, rnd, 0.5)
+            if abs(x - cx) < 0.6:
+                c = OUTLINE[:3]
+            if y in (spring + 2, spring + 3, h - 14, h - 13):
+                c = pick(IRON, 0.35 if y % 2 == 0 else 0.15, rnd, 0.2)
+                if (x - 3) % 6 == 0 and y in (spring + 2, h - 14):
+                    c = IRON[6]  # çivi başı
+            if y >= h - 3:
+                c = mix(c, (12, 7, 18), 0.5)  # eşik AO
+            px[x, y] = c + (255,)
+    # Pirinç tokmaklar.
+    ky = spring + 14
+    for kx in (int(cx) - 4, int(cx) + 5):
+        for ox, oy, lv in ((0, -1, 0.8), (-1, 0, 0.7), (1, 0, 0.35), (0, 1, 0.25)):
+            px[kx + ox, ky + oy] = pick(BRASS, lv, rnd, 0.1) + (255,)
+        px[kx, ky] = OUTLINE
+    # Eşik taşı.
+    for x in range(int(cx - r_out), int(cx + r_out) + 1):
+        px[x, h - 2] = pick(STONE, 0.7 if x < cx else 0.45, rnd, 0.2) + (255,)
+        px[x, h - 1] = STONE[1] + (255,)
+    return img
+
+
 def main():
     rnd = random.Random(7)
     make_varil(rnd).save(OUT + "varil.png")
@@ -1106,6 +1449,14 @@ def main():
     make_alev(random.Random(73)).save(OUT + "alev.png")
     make_kivilcim(random.Random(79)).save(OUT + "kivilcim.png")
     make_patlama(random.Random(83)).save(OUT + "patlama.png")
+    make_tugla(random.Random(89)).save(OUT + "tugla.png")
+    make_sivali_tugla(random.Random(97)).save(OUT + "sivali_tugla.png")
+    make_ic_duvar(random.Random(101)).save(OUT + "ic_duvar.png")
+    make_hatil(random.Random(103)).save(OUT + "hatil.png")
+    make_ic_pencere(random.Random(107)).save(OUT + "ic_pencere.png")
+    make_fabrika_pencere(random.Random(109)).save(OUT + "fabrika_pencere.png")
+    make_tavan(random.Random(113)).save(OUT + "tavan.png")
+    make_han_kapisi(random.Random(127)).save(OUT + "han_kapisi.png")
 
 
 if __name__ == "__main__":

@@ -31,6 +31,35 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-10-25 (7) — İç mekân, fabrika ve tavan dokuları ChatGPT tarzında (stil listesi 1/iç mekân)
+
+**Neden şimdi:** Stil listesinin sıradaki açık maddesi. Bu dokular en büyük ekran
+alanını kaplar (15 bölümde iç mekân, fabrika blokları, iki mağara bölümünün tüm tavanı,
+dört bölümün han kapısı); eski hâlleri düz gri taş, düz kırmızı tuğla ve düz bej sıvaydı.
+
+**Oyuncu ne hissedecek:** Han kapısı arka plandaki ChatGPT kemeriyle aynı dilde: kırmızı-krem
+almaşık kemer taşları, çivili demir lamalı çift kanat, pirinç tokmak, kiremit saçak, eşikte AO.
+Fabrika tuğlası şaşırtmalı, üst kenarı ışıkta, isli; arka plan tuğlasına göre bir ton
+koyulaştırıldı. Pencereler taş söveli kemer (gece: ay + yıldız; fabrika: içeriden yanan
+sıcak cam, kırık camlı). İç duvar bulutlu kireç sıva, rutubet lekesi, çatlak; sıvası
+dökülmüş yamada tuğla görünür. Tavan düzensiz kaya kütleleri + solu ışıklı, ucu ıslak
+sarkıt saçağı.
+
+**Yapılanlar:** `tools/gen_gpt_style_props.py` → `BRICK/PLASTER/WARM_GLASS` rampaları,
+`make_tugla` (16×16), `make_sivali_tugla` (24×14), `make_ic_duvar` (48×32), `make_hatil` (8×8),
+`arch_window` + `make_ic_pencere` (18×26) / `make_fabrika_pencere` (14×20), `make_tavan`
+(48×30), `make_han_kapisi` (86×100). Ölçüler eskisiyle aynı; kod değişmedi.
+Ekran görüntüsünde düzeltilenler: tuğla ilk hâlinde arka plana göre fazla doygundu;
+tavanın 14 kütlesi 48 pikselde ızgara gibi tekrar ediyordu (24 kütle + düşük kontrast);
+sarkıtlar `x % 5` ışığıyla dikey çizgi gibi okunuyordu (sarkıt başına sol ışık / sağ gölge).
+
+**Testler:** `--import` hatasız; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn`
+PASS; bot Bölüm 2 (77,7 sn), 6 (129,3 sn), 8 (85,9 sn) CLEARED. 1280×720 ekran görüntüleri:
+Bölüm 2 han kapısı + iç mekân, Bölüm 6 fabrika bloğu, Bölüm 8 mağara tavanı — "ait".
+
+**Sonraki öneri:** Stil listesi — set-piece grubu (pres, pres_kol, ray, su_govde, su_yuzey,
+anten, kule_ayak, kule_kulube, ahsap_kat).
+
 ### 2026-10-25 (6) — Tehlike ve efektler ChatGPT tarzında (stil listesi 1/tehlike-efekt)
 
 **Neden şimdi:** Stil listesinin sıradaki açık maddesi. Alev bacası, kopuk kablo, çivi,
