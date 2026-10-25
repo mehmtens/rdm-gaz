@@ -64,6 +64,8 @@ ChatGPT tarzına yaklaştır: aynı mor gölge / altın ışık rampası, doku, 
 
 ## 6. Kontrol edilecek (ChatGPT kaynaklı olabilir — ChatGPT ise dokunma)
 
-- [ ] `environment/kit/*` küçük parçalar, `environment/mahalle/{plant_small,tree_pot,vase_*,wall_*,portrait}`
-- [ ] `ui/comic/*` (kitap şeridi, `tools/gen_comic_panels.py`) — arka plan kesitleri + Claude katmanları; Claude katmanları tarza uymalı
-- [ ] `ui/photos/*` (Kanıt Arşivi, `tools/gen_photos.py`) — arka plan kesitleri; çerçeve/efekt katmanı kontrol
+- [x] `environment/kit/*` küçük parçalar, `environment/mahalle/{plant_small,tree_pot,vase_*,wall_*,portrait}` — hepsi ChatGPT kesiti (binlerce renk), dokunulmadı (f0f83f41)
+- [x] `ui/comic/*` (kitap şeridi, `tools/gen_comic_panels.py`) — arka plan kesitleri + Claude katmanları; Claude katmanları tarza uymalı — defter/not/simit ve çerçeve dönüştürüldü (f0f83f41)
+- [x] `ui/photos/*` (Kanıt Arşivi, `tools/gen_photos.py`) — arka plan kesitleri; çerçeve/efekt katmanı kontrol — çerçeve ve gün damgası dönüştürüldü (f0f83f41)
+
+**Stil uyumu tamam (26 Ekim 2026):** listedeki bütün maddeler dönüştürüldü ya da ChatGPT kaynağı olduğu doğrulandı (f0f83f41).
