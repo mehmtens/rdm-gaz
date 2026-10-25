@@ -31,6 +31,32 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-10-25 (3) — Fener, fener halesi, asma lamba ChatGPT tarzında (stil listesi 1/fener)
+
+**Neden şimdi:** Stil dönüşüm listesinin ilk açık maddesi. Fener 70'ten fazla yerde
+(gece bölümlerinin hepsi) ışık kaynağı; eski çizim düz gri direk + düz sarı cam, hale
+ortası düz bir disk, asma lamba düz turuncu kutuydu.
+
+**Oyuncu ne hissedecek:** Fenerler ChatGPT erzak sayfasındaki pirinç fenerlerin
+akrabası: piramit dövme çatı, pirinç dikmeli kafes, alevden dışa sönen sıcak cam,
+fenere yakın direk ucu sıcak ışık alır, aşağısı karanlık ve paslı bilezikli; halkalı
+kaide zemine AO ile oturur. Hale düz disk değil, 4×4 Bayer dither ile kademeli söner.
+İç mekânda asma lamba artık dikmenin arkasında yarı gizli değil.
+
+**Yapılanlar:** `tools/gen_gpt_style_props.py` → `cage` (ortak kafes), `make_fener`
+(13×60), `make_fener_hale` (48×48, eklemeli karışım için alfa ≤124 — eski en parlak
+120 ile aynı düzey), `make_asma_lamba` (12×14); ölçüler eskisiyle aynı, yerleşim
+değişmedi. `dtm_level.gd`: asma lamba bölme ortası + 120 (= dikme) yerine + 70.
+Diğer proplar deterministik, değişmedi.
+
+**Testler:** `--import` hatasız; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn`
+PASS; bot Bölüm 1 (76,9 sn), 9 (131,3 sn), 13 (80,9 sn), 25 (80,8 sn) CLEARED. Bölüm 3 gece sokağında 1280×720 ekran görüntüsü:
+fener ChatGPT arka planındaki duvar fenerinin yanında "ait"; Bölüm 9 iç mekânında
+asma lamba görünür (iç duvar hâlâ Claude çizimi — listede iç mekân maddesi).
+
+**Sonraki öneri:** Stil listesi — on_kolon, on_kolon_bas, on_kolon_kaide, on_sarmasik,
+zincir, halat.
+
 ### 2026-10-25 (2) — Gaz tüpü ChatGPT temel sanatının tarzında (stil listesi 1/tup)
 
 **Neden şimdi:** Stil dönüşüm listesinin ilk açık maddesi. Tüp 1 ve 2. bölümde sık

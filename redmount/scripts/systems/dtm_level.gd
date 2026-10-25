@@ -1040,11 +1040,12 @@ class _Art extends Node2D:
 						var ty := b - 6.0 - ts.y if pick == 1 else (t + b) * 0.5 - ts.y * 0.5 - 6.0
 						if ts.y < b - t - 6.0:
 							draw_texture_rect(tex2, Rect2(bx - ts.x * 0.5, ty, ts.x, ts.y), false, Color(0.86, 0.82, 0.8))
+						# Lamba bölmenin sol yarısında: dikme (bx+120) ve ortadaki süsle çakışmaz.
 						if b - t > 170.0 and n % 2 == 1:
 							var lsz := PIX_HANG_LAMP.get_size() * PX
 							var cs2 := PIX_CHAIN.get_size() * PX
-							_tiled(PIX_CHAIN, Rect2(bx + 120.0 - cs2.x * 0.5, t - 30.0, cs2.x, 40.0))
-							draw_texture_rect(PIX_HANG_LAMP, Rect2(bx + 120.0 - lsz.x * 0.5, t + 8.0, lsz.x, lsz.y), false)
+							_tiled(PIX_CHAIN, Rect2(bx + 70.0 - cs2.x * 0.5, t - 30.0, cs2.x, 40.0))
+							draw_texture_rect(PIX_HANG_LAMP, Rect2(bx + 70.0 - lsz.x * 0.5, t + 8.0, lsz.x, lsz.y), false)
 						bx += 240.0
 						n += 1
 				var k := 0

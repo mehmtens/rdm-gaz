@@ -10,7 +10,8 @@ Kural seti (assets/backgrounds ve book03_final_* sayfalarından ölçüldü):
   pas akıntısı, boya kalkması; düz renk alan yok.
 - Silüet hacimli (fıçı göbekli), zemine temas eden altta ortam kapanması (AO).
 
-Çıktı: assets/environment/pixel/{varil,patlayici,parmaklik,parmaklik_tepe,tup}.png
+Çıktı: assets/environment/pixel/{varil,patlayici,parmaklik,parmaklik_tepe,tup,
+fener,fener_hale,asma_lamba}.png
 Oyunda 2x NEAREST ölçeklenir (1 sanat pikseli = 2 ekran pikseli).
 """
 import math
@@ -285,6 +286,162 @@ def make_tup(rnd):
     return img
 
 
+# Fener camının içi: kenarda kızıl-kahve, alevin çevresinde altın, çekirdekte krem.
+GLOW = [(62, 20, 28), (110, 40, 30), (166, 72, 36), (210, 112, 48), (236, 156, 70),
+        (248, 196, 110), (255, 228, 160), (255, 244, 206)]
+
+
+def cage(img, rows, half, rnd, posts):
+    """Fener kafesi: sıcak ışıklı cam + koyu demir/pirinç dikmeler. posts: dikme dx'leri.
+    Cam ortadan (alev) dışa doğru söner; sağ kenarda ay ışığı karışmaz (iç ışık baskın)."""
+    px = img.load()
+    w = img.size[0]
+    cx = (w - 1) / 2.0
+    y0, y1 = rows
+    for y in range(y0, y1 + 1):
+        for x in range(w):
+            dx = x - cx
+            if abs(dx) > half:
+                continue
+            if any(abs(dx - p) < 0.6 for p in posts):
+                u = dx / half
+                c = pick(BRASS, light(u) * 0.8 + 0.08, rnd, 0.3)
+                if u > 0.7:
+                    c = mix(c, MOON, 0.3)
+            else:
+                # Alev camın alt-ortasında: ışık oradan yukarı-dışa yayılır.
+                fy = y0 + (y1 - y0) * 0.62
+                d = math.hypot(dx / (half * 0.9), (y - fy) / ((y1 - y0) * 0.75))
+                c = pick(GLOW, 1.0 - d * 0.85, rnd, 0.7)
+            px[x, y] = c + (255,)
+
+
+def make_fener(rnd):
+    """Sokak feneri (13×60): pirinç kafesli cam başlık, piramit dövme çatı, süslü yaka,
+    ince demir direk, halkalı ayak. Fener başı (sanat y≈6) DtmLevel'de node konumudur."""
+    w, h = 13, 60
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    cx = (w - 1) / 2.0
+
+    def half_at(y):
+        if y <= 1:
+            return 0.6  # tepe topuzu
+        if y <= 3:
+            return 1.6 + (y - 2) * 2.0  # piramit çatı
+        if y == 4:
+            return 6.5  # çatı saçağı
+        if y <= 10:
+            return 5.0  # kafes
+        if y == 11:
+            return 5.6  # alt tabla
+        if y <= 13:
+            return 3.6 - (y - 12) * 1.2  # huni
+        if y <= 15:
+            return 2.6 if y == 14 else 1.6  # yaka
+        if y <= 50:
+            return 2.6 if y in (30, 31) else 1.6  # direk + bilezik
+        if y <= 52:
+            return 2.6  # ayak üst halkası
+        if y <= 55:
+            return 3.2 + (y - 53) * 0.7  # ayak gövdesi
+        return 5.6 if y <= 57 else 6.5  # kaide
+
+    for y in range(h):
+        half = half_at(y)
+        if 5 <= y <= 10:
+            continue  # kafes ayrıca
+        for x in range(w):
+            dx = x - cx
+            if abs(dx) > half:
+                continue
+            u = dx / max(half, 0.6)
+            lv = light(u)
+            if y <= 4:
+                # Çatı: üstten sıcak, saçak dudağı parlar, saçağın altı içten aydınlık.
+                c = pick(IRON, lv * 0.75 + (0.35 if y in (0, 4) else 0.12), rnd, 0.35)
+            elif y <= 15:
+                # Tabla ve huni: camın ışığını alttan yakalar (pirinç).
+                c = pick(BRASS, lv * 0.7 + (0.3 if y == 11 else 0.0) - (y - 11) * 0.06, rnd, 0.35)
+            else:
+                # Direk: fenere yakın üst kısım sıcak ışık alır; aşağı indikçe kararır, dipte AO.
+                glow = max(0.0, (24 - y) * 0.03)
+                ao = max(0.0, (y - 55) * 0.09)
+                ring = y in (30, 52, 56)
+                c = pick(IRON, lv * 0.8 + glow - ao + (0.32 if ring else 0.0), rnd, 0.4)
+                if y in (31, 53, 57):
+                    c = pick(IRON, lv * 0.5 - 0.05, rnd, 0.2)  # halka altı gölge
+                elif rnd.random() < 0.05 and 18 <= y <= 50:
+                    c = RUST[rnd.randrange(3)]
+            if u > 0.6 and y > 4:
+                c = mix(c, MOON, 0.3)
+            px[x, y] = c + (255,)
+    cage(img, (5, 10), 5.0, rnd, (-4.0, 0.0, 4.0))
+    # Pas akıntısı: bilezik ve ayak halkasından aşağı.
+    for x, y0 in ((5, 32), (7, 32), (5, 54)):
+        for y in range(y0, y0 + rnd.randrange(2, 6)):
+            if px[x, y][3]:
+                px[x, y] = RUST[y % 3] + (255,)
+    outline(img)
+    return img
+
+
+def make_asma_lamba(rnd):
+    """İç mekân asma lambası (12×14): askı halkası, kubbe kapak, pirinç kafesli cam, alt topuz."""
+    w, h = 12, 14
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    cx = (w - 1) / 2.0
+    halves = {0: 1.6, 1: 1.6, 2: 2.0, 3: 3.6, 4: 6.0, 11: 5.0, 12: 3.0, 13: 1.0}
+    for y, half in halves.items():
+        for x in range(w):
+            dx = x - cx
+            if abs(dx) > half:
+                continue
+            if y == 1 and abs(dx) < 0.6:
+                continue  # halka deliği
+            u = dx / half
+            lv = light(u)
+            if y <= 1:
+                c = pick(IRON, lv * 0.7 + 0.25, rnd, 0.3)
+            elif y <= 4:
+                c = pick(BRASS, lv * 0.75 + (0.3 if y == 4 else 0.05), rnd, 0.35)
+            else:
+                # Alt tabla camın ışığını alır, topuz kararır.
+                c = pick(BRASS, lv * 0.7 + (0.35 if y == 11 else 0.0) - (y - 11) * 0.12, rnd, 0.3)
+            if u > 0.6:
+                c = mix(c, MOON, 0.3)
+            px[x, y] = c + (255,)
+    cage(img, (5, 10), 4.5, rnd, (-4.0, 0.5, 4.5))
+    outline(img)
+    return img
+
+
+def make_fener_hale(rnd):
+    """Fener halesi (48×48, eklemeli karışım): yuvarlak sıcak ışık, 4×4 Bayer dither
+    basamakları; merkezde düz disk yok, ışık alevden dışa doğru kademeli söner."""
+    n = 48
+    img = Image.new("RGBA", (n, n), (0, 0, 0, 0))
+    px = img.load()
+    bayer = [[0, 8, 2, 10], [12, 4, 14, 6], [3, 11, 1, 9], [15, 7, 13, 5]]
+    # (renk, alfa): eklemeli; dışta kızıl, içte altın-krem.
+    levels = [None, ((210, 96, 48), 34), ((236, 132, 60), 56), ((250, 168, 80), 80),
+              ((255, 196, 112), 104), ((255, 218, 150), 124)]
+    c = (n - 1) / 2.0
+    for y in range(n):
+        for x in range(n):
+            r = math.hypot(x - c, (y - c) * 1.08) / (n / 2.0)
+            i = max(0.0, 1.0 - r) ** 1.5 * (len(levels) - 1)
+            base = int(i)
+            if i - base > (bayer[y % 4][x % 4] + 0.5) / 16.0:
+                base += 1
+            base = min(base, len(levels) - 1)
+            if levels[base] is not None:
+                col, a = levels[base]
+                px[x, y] = col + (a,)
+    return img
+
+
 def main():
     rnd = random.Random(7)
     make_varil(rnd).save(OUT + "varil.png")
@@ -292,6 +449,9 @@ def main():
     make_parmaklik(rnd).save(OUT + "parmaklik.png")
     make_parmaklik_tepe(rnd).save(OUT + "parmaklik_tepe.png")
     make_tup(random.Random(11)).save(OUT + "tup.png")
+    make_fener(random.Random(13)).save(OUT + "fener.png")
+    make_fener_hale(random.Random(13)).save(OUT + "fener_hale.png")
+    make_asma_lamba(random.Random(17)).save(OUT + "asma_lamba.png")
 
 
 if __name__ == "__main__":
