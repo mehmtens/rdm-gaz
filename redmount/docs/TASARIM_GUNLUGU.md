@@ -31,6 +31,34 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-10-25 (11) — Toplanabilir ikonlar tamamen piksel art (stil listesi 2/pickup_icon)
+
+**Neden şimdi:** Stil listesi bölüm 1 bitti; bölüm 2 (kodla çizilen görseller) başladı.
+İlk madde `level01_long_route.gd` / `level01_dressing.gd` yalnız eski prototip
+`Level01.tscn`'de kullanılıyor; kampanya (`GameState.LEVELS`, 36 `Bolum*.tscn`) bu sahneyi
+yüklemiyor → oyuncu görmüyor, dönüştürme yapılmadı, madde bu notla kapatıldı.
+Sıradaki `pickup_icon.gd`: her toplanabilirin altında `draw_circle` gölge ve parıltı vardı;
+tüfek toplanabilirinin (`RiflePickup.tscn`) ikonu hâlâ `draw_rect`/`draw_colored_polygon`du.
+
+**Oyuncu ne hissedecek:** Yerdeki eşyaların altında karakterlerinkiyle aynı piksel dither
+gölge; değerli eşyanın arkasında fener hâlesiyle aynı dokuda nabız atan sıcak ışık.
+Tüfek artık tabanca/bıçak/sopa ikonlarıyla aynı yoğunlukta: ceviz dipçik ve el kundağı,
+çelik mekanizma, kavisli şarjör, namlu ağzı parlaması.
+
+**Yapılanlar:** `tools/gen_gpt_style_props.py` → `make_tufek_ikon` (48×48, eksen
+koordinatında tanımlanıp çapraz rasterlenir) → `assets/pickups/placeholder_rifle.png`.
+`pickup_icon.gd`: `ART`'a `rifle`; prosedürel yedek çizimlerin hepsi (`_coin`, `_health`,
+`_ammo`, `_shield`, `_bat`, `_knife`, `_pistol`, `_rifle`, `_glyph`, `_ellipse`; 39 çizim
+çağrısı) kaldırıldı; bilinmeyen tür coin ikonunu kullanır; gölge `golge.png`, parıltı
+`fener_hale.png` (alfa 0,45–0,75 nabız).
+
+**Testler:** `--import` hatasız; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn`
+PASS; bot Bölüm 2 (73,1 sn), 13 (77,4 sn) CLEARED. 1280×720 ekran görüntüsü (geçici sahne,
+Bölüm 2 sokağında tüfek/tabanca/can/coin/bıçak yan yana) — "ait".
+
+**Sonraki öneri:** Stil listesi 2 — `breakable_prop.gd` (saksı/tüp/varil yedek çizimleri,
+kıymık).
+
 ### 2026-10-25 (10) — Kontrol noktası sancağı ChatGPT tarzında; gölge kontrolü (stil listesi 1 tamam)
 
 **Neden şimdi:** Stil listesi bölüm 1'in son iki maddesi. Kaynak kontrolü: `sancak.png`

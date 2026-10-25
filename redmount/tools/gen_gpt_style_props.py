@@ -16,6 +16,7 @@ diken,alev_izgara,kablo,bomba,bomba_ikaz,alev,kivilcim,patlama,
 tugla,sivali_tugla,ic_duvar,hatil,ic_pencere,fabrika_pencere,tavan,han_kapisi,
 pres,pres_kol,ray,su_govde,su_yuzey,anten,kule_ayak,kule_kulube,ahsap_kat,
 kalkan,kalkan_kirik,sancak}.png
+ve assets/pickups/placeholder_rifle.png
 Oyunda 2x NEAREST ölçeklenir (1 sanat pikseli = 2 ekran pikseli).
 """
 import math
@@ -1879,6 +1880,68 @@ def make_sancak(rnd):
     return strip_frames(frames)
 
 
+def make_tufek_ikon(rnd):
+    """Tüfek toplanabilir ikonu (48×48, tabanca/bıçak ikonlarıyla aynı yoğunluk): sol altta
+    ceviz dipçik, çelik mekanizma, kavisli şarjör, ahşap el kundağı, ileri uzanan namlu.
+    Şekil tüfeğin kendi ekseninde (s boyunca, t dik) tanımlanır ve çapraz rasterlenir;
+    ekseninin üst yüzü (t<0) sol üstten gelen fener ışığına bakar."""
+    n = 48
+    img = Image.new("RGBA", (n, n), (0, 0, 0, 0))
+    px = img.load()
+    ox, oy = 3.0, 43.5
+    ang = math.radians(-38)
+    ca, sa = math.cos(ang), math.sin(ang)
+
+    def part(s, t):
+        """(malzeme, ışık) ya da None."""
+        if 0 <= s < 14:
+            half = 4.2 - s * 0.12
+            if -half <= t <= half * 0.9:
+                return WOOD, 0.62 - (t + half) / (2 * half) * 0.5 + (0.1 if s < 1.5 else 0.0)
+        if 12 <= s < 16.5 and 1 <= t <= 8 - (s - 12) * 0.3:
+            return WOOD, 0.3 - (t - 1) * 0.03  # tabanca kabzası
+        if 14 <= s < 29 and -3.2 <= t <= 2.2:
+            lv = 0.78 - (t + 3.2) / 5.4 * 0.6
+            if abs(s - 21) < 0.6:
+                lv -= 0.2  # gövde eki
+            return STEEL, lv
+        if 22 <= s - (t - 2) * 0.35 < 26 and 2 <= t <= 9:
+            return STEEL, 0.32 - (t - 2) * 0.02  # kavisli şarjör
+        if 29 <= s < 38 and -2.2 <= t <= 2.2:
+            ridge = 0.12 if int(s) % 3 == 0 else 0.0
+            return WOOD, 0.56 - (t + 2.2) / 4.4 * 0.45 - ridge
+        if 38 <= s < 51 and -1.2 <= t <= 0.6:
+            return STEEL, 0.85 if t < -0.4 else 0.4
+        if 47.5 <= s < 49 and -3 <= t < -1.2:
+            return STEEL, 0.5  # arpacık
+        if 18 <= s < 21 and -5 <= t < -3.2:
+            return STEEL, 0.55  # gez
+        return None
+    for y in range(n):
+        for x in range(n):
+            dx, dy = x + 0.5 - ox, y + 0.5 - oy
+            # Eksen ölçeği: ikon kutusunu tabanca/bıçak gibi doldursun.
+            s = (dx * ca + dy * sa) / 1.12
+            t = (-dx * sa + dy * ca) / 1.55
+            p = part(s, t)
+            if p is None:
+                continue
+            ramp, lv = p
+            c = pick(ramp, lv, rnd, 0.35)
+            if ramp is WOOD and (int(s * 1.7 + t) % 5 == 0):
+                c = pick(WOOD, lv - 0.15, rnd, 0.2)  # ceviz damarı
+            px[x, y] = c + (255,)
+    # Namlu ağzı parlaması ve mekanizma perçinleri (eksen üzerinde noktalar).
+    for s, t, c in ((50.2, -0.6, STEEL[8]), (24.0, -1.0, BRASS[3]), (17.0, -1.2, STEEL[7]),
+                    (2.0, -2.5, WOOD[8])):
+        x = int(ox + s * 1.12 * ca - t * 1.55 * sa)
+        y = int(oy + s * 1.12 * sa + t * 1.55 * ca)
+        if px[x, y][3]:
+            px[x, y] = c + (255,)
+    outline(img)
+    return img
+
+
 def main():
     rnd = random.Random(7)
     make_varil(rnd).save(OUT + "varil.png")
@@ -1928,6 +1991,7 @@ def main():
     riot_shield(random.Random(181), False).save(OUT + "kalkan.png")
     riot_shield(random.Random(181), True).save(OUT + "kalkan_kirik.png")
     make_sancak(random.Random(191)).save(OUT + "sancak.png")
+    make_tufek_ikon(random.Random(197)).save("assets/pickups/placeholder_rifle.png")
 
 
 if __name__ == "__main__":
