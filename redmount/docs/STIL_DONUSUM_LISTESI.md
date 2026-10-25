@@ -36,7 +36,7 @@ PNG piksel art'a taşınacak. Satır sayıları 25 Ekim taramasından.
 - [x] `scripts/systems/one_way_platform.gd` (13), `moving_platform.gd` (9) — direk/kuşak/kenar/makara dokuları (03b9a28e)
 - [x] `scripts/systems/level_shop.gd` (9) — fiyat levhası, rozet, PixelUI panel (1afcba48)
 - [x] `scripts/characters/char_rig.gd` (42), `weapon_visual.gd` (5) — ölü kod (hiç yüklenmiyor), silindi (ea5eda26)
-- [ ] diğerleri (1–3 satır): dtm_level, story_blockout, backdrop, main_menu, ui_style, level02/04/11_redesign, fx
+- [x] diğerleri (1–3 satır): dtm_level, story_blockout, backdrop, main_menu, ui_style, level02/04/11_redesign, fx — şekiller dokuya; ton katmanları ve Fx.px bilinçli kaldı (bb387ed5)
 
 ## 3. Silah ve karakter ekleri (otomasyonun 23–25 Ekim üretimi)
 
