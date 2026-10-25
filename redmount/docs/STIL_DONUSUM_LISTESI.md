@@ -19,7 +19,7 @@ Her madde: yeniden çiz → oyun içi ekran görüntüsünde ChatGPT arka planı
 - [x] fener, fener_hale, asma_lamba — her bölümde ışık kaynağı (2a8bbb7b)
 - [x] on_kolon, on_kolon_bas, on_kolon_kaide, on_sarmasik, zincir, halat — ön plan (826b52d3)
 - [x] kum_torbasi, raf, kaset, cerceve, tas_blok — siper/dekor (c0d3a221)
-- [ ] diken, alev, alev_izgara, kivilcim, kablo, bomba, bomba_ikaz, patlama — tehlike/efekt
+- [x] diken, alev, alev_izgara, kivilcim, kablo, bomba, bomba_ikaz, patlama — tehlike/efekt (67e753bc)
 - [ ] han_kapisi, ic_duvar, ic_pencere, fabrika_pencere, tavan, tugla, sivali_tugla, hatil — iç mekân
 - [ ] pres, pres_kol, ray, su_govde, su_yuzey, anten, kule_ayak, kule_kulube, ahsap_kat — set-piece
 - [ ] kalkan, kalkan_kirik — Kalkanlı Zabıta
