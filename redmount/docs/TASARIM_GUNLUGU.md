@@ -31,6 +31,44 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-10-26 (5) — Boru anahtarı, şemsiye ve kaldırım taşı ChatGPT tarzında (stil listesi 3)
+
+**Neden şimdi:** Stil listesi 3'ün ilk maddesi. Anahtarın eldeki kareleri sopa
+sayfalarından 4 tonluk düz rampayla (RED/STEEL, siyaha yakın kontur) boyanıyordu;
+yerdeki ikon da 4 tonluk, dokusuz bir çizimdi.
+
+**Oyuncu ne hissedecek:** Elde ve yerde aynı nesne: kırmızı emaye sap (8 ton, gölgesi
+mor bordoya kayar, yer yer kalkmış boyanın altından çelik), dövme çelik baş üstünde pas
+benekleri, ışığa bakan uçta sıcak fener parlaması, sağ kenarda soğuk ay ışığı, koyu mor
+kontur. İlk denemede sap fazla koyu bordoya düştü ve "kırmızı anahtar" okunmuyordu;
+rampa yukarı kaydırıldı (sap `v*0.7+0.28`, baş `v*0.75+0.22`).
+
+**Yapılanlar:** `tools/gen_pixel_weapons.py`: `gen_gpt_style_props` rampaları (`W_RED`,
+`W_STEEL`, `W_RUST`, `W_MOON`, `GPT_OUTLINE`), `_wrench_px` (titreşimli rampa + boya
+kalkması + pas + ışık/ay kenarı), çene de aynı fonksiyonla; `icon_anahtar` yeniden
+çizildi; yalnız anahtarı yeniden üreten `main_anahtar()`. `tools/gen_weapon_mask.py`:
+anahtar artık sabit paletle boyanmadığından kostüm silah işareti = sopa farkı + sopa
+sayfasında saydam olup anahtarda dolu pikseller (çene ve konturu). Yeniden çalıştırınca
+yalnız `anahtar_*` ve `placeholder_anahtar` değişti; diğer sayfaların işaretleri aynı.
+
+**Şemsiye (aynı üretici, aynı tur):** sapı cilalı ahşap (`WOOD`), uç çelik yüksük, kumaş
+yeni 9 tonluk `W_BORDO` (gölge mora, ışık gül-altına); eksene dik her 9 pikselde kıvrım
+oluğu + hemen yanında ışığı yakalayan kıvrım sırtı; ay kenarı. `icon_semsiye` ve
+`main_semsiye()` aynı kurallarla. Şemsiyeye piksel eklenmediği için kostüm işareti sopa
+farkıyla tam kapsanıyor. Üreticinin eklenen-piksel konturu artık koyu mor (12,7,18).
+
+**Kaldırım taşı (aynı üretici):** 4 tonlu düz gri yerine 9 tonluk `W_BAZALT` (gölge
+mor-laciverte, üst yüz sıcak); şablon tonuna sol üst ışık eğimi, gözenek benekleri, sağ
+kenarda ay ışığı; yığının dibinde harç kırıntısı + yosun; kontur koyu mor. Elde taş
+(`tas_idle/walk`), yerdeki yığın ve uçan mermi aynı `_stone_col` ile.
+
+**Testler:** `--import` hatasız; `new_melee_weapons`, `costumes`, `costume_accessory` PASS; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn` PASS; bot Bölüm 1 (77,8 sn), 13 (81,3 sn), 25 (80,9 sn) CLEARED. (İlk koşu sırasında `gen_costume_accessory.py --preview` yanlışlıkla tam üreticiyi çalıştırıp çapa tablosunu yeniden yazdı; geri alındı, silah sayfaları yeniden üretildi ve testler temiz koşturuldu.) Görsel: Bölüm 13 (Haliç) pencereli çekiminde yerdeki ikon "ait";
+oyuncu giriş sahnesinde yürüdüğü için silah elde çekilemedi — saldırı kareleri aynı
+arka plan kesitine oyun ölçeğinde (0,6) bindirilerek kontrol edildi (şemsiye ve taş da:
+elde taş, uçan mermi, yerdeki yığın) — "ait".
+
+**Sonraki öneri:** Stil listesi 3 — kostüm başlıkları (`anim/costume_acc/*`).
+
 ### 2026-10-26 (4) — Kalan kodla şekil çizimleri dokuya (stil listesi 2/diğerleri — bölüm tamam)
 
 **Neden şimdi:** Stil listesi 2'nin son maddesi. Kalan şekiller: eski bölümlerde

@@ -277,6 +277,10 @@ def process_melee() -> dict:
 		for w in ("anahtar", "semsiye"):
 			px = _load(w + "_" + s)
 			pal = np.isin(_key(px), keys) & (px[..., 3] >= 128)
+			if w == "anahtar":
+				# ChatGPT tarzı anahtar rampa + titreşimle boyanır (sabit palet yok): çene
+				# ve konturu, sopa sayfasında saydam olup burada dolu olan piksellerdir.
+				pal = (px[..., 3] >= 128) & (bat[..., 3] < 128)
 			out[w + "_" + s] = _mark(w + "_" + s, px, diff | pal)
 		px = _load("knife_" + s)
 		m = knife_mask(px)
