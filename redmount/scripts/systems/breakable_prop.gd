@@ -60,11 +60,11 @@ const KINDS := {
 		"body": Color("d2662f"), "trim": Color("f2e8cf"), "mat": "metal",
 	},
 	"varil": {
-		"hits": 3, "coins": 7, "size": Vector2(44, 60),
+		"hits": 3, "coins": 7, "size": Vector2(52, 68),
 		"body": Color("45545a"), "trim": Color("a47651"), "mat": "metal",
 	},
 	"patlayici": {
-		"hits": 1, "coins": 0, "size": Vector2(44, 60),
+		"hits": 1, "coins": 0, "size": Vector2(52, 68),
 		"body": Color("b0302a"), "trim": Color("f2c14e"), "mat": "metal",
 	},
 	"sandik": {
