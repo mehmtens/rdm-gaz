@@ -30,8 +30,8 @@ Her madde: yeniden çiz → oyun içi ekran görüntüsünde ChatGPT arka planı
 
 PNG piksel art'a taşınacak. Satır sayıları 25 Ekim taramasından.
 
-- [ ] `scripts/systems/level01_long_route.gd` (77) ve `level01_dressing.gd` (24)
-- [ ] `scripts/pickups/pickup_icon.gd` (39) — pickup ikonları
+- [x] `scripts/systems/level01_long_route.gd` (77) ve `level01_dressing.gd` (24) — yalnız eski prototip `Level01.tscn`, kampanyada yok; dönüştürülmedi
+- [x] `scripts/pickups/pickup_icon.gd` (39) — pickup ikonları (12a92155)
 - [ ] `scripts/systems/breakable_prop.gd` (28) — saksı/tüp/varil yedek çizimleri, kıymık
 - [ ] `scripts/systems/one_way_platform.gd` (13), `moving_platform.gd` (9)
 - [ ] `scripts/systems/level_shop.gd` (9)
