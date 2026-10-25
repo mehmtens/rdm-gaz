@@ -11,7 +11,7 @@ Kural seti (assets/backgrounds ve book03_final_* sayfalarından ölçüldü):
 - Silüet hacimli (fıçı göbekli), zemine temas eden altta ortam kapanması (AO).
 
 Çıktı: assets/environment/pixel/{varil,patlayici,parmaklik,parmaklik_tepe,tup,
-fener,fener_hale,asma_lamba}.png
+fener,fener_hale,asma_lamba,on_kolon,on_kolon_bas,on_kolon_kaide,on_sarmasik,zincir,halat}.png
 Oyunda 2x NEAREST ölçeklenir (1 sanat pikseli = 2 ekran pikseli).
 """
 import math
@@ -442,6 +442,191 @@ def make_fener_hale(rnd):
     return img
 
 
+# Ön plan taşı (kamera önü, karanlıkta kalır): mor gölge, sıcak fener kenarı.
+STONE = [(12, 7, 18), (26, 20, 28), (40, 32, 38), (56, 46, 50), (74, 62, 62),
+         (96, 80, 72), (124, 102, 84), (160, 128, 94), (196, 160, 110)]
+LEAF = [(8, 14, 20), (14, 26, 28), (20, 40, 34), (30, 56, 38), (44, 74, 42),
+        (64, 94, 46), (96, 116, 54), (140, 140, 70)]
+HEMP = [(34, 22, 37), (58, 38, 42), (88, 58, 48), (122, 86, 58), (160, 118, 74),
+        (200, 160, 100)]
+
+
+def outline_sides(img):
+    """Dikey döşenen parça: yalnız sol/sağ dış hatta kontur (üst/alt dikişte çizgi olmasın)."""
+    px = img.load()
+    w, h = img.size
+    edge = []
+    for y in range(h):
+        for x in range(w):
+            if px[x, y][3] and (x == 0 or x == w - 1 or not px[x - 1, y][3] or not px[x + 1, y][3]):
+                edge.append((x, y))
+    for x, y in edge:
+        px[x, y] = OUTLINE
+
+
+def column_px(rnd, x, w, lv_add=0.0):
+    """Ön plan taş kolonunun bir sütun pikseli: yuvarlak gövde, oluklar, sol sıcak kenar."""
+    cx = (w - 1) / 2.0
+    u = (x - cx) / (w / 2.0)
+    lv = light(u) * 0.7 + lv_add
+    flute = (x - 1) % 4 == 0 and 1 < x < w - 2
+    c = pick(STONE, lv - (0.22 if flute else 0.0), rnd, 0.5)
+    if (x - 1) % 4 == 1 and 1 < x < w - 2:
+        c = pick(STONE, lv + 0.12, rnd, 0.3)  # oluk kenarı ışığı
+    if u > 0.75:
+        c = mix(c, MOON, 0.35)
+    return c
+
+
+def make_on_kolon(rnd):
+    """Ön plan taş kolon gövdesi (18×16, dikey döşenir): oluklu, çatlak ve yosun lekeli."""
+    w, h = 18, 16
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    for y in range(h):
+        for x in range(1, w - 1):
+            px[x, y] = column_px(rnd, x, w) + (255,)
+    # Çatlak ve yosun (derz yok: 16 satırlık döşemede tuğla yığını gibi tekrar ederdi).
+    for y, x in ((3, 6), (4, 6), (5, 7), (6, 7), (7, 8)):
+        px[x, y] = STONE[1] + (255,)
+    for x, y in ((3, 13), (4, 14), (3, 15), (12, 9), (13, 10)):
+        px[x, y] = LEAF[3 + rnd.randrange(2)] + (255,)
+    outline_sides(img)
+    return img
+
+
+def make_on_kolon_bas(rnd):
+    """Kolon başlığı (18×10): tabla, yuvarlak boğaz, gövdeye inen halka."""
+    w, h = 18, 10
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    spans = {0: (0, 18), 1: (0, 18), 2: (0, 18), 3: (1, 17), 4: (2, 16), 5: (2, 16),
+             6: (1, 17), 7: (1, 17), 8: (1, 17), 9: (1, 17)}
+    for y, (a, b) in spans.items():
+        for x in range(a, b):
+            if y <= 2:
+                lv = 0.5 if y == 0 else 0.3 - y * 0.08  # tabla üstü fenerden ışık alır
+                c = pick(STONE, lv + light((x - 8.5) / 9) * 0.25, rnd, 0.4)
+                if x > 15:
+                    c = mix(c, MOON, 0.35)
+            elif y <= 5:
+                c = column_px(rnd, x, w, 0.12 - (y - 3) * 0.08)
+            elif y == 6:
+                c = column_px(rnd, x, w, 0.22)  # halka
+            else:
+                c = column_px(rnd, x, w, -0.04 if y == 7 else 0.0)
+            px[x, y] = c + (255,)
+    outline(img)
+    # Gövdeyle birleşen alt satırın konturunu kaldır (dikiş görünmesin).
+    for x in range(2, 16):
+        px[x, 9] = column_px(rnd, x, w) + (255,)
+    return img
+
+
+def make_on_kolon_kaide(rnd):
+    """Kolon kaidesi (18×10): halka + iki basamaklı kaide, zemine temasta AO."""
+    w, h = 18, 10
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    spans = {0: (1, 17), 1: (1, 17), 2: (1, 17), 3: (0, 18), 4: (0, 18), 5: (0, 18),
+             6: (0, 18), 7: (0, 18), 8: (0, 18), 9: (0, 18)}
+    for y, (a, b) in spans.items():
+        for x in range(a, b):
+            if y <= 2:
+                c = column_px(rnd, x, w, 0.2 if y == 2 else 0.0)
+            else:
+                ao = max(0.0, (y - 6) * 0.1)
+                c = pick(STONE, light((x - 8.5) / 9) * 0.5 + (0.3 if y in (3, 6) else 0.0) - ao, rnd, 0.4)
+                if y == 5:
+                    c = pick(STONE, 0.02, rnd, 0.1)  # basamak gölgesi
+                if x > 15:
+                    c = mix(c, MOON, 0.3)
+                if y >= 7 and rnd.random() < 0.12:
+                    c = LEAF[2 + rnd.randrange(2)]  # dipte yosun
+            px[x, y] = c + (255,)
+    outline(img)
+    for x in range(2, 16):
+        px[x, 0] = column_px(rnd, x, w) + (255,)
+    return img
+
+
+def make_on_sarmasik(rnd):
+    """Ön plan sarmaşık (40×48): üstte yoğun yaprak kümesi, aşağı sarkan dallar.
+    Yaprak 2-3 piksel; sol-üst yaprak kenarı sıcak ışık, alt yüz mor-laciverte kayar."""
+    w, h = 40, 48
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+
+    def leaf(x, y, lv):
+        # Baklava yaprak: sol üst ışık, sağ alt mor gölge, altında koyu kontur pikseli.
+        for dx, dy, add in ((1, 0, 0.15), (0, 1, 0.05), (1, 1, 0.0), (2, 1, -0.15), (1, 2, -0.25)):
+            xx, yy = x + dx, y + dy
+            if 0 <= xx < w and 0 <= yy < h:
+                px[xx, yy] = pick(LEAF, lv + add, rnd, 0.4) + (255,)
+        for xx, yy in ((1 + x, 3 + y), (2 + x, 2 + y)):
+            if 0 <= xx < w and 0 <= yy < h and not px[xx, yy][3]:
+                px[xx, yy] = OUTLINE
+
+    # Sarkan dallar: farklı uzunluk, hafif salınımlı gövde, sık yaprak.
+    for sx in (2, 6, 10, 14, 18, 21, 25, 29, 33, 37):
+        ln = rnd.randrange(16, h - 1)
+        x = sx
+        for y in range(4, ln):
+            if rnd.random() < 0.2:
+                x += rnd.choice((-1, 1))
+            x = min(max(x, 1), w - 2)
+            px[x, y] = pick(LEAF, 0.12, rnd, 0.2) + (255,)
+            if rnd.random() < 0.42:
+                side = rnd.choice((-2, 0))
+                leaf(x + side, y, 0.4 - y / h * 0.25 + (0.1 if side < 0 else -0.05))
+    # Üst küme: tutunduğu kirişin altını kaplar (dalların üstünde çizilir).
+    for _ in range(150):
+        x = rnd.randrange(-1, w - 1)
+        y = int(rnd.random() ** 1.5 * 10)
+        leaf(x, y, 0.5 - y * 0.035 + light((x - 20) / 20) * 0.2)
+    return img
+
+
+def make_zincir(rnd):
+    """Zincir (6×8, dikey döşenir): yüzü dönük oval halka + yandan görülen ince halka."""
+    w, h = 6, 8
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    ring = {1: (1, 5), 2: (0, 6), 3: (0, 6), 4: (0, 6), 5: (1, 5)}
+    for y, (a, b) in ring.items():
+        for x in range(a, b):
+            if 2 <= x <= 3 and 2 <= y <= 4:
+                continue  # halka deliği
+            u = (x - 2.5) / 3.0
+            lv = light(u) * 0.8 + (0.25 if y == 1 else 0.0) - (0.15 if y == 5 else 0.0)
+            c = pick(IRON, lv, rnd, 0.3)
+            if u > 0.6:
+                c = mix(c, MOON, 0.35)
+            px[x, y] = c + (255,)
+    # Yandan halka: ortada iki piksel, alttan bir sonraki parçanın tepesine bağlanır.
+    for y in (6, 7, 0):
+        px[2, y] = pick(IRON, 0.62, rnd, 0.2) + (255,)
+        px[3, y] = pick(IRON, 0.22, rnd, 0.2) + (255,)
+    px[0, 3] = OUTLINE
+    px[5, 3] = OUTLINE
+    px[1, 1] = OUTLINE
+    px[4, 5] = OUTLINE
+    return img
+
+
+def make_halat(rnd):
+    """Kenevir halat (3×8, dikey döşenir): çapraz bükülmüş üç kol."""
+    w, h = 3, 8
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    for y in range(h):
+        for x in range(w):
+            ph = (y + x) % 4  # çapraz bükülme: kollar sağa yükselen şerit, 8 satırda iki tur
+            lv = [0.68, 0.48, 0.26, 0.04][ph] + (0.1 if x == 0 else -0.12 if x == 2 else 0.0)
+            px[x, y] = pick(HEMP, lv, rnd, 0.2) + (255,)
+    return img
+
+
 def main():
     rnd = random.Random(7)
     make_varil(rnd).save(OUT + "varil.png")
@@ -452,6 +637,12 @@ def main():
     make_fener(random.Random(13)).save(OUT + "fener.png")
     make_fener_hale(random.Random(13)).save(OUT + "fener_hale.png")
     make_asma_lamba(random.Random(17)).save(OUT + "asma_lamba.png")
+    make_on_kolon(random.Random(19)).save(OUT + "on_kolon.png")
+    make_on_kolon_bas(random.Random(19)).save(OUT + "on_kolon_bas.png")
+    make_on_kolon_kaide(random.Random(19)).save(OUT + "on_kolon_kaide.png")
+    make_on_sarmasik(random.Random(23)).save(OUT + "on_sarmasik.png")
+    make_zincir(random.Random(29)).save(OUT + "zincir.png")
+    make_halat(random.Random(31)).save(OUT + "halat.png")
 
 
 if __name__ == "__main__":

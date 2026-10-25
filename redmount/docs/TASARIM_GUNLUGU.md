@@ -31,6 +31,32 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-10-25 (4) — Ön plan kolonu, sarmaşık, zincir, halat ChatGPT tarzında (stil listesi 1/on_kolon)
+
+**Neden şimdi:** Stil listesinin sıradaki açık maddesi. Ön plan kolonları 8 bölümde
+kameranın önünden geçer (4x ölçek, en büyük ekran alanı); eski çizim düz mor tahta +
+turuncu kenar çizgisi, sarmaşık seyrek düz yeşil nokta, halat düz şeritti.
+
+**Oyuncu ne hissedecek:** Sarnıç/kervansaray kolonları arka plandaki ChatGPT
+sütunlarıyla aynı gri-kahve taş: oluklu yuvarlak gövde, sol kenarda sıcak fener ışığı,
+sağda ay ışığı, damar çatlağı ve yosun, basamaklı kaidede AO. Sarmaşık dolgun baklava
+yapraklı (ışık sol üstte, gölge mor-yeşil); zincirde halka deliği okunuyor; asma
+platform halatı çapraz bükülmüş kenevir.
+
+**Yapılanlar:** `tools/gen_gpt_style_props.py` → `STONE/LEAF/HEMP` rampaları,
+`outline_sides` (dikey döşenen parçada üst/alt dikişte kontur yok), `make_on_kolon`
+(18×16, döşenir), `make_on_kolon_bas`, `make_on_kolon_kaide` (18×10, gövdeye dikişsiz),
+`make_on_sarmasik` (40×48), `make_zincir` (6×8, döşenir), `make_halat` (3×8). Ölçüler
+eskisiyle aynı; kod değişmedi.
+İlk denemede taş rampası morumsuydu ve 16 satırlık derz tekrarlanınca kolon tuğla yığını
+gibi okunuyordu (ekran görüntüsünde fark edildi): rampa nötrleştirildi, derz kaldırıldı.
+
+**Testler:** `--import` hatasız; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn`
+PASS; bot Bölüm 14 (95,9 sn), 15 (87,1 sn), 29 (86,4 sn) CLEARED. 1280×720 ekran görüntüleri: Bölüm 15 sarnıcı (kolon), 29 (sarmaşık),
+14 halat atölyesi (zincir + asma platform halatı) — "ait".
+
+**Sonraki öneri:** Stil listesi — kum_torbasi, raf, kaset, cerceve, tas_blok.
+
 ### 2026-10-25 (3) — Fener, fener halesi, asma lamba ChatGPT tarzında (stil listesi 1/fener)
 
 **Neden şimdi:** Stil dönüşüm listesinin ilk açık maddesi. Fener 70'ten fazla yerde
