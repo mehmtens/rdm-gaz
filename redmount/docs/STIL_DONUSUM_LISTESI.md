@@ -15,7 +15,7 @@ Her madde: yeniden çiz → oyun içi ekran görüntüsünde ChatGPT arka planı
 ## 1. Oyun alanı propları — `assets/environment/pixel/` (Claude çizimi, 8–96 px)
 
 - [x] varil, patlayici, parmaklik, parmaklik_tepe (e785cec4)
-- [ ] tup (gaz tüpü) — BreakableProp, birçok bölümde
+- [x] tup (gaz tüpü) — BreakableProp, birçok bölümde (ba989e3f)
 - [ ] fener, fener_hale, asma_lamba — her bölümde ışık kaynağı
 - [ ] on_kolon, on_kolon_bas, on_kolon_kaide, on_sarmasik, zincir, halat — ön plan
 - [ ] kum_torbasi, raf, kaset, cerceve, tas_blok — siper/dekor
