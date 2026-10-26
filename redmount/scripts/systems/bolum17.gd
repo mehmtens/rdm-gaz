@@ -1,9 +1,9 @@
 ## Bölüm 17 — Beyazıt Posta Hattı (Kitap 2 / "Haliç'in İzi", 5. bölüm).
 ##
 ## Asıl liste üç mühürlü çuvalın Beyazıt posta binasına teslim edildiğini gösterir.
-## Süleymaniye inişi -> Beyazıt meydanı (arena) -> sahaflar (saçak zinciri, erzak)
-## -> posta dış cephesi (tüfekli, hareketli taşıma yolu) -> tasnif salonu (iki çuval
-## boş) -> telgraf odası (telgraf bandı, seçkin) -> paket geçidi -> çıkış kulesi
+## Süleymaniye inişi -> Beyazıt meydanı (arena, sütun kaidesi siperi) -> sahaflar (saçak
+## zinciri, erzak) -> posta dış cephesi (tüfekli, hareketli taşıma yolu) -> tasnif salonu
+## (iki çuval boş) -> telgraf odası (telgraf bandı, seçkin) -> paket geçidi -> çıkış kulesi
 ## (son arena, Kapalıçarşı arka hanı fişi). Kâtip'in telgrafı: "Gazeteciyi sustur."
 extends DtmLevel
 
@@ -34,21 +34,24 @@ func _build() -> void:
 	_enemy(KNIFE, 1150, 0)
 	_prop("saksi", 1350)
 
-	# --- 2. Beyazıt meydanı: alçak döşeme, geniş ilk arena ---------------------
+	# --- 2. Beyazıt meydanı: sokak hizasında geniş arena, sütun kaidesi siperi -------
+	# Kitap 2'nin ortak çukur avlusu yerine meydan düz. Sağ yarıda kırık bir sütun
+	# kaidesi: ikinci dalganın tüfeklisine karşı siper, üstü yüksek zemin. Kaide dalga
+	# doğum noktalarının (2125/2250/2500/2750/2875) arasında, kimse taşın içine doğmaz.
 	_checkpoint(1550, 0)
-	_terrain(1700, 1850, 30)
-	_terrain(1850, 3200, 60)
-	_prop("vazo", 1950, 60)
+	_terrain(1700, 3350, 0)
+	_prop("vazo", 1950, 0)
+	_stones(2600, 1, 1)
+	_pickup(COIN, 2645, -135)
 	var sq: BattleArena = ARENA.instantiate()
-	sq.position = Vector2(2500, 60)
+	sq.position = Vector2(2500, 0)
 	sq.gate_left_x = 2000
 	sq.gate_right_x = 3000
-	sq.floor_y = 60
+	sq.floor_y = 0
 	sq.wave1 = _wave(STREET, STREET, KNIFE)
 	sq.wave2 = _wave(RIFLE, SHIELD, STREET)
 	sq.reward = HEALTH
 	add_child(sq)
-	_terrain(3200, 3350, 30)
 
 	# --- 3. Sahaflar: tezgâh geçişi, uzun saçak zinciri; erzak --------------------
 	_terrain(3350, 6200, 0)

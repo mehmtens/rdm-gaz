@@ -41,8 +41,9 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   kanal + üstte 220 px iskele, 4750 kontrol noktası; 18–23'te devamı da aynı (galeri+erzak →
   salon → arena → 200 px kanal → küçük oda → 9300–9350 final). Bölüm başına bir tur, yere özgü
   yeniden düzen. Yapılan: 19 (tur 47, açılış), 23 (tur 48, açılış), 22 (tur 49, açılış),
-  21 (tur 50, açılış), 20 (tur 51, açılış), 18 (tur 52, arena; bedesten zaten özgündü).
-  Sıradaki: 13–17, 24, 25.
+  21 (tur 50, açılış), 20 (tur 51, açılış), 18 (tur 52, arena; bedesten zaten özgündü),
+  17 (tur 53, meydan arenası; sahaflar zaten özgündü). 13 ve 14 zaten farklı. Sıradaki: 25
+  (iskeletin birebir aynısı), sonra 15, 16, 24 (yalnız çukur arena).
 
 - Ön sıra katı evler yalnız 6 bölümde (1, 2, 3, 27, 29, 34; çoğu Kitap 1 Balat — yerine uygun).
   27/29/34'teki 2–3 ev insan testinde yere yabancı görünürse o bölüme özgü cephe çizilmeli
@@ -79,6 +80,27 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (53) — Bölüm 17 Beyazıt meydanı: sokak hizasında arena, sütun kaidesi siperi
+
+**Neden şimdi:** Kitap 2 iskeleti maddesi. Tarama: 13 ve 14 zaten farklı; 17 ve 25 iskeletin
+birebir aynısı, 15/16/24'te yalnız çukur arena kalmış. 17'de sahaflar kesimi zaten kanalsız
+ve saçak zincirli; ortak olan yalnız 60 px çukur meydan.
+
+**Oyuncu ne hissedecek:** Beyazıt kapısının önünde meydan düz. Sağ yarıda 90 px'lik kırık
+sütun kaidesi: ikinci dalganın tüfeklisine karşı siper (düşman mermisi dünyaya çarpıyor —
+`projectile.gd` WORLD maskesi), üstü yüksek zemin ve tepesinde bir altın. Tur 50'de "düz
+zeminde siper yokken tüfekli yalnız bekleme yaratır" gözlemine bu bölümde siperle yanıt.
+
+**Yapılanlar:** `bolum17.gd` bölüm 2 ve başlık yorumu. Kaide 2600–2690: dalga doğum
+noktaları (2125/2250/2500/2750/2875) dışında — tur 52'deki "katı bloğa doğan düşman"
+hatası tekrarlanmasın diye hesaplandı.
+
+**Testler:** import temiz; 36 sahne smoke çıkış 0; DTM GAPS PASS; Bölüm 17 bot başsız 4 koşu
+CLEARED (75,1 / 73,2 / 79,7 / 73,2 sn; en uzun duraklama 12 sn x≈2747 — meydan dövüşünün
+kendisi, eşik 45). Görsel 1280×720: meydan — "ait".
+
+**Sonraki öneri:** Kitap 2 iskeletinde Bölüm 25 (açılışın birebir aynısı + kanal).
 
 ### 2026-10-26 (52) — Bölüm 18 kalpakçılar geçidi: sokak hizasında, tenteden revaka iki katlı arena
 
