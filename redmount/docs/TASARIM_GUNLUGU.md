@@ -7,13 +7,17 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- **[Denetim 26 Ekim, Bölüm 30]** Ön sıra katı evler (`_house`/`A_BUILDING`) 36 bölümde aynı üç
+  Balat evi (artık dört boyayla). Kıyı bölümlerinde (Kitap 3: 29–33) yere özgü ahşap yalı cephesi
+  ChatGPT tarzında çizilmeli. Etki yüksek, maliyet yüksek (büyük sanat).
+- `tests/capture_level.gd` gerçek kaydı kullanıyor (çekimde duraklatma/satın alma kaydı değiştirir);
+  `Save._path` test yoluna alınmalı. Etki düşük, maliyet çok düşük.
+
 - İpucu sırası insan testi: Bölüm 1'de oyuncu hemen koşarsa x=150 "sola bak" (gizli alan) ipucu,
   kart beklerken geçilip x=560 hareket ipucuna yol veriyor. Gizli alan bulma oranı düşerse ipucu
   560'tan sonraya ya da kart süresi (3,6 sn) kısaltılmalı.
 - Kemal Bey'in ayrı görünümü yok (hikâye sahnesi de `elite` kullanıyor); avludaki izleyici siluet
   düşman sanılabilir. İnsan testinde karışıklık görülürse Kemal'e özgü piksel sprite (palto + şapka).
-- **[Denetim 26 Ekim, Bölüm 20]** Coin hatları tasnif salonunda havada düz sıra (5 × 75 px) —
-  formül hissi; hareketli platformun yolunu çizen yay. Etki düşük, maliyet düşük.
 
 - Saldırı uyarısı insan testi: ilk hasarın nedeni (uyarı görüldü mü?) ölçülmeli; MIN_SHOW 0,28 ve
   kırpışma periyodu 0,06 hipotez.
@@ -40,6 +44,36 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (25) — Tasarım denetimi (Bölüm 30) + arka sıra evler varsayılan kapalı
+
+**Neden şimdi:** Birikimin kalanı insan testine bağlı → yeni denetim, Kitap 3'ten Bölüm 30 (bot
+CLEARED, 10007). En büyük bulgu: yavaş kayan arka sıradaki üç genel Balat evi, ChatGPT arka
+planının Beylerbeyi yalılarını, iskele köşkünü ve bahçe merdivenini yarıya kadar örtüyordu — hem
+güzel resmi saklıyor hem yere yanlış mimari koyuyordu.
+
+**Ölçüm:** 36 bölümün her biri iki noktada (x 1500, 4500) arka sıra açık/kapalı çekildi (144
+görüntü, altı kontak sayfası). Her bölümde kapalı hâli eşit ya da daha iyi: Sirkeci garı, Galata,
+Üsküdar şadırvanı, Kapalıçarşı, Anadoluhisarı, yalılar ve iskeleler ortaya çıkıyor; hiçbir yerde
+boşluk açılmıyor (resimler zeminin altına kadar dolu). Bölüm 6–12 zaten kapalıydı.
+
+**Oyuncu ne hissedecek:** Her bölümün arkasında o yerin kendi resmi: Beylerbeyi'nde yalı, Sirkeci'de
+gar, Üsküdar'da şadırvan — "aynı sokak, farklı gökyüzü" hissi gider.
+
+**Yapılanlar:** `DtmLevel.back_row_on` varsayılanı false (gerekçeli yorum), Bölüm 13'ün açık
+`true` satırı kaldırıldı. Kod duruyor; bir bölüm isterse açar. Ön sıradaki katı evler (`_house`,
+`A_BUILDING`) ve tur 21'in sıva boyaları yerinde. Not: tur 21'in boya çeşitlemesi en çok arka sırada
+görünüyordu; artık yalnız ön sıra evlerde etkili.
+
+**Yan bulgu (düzeltildi):** paralel pencerelerle çekimde odak kaybı duraklatma menüsünü açıp
+kullanıcının gerçek kaydına `armory_seen=true` yazmıştı; değer geri `false` yapıldı. `capture_level`
+gerçek kaydı kullanıyor — çekimleri sıralı yapmalı ya da ayrı kayıt yolu kullanmalı.
+
+**Testler:** import temiz; DTM GAPS PASS; 36 sahne smoke çıkış 0; bot Bölüm 1 (8609), 13 (9555),
+25 (10157) CLEARED.
+
+**Sonraki öneri:** Ön sıra katı evler de yer yer aynı üç ev; Kitap 3 kıyı bölümlerinde ön sıranın
+yerine yere özgü cephe (ahşap yalı cephesi) — büyük sanat işi, birikime.
 
 ### 2026-10-26 (24) — Bölüm 20 son avlu: Kemal Bey dövüşü izler, üçüncü dalgada kaçar (set-piece)
 

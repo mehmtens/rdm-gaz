@@ -102,7 +102,10 @@ var sky_grid := 2
 var sky_tint := Color(0.82, 0.8, 0.86)
 var sky_shade := Color(0.08, 0.07, 0.1)
 var back_tint := Color(0.34, 0.36, 0.5)
-var back_row_on := true
+## Arka sıra mahalle evleri (yavaş kayan orta katman). Varsayılan kapalı (26 Ekim, 36 bölüm
+## karşılaştırması): ChatGPT arka planları yere özgü yapıları (yalı, istasyon, şadırvan,
+## hisar) zaten içeriyor; üç genel Balat evi onları kapatıyordu. Bölüm isterse açar.
+var back_row_on := false
 ## Arka sıra evlerin çizilmediği dünya x aralıkları (iç mekân / yeraltı): [[x0, x1], ...]
 var back_row_skip: Array = []
 var zoom_level := 1.12
