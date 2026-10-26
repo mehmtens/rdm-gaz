@@ -251,7 +251,7 @@ Adlar sahne dosyalarından; “ilk bakış” bir hata iddiası değil, test oda
 
 - Mevcut `EnemyConfig` ailelerini tek tek denetle: farkları yalnız HP/hasar mı, yoksa oyuncudan farklı karar istiyorlar mı? Birbirine benzeyenleri yeniden isimlendirmek yerine mevcut davranış/yerleşimi iyileştir.
 - Her düşman için “uyarı → eylem → kaçış/karşı saldırı” kaydı oluştur. Özellikle bıçaklı atılım, tüfekli hedefleme, bloklu/zırhlı ve boss ağır saldırılarının uyarı süresi ölçülür. Oyuncu ilk karşılaşmada en az bir kez güvenli gözlem fırsatı bulur.
-- İki veya üç düşmanın birlikte saldırdığı arenaları değerlendir: görünmeyen mermi, üst üste binen saldırı, çıkışı kapatan gövde ve düşen ödülün erişilemez kalması P0/P1 adayıdır.
+- İki veya üç düşmanın birlikte saldırdığı arenaları değerlendir: görünmeyen mermi, üst üste binen saldırı, çıkışı kapatan gövde ve düşen ödülün erişilemez kalması P0/P1 adayıdır. *(26 Ekim: kapı dışında kalıp ateş eden takipçi düzeltildi — `BattleArena._pull_pursuers`, `tests/arena_pursuer.tscn`.)*
 - Bosslar için temiz kayıtla ve yükseltmesiz test yap. Yeni evre aynı saldırının yalnız hızlandırılmış hâli olmamalı; görsel/ses işareti ve yeni karar alanı sunmalı. Her evreden hemen önce veya boss önünde makul kontrol noktası olmalı.
 - Mağaza ürünleri için fiyat, kazanılma zamanı, kullanım zamanı ve ana yol etkisini tabloya dök. Satın alınan yükseltmenin ilk kullanımını oyun açıkça gösterir. `Save.owns()` ile koşu içi kaynakların ayrımı kontrol edilir.
 - Coin ekonomisini üç örnekle dene: yalnız ana yol, ortalama keşif, çoğu sırrı bulan oyuncu. Hiçbir örnekte yanlışlıkla kalıcı yükseltme kilidi oluşmamalı. Kaydı silmeden eski sürümden yeni sürüme açılışı dene.

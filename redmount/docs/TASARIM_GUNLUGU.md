@@ -7,6 +7,9 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- Bölüm 22 bakım şaftı arenası (x≈7700–8300; Seçkin+Bombacı, sonra Seçkin+Kalkanlı+Tüfekli):
+  bot iki koşuda 115 → 6 can ve 2 yeniden doğma. Kaba yapay zekâ olabilir; insan testinde ölüm
+  sayısı 2'yi geçerse ikinci dalgadan Tüfekli çıkarılsın (Seçkin zaten menzilli).
 - Bölüm 10 son arena (x≈8200–8700, Ağır Zırhlı + iki tüfekli): bot 3 ölüm, 21 sn takılma.
   Kaba yapay zekâ olabilir; insan testinde arena başına ölüm sayısı ölçülsün, 2'yi geçerse
   üçüncü dalgadan bir tüfekli çıkarılsın ya da ikinci dalga sonrası ödül simit olsun.
@@ -52,6 +55,37 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (33) — Tasarım denetimi (Bölüm 22) + kapı dışında kalan takipçi arenaya alınır
+
+**Neden şimdi:** Birikimin kalanı insan testine bağlı → denetim (tur 32'nin önerisi). Bölüm 22
+(Aksaray Pompa İstasyonu) pencereli bot koşusu: CLEARED 10109, 101 sn, 1 yeniden doğma, 17 kare.
+En somut bulgu bir hata: son arenada (Saraçhane, kapılar 9450–10000) rozet "DALGA 2/3 · 1 DÜŞMAN"
+derken ekranda iki silahlı vardı. Yoklama: kontrol odasındaki Seçkin Muhafız (x 9150) oyuncuyu
+kovalayıp sol kapının 30 px dışında (x 9421) kalıyor, kapının ardından ateş ediyordu. Oyuncu ona
+ulaşamıyor, rozet onu saymıyor; geniş arenalarda kamera kapıya kilitli olduğu için mermi ekran
+dışından geliyor (oyun-kalite belgesindeki "görünmeyen mermi" adayı). Bot ölümü tam burada.
+
+**Oyuncu ne hissedecek:** Arkasından gelen düşman kapı kapanırken içeri dalar (arena doğma
+halkasıyla), rozet onu da sayar; vurulamayan, görünmeyen nişancı yok.
+
+**Yapılanlar:** `EnemyBase.is_engaged()` (boşta/devriyede/ölü değil). `BattleArena`: açılışta ve
+etkinken her 0,4 sn kapı dışında, kapıya ≤ 640 px (yaklaşık bir ekran genişliği) ve zemin
+bandında (±200 px) olup çatışmadaki düşmanı kapının 70 px içine alır, `defeated`'ı bağlar,
+`_alive`'a ekler, rozeti günceller. Boştaki/devriyedeki düşman, kapısız arena ve hikâye boss'u
+(kendi yardımcılarını yönetiyor) dışarıda kalır. Sayı gerekçesi: 640 px'ten uzaktaki düşman
+oyuncuyu görmez (görüş 320 px) ve kapıya ulaşmadan ekranda olamaz; daha uzağı çekmek bölüm
+tasarımını değiştirir. Yeni `tests/arena_pursuer.tscn` (eski kodda FAIL 3, yeni kodda PASS).
+
+**Diğer bulgular:** Bakım şaftı arenası zorluğu birikime. İyi çalışanlar: pompa salonu resmi ve
+pistonlar, SU ERZAKÇISI büfesi, makine rafındaki gizli sandık, Saraçhane bent resmi, düşmandan
+düşen silah.
+
+**Testler:** import temiz; ARENA PURSUER, DTM GAPS, ARENA RESPAWN, RANGED SPACING, DAILY WAVE,
+TELEGRAPH MARK PASS; 36 sahne smoke çıkış 0; bot Bölüm 1 (8606), 13 (9558), 22 (10106; son
+arenada ölüm yok, en uzun takılma 16 → 11 sn), 25 (10157) CLEARED.
+
+**Sonraki öneri:** Birikimin kalanı insan testine bağlı → yeni denetim (Kitap 1'den Bölüm 4).
 
 ### 2026-10-26 (32) — Baca kulesi verici odası ve gemi ambarında ahşap depo rafı (birikim)
 

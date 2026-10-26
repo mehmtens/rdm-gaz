@@ -45,6 +45,12 @@ var _wave_idx := 0
 var _gates: Array = []
 var _accent := Color(1.0, 0.42, 0.32)
 var _saved_cam := Vector2.ZERO
+var _pull_t := 0.0
+
+## Kapı dışında kalan takipçi: bu kadar yakın (px) ve zemin bandındaysa içeri alınır.
+const PULL_RANGE := 640.0
+const PULL_BAND := 200.0
+const PULL_EVERY := 0.4
 
 
 func _ready() -> void:
@@ -73,6 +79,49 @@ func _activate() -> void:
 	Sfx.play(&"armor_break", 0.7)
 	Music.battle_start()
 	_spawn_wave()
+	_pull_pursuers()
+
+
+func _physics_process(delta: float) -> void:
+	if not _active or _done:
+		return
+	_pull_t -= delta
+	if _pull_t <= 0.0:
+		_pull_t = PULL_EVERY
+		_pull_pursuers()
+
+
+# --- Takipçiler (Bölüm 22 denetimi) -------------------------------------
+
+## Oyuncuyu kovalarken kapı kapanınca dışarıda kalan düşman, kapının ardından
+## (çoğu zaman ekran dışından) ateş ediyor ama ne vurulabiliyor ne sayaçta
+## görünüyordu. Kapı dışında, çatışmadaki her düşman kapanan kapıdan içeri
+## alınır ve o dalganın sayacına eklenir.
+func _pull_pursuers() -> void:
+	if not use_gates:
+		return   # fiziksel kapı yoksa takipçi zaten yürüyerek girer
+	for n in get_tree().get_nodes_in_group(&"enemy_ai"):
+		if not (n is EnemyBase) or n.has_method(&"_call_add") or _alive.has(n):
+			continue
+		var e := n as EnemyBase
+		if not e.is_engaged() or absf(e.global_position.y - floor_y) > PULL_BAND:
+			continue
+		var x := e.global_position.x
+		var out := gate_left_x - x if x < gate_left_x else x - gate_right_x
+		if out <= 0.0 or out > PULL_RANGE:
+			continue
+		_pull_in(e, x < gate_left_x)
+
+
+func _pull_in(e: EnemyBase, from_left: bool) -> void:
+	var gx := gate_left_x + 70.0 if from_left else gate_right_x - 70.0
+	e.global_position = Vector2(gx, floor_y - 24.0)
+	e.velocity = Vector2.ZERO
+	if not e.defeated.is_connected(_on_enemy_down):
+		e.defeated.connect(_on_enemy_down)
+	_alive.append(e)
+	Fx.ring(e.global_position + Vector2(0, -70), _accent, 8, 74, 0.35)
+	wave_changed.emit(_wave_idx, _waves.size(), _alive.size())
 
 
 # --- Bariyerler --------------------------------------------------------

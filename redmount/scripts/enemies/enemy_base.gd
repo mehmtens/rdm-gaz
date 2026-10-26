@@ -1123,6 +1123,12 @@ func is_dead() -> bool:
 	return _state == State.DEAD
 
 
+## Oyuncuyu fark edip çatışmaya girdi mi (boşta/devriyede ya da ölü değil)?
+## Kilitli arena kapı dışında kalan takipçileri bununla içeri alır.
+func is_engaged() -> bool:
+	return not (_state in [State.IDLE, State.PATROL, State.DEAD])
+
+
 ## Ayağının altındaki zemin tek yön platform mu (katman 8)?
 func _on_oneway() -> bool:
 	for i in get_slide_collision_count():
