@@ -41,7 +41,7 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   kanal + üstte 220 px iskele, 4750 kontrol noktası; 18–23'te devamı da aynı (galeri+erzak →
   salon → arena → 200 px kanal → küçük oda → 9300–9350 final). Bölüm başına bir tur, yere özgü
   yeniden düzen. Yapılan: 19 (tur 47, açılış), 23 (tur 48, açılış), 22 (tur 49, açılış),
-  21 (tur 50, açılış). Sıradaki: 20, 18, sonra 13–17, 24, 25.
+  21 (tur 50, açılış), 20 (tur 51, açılış). Sıradaki: 18, sonra 13–17, 24, 25.
 
 - Ön sıra katı evler yalnız 6 bölümde (1, 2, 3, 27, 29, 34; çoğu Kitap 1 Balat — yerine uygun).
   27/29/34'teki 2–3 ev insan testinde yere yabancı görünürse o bölüme özgü cephe çizilmeli
@@ -78,6 +78,32 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (51) — Bölüm 20 açılışı yere özgü: rıhtım düzünde pazar, deniz kapısında vinç paleti
+
+**Neden şimdi:** Kitap 2 iskeleti maddesinde sıradaki bölüm (tur 50 önerisi). Samatya da 60 px
+çukur avlu arenası + 200 px kanal + 220 px iskele açılışını taşıyordu.
+
+**Oyuncu ne hissedecek:** Balık pazarı sur dibinde sokakla aynı hizada (çukura inilmiyor;
+tezgâh arasında balık kasası altın veriyor). İniş artık anlamlı bir yerde: deniz kapısından
+kayık iskelesine iki basamak, ardından 450 px'lik açık su. Alt yol: suyun üstünde gidip gelen
+vinç paleti, palet hattında 5 altın; paleti kaçıran ıslanır ama dipte (110) yürüyüp karşı
+rıhtıma çıkabilir — ceza ölüm değil zaman. Üst yol: pazarın sonundaki sur taşlarından kemerin
+altındaki dört iskele kirişine, tepede tabanca; iskelede bıçakçı karşılar. Arka plandaki sur
+kemeri ve deniz manzarası bu geçişin sahnesi oluyor.
+
+**Yapılanlar:** `bolum20.gd` bölüm 2–3 ve başlık yorumu. Sayılar: iskele 60 (dip 110, çıkış
+110 < zıplama ~125), palet 290 px yol, kirişler arası 90–100 px.
+İlk bot koşusu TIMEOUT: karşı rıhtımda sudan çıkan oyuncu hemen 180 px taş yığınına
+çarpıyordu (zıplama 125) — gerçek bir insan da takılırdı. Taş sırası 90 → 180 yapıldı; üst
+yol 180'liğe iniyor.
+
+**Testler:** import temiz; 36 sahne smoke çıkış 0 (36 SMOKE OK); DTM GAPS PASS; Bölüm 20 bot
+başsız 3 koşu CLEARED (10108 @ 106 sn; 10105 @ 100 sn; 10110 @ 92 sn; takılma yalnız
+dokunulmayan final avlusunda x≈9600–9880). Görsel 1280×720: pazar, iniş, su/palet, üst
+kirişler, karşı rıhtım — "ait".
+
+**Sonraki öneri:** Kitap 2 iskeletinde Bölüm 18.
 
 ### 2026-10-26 (50) — Bölüm 21 açılışı yere özgü: iskele düzünde balık mezadı, kızak iskelesi
 

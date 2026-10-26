@@ -1,10 +1,11 @@
 ## Bölüm 20 — Samatya Taş Depoları (Kitap 2 / "Haliç'in İzi", 8. bölüm).
 ##
 ## Külhandaki mektup son teslimi Samatya taş depolarına bağlar. Gece: arka sokak ->
-## balık pazarı (arena) -> deniz kapısı -> taş depo girişi (tüfekli, arena, erzak)
-## -> tasnif salonu (vinç kirişi) -> tuzlu servis geçidi (arena) -> gizli kayıt
-## odası (oyulmuş taş bloklar) -> yükleme avlusu (yük iskelesi). Kemal Bey ilk kez
-## görünür: bir kayıkla kaçar. Çıkış fişi: Yenikapı gece vardiyası.
+## balık pazarı (rıhtım düzünde arena) -> deniz kapısı (kayık iskelesi + vinç paleti,
+## üstte sur kemeri) -> taş depo girişi (tüfekli, arena, erzak) -> tasnif salonu (vinç
+## kirişi) -> tuzlu servis geçidi (arena) -> gizli kayıt odası (oyulmuş taş bloklar) ->
+## yükleme avlusu (yük iskelesi). Kemal Bey ilk kez görünür: bir kayıkla kaçar.
+## Çıkış fişi: Yenikapı gece vardiyası.
 extends DtmLevel
 
 const COAST := preload("res://assets/backgrounds/book02_samatya_coast_atlas.png")
@@ -31,32 +32,46 @@ func _build() -> void:
 	for x in [300, 1400]:
 		_lantern(float(x))
 
-	# --- 2. Balık pazarı: sığ servis yolu, hızlı + zırhlı arena -------------------
+	# --- 2. Balık pazarı: sur dibindeki rıhtım düzünde, hızlı + zırhlı arena -----
+	# Pazar sokakla aynı hizada surun dibinde (Kitap 2'nin ortak çukur avlusu yerine);
+	# iniş bir sonraki kesimde, deniz kapısından iskeleye.
 	_checkpoint(1550, 0)
-	_terrain(1700, 1850, 30)
-	_terrain(1850, 3200, 60)
+	_terrain(1700, 3200, 0)
 	_stall(2000)
 	_stall(2950)
+	_prop("kasa", 2300, 0, COIN)
 	var pazar: BattleArena = ARENA.instantiate()
-	pazar.position = Vector2(2500, 60)
+	pazar.position = Vector2(2500, 0)
 	pazar.gate_left_x = 2050
 	pazar.gate_right_x = 2950
-	pazar.floor_y = 60
+	pazar.floor_y = 0
 	pazar.wave1 = _wave(KNIFE, ASSASSIN, STREET)
 	pazar.wave2 = _wave(BRUISER, SHIELD)
 	pazar.reward = AMMO
 	add_child(pazar)
-	_terrain(3200, 3350, 30)
 
-	# --- 3. Deniz kapısı: kısa açıklık, üst taş rafı ---------------------------
-	_terrain(3350, 3800, 0)
-	_checkpoint(3400, 0)
-	_canal(3800, 4000, 110)
-	_scaffold(3900, -20, 220)
-	_terrain(4000, 10300, 0)
-	_stones(4150, 1, 1)
-	_stones(4240, 1, 2)
-	_pickup(PISTOL, 4285, -225)
+	# --- 3. Deniz kapısı: alçak kayık iskelesi + vinç paleti, üstte sur kemeri -------
+	# Alt yol: kapıdan iskeleye iki basamak inilir, 450 px su vinç paletiyle (ya da
+	# ıslanarak, dip 110) geçilir; palet hattında altınlar. Üst yol: sur taşlarından
+	# kemerin altındaki iskele kirişlerine, tepede tabanca; karşı rıhtımda taşlardan inilir.
+	_stones(3020, 1, 1)
+	_stones(3110, 1, 2)
+	_terrain(3200, 3350, 30)
+	_terrain(3350, 3700, 60)
+	_checkpoint(3400, 60)
+	_enemy(KNIFE, 3560, 60)
+	_canal(3700, 4150, 110)
+	_moving(3780, 20, Vector2(290, 0), 140, 0.0)
+	_coin_line(3800, 5, 65, -25)
+	_scaffold(3330, -230, 140)
+	_scaffold(3560, -250, 140)
+	_scaffold(3800, -250, 140)
+	_scaffold(4040, -230, 140)
+	_pickup(PISTOL, 3800, -295)
+	_terrain(4150, 10300, 0)
+	## Sudan çıkan için önce 90'lık taş, sonra 180'lik; üst yol 180'liğe iner.
+	_stones(4160, 1, 1)
+	_stones(4250, 1, 2)
 	_enemy(SHIELD, 4550, 0)
 
 	# --- 4. Taş depo girişi: tüfekli, ikinci arena, erzak ----------------------
