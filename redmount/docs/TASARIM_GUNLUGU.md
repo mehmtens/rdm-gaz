@@ -37,7 +37,7 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 - Bölüm 19 külhan finali (tur 45): Külhanbeyi bire bir + iki alev bacası; bot 4 koşunun 2'sinde
   bir kez öldü. İnsan testinde finalde ölüm 1'i geçerse alev hasarı 12 → 8 ya da tek baca.
 - Orta kesimlerde "200 px kanal + tam üstünde 220 px sağlam plank" kalıbı (tur 60 taraması):
-  Yapılan: 14 (tur 61), 15 (tur 62). Kalan: 16 (6900, 8650), 17 (7500, 8850), 18 (7450, 8700), 19 (7200,
+  Yapılan: 14 (tur 61), 15 (tur 62), 16 (tur 63). Kalan: 17 (7500, 8850), 18 (7450, 8700), 19 (7200,
   8950), 20 (7550, 8700), 21–23 (8600), 24 (9000, 11450, 13750), 25 (8450), 29 (5300). Kanal
   oynanışta yok, plank üstünden yürünüyor. Bölüm başına bir tur; yere göre: açık atlama
   (çıkış taşı ŞART: `_terrain(x1-50, x1, 55)`), çürük tahta, palet, ayak taşı ya da kanalı
@@ -83,6 +83,22 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (63) — Bölüm 16 cilt atölyesi ve arşiv mahzeninde kanal kalktı
+
+**Neden şimdi:** Orta kesim kanal maddesi (tur 62 önerisi).
+
+**Oyuncu ne hissedecek:** Cilt atölyesi (pres, raflar, bıçaklar) ve arşiv mahzeni kapalı odalar;
+ikisinin ortasındaki plank'lı su kanalı yere ait değildi ve oynanışta engel de değildi —
+kaldırıldı. Atölyedeki raf üstü rota, suikastçı ve mahzendeki seçkin aynı.
+
+**Yapılanlar:** `bolum16.gd` bölüm 5 ve 7; zemin 1700–9900 tek parça.
+
+**Testler:** import temiz; 36 sahne smoke çıkış 0; DTM GAPS PASS; Bölüm 16 bot başsız 3 koşu
+CLEARED (77,7 / 79,3 / 73,9 sn; yeniden doğma 0/0/1 — tek ölüm dokunulmayan belge odası
+arenasında, x≈7856; birikimdeki "Bölüm 16 son üçlü" maddesi). Görsel 1280×720: atölye — "ait".
+
+**Sonraki öneri:** Orta kesim kanal maddesi: Bölüm 17 (7500, 8850).
 
 ### 2026-10-26 (62) — Bölüm 15 sarnıçta çürük bakım tahtaları; gizli kemerde su kalktı
 

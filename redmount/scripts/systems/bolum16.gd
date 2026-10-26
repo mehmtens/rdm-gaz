@@ -37,7 +37,7 @@ func _build() -> void:
 	# --- 2. Ciltçiler sokağı: sokak hizasında; saçak ödülü; arena; erzak ----------
 	# Kitap 2'nin ortak çukur avlusu yerine dar sokak düz; cumbalar arenanın önünde.
 	_checkpoint(1550, 0)
-	_terrain(1700, 6900, 0)
+	_terrain(1700, 9900, 0)
 	_balcony(2000, -40, 110)
 	_balcony(2160, -140, 110)
 	_coin_line(2120, 3, 50, -190)
@@ -62,8 +62,6 @@ func _build() -> void:
 	# Drenaj kanalı yerine düz avlu (külliye avlusunda açık kanal yere ait değildi):
 	# arena + erzaktan sonra nefes. İki kişilik devriye; taş sekiden rafa, tepede tabanca.
 	_checkpoint(3500, 0)
-	_terrain(7100, 8650, 0)
-	_terrain(8850, 9900, 0)
 	_enemy(STREET, 3800, 0)
 	_enemy(KNIFE, 3950, 0)
 	_stones(4150, 1, 1)
@@ -85,15 +83,14 @@ func _build() -> void:
 	_coin_line(5660, 4, 70, -270)
 	_prop("varil", 5800)
 
-	# --- 5. Cilt atölyesi: raf üstü ödül; ikinci servis geçişi ---------------------
+	# --- 5. Cilt atölyesi: raf üstü ödül --------------------------------------------
+	# Atölye ve mahzen kapalı odalar: eski plank'lı kanallar kaldırıldı (içeride su yok).
 	_checkpoint(6250, 0)
 	_interior(6330, 6860, -345, [], 1)
 	_crates(6400, 1, 1)
 	_scaffold(6560, -150, 140)
 	_scaffold(6720, -250, 140)
 	_pickup(ARMOR, 6720, -295)
-	_canal(6900, 7100, 110)
-	_scaffold(7000, -20, 220)
 	_enemy(ASSASSIN, 7300, 0)
 	_story(6450, _sahne_atolye)
 
@@ -114,10 +111,8 @@ func _build() -> void:
 	docs.reward = HEALTH
 	add_child(docs)
 
-	# --- 7. Arşiv mahzeni: üçüncü geçiş, seçkin devriye -------------------------
+	# --- 7. Arşiv mahzeni: seçkin devriye ---------------------------------------
 	_checkpoint(8500, 0)
-	_canal(8650, 8850, 110)
-	_scaffold(8750, -20, 220)
 	_enemy(ELITE, 9050, 0)
 	for x in [8550, 9150]:
 		_lantern(float(x))
