@@ -7,6 +7,12 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- Bölüm 10 son arena (x≈8200–8700, Ağır Zırhlı + iki tüfekli): bot 3 ölüm, 21 sn takılma.
+  Kaba yapay zekâ olabilir; insan testinde arena başına ölüm sayısı ölçülsün, 2'yi geçerse
+  üçüncü dalgadan bir tüfekli çıkarılsın ya da ikinci dalga sonrası ödül simit olsun.
+- Kamera çerçevesi: zemin ekranın %63'ünde (kamera oyuncunun 95 px üstünde), alt %37 zemin altı.
+  Mobilde dokunmatik düğmeler bu bantta olduğu için bilinçli; masaüstünde DTM'ye yakın %75 için
+  `Camera2D.position.y` yalnız masaüstünde −95 → −150 denenebilir (insan testiyle).
 - Bölüm 16 son üçlü (belge odası arenası → mahzen seçkini → teras arenası): bot 115 → 1 can,
   iki yeniden doğma. Kaba yapay zekâ olabilir; insan testinde ölüm yeri ölçülsün, burada
   ölüm yığılıyorsa mahzene (x≈8900) simit.
@@ -46,6 +52,31 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (30) — Tasarım denetimi (Bölüm 10) + nişancılar üst üste yığılmaz
+
+**Neden şimdi:** Birikimin kalanı insan testine bağlı → denetim. Bölüm 10 (sur ve kale kapısı,
+gece) pencereli bot koşusu: CLEARED 9205, 118,8 sn, 3 yeniden doğma, 19 kare. Bulgular:
+(1) masaüstünde boss çubuğu telsizle ekrandan kayıyordu — tur 29'da düzeltildi; (2) son arenada
+iki tüfekli muhafız arena kapısına yaslanıp üst üste duruyordu — rozet "2 DÜŞMAN" derken ekranda
+tek gövde, iki namlu tek kişi gibi; (3) son arena zorluğu ve (4) kamera çerçevesi birikime.
+İyi çalışanlar: ANA KAPI tabelası, ayna sinyali telsizi, kale arka planı, kombo kademeleri.
+
+**Oyuncu ne hissedecek:** Nişancılar kademeli hatta durur (öndeki önde, arkadaki bir gövde
+geride); kaç tüfek olduğu bir bakışta sayılır, hangisinin nişan aldığı ayrı okunur.
+
+**Yapılanlar:** `EnemyBase._ranged_neighbor(dx, ahead)`: aynı taraftaki en yakın nişancı
+komşusu (`_RANGED_GAP` 64 px ≈ bir gövde + boşluk). Arkadaki, öndekine 64 px'ten yakınsa geri
+çekilir (duvar/kenar yoksa). Öndeki, oyuncu çok yakınken arkasında nişancı varsa geri çekilmez:
+arkadaki duvara/kenara yaslıysa yarım hızla bir adım öne çıkar (panik menzilinin 40 px dışında
+durur), değilse yerinde kalır. Eski 40 px ayrışma itişi geri çekilme hızını yenemiyordu.
+Yeni `tests/ranged_spacing.tscn`: duvar önünde iki muhafız, oyuncu 150 px'te — eski kodda
+18 px (FAIL), yeni kodda 63 px (PASS).
+
+**Testler:** import temiz; RANGED SPACING PASS; DTM GAPS, DAILY WAVE, ARENA RESPAWN, TELEGRAPH
+MARK PASS; 36 sahne smoke çıkış 0; bot Bölüm 1 (8607), 10 (9205), 13 (9560), 25 (10160) CLEARED.
+
+**Sonraki öneri:** Birikimin kalanı insan testine bağlı → yeni denetim (Kitap 3'ten Bölüm 33).
 
 ### 2026-10-26 (29) — Düzeltme: masaüstünde boss çubuğu telsizle kaymaz
 

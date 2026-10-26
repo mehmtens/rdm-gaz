@@ -465,6 +465,16 @@ func _do_ranged(delta: float) -> void:
 	var busy := _aiming or _burst_left > 0
 	if busy:
 		velocity.x = move_toward(velocity.x, 0.0, 1200.0 * delta)
+	elif _ranged_neighbor(dx, true) != null and not is_on_wall() and _safe_to_step(-signf(dx)):
+		velocity.x = -signf(dx) * config.move_speed * 0.8  # öndeki nişancıya yer aç
+	elif _ranged_neighbor(dx, false) != null and adx < config.ranged_preferred_distance * 0.75:
+		# Arkamda nişancı var: geri çekilirsem üstüne binerim. O duvara/kenara yaslıysa
+		# bir adım öne çık (oyuncunun burnuna kadar değil), değilse yerimde dur.
+		var back := _ranged_neighbor(dx, false)
+		if (back.is_on_wall() or not back._safe_to_step(-signf(dx))) and adx > config.panic_range + 40.0:
+			velocity.x = signf(dx) * config.move_speed * 0.5
+		else:
+			velocity.x = move_toward(velocity.x, 0.0, 900.0 * delta)
 	elif adx < config.ranged_preferred_distance * 0.75:
 		velocity.x = -signf(dx) * config.move_speed        # geri çekil
 	elif adx > config.ranged_preferred_distance * 1.3:
@@ -495,6 +505,31 @@ func _do_ranged(delta: float) -> void:
 		_aim_timer = config.aim_time
 		_play(&"aim")
 		_telegraph(true, config.aim_time)
+
+
+## İki nişancı aynı tercih mesafesinde ya da geri çekilirken kapıya yaslanıp üst üste duruyor,
+## tek kişi gibi okunuyordu (Bölüm 10 denetimi). Aynı taraftaki en yakın nişancı komşusu:
+## `ahead` = oyuncuya benden yakın olan, değilse arkamdaki; aramız `_RANGED_GAP`'ten azsa döner.
+## Arkadaki öndekine yer açar, öndeki arkadakinin üstüne çekilmez → kademeli hat.
+## Eşit mesafede örnek kimliği karar verir.
+const _RANGED_GAP := 64.0
+
+func _ranged_neighbor(dx: float, ahead: bool) -> EnemyBase:
+	var mine := absf(dx)
+	for other in get_tree().get_nodes_in_group(&"enemy_ai"):
+		if other == self or not (other is EnemyBase) or not is_instance_valid(other):
+			continue
+		var o: EnemyBase = other
+		if o.is_dead() or o.config == null or not o.config.is_ranged:
+			continue
+		var odx: float = _player.global_position.x - o.global_position.x
+		if signf(odx) != signf(dx) or absf(o.global_position.y - global_position.y) >= _SEP_Y:
+			continue
+		var theirs := absf(odx)
+		var in_front := theirs < mine or (theirs == mine and o.get_instance_id() < get_instance_id())
+		if in_front == ahead and absf(mine - theirs) < _RANGED_GAP:
+			return o
+	return null
 
 
 func _fire_one() -> void:
