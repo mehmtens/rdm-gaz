@@ -7,9 +7,6 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Biyom geçişi çift pozlama: Bölüm 16'da çamaşırlı avlu (x≈4500) ve cilt atölyesi→arşiv
-  (x≈7250) geçişlerinde iki ChatGPT arka planı uzun mesafe yarı saydam üst üste; resim bulanık,
-  "iki fotoğraf" gibi. Geçiş uzunluğunu ölç; kısalt ya da geçişi kapı/iç mekân arkasına sakla.
 - Bölüm 16 son üçlü (belge odası arenası → mahzen seçkini → teras arenası): bot 115 → 1 can,
   iki yeniden doğma. Kaba yapay zekâ olabilir; insan testinde ölüm yeri ölçülsün, burada
   ölüm yığılıyorsa mahzene (x≈8900) simit.
@@ -49,6 +46,27 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (28) — Arka plan geçişi kısaldı: çift pozlama %55 → %15 (birikim)
+
+**Neden şimdi:** Bölüm 16 denetiminin üçüncü bulgusu. Ölçünce sorun tek bölümün değil: `_Sky`
+hücreleri 900 px boyunca doğrusal karışıyordu, Kitap 2–3'te hücreler ~1500 px'te bir değiştiği için
+36 bölümün toplam yolunun ~%55'i iki ChatGPT resminin yarı saydam üst üste bindiği bulanık ara
+hâlde oynanıyordu (çamaşırlı avluda cami kubbeleri, arşivde atölye rafları hayalet gibi).
+
+**Oyuncu ne hissedecek:** Her semtin resmi net ve tek; geçiş koşarken ~0,7 sn'lik yumuşak bir
+çözülme — "yeni bir yere girdim" duygusu, bulanık fotoğraf yok.
+
+**Yapılanlar:** `_Sky.SKY_BLEND` 240 px (gerekçeli yorum) + smoothstep eğrisi (uçlarda yavaş,
+ortada hızlı: en bulanık an daha da kısa). Ölçüm betiği: bölüm başına hücre aralıkları,
+min(blend, aralık) / yol → 900 px'te %56, 240 px'te %15. Hücre konumları değişmedi.
+
+**Testler:** import temiz; DTM GAPS PASS; 36 sahne smoke çıkış 0; bot Bölüm 1 (8604), 13 (9557),
+16 (9955), 25 (10160) CLEARED. Görsel: Bölüm 16 x 4450 / 4680 / 4900 — cami avlusu ve çamaşırlı
+avlu net, ara hâlde hayalet yok.
+
+**Sonraki öneri:** Birikimin kalanı insan testine bağlı → yeni denetim (henüz bakılmayan bir
+Kitap 1 bölümü, ör. Bölüm 10).
 
 ### 2026-10-26 (27) — Dalga arası rozet: "DALGA 2/2 GELİYOR!" (birikim)
 

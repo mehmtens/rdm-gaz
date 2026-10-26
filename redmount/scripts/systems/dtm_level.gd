@@ -1243,6 +1243,11 @@ class _Facade extends Node2D:
 ## Uzak gökyüzü: boyalı İstanbul atlası, kameranın %4'ü hızla kayar. Bölüm
 ## `sky_cells` ile hangi hücrenin hangi x'ten sonra görüneceğini verir (çapraz geçiş).
 class _Sky extends Node2D:
+	## Çapraz geçiş mesafesi (px). 900'dü: hücreler ~1500 px'te bir değiştiği için bölümün
+	## ~%55'i iki resmin yarı saydam üst üste bindiği "çift pozlama"daydı (Bölüm 16 denetimi).
+	## 240 px ≈ koşarken 0,7 sn: geçiş fark edilir ama bulanık ara hâl kısa (~%15).
+	const SKY_BLEND := 240.0
+
 	var level: Node
 	var _camera: Camera2D
 
@@ -1271,7 +1276,8 @@ class _Sky extends Node2D:
 		# Hücre girdisi [hücre, x] ya da [hücre, x, atlas]: bölüm içinde atlas değişebilir.
 		_cell(cells[cur][2] if cells[cur].size() > 2 else atlas, int(cells[cur][0]), x, 1.0)
 		if cur + 1 < cells.size():
-			var t := clampf((x - float(cells[cur + 1][1]) + 900.0) / 900.0, 0.0, 1.0)
+			var t := clampf((x - float(cells[cur + 1][1]) + SKY_BLEND) / SKY_BLEND, 0.0, 1.0)
+			t = t * t * (3.0 - 2.0 * t)
 			if t > 0.0:
 				var nxt: Array = cells[cur + 1]
 				_cell(nxt[2] if nxt.size() > 2 else atlas, int(nxt[0]), x, t)
