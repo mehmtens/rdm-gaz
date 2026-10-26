@@ -128,6 +128,7 @@ func _build() -> void:
 	final.wave3 = _wave(BRUISER, BRUISER)
 	final.reward = HEALTH
 	add_child(final)
+	_kemal_watches(final)
 	_story(10000, _sahne_kemal)
 	_han_gate(10150, "YENİKAPI")
 	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
@@ -135,6 +136,38 @@ func _build() -> void:
 	_radio(5582, "redmount", "REDMOUNT", "Soru sormak için önce yakalamak lazım.")
 	_radio(8627, "gazelle", "GAZELLE", "Kayıkla kaçıyor! Çıkış fişi: Yenikapı gece vardiyası.")
 	_goal(10150, 0)
+
+
+## Set-piece: Kemal Bey avlu dövüşünü sağ kapının ardından (arka planda, loş) izler;
+## üçüncü dalga başlayınca arkasını dönüp kayığa koşar, Gazelle telsizden bağırır.
+## Hedef dövüş boyunca görünür (DTM'de kaçan hedef oyuncunun gözü önündedir); hikâye
+## sahnesi onu kayığın başında yakalar. Dokunulmaz süs: çarpışması yok.
+func _kemal_watches(arena: BattleArena) -> void:
+	var k := AnimatedSprite2D.new()
+	k.sprite_frames = Cutscene.ELITE_FRAMES
+	k.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	k.scale = Vector2(0.52, 0.52)  # arka planda: oyuncudan küçük
+	k.offset = Vector2(0, -114)
+	k.flip_h = true  # avluya (sola) bakar
+	k.position = Vector2(arena.gate_right_x - 40.0, -6.0)
+	k.z_index = -6
+	k.modulate = Color(0.7, 0.68, 0.8)
+	k.play(&"idle")
+	add_child(k)
+	arena.wave_changed.connect(func(wave: int, _total: int, _left: int) -> void:
+		if wave < 3 or not is_instance_valid(k) or k.has_meta(&"gone"):
+			return
+		k.set_meta(&"gone", true)
+		k.flip_h = false
+		k.play(&"walk")
+		k.speed_scale = 2.2
+		var t := k.create_tween()
+		t.tween_property(k, ^"position:x", k.position.x + 520.0, 1.1)
+		t.tween_callback(k.queue_free)
+		RadioPanel.say(get_tree(), "gazelle", "GAZELLE", "Kemal Bey kaçıyor! Çabuk, Redmount!"))
+	arena.cleared.connect(func() -> void:
+		if is_instance_valid(k):
+			k.queue_free())
 
 
 # --- Hikâye sahneleri ----------------------------------------------------------

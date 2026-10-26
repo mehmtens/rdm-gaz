@@ -10,9 +10,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 - İpucu sırası insan testi: Bölüm 1'de oyuncu hemen koşarsa x=150 "sola bak" (gizli alan) ipucu,
   kart beklerken geçilip x=560 hareket ipucuna yol veriyor. Gizli alan bulma oranı düşerse ipucu
   560'tan sonraya ya da kart süresi (3,6 sn) kısaltılmalı.
-- **[Denetim 26 Ekim, Bölüm 20]** Son avlu (9450–9950) düz üç dalgalı arena; Kemal Bey'in kayıkla
-  kaçışı yalnız hikâye sahnesinde. Arena sırasında arka planda kayığın hazırlanması (set-piece,
-  dövüşü bölmeyen) — DTM'de patron/hedef dövüş sırasında görünür. Etki orta, maliyet orta.
+- Kemal Bey'in ayrı görünümü yok (hikâye sahnesi de `elite` kullanıyor); avludaki izleyici siluet
+  düşman sanılabilir. İnsan testinde karışıklık görülürse Kemal'e özgü piksel sprite (palto + şapka).
 - **[Denetim 26 Ekim, Bölüm 20]** Coin hatları tasnif salonunda havada düz sıra (5 × 75 px) —
   formül hissi; hareketli platformun yolunu çizen yay. Etki düşük, maliyet düşük.
 
@@ -41,6 +40,26 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (24) — Bölüm 20 son avlu: Kemal Bey dövüşü izler, üçüncü dalgada kaçar (set-piece)
+
+**Neden şimdi:** Denetimin üçüncü bulgusu. Son avlu düz üç dalgalı bir arenaydı; bölümün hedefi
+Kemal Bey yalnız dövüşten sonraki hikâye sahnesinde ortaya çıkıyordu. DTM'de kaçan hedef dövüş
+sırasında oyuncunun gözü önündedir — dövüşe "acele" duygusu katar.
+
+**Oyuncu ne hissedecek:** Avluya girince sağ kapının ardında loş, küçük (arka plan) bir siluet:
+Kemal Bey izliyor. Üçüncü dalga başlayınca arkasını dönüp kayığa koşar, Gazelle telsizden "Kemal
+Bey kaçıyor! Çabuk, Redmount!" der; son dalga bir kovalamacanın son engeli olur. Hikâye sahnesi onu
+kayığın başında yakalar.
+
+**Yapılanlar:** `bolum20._kemal_watches(arena)`: dokunulmaz `AnimatedSprite2D` (Cutscene.ELITE_FRAMES,
+0,52 ölçek, z −6, loş), `wave_changed` 3'te 2,2 hızlı yürüyüşle 520 px sağa çıkıp silinir, `cleared`
+yedek temizlik. Kamera arenada kapılara kilitli olduğu için kapının 40 px içinde durur.
+
+**Testler:** import temiz; DTM GAPS PASS; 36 sahne smoke çıkış 0; bot Bölüm 20 CLEARED (10108, üç
+dalga, betik hatası yok). Görsel: avlu 1280×720 — siluet kapı ardında okunuyor, arka planda kalıyor.
+
+**Sonraki öneri:** Birikim — tasnif salonunda havadaki düz coin hattı (hareketli platformun yayı).
 
 ### 2026-10-26 (23) — Öğretici ipuçları: başlık kartını bekler, üst üste binmez, piksel çerçeve
 
