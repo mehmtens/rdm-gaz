@@ -63,6 +63,11 @@ func _hud_counter() -> void:
 	hud.set_arena_wave(2, 3, 4)
 	_check(hud._arena_panel.visible, "arena göstergesi görünmeli")
 	_check(hud._arena_label.text == "DALGA 2/3  ·  4 DÜŞMAN", "gösterge metni: " + hud._arena_label.text)
+	# Dalga arası: kalan 0 ama sırada dalga var → sıradaki duyurulur, "0 DÜŞMAN" yazılmaz.
+	hud.set_arena_wave(2, 3, 0)
+	_check(hud._arena_label.text == "DALGA 3/3 GELİYOR!", "dalga arası metni: " + hud._arena_label.text)
+	hud.set_arena_wave(3, 3, 0)
+	_check(hud._arena_label.text == "DALGA 3/3  ·  0 DÜŞMAN", "son dalga sonu: " + hud._arena_label.text)
 	hud.set_arena_wave(0, 0, 0)
 	_check(not hud._arena_panel.visible, "arena bitince gösterge gizlenmeli")
 	hud.queue_free()

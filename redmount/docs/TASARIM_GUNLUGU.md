@@ -7,9 +7,6 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Dalga arası sayaç: bir dalga bitip sonraki doğarken rozet "DALGA 1/2 · 0 DÜŞMAN" yazıyor
-  (Bölüm 16 belge odası, 26 Ekim denetimi) — oyuncu arenanın bittiğini sanabilir. Kalan 0 ve
-  sıradaki dalga varken "SIRADAKİ DALGA" yazsın. Ucuz, `hud.set_arena_wave`.
 - Biyom geçişi çift pozlama: Bölüm 16'da çamaşırlı avlu (x≈4500) ve cilt atölyesi→arşiv
   (x≈7250) geçişlerinde iki ChatGPT arka planı uzun mesafe yarı saydam üst üste; resim bulanık,
   "iki fotoğraf" gibi. Geçiş uzunluğunu ölç; kısalt ya da geçişi kapı/iç mekân arkasına sakla.
@@ -52,6 +49,25 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (27) — Dalga arası rozet: "DALGA 2/2 GELİYOR!" (birikim)
+
+**Neden şimdi:** Bölüm 16 denetiminin ikinci bulgusu, birikimin en üstü, ucuz. Bir dalga bitip
+sonraki doğana kadar (arenada `wave_delay`, Survival'da 4 sn) rozet "DALGA 1/2 · 0 DÜŞMAN"
+yazıyordu; oyuncu arenanın bittiğini sanıp kapıya koşabiliyordu.
+
+**Oyuncu ne hissedecek:** Son düşman düşünce rozet açık sarıya döner ve "DALGA 2/2 GELİYOR!"
+der — mola değil, hazırlık anı. Son dalganın sonunda zaten arena kapanıp rozet gizlenir.
+
+**Yapılanlar:** `Hud.set_arena_wave`: kalan 0 ve `wave < total` ise sıradaki dalgayı duyurur,
+renk (1,0; 0,9; 0,55). Arena ve Survival/Günün Dalgası aynı yolu kullanır. `tests/dtm_gaps.gd`
+iki yeni denetim (dalga arası metni, son dalga sonu eski biçim).
+
+**Testler:** import temiz; DTM GAPS PASS; DAILY WAVE PASS; 36 sahne smoke çıkış 0; bot Bölüm 1
+(8606), 13 (9556), 16 (9960), 25 (10155) CLEARED. Görsel: Bölüm 16 arşiv salonu — rozet telsiz
+panelinin altında, okunuyor.
+
+**Sonraki öneri:** Birikim — biyom geçişi çift pozlama (ölç, kısalt ya da kapı arkasına sakla).
 
 ### 2026-10-26 (26) — Tasarım denetimi (Bölüm 16) + telsiz üst bandı örtmez
 

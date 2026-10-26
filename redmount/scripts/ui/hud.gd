@@ -393,7 +393,12 @@ func set_arena_wave(wave: int, total: int, remaining: int) -> void:
 		_arena_panel.visible = false
 		return
 	_arena_panel.visible = true
-	_arena_label.text = "DALGA %d/%d  ·  %d DÜŞMAN" % [wave, total, remaining]
+	# Dalga arası (kalan 0, sırada dalga var): "0 DÜŞMAN" arena bitti sanılırdı → sıradakini duyur.
+	var between := remaining <= 0 and wave < total
+	_arena_label.text = ("DALGA %d/%d GELİYOR!" % [wave + 1, total] if between
+		else "DALGA %d/%d  ·  %d DÜŞMAN" % [wave, total, remaining])
+	_arena_label.add_theme_color_override(&"font_color",
+		Color(1.0, 0.9, 0.55) if between else Color(1.0, 0.72, 0.42))
 	# Ortalanmış kalsın: piksel yazı teması uygulandıktan sonra metne göre ölç.
 	_fit_arena_panel.call_deferred()
 
