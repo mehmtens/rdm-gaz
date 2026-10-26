@@ -191,7 +191,8 @@ static func rig_rim(sprite: CanvasItem) -> Color:
 		return Color.TRANSPARENT
 	if m.has_meta(&"night_rim") or (m.has_meta(&"costume") and m.get_shader_parameter(&"rim_enabled") == true):
 		var c = m.get_shader_parameter(&"rim_color")
-		return c if c is Color else Color(1.0, 0.82, 0.52, 0.9)
+		# DtmLevel.HERO_NIGHT_RIM ile aynı; sınıfa bağlanmaz (döngüsel bağımlılık, -s derlemesi).
+		return c if c is Color else Color(0.62, 0.74, 1.0, 0.85)
 	return Color.TRANSPARENT
 
 

@@ -7,10 +7,6 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- **[Denetim 26 Ekim, Bölüm 20]** Gece bölümlerinde kahraman ve düşman konturu aynı sıcak
-  fener renginde (gündüzde yalnız düşman konturlu) → gecede dost/düşman ayrımı kayboluyor. Kahramana
-  gecede soğuk ay ışığı konturu (ör. (0,62,0,72,1,0)). Ölçüt: gece kahraman ve düşman kontur tonu
-  farkı ≥ 120°. Etki orta, maliyet düşük.
 - **[Denetim 26 Ekim, Bölüm 20]** Üst bant kalabalığı: bölüm adı kartı, telsiz paneli (400 px) ve
   ipucu aynı anda üst yarıyı kaplıyor (b/c/d çekimleri). Telsiz, kart sönene kadar beklesin. Ölçüt:
   aynı anda en fazla bir üst panel. Etki orta, maliyet düşük.
@@ -45,6 +41,27 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (22) — Gecede kahramana soğuk ay ışığı konturu (birikim/denetim)
+
+**Neden şimdi:** Denetimin en ucuz, orta etkili bulgusu. Gecede kahraman ve düşman aynı sıcak fener
+konturuyla çevriliyordu; kalabalık dövüşte kim kim bir bakışta ayrılmıyordu (gündüzde zaten yalnız
+düşman konturlu).
+
+**Oyuncu ne hissedecek:** Gecede Redmount soğuk mavi ay ışığıyla, düşmanlar sıcak fener ışığıyla
+konturlu — kahraman kalabalıkta hep bulunur. Renk tarzın "sağ kenarda soğuk ay parlaması"
+kuralının ailesinden.
+
+**Yapılanlar:** `DtmLevel.HERO_NIGHT_RIM` (0,62; 0,74; 1,0; 0,85) — kostümsüz `dark_rim` ve kostüm
+malzemesinin konturu; `CostumeAccessory.rig_rim` varsayılanı aynı renk (sınıf referansı değil:
+`DtmLevel`'e bağlamak `-s` derlemesinde döngüsel bağımlılık yaptı, smoke çökünce yakalandı).
+Ölçüt: ton farkı fener (~35°) ↔ ay (~220°) ≈ 185° (≥ 120° hedefi).
+
+**Testler:** import temiz; 36 sahne smoke çıkış 0; DTM GAPS, DARK RIM SCOPE, COSTUME ACCESSORY,
+COSTUMES PASS; bot Bölüm 7 (9257), 20 (10108), 36 (16259) CLEARED. Görsel: Bölüm 20 gece, kahraman
+ve sokak serserisi yan yana, yakın çekim — mavi/turuncu kontur net ayrılıyor.
+
+**Sonraki öneri:** Birikim — üst bant kalabalığı (telsiz, bölüm kartı sönene kadar beklesin).
 
 ### 2026-10-26 (21) — Tasarım denetimi (Bölüm 20) + mahalle evlerine sıva boyası çeşitleri
 

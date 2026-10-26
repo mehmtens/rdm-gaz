@@ -69,6 +69,10 @@ const HOUSES := [
 ]
 ## Ev sanatlarında kiremit saçağının bittiği oran (gövde üst kenarı).
 const HOUSE_EAVE := [0.2, 0.17, 0.0]
+## Gecede kahramanın konturu soğuk ay ışığı: düşmanlar bölümün sıcak fener ışığıyla
+## konturlanır, kahraman ters tonda kalır — kalabalıkta dost/düşman bir bakışta ayrılır
+## (tarzın sağ kenar ay parlamasıyla aynı renk ailesi).
+const HERO_NIGHT_RIM := Color(0.62, 0.74, 1.0, 0.85)
 ## Her evin sıva boyası çeşitleri: özgün bej, gül kurusu, gri-mavi, okra (aynı çizim,
 ## tools/gen_house_variants.py yalnız sıvayı boyar). 36 bölümde üç ev aynı bej
 ## tekrarlanıyordu; aynı ev yan yana farklı boyayla mahalle gibi okunur.
@@ -296,13 +300,13 @@ func _rim_player() -> void:
 	if rig.material is ShaderMaterial and rig.material.has_meta(&"costume"):
 		# Kostüm malzemesi konturu kendisi çizer.
 		rig.material.set_shader_parameter(&"rim_enabled", true)
-		rig.material.set_shader_parameter(&"rim_color", Color(1.0, 0.82, 0.52, 0.9))
+		rig.material.set_shader_parameter(&"rim_color", HERO_NIGHT_RIM)
 		return
 	if rig.material != null:
 		return
 	var mat := ShaderMaterial.new()
 	mat.shader = preload("res://shaders/dark_rim.gdshader")
-	mat.set_shader_parameter(&"rim_color", Color(1.0, 0.82, 0.52, 0.9))
+	mat.set_shader_parameter(&"rim_color", HERO_NIGHT_RIM)
 	mat.set_meta(&"night_rim", true)
 	rig.material = mat
 
