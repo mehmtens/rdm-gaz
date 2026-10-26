@@ -36,14 +36,9 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   insan testinde ölüm hâlâ yığılıyorsa mahzene (x≈8900) simit.
 - Bölüm 19 külhan finali (tur 45): Külhanbeyi bire bir + iki alev bacası; bot 4 koşunun 2'sinde
   bir kez öldü. İnsan testinde finalde ölüm 1'i geçerse alev hasarı 12 → 8 ya da tek baca.
-- Kitap 2 iskeleti (tur 47 ölçümü): Bölüm 13–25'in açılışı neredeyse aynı — 1700/1850'de
-  basamak, 1850–3200 arası 60 px çukur avlu arenası, 3350 kontrol noktası, 3800'de 200 px'lik
-  kanal + üstte 220 px iskele, 4750 kontrol noktası; 18–23'te devamı da aynı (galeri+erzak →
-  salon → arena → 200 px kanal → küçük oda → 9300–9350 final). Bölüm başına bir tur, yere özgü
-  yeniden düzen. Yapılan: 19 (tur 47, açılış), 23 (tur 48, açılış), 22 (tur 49, açılış),
-  21 (tur 50, açılış), 20 (tur 51, açılış), 18 (tur 52, arena; bedesten zaten özgündü),
-  17 (tur 53, meydan arenası; sahaflar zaten özgündü), 25 (tur 54, açılış), 15 (tur 55,
-  açılış), 16 (tur 56, açılış). 13 ve 14 zaten farklı. Sıradaki: 24 (yalnız çukur arena).
+- Bölüm 24 finali (kule terası, x≈17600–18100): bot 4 koşunun 4'ünde de 2 yeniden doğma (tur 57;
+  değişiklikten önceki sürümde de aynı). İnsan testinde final ölümü 1'i geçerse son kontrol
+  noktası önüne simit ya da Ana Vana Muhafızı'nın yardımcı dalgası hafifletilsin.
 
 - Ön sıra katı evler yalnız 6 bölümde (1, 2, 3, 27, 29, 34; çoğu Kitap 1 Balat — yerine uygun).
   27/29/34'teki 2–3 ev insan testinde yere yabancı görünürse o bölüme özgü cephe çizilmeli
@@ -80,6 +75,29 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (57) — Bölüm 24 açılışı yere özgü: kemer bulvarında arena, kemer altında varil pusu; iskelet maddesi kapandı
+
+**Neden şimdi:** Kitap 2 iskeleti maddesinin son bölümü (tur 56 önerisi). Kitap 2 finali de
+60 px çukur avlu arenası + kemer altında 200 px kanal ile açılıyordu.
+
+**Oyuncu ne hissedecek:** İlk arena Bozdoğan kemerinin altındaki düz bulvarda. Kemer altında
+kanal yerine fıçıların ve çeşmenin önünde iki kişilik pusu; aralarında patlayıcı varil —
+ikili oyuncuya koşarken varilin yanında toplanıyor, tek tekmeyle ikisi birden savrulabilir
+(Dan the Man'in "ortamı silah yap" anı). Kule tüfeklisi ve bombacı aynı.
+
+**Yapılanlar:** `bolum24.gd` bölüm 1–2 ve başlık yorumu; zemin −400–19500 tek parça.
+
+**Testler:** import temiz; 36 sahne smoke çıkış 0; DTM GAPS PASS; Bölüm 24 bot başsız 3 koşu
+CLEARED (201 / 185 / 196 sn), her birinde 2 yeniden doğma — değişiklik öncesi sürüm aynı
+yerde (final terası) 2 yeniden doğma, 205 sn: fark yok, birikime not edildi. Görsel 1280×720:
+bulvar, pusu — "ait".
+
+**Kitap 2 iskeleti maddesi kapandı:** 15–25 ve Kitap 3'ün ilk bölümü 25'in açılışı artık
+bölüme özgü (tur 47–57). 13 ve 14 zaten farklıydı.
+
+**Sonraki öneri:** Birikimin üst maddeleri insan testine bağlı; yeni iş için tasarım denetimi
+(Kitap 3 bölümleri 26–36'da açılış/iskelet benzerliği taraması).
 
 ### 2026-10-26 (56) — Bölüm 16 açılışı yere özgü: düz ciltçiler sokağı, külliye avlusunda devriye
 

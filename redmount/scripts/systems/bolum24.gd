@@ -1,9 +1,9 @@
 ## Bölüm 24 — Bozdoğan Kemeri / Son Kumanda (Kitap 2 finali).
 ##
-## Uzun final (12 mekân): Saraçhane yaklaşımı -> kemer altı -> su kapısı avlusu ->
-## gizli bakım avlusu -> alt su galerisi -> ölçüm salonu -> denetim merdivenleri ->
-## kemer üst yolu -> dağıtım haznesi -> komuta arşivi -> servis kulesi -> kule
-## terası (Ana Vana Muhafızı). Kumanda anahtarı alınır, şehrin suyu kurtulur.
+## Uzun final (12 mekân): Saraçhane yaklaşımı (bulvar arenası) -> kemer altı (varil
+## pusu) -> su kapısı avlusu -> gizli bakım avlusu -> alt su galerisi -> ölçüm salonu ->
+## denetim merdivenleri -> kemer üst yolu -> dağıtım haznesi -> komuta arşivi -> servis
+## kulesi -> kule terası (Ana Vana Muhafızı). Kumanda anahtarı alınır, şehrin suyu kurtulur.
 ## Kâtip kuleden kaçmıştır; masasında bıraktığı not Kitap 3'ü açar: "Kâğıt bitti.
 ## Şimdi ses." Anahtarın mührü Cağaloğlu'ndaki eski matbaayı gösterir.
 extends DtmLevel
@@ -24,30 +24,29 @@ func _build() -> void:
 	sky_shade = Color(0.08, 0.05, 0.05)
 	back_row_skip = [[6300.0, 19500.0]]
 
-	# --- 1. Saraçhane yaklaşımı: devriye, alt avlu arenası --------------------------
-	_terrain(-400, 1700, 0)
+	# --- 1. Saraçhane yaklaşımı: devriye, kemer bulvarında arena -------------------
+	# Kitap 2'nin ortak çukur avlusu yerine arena kemerin altındaki düz bulvarda.
+	_terrain(-400, 19500, 0)
 	_story(-1.0, _sahne_baslangic, 240.0)
 	_enemy(STREET, 700, 0)
 	_prop("saksi", 900)
-	_terrain(1700, 1850, 30)
-	_terrain(1850, 3000, 60)
 	var a1: BattleArena = ARENA.instantiate()
-	a1.position = Vector2(2400, 60)
+	a1.position = Vector2(2400, 0)
 	a1.gate_left_x = 2000
 	a1.gate_right_x = 2850
-	a1.floor_y = 60
+	a1.floor_y = 0
 	a1.wave1 = _wave(STREET, KNIFE, STREET)
 	a1.wave2 = _wave(RIFLE, KNIFE)
 	a1.reward = ARMOR
 	add_child(a1)
-	_terrain(3000, 3150, 30)
 
-	# --- 2. Kemer altı: kısa açıklık, menzilli pusu; erzak -------------------------
-	_terrain(3150, 3600, 0)
+	# --- 2. Kemer altı: fıçılar arasında pusu, menzilli kule; erzak -----------------
+	# Kanal yerine kemer ayağının dibindeki fıçı yığını: patlayıcı varil iki kişilik
+	# pusunun önünde — tekmelenirse ikisini birden savurur.
 	_checkpoint(3200, 0)
-	_canal(3600, 3800, 110)
-	_scaffold(3700, -20, 220)
-	_terrain(3800, 19500, 0)
+	_prop("patlayici", 3640)
+	_enemy(STREET, 3760, 0)
+	_enemy(KNIFE, 3830, 0)
 	_crates(3950, 1, 1)
 	_crates(4040, 1, 2)
 	_terrain(4130, 4400, -180)
