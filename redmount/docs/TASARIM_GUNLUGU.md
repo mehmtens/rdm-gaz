@@ -10,8 +10,6 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 - **[Denetim 26 Ekim, Bölüm 30]** Ön sıra katı evler (`_house`/`A_BUILDING`) 36 bölümde aynı üç
   Balat evi (artık dört boyayla). Kıyı bölümlerinde (Kitap 3: 29–33) yere özgü ahşap yalı cephesi
   ChatGPT tarzında çizilmeli. Etki yüksek, maliyet yüksek (büyük sanat).
-- `tests/capture_level.gd` gerçek kaydı kullanıyor (çekimde duraklatma/satın alma kaydı değiştirir);
-  `Save._path` test yoluna alınmalı. Etki düşük, maliyet çok düşük.
 
 - İpucu sırası insan testi: Bölüm 1'de oyuncu hemen koşarsa x=150 "sola bak" (gizli alan) ipucu,
   kart beklerken geçilip x=560 hareket ipucuna yol veriyor. Gizli alan bulma oranı düşerse ipucu

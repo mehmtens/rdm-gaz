@@ -8,6 +8,9 @@ extends Node
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	# Gerçek kayda dokunma (çekimde duraklatma/satın alma kaydı değiştirirdi).
+	Save._path = "user://_capture_level.cfg"
+	Save.load_game()
 	var folder := OS.get_environment("REDMOUNT_CAPTURE_DIR")
 	GameState.level_index = OS.get_environment("REDMOUNT_PROBE_LEVEL").to_int()
 	var main: Node = load("res://scenes/Main.tscn").instantiate()
