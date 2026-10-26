@@ -13,7 +13,7 @@ Kural seti (assets/backgrounds ve book03_final_* sayfalarından ölçüldü):
 Çıktı: assets/environment/pixel/{varil,patlayici,parmaklik,parmaklik_tepe,tup,
 fener,fener_hale,asma_lamba,on_kolon,on_kolon_bas,on_kolon_kaide,on_sarmasik,zincir,halat,kum_torbasi,tas_blok,raf,kaset,cerceve,
 diken,alev_izgara,kablo,bomba,bomba_ikaz,alev,kivilcim,patlama,
-tugla,sivali_tugla,ic_duvar,hatil,ic_pencere,fabrika_pencere,cephe_pencereleri,kat_silmesi,tavan,han_kapisi,
+tugla,sivali_tugla,ic_duvar,hatil,ic_pencere,fabrika_pencere,cephe_pencereleri,kat_silmesi,saldiri_uyari,tavan,han_kapisi,
 pres,pres_kol,ray,su_govde,su_yuzey,anten,kule_ayak,kule_kulube,ahsap_kat,
 kalkan,kalkan_kirik,sancak,catlak,kiymik}.png
 ve assets/pickups/placeholder_rifle.png
@@ -1342,6 +1342,45 @@ def make_cephe_pencereleri(rnd):
     return strip
 
 
+def make_saldiri_uyari(rnd):
+    """Düşman saldırı uyarısı (2 × 10×18 şerit: 0 normal kehribar, 1 ağır kızıl): kalın,
+    aşağı incelen ünlem gövdesi + nokta. Sol üstten fener ışığı (dar açık şerit), sağ
+    kenarda ay kenar parlaması, gövde altı koyu; mor kontur. Düz renk yok: kenar ve
+    orta tonlar rampa üzerinde titreşir, gövdede bir çatlak."""
+    w, h = 10, 18
+    strip = Image.new("RGBA", (w * 2, h), (0, 0, 0, 0))
+    for i, ramp in enumerate((HAZARD + [(250, 226, 150)], RED + [(246, 170, 104)])):
+        img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+        px = img.load()
+        for y in range(1, 12):
+            half = 3.2 - (y - 1) * 0.16  # üstte geniş, alta incelir
+            for x in range(w):
+                u = (x - 4.5) / half
+                if abs(u) > 1.0:
+                    continue
+                # Uyarı sahnede parlamalı: rampanın üst yarısı (karanlık tarz kuralının
+                # bilinçli istisnası; ışık yine sol üstte, gölge sağ altta).
+                lv = 0.38 + light(u) * 0.6 + (0.12 if y < 4 else 0.0) - (y - 1) * 0.02
+                c = pick(ramp, lv, rnd, 0.5)
+                if u > 0.6:
+                    c = mix(c, MOON, 0.3)
+                px[x, y] = c + (255,)
+        for y in range(13, 17):
+            for x in range(3, 7):
+                u = (x - 4.5) / 1.6
+                lv = 0.36 + light(u) * 0.6 + (0.1 if y == 13 else -0.04 * (y - 13))
+                c = pick(ramp, lv, rnd, 0.4)
+                if x == 6:
+                    c = mix(c, MOON, 0.3)
+                px[x, y] = c + (255,)
+        px[3, 2] = ramp[-1] + (255,)  # parlama
+        px[4, 7] = ramp[1] + (255,)  # çatlak
+        px[5, 8] = ramp[1] + (255,)
+        outline(img)
+        strip.paste(img, (i * w, 0))
+    return strip
+
+
 def make_kat_silmesi(rnd):
     """Kat silmesi (16×6, yatay döşenir): taş korniş; üst yüz fener ışığında, altta
     çıkıntının düşürdüğü mor gölge ve tuğlaya inen is akıntısı."""
@@ -2149,6 +2188,7 @@ def main():
     make_fabrika_pencere(random.Random(109)).save(OUT + "fabrika_pencere.png")
     make_cephe_pencereleri(random.Random(223)).save(OUT + "cephe_pencereleri.png")
     make_kat_silmesi(random.Random(227)).save(OUT + "kat_silmesi.png")
+    make_saldiri_uyari(random.Random(229)).save(OUT + "saldiri_uyari.png")
     make_tavan(random.Random(113)).save(OUT + "tavan.png")
     make_han_kapisi(random.Random(127)).save(OUT + "han_kapisi.png")
     make_pres(random.Random(131)).save(OUT + "pres.png")

@@ -1,7 +1,8 @@
 ## Gece konturunun bölüm kapsamı (birikim: gece geçişinde düşman konturu). main.gd
 ## bölüm değiştirirken eski bölümü queue_free eder ve yenisini aynı karede ekler; düşman
 ## konturu ertelenmiş kurulduğu için o karede ağaçta iki bölüm vardır. Düşman ve
-## platform kenarı kendi bölümüne bakmalı, grubun ilk düğümüne değil.
+## platform kenarı kendi bölümüne bakmalı, grubun ilk düğümüne değil. Gündüz bölümünde
+## düşman biome renginde zayıf kontur alır (26 Ekim), gece rengini asla taşımaz.
 ##
 ##  godot --headless --path . res://tests/dark_rim_scope.tscn
 extends Node
@@ -50,6 +51,15 @@ func _rim_of(e: Node) -> Variant:
 	return m.get_shader_parameter(&"rim_color") if m is ShaderMaterial else null
 
 
+## Gündüz konturu: bölümün biome kenar ışığı, alfası EnemyBase.DAY_RIM_ALPHA ile zayıf.
+func _is_day_rim(rim: Variant, lvl: Level) -> bool:
+	if not (rim is Color):
+		return false
+	var want := lvl.edge_light
+	want.a *= EnemyBase.DAY_RIM_ALPHA
+	return (rim as Color).is_equal_approx(want)
+
+
 func _frames(n := 3) -> void:
 	for i in n:
 		await get_tree().process_frame
@@ -61,7 +71,7 @@ func _night_to_day() -> void:
 	_check(_rim_of(a[1]) == Color(1, 0.5, 0.2), "gece bölümünde düşman konturlu")
 	var b := _swap(a[0], false)
 	await _frames()
-	_check(_rim_of(b[1]) == null, "geceden sonra gelen gündüz bölümünde düşman kontursuz")
+	_check(_is_day_rim(_rim_of(b[1]), b[0]), "geceden sonra gelen gündüz bölümünde düşman zayıf gündüz konturlu (gece rengi değil)")
 	b[0].queue_free()
 	await _frames()
 
@@ -69,7 +79,7 @@ func _night_to_day() -> void:
 func _day_to_night() -> void:
 	var a := _level(false)
 	await _frames()
-	_check(_rim_of(a[1]) == null, "gündüz bölümünde düşman kontursuz")
+	_check(_is_day_rim(_rim_of(a[1]), a[0]), "gündüz bölümünde düşman zayıf gündüz konturlu")
 	var b := _swap(a[0], true, Color(0.2, 0.9, 0.4))
 	await _frames()
 	_check(_rim_of(b[1]) == Color(0.2, 0.9, 0.4), "gündüzden sonra gelen gece bölümünde düşman konturlu")

@@ -79,4 +79,4 @@ func _physics_process(delta: float) -> void:
 		_slam_t = 6.0
 		_warn = 0.6
 		velocity.x = 0.0
-		Fx.popup(global_position + Vector2(0, -150), "!", Color(1.0, 0.35, 0.2), 36)
+		_telegraph(true, _warn, 170.0)

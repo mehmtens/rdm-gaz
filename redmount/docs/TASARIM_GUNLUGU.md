@@ -9,9 +9,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 - Tuğla cephe alt katında dükkân (kepenk + tabela + tente): pencere çeşitlemesinden kalan dilim;
   `_interior` stil 0 ve `A_FACTORY` zemin katı hâlâ düz tuğla + pencere.
-- **[Denetim 26 Ekim]** Saldırı uyarısı (`!`) bu çekimlerde hiç yakalanmadı; 0,32 sn hazırlık + küçük
-  işaret. İşaret 2x büyüklükte ve düşmanın üstünde 1 piksellik beyaz kontur kırpışmasıyla birlikte
-  denenmeli (P1 "saldırı okunurluğu" ile birlikte, insan testinde ilk hasar nedeni ölçülerek).
+- Saldırı uyarısı insan testi: ilk hasarın nedeni (uyarı görüldü mü?) ölçülmeli; MIN_SHOW 0,28 ve
+  kırpışma periyodu 0,06 hipotez.
 
 - Kaldırım taşı: taş yalnız 2 ve 5'teki büfede; insan testinde taş çok seçiliyorsa
   diğer büfelerde de denenebilir.
@@ -35,6 +34,30 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (18) — Saldırı uyarısı: piksel ünlem + beyaz kontur kırpışması (birikim/denetim)
+
+**Neden şimdi:** Birikimin en üstü. Uyarı, yazı tipiyle çizilen 22 px "!" idi: yukarı kayıp 0,3 sn'de
+soluyordu, denetim çekimlerinde hiç yakalanmadı; suikastçının 0,12 sn hazırlığında fark edilmiyordu.
+Üstelik piksel art kuralına aykırı (font çizimi).
+
+**Oyuncu ne hissedecek:** Saldıracak düşmanın başında 10×18 piksel ünlem (3x → ~54 px, eskinin
+~2,5 katı) belirip hafifçe zıplar; aynı anda düşmanın konturu beyaz kırpışır — kalabalıkta
+"hangisi vuracak" bir bakışta okunur. Ağır saldırı / atış / hamle kızıl, normal kehribar.
+
+**Yapılanlar:** `saldiri_uyari.png` (gen_gpt_style_props: HAZARD/RED rampası, sol üst ışık, sağda ay
+parlaması, mor kontur; uyarı olduğu için rampanın üst yarısı — tarzın karanlık kuralına bilinçli
+istisna). `EnemyBase._telegraph()` + `_Warn`: hazırlık süresince kalır, en az `MIN_SHOW` 0,28 sn
+(gerekçe: ~17 kare, 60 fps'te göz için alt sınır), vurulunca/devrilince hemen kalkar; kırpışma
+`FLASH_PERIOD` 0,06 sn yalnız gerçek hazırlıkta, bitince taban kontur geri yazılır. Yakın dövüş,
+nişan, hamle ve hikâye patronunun şok dalgası aynı uyarıyı kullanır (4 `Fx.popup` "!" kalktı).
+Önceki turun gündüz konturu `tests/dark_rim_scope` testini kırmıştı (gündüzde kontursuz bekliyordu);
+test yeni davranışa (biome rengi × `DAY_RIM_ALPHA`, gece rengi asla) güncellendi.
+
+**Testler:** import temiz; 36 sahne smoke çıkış 0; DTM GAPS, DARK RIM SCOPE (güncellendi), yeni TELEGRAPH MARK, HUD HINTS PASS; bot Bölüm 1 (8604), 12 (7385), 25 (10158), 36 (16256, son patron) CLEARED. Görsel: Bölüm 2’de üç düşman; vuran beyaz konturlu + ünlemli, diğer
+ikisi zayıf sıcak konturlu, 1280×720 + yakın çekim; ünlem baştan 10 px yukarı alındı.
+
+**Sonraki öneri:** Birikim — tuğla cephe alt katında dükkân.
 
 ### 2026-10-26 (17) — Gündüz/alacakaranlıkta düşmana zayıf kenar ışığı (birikim/denetim)
 

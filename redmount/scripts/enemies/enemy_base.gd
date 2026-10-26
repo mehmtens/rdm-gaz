@@ -195,6 +195,76 @@ func _apply_dark_rim() -> void:
 	(sprite as CanvasItem).material = mat
 
 
+const _WARN_TEX := preload("res://assets/environment/pixel/saldiri_uyari.png")
+var _warn_mark: Node
+
+
+## Saldırı uyarısı: başın üstünde piksel ünlem (0 kehribar, ağırda kızıl) hazırlık
+## boyunca durur, gövde konturu beyaz kırpışır. Eski yazı popup'ı yukarı kayıp 0,3 sn'de
+## soluyordu ve 22 px idi; hızlı düşmanda (0,12 sn) hiç fark edilmiyordu.
+func _telegraph(heavy: bool, windup: float, height := 134.0) -> void:
+	if is_instance_valid(_warn_mark):
+		_warn_mark._end()  # konturu hemen eski rengine döndür (yeni uyarı onu taban alır)
+	var w := _Warn.new()
+	w.enemy = self
+	w.heavy = heavy
+	w.flash_time = windup
+	w.height = height
+	_warn_mark = w
+	add_child(w)
+
+
+## Uyarı ünlemi: en az `MIN_SHOW` sn görünür (hızlı hazırlıkta da okunsun); düşman
+## vurulunca/devrilince hemen kaybolur. Kontur kırpışması yalnız gerçek hazırlıkta.
+class _Warn extends Sprite2D:
+	const MIN_SHOW := 0.28
+	const FLASH_PERIOD := 0.06
+	var enemy: Node
+	var heavy := false
+	var flash_time := 0.3
+	var height := 134.0
+	var _t := 0.0
+	var _mat: ShaderMaterial
+	var _base_rim := Color.WHITE
+
+	func _ready() -> void:
+		texture = _WARN_TEX
+		region_enabled = true
+		region_rect = Rect2(10 if heavy else 0, 0, 10, 18)
+		texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		position = Vector2(0, -height)
+		z_index = 20
+		scale = Vector2(4.5, 4.5)
+		var spr: Variant = enemy.get("sprite")
+		if spr is CanvasItem and (spr as CanvasItem).material is ShaderMaterial:
+			_mat = (spr as CanvasItem).material
+			_base_rim = _mat.get_shader_parameter(&"rim_color")
+
+	func _process(delta: float) -> void:
+		_t += delta
+		var st: int = enemy.get("_state")
+		var stop := st in [State.HURT, State.KNOCKDOWN, State.DEAD, State.ARMOR_BREAK]
+		if stop or _t >= maxf(flash_time, MIN_SHOW):
+			_end()
+			return
+		# Belirme: 1,5 kat büyükten 3 kata oturur (0,08 sn), sonra hafif zıplar.
+		var s := lerpf(4.5, 3.0, clampf(_t / 0.08, 0.0, 1.0))
+		scale = Vector2(s, s)
+		position.y = -height - absf(sin(_t * 18.0)) * 3.0
+		if _mat != null:
+			var on := _t < flash_time and int(_t / FLASH_PERIOD) % 2 == 0
+			_mat.set_shader_parameter(&"rim_color", Color(1, 1, 1, 0.95) if on else _base_rim)
+
+	func _end() -> void:
+		if _mat != null:
+			_mat.set_shader_parameter(&"rim_color", _base_rim)
+		queue_free()
+
+	func _exit_tree() -> void:
+		if _mat != null:
+			_mat.set_shader_parameter(&"rim_color", _base_rim)
+
+
 ## Rig görünümünü stile göre kur (Görev 21).
 func _setup_rig() -> void:
 	if frames != null and sprite is AnimatedSprite2D:
@@ -424,7 +494,7 @@ func _do_ranged(delta: float) -> void:
 		_aiming = true
 		_aim_timer = config.aim_time
 		_play(&"aim")
-		Fx.popup(global_position + Vector2(0, -115), "!", Color(1.0, 0.35, 0.2), 28)
+		_telegraph(true, config.aim_time)
 
 
 func _fire_one() -> void:
@@ -446,7 +516,7 @@ func _enter_dash_prepare() -> void:
 	_face_player()
 	_set_hitbox_enabled(false)
 	_set_state(State.DASH)
-	Fx.popup(global_position + Vector2(0, -115), "!", Color(1.0, 0.55, 0.2), 28)
+	_telegraph(true, config.dash_prepare_time)
 
 
 func _do_dash(delta: float) -> void:
@@ -483,9 +553,7 @@ func _start_attack() -> void:
 	_set_hitbox_enabled(false)
 	_set_state(State.ATTACK)
 	_play(config.heavy_attack_anim if _attack_heavy else config.attack_anim)
-	Fx.popup(global_position + Vector2(0, -115), "!",
-		Color(1.0, 0.25, 0.15) if _attack_heavy else Color(1.0, 0.75, 0.25),
-		30 if _attack_heavy else 22)
+	_telegraph(_attack_heavy, _phase_full)
 	Sfx.play(&"swing", 0.7 if _attack_heavy else 0.9)
 
 
