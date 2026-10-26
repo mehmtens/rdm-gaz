@@ -109,8 +109,6 @@ func _build() -> void:
 	# --- 6. Han ambarı: sahte mühür çuvalları; seçkin + menzilli arena ---------
 	_checkpoint(7250, 0)
 	_story(7330, _sahne_ambar)
-	_canal(7450, 7650, 110)
-	_scaffold(7550, -20, 220)
 	_prop("kasa", 7720)
 	# Ambar: çuval yığınlı galerili salon.
 	_interior(7760, 8490, -345, [], 0)
@@ -129,8 +127,6 @@ func _build() -> void:
 
 	# --- 7. Gizli defter odası: son servis aralığı, devriye ------------------------
 	_checkpoint(8600, 0)
-	_canal(8700, 8900, 110)
-	_scaffold(8800, -20, 220)
 	_interior(8960, 9330, -230, [-115.0], 1)
 	_enemy(ELITE, 9050, 0)
 	_pickup(HEALTH, 9280, -160)

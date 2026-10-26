@@ -108,8 +108,6 @@ func _build() -> void:
 
 	# --- 6. Tuzlu servis geçidi: arena -------------------------------------------
 	_checkpoint(7450, 0)
-	_canal(7550, 7750, 110)
-	_scaffold(7650, -20, 220)
 	_fg("kolon", 7950.0, 40.0, 380.0)
 	_fg("kolon", 8350.0, 40.0, 380.0)
 	var tuz: BattleArena = ARENA.instantiate()
@@ -124,8 +122,6 @@ func _build() -> void:
 
 	# --- 7. Gizli kayıt odası: oyulmuş blok -----------------------------------
 	_checkpoint(8600, 0)
-	_canal(8700, 8900, 110)
-	_scaffold(8800, -20, 220)
 	_interior(8960, 9320, -230, [-115.0], 1)
 	_stones(9050, 1, 1)
 	_story(9000, _sahne_blok)

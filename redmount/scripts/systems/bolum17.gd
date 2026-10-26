@@ -88,9 +88,7 @@ func _build() -> void:
 	_enemy(KNIFE, 5900, 0)
 
 	# --- 5. Tasnif salonu: alt açık rota, üst galeri ----------------------------
-	_terrain(6200, 7500, 0)
-	_terrain(7700, 8850, 0)
-	_terrain(9050, 10100, 0)
+	_terrain(6200, 10100, 0)
 	_checkpoint(6250, 0)
 	_story(6350, _sahne_tasnif)
 	# Tasnif salonu: posta binasının içi; galeriler tavana yakın.
@@ -104,10 +102,8 @@ func _build() -> void:
 	_prop("sandik", 6800, 0, AMMO)
 	_enemy(ASSASSIN, 7000, 0)
 
-	# --- 6. Telgraf odası: servis kesintisi, seçkin devriye; telgraf ipucu ----------
+	# --- 6. Telgraf odası: seçkin devriye; telgraf ipucu -----------------------------
 	_checkpoint(7350, 0)
-	_canal(7500, 7700, 110)
-	_scaffold(7600, -20, 220)
 	_enemy(ELITE, 8000, 0)
 	_story(7800, _sahne_telgraf)
 	# Telgraf odası: iki kat; üst katta mors masaları.
@@ -120,8 +116,6 @@ func _build() -> void:
 	# --- 7. Paket geçidi: tekli çatışma, son dar aralık ------------------------
 	_checkpoint(8350, 0)
 	_enemy(BRUISER, 8650, 0)
-	_canal(8850, 9050, 110)
-	_scaffold(8950, -20, 220)
 	_pickup(HEALTH, 9200, -45)
 
 	# --- 8. Çıkış kulesi: final; Kapalıçarşı fişi ------------------------------

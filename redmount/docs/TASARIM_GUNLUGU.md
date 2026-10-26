@@ -37,8 +37,7 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 - Bölüm 19 külhan finali (tur 45): Külhanbeyi bire bir + iki alev bacası; bot 4 koşunun 2'sinde
   bir kez öldü. İnsan testinde finalde ölüm 1'i geçerse alev hasarı 12 → 8 ya da tek baca.
 - Orta kesimlerde "200 px kanal + tam üstünde 220 px sağlam plank" kalıbı (tur 60 taraması):
-  Yapılan: 14 (tur 61), 15 (tur 62), 16 (tur 63). Kalan: 17 (7500, 8850), 18 (7450, 8700), 19 (7200,
-  8950), 20 (7550, 8700), 21–23 (8600), 24 (9000, 11450, 13750), 25 (8450), 29 (5300). Kanal
+  Yapılan: 14 (tur 61), 15 (tur 62), 16 (tur 63), 17–20 (tur 64). Kalan: 21–23 (8600), 24 (9000, 11450, 13750), 25 (8450), 29 (5300). Kanal
   oynanışta yok, plank üstünden yürünüyor. Bölüm başına bir tur; yere göre: açık atlama
   (çıkış taşı ŞART: `_terrain(x1-50, x1, 55)`), çürük tahta, palet, ayak taşı ya da kanalı
   tamamen kaldırma. 13'ün ilk açıklığı (kayıkçı iskelesi), 35 ve 36 kasıtlı köprü.
@@ -83,6 +82,28 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (64) — Bölüm 17–20 orta kesimlerinde iç mekân kanalları kalktı
+
+**Neden şimdi:** Orta kesim kanal maddesi (tur 63 önerisi). Sekiz kanal noktasının ekran
+görüntüleri tek seferde çekildi (`tests/capture_level`, 4 bölüm): telgraf odası ve posta avlusu
+(17), han ambarı ve arşiv odası (18), külhan koridoru ve ocak önü (19), tuzlu servis geçidi ve
+kayıt odası (20). Hiçbiri suya ait değil, hepsi plank'lı = oynanışta engel yok. Bölüm 20'nin
+deniz manzaralı geçidi tek aday olabilirdi; bölümde büyük su geçişi (deniz kapısı, tur 51)
+zaten var.
+
+**Oyuncu ne hissedecek:** Odaların ortasında anlamsız su şeridi yok; mekânlar kendi
+eşyalarıyla (masa, raf, ocak) okunuyor. Oynanış değişmedi (plank zaten düz yoldu).
+
+**Yapılanlar:** dört bölümde `_canal` + plank satırları silindi; Bölüm 17'de bölünmüş zemin
+6200–10100 tek parça yapıldı (diğerlerinde zemin zaten kesintisizdi, `_cut_holes` bölüyordu).
+Bölüm başlıklarındaki "servis kesintisi" / "son kanal" ifadeleri düzeltildi.
+
+**Testler:** import temiz; 36 sahne smoke çıkış 0; DTM GAPS PASS; bot başsız ikişer koşu:
+17 (83,0 / 77,5 sn), 18 (93,2 / 99,4), 19 (89,4 / 85,6), 20 (95,0 / 104,0) hepsi CLEARED.
+
+**Sonraki öneri:** Kalan grup: 21, 22, 23, 25, 29 ve 24'ün ilk iki kanalı iç mekân/kuru —
+kaldırılacak; 24'ün dağıtım haznesi (13750) suya ait, çürük tahtaya çevrilecek.
 
 ### 2026-10-26 (63) — Bölüm 16 cilt atölyesi ve arşiv mahzeninde kanal kalktı
 
