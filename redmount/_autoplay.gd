@@ -84,6 +84,11 @@ func _physics_process(delta: float) -> void:
 		Cutscene.active._advance = true
 		return
 
+	# Pencereli koşuda odak kaybı duraklatma menüsünü açar; bu bitiş değil, kapatıp sürdür.
+	if _main._pause_menu.is_open() and not _main._finished:
+		_main._pause_menu.close()
+		return
+
 	# bitiş?
 	if get_tree().paused or _main._finished:
 		_finish_level("CLEARED @%.0f  t=%.1fs" % [_max_x, _run_t])

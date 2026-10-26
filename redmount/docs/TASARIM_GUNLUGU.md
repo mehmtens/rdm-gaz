@@ -72,6 +72,29 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-10-26 (44) — Denetim (Bölüm 15, 17, 21): bot duraklatmayı "bitti" sanıyordu
+
+**Neden şimdi:** Tur 43'ün önerisi. Pencereli bot: Bölüm 15 (Zeyrek Su Hattı) CLEARED 9735,
+88 sn, 0 ölüm; Bölüm 17 CLEARED 10006, 75 sn; Bölüm 21 (Yenikapı) CLEARED 10106, 90 sn.
+Su kemeri, çeşme meydanı, su çarkı, Sahaflar ve Rıhtım erzakçısı, sevk odası resimleri
+iyi; birkaç karedeki çift pozlama 240 px'lik gökyüzü geçişine denk geliyor (Bölüm 16 denetiminde
+kısaltılmıştı, beklenen). Bulgu oyunda değil test düzeneğinde: Bölüm 15'in ilk koşusu 0 sn'de
+"CLEARED @80", Bölüm 21'in ilk koşusu 36 sn'de "CLEARED @5796" dedi (hedef 10150). Pencereli
+koşuda odak kaybı (`NOTIFICATION_WM_WINDOW_FOCUS_OUT`) duraklatma menüsünü açıyor; bot
+`get_tree().paused`'u bölüm bitti sayıyordu. Denetim koşuları bu yüzden yarım bölümü
+"temiz" raporlayabiliyordu (günlükteki eski "zaman zaman duraklatma menüsü" notu aynı şey).
+
+**Oyuncu ne hissedecek:** Doğrudan bir şey değil; denetim ve bot sonuçları güvenilir olur.
+
+**Yapılanlar:** `_autoplay.gd`: duraklatma menüsü açıksa (bölüm bitmemişse) bot menüyü kapatıp
+sürdürüyor; bitiş yalnız gerçek bitişte. Bölüm 21 yeniden: CLEARED 10106.
+
+**Testler:** import temiz; DTM GAPS PASS; bot (başsız) Bölüm 1 (8608), 13 (9556), 25 (10159)
+CLEARED; pencereli Bölüm 21 CLEARED 10106.
+
+**Sonraki öneri:** Önerilen denetim listesi (9, 12, 15, 17, 21) bitti. Birikimin kalanı insan
+testine bağlı.
+
 ### 2026-10-26 (43) — Denetim (Bölüm 9, 12): Karahanlı dövüşünde boss çubuğu yoktu
 
 **Neden şimdi:** Tur 42'nin önerisi (sıradaki denetimler: 9, 12, 15…). Bölüm 9 (Kız Kulesi
