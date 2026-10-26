@@ -139,6 +139,12 @@ var _secret_count := 0
 var _chimney_xs: Array = []
 var _interiors: Array = []
 var _ceilings: Array = []
+## Düz zeminde kamera alt sınırı: zemin ekranın alt beşte birinde (36 bölümün çoğu).
+const CAM_BOTTOM_FLAT := 130
+## Derin kesimler [x0, x1] (zemini 110 px'ten aşağıda: havuz, derin kanal, çukur avlu).
+## Bölümün `camera_limit_bottom` değeri yalnız buralarda açılır; yoksa tüm bölüm boyunca
+## zeminin altında boş toprak dolgusu görünür (Bölüm 21: zemin ekranın %64'ünde).
+var _deep_spans: Array = []
 
 
 func _build_chapter() -> void:
@@ -149,6 +155,9 @@ func _build_chapter() -> void:
 	camera_limit_left = mini(camera_limit_left, -640)
 	_build()
 	_cut_holes()
+	for g in _ground_parts:
+		if g[2] > 110.0:
+			_deep_spans.append([g[0] - 420.0, g[1] + 420.0])
 	_secret_cellar()
 	_auto_secrets()
 	_arena_barrels()
@@ -861,11 +870,27 @@ func _ready() -> void:
 	add_child(card)
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	if _cam == null:
 		_cam = get_viewport().get_camera_2d()
 		if _cam != null:
 			_cam.set("_base_zoom", Vector2(zoom_level, zoom_level))
+	if _cam != null and camera_limit_bottom > CAM_BOTTOM_FLAT:
+		_ease_cam_bottom(delta)
+
+
+## Kamera alt sınırı derin kesime yaklaşırken bölümün değerine açılır, çıkınca düz
+## zemin değerine döner; sınır kayarak değişir (kamera sıçramaz).
+func _ease_cam_bottom(delta: float) -> void:
+	var p := get_tree().get_first_node_in_group(&"player") as Node2D
+	if p == null:
+		return
+	var target := CAM_BOTTOM_FLAT
+	for span in _deep_spans:
+		if p.global_position.x >= span[0] and p.global_position.x <= span[1]:
+			target = camera_limit_bottom
+			break
+	_cam.limit_bottom = int(move_toward(float(_cam.limit_bottom), float(target), 360.0 * delta))
 
 
 func _exit_tree() -> void:

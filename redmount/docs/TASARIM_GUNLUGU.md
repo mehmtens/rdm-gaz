@@ -36,9 +36,6 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   insan testinde ölüm hâlâ yığılıyorsa mahzene (x≈8900) simit.
 - Bölüm 19 külhan finali (tur 45): Külhanbeyi bire bir + iki alev bacası; bot 4 koşunun 2'sinde
   bir kez öldü. İnsan testinde finalde ölüm 1'i geçerse alev hasarı 12 → 8 ya da tek baca.
-- Bölüm 21 kamera alt sınırı 270 (kuru havuz 200 px derin): bölümün tamamında zemin ekranın
-  ~%64'ünde, diğer bölümlerde ~%82 (alt 130); alt yarıda boş toprak. Alt sınır yalnız havuz
-  kesiminde (x≈6400–7200) açılmalı (bölge başına kamera sınırı gerekir).
 - Kitap 2 bölümleri (18–23) iskeletçe hâlâ aynı: son kontrol noktası 9300–9350, final 9700,
   aynı sıra (sokak → avlu arenası → kanal → galeri+erzak → salon → arena → küçük oda → final).
   Dalga dizileri tur 45'te ayrıştı; yerleşim de bölüme özgü olmalı (büyük iş, bölüm başına tur).
@@ -78,6 +75,31 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (46) — Kamera alt sınırı yalnız derin kesimde açılır (Bölüm 8, 9, 10, 21)
+
+**Neden şimdi:** Tur 45 denetiminin bulgusu (birikimde eyleme dönük tek madde). Bölüm 21'in
+kamera alt sınırı kuru havuz (200 px derin) yüzünden 270; bölümün tamamında zemin ekranın
+~%64'ünde, altta boş toprak dolgusu, finalde vapurlu rıhtım resmi yarıya iniyordu. Tarama:
+aynı durum Bölüm 8 (260; 160 px derin kanal yolu), 9 (200; derin kanal) ve 10'da (200; derin
+kesim yok, kalıntı) da var. Diğer 32 bölüm 130.
+
+**Oyuncu ne hissedecek:** Dört bölümde de düz zeminde kadraj diğer bölümlerle aynı: zemin
+ekranın altında, resim tam. Havuza ya da derin kanala yaklaşınca kamera yumuşakça aşağı açılır,
+çıkınca geri kayar.
+
+**Yapılanlar:** `dtm_level.gd`: `_build` sonrası zemini 110 px'ten derin parçalar (±420 px
+pay) `_deep_spans`; `_process` bölümün alt sınırı 130'dan büyükse `_ease_cam_bottom` ile
+sınırı oyuncu derin kesimdeyken bölüm değerine, değilken 130'a 360 px/sn kaydırıyor. Bölüm
+dosyaları değişmedi (değerleri derin kesim için kalıyor). Pay ve hız hipotez: 420 px, kamera
+kesime ekran yarısı kadar önce açılsın diye; 360 px/sn, sınır değişimi ~0,4 sn'de bitsin diye.
+
+**Testler:** import temiz; 36 sahne smoke çıkış 0; DTM GAPS PASS; bot Bölüm 1 (8607), 8 (9408),
+9 (9408), 10 (9206), 13 (9556), 21 (10107), 25 (10156) CLEARED. Görsel 1280×720: Bölüm 21
+finali (zemin altta, vapur tam), kuru havuz (kamera açık, oyuncu havuz dibinde görünür),
+Bölüm 8 derin kanal ve Bölüm 9 köprü altı kanal (açık), Bölüm 10 ana kapı (130).
+
+**Sonraki öneri:** Denetim sırası: Bölüm 2, 3, 5, 11.
 
 ### 2026-10-26 (45) — Denetim (Bölüm 19, 23): Kitap 2'nin altı finali aynı arenaydı
 
