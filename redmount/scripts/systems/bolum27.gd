@@ -14,7 +14,7 @@ const TELEGRAPH := preload("res://assets/backgrounds/book03_galata_telegraph_atl
 func _build() -> void:
 	sky_atlas = STREETS
 	sky_cells = [[0, -100000.0], [2, 1700.0], [1, 3200.0], [3, 4700.0],
-		[0, 6000.0, TELEGRAPH], [1, 7300.0, TELEGRAPH], [2, 8600.0, TELEGRAPH], [3, 9700.0, TELEGRAPH]]
+		[0, 6000.0, TELEGRAPH], [1, 7300.0, TELEGRAPH], [2, 8600.0, TELEGRAPH], [3, 9250.0, TELEGRAPH]]
 	sky_tint = Color(0.96, 0.94, 0.9)
 	sky_shade = Color(0.08, 0.06, 0.05)
 	back_row_skip = [[5900.0, 9600.0]]

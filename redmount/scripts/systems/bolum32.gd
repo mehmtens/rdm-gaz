@@ -14,7 +14,7 @@ const SIGNAL := preload("res://assets/backgrounds/book03_kuleli_signal_atlas.png
 func _build() -> void:
 	sky_atlas = SHORE
 	sky_cells = [[0, -100000.0], [1, 1500.0], [2, 3000.0], [0, 4200.0, SIGNAL],
-		[3, 5600.0], [1, 6900.0, SIGNAL], [2, 8300.0, SIGNAL], [3, 9500.0, SIGNAL]]
+		[3, 5600.0], [1, 6900.0, SIGNAL], [2, 7550.0, SIGNAL], [3, 8900.0, SIGNAL]]
 	sky_tint = Color(0.86, 0.86, 0.96)
 	sky_shade = Color(0.03, 0.03, 0.08)
 	back_row_skip = [[1450.0, 2450.0], [6800.0, 9400.0]]

@@ -65,6 +65,34 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-10-26 (37) — Yedi bölümde son arena kendi resminin önünde (tur 36 taraması)
+
+**Neden şimdi:** Tur 36'da Bölüm 28'in son arenası rıhtım yerine mahzende çıkmıştı; aynı hatanın
+başka bölümlerde olup olmadığını taradım. Yöntem: her bölümde son arenanın kamera merkezi
+(arena ekrandan darsa sabit orta) ile `sky_cells` eşikleri ve 240 px harmanlama karşılaştırıldı;
+son karenin ağırlığı < 0,5 olan 13 bölümün atlas kareleri, bölüm yorum başlıklarıyla yan yana
+incelendi. Dördünde arena zaten doğru resimdeydi (19 külhan, 29 defter odası; 3, 26, 33, 35'te
+son arena bölüm sonu değil). Yedisinde yanlıştı.
+
+**Oyuncu ne hissedecek:** Bölümün adını verdiği yerde dövüşür: Süleymaniye arşivinin arka
+terası (16), Kapalıçarşı han çatısı ve kubbeler (18), Samatya yükleme avlusu (20), Galata'ya
+bakan telgraf direkleri (27), Çengelköy deniz köşkü (31), Kuleli sahil kapısı (32), Haliç gümrük
+avlusu (13). Kapalı odalardan sonra açık manzara — bölüm sonu nefesi.
+
+**Yapılanlar (yalnız kare eşikleri):** 13: avlu karesi (2) hiç kullanılmıyordu → 8650, kapı 9000
+→ 9550. 16: teras 9700 → 9450. 18: çatı 10150 → 9550 (önceden yalnız bitiş kapısında). 20:
+yükleme avlusu 10000 → 9550. 27: çatı direkleri 9700 → 9250. 31: sıra mühür odası (6800) →
+deniz manzaralı salon (7800) → köşk (8600); önceden mühür odası salon resmindeydi, köşk arenası
+pres masası resmindeydi. 32: kayıt odası 8300 → 7550, sahil kapısı 9500 → 8900. Eşikler önceki
+iç mekânın bittiği yerle arena kapısı arasında; arenanın kamera aralığı tam yeni karede.
+
+**Testler:** 36 sahne smoke çıkış 0; DTM GAPS PASS; bot Bölüm 13 (9557), 16 (9959), 18 (10060),
+20 (10109), 27 (10106), 31 (9709), 32 (9855) CLEARED. Görsel: 16 ekran görüntüsü 1280×720,
+her bölümde önceki oda + son arena — "ait".
+
+**Sonraki öneri:** Ara bölümlerde de aynı tarama (her bölümün her arenası, yalnız sonuncusu
+değil); sonra yeni denetim (Bölüm 18).
+
 ### 2026-10-26 (36) — Tasarım denetimi (Bölüm 28): son arena Kız Kulesi rıhtımında
 
 **Neden şimdi:** Birikimin kalanı insan testine bağlı → denetim (tur 35'in önerisi). Bölüm 28

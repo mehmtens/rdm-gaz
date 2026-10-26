@@ -14,7 +14,7 @@ const DEPOT := preload("res://assets/backgrounds/book02_samatya_depot_atlas.png"
 func _build() -> void:
 	sky_atlas = COAST
 	sky_cells = [[0, -100000.0], [1, 1600.0], [2, 3300.0], [3, 4600.0],
-		[0, 6000.0, DEPOT], [1, 7300.0, DEPOT], [2, 8600.0, DEPOT], [3, 10000.0, DEPOT]]
+		[0, 6000.0, DEPOT], [1, 7300.0, DEPOT], [2, 8600.0, DEPOT], [3, 9550.0, DEPOT]]
 	sky_tint = Color(0.86, 0.86, 0.94)
 	sky_shade = Color(0.03, 0.04, 0.08)
 	back_row_skip = [[5900.0, 9900.0]]

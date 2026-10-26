@@ -14,7 +14,7 @@ const ARCHIVE := preload("res://assets/backgrounds/book02_suleymaniye_archive_at
 func _build() -> void:
 	sky_atlas = STREETS
 	sky_cells = [[0, -100000.0], [1, 1600.0], [2, 3300.0], [3, 4800.0],
-		[0, 6200.0, ARCHIVE], [1, 7600.0, ARCHIVE], [2, 8800.0, ARCHIVE], [3, 9700.0, ARCHIVE]]
+		[0, 6200.0, ARCHIVE], [1, 7600.0, ARCHIVE], [2, 8800.0, ARCHIVE], [3, 9450.0, ARCHIVE]]
 	sky_tint = Color(0.92, 0.9, 0.86)
 	sky_shade = Color(0.06, 0.05, 0.06)
 	back_row_skip = [[4400.0, 9600.0]]

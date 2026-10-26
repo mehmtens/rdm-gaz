@@ -14,7 +14,7 @@ const HAN := preload("res://assets/backgrounds/book02_bazaar_han_atlas.png")
 func _build() -> void:
 	sky_atlas = STREETS
 	sky_cells = [[0, -100000.0], [1, 1600.0], [2, 3200.0], [3, 4600.0],
-		[0, 6100.0, HAN], [1, 7500.0, HAN], [2, 8550.0, HAN], [3, 10150.0, HAN]]
+		[0, 6100.0, HAN], [1, 7500.0, HAN], [2, 8550.0, HAN], [3, 9550.0, HAN]]
 	sky_tint = Color(0.92, 0.88, 0.84)
 	sky_shade = Color(0.07, 0.05, 0.05)
 	back_row_skip = [[1700.0, 9600.0]]

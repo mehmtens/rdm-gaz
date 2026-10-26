@@ -14,7 +14,7 @@ const MANSION := preload("res://assets/backgrounds/book03_cengelkoy_mansion_atla
 func _build() -> void:
 	sky_atlas = SHORE
 	sky_cells = [[0, -100000.0], [1, 1600.0], [2, 3200.0], [3, 4500.0],
-		[0, 5700.0, MANSION], [1, 7000.0, MANSION], [2, 8200.0, MANSION], [3, 9500.0, MANSION]]
+		[0, 5700.0, MANSION], [2, 6800.0, MANSION], [1, 7800.0, MANSION], [3, 8600.0, MANSION]]
 	sky_tint = Color(0.86, 0.86, 0.96)
 	sky_shade = Color(0.03, 0.03, 0.08)
 	back_row_skip = [[3900.0, 7700.0]]

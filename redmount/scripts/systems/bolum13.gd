@@ -14,7 +14,7 @@ const REGISTRY := preload("res://assets/backgrounds/book02_halij_registry_atlas.
 func _build() -> void:
 	sky_atlas = OPENING
 	sky_cells = [[0, -100000.0], [1, 1800.0], [2, 3600.0], [3, 5200.0, OPENING],
-		[0, 6500.0, FINAL], [1, 7700.0, FINAL], [3, 9000.0, FINAL]]
+		[0, 6500.0, FINAL], [1, 7700.0, FINAL], [2, 8650.0, FINAL], [3, 9550.0, FINAL]]
 	sky_tint = Color(0.9, 0.86, 0.86)
 	sky_shade = Color(0.08, 0.05, 0.08)
 	back_row_skip = [[5900.0, 7150.0]]
