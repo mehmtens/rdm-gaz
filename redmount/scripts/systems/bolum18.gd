@@ -1,10 +1,10 @@
 ## Bölüm 18 — Kapalıçarşı Arka Hanı (Kitap 2 / "Haliç'in İzi", 6. bölüm).
 ##
 ## Posta fişi sevkiyatın çarşının arka hanında dağıtıldığını gösterir. Çarşı kapısı
-## -> kalpakçılar geçidi (arena) -> bedesten (raf üstü rota) -> bakırcılar (tüfekli,
-## kısa arena, erzak) -> han avlusu (üst revak) -> han ambarı (sahte mühür
-## çuvalları, arena) -> gizli defter odası -> han çatısı (üç dalga). Defterin son
-## işareti Çemberlitaş hamamının külhanı. Gazelle'in eski editörü ilk kez anılır.
+## -> kalpakçılar geçidi (tenteden revaka, iki katlı arena) -> bedesten (raf üstü rota)
+## -> bakırcılar (tüfekli, kısa arena, erzak) -> han avlusu (üst revak) -> han ambarı
+## (sahte mühür çuvalları, arena) -> gizli defter odası -> han çatısı (üç dalga).
+## Defterin son işareti Çemberlitaş hamamının külhanı. Gazelle'in eski editörü ilk kez anılır.
 extends DtmLevel
 
 const STREETS := preload("res://assets/backgrounds/book02_bazaar_streets_atlas.png")
@@ -35,22 +35,31 @@ func _build() -> void:
 	_enemy(STREET, 1150, 0)
 	_prop("vazo", 1350)
 
-	# --- 2. Kalpakçılar geçidi: alçak zemin, geniş arena ------------------------
+	# --- 2. Kalpakçılar geçidi: sokak hizasında iki katlı arena -------------------
+	# Kitap 2'nin ortak çukur avlusu yerine çarşı yolu düz; sol yarıda dükkân revakı.
+	# Tezgâh tentesi oyuncuyu revaka atar: kalkanlının arkasına üstten inmek ya da
+	# kalabalıktan nefes almak için. Revakta can; aşağıdakiler yukarı tırmanamaz.
+	# Tente sol kapıya dayalı: dalga doğum noktaları (x ≥ 2220) katı tezgâha düşmesin.
 	_checkpoint(1550, 0)
-	_terrain(1700, 1850, 30)
-	_terrain(1850, 3200, 60)
-	_stall(2050)
+	_terrain(1700, 3350, 0)
 	_stall(2850)
+	var tente := AwningBounce.new()
+	tente.width = 160
+	tente.height = 60
+	tente.position = Vector2(2100, 0)
+	add_child(tente)
+	_scaffold(2330, -240, 220)
+	_pickup(HEALTH, 2390, -285)
+	_coin_line(2250, 2, 70, -285)
 	var gec: BattleArena = ARENA.instantiate()
-	gec.position = Vector2(2500, 60)
+	gec.position = Vector2(2500, 0)
 	gec.gate_left_x = 2000
 	gec.gate_right_x = 3000
-	gec.floor_y = 60
+	gec.floor_y = 0
 	gec.wave1 = _wave(STREET, KNIFE, STREET)
 	gec.wave2 = _wave(SHIELD, ASSASSIN, STREET)
 	gec.reward = HEALTH
 	add_child(gec)
-	_terrain(3200, 3350, 30)
 
 	# --- 3. Bedesten: sabit taş geçiş, raf üstü riskli rota ------------------------
 	_terrain(3350, 10200, 0)

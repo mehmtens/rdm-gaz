@@ -41,7 +41,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   kanal + üstte 220 px iskele, 4750 kontrol noktası; 18–23'te devamı da aynı (galeri+erzak →
   salon → arena → 200 px kanal → küçük oda → 9300–9350 final). Bölüm başına bir tur, yere özgü
   yeniden düzen. Yapılan: 19 (tur 47, açılış), 23 (tur 48, açılış), 22 (tur 49, açılış),
-  21 (tur 50, açılış), 20 (tur 51, açılış). Sıradaki: 18, sonra 13–17, 24, 25.
+  21 (tur 50, açılış), 20 (tur 51, açılış), 18 (tur 52, arena; bedesten zaten özgündü).
+  Sıradaki: 13–17, 24, 25.
 
 - Ön sıra katı evler yalnız 6 bölümde (1, 2, 3, 27, 29, 34; çoğu Kitap 1 Balat — yerine uygun).
   27/29/34'teki 2–3 ev insan testinde yere yabancı görünürse o bölüme özgü cephe çizilmeli
@@ -78,6 +79,30 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (52) — Bölüm 18 kalpakçılar geçidi: sokak hizasında, tenteden revaka iki katlı arena
+
+**Neden şimdi:** Kitap 2 iskeleti maddesinde sıradaki bölüm (tur 51 önerisi). Bölüm 18'de
+ortak olan yalnız 60 px çukur avlu arenasıydı; bedesten kesimi zaten raf üstü rotalı ve
+kanalsızdı, dokunulmadı.
+
+**Oyuncu ne hissedecek:** Çarşı yolu düz akıyor (çukura inilmiyor). Arenanın sol yarısında
+tezgâh tentesi oyuncuyu 240 px yukarıdaki dükkân revakına atıyor: revakta can + 2 altın;
+kalabalıktan nefes alma ya da ikinci dalgadaki kalkanlının arkasına üstten inme seçeneği.
+Kitap 2'de arena içinde dikey katman ilk kez burada.
+
+**Yapılanlar:** `bolum18.gd` bölüm 2 ve başlık yorumu. İlk denemede tente arenanın ortasındaydı;
+dalga doğum noktalarından biri (x≈2220) katı tezgâh bloğunun içine düşüyordu ve 3 bot
+koşusunun birinde arena 886 sn kilitlendi. Tente sol kapıya dayandı (2020–2180, doğum
+noktaları ≥ 2220), revak yanına alındı (2220–2440), sol kapıdaki süs tezgâhı kaldırıldı
+(tente zaten tezgâh). Sayılar: tente→revak boşluğu 40 px (Bölüm 18 girişindeki 30 px ile aynı
+his), revak −240 (tente fırlatması ~−260'a ulaşıyor).
+
+**Testler:** import temiz; 36 sahne smoke çıkış 0; DTM GAPS PASS; Bölüm 18 bot başsız 4 koşu
+CLEARED (94,6 / 94,9 / 87,8 / 99,9 sn; takılma yalnız dokunulmayan han çatısı finalinde,
+x≈9690–9840). Görsel 1280×720: arena ve revak — "ait".
+
+**Sonraki öneri:** Kitap 2 iskeletinde Bölüm 17 (ya da 13–16 sırasıyla).
 
 ### 2026-10-26 (51) — Bölüm 20 açılışı yere özgü: rıhtım düzünde pazar, deniz kapısında vinç paleti
 
