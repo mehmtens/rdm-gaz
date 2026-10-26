@@ -37,7 +37,7 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 - Bölüm 19 külhan finali (tur 45): Külhanbeyi bire bir + iki alev bacası; bot 4 koşunun 2'sinde
   bir kez öldü. İnsan testinde finalde ölüm 1'i geçerse alev hasarı 12 → 8 ya da tek baca.
 - Orta kesimlerde "200 px kanal + tam üstünde 220 px sağlam plank" kalıbı (tur 60 taraması):
-  14 (3900), 15 (6000, 8000), 16 (6900, 8650), 17 (7500, 8850), 18 (7450, 8700), 19 (7200,
+  Yapılan: 14 (tur 61). Kalan: 15 (6000, 8000), 16 (6900, 8650), 17 (7500, 8850), 18 (7450, 8700), 19 (7200,
   8950), 20 (7550, 8700), 21–23 (8600), 24 (9000, 11450, 13750), 25 (8450), 29 (5300). Kanal
   oynanışta yok, plank üstünden yürünüyor. Bölüm başına bir tur; yere göre: açık atlama
   (çıkış taşı ŞART: `_terrain(x1-50, x1, 55)`), çürük tahta, palet, ayak taşı ya da kanalı
@@ -83,6 +83,22 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (61) — Bölüm 14 kemerli geçit: kanal kalktı, tabanca erişilebilir oldu
+
+**Neden şimdi:** Birikimdeki orta kesim kanal maddesinin ilk bölümü (tur 60 önerisi).
+
+**Oyuncu ne hissedecek:** Kapalı kemer altında (fenerli taş geçit) açık kanal yoktu artık; geçit
+düz, 90 px taş sekiden tabancalı iskeleye çıkılıyor, ardından bıçakçı devriyesi ve kalkanlı.
+**Bulunan hata:** tabancalı iskele (−150) yerden 150 px'teydi ve altında basamak yoktu —
+zıplama ~125 olduğu için tabanca pratikte alınamıyordu. Seki ile 60 px.
+
+**Yapılanlar:** `bolum14.gd` bölüm 3; zemin 3450–9800 tek parça.
+
+**Testler:** import temiz; 36 sahne smoke çıkış 0; DTM GAPS PASS; Bölüm 14 bot başsız 3 koşu
+CLEARED (94,3 / 96,9 / 98,5 sn, yeniden doğma 0). Görsel 1280×720: geçit — "ait".
+
+**Sonraki öneri:** Orta kesim kanal maddesi: Bölüm 15 (6000, 8000).
 
 ### 2026-10-26 (60) — Bölüm 13 kayıkçı iskelesinde ilk atlama + plank'sız sulara çıkış taşı
 

@@ -53,15 +53,16 @@ func _build() -> void:
 	shop.accent = Color("e7a449")
 	add_child(shop)
 
-	# --- 3. Kemerli taş geçit: kısa iskele, devriye ------------------------------
+	# --- 3. Kemerli taş geçit: taş sekiden tabancaya, devriye ----------------------
+	# Kapalı kemer altında açık kanal yere ait değildi; kaldırıldı. Tabancalı iskele
+	# (−150) yerden zıplamayla erişilemiyordu (~125): altına 90 px taş seki.
 	_checkpoint(3350, 60)
 	_terrain(3300, 3450, 30)
-	_terrain(3450, 3900, 0)
-	_canal(3900, 4100, 110)
-	_scaffold(4000, -20, 220)
-	_terrain(4100, 9800, 0)
+	_terrain(3450, 9800, 0)
+	_stones(3560, 1, 1)
 	_scaffold(3700, -150, 160)
 	_pickup(PISTOL, 3700, -195)
+	_enemy(KNIFE, 3980, 0)
 	_enemy(SHIELD, 4300, 0)
 	for x in [3500, 4250]:
 		_lantern(float(x))
