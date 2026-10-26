@@ -1,10 +1,10 @@
 ## Bölüm 25 — Cağaloğlu'nda İlk Baskın (Kitap 3 / "İstanbul'un Sesi", 1. bölüm).
 ##
 ## Kumanda anahtarının mührü Cağaloğlu'nda eski bir matbaaya çıkar. Su kesintisini
-## önledikleri sabah: sokak -> kitapçı yokuşu (arena) -> matbaa avlusu -> baskı
-## salonu (ağır düşman) -> kurutma çatısı (üstte tüfek) -> ciltçi geçidi (arena,
-## erzak) -> dağıtım deposu -> arşiv kapısı (son arena). Matbaada sahte gazete
-## baskıları: "Su kesintisinin sorumlusu gazeteci Gazelle". İlk sevkiyat Sirkeci'ye.
+## önledikleri sabah: sokak -> kitapçı yokuşu (yokuş düzünde arena) -> matbaa avlusu
+## (kâğıt balyaları) -> baskı salonu (ağır düşman) -> kurutma çatısı (üstte tüfek) ->
+## ciltçi geçidi (arena, erzak) -> dağıtım deposu -> arşiv kapısı (son arena). Matbaada
+## sahte gazete baskıları: "Su kesintisinin sorumlusu gazeteci Gazelle". İlk sevkiyat Sirkeci'ye.
 extends DtmLevel
 
 const STREETS := preload("res://assets/backgrounds/book03_cagaloglu_streets_atlas.png")
@@ -34,28 +34,35 @@ func _build() -> void:
 	_enemy(STREET, 1100, 0)
 	_prop("saksi", 1300)
 
-	# --- 2. Kitapçı yokuşu: sığ alt yol, menzilli + yakın arena -----------------
+	# --- 2. Kitapçı yokuşu: üç basamak yukarı, yokuşun düzünde arena --------------
+	# Kitap 2'nin ortak çukur avlusu yerine yokuş gerçekten tırmanılır (arkadaki taş
+	# merdivenle aynı yön): 30'ar px üç basamak, arena −90 düzlükte, sonra avluya iniş.
 	_checkpoint(1550, 0)
-	_terrain(1700, 1850, 30)
-	_terrain(1850, 3200, 60)
-	_stall(2000)
+	_terrain(1700, 1800, -30)
+	_terrain(1800, 1900, -60)
+	_terrain(1900, 3100, -90)
+	_terrain(3100, 3200, -60)
+	_terrain(3200, 3350, -30)
 	var yok: BattleArena = ARENA.instantiate()
-	yok.position = Vector2(2500, 60)
+	yok.position = Vector2(2500, -90)
 	yok.gate_left_x = 2100
 	yok.gate_right_x = 2950
-	yok.floor_y = 60
+	yok.floor_y = -90
 	yok.wave1 = _wave(KNIFE, RIFLE)
 	yok.wave2 = _wave(SHIELD, ASSASSIN, RIFLE)
 	yok.reward = AMMO
 	add_child(yok)
-	_terrain(3200, 3350, 30)
 
-	# --- 3. Matbaa avlusu: sabit açıklık, üstten tabanca --------------------------
-	_terrain(3350, 3800, 0)
+	# --- 3. Matbaa avlusu: kâğıt balyası yığını, üstten tabanca --------------------
+	# Kanal yerine avluya indirilmiş kâğıt balyaları (90 + 180): üstünden kirişe ve
+	# tabancaya geçilir; yığının arkasında bıçakçı, inen oyuncuyu karşılar.
+	_terrain(3350, 10300, 0)
 	_checkpoint(3400, 0)
-	_canal(3800, 4000, 110)
-	_scaffold(3900, -20, 220)
-	_terrain(4000, 10300, 0)
+	_crates(3650, 1, 1)
+	_crates(3740, 1, 2)
+	_coin_line(3700, 3, 50, -235)
+	_scaffold(3990, -200, 140)
+	_enemy(KNIFE, 3960, 0)
 	_scaffold(4200, -140, 130)
 	_scaffold(4350, -250, 130)
 	_pickup(PISTOL, 4350, -295)

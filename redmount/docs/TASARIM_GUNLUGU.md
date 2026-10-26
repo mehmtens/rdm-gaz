@@ -42,8 +42,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   salon → arena → 200 px kanal → küçük oda → 9300–9350 final). Bölüm başına bir tur, yere özgü
   yeniden düzen. Yapılan: 19 (tur 47, açılış), 23 (tur 48, açılış), 22 (tur 49, açılış),
   21 (tur 50, açılış), 20 (tur 51, açılış), 18 (tur 52, arena; bedesten zaten özgündü),
-  17 (tur 53, meydan arenası; sahaflar zaten özgündü). 13 ve 14 zaten farklı. Sıradaki: 25
-  (iskeletin birebir aynısı), sonra 15, 16, 24 (yalnız çukur arena).
+  17 (tur 53, meydan arenası; sahaflar zaten özgündü), 25 (tur 54, açılış). 13 ve 14 zaten
+  farklı. Sıradaki: 15, 16, 24 (yalnız çukur arena kalmış).
 
 - Ön sıra katı evler yalnız 6 bölümde (1, 2, 3, 27, 29, 34; çoğu Kitap 1 Balat — yerine uygun).
   27/29/34'teki 2–3 ev insan testinde yere yabancı görünürse o bölüme özgü cephe çizilmeli
@@ -80,6 +80,28 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (54) — Bölüm 25 açılışı yere özgü: kitapçı yokuşu tırmanılır, avluda kâğıt balyaları
+
+**Neden şimdi:** Kitap 2 iskeleti maddesi (tur 53 önerisi). Kitap 3'ün ilk bölümü Cağaloğlu da
+çukur avlu + 200 px kanal açılışını birebir taşıyordu; arka planda yokuş yukarı taş merdiven
+ve el baskı presli matbaa avlusu varken oyun "aşağı in" ve "kanalı geç" diyordu.
+
+**Oyuncu ne hissedecek:** Kitapçı yokuşu gerçekten yokuş: 30'ar px üç basamak, arena yokuşun
+düzünde (−90), sonra avluya üç basamak iniş — arkadaki merdivenle aynı yön. Matbaa avlusunda
+kanal yerine kâğıt balyası yığını (90 + 180): üstünden 3 altın ve kirişlerle tabancaya; yığının
+arkasında bıçakçı inen oyuncuyu karşılıyor.
+
+**Yapılanlar:** `bolum25.gd` bölüm 2–3 ve başlık yorumu. İlk denemede avluya iki baskı presi
+(`_press`) kondu: çekimde Kitap 1 fabrikasının sarı-siyah şeritli ezicisi 19. yüzyıl
+avlusunda yapıştırılmış gibi duruyordu — "ait" değildi, kaldırıldı; arka plandaki sandıklarla
+aynı ahşap balya yığını kondu.
+
+**Testler:** import temiz; 36 sahne smoke çıkış 0; DTM GAPS PASS; Bölüm 25 bot başsız 4 koşu
+CLEARED (84,9 / 82,6 / 88,0 / 85,8 sn; en uzun duraklama 11 sn — yokuş arenası ya da final,
+eşik 45). Görsel 1280×720: basamaklar, yokuş arenası, avlu — "ait".
+
+**Sonraki öneri:** Kitap 2 iskeletinde Bölüm 15 (yalnız çukur meydan arenası).
 
 ### 2026-10-26 (53) — Bölüm 17 Beyazıt meydanı: sokak hizasında arena, sütun kaidesi siperi
 
