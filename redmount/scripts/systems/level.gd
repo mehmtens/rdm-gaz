@@ -58,6 +58,16 @@ static func dark_scene_of(n: Node) -> Node:
 	return all[0] if all.size() == 1 else null
 
 
+## Düğümün ait olduğu bölüm (ata zincirinde ilk `Level`), yoksa null.
+static func level_of(n: Node) -> Level:
+	var a := n
+	while a != null:
+		if a is Level:
+			return a
+		a = a.get_parent()
+	return null
+
+
 func _ready() -> void:
 	edge_light = BIOME_EDGE[clampi(biome, 0, 3)]
 	_tint = BIOME_TINT[clampi(biome, 0, 3)]

@@ -9,9 +9,6 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 - Tuğla cephe alt katında dükkân (kepenk + tabela + tente): pencere çeşitlemesinden kalan dilim;
   `_interior` stil 0 ve `A_FACTORY` zemin katı hâlâ düz tuğla + pencere.
-- **[Denetim 26 Ekim]** Karakter/zemin ayrışması: alacakaranlık bölümlerinde koyu ceketli düşmanlar
-  koyu zemine karışıyor (gece kenar ışığı yalnız `dark_scene`'de). Alacakaranlıkta da zayıf (%50)
-  kenar ışığı denenmeli. Ölçüt: düşman silüeti ile 8 px çevresi arasındaki parlaklık farkı.
 - **[Denetim 26 Ekim]** Saldırı uyarısı (`!`) bu çekimlerde hiç yakalanmadı; 0,32 sn hazırlık + küçük
   işaret. İşaret 2x büyüklükte ve düşmanın üstünde 1 piksellik beyaz kontur kırpışmasıyla birlikte
   denenmeli (P1 "saldırı okunurluğu" ile birlikte, insan testinde ilk hasar nedeni ölçülerek).
@@ -38,6 +35,27 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (17) — Gündüz/alacakaranlıkta düşmana zayıf kenar ışığı (birikim/denetim)
+
+**Neden şimdi:** Birikimin en üstü. Gece olmayan 15 bölümde (1, 2, 5, 13–18, 23–28) düşmanın hiç
+konturu yoktu; koyu ceketli bıçakçı ve lacivert zırhlı kalkanlı koyu kapı/duvar önünde zemine
+karışıyordu.
+
+**Oyuncu ne hissedecek:** Düşman, bölümün biome renginde ince sıcak bir hatla zeminden ayrılır;
+kahramanın konturu yok, böylece dost/düşman bir bakışta ayrılır (DTM'de düşman okunurluğu).
+Gece bölümlerinin dramatik fener konturu değişmedi.
+
+**Yapılanlar:** `Level.level_of()` (ata zincirindeki bölüm); `enemy_base._apply_dark_rim` gece
+değilse `edge_light` alfasını `DAY_RIM_ALPHA = 0.5` ile çarpar (gece 0,85 → gündüz biome'a göre
+~0,33–0,35). Gerekçe: denetimin %50 önerisi; tam alfanın gündüz ışığında çizgi film konturu gibi
+bağıracağı varsayımı (denenmedi) — insan testinde ayarlanacak. Mevcut `dark_rim` shader'ı yeniden kullanıldı.
+
+**Testler:** import temiz; 36 sahne smoke çıkış 0; DTM GAPS PASS; bot Bölüm 1 (8605), 13 (9560), 15 (9740), 25 (10160) CLEARED. Görsel: Bölüm 2 sokak (üç düşman, siyah bıçakçı koyu kapı önünde
+okunuyor) ve Bölüm 15 kalkanlı (lacivert zırh koyu duvardan ayrılıyor), 1280×720 + yakın çekim.
+Sayısal parlaklık ölçümü yapılmadı; görsel değerlendirme.
+
+**Sonraki öneri:** Birikim — saldırı uyarısı (`!`) 2x + beyaz kontur kırpışması.
 
 ### 2026-10-26 (16) — Tuğla cephe: pencere çeşitleri + kat silmesi (birikim/denetim)
 

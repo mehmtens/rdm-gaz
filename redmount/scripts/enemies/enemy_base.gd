@@ -169,16 +169,29 @@ func _physics_process(delta: float) -> void:
 const _DARK_RIM := preload("res://shaders/dark_rim.gdshader")
 
 
-## Gece sahnesinde (grup "dark_scene") silüeti bölümün kenar ışığıyla çevrele.
+## Gündüz/alacakaranlıkta kenar ışığı gecenin yarısı: koyu ceketli düşman koyu zeminden
+## ayrılsın ama gece fenerinin dramatik konturu gibi bağırmasın.
+const DAY_RIM_ALPHA := 0.5
+
+
+## Silüeti bölümün kenar ışığıyla çevrele: gece sahnesinde (grup "dark_scene") tam,
+## diğer bölümlerde biome renginde zayıf.
 func _apply_dark_rim() -> void:
-	if not is_inside_tree():
+	if not is_inside_tree() or not (sprite is CanvasItem):
 		return
+	var rim: Color
 	var lvl := Level.dark_scene_of(self)
-	if lvl == null or not (sprite is CanvasItem):
-		return
+	if lvl != null:
+		rim = lvl.get("edge_light")
+	else:
+		var day := Level.level_of(self)
+		if day == null:
+			return
+		rim = day.edge_light
+		rim.a *= DAY_RIM_ALPHA
 	var mat := ShaderMaterial.new()
 	mat.shader = _DARK_RIM
-	mat.set_shader_parameter(&"rim_color", lvl.get("edge_light"))
+	mat.set_shader_parameter(&"rim_color", rim)
 	(sprite as CanvasItem).material = mat
 
 
