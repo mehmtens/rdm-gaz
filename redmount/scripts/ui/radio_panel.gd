@@ -1,6 +1,6 @@
 ## RadioPanel — oynanışı DURDURMAYAN telsiz konuşması (Dan the Man'in oyun içi sohbeti).
 ##
-## Ekranın altında piksel çerçeveli panel: solda konuşanın piksel portresi, sağda
+## Ekranın üstünde piksel çerçeveli panel: solda konuşanın piksel portresi, sağda
 ## ad + harf harf yazılan metin. Kuyruklu: art arda gelen satırlar sırayla çıkar.
 ## Bölüm (DtmLevel._radio) oyuncu belirli x'i geçince `say()` çağırır.
 class_name RadioPanel
@@ -18,6 +18,8 @@ const NAME_COLOR := {
 }
 const CHARS_PER_SEC := 38.0
 const HOLD := 2.4
+## Panel tam açıkken üst bandın aşağı kayma payı: panel altı (116) + 6 boşluk − DALGA rozeti (12).
+const BAND := 110.0
 
 static var _instance: RadioPanel
 
@@ -38,6 +40,14 @@ static func say(tree: SceneTree, who: String, speaker: String, text: String) -> 
 		_instance = RadioPanel.new()
 		tree.current_scene.add_child(_instance)
 	_instance._queue.append([who, speaker, text])
+
+
+## Telsiz şu an üst bantta ne kadar yer kaplıyor: HUD'un üst öğeleri (dalga rozeti, kombo,
+## yer afişi, boss çubuğu) bu kadar aşağı kayar, panelin altında kalmaz.
+static func top_inset() -> float:
+	if _instance == null or not is_instance_valid(_instance) or _instance._panel == null:
+		return 0.0
+	return BAND * _instance._panel.modulate.a
 
 
 func _ready() -> void:

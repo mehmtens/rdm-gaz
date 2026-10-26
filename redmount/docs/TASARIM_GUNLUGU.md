@@ -7,6 +7,16 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- Dalga arası sayaç: bir dalga bitip sonraki doğarken rozet "DALGA 1/2 · 0 DÜŞMAN" yazıyor
+  (Bölüm 16 belge odası, 26 Ekim denetimi) — oyuncu arenanın bittiğini sanabilir. Kalan 0 ve
+  sıradaki dalga varken "SIRADAKİ DALGA" yazsın. Ucuz, `hud.set_arena_wave`.
+- Biyom geçişi çift pozlama: Bölüm 16'da çamaşırlı avlu (x≈4500) ve cilt atölyesi→arşiv
+  (x≈7250) geçişlerinde iki ChatGPT arka planı uzun mesafe yarı saydam üst üste; resim bulanık,
+  "iki fotoğraf" gibi. Geçiş uzunluğunu ölç; kısalt ya da geçişi kapı/iç mekân arkasına sakla.
+- Bölüm 16 son üçlü (belge odası arenası → mahzen seçkini → teras arenası): bot 115 → 1 can,
+  iki yeniden doğma. Kaba yapay zekâ olabilir; insan testinde ölüm yeri ölçülsün, burada
+  ölüm yığılıyorsa mahzene (x≈8900) simit.
+
 - Ön sıra katı evler yalnız 6 bölümde (1, 2, 3, 27, 29, 34; çoğu Kitap 1 Balat — yerine uygun).
   27/29/34'teki 2–3 ev insan testinde yere yabancı görünürse o bölüme özgü cephe çizilmeli
   (26 Ekim düzeltmesi: Bölüm 30'daki evler arka sıraydı, kapatıldı; yalı cephesi gereksiz).
@@ -42,6 +52,35 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (26) — Tasarım denetimi (Bölüm 16) + telsiz üst bandı örtmez
+
+**Neden şimdi:** Stil listesi, yol haritaları ve P1'ler bitti; birikimin kalanı insan testine bağlı →
+denetim. Bölüm 16 (Süleymaniye Arşivi) pencereli bot koşusu (CLEARED 9957, 76,7 sn, 6 sn'de bir
+13 kare). En net bulgu üst bantta: telsiz paneli (y 16–116, x 410–1230) açıkken altında kalan her
+şey kayboluyordu — FİLM RULOSU 1/3 afişinin başlığı, kombo bitiş yazısı ("COMBO x3 +45" panelin
+içinden okunuyordu) ve arena sırasında DALGA rozeti. Oyuncu tam ödül anında ödülü göremiyordu.
+
+**Oyuncu ne hissedecek:** Telsiz konuşurken dalga sayacı, kombo, yer/film afişi ve boss çubuğu
+panelin hemen altına yumuşakça iner, telsiz susunca yerine döner; hiçbir bilgi örtülmez.
+
+**Yapılanlar:** `RadioPanel.top_inset()` (panel saydamlığı × 110 px: panel altı 116 + 6 boşluk −
+rozet tabanı 12; hikâye sahnesinde panel gizliyse 0). `Hud._follow_radio()` üst bant öğelerinin
+taban offset'lerine bu payı ekler (`_top_band`: arena rozeti, kombo, boss çubuğu, ilk açılışta yer
+afişi). Değer yalnız değişince yazılır. Yeni `tests/radio_top_band.tscn`. Telsizin eski
+"ekranın altında" yorumu düzeltildi.
+
+**Diğer bulgular (birikime, etki/maliyet sırasıyla):** (2) dalga arası "0 DÜŞMAN"; (3) biyom
+geçişinde çift pozlama; (4) Bölüm 16 son üçlüde can düşüşü (insan testi). İyi çalışanlar: CİLTÇİ
+tabelası, film rulosu ödül afişi, Beyazıt Yolu kapısı, kombo kademeleri. Duraklat düğmesi alt
+ortada; telsizle çakışmıyor.
+
+**Testler:** import temiz; RADIO TOP BAND PASS; DTM GAPS PASS; 36 sahne smoke çıkış 0 (`backdrop`
+`Fx` uyarısı `-s` kipinin bilinen autoload sorunu); bot Bölüm 1 (8606), 13 (9558), 16 (9958), 25
+(10160) CLEARED. Görsel: Bölüm 16 arşiv salonu 1280×720 — telsiz, DALGA 2/2, FİLM RULOSU ve
+açıklama satırı alt alta, kombo sağda; çakışma yok.
+
+**Sonraki öneri:** Birikim — dalga arası "SIRADAKİ DALGA".
 
 ### 2026-10-26 (25) — Tasarım denetimi (Bölüm 30) + arka sıra evler varsayılan kapalı
 

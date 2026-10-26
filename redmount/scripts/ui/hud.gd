@@ -60,6 +60,9 @@ var _bar_width: float = 256.0
 var _coin_bump: float = 0.0
 var _place: _PlaceBanner
 var _combo_pulse: float = 0.0
+## Üst bant öğesi → taban (offset_top, offset_bottom); telsiz açıkken üstüne `_top_inset` eklenir.
+var _top_band := {}
+var _top_inset := 0.0
 var _neighborhood_panel: Panel
 var _neighborhood_portrait: TextureRect
 var _neighborhood_name: Label
@@ -88,6 +91,8 @@ func _ready() -> void:
 	_build_danger_edge()
 	_boss_bar.visible = false
 	_combo.visible = false
+	for c in [_arena_panel, _combo, _boss_bar]:
+		_top_band[c] = Vector2(c.offset_top, c.offset_bottom)
 	GameState.coins_changed.connect(_on_coins_changed)
 	Combat.combo_changed.connect(_on_combo_changed)
 	Combat.combo_finished.connect(_on_combo_finished)
@@ -220,6 +225,7 @@ func _layout_mobile_boss_bar() -> void:
 func _process(delta: float) -> void:
 	_tick_reveal(delta)
 	_tick_danger(delta)
+	_follow_radio()
 	if _coin_bump > 0.0:
 		_coin_bump = maxf(_coin_bump - delta * 4.0, 0.0)
 		_coins.scale = Vector2.ONE * (1.0 + _coin_bump * 0.5)
@@ -228,6 +234,19 @@ func _process(delta: float) -> void:
 		_combo_pulse = maxf(_combo_pulse - delta * 5.0, 0.0)
 		_combo.scale = Vector2.ONE * (1.0 + _combo_pulse * 0.6)
 		_combo.pivot_offset = _combo.size * Vector2(1.0, 0.5)
+
+
+## Telsiz konuşurken üst bant öğeleri panelin altına kayar (panel açılıp kapanırken birlikte);
+## dalga sayacı, kombo, yer afişi ve boss çubuğu hiçbir zaman telsizin altında kalmaz.
+func _follow_radio() -> void:
+	var inset := roundf(RadioPanel.top_inset())
+	if inset == _top_inset:
+		return
+	_top_inset = inset
+	for c: Control in _top_band:
+		var base: Vector2 = _top_band[c]
+		c.offset_top = base.x + inset
+		c.offset_bottom = base.y + inset
 
 
 func _on_combo_changed(count: int) -> void:
@@ -404,6 +423,8 @@ func show_place(title: String, story: String, accent: Color = Color("ffc857")) -
 	if _place == null:
 		_place = _PlaceBanner.new()
 		add_child(_place)
+		_top_band[_place] = Vector2(_place.offset_top, _place.offset_bottom)
+		_top_inset = -1.0  # yeni öğe de hemen yerini alsın
 	_place.present(title, story, accent)
 
 
