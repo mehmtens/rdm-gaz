@@ -38,6 +38,8 @@ const PIX_WINDOW := preload("res://assets/environment/pixel/fabrika_pencere.png"
 ## Tuğla cephe pencere çeşitleri (5 × 14×20 şerit: yanan, karanlık, kepenk, tahta, saksı).
 const PIX_FACADE_WINDOWS := preload("res://assets/environment/pixel/cephe_pencereleri.png")
 const PIX_CORNICE := preload("res://assets/environment/pixel/kat_silmesi.png")
+## Mahalle dükkânı (40×32): tabela + tente + yarı inik kepenk; satır 14–31 yükleme kapısı.
+const PIX_SHOP := preload("res://assets/environment/pixel/dukkan.png")
 const PIX_GATE := preload("res://assets/environment/pixel/han_kapisi.png")
 const PIX_BEAM := preload("res://assets/environment/pixel/huzme.png")
 const PIX_STONE := preload("res://assets/environment/pixel/tas_blok.png")
@@ -1010,6 +1012,14 @@ class _Art extends Node2D:
 						_tiled(PIX_CORNICE, Rect2(-hw, wy + ws.y + 15.0, size.x, 18.0))
 					wy += ws.y + 48.0
 					row += 1
+				# Son pencere sırasıyla zemin arasında yer varsa yükleme kepenkleri
+				# (dükkân şeridinin kepenk + ışık satırları).
+				var dock := Vector2(PIX_SHOP.get_width(), 18.0) * PX
+				var last_bottom := wy - 48.0
+				if hh - last_bottom >= dock.y + 6.0:
+					var xs := [-hw + 40.0] if size.x < 420.0 else [-hw + 40.0, hw - 40.0 - dock.x]
+					for dx in xs:
+						draw_texture_rect_region(PIX_SHOP, Rect2(dx, hh - dock.y, dock.x, dock.y), Rect2(0, 14, 40, 18))
 				_tiled(PIX_RAIL, Rect2(-hw - 6.0, -hh - 9.0, size.x + 12.0, 6.0), Color(0.8, 0.82, 0.9), Rect2(0, 0, 16, 2))
 			A_PRESS_FRAME:
 				pass
@@ -1172,6 +1182,11 @@ class _Facade extends Node2D:
 			var wy := lerpf(hi, lo, 0.5) - ws.y * 0.5 - 6.0
 			var wx := rect.position.x + (170.0 if i == 0 else 50.0)
 			var k := 0
+			var ss := PIX_SHOP.get_size() * PX
+			if style == 0 and i == 0 and lo - hi >= ss.y + 8.0 and rect.size.x >= 170.0 + ss.x + 60.0:
+				# Zemin katta kapının yanında mahalle dükkânı; pencereler ondan sonra.
+				draw_texture_rect(PIX_SHOP, Rect2(wx, lo - ss.y, ss.x, ss.y), false)
+				wx += ss.x + 40.0
 			while wx < rect.end.x - ws.x - 30.0:
 				if style == 0:
 					var v := DtmLevel.facade_window(hash([int(rect.position.x), i, k]), prev, true)

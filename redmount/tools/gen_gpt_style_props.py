@@ -13,7 +13,7 @@ Kural seti (assets/backgrounds ve book03_final_* sayfalarından ölçüldü):
 Çıktı: assets/environment/pixel/{varil,patlayici,parmaklik,parmaklik_tepe,tup,
 fener,fener_hale,asma_lamba,on_kolon,on_kolon_bas,on_kolon_kaide,on_sarmasik,zincir,halat,kum_torbasi,tas_blok,raf,kaset,cerceve,
 diken,alev_izgara,kablo,bomba,bomba_ikaz,alev,kivilcim,patlama,
-tugla,sivali_tugla,ic_duvar,hatil,ic_pencere,fabrika_pencere,cephe_pencereleri,kat_silmesi,saldiri_uyari,tavan,han_kapisi,
+tugla,sivali_tugla,ic_duvar,hatil,ic_pencere,fabrika_pencere,cephe_pencereleri,kat_silmesi,saldiri_uyari,dukkan,tavan,han_kapisi,
 pres,pres_kol,ray,su_govde,su_yuzey,anten,kule_ayak,kule_kulube,ahsap_kat,
 kalkan,kalkan_kirik,sancak,catlak,kiymik}.png
 ve assets/pickups/placeholder_rifle.png
@@ -1381,6 +1381,70 @@ def make_saldiri_uyari(rnd):
     return strip
 
 
+def make_dukkan(rnd):
+    """Mahalle dükkânı (40×32, tuğla cephenin zemin katına): üstte ahşap tabela (pirinç
+    harf lekeleri, okunur yazı yok), altında kırmızı-krem çizgili tente (kumaş kıvrımı,
+    sarkan saçak), altta yarıya kadar inmiş oluklu demir kepenk (pas akıntısı) ve
+    altından sızan sıcak dükkân ışığı + vitrin. Satır 14–31 (kepenk + ışık) tek başına
+    fabrika yükleme kapısı olarak da kullanılır."""
+    w, h = 40, 32
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    # Tabela (satır 0–5).
+    for y in range(0, 6):
+        for x in range(4, 36):
+            lv = 0.34 + (0.25 if y == 0 else 0.0) - (0.16 if y == 5 else 0.0) + (rnd.random() - 0.5) * 0.08
+            c = pick(WOOD, lv, rnd, 0.3)
+            if 1 <= y <= 4 and 7 <= x <= 32 and (x * 3 + y) % 4 != 0 and (x // 3) % 3 != 2:
+                c = pick(BRASS, 0.55 + (0.2 if y == 1 else 0.0) - (x - 7) * 0.008, rnd, 0.3)  # harf lekeleri
+            if x > 33:
+                c = mix(c, MOON, 0.25)
+            px[x, y] = c + (255,)
+    # Tente (satır 6–13): yukarıdan öne eğim, 4 px çizgi, alt saçak dalgalı.
+    for y in range(6, 14):
+        for x in range(0, w):
+            if y == 13 and (x % 4 == 3):
+                continue  # saçak dişi
+            stripe = (x // 4) % 2 == 0
+            ramp = RED if stripe else CREAM
+            lv = 0.3 + (y - 6) * 0.07 - (x / w) * 0.18  # öne doğru ışığa açılır, sağa kararır
+            if (x % 4) == 0:
+                lv += 0.08  # kıvrım sırtı
+            if y == 12:
+                lv -= 0.15  # saçak gölgesi
+            c = pick(ramp, lv, rnd, 0.4)
+            if x >= w - 2:
+                c = mix(c, MOON, 0.3)
+            px[x, y] = c + (255,)
+    # Kepenk kasası + oluklu kepenk (satır 14–24), ışık aralığı (25–27), vitrin altı (28–31).
+    for y in range(14, h):
+        for x in range(2, w - 2):
+            if x in (2, 3) or x in (w - 4, w - 3):
+                lv = 0.5 if x == 2 else 0.22  # demir kasa
+                c = pick(IRON, lv, rnd, 0.3)
+            elif y <= 24:
+                lv = 0.32 + (0.2 if y % 2 == 0 else -0.06) - (y - 14) * 0.012 - (x / w) * 0.1
+                c = pick(STEEL, lv, rnd, 0.35)
+                for rx, ry, rl in ((9, 15, 4), (22, 18, 3), (31, 15, 6)):
+                    if x == rx and ry <= y < ry + rl:
+                        c = mix(c, RUST[2 if y < ry + rl - 1 else 1], 0.55)  # perçinden pas akıntısı
+                if y == 24:
+                    c = IRON[2]  # kepenk alt çıtası
+            elif y <= 27:
+                lv = 0.75 - (y - 25) * 0.12 + (rnd.random() - 0.5) * 0.1
+                c = pick(WARM_GLASS, lv, rnd, 0.3)  # içeriden sızan ışık
+                if (x // 5) % 2 == 0 and y == 27:
+                    c = WARM_GLASS[1]  # raf/kasa gölgeleri
+            else:
+                lv = 0.3 if y == 28 else 0.16
+                c = pick(STONE, lv, rnd, 0.3)  # eşik taşı
+                if y == 28 and x < 20:
+                    c = mix(c, WARM_GLASS[3], 0.35)  # eşiğe vuran ışık
+            px[x, y] = c + (255,)
+    outline(img)
+    return img
+
+
 def make_kat_silmesi(rnd):
     """Kat silmesi (16×6, yatay döşenir): taş korniş; üst yüz fener ışığında, altta
     çıkıntının düşürdüğü mor gölge ve tuğlaya inen is akıntısı."""
@@ -2189,6 +2253,7 @@ def main():
     make_cephe_pencereleri(random.Random(223)).save(OUT + "cephe_pencereleri.png")
     make_kat_silmesi(random.Random(227)).save(OUT + "kat_silmesi.png")
     make_saldiri_uyari(random.Random(229)).save(OUT + "saldiri_uyari.png")
+    make_dukkan(random.Random(233)).save(OUT + "dukkan.png")
     make_tavan(random.Random(113)).save(OUT + "tavan.png")
     make_han_kapisi(random.Random(127)).save(OUT + "han_kapisi.png")
     make_pres(random.Random(131)).save(OUT + "pres.png")

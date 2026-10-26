@@ -7,8 +7,6 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Tuğla cephe alt katında dükkân (kepenk + tabela + tente): pencere çeşitlemesinden kalan dilim;
-  `_interior` stil 0 ve `A_FACTORY` zemin katı hâlâ düz tuğla + pencere.
 - Saldırı uyarısı insan testi: ilk hasarın nedeni (uyarı görüldü mü?) ölçülmeli; MIN_SHOW 0,28 ve
   kırpışma periyodu 0,06 hipotez.
 
@@ -34,6 +32,27 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (19) — Tuğla cephe zemin katı: mahalle dükkânı + yükleme kepenkleri (birikim)
+
+**Neden şimdi:** Tur 16'nın birikime bıraktığı dilim. Pencereler çeşitlendi ama zemin kat hâlâ
+düz tuğlaydı; sokak seviyesi, oyuncunun en çok baktığı yer.
+
+**Oyuncu ne hissedecek:** Konut/han cephesinde kapının yanında tabelalı, çizgili tenteli, kepengi
+yarıya inmiş bir mahalle dükkânı — altından sıcak ışık sızıyor. Haddehanede son pencere sırasının
+altında iki paslı yükleme kepengi. Sokak "yaşanıyor" hissi verir, oyun alanına dokunmaz (süs).
+
+**Yapılanlar:** `dukkan.png` (40×32; WOOD/BRASS tabela, RED/CREAM tente, STEEL oluklu kepenk +
+perçinden pas akıntısı, WARM_GLASS ışık aralığı, STONE eşik; mor kontur, sağda ay parlaması).
+`_Facade` stil 0 zemin katta yer varsa (kat ≥ 104 px, cephe ≥ 350 px) dükkânı kapının yanına koyar,
+pencereler ondan sonra başlar. `A_FACTORY` son sıra ile zemin arası ≥ 60 px ise satır 14–31'i
+(kepenk + ışık) yükleme kapısı olarak bir/iki kez çizer.
+
+**Testler:** import temiz; 36 sahne smoke çıkış 0; DTM GAPS PASS; bot Bölüm 3 (9006), 7 (9258),
+9 (9409) CLEARED. Görsel: Bölüm 7 haddehane (kepenkler) ve Bölüm 9 üs cephesi (dükkân, gece tonu
+altında) 1280×720 + yakın çekim — han kapısıyla aynı dilde, sahneye ait.
+
+**Sonraki öneri:** Birikimin kalanı insan testine bağlı; tasarım denetimi (d) ile yeni iş çıkar.
 
 ### 2026-10-26 (18) — Saldırı uyarısı: piksel ünlem + beyaz kontur kırpışması (birikim/denetim)
 
