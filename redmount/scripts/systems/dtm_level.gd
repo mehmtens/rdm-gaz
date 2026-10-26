@@ -69,6 +69,22 @@ const HOUSES := [
 ]
 ## Ev sanatlarında kiremit saçağının bittiği oran (gövde üst kenarı).
 const HOUSE_EAVE := [0.2, 0.17, 0.0]
+## Her evin sıva boyası çeşitleri: özgün bej, gül kurusu, gri-mavi, okra (aynı çizim,
+## tools/gen_house_variants.py yalnız sıvayı boyar). 36 bölümde üç ev aynı bej
+## tekrarlanıyordu; aynı ev yan yana farklı boyayla mahalle gibi okunur.
+const HOUSE_PAINTS := [
+	[preload("res://assets/environment/mahalle/house_a.png"), preload("res://assets/environment/mahalle/house_a_gul.png"),
+		preload("res://assets/environment/mahalle/house_a_mavi.png"), preload("res://assets/environment/mahalle/house_a_okra.png")],
+	[preload("res://assets/environment/mahalle/house_b.png"), preload("res://assets/environment/mahalle/house_b_gul.png"),
+		preload("res://assets/environment/mahalle/house_b_mavi.png"), preload("res://assets/environment/mahalle/house_b_okra.png")],
+	[preload("res://assets/environment/mahalle/house_c.png"), preload("res://assets/environment/mahalle/house_c_gul.png"),
+		preload("res://assets/environment/mahalle/house_c_mavi.png"), preload("res://assets/environment/mahalle/house_c_okra.png")],
+]
+
+
+## Ev dokusu: `idx` ev tipi, `n` sıradaki konum (ardışık n'ler farklı boya alır).
+static func house_tex(idx: int, n: int) -> Texture2D:
+	return HOUSE_PAINTS[idx][posmod(n, 4)]
 const BREAKABLE_WALL := preload("res://scenes/systems/BreakableWall.tscn")
 const CRUSHER := preload("res://scenes/systems/Crusher.tscn")
 const FLAME := preload("res://scenes/systems/FlameVent.tscn")
@@ -161,7 +177,7 @@ func _terrain(x0: float, x1: float, top: float) -> void:
 
 ## Ev: sanat oranı korunur, çatı saçağı yürünür. Sağ kenarı döndürür.
 func _house(left: float, top: float, idx: int) -> float:
-	var tex: Texture2D = HOUSES[idx]
+	var tex: Texture2D = house_tex(idx, int(left / 97.0))
 	var eave: float = HOUSE_EAVE[idx]
 	var body_h := -top
 	var full_h := body_h / (1.0 - eave) if eave > 0.0 else body_h
@@ -937,7 +953,7 @@ class _Art extends Node2D:
 				var each := size.x / count
 				for k in count:
 					var idx := (k + int(size.y)) % 3
-					var tex2: Texture2D = HOUSES[idx]
+					var tex2: Texture2D = DtmLevel.house_tex(idx, k + int(global_position.x / 97.0))
 					var ev: float = HOUSE_EAVE[idx]
 					var fh := size.y / (1.0 - ev) if ev > 0.0 else size.y
 					draw_texture_rect(tex2, Rect2(-hw + k * each - 4.0, -hh - (fh - size.y), each + 8.0, fh), false)
@@ -1298,7 +1314,8 @@ class _BackRow extends Node2D:
 		var i := 0
 		while x < float(level.camera_limit_right) + 1200.0:
 			var idx: int = seq[i % seq.size()]
-			var tex: Texture2D = HOUSES[idx]
+			# Boya: sıra + bölüme özgü kayma (bölümler aynı renk dizisini tekrarlamasın).
+			var tex: Texture2D = DtmLevel.house_tex(idx, i + int(i / 4) + absi(hash(level.name)) % 4)
 			var h := 270.0 + float((i * 37) % 3) * 35.0
 			var w := h * tex.get_width() / tex.get_height()
 			var sx := x + shift

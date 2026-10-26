@@ -7,6 +7,19 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- **[Denetim 26 Ekim, Bölüm 20]** Gece bölümlerinde kahraman ve düşman konturu aynı sıcak
+  fener renginde (gündüzde yalnız düşman konturlu) → gecede dost/düşman ayrımı kayboluyor. Kahramana
+  gecede soğuk ay ışığı konturu (ör. (0,62,0,72,1,0)). Ölçüt: gece kahraman ve düşman kontur tonu
+  farkı ≥ 120°. Etki orta, maliyet düşük.
+- **[Denetim 26 Ekim, Bölüm 20]** Üst bant kalabalığı: bölüm adı kartı, telsiz paneli (400 px) ve
+  ipucu aynı anda üst yarıyı kaplıyor (b/c/d çekimleri). Telsiz, kart sönene kadar beklesin. Ölçüt:
+  aynı anda en fazla bir üst panel. Etki orta, maliyet düşük.
+- **[Denetim 26 Ekim, Bölüm 20]** Son avlu (9450–9950) düz üç dalgalı arena; Kemal Bey'in kayıkla
+  kaçışı yalnız hikâye sahnesinde. Arena sırasında arka planda kayığın hazırlanması (set-piece,
+  dövüşü bölmeyen) — DTM'de patron/hedef dövüş sırasında görünür. Etki orta, maliyet orta.
+- **[Denetim 26 Ekim, Bölüm 20]** Coin hatları tasnif salonunda havada düz sıra (5 × 75 px) —
+  formül hissi; hareketli platformun yolunu çizen yay. Etki düşük, maliyet düşük.
+
 - Saldırı uyarısı insan testi: ilk hasarın nedeni (uyarı görüldü mü?) ölçülmeli; MIN_SHOW 0,28 ve
   kırpışma periyodu 0,06 hipotez.
 
@@ -32,6 +45,31 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (21) — Tasarım denetimi (Bölüm 20) + mahalle evlerine sıva boyası çeşitleri
+
+**Neden şimdi:** Birikimin kalanı insan testine bağlıydı → TASARIM DENETİMİ. Bölüm 20 (Samatya Taş
+Depoları) bot ile CLEARED (10109, 89,8 sn), altı çekim (sokak, pazar, deniz kapısı, depo girişi,
+tasnif salonu, avlu). DTM'ye göre en büyük boşluk tekrar: 36 bölümün ön ve arka sırasında yalnız
+üç ChatGPT evi, hepsi aynı bej sıvayla — her ekranda aynı ev 2–3 kez. Diğer dört bulgu birikimde
+(etki/maliyet sırasıyla).
+
+**Oyuncu ne hissedecek:** Mahalle sırası tek tip değil; aynı ev yan yana gül kurusu, gri-mavi,
+okra ya da bej boyalı — eski İstanbul mahallesinin renk karışıklığı. Gece/arka sıra kararmasında
+fark ince (koyu dramatik ton korunuyor), gündüz sokaklarında belirgin.
+
+**Yapılanlar:** `tools/gen_house_variants.py`: yalnız sıva piksellerini (sıcak ton, orta
+doygunluk; doygun+koyu tuğla/ahşap hariç; ≥ 1500 px bağlı bölge + kapanış) yeniden boyar,
+parlaklık piksel piksel korunur, koyu tonlar mora kayar, fener vuran sıva sıcaklığını %65 korur.
+Kesip yapıştırma yok: aynı çizim, yeni boya. `DtmLevel.house_tex(idx, n)`: `_house`, `A_BUILDING`
+ve arka sıra ardışık konumlara farklı boya verir; arka sırada bölüm adına göre kayma.
+Eski `Level01`/`parkour_set` (kampanyada kullanılmıyor) değişmedi.
+
+**Testler:** import temiz; 36 sahne smoke çıkış 0; DTM GAPS PASS; bot Bölüm 1 (8606), 13 (9559),
+20 (10105) CLEARED. Görsel: Bölüm 20 (gece) ve Bölüm 2 (alacakaranlık) 1280×720 + yakın çekim;
+üç evin dört boyası yan yana önizlemede: kapı, tuğla, kiremit, pencere ışığı değişmedi.
+
+**Sonraki öneri:** Birikim — gecede kahramana soğuk ay ışığı konturu.
 
 ### 2026-10-26 (20) — Kitap şeridinde konuşma balonları (birikim)
 
