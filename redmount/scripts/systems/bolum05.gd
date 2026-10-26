@@ -113,6 +113,8 @@ func _build() -> void:
 	final.wave1 = _wave(KNIFE, STREET, RIFLE)
 	final.wave2 = _wave(BRUISER, KNIFE)
 	final.wave3 = _wave(ELITE, BRUISER)
+	final.named_title = "MAKİNİST CEMİL"
+	final.named_wave = 3
 	final.reward = HEALTH
 	add_child(final)
 	_story(9100, _sahne_tren_kalkar, 9380.0)

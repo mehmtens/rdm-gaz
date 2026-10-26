@@ -7,13 +7,10 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Adlı rakipler: ara sahnede adıyla konuşan düşmanlardan (KABADAYI, KOMİSER RIFAT, MAKİNİST
-  CEMİL, KASAP RIZA, BİNBAŞI KAYA, SUR AĞASI, ZIRHLI USTABAŞI, MUHAFIZ BAŞI, BIÇAKÇI, PUSUCU KEMAL)
-  hangileri dövüşte sıradan düşman olarak çıkıyor, bölüm bölüm kontrol edilsin; dövüşülenlere
-  `BattleArena.named_title/named_wave` verilsin (Bölüm 4'te Yüzbaşı Demir'le başlandı). Bölüm
-  başına bir adlı rakip; can katı rakibin rolüne göre (yardımcı 1,8, bölüm sonu 2,5).
-- Yüzbaşı Demir'in görünümü sıradan Seçkin Muhafızla aynı (yalnız ad + can çubuğu ayırıyor).
-  İnsan testinde karıştırılırsa ChatGPT tarzında kasket/apolet aksesuarı (palet takası değil).
+- Adlı rakiplerin görünümü: Binbaşı Kaya, Sur Ağası ve Muhafız Başı ara sahnede Seçkin
+  Muhafız (`elite`) görünümüyle konuşuyor, dövüşte Ağır Zırhlı (`miniboss`) olarak çıkıyor; Pusucu
+  Kemal ve Yüzbaşı Demir sıradan düşmanla aynı. İnsan testinde karışıklık görülürse ara sahne
+  aktörü dövüşteki görünüme eşitlensin, gerekirse ChatGPT tarzında kişiye özgü aksesuar.
 - Bot, Bölüm 4 kule köprüsünde (x≈6926, y≈−290) pencereli koşuda bir kez 54 sn takıldı (başsız
   üç koşuda yok). Botun kuleden tüfekliye tırmanma mantığı; oyun hatası değil, bot güncellenebilir.
 - Bölüm 22 bakım şaftı arenası (x≈7700–8300; Seçkin+Bombacı, sonra Seçkin+Kalkanlı+Tüfekli):
@@ -64,6 +61,33 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (35) — Kitap 1–2'nin adlı rakipleri adıyla dövüşür (birikim)
+
+**Neden şimdi:** Tur 34'ün birikime yazdığı tarama. Ara sahnede adıyla konuşup "kapıları kapatın"
+diyen yedi rakip dövüşte kimliksizdi: Kasap Rıza (Bölüm 2) sıradan Zırhlı Vurucu, Pusucu Kemal
+(3) arenada hiç yoktu (son dalga suikastçı + zırhlı), Makinist Cemil (5) sıradan Seçkin;
+Zırhlı Ustabaşı (6), Binbaşı Kaya (9), Sur Ağası (10) ve Muhafız Başı (11) dördü de aynı
+"Ağır Zırhlı" can çubuğuyla çıkıyordu. Ara sahne bir kişiyi tanıtıp dövüş başka birini
+gösterince bölüm doruğu dağılıyor.
+
+**Oyuncu ne hissedecek:** Her bölümün son kavgasında konuşan kişi adıyla karşısında; can
+çubuğunda onun adı. Kitap 1'in ilk bölümlerinde adlı rakip daha dayanıklı bir sıradan düşman,
+6. bölümden itibaren ağır boss — zorluk merdiveni okunur.
+
+**Yapılanlar:** `make_named` zaten boss olanda (Ağır Zırhlı) yalnız adı değiştirir; can/blok
+aynı (tur 34'teki güçlendirme dört boss'u iki buçuk kat zorlaştırırdı). Bölüm 2 son arena
+2. dalga `KASAP RIZA` (Zırhlı 60 × 2,0 = 120; tek başına dalga, yardımcısız); Bölüm 3 arena
+3. dalga ASSASSIN → KNIFE, `PUSUCU KEMAL` (22 × 3,0 = 66; bıçaklı hızlı ama kırılgan, 3 kat
+olmadan iki kombo sürmüyor); Bölüm 5 son arena 3. dalga `MAKİNİST CEMİL` (Seçkin 40 × 2,5);
+6/9/10/11 yalnız ad. `tests/named_foe.tscn`'e boss yalnız ad alır denetimi eklendi.
+
+**Testler:** import temiz; NAMED FOE, ARENA PURSUER, DTM GAPS PASS; 36 sahne smoke çıkış 0;
+bot Bölüm 1 (8607), 2 (9506), 3 (9006), 5 (9391), 6 (9454), 9 (9408), 10 (9207), 11 (8658),
+13 (9559), 25 (10155) CLEARED. Görsel: boss çubuğu yolu tur 34'te Demir ile ekranda doğrulandı;
+aynı yol, yalnız metin değişiyor.
+
+**Sonraki öneri:** Birikimin kalanı insan testine bağlı → yeni denetim (Kitap 3'ten Bölüm 28).
 
 ### 2026-10-26 (34) — Tasarım denetimi (Bölüm 4) + Yüzbaşı Demir adlı rakip olarak dövüşür
 

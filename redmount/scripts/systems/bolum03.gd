@@ -96,7 +96,11 @@ func _build() -> void:
 	arena.floor_y = 0
 	arena.wave1 = _wave(STREET, STREET, KNIFE)
 	arena.wave2 = _wave(KNIFE, RIFLE, STREET)
-	arena.wave3 = _wave(ASSASSIN, BRUISER)
+	# Son dalga: "Kapıları kilitleyin!" diyen Pusucu Kemal, ağır korumasıyla.
+	arena.wave3 = _wave(KNIFE, BRUISER)
+	arena.named_title = "PUSUCU KEMAL"
+	arena.named_wave = 3
+	arena.named_health_mult = 3.0
 	arena.reward = HEALTH
 	add_child(arena)
 	var shop: LevelShop = SHOP.new()

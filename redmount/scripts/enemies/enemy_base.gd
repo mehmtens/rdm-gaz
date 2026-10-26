@@ -1125,10 +1125,13 @@ func is_dead() -> bool:
 
 ## Ara sahnede tanıtılan adlı rakip (Yüzbaşı Demir gibi): ayarın kopyası boss olur
 ## (HUD'da adıyla can çubuğu, sıra beklemeden saldırır), canı `health_mult` katı,
-## daha sık bloklar ve kolay yere düşmez. Sahneye eklenmeden önce çağrılmalı.
+## daha sık bloklar ve kolay yere düşmez. Zaten boss olan (Ağır Zırhlı) yalnız adını
+## alır. Sahneye eklenmeden önce çağrılmalı.
 func make_named(title: String, health_mult: float) -> void:
 	config = config.duplicate() if config != null else EnemyConfig.new()
 	config.display_name = title
+	if config.is_boss:
+		return
 	config.is_boss = true
 	config.max_health = int(roundf(config.max_health * health_mult))
 	config.score_value *= 3

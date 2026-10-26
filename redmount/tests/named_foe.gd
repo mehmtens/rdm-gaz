@@ -31,6 +31,13 @@ func _ready() -> void:
 		_check(boss.config.is_boss and boss.config.display_name == "YÜZBAŞI DEMİR", "ilk düşman adlı boss")
 		_check(boss.get_health() == 100, "can 40 × 2,5 = 100 (%d)" % boss.get_health())
 		_check(not guard.config.is_boss and guard.get_health() == 40, "ikinci düşman sıradan")
+	# Zaten boss olan Ağır Zırhlı yalnız adını alır: can ve blok aynı kalır.
+	var mb: EnemyBase = (load("res://scenes/enemies/MiniBoss.tscn") as PackedScene).instantiate()
+	var mb_block: float = mb.config.block_chance
+	mb.make_named("SUR AĞASI", 2.5)
+	_check(mb.config.display_name == "SUR AĞASI" and mb.config.max_health == 200
+		and mb.config.block_chance == mb_block, "boss yalnız ad aldı (%d can)" % mb.config.max_health)
+	mb.free()
 	var fresh: EnemyBase = ELITE.instantiate()
 	_check(not fresh.config.is_boss and fresh.config.max_health == 40, "ortak ayar dosyası değişmedi")
 	fresh.free()

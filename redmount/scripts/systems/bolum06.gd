@@ -114,6 +114,8 @@ func _build() -> void:
 	final.floor_y = 0
 	final.wave1 = _wave(STREET, KNIFE, BRUISER)
 	final.wave2 = _wave(MINIBOSS)
+	final.named_title = "ZIRHLI USTABAŞI"
+	final.named_wave = 2
 	final.wave3 = _wave(BRUISER, RIFLE)
 	final.reward = HEALTH
 	add_child(final)

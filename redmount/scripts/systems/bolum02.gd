@@ -135,6 +135,9 @@ func _build() -> void:
 	final.floor_y = 0
 	final.wave1 = _wave(STREET, KNIFE)
 	final.wave2 = _wave(BRUISER)
+	final.named_title = "KASAP RIZA"
+	final.named_wave = 2
+	final.named_health_mult = 2.0
 	final.wave3 = _wave(KNIFE, STREET, ASSASSIN)
 	final.reward = HEALTH
 	add_child(final)
