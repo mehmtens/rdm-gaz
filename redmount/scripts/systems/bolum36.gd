@@ -57,7 +57,7 @@ func _build() -> void:
 	_checkpoint(3700, 0)
 	_crates(3850, 1, 1)
 	_crates(3940, 1, 2)
-	_terrain(4030, 4400, -180)
+	_crates(4030, 4, 2)
 	_enemy(RIFLE, 4350, -180)
 	_coin_line(4060, 5, 70, -230)
 	_link(4700, "1. BAĞLANTI")

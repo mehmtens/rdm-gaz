@@ -36,12 +36,6 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   insan testinde ölüm hâlâ yığılıyorsa mahzene (x≈8900) simit.
 - Bölüm 19 külhan finali (tur 45): Külhanbeyi bire bir + iki alev bacası; bot 4 koşunun 2'sinde
   bir kez öldü. İnsan testinde finalde ölüm 1'i geçerse alev hasarı 12 → 8 ya da tek baca.
-- Bölüm 36 tüfekli tüneği (mavna rampası, x 4030–4400) hâlâ kaldırım bloğu: sandık yığınına
-  (4 sütun × 2) çevrilince bot yeniden doğmaları tutarlı biçimde arttı (eski 3/3/3, yeni
-  5/6/5/6; ölümler tüneğin uzağında, pistonlar x≈5770–6670 ve finalde). Gizli alan yerleşimi
-  ve bot zemin verisi iki sürümde aynı; neden bulunamadı, değişiklik geri alındı (tur 67).
-  Sandık/taş yığınının oyuncu-düşman etkileşimindeki farkı (ör. tüfekli görüş hattı, geri
-  itilme) ayrı deney sahnesinde incelenmeli.
 - Final yeniden doğmaları (bot, tur 64–65 ölçümü; değişiklik öncesi sürümlerle aynı): Bölüm 19
   külhan finali 1–2, 21 gece iskelesi finali 0–2, 22 finali 0–2. Birikimdeki 19 maddesiyle
   birlikte insan testinde ölçülsün.
@@ -86,6 +80,29 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-27 (68) — Bölüm 36 mavna rampası tüneği sandık yığını; bot gürültüsü ölçüldü
+
+**Neden şimdi:** Birikimdeki uygulanabilir tek madde (diğerleri insan testine bağlı). Tur 67'de
+mavna rampasındaki tünek sandık yığınına çevrilince bot yeniden doğmaları arttığı için geri
+alınmıştı; rampa hâlâ rıhtımda arnavut kaldırımlı toprak blok olarak duruyordu.
+
+**Bulgu:** İki sürümün izleri tüneğe varmadan, t=8 sn / x≈1300'de ayrışıyor — fark tünekten
+değil, Godot'nun her açılışta rastgele tohumlanan genel RNG'sinden (düşman blok/saldırı
+seçimleri). Aynı kodda 4–5 koşu: eski blok 3/4/6/6/6 (ort. 5,0), sandık 4/3/2/5 (ort. 3,5).
+Tur 67'deki 3/3/3 ↔ 5/6/5/6 farkı gürültüydü; sandık yığını zararsız.
+
+**Yapılan:** `bolum36.gd` `_terrain(4030, 4400, -180)` → `_crates(4030, 4, 2)`; rampa artık
+1 → 2 → 2×4 sandık basamağı, vinç ve rıhtım resmine oturuyor (pencereli çekimde "ait").
+
+**Ders (bot ölçümleri için):** Tek koşu ya da 3 koşu karşılaştırması yeniden doğma sayısında
+anlamlı değil; bölüm başına dağılım 3–6 olabiliyor. Bir değişikliği bot ölümüyle geri almadan
+önce iki sürümden en az 4'er koşu (paralel çalıştırılabilir, `--fixed-fps` ile süre etkilenmez).
+
+**Testler:** import temiz (SCRIPT ERROR 0); 36 sahne smoke çıkış 0; DTM GAPS PASS; Bölüm 36 bot
+başsız 4 + 1 koşu CLEARED (169,8–183,3 sn; 2–5 yeniden doğma), eski sürüm 5 koşu CLEARED.
+
+**Sonraki öneri:** Birikimin geri kalanı insan testine bağlı; yeni tasarım denetimi.
 
 ### 2026-10-26 (67) — Tüfekli tünekler yerin malzemesinde (10 bölüm)
 
