@@ -40,7 +40,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   basamak, 1850–3200 arası 60 px çukur avlu arenası, 3350 kontrol noktası, 3800'de 200 px'lik
   kanal + üstte 220 px iskele, 4750 kontrol noktası; 18–23'te devamı da aynı (galeri+erzak →
   salon → arena → 200 px kanal → küçük oda → 9300–9350 final). Bölüm başına bir tur, yere özgü
-  yeniden düzen. Yapılan: 19 (tur 47, açılış). Sıradaki: 23, 22, 21, 20, 18, sonra 13–17, 24, 25.
+  yeniden düzen. Yapılan: 19 (tur 47, açılış), 23 (tur 48, açılış). Sıradaki: 22, 21, 20, 18,
+  sonra 13–17, 24, 25.
 
 - Ön sıra katı evler yalnız 6 bölümde (1, 2, 3, 27, 29, 34; çoğu Kitap 1 Balat — yerine uygun).
   27/29/34'teki 2–3 ev insan testinde yere yabancı görünürse o bölüme özgü cephe çizilmeli
@@ -77,6 +78,29 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (48) — Bölüm 23 açılışı yere özgü: yükseltilmiş çeşme avlusu, su terazisi kulesi
+
+**Neden şimdi:** Birikimdeki Kitap 2 iskeleti maddesinde sıradaki bölüm (tur 47 önerisi).
+Saraçhane de 60 px çukur avlu + 200 px kanal + iskele açılışını taşıyordu. (Önceki oturum bu
+değişikliği yazıp testsiz kesilmişti; bu tur bitirip doğruladı.)
+
+**Oyuncu ne hissedecek:** Avlu artık sokaktan iki basamak (45+45 px) yukarıda, arkadaki
+çeşmenin taş setiyle aynı hizada: önceki bölümlerdeki "aşağı in, kavga et" yerine "yukarı çık,
+kavga et". Kanal yerine bir su terazisi kulesi: 1-2-3-2-1 taş blok basamak, tepede tabanca,
+basamak boyu altınlar; inince kalkanlı karşılar. Arkadaki su haznelerinin önünde taş yığını
+yere ait duruyor.
+
+**Yapılanlar:** `bolum23.gd` bölüm 2–3. Yarım kalan sürümde ikinci altın taş bloğun içindeydi
+(`_coin_line` düz hat, kule basamaklı) → altınlar basamak başına tek tek, blok tepesinin 45 px
+üstünde. Sayılar: basamak 90 px (zıplama ~125 px, rahat), kule 270 px — tabanca bir keşif
+ödülü değil yol üstü ödül.
+
+**Testler:** import temiz; 36 sahne smoke çıkış 0; DTM GAPS PASS; Bölüm 23 bot başsız CLEARED
+10110 (95 sn, 0 ölüm; finalde 12 sn takılma, eski davranış). Görsel 1280×720: avlu girişi,
+avlu, kule — "ait".
+
+**Sonraki öneri:** Kitap 2 iskeletinde Bölüm 22.
 
 ### 2026-10-26 (47) — Denetim (Bölüm 2, 3, 5, 11) + Bölüm 19 açılışı yere özgü
 

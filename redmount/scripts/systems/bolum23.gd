@@ -1,7 +1,7 @@
 ## Bölüm 23 — Saraçhane Ana Vana (Kitap 2 / "Haliç'in İzi", 11. bölüm).
 ##
-## Şafakta Saraçhane ana vanasından su kesilecek. Sokak -> dış avlu (arena) -> su
-## terazisi (kanal, taş raf) -> basınç galerisi (tüfekli, arena, erzak) -> ana vana
+## Şafakta Saraçhane ana vanasından su kesilecek. Sokak -> yükseltilmiş çeşme avlusu
+## (arena) -> su terazisi (basamaklı taş kule) -> basınç galerisi (tüfekli, arena, erzak) -> ana vana
 ## salonu (değiştirilmiş vana: vurarak kırılır, yerel kesinti durur) -> bakım
 ## geçidi (arena) -> kontrol masası (üst hat Bozdoğan Kemeri servis kulesinde) ->
 ## taşma avlusu (suikastçı baskını). Kâtip'in kim olduğuna dair ilk somut ipucu: gazete arşivi.
@@ -27,30 +27,36 @@ func _build() -> void:
 	_pickup(ARMOR, 720, -215)
 	_enemy(STREET, 1050, 0)
 
-	# --- 2. Dış avlu: sığ alt yol, hızlı/zırhlı iki dalga ------------------------
+	# --- 2. Çeşme avlusu: sokaktan yükseltilmiş taraça, hızlı/zırhlı iki dalga ----
+	# Avlu sokaktan iki basamak yukarıda (arkadaki çeşmenin taş setiyle aynı hizada);
+	# Kitap 2'nin önceki bölümlerindeki çukur avlunun tersi: kavga yukarıda, sokak altta.
 	_checkpoint(1550, 0)
-	_terrain(1700, 1850, 30)
-	_terrain(1850, 3200, 60)
+	_terrain(1700, 1800, -45)
+	_terrain(1800, 3200, -90)
+	_terrain(3200, 3300, -45)
 	var avlu: BattleArena = ARENA.instantiate()
-	avlu.position = Vector2(2500, 60)
+	avlu.position = Vector2(2500, -90)
 	avlu.gate_left_x = 2050
 	avlu.gate_right_x = 2950
-	avlu.floor_y = 60
+	avlu.floor_y = -90
 	avlu.wave1 = _wave(KNIFE, KNIFE, STREET)
 	avlu.wave2 = _wave(BRUISER, RIFLE)
 	avlu.reward = AMMO
 	add_child(avlu)
-	_terrain(3200, 3350, 30)
 
-	# --- 3. Su terazisi: kısa kanal, üst taş raf ---------------------------------
-	_terrain(3350, 3800, 0)
+	# --- 3. Su terazisi: basamaklı taş kule, tepede tabanca ------------------------
+	# Şebekenin basıncını dengeleyen terazi kulesi: yol kulenin üstünden geçer (kanal
+	# yerine tırmanış). Tepede tabanca; öbür yüzden inince kalkanlı karşılar.
+	_terrain(3300, 10300, 0)
 	_checkpoint(3400, 0)
-	_canal(3800, 4000, 110)
-	_scaffold(3900, -20, 220)
-	_terrain(4000, 10300, 0)
-	_stones(4150, 1, 1)
-	_stones(4240, 1, 2)
-	_pickup(PISTOL, 4285, -225)
+	_stones(3800, 1, 1)
+	_stones(3890, 1, 2)
+	_stones(3980, 1, 3)
+	_stones(4070, 1, 2)
+	_stones(4160, 1, 1)
+	for s in [[3845, -135], [3935, -225], [4115, -225], [4205, -135]]:
+		_pickup(COIN, s[0], s[1])
+	_pickup(PISTOL, 4025, -315)
 	_enemy(SHIELD, 4550, 0)
 
 	# --- 4. Basınç galerisi: tüfekli, gösterge rafı, arena, erzak ----------------
