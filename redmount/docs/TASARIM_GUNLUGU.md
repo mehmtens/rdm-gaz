@@ -7,6 +7,10 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- Bölüm 34 son arenasında iki Seçkin Muhafız yan yana (~37 px) nişan alıyordu; bot 101 → 6 can.
+  Deney sahnesinde nişan durumunda 64 px aralık korunuyor (tur 30 düzeltmesi), yığılma kovalama
+  ya da geri itilme sonrası oluyor; tek karede yeniden üretilemedi. İnsan testinde ya da bir
+  sonraki denetimde yeniden görülürse `CHASE` durumundaki ayrışmaya nişancı komşusu eklensin.
 - Son arenaya düşük canla varış (Bölüm 4: 16–25 can, Bölüm 28: 21 can; bot). İki bölümde de
   orta arenadan son arenaya kadar can kaynağı yok (yalnız büfe). İnsan testinde son arenaya
   giriş canı ölçülsün; ortanca %40'ın altındaysa son kontrol noktası önüne kırılabilir simit.
@@ -64,6 +68,33 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (38) — Denetim (Bölüm 18 ve 34) + film rulosu bildirimi HUD'a binmez
+
+**Neden şimdi:** Tur 37'nin önerisi: ara arenaların arka plan taraması, sonra yeni denetim.
+(1) Ara arena taraması: Kitap 2–3'ün 36 ara arenasının kamera merkezindeki atlas karesi bölüm
+başlığıyla yan yana incelendi; hepsi uyuşuyor (31'in kütüphanesi giriş salonu resminde, atlasta
+kütüphane karesi yok — kabul). Değişiklik yok. (2) Bölüm 18 pencereli bot: CLEARED 10057,
+93 sn, 0 ölüm; tur 37'de düzelen han çatısı arenası iyi okunuyor; yeni bulgu yok. (3) Bölüm 34
+pencereli bot: CLEARED 9908, 86 sn, 1 yeniden doğma. Bulgu: Kandilli'deki ilk film rulosunda
+"FİLM RULOSU 1/3" bandının alt satırı (800 px genişlikte ortalanmış, x 240–1040) sol sütundaki
+zırh satırının ("Zırh: … · hasar -%50 · hız -%15", x 16–380) üstüne biniyordu; ikisi de
+okunmuyordu. İkinci bulgu (yan yana iki Seçkin) birikime.
+
+**Oyuncu ne hissedecek:** Gizli film rulosunu bulduğu an, kutlama metni temiz okunur; silah,
+mermi, zırh satırları yerinde kalır.
+
+**Yapılanlar:** `_PlaceBanner` genişliği 800 → 580 px (x 350–930: sol sütun ~330 px'te bitiyor,
+sağ üst kombo yazısı 1000 px'ten sonra), alt satır zaten sarıyordu. Film rulosu metni açık iki
+satır: "Gazelle'in kanıt fotoğrafı bulundu · +10 coin" / "Kanıt Arşivi'ne eklendi" (sarma
+"+10 coin ·" diye bölüyordu). Masaüstü zırh satırı "Zırh  6/6" (silah satırıyla aynı; etkileri
+mağaza açıklamasında).
+
+**Testler:** import temiz; 36 sahne smoke çıkış 0; DTM GAPS, NAMED FOE, ARENA PURSUER PASS; bot
+Bölüm 1 (8604), 13 (9555), 25 (10155), 34 (9906) CLEARED. Görsel: Bölüm 34 x=2300'de zırh +
+silah + mermi + film rulosu bandı aynı anda, 1280×720 — çakışma yok.
+
+**Sonraki öneri:** Birikimin kalanı insan testine bağlı → yeni denetim (Kitap 1'den Bölüm 8).
 
 ### 2026-10-26 (37) — Yedi bölümde son arena kendi resminin önünde (tur 36 taraması)
 

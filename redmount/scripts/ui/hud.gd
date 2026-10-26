@@ -350,7 +350,7 @@ func set_ammo(mag: int, reserve: int, has_gun: bool, label := "") -> void:
 
 func set_armor(display_name: String, hp: int, max_hp: int) -> void:
 	_armor.text = ("ZIRH %d/%d" % [hp, max_hp] if TouchControls.active_on_device() else
-		"%s  %d/%d · hasar -%%50 · hız -%%15" % [display_name, hp, max_hp]) if not display_name.is_empty() else ""
+		"%s  %d/%d" % [display_name, hp, max_hp]) if not display_name.is_empty() else ""
 
 
 func set_powerups(active: Array) -> void:
@@ -672,8 +672,10 @@ class _PlaceBanner extends Control:
 
 	func _init() -> void:
 		set_anchors_preset(Control.PRESET_CENTER_TOP)
-		offset_left = -400.0
-		offset_right = 400.0
+		# 580 px: sol sütun (can/coin/silah/zırh, ~330 px) ile sağ üst kombo yazısının
+		# arasında kalır; alt satır sarar (Bölüm 34 denetimi: zırh satırına biniyordu).
+		offset_left = -290.0
+		offset_right = 290.0
 		offset_top = 96.0
 		offset_bottom = 220.0
 		mouse_filter = Control.MOUSE_FILTER_IGNORE
