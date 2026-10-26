@@ -4,7 +4,7 @@
 ## külhanından çıktığını gösterir. Gece: arka sokak -> meydan (arena) -> hamam
 ## girişi (kanal) -> soyunmalık (galeri, arena, erzak) -> ılıklık (çini rafı) ->
 ## su servisi (60 px alt rota, arena) -> külhan yaklaşımı (alev bacaları) -> külhan
-## (üç dalga). Külhanda Kemal Bey'in yarım yanmış mektubu: "Samatya taş depoları".
+## (alev bacaları arasında Külhanbeyi). Külhanda Kemal Bey'in yarım yanmış mektubu: "Samatya taş depoları".
 extends DtmLevel
 
 const APPROACH := preload("res://assets/backgrounds/book02_hamam_approach_atlas.png")
@@ -122,18 +122,24 @@ func _build() -> void:
 	_canal(8950, 9150, 110)
 	_scaffold(9050, -20, 220)
 
-	# --- 8. Külhan: üç dalga; Samatya adresi -----------------------------------
+	# --- 8. Külhan: alev bacaları arasında Külhanbeyi; Samatya adresi -----------
 	_checkpoint(9300, 0)
 	var final: BattleArena = ARENA.instantiate()
 	final.position = Vector2(9700, 0)
 	final.gate_left_x = 9400
 	final.gate_right_x = 10000
 	final.floor_y = 0
-	final.wave1 = _wave(KNIFE, ASSASSIN, KNIFE)
-	final.wave2 = _wave(ELITE, RIFLE)
-	final.wave3 = _wave(BRUISER, BRUISER)
+	## Külhancılar evrak yakıyor; ikinci dalgada külhanın sahibiyle bire bir. Ocak
+	## ağzındaki iki alev bacası ters fazda: dövüş yerinde kalmaz, oyuncu alevin sönük
+	## yanına çekilir.
+	final.wave1 = _wave(KNIFE, STREET, KNIFE)
+	final.wave2 = _wave(BRUISER)
+	final.named_title = "KÜLHANBEYİ"
+	final.named_wave = 2
 	final.reward = HEALTH
 	add_child(final)
+	_flame(9640, 0.0)
+	_flame(9760, 1.35)
 	_story(10050, _sahne_mektup)
 	_han_gate(10150, "SAMATYA")
 	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.

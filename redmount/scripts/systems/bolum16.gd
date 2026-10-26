@@ -132,8 +132,9 @@ func _build() -> void:
 	final.gate_left_x = 9330
 	final.gate_right_x = 9780
 	final.floor_y = 0
-	final.wave1 = _wave(KNIFE, ASSASSIN, BOMBER)
-	final.wave2 = _wave(ELITE, BRUISER)
+	## Dar teras: önce çatı katının hızlıları, sonra kalkanlının arkasından bombacı.
+	final.wave1 = _wave(ASSASSIN, KNIFE)
+	final.wave2 = _wave(SHIELD, BOMBER)
 	final.reward = HEALTH
 	add_child(final)
 	_story(9830, _sahne_liste)

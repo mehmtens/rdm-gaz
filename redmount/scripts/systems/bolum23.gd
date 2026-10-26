@@ -4,7 +4,7 @@
 ## terazisi (kanal, taş raf) -> basınç galerisi (tüfekli, arena, erzak) -> ana vana
 ## salonu (değiştirilmiş vana: vurarak kırılır, yerel kesinti durur) -> bakım
 ## geçidi (arena) -> kontrol masası (üst hat Bozdoğan Kemeri servis kulesinde) ->
-## taşma avlusu (üç dalga). Kâtip'in kim olduğuna dair ilk somut ipucu: gazete arşivi.
+## taşma avlusu (suikastçı baskını). Kâtip'in kim olduğuna dair ilk somut ipucu: gazete arşivi.
 extends DtmLevel
 
 const STREETS := preload("res://assets/backgrounds/book02_sarachane_streets_atlas.png")
@@ -36,8 +36,8 @@ func _build() -> void:
 	avlu.gate_left_x = 2050
 	avlu.gate_right_x = 2950
 	avlu.floor_y = 60
-	avlu.wave1 = _wave(KNIFE, ASSASSIN, STREET)
-	avlu.wave2 = _wave(BRUISER, SHIELD)
+	avlu.wave1 = _wave(KNIFE, KNIFE, STREET)
+	avlu.wave2 = _wave(BRUISER, RIFLE)
 	avlu.reward = AMMO
 	add_child(avlu)
 	_terrain(3200, 3350, 30)
@@ -92,7 +92,7 @@ func _build() -> void:
 	sign.position = Vector2(7100, -260)
 	add_child(sign)
 
-	# --- 6. Bakım geçidi: seçkin + menzilli arena ---------------------------------
+	# --- 6. Bakım geçidi: kolon arkasından tüfekliler, sonra seçkin ---------------
 	_checkpoint(7350, 0)
 	_fg("kolon", 7700.0, 40.0, 380.0)
 	_fg("kolon", 8200.0, 40.0, 380.0)
@@ -101,8 +101,8 @@ func _build() -> void:
 	bak.gate_left_x = 7600
 	bak.gate_right_x = 8300
 	bak.floor_y = 0
-	bak.wave1 = _wave(ELITE, BOMBER)
-	bak.wave2 = _wave(ELITE, KNIFE, RIFLE)
+	bak.wave1 = _wave(RIFLE, KNIFE, RIFLE)
+	bak.wave2 = _wave(ELITE, SHIELD)
 	bak.reward = HEALTH
 	add_child(bak)
 
@@ -116,16 +116,18 @@ func _build() -> void:
 	_enemy(KNIFE, 9200, -115)
 	_pickup(HEALTH, 9240, -160)
 
-	# --- 8. Taşma avlusu: üç dalga; Bozdoğan Kemeri -----------------------------
+	# --- 8. Taşma avlusu: suikastçı baskını; Bozdoğan Kemeri ---------------------
 	_checkpoint(9350, 0)
 	var final: BattleArena = ARENA.instantiate()
 	final.position = Vector2(9700, 0)
 	final.gate_left_x = 9450
 	final.gate_right_x = 10000
 	final.floor_y = 0
-	final.wave1 = _wave(KNIFE, ASSASSIN, KNIFE)
-	final.wave2 = _wave(ELITE, RIFLE)
-	final.wave3 = _wave(BRUISER, BRUISER)
+	## Kâtip'in hızlı adamları vanayı kıranı bekliyor: önce iki suikastçı, sonra
+	## kalkanlının arkasında tüfekli, son dalgada ağır + seçkin.
+	final.wave1 = _wave(ASSASSIN, ASSASSIN)
+	final.wave2 = _wave(SHIELD, KNIFE, RIFLE)
+	final.wave3 = _wave(BRUISER, ELITE)
 	final.reward = HEALTH
 	add_child(final)
 	_story(10050, _sahne_kemer)

@@ -3,7 +3,7 @@
 ## Külhandaki mektup son teslimi Samatya taş depolarına bağlar. Gece: arka sokak ->
 ## balık pazarı (arena) -> deniz kapısı -> taş depo girişi (tüfekli, arena, erzak)
 ## -> tasnif salonu (vinç kirişi) -> tuzlu servis geçidi (arena) -> gizli kayıt
-## odası (oyulmuş taş bloklar) -> yükleme avlusu (üç dalga). Kemal Bey ilk kez
+## odası (oyulmuş taş bloklar) -> yükleme avlusu (yük iskelesi). Kemal Bey ilk kez
 ## görünür: bir kayıkla kaçar. Çıkış fişi: Yenikapı gece vardiyası.
 extends DtmLevel
 
@@ -116,16 +116,19 @@ func _build() -> void:
 	_pickup(HEALTH, 9280, -160)
 	_coin_line(9000, 5, 60, -160)
 
-	# --- 8. Yükleme avlusu: üç dalga; Kemal Bey kaçar -----------------------------
+	# --- 8. Yükleme avlusu: yük iskelesi, hamallar; Kemal Bey kaçar -------------
 	_checkpoint(9350, 0)
+	_scaffold(9700, -115, 180)
 	var final: BattleArena = ARENA.instantiate()
 	final.position = Vector2(9700, 0)
 	final.gate_left_x = 9450
 	final.gate_right_x = 9950
 	final.floor_y = 0
-	final.wave1 = _wave(KNIFE, ASSASSIN, KNIFE)
-	final.wave2 = _wave(ELITE, RIFLE)
-	final.wave3 = _wave(BRUISER, BRUISER)
+	## Taş hamalları kalkanlıların arkasından gelir; ikinci dalgada tüfekli, ortadaki
+	## yük iskelesinden atlanarak aşılır; son dalga ağır ve seçkin birlikte.
+	final.wave1 = _wave(STREET, SHIELD, STREET)
+	final.wave2 = _wave(RIFLE, ASSASSIN)
+	final.wave3 = _wave(BRUISER, ELITE)
 	final.reward = HEALTH
 	add_child(final)
 	_kemal_watches(final)

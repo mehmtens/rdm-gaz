@@ -37,7 +37,7 @@ func _build() -> void:
 	a1.gate_right_x = 2850
 	a1.floor_y = 60
 	a1.wave1 = _wave(STREET, KNIFE, STREET)
-	a1.wave2 = _wave(RIFLE, SHIELD)
+	a1.wave2 = _wave(RIFLE, KNIFE)
 	a1.reward = ARMOR
 	add_child(a1)
 	_terrain(3000, 3150, 30)

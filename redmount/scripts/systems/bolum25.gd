@@ -126,8 +126,9 @@ func _build() -> void:
 	final.gate_left_x = 9550
 	final.gate_right_x = 10050
 	final.floor_y = 0
-	final.wave1 = _wave(KNIFE, ASSASSIN, BOMBER)
-	final.wave2 = _wave(ELITE, BRUISER)
+	## Arşiv kapısı: nöbetçiler arasında tüfekli; sonra ağır zırhlıyı suikastçı kollar.
+	final.wave1 = _wave(STREET, RIFLE, STREET)
+	final.wave2 = _wave(BRUISER, ASSASSIN)
 	final.reward = HEALTH
 	add_child(final)
 	_story(10100, _sahne_sirkeci)

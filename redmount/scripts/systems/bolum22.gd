@@ -3,8 +3,8 @@
 ## Kemal Bey'in verdiği adres: Aksaray eski pompa istasyonu. Sokak -> istasyon
 ## avlusu (arena) -> filtre salonu (kanal, taş raf) -> vana galerisi (boru rafı,
 ## arena, erzak) -> pompa salonu (presler gibi işleyen pistonlar, makine rafı) ->
-## bakım şaftı (arena) -> kontrol odası (kapatma çizelgesi) -> tahliye avlusu (üç
-## dalga). Sahte yardımın yükü değiştirilmiş yedek vanalar: şafakta Saraçhane ana
+## bakım şaftı (arena) -> kontrol odası (kapatma çizelgesi) -> tahliye avlusu (kopuk
+## kablo). Sahte yardımın yükü değiştirilmiş yedek vanalar: şafakta Saraçhane ana
 ## vanasından şehrin suyu kesilecek. Kâtip'in sesi ilk kez bir gramofondan duyulur.
 extends DtmLevel
 
@@ -43,7 +43,7 @@ func _build() -> void:
 	avlu.gate_right_x = 2950
 	avlu.floor_y = 60
 	avlu.wave1 = _wave(STREET, KNIFE, STREET)
-	avlu.wave2 = _wave(RIFLE, ASSASSIN)
+	avlu.wave2 = _wave(SHIELD, ASSASSIN)
 	avlu.reward = AMMO
 	add_child(avlu)
 	_terrain(3200, 3350, 30)
@@ -104,8 +104,8 @@ func _build() -> void:
 	saft.gate_left_x = 7700
 	saft.gate_right_x = 8300
 	saft.floor_y = 0
-	saft.wave1 = _wave(ELITE, BOMBER)
-	saft.wave2 = _wave(ELITE, SHIELD, RIFLE)
+	saft.wave1 = _wave(BOMBER, SHIELD)
+	saft.wave2 = _wave(ELITE, KNIFE)
 	saft.reward = HEALTH
 	add_child(saft)
 
@@ -119,18 +119,21 @@ func _build() -> void:
 	_pickup(HEALTH, 9240, -160)
 	_coin_line(8950, 5, 60, -160)
 
-	# --- 8. Tahliye avlusu: üç dalga; Saraçhane --------------------------------
+	# --- 8. Tahliye avlusu: ortada kopuk kablo; Saraçhane ------------------------
 	_checkpoint(9350, 0)
 	var final: BattleArena = ARENA.instantiate()
 	final.position = Vector2(9700, 0)
 	final.gate_left_x = 9450
 	final.gate_right_x = 10000
 	final.floor_y = 0
-	final.wave1 = _wave(KNIFE, ASSASSIN, KNIFE)
-	final.wave2 = _wave(ELITE, RIFLE)
-	final.wave3 = _wave(BRUISER, BRUISER)
+	## Avlunun ortasında kopuk pompa kablosu: dövüş kablonun sönük anlarında ortadan
+	## geçer. Bombacının ateşi oyuncuyu kabloya iter; son dalgada ağır + tüfekli.
+	final.wave1 = _wave(KNIFE, BOMBER, KNIFE)
+	final.wave2 = _wave(SHIELD, ELITE)
+	final.wave3 = _wave(BRUISER, RIFLE)
 	final.reward = HEALTH
 	add_child(final)
+	_live_wire(9660, 9790, 0.8)
 	_story(10050, _sahne_safak)
 	_han_gate(10150, "SARAÇHANE")
 	# Çevresel tehlikeler.

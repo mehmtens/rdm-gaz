@@ -23,9 +23,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 - Bölüm 9 ilk arena (x≈5000–5700; bot 109 → 25 can, 20 sn takılma) ve Bölüm 12 yalı kesimi
   (x≈4600–5400; bot 2 ölüm, 21 → 7 can): kaba yapay zekâ olabilir; insan testinde ölüm sayısı
   2'yi geçerse yalı arenasının önüne simit.
-- Bölüm 22 bakım şaftı arenası (x≈7700–8300; Seçkin+Bombacı, sonra Seçkin+Kalkanlı+Tüfekli):
-  bot iki koşuda 115 → 6 can ve 2 yeniden doğma. Kaba yapay zekâ olabilir; insan testinde ölüm
-  sayısı 2'yi geçerse ikinci dalgadan Tüfekli çıkarılsın (Seçkin zaten menzilli).
+- Bölüm 22 bakım şaftı arenası (x≈7700–8300): tur 45'te Bombacı+Kalkanlı, sonra Seçkin+Bıçakçı
+  (eski: iki Seçkin + Tüfekli). İnsan testinde ölüm sayısı ölçülsün.
 - Bölüm 10 son arena (x≈8200–8700, Ağır Zırhlı + iki tüfekli): bot 3 ölüm, 21 sn takılma.
   Kaba yapay zekâ olabilir; insan testinde arena başına ölüm sayısı ölçülsün, 2'yi geçerse
   üçüncü dalgadan bir tüfekli çıkarılsın ya da ikinci dalga sonrası ödül simit olsun.
@@ -33,8 +32,16 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   Mobilde dokunmatik düğmeler bu bantta olduğu için bilinçli; masaüstünde DTM'ye yakın %75 için
   `Camera2D.position.y` yalnız masaüstünde −95 → −150 denenebilir (insan testiyle).
 - Bölüm 16 son üçlü (belge odası arenası → mahzen seçkini → teras arenası): bot 115 → 1 can,
-  iki yeniden doğma. Kaba yapay zekâ olabilir; insan testinde ölüm yeri ölçülsün, burada
-  ölüm yığılıyorsa mahzene (x≈8900) simit.
+  iki yeniden doğma. Tur 45'te teras hafifledi (Suikastçı+Bıçakçı, sonra Kalkanlı+Bombacı);
+  insan testinde ölüm hâlâ yığılıyorsa mahzene (x≈8900) simit.
+- Bölüm 19 külhan finali (tur 45): Külhanbeyi bire bir + iki alev bacası; bot 4 koşunun 2'sinde
+  bir kez öldü. İnsan testinde finalde ölüm 1'i geçerse alev hasarı 12 → 8 ya da tek baca.
+- Bölüm 21 kamera alt sınırı 270 (kuru havuz 200 px derin): bölümün tamamında zemin ekranın
+  ~%64'ünde, diğer bölümlerde ~%82 (alt 130); alt yarıda boş toprak. Alt sınır yalnız havuz
+  kesiminde (x≈6400–7200) açılmalı (bölge başına kamera sınırı gerekir).
+- Kitap 2 bölümleri (18–23) iskeletçe hâlâ aynı: son kontrol noktası 9300–9350, final 9700,
+  aynı sıra (sokak → avlu arenası → kanal → galeri+erzak → salon → arena → küçük oda → final).
+  Dalga dizileri tur 45'te ayrıştı; yerleşim de bölüme özgü olmalı (büyük iş, bölüm başına tur).
 
 - Ön sıra katı evler yalnız 6 bölümde (1, 2, 3, 27, 29, 34; çoğu Kitap 1 Balat — yerine uygun).
   27/29/34'teki 2–3 ev insan testinde yere yabancı görünürse o bölüme özgü cephe çizilmeli
@@ -71,6 +78,41 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (45) — Denetim (Bölüm 19, 23): Kitap 2'nin altı finali aynı arenaydı
+
+**Neden şimdi:** Tüm listeler kapalı, birikim insan testine bağlı → denetim (henüz bakılmamış
+19 ve 23). Pencereli bot: Bölüm 19 (Çemberlitaş Külhanı) CLEARED 10108, 76 sn, 0 ölüm; Bölüm 23
+(Saraçhane) CLEARED 10107, 98 sn, 1 ölüm (son arena). Külhan ocağı, hamam erzakçısı, su
+galerisi, Bozdoğan Kemeri resimleri iyi. Bulgu ise ekranda değil verideydi: iki finalin dalga
+dizisi birebir aynıydı. 36 bölümün bütün arenaları tarandı: Bölüm 18 çatısı + 19, 20, 21, 22,
+23 finalleri — altı ardışık bölüm aynı üç dalga (Bıçakçı-Suikastçı-Bıçakçı / Seçkin+Tüfekli /
+iki Ağır Zırhlı). Ayrıca 14/16/25 finalleri aynı, 6 arena çifti daha ikiz. Bu tam olarak
+kaçınılan "şablon parkur": DTM'de her bölümün son kavgası yerin kendisi gibi okunur; Kitap 1'de
+bunu adlı rakipler sağlıyordu, Kitap 2'de hiç yoktu.
+
+**Oyuncu ne hissedecek:** Her final yerin kavgası. Külhan: ocak ağzında iki alev bacası ters
+fazda yanarken külhancılar, sonra "KÜLHANBEYİ" ile bire bir (Kitap 2'nin ilk adlı rakibi,
+can çubuğu). Samatya: ortada yük iskelesi; hamallar kalkanlının arkasında, Kemal Bey son
+dalgada kaçıyor. Yenikapı: iki yük sandığı iskelesi, kalkanlının arkasında tüfekli nöbet.
+Aksaray: avlunun ortasında kopuk pompa kablosu, bombacı oyuncuyu kabloya iter. Saraçhane:
+Kâtip'in suikastçı baskını. Ara arenalar da ayrıştı (22 şaft, 23 avlu ve bakım geçidi, 22 avlu,
+24 ilk arena); 16 terası ve 25 arşiv kapısı farklı ve 16'da daha hafif.
+
+**Yapılanlar:** Yalnız bölüm betikleri (16, 19–25): dalga dizileri, 19'da `named_title`
++ iki `_flame`, 20/21'de `_scaffold`, 22'de `_live_wire`. Yeni çizim yok. Tarama sonrası ikiz
+arena kalmadı. Sayılar (hipotez): finaller eski 7 düşman / 2 Ağır Zırhlı yerine 5–7 düşman,
+en fazla 1 Ağır Zırhlı; Külhanbeyi 2,5× can (Kitap 1 adlı rakipleriyle aynı). İlk denemede
+Külhanbeyi'nin yanında Bombacı vardı, bot öldü → bire bir yapıldı; Yenikapı'da iki tüfekli bot
+4–11 canla bitiriyordu → tek tüfekli.
+
+**Testler:** import temiz; 36 sahne smoke çıkış 0 (iki kez); DTM GAPS PASS; bot (başsız)
+Bölüm 1, 13, 16, 19 (×3), 20, 21 (×4), 22 (×2), 23, 24, 25 CLEARED. Bölüm 19'da 3 koşunun
+1'inde finalde bir ölüm; 21'de bir koşuda sevk bürosunda (değişmedi) bir ölüm. Görsel: 19, 20,
+21, 22 finalleri 1280×720 — KÜLHANBEYİ çubuğu, alev, iskele, kablo sahneye ait.
+
+**Sonraki öneri:** Denetim sırası: Bölüm 2, 3, 5, 11 (Kitap 1'in bakılmamışları). Kitap 2
+bölüm iskeletinin ayrıştırılması birikimde.
 
 ### 2026-10-26 (44) — Denetim (Bölüm 15, 17, 21): bot duraklatmayı "bitti" sanıyordu
 

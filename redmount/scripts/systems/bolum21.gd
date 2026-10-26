@@ -3,7 +3,7 @@
 ## Kemal Bey'in kaçtığı Yenikapı'da gece teslimi. Gece sokağı -> balık mezadı
 ## (arena) -> kayıkhane (tekne kirişi) -> dış rıhtım (tüfekli, vinç, arena, erzak)
 ## -> kuru havuz (iskele) -> sevk bürosu (arena; evrak gemiye değil şehre) ->
-## tartıhane -> gece iskelesi (üç dalga). Finalde Kemal Bey yakalanır: Kâtip'in
+## tartıhane -> gece iskelesi (yük sandıkları, tüfekli nöbet). Finalde Kemal Bey yakalanır: Kâtip'in
 ## yüzünü görmemiştir ama emirlerin Aksaray eski pompa istasyonundan geldiğini söyler.
 extends DtmLevel
 
@@ -119,16 +119,20 @@ func _build() -> void:
 	_coin_line(8950, 5, 60, -160)
 	_enemy(ELITE, 9100, 0)
 
-	# --- 8. Gece iskelesi: üç dalga; Kemal Bey yakalanır ----------------------------
+	# --- 8. Gece iskelesi: sandık üstleri, tüfekli nöbet; Kemal Bey yakalanır -------
 	_checkpoint(9300, 0)
+	_scaffold(9560, -115, 140)
+	_scaffold(9840, -115, 140)
 	var final: BattleArena = ARENA.instantiate()
 	final.position = Vector2(9700, 0)
 	final.gate_left_x = 9400
 	final.gate_right_x = 10000
 	final.floor_y = 0
-	final.wave1 = _wave(KNIFE, ASSASSIN, KNIFE)
-	final.wave2 = _wave(ELITE, RIFLE)
-	final.wave3 = _wave(BRUISER, BRUISER)
+	## İskele hamalları, sonra teslimi koruyan tüfekli bir kalkanlının arkasında; iki
+	## yük sandığı iskelesi üstten ateş hattını aşmaya yarar. Son: seçkin + bombacı.
+	final.wave1 = _wave(STREET, STREET, KNIFE)
+	final.wave2 = _wave(SHIELD, RIFLE)
+	final.wave3 = _wave(ELITE, BOMBER)
 	final.reward = HEALTH
 	add_child(final)
 	_story(10050, _sahne_kemal)
