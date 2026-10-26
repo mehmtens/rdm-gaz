@@ -1,7 +1,7 @@
 ## Bölüm 15 — Zeyrek Su Hattı (Kitap 2 / "Haliç'in İzi", 3. bölüm).
 ##
 ## Kalıptaki ikinci adres Zeyrek'in eski su yolları. Mahalle -> çeşme meydanı
-## (arena) -> açık su kemeri -> bakım galerisi (tüfekli, hareketli köprü) -> sarnıç
+## (arena) -> açık su kemeri (ayak taşları) -> bakım galerisi (tüfekli, hareketli köprü) -> sarnıç
 ## -> su çarkı (üst dişli yolu, arena) -> gizli kemer -> Zeyrek terası (son arena).
 ## Üçüncü vanada aynı sahte mühür: şebeke kaçak sevkiyat geçidi olmuş. Çıkış kaydı
 ## Süleymaniye'yi gösterir.
@@ -35,33 +35,34 @@ func _build() -> void:
 	shop.accent = Color("e7a449")
 	add_child(shop)
 
-	# --- 2. Çeşme meydanı: 60 px alçak avlu, ilk arena -------------------------
+	# --- 2. Çeşme meydanı: sokak hizasında ilk arena -------------------------------
+	# Kitap 2'nin ortak çukur avlusu yerine meydan çeşmenin önünde düz.
 	_checkpoint(1620, 0)
-	_terrain(1700, 1850, 30)
-	_terrain(1850, 2950, 60)
-	_prop("vazo", 2000, 60)
-	_prop("kasa", 2800, 60)
+	_terrain(1700, 3450, 0)
+	_prop("vazo", 2000, 0)
+	_prop("kasa", 2800, 0)
 	var square: BattleArena = ARENA.instantiate()
-	square.position = Vector2(2400, 60)
+	square.position = Vector2(2400, 0)
 	square.gate_left_x = 1950
 	square.gate_right_x = 2850
-	square.floor_y = 60
+	square.floor_y = 0
 	square.wave1 = _wave(STREET, KNIFE, STREET)
 	square.wave2 = _wave(RIFLE, SHIELD)
 	square.reward = AMMO
 	add_child(square)
-	_terrain(2950, 3100, 30)
 
-	# --- 3. Açık su kemeri: ilk dar kesinti; üst taş rafında tabanca ---------------
-	_terrain(3100, 3500, 0)
+	# --- 3. Açık su kemeri: ayak taşlarından geçiş; üst taş rafında tabanca ---------
+	# Tahta iskeleli 200 px kanal yerine 500 px açık su: kemer ayaklarının sudan çıkan
+	# başları (90 px) basamak taşı. Kaçıran ıslanır, dipte (110) yürüyüp çıkar; ölüm yok.
 	_checkpoint(3150, 0)
-	_canal(3500, 3700, 110)
-	_scaffold(3600, -20, 220)
-	_terrain(3700, 4400, 0)
+	_canal(3450, 3950, 110)
+	_pier(3530)
+	_pier(3700)
+	_coin_line(3620, 3, 40, -150)
+	_terrain(3950, 4400, 0)
 	_scaffold(3900, -140, 130)
 	_scaffold(4050, -250, 130)
 	_pickup(PISTOL, 4050, -295)
-	_coin_line(3860, 3, 50, -190)
 	_enemy(SHIELD, 4250, 0)
 
 	# --- 4. Bakım galerisi: tüfekliye yaklaşma, hareketli köprü (isteğe bağlı) -----
@@ -177,3 +178,10 @@ func _sahne_teras(cs: Cutscene) -> void:
 	await cs.say("gz", "GAZELLE", "Vanaların hepsinde aynı sahte mühür. Çıkış kaydı... Süleymaniye'de bir ciltçi deposu.")
 	await cs.say("rm", "REDMOUNT", "Ciltçi. Kâtip. Kitaplarla yaşayan biri bu.")
 	await cs.say("gz", "GAZELLE", "Ya da kitapların arkasına saklanan biri. Süleymaniye'ye.")
+
+
+## Kemer ayağının sudan çıkan başı: tepesi zeminden 90 px yukarıda, gövdesi kanal
+## dibine (110) kadar iner; alt kısmı suyun arkasında kalır, havada asılı durmaz.
+func _pier(left: float) -> void:
+	var body := _solid_box(left, -90.0, 90.0, 200.0)
+	body.add_child(_Art.new(_Art.A_STONES, Vector2(90.0, 200.0)))

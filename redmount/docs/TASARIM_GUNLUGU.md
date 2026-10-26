@@ -42,8 +42,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   salon → arena → 200 px kanal → küçük oda → 9300–9350 final). Bölüm başına bir tur, yere özgü
   yeniden düzen. Yapılan: 19 (tur 47, açılış), 23 (tur 48, açılış), 22 (tur 49, açılış),
   21 (tur 50, açılış), 20 (tur 51, açılış), 18 (tur 52, arena; bedesten zaten özgündü),
-  17 (tur 53, meydan arenası; sahaflar zaten özgündü), 25 (tur 54, açılış). 13 ve 14 zaten
-  farklı. Sıradaki: 15, 16, 24 (yalnız çukur arena kalmış).
+  17 (tur 53, meydan arenası; sahaflar zaten özgündü), 25 (tur 54, açılış), 15 (tur 55,
+  açılış). 13 ve 14 zaten farklı. Sıradaki: 16, 24 (yalnız çukur arena kalmış).
 
 - Ön sıra katı evler yalnız 6 bölümde (1, 2, 3, 27, 29, 34; çoğu Kitap 1 Balat — yerine uygun).
   27/29/34'teki 2–3 ev insan testinde yere yabancı görünürse o bölüme özgü cephe çizilmeli
@@ -80,6 +80,28 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (55) — Bölüm 15 açılışı yere özgü: düz çeşme meydanı, su kemerinde ayak taşları
+
+**Neden şimdi:** Kitap 2 iskeleti maddesi (tur 54 önerisi). Zeyrek de 60 px çukur meydan +
+üstü tahta iskeleli 200 px kanal taşıyordu; arka planda Bozdoğan kemerinin ayakları sudan
+yükselirken geçiş bir tahta plankla bedavaydı.
+
+**Oyuncu ne hissedecek:** Meydan çeşmenin önünde sokakla aynı hizada. Su kemerinde 500 px
+açık su; kemer ayaklarının sudan çıkan başları (90 px) basamak taşı, aralarında 3 altın.
+Kaçıran ıslanır, dipte (110) yürüyüp çıkar — ceza zaman, ölüm değil. Üst raf ve tabanca
+olduğu gibi (ilk ayaktan rafa 50 px yukarı geçilir).
+
+**Yapılanlar:** `bolum15.gd` bölüm 2–3, başlık yorumu ve yerel `_pier()`: ilk çekimde
+`_stones` blokları su yüzeyinin üstünde havada asılı duruyordu (tabanları y=0, su yüzeyi
+~+30); ayak gövdesi kanal dibine kadar 200 px uzatıldı, alt kısmı suyun arkasında kalıyor.
+Sayılar: ayaklar arası 80 px, ikinci ayaktan rıhtıma 160 px (−90'dan 0'a iniş).
+
+**Testler:** import temiz; 36 sahne smoke çıkış 0; DTM GAPS PASS; Bölüm 15 bot başsız 4 koşu
+CLEARED (97,7 / 87,0 / 92,3 / 92,4 sn; en uzun duraklama 15 sn, dokunulmayan su çarkı
+kesiminde x≈7290). Görsel 1280×720: meydan, ayak taşları — "ait".
+
+**Sonraki öneri:** Kitap 2 iskeletinde Bölüm 16 (çukur arena).
 
 ### 2026-10-26 (54) — Bölüm 25 açılışı yere özgü: kitapçı yokuşu tırmanılır, avluda kâğıt balyaları
 
