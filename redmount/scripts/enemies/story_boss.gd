@@ -37,8 +37,9 @@ func _enter_rage() -> void:
 	Sfx.play(&"heavy_hit", 0.5, 4.0)
 	Fx.ring(global_position + Vector2(0, -70), Color(1.0, 0.35, 0.25), 10.0, 220.0, 0.45, 5.0)
 	Fx.popup(global_position + Vector2(0, -170), "ÖFKE!", Color(1.0, 0.35, 0.25), 40)
+	# Vuruş fizik sorgusu içinde gelir; yardımcının alanları sorgu bitince eklenir.
 	for i in adds.size():
-		_call_add(adds[i], -1.0 if i % 2 == 0 else 1.0)
+		_call_add.call_deferred(adds[i], -1.0 if i % 2 == 0 else 1.0)
 
 
 ## Yardımcıyı ekran kenarından getirir; aktif arenanın sayacına ekler.
@@ -55,6 +56,7 @@ func _call_add(scene: PackedScene, side: float) -> void:
 				e.defeated.connect(a._on_enemy_down)
 			(a.get("_alive") as Array).append(e)
 			a.enemy_spawned.emit(e)
+			a.wave_changed.emit(a.get("_wave_idx"), (a.get("_waves") as Array).size(), (a.get("_alive") as Array).size())
 	e.global_position = Vector2(x, global_position.y - 24.0)
 	Fx.ring(e.global_position + Vector2(0, -70), Color(1.0, 0.55, 0.3), 8.0, 74.0, 0.35)
 

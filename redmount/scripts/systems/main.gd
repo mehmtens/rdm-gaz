@@ -289,8 +289,6 @@ func _physics_process(delta: float) -> void:
 		return
 
 	_elapsed += delta
-	if _level.has_node(^"Karahanli"):
-		_hud.get_node(^"BossBar").visible = _player.global_position.x >= 237000.0
 	if _player.global_position.y > _fall_y:
 		_respawn_player()
 

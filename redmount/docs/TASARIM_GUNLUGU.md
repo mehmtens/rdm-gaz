@@ -20,6 +20,9 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   aktörü dövüşteki görünüme eşitlensin, gerekirse ChatGPT tarzında kişiye özgü aksesuar.
 - Bot, Bölüm 4 kule köprüsünde (x≈6926, y≈−290) pencereli koşuda bir kez 54 sn takıldı (başsız
   üç koşuda yok). Botun kuleden tüfekliye tırmanma mantığı; oyun hatası değil, bot güncellenebilir.
+- Bölüm 9 ilk arena (x≈5000–5700; bot 109 → 25 can, 20 sn takılma) ve Bölüm 12 yalı kesimi
+  (x≈4600–5400; bot 2 ölüm, 21 → 7 can): kaba yapay zekâ olabilir; insan testinde ölüm sayısı
+  2'yi geçerse yalı arenasının önüne simit.
 - Bölüm 22 bakım şaftı arenası (x≈7700–8300; Seçkin+Bombacı, sonra Seçkin+Kalkanlı+Tüfekli):
   bot iki koşuda 115 → 6 can ve 2 yeniden doğma. Kaba yapay zekâ olabilir; insan testinde ölüm
   sayısı 2'yi geçerse ikinci dalgadan Tüfekli çıkarılsın (Seçkin zaten menzilli).
@@ -68,6 +71,38 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (43) — Denetim (Bölüm 9, 12): Karahanlı dövüşünde boss çubuğu yoktu
+
+**Neden şimdi:** Tur 42'nin önerisi (sıradaki denetimler: 9, 12, 15…). Bölüm 9 (Kız Kulesi
+surları) pencereli bot: CLEARED 9409, 122 sn, 0 ölüm, 21 kare; Binbaşı Kaya çubuğu, telsizler,
+ÜS KANTİNİ iyi; iç duvar stil listesinde zaten dönüşmüştü (844606dc). Bölüm 12 (İç Kale,
+Kitap 1 finali): CLEARED 7421, 78 sn, 2 yeniden doğma. Bulgu bir hata: taht salonunda
+Karahanlı ile dövüşte HUD'da can çubuğu hiç görünmüyordu — yalnız son vuruşta bir kare.
+Kitabın finalinde oyuncu boss'un ne kadar kaldığını göremiyordu. Neden: `main.gd`
+`_physics_process`'te eski Level05'ten kalan satır, bölümde "Karahanli" adlı düğüm varsa
+çubuğu her kare `x ≥ 237000` koşuluna bağlıyordu; yeni Bölüm 12'de bu hiç sağlanmıyor.
+Aynı dövüşte iki yan bulgu: öfke evresinde (can ≤ ½) çağrılan iki yardımcı vuruşun fizik
+sorgusu içinde `add_child` ediliyordu (her öfkede 12 "flushing queries" hatası), ve dalga
+rozeti yardımcılar gelince güncellenmiyordu ("1 DÜŞMAN" yazarken sahnede 3 düşman).
+
+**Oyuncu ne hissedecek:** Taht salonunda kapılar kapanınca altta "KARAHANLI" çubuğu açılır,
+her vuruşta kısalır; ÖFKE! anında yardımcılar gelince rozet "3 DÜŞMAN" der. Aynısı Bölüm 24
+Ana Vana Muhafızı'nın yardımcıları için de geçerli (aynı `StoryBoss`).
+
+**Yapılanlar:** `main.gd`: eski 237000 satırı kaldırıldı (kampanyada o sahne yok).
+`story_boss.gd`: `_call_add` ertelenmiş çağrı; arenaya eklerken `wave_changed` yayınlanıyor.
+Yeni `tests/story_boss_bar.tscn` (Bölüm 12 botu; boss canlıyken çubuk gizli kare ≤ 2, rozet ≥ 3
+düşman). Düzeltme öncesi kodla koşturuldu: 2370 boss karesinin 2344'ünde çubuk gizli → FAIL;
+sonrası 0 → PASS. (Rozet kontrolü eski kodda da 3 gördü — başka bir yayın sonradan sayıyı
+düzeltiyordu; ayırt edici kısım çubuk.)
+
+**Testler:** import temiz; 36 sahne smoke çıkış 0; DTM GAPS PASS; `story_boss_bar` PASS (hata
+mesajı yok); bot Bölüm 1 (8605), 12 (7369), 24 (18657, Ana Vana Muhafızı), 25 (10157) CLEARED. Görsel: taht salonu
+1280×720 — çubuk altta, telsiz kutusu ve rozetle çakışmıyor.
+
+**Sonraki öneri:** Sıradaki denetimler: Bölüm 15, 17, 21. İnsan testinde Bölüm 9 ilk arena
+(x≈5000–5700, bot 109 → 25 can) ve Bölüm 12 yalı kesimi (x≈4600–5400, bot 2 ölüm) ölçülsün.
 
 ### 2026-10-26 (42) — Denetim (Bölüm 6): yeni iş yok, otomasyon durdu
 
