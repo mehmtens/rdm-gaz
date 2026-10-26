@@ -15,7 +15,8 @@ fener,fener_hale,asma_lamba,on_kolon,on_kolon_bas,on_kolon_kaide,on_sarmasik,zin
 diken,alev_izgara,kablo,bomba,bomba_ikaz,alev,kivilcim,patlama,
 tugla,sivali_tugla,ic_duvar,hatil,ic_pencere,fabrika_pencere,cephe_pencereleri,kat_silmesi,saldiri_uyari,dukkan,tavan,han_kapisi,
 pres,pres_kol,ray,su_govde,su_yuzey,anten,kule_ayak,kule_kulube,ahsap_kat,
-kalkan,kalkan_kirik,sancak,catlak,kiymik,depo_rafi,baca_tahta,kule_tugla,baca_tugla}.png
+kalkan,kalkan_kirik,sancak,catlak,kiymik,depo_rafi,baca_tahta,kule_tugla,baca_tugla,
+sur_tasi,sur_tepe,sur_kose}.png
 ve assets/pickups/placeholder_rifle.png
 Oyunda 2x NEAREST ölçeklenir (1 sanat pikseli = 2 ekran pikseli).
 """
@@ -2455,6 +2456,159 @@ def make_baca_tugla(rnd):
     return img
 
 
+# Hisar kumtaşı: ChatGPT sur resimlerindeki sıcak oker; gölge mora, ışık altına kayar.
+SANDSTONE = [(12, 7, 18), (34, 22, 37), (58, 38, 50), (84, 56, 60), (110, 76, 66),
+             (138, 98, 74), (166, 122, 84), (196, 150, 98), (224, 184, 124)]
+
+
+def _sur_course(rnd, w, h, y0, px, lv_base, ao=None):
+    """Sur örgüsünün tek sırası: düzensiz boylu moloz kesme taşlar, yatayda döngüsel
+    (döşemede dikiş yok). Her taşın kendi tonu ve şişkinliği: sol üst fener ışığında,
+    alt/sağ kenar mor gölgede; köşeler kırık, keski çukuru, yosun, kireç akıntısı."""
+    edges = [0]
+    while True:
+        step = rnd.choice((10, 12, 13, 15, 17, 20, 23))
+        if edges[-1] + step >= w - 7:
+            break
+        edges.append(edges[-1] + step)
+    shift = rnd.randrange(w)  # sıralar şaşırtmalı
+    for i, e0 in enumerate(edges):
+        e1 = edges[i + 1] if i + 1 < len(edges) else w
+        sw = e1 - e0
+        tone = (rnd.random() - 0.5) * 0.24
+        mossy = rnd.random() < 0.25
+        chips = {(0, 0), (sw - 2, 0)} if rnd.random() < 0.5 else {(0, h - 2)}
+        if rnd.random() < 0.4:
+            chips.add((sw - 2, h - 2))
+        pits = {(rnd.randrange(1, max(2, sw - 2)), rnd.randrange(2, max(3, h - 3)))
+                for _ in range(sw // 5)}
+        for ly in range(h):
+            y = y0 + ly
+            for lx in range(sw):
+                x = (e0 + lx + shift) % w
+                if lx == sw - 1 or ly == h - 1 or (lx, ly) in chips:
+                    c = pick(SANDSTONE, 0.05 if ly == h - 1 else 0.1, rnd, 0.2)
+                    if ly == h - 1 and rnd.random() < 0.07:
+                        c = pick(CREAM, 0.12, rnd, 0.2)  # kireç akıntısı
+                    px[x, y] = c + (255,)
+                    continue
+                # Şişkin yüz: sol üstten uzaklaştıkça koyulaşır.
+                u = lx / max(1, sw - 2)
+                v = ly / max(1, h - 2)
+                lv = lv_base + tone - (u * 0.45 + v * 0.55) * 0.22
+                if ly == 0:
+                    lv += 0.24  # üst kenar: fener ışığı
+                elif ly == 1:
+                    lv += 0.1
+                elif ly == h - 2:
+                    lv -= 0.16  # alt kenar mor gölgede
+                if lx == 0:
+                    lv += 0.08
+                elif lx == sw - 2:
+                    lv -= 0.12
+                if (lx, ly) in pits:
+                    lv -= 0.2  # keski çukuru
+                if ao is not None:
+                    lv -= ao(y)
+                c = pick(SANDSTONE, lv, rnd, 0.55)
+                if mossy and ly <= 1 and rnd.random() < 0.5:
+                    c = LEAF[2 + rnd.randrange(3)]  # üst yüzde yosun
+                px[x, y] = c + (255,)
+
+
+def make_sur_tasi(rnd):
+    """Sur örgüsü (96×90): üst yarı gövde döşemesi, alt yarı zemine oturan son sıra
+    (dipte ortam kapanması + ot). Sıra yükseklikleri farklı (moloz örgü)."""
+    w, h = 96, 90
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    y = 0
+    for k, ch in enumerate((14, 16, 15)):
+        _sur_course(rnd, w, ch, y, px, 0.5 - k * 0.03)
+        y += ch
+    for k, ch in enumerate((16, 13, 16)):
+        _sur_course(rnd, w, ch, y, px, 0.46 - k * 0.04,
+                    ao=lambda yy: max(0.0, (yy - 78) / 12.0) * 0.32)
+        y += ch
+    for x in range(w):
+        for yy in (88, 89):
+            if rnd.random() < 0.4:
+                px[x, yy] = LEAF[1 + rnd.randrange(3)] + (255,)
+        if rnd.random() < 0.12:
+            px[x, 87] = LEAF[2 + rnd.randrange(2)] + (255,)
+    return img
+
+
+def make_sur_tepe(rnd):
+    """Sur taç taşı (96×10): yatay döşenen iri pahlı kapak taşları. Üst satır kontur, üst
+    yüz fener ışığında, ön yüz orta ton, altta saçak gölgesi; yer yer yosun tutamı."""
+    w, h = 96, 10
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    joints = {0, 17, 31, 50, 63, 81}
+    for x in range(w):
+        joint = x in joints
+        for y in range(h):
+            if y == 0:
+                c = OUTLINE[:3]
+            elif joint and y > 0:
+                c = pick(SANDSTONE, 0.08, rnd, 0.2)
+            elif y <= 2:
+                c = pick(SANDSTONE, 0.78 if y == 1 else 0.66, rnd, 0.35)  # üst yüz
+            elif y <= 6:
+                c = pick(SANDSTONE, 0.46 - (y - 3) * 0.04, rnd, 0.5)  # ön yüz
+                if (x * 7 + y) % 11 == 0:
+                    c = pick(SANDSTONE, 0.28, rnd, 0.2)
+            elif y == 7:
+                c = pick(SANDSTONE, 0.22, rnd, 0.2)
+            else:
+                c = pick(SANDSTONE, 0.04, rnd, 0.15)  # saçak gölgesi
+            px[x, y] = c + (255,)
+    for x in range(w):
+        if rnd.random() < 0.18:
+            px[x, 1] = LEAF[3 + rnd.randrange(3)] + (255,)
+            if rnd.random() < 0.5:
+                px[x, 2] = LEAF[2 + rnd.randrange(2)] + (255,)
+    return img
+
+
+def make_sur_kose(rnd):
+    """Sur köşe taşları (20×45): sol 10 sütun sol köşe (fener ışığı), sağ 10 sütun sağ
+    köşe (ay ışığı kenar parlaması). Uzun/kısa dönüşümlü iri kesme taş, dışta kontur."""
+    w, h = 20, 45
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    for side in (0, 1):
+        for y in range(h):
+            blk = y // 15
+            ly = y % 15
+            span = 10 if blk % 2 == 0 else 7  # uzun / kısa köşe taşı
+            for lx in range(10):
+                d = lx if side == 0 else 9 - lx  # dış kenardan uzaklık
+                x = side * 10 + lx
+                if d == 0:
+                    px[x, y] = OUTLINE
+                    continue
+                if ly == 14 or d == span:
+                    px[x, y] = pick(SANDSTONE, 0.06, rnd, 0.2) + (255,)
+                    continue
+                if d > span:
+                    px[x, y] = (0, 0, 0, 0)  # gövde dokusu görünsün
+                    continue
+                lv = 0.44 if side == 0 else 0.36
+                if ly == 0:
+                    lv += 0.24
+                elif ly == 13:
+                    lv -= 0.2
+                if d == 1:
+                    lv += 0.1 if side == 0 else 0.0
+                c = pick(SANDSTONE, lv, rnd, 0.45)
+                if side == 1 and d <= 2:
+                    c = mix(c, MOON, 0.42 if d == 1 else 0.22)
+                px[x, y] = c + (255,)
+    return img
+
+
 def main():
     rnd = random.Random(7)
     make_varil(rnd).save(OUT + "varil.png")
@@ -2515,6 +2669,9 @@ def main():
     make_baca_tahta(random.Random(241)).save(OUT + "baca_tahta.png")
     make_kule_tugla(random.Random(251)).save(OUT + "kule_tugla.png")
     make_baca_tugla(random.Random(257)).save(OUT + "baca_tugla.png")
+    make_sur_tasi(random.Random(263)).save(OUT + "sur_tasi.png")
+    make_sur_tepe(random.Random(269)).save(OUT + "sur_tepe.png")
+    make_sur_kose(random.Random(271)).save(OUT + "sur_kose.png")
 
 
 if __name__ == "__main__":

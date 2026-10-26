@@ -63,6 +63,11 @@ const PIX_RACK := preload("res://assets/environment/pixel/depo_rafi.png")
 const PIX_SHAFT_WOOD := preload("res://assets/environment/pixel/baca_tahta.png")
 const PIX_BRICK_TOWER := preload("res://assets/environment/pixel/kule_tugla.png")
 const PIX_SHAFT_BRICK := preload("res://assets/environment/pixel/baca_tugla.png")
+## Hisar suru: moloz kumtaşı örgü (96×90; üst yarı gövde, alt yarı zemine oturan sıra),
+## taç taşı (96×10) ve köşe taşları (20×45; sol yarı fener ışığı, sağ yarı ay kenarı).
+const PIX_WALL_BODY := preload("res://assets/environment/pixel/sur_tasi.png")
+const PIX_WALL_CAP := preload("res://assets/environment/pixel/sur_tepe.png")
+const PIX_WALL_CORNER := preload("res://assets/environment/pixel/sur_kose.png")
 const NICHE := preload("res://assets/environment/kit/wall_niche.png")
 ## Vagon: 400 px genişlik; gövde üstü yerden 140 px (tekerlekler altta).
 const WAGON_W := 400.0
@@ -427,6 +432,16 @@ func _collapse(cx: float, top: float, w := 140.0) -> void:
 func _stones(left: float, cols: int, rows: int) -> void:
 	var body := _solid_box(left, -90.0 * rows, 90.0 * cols, 90.0 * rows)
 	body.add_child(_Art.new(_Art.A_STONES, Vector2(90.0 * cols, 90.0 * rows)))
+
+
+## Sur sırtı / sur basamağı: `top` yüksekliğinde yürünür, katı moloz taş duvar.
+## `corner_l/r` false ise o yandaki köşe taşı çizilmez (bitişik basamak ya da duvar).
+func _rampart(x0: float, x1: float, top: float, corner_l := true, corner_r := true) -> void:
+	var body := _solid_box(x0, top, x1 - x0, -top)
+	var art := _Art.new(_Art.A_RAMPART, Vector2(x1 - x0, -top))
+	art.corner_l = corner_l
+	art.corner_r = corner_r
+	body.add_child(art)
 
 
 ## Sığ kanal: zemin `depth` px aşağıda, su yüzeyi oyuncunun bacaklarının önünde
@@ -925,13 +940,15 @@ func _spawn_backdrop() -> void:
 # --- Çizim sınıfları ------------------------------------------------------------
 
 class _Art extends Node2D:
-	enum { A_TERRAIN, A_HOUSE, A_BUILDING, A_CRATES, A_SCAFFOLD, A_BALCONY, A_ROOF, A_WALL_STRIP, A_ROOM, A_GATE, A_STALL, A_WATER, A_SANDBAG, A_TOWER, A_WAGON, A_RAILS, A_FACTORY, A_PRESS_FRAME, A_CEILING, A_PLANK, A_STONES, A_INTERIOR, A_FLOOR, A_ROOFLINE, A_SHAFT, A_RACK, A_SHAFT_WOOD, A_BRICK_TOWER, A_SHAFT_BRICK }
+	enum { A_TERRAIN, A_HOUSE, A_BUILDING, A_CRATES, A_SCAFFOLD, A_BALCONY, A_ROOF, A_WALL_STRIP, A_ROOM, A_GATE, A_STALL, A_WATER, A_SANDBAG, A_TOWER, A_WAGON, A_RAILS, A_FACTORY, A_PRESS_FRAME, A_CEILING, A_PLANK, A_STONES, A_INTERIOR, A_FLOOR, A_ROOFLINE, A_SHAFT, A_RACK, A_SHAFT_WOOD, A_BRICK_TOWER, A_SHAFT_BRICK, A_RAMPART }
 	var kind: int
 	var size: Vector2
 	var tex: Texture2D
 	var eave := 0.0
 	var floors: Array = []
 	var open_back := false
+	var corner_l := true
+	var corner_r := true
 
 	func _init(k: int, s: Vector2) -> void:
 		kind = k
@@ -1097,6 +1114,30 @@ class _Art extends Node2D:
 					Rect2(27, 149, 1929, 260), Color(0.78, 0.66, 0.56))
 			A_STONES:
 				_tiled(PIX_STONE, Rect2(-hw, -hh, size.x, size.y), Color(0.78, 0.7, 0.6))
+			A_RAMPART:
+				# Taç taşı, gövde sıraları (aşağı indikçe fenerden uzaklaşır), zemine oturan
+				# son sıra en altta tam boy; köşe taşları iki yanda.
+				var cap_h := PIX_WALL_CAP.get_height() * PX
+				var base_h := 45.0 * PX
+				var body_top := -hh + cap_h
+				var base_top := maxf(body_top, hh - base_h)
+				var y := body_top
+				var row := 0
+				while y < base_top - 0.5:
+					var dk := clampf(1.0 - row * 0.08, 0.8, 1.0)
+					_tiled(PIX_WALL_BODY, Rect2(-hw, y, size.x, minf(90.0, base_top - y)),
+						Color(dk, dk, dk), Rect2(0, 0, 96, 45))
+					y += 90.0
+					row += 1
+				_tiled(PIX_WALL_BODY, Rect2(-hw, base_top, size.x, hh - base_top), Color.WHITE,
+					Rect2(0, 45 + (base_h - (hh - base_top)) / PX, 96, (hh - base_top) / PX))
+				for side in 2:
+					if (side == 0 and not corner_l) or (side == 1 and not corner_r):
+						continue
+					var cx := -hw if side == 0 else hw - 10.0 * PX
+					_tiled(PIX_WALL_CORNER, Rect2(cx, body_top, 10.0 * PX, size.y - cap_h),
+						Color.WHITE, Rect2(side * 10, 0, 10, 45))
+				_tiled(PIX_WALL_CAP, Rect2(-hw, -hh, size.x, cap_h))
 			A_WATER:
 				# Piksel art su: 3 karelik dalgalı yüzey + dither gövde.
 				var fr := int(_t * 5.0) % 3

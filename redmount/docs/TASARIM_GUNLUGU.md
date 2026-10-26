@@ -7,7 +7,19 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- Yükseltilmiş `_terrain` setlerinin yere uygunluk taraması (tur 69): arnavut kaldırımlı toprak
+  blok kalan setler — 8 (6290, kaya çıkıntısı), 9 (6540), 10 (tepe basamakları 1700–9500),
+  12 (4500), 27 (3820), 29 (4530), 30 (4910), 31 (2940), 34 (1150). Her biri yerin resmiyle
+  yan yana çekilsin; sur/kale ise `_rampart`, depo/rıhtım ise sandık, iç mekân ise iskele.
+- Bölüm 35 kumanda odası presleri (x 7600, 7950): Boğaz manzaralı açık avlu resminin önünde
+  kolları ekranın üstünden sarkıyor, neye asılı olduğu okunmuyor. Preslerin üstüne kiriş/vinç
+  ya da bu kesime iç mekân (`_interior`) — bölüm metni "kumanda odası" diyor.
+- Bölüm 7 dökümhane arenası (x≈5200–5600, üç dalga + Ağır Zırhlı): bot 69 → 23 can, bölümde
+  2 yeniden doğma. İnsan testinde arena ölümü 1'i geçerse ikinci dalga sonrası simit.
+
 - Bölüm 34 son arenasında iki Seçkin Muhafız yan yana (~37 px) nişan alıyordu; bot 101 → 6 can.
+  Tur 69 ek kanıt: Bölüm 35 iç sur sırtında Tüfekli + Seçkin (250 px ayrı başlıyor) oyuncuya
+  ulaşınca ~30 px içinde üst üste (iki pencereli koşuda da).
   Deney sahnesinde nişan durumunda 64 px aralık korunuyor (tur 30 düzeltmesi), yığılma kovalama
   ya da geri itilme sonrası oluyor; tek karede yeniden üretilemedi. İnsan testinde ya da bir
   sonraki denetimde yeniden görülürse `CHASE` durumundaki ayrışmaya nişancı komşusu eklensin.
@@ -80,6 +92,48 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-27 (69) — Denetim (Bölüm 7, 35) + Bölüm 35 sur sırtları gerçek hisar suru; smoke testi onarıldı
+
+**Neden şimdi:** Birikimde uygulanabilir madde kalmadı (geri kalanı insan testine bağlı) →
+denetim. Bölüm 7 ve 35 daha önce tek başına denetlenmemişti; ikisi pencereli bot koşusuyla
+8 sn arayla çekildi (14 + 15 kare).
+
+**Bulgu (en üstteki uygulandı):** Bölüm 35 Anadoluhisarı'nın iki "sur sırtı" (2580–3300,
+8730–9360; 270 px) arnavut kaldırımlı toprak blok, basamakları ise oyma taş kare — ChatGPT'nin
+kale resminin önünde iki farklı yabancı malzeme. Önce `_stones(8,3)` denendi: 90 px'lik aynı
+oyma kare 24 kez tekrarlanınca sandık duvarı gibi durdu → commit edilmedi.
+
+**Yapılan:** ChatGPT tarzında yeni sur örgüsü (`tools/gen_gpt_style_props.py`):
+`sur_tasi.png` (96×90; düzensiz boylu moloz kumtaşı, sıra yükseklikleri 13–16, her taşın kendi
+tonu ve şişkinliği, sol üst fener ışığı, alt/sağ mor gölge, kırık köşe, keski çukuru, yosun,
+kireç akıntısı; alt yarı zemine oturan AO'lu son sıra + ot), `sur_tepe.png` (96×10 taç taşı,
+mor kontur, saçak gölgesi, yosun tutamı), `sur_kose.png` (köşe taşları; sol fener, sağ ay
+kenar parlaması). Yeni kumtaşı rampası `SANDSTONE` (9 ton, gölge (34,22,37) → ışık
+(224,184,124)). `DtmLevel._rampart(x0, x1, top, corner_l, corner_r)` katı gövde +
+`A_RAMPART` sanatı (taç, aşağı indikçe %8 koyulaşan sıralar, tabanda tam boy son sıra, köşe
+taşları). Bölüm 35'te iki sur sırtı ve dört basamak buna çevrildi; basamaklarda sağ köşe yok
+(bitişik duvara yaslanır). İlk sürümde basamak köşe taşları dikey direk gibi parladı → ton
+0,58 → 0,44.
+
+**Smoke testi onarıldı:** `tests/campaign_smoke.gd` `-s` modunda derlenmiyordu (`level is
+Level` derleme anında bölüm zincirini → `backdrop.gd` → `Fx` autoload'unu arıyor), Godot yine
+çıkış 0 veriyordu: önceki turlardaki "smoke çıkış 0" kayıtları gerçekte hiçbir sahneyi
+sınamamıştı (değişiklik öncesi sürümde de 3 SCRIPT ERROR). `Level` yerine taban betik yolu
+çalışma anında karşılaştırılıyor; şimdi 36 "SMOKE OK" + menü sınamaları çalışıyor. Bundan
+sonra smoke sonucunda `grep -c "SMOKE OK"` = 36 ve SCRIPT ERROR = 0 kontrol edilmeli.
+
+**Diğer denetim bulguları** birikime yazıldı: yükseltilmiş toprak set taraması (9 bölüm),
+Bölüm 35 kumanda odası presleri, Bölüm 7 arena canı, nişancı yığılmasına ek kanıt.
+
+**Testler:** import temiz; smoke 36/36 SMOKE OK, SCRIPT ERROR 0, çıkış 0; DTM GAPS PASS; bot
+başsız Bölüm 35 4 koşu CLEARED (109–124 sn; 2/2/4/4 yeniden doğma — önceki sürüm 2/2/2/2/2,
+tur 68 gürültü aralığında; ölümler arenalarda, sur sırtlarında değil), Bölüm 1 (78,6 sn; 0),
+13 (77,7; 0), 25 (81,8; 1). Görsel: iki sur sırtı pencereli çekimde kale kapısının önünde —
+"ait".
+
+**Sonraki öneri:** Yükseltilmiş toprak set taraması (birikimin başı).
+
 
 ### 2026-10-27 (68) — Bölüm 36 mavna rampası tüneği sandık yığını; bot gürültüsü ölçüldü
 

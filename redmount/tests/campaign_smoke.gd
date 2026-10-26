@@ -7,6 +7,18 @@ func _initialize() -> void:
 	call_deferred(&"_run")
 
 
+## `Level` sınıf adına derleme anında başvurmak, `-s` ile autoload'lar (Fx) kaydedilmeden
+## bütün bölüm betik zincirini derletip testi sessizce düşürüyordu (çıkış 0, hiç sınama yok).
+## Taban betik yolu çalışma anında karşılaştırılır.
+func _is_level(node: Node) -> bool:
+	var s: Script = node.get_script()
+	while s != null:
+		if s.resource_path == "res://scripts/systems/level.gd":
+			return true
+		s = s.get_base_script()
+	return false
+
+
 func _run() -> void:
 	assert(GAME_STATE_SCRIPT.LEVELS.size() == 36, "Kitap 3 finali kampanyaya eklenmeli.")
 	for path in GAME_STATE_SCRIPT.LEVELS:
@@ -15,7 +27,7 @@ func _run() -> void:
 		var level := packed.instantiate()
 		root.add_child(level)
 		await process_frame
-		assert(level is Level, "%s Level tabanını kullanmıyor." % path)
+		assert(_is_level(level), "%s Level tabanını kullanmıyor." % path)
 		assert(level.get_node_or_null(^"PlayerSpawn") != null, "%s PlayerSpawn içermiyor." % path)
 		print("SMOKE OK: %s" % path)
 		level.queue_free()
