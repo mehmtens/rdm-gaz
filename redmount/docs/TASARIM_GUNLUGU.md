@@ -53,6 +53,31 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-10-26 (31) — Tasarım denetimi (Bölüm 33) + kesilen son savuruşta silah kırılır
+
+**Neden şimdi:** Birikimin kalanı insan testine bağlı → denetim. Bölüm 33 (Vaniköy → Kandilli)
+pencereli bot koşusu: CLEARED 9759, 82,3 sn, 0 ölüm, 13 kare. En somut bulgu bir hata: HUD
+"Sopa -2/12" gösteriyordu. Silah yalnız savuruş `_finish_attack` ile bitince kırılıyordu; son
+kullanımlık savuruş dash/zıplama iptali, hasar ya da yeniden doğmayla kesilince silah 0'da elde
+kalıyor, sonraki savuruşlar dayanıklılığı eksiye indiriyordu (bedava sınırsız silah).
+
+**Oyuncu ne hissedecek:** Sayaç 0'a inen silah her durumda kırılır (kırılma sesiyle); eksi sayı
+yok, dayanıklılık kararları (son vuruşu neye harcayayım) anlamlı.
+
+**Yapılanlar:** `Redmount._cancel_attack()` kesilen saldırı kullanımı bitmiş bir silah
+savuruşuysa `_drop_weapon()` çağırır. Yeni `tests/weapon_break_cancel.tscn` (eski kodda FAIL,
+yeni kodda PASS; kullanımı kalan silah kesilince elde kalır).
+
+**Diğer bulgular:** Kandilli kablo kapısında anten 4× ölçekte (1 sanat pikseli = 4 ekran pikseli)
+— piksel yoğunluğu kuralına aykırı, stil listesine eklendi (öncelik 0, sıradaki tur). İyi
+çalışanlar: Vaniköy yalı resmi, YÜKLEME KİLERİ tabelası, iskele set-piece'i, verici odası resmi.
+
+**Testler:** import temiz; WEAPON BREAK CANCEL, NEW MELEE WEAPONS, KALDIRIM TASI, DTM GAPS PASS;
+move_progression çıkış 0; 36 sahne smoke çıkış 0; bot Bölüm 1 (8605), 13 (9560), 25 (10160),
+33 (9760) CLEARED.
+
+**Sonraki öneri:** Stil listesi 7 — piksel yoğunluğu (2×'ten farklı ölçeklenen sanat).
+
 ### 2026-10-26 (30) — Tasarım denetimi (Bölüm 10) + nişancılar üst üste yığılmaz
 
 **Neden şimdi:** Birikimin kalanı insan testine bağlı → denetim. Bölüm 10 (sur ve kale kapısı,

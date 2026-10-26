@@ -1017,6 +1017,9 @@ func _slam_impact() -> void:
 
 
 func _cancel_attack() -> void:
+	# Son kullanımlık savuruş dash/zıplama/hasarla kesilse de silah kırılır; yoksa 0'da
+	# kalıp sonraki savuruşlarda eksiye iniyordu ("Sopa -2/12", Bölüm 33 denetimi).
+	var broke := _attack == Attack.WEAPON and _weapon != null and _weapon_uses <= 0
 	_set_hitbox_enabled(false)
 	if _special_move == "slide_kick":
 		_slide_body(false)
@@ -1025,6 +1028,8 @@ func _cancel_attack() -> void:
 	_combo_index = 0
 	_queued_next = false
 	_hit_this_swing.clear()
+	if broke:
+		_drop_weapon()
 
 
 func _active_time() -> float:
