@@ -14,7 +14,7 @@ const RELAY := preload("res://assets/backgrounds/book03_uskudar_relay_atlas.png"
 func _build() -> void:
 	sky_atlas = SHORE
 	sky_cells = [[0, -100000.0], [1, 1700.0], [2, 3300.0], [3, 4600.0],
-		[0, 5900.0, RELAY], [1, 7200.0, RELAY], [2, 8500.0, RELAY], [3, 9700.0, RELAY]]
+		[0, 5900.0, RELAY], [1, 7200.0, RELAY], [2, 8300.0, RELAY], [3, 9150.0, RELAY]]
 	sky_tint = Color(0.96, 0.94, 0.9)
 	sky_shade = Color(0.06, 0.06, 0.07)
 	back_row_skip = [[6800.0, 9600.0]]

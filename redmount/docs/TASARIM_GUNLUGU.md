@@ -7,6 +7,9 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- Son arenaya düşük canla varış (Bölüm 4: 16–25 can, Bölüm 28: 21 can; bot). İki bölümde de
+  orta arenadan son arenaya kadar can kaynağı yok (yalnız büfe). İnsan testinde son arenaya
+  giriş canı ölçülsün; ortanca %40'ın altındaysa son kontrol noktası önüne kırılabilir simit.
 - Adlı rakiplerin görünümü: Binbaşı Kaya, Sur Ağası ve Muhafız Başı ara sahnede Seçkin
   Muhafız (`elite`) görünümüyle konuşuyor, dövüşte Ağır Zırhlı (`miniboss`) olarak çıkıyor; Pusucu
   Kemal ve Yüzbaşı Demir sıradan düşmanla aynı. İnsan testinde karışıklık görülürse ara sahne
@@ -61,6 +64,33 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (36) — Tasarım denetimi (Bölüm 28): son arena Kız Kulesi rıhtımında
+
+**Neden şimdi:** Birikimin kalanı insan testine bağlı → denetim (tur 35'in önerisi). Bölüm 28
+(Üsküdar Yedek Hattı) pencereli bot koşusu: CLEARED 10105, 93 sn, 2 yeniden doğma, 16 kare. En
+somut bulgu bir set-piece kaybı: kod son bölümü "Kız Kulesi rıhtımı: son arena" diye anlatıyor,
+ChatGPT atlasında da tam o kare var (rıhtım duvarı, karşıda Kız Kulesi ve tarihî yarımada), ama
+kare 9700'de başladığı için son arena (9200–9800) arşiv mahzeninin önünde oynanıyordu; rıhtım
+yalnız arena bittikten sonraki koşuda görünüyordu.
+
+**Oyuncu ne hissedecek:** Kitap 3'ün dördüncü bölümünün son kavgası Kız Kulesi'ne karşı, açık
+rıhtımda; kapalı röle salonu ve mahzenden sonra ilk kez deniz — bölüm sonunun nefesi ve manzarası.
+
+**Yapılanlar:** `bolum28.gd` arka plan kare eşikleri: mahzen 8500 → 8300 (arşiv odası 8200'de
+başlıyor, önceden ilk 300 px röle salonu önündeydi), rıhtım 9700 → 9150 (kontrol noktası 9050 ile
+arena kapısı 9200 arası; arşivin demir çerçevesi 8800'de bitiyor). İlk deneme 9000 arşiv
+çerçevesini rıhtım gökyüzüne taşıdı, 9150'de çerçeve kenarda kalıyor.
+
+**Diğer bulgular:** Son arenaya düşük canla varış birikime (Bölüm 4 ile ortak örüntü). İyi
+çalışanlar: Üsküdar meydanı ve şadırvan resmi, röle salonundaki iki yandan tüfekli kıskacı,
+ŞERİT MAKİNESİ kırılabilir duvarı, Rıfat'ın telsizi.
+
+**Testler:** 36 sahne smoke çıkış 0; DTM GAPS PASS; bot Bölüm 28 CLEARED 10107 (87,6 sn).
+Görsel: 8350 (mahzen), 8950, 9150, 9500 (rıhtım, Kız Kulesi) 1280×720 — "ait".
+
+**Sonraki öneri:** Diğer bölümlerde de arka plan karesinin bölüm metniyle (yorum başlıkları)
+uyuşup uyuşmadığına bakan hızlı tarama; sonra yeni denetim (Bölüm 18).
 
 ### 2026-10-26 (35) — Kitap 1–2'nin adlı rakipleri adıyla dövüşür (birikim)
 
