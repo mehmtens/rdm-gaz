@@ -54,6 +54,21 @@ func _ready() -> void:
 	ages[0] = settled + BookComic.BREATH + 0.1
 	_check(comic.layer_offset(0) == 0, "nefesten sonra geri döner")
 	ages[0] = keep
+	# Konuşma balonu: yazılı karede katman oturduktan sonra belirir; balonsuz karede hiç.
+	_check(comic.bubble_text(0) == "Bitti, Karahanlı." and comic.bubble_text(2).is_empty(), "balon yazıları")
+	ages[0] = settled + BookComic.BUBBLE_DELAY * 0.5
+	_check(not comic.bubble_visible(0), "balon katman oturmadan görünmez")
+	ages[0] = settled + BookComic.BUBBLE_DELAY + 0.01
+	_check(comic.bubble_visible(0), "balon oturduktan sonra görünür")
+	ages[2] = 5.0
+	_check(not comic.bubble_visible(2), "balonsuz karede balon yok")
+	ages[2] = -1.0
+	ages[0] = keep
+	for i in 4:
+		var bub: Control = comic._bubbles[i]
+		var box := bub.get_child(0) as Control
+		_check(bub.position.x >= 0.0 and bub.position.x + box.size.x <= BookComic.PANEL_SIZE.x, "balon kare içinde %d" % i)
+		_check(int(bub.position.x) % BookComic.SCALE == 0, "balon sanat pikseline oturur %d" % i)
 	await get_tree().process_frame
 	_check(int(comic._layers[0].position.y) % BookComic.SCALE == 0, "katman tam sanat pikseline oturmalı")
 	await get_tree().create_timer(BookComic.STEP + 0.15).timeout

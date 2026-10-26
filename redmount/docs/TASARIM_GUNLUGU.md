@@ -16,11 +16,11 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu çıkarsa).
 - Pantolon maskesi kalıntıları: tekmenin (kick 2–3) diz arkasında ve koşuda ayakkabının arka
   kenarında 2–4 piksel ceket rengi (kontura yapışık, kırıntı birleştirmesine girmiyor).
+  26 Ekim: 2–4 px, önceki turlar "kostüm kalıntı turları kapanmalı" dedi → yalnız insan testinde
+  fark edilirse ele alınacak (tek başına tur değeri yok).
 - Şemsiyeyle havaya kaldırılan düşmanı ikinci şemsiye vuruşunun tekrar kaldırması sonsuz
   dizi yaratabilir mi? İnsan testinde bakılacak; gerekirse havadaki düşmana kaldırma yok.
 
-- Kitap şeridinde konuşma balonu: karelerin bir kısmında alt yazı yerine portrenin
-  ağzından kısa piksel balon (hareket katmanı bu turda girdi; balon ayrı dilim).
 - Hız yıldızının par süresi bölüm başına ayarlanmalı: 34 bölümde düz 240 sn, bot
   ~80 sn'de bitiriyor. İnsan testinden gelen ortanca sürenin ~0,8'i hedef (ilk koşuda
   zor, ikinci koşuda alınabilir); `par_time` her `Bolum*.tscn`'de elle.
@@ -32,6 +32,30 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (20) — Kitap şeridinde konuşma balonları (birikim)
+
+**Neden şimdi:** Birikimin insan testine bağlı olmayan ilk anlamlı maddesi (pantolon maskesi
+kalıntısı 2–4 px, tek başına tur değeri yok diye koşula bağlandı). Şerit kareleri yalnız alt
+yazıyla anlatıyordu; DTM'nin çizgi romanında karakterler konuşur.
+
+**Oyuncu ne hissedecek:** Kare yerine oturduktan 0,35 sn sonra konuşanın başında kısa bir balon:
+"Bitti, Karahanlı.", "Geç kaldın.", "Haliç'e!", "Akıyor...", "Duyuyor musun?", "Herkes duydu.",
+"Adım temiz.", "Eve gidelim." — alt yazı anlatır, balon karakterin sesi olur (alt yazıyı
+tekrarlamaz). Nesne kareleri (defter, not, matbaa, simit) balonsuz.
+
+**Yapılanlar:** `book_comic.gd` `PAGES[*].bubbles` ([yazı, ağız x'i] ya da boş); balon oyun içi
+diyaloğun aynı piksel çerçevesi (`PixelUI.box("balon")`) + `balon_kuyruk.png` — yeni görsel
+çizilmedi. Konum kare iç kenarına kıstırılır, sanat pikseline (3) yuvarlanır. `BUBBLE_DELAY`
+0,35 sn (gerekçe: çakılma 0,18 + oturma 0,21 sn'den sonra; göz önce sahneyi, sonra sesi okusun).
+Kayıt formatı değişmedi.
+
+**Testler:** import temiz; `book_comic` PASS (yeni: balon yazıları, oturmadan görünmez, balonsuz
+kare, kare içinde ve piksel ızgarasında), `archive_comic` PASS, DTM GAPS PASS; 36 sahne smoke çıkış
+0; bot Bölüm 12 (kitap sonu) CLEARED (7380). Görsel: üç kitabın şeridi 1280×720 — balonlar okunur,
+kuyruklar konuşana iniyor, çerçeve dışına taşma yok. Telefonda görülmedi.
+
+**Sonraki öneri:** Birikimin kalanı insan testine bağlı → TASARIM DENETİMİ (Kitap 2'den bir bölüm).
 
 ### 2026-10-26 (19) — Tuğla cephe zemin katı: mahalle dükkânı + yükleme kepenkleri (birikim)
 

@@ -24,6 +24,7 @@ const PAGES := {
 			"Film rulosu ve bir sevkiyat defteri: Karahanlı tek halkaydı.",
 			"Defterin ilk adresi Haliç kıyısı. Bu sefer ikisi birlikte.",
 		],
+		"bubbles": [["Bitti, Karahanlı.", 92], ["Geç kaldın.", 206], [], ["Haliç'e!", 208]],
 		"next": "SIRADAKİ  ·  KİTAP 2 · HALİÇ'İN İZİ",
 	},
 	2: {
@@ -33,6 +34,7 @@ const PAGES := {
 			"Masada mürekkepli bir not: 'Kâğıt bitti. Şimdi ses.'",
 			"Mühür Cağaloğlu'ndaki eski bir matbaayı gösteriyor.",
 		],
+		"bubbles": [["Akıyor...", 92], ["Duyuyor musun?", 206], [], []],
 		"next": "SIRADAKİ  ·  KİTAP 3 · İSTANBUL'UN SESİ",
 	},
 	3: {
@@ -42,6 +44,7 @@ const PAGES := {
 			"İlk vapur kalkarken iki yorgun yolcu kıyıda.",
 			"Balat'ta bir simit. Telefon bu kez tamamen kapalı.",
 		],
+		"bubbles": [["Herkes duydu.", 92], ["Adım temiz.", 206], ["Eve gidelim.", 210], []],
 		"next": "SON  ·  TEŞEKKÜRLER",
 	},
 }
@@ -62,6 +65,11 @@ const SETTLE_STEP := 0.07
 const BREATH := 1.6
 const BREATH_DOWN := 0.4
 const BREATH_PHASE := 0.4
+## Konuşma balonu: ön katman yerine oturduktan BUBBLE_DELAY sn sonra belirir (önce
+## sahne okunur, sonra ses). `bubbles` girdisi [yazı, ağzın kare içi x'i (ekran px)].
+const BUBBLE_DELAY := 0.35
+const BUBBLE_FS := 24
+const TAIL := preload("res://assets/ui/pixel/balon_kuyruk.png")
 
 var _root: Control
 var _header: Label
@@ -71,6 +79,7 @@ var _cells: Array[Control] = []
 var _captions: Array[Label] = []
 var _textures: Array[TextureRect] = []
 var _layers: Array[TextureRect] = []
+var _bubbles: Array[Control] = []
 ## Her karenin açılıştan beri geçen süresi (açılmamışsa -1).
 var _ages: Array[float] = [-1.0, -1.0, -1.0, -1.0]
 var _active := false
@@ -173,6 +182,27 @@ func _build() -> void:
 		on.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		clip.add_child(on)
 		_layers.append(on)
+		# Konuşma balonu (kare çerçevesinin içinde, üstte): oyun içi diyalog balonunun
+		# aynı piksel çerçevesi ve kuyruğu; kuyruk konuşanın ağzına iner.
+		var bub := Control.new()
+		bub.visible = false
+		bub.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		tex.add_child(bub)
+		var bbox := PanelContainer.new()
+		bbox.add_theme_stylebox_override(&"panel", PixelUI.box("balon", 12))
+		bbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		bub.add_child(bbox)
+		var btext := Label.new()
+		btext.add_theme_font_override(&"font", PixelUI.font())
+		btext.add_theme_font_size_override(&"font_size", BUBBLE_FS)
+		btext.add_theme_color_override(&"font_color", Color(0.12, 0.09, 0.12))
+		bbox.add_child(btext)
+		var tail := TextureRect.new()
+		tail.texture = TAIL
+		tail.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		tail.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		bub.add_child(tail)
+		_bubbles.append(bub)
 		var box := PanelContainer.new()
 		box.add_theme_stylebox_override(&"panel", PixelUI.box("balon", 12))
 		box.custom_minimum_size = Vector2(0, 88)  # üç satır; kutular eşit boyda dursun
@@ -227,6 +257,44 @@ func layer_offset(i: int) -> int:
 	return 1 if fmod(since, BREATH) >= BREATH - BREATH_DOWN else 0
 
 
+## Karenin konuşma balonu görünüyor mu (yazısı varsa ve katman oturduktan sonra).
+func bubble_visible(i: int) -> bool:
+	return not bubble_text(i).is_empty() and _ages[i] >= SETTLE_PX * SETTLE_STEP + BUBBLE_DELAY
+
+
+## Karenin balon yazısı (balonsuz karede boş).
+func bubble_text(i: int) -> String:
+	return _bubble_label(i).text
+
+
+func _bubble_label(i: int) -> Label:
+	return _bubbles[i].get_child(0).get_child(0) as Label
+
+
+## Balonu kurar: [yazı, ağız x'i] ya da boş dizi (balonsuz kare). Balon karenin üst
+## iç kenarına oturur, yatayda ağzın üstünde ortalanıp çerçeve içine kıstırılır;
+## konumlar sanat pikseline (SCALE) yuvarlanır.
+func _set_bubble(i: int, said: Array) -> void:
+	var bub := _bubbles[i]
+	var box := bub.get_child(0) as PanelContainer
+	var label := _bubble_label(i)
+	bub.visible = false
+	label.text = String(said[0]) if said.size() >= 2 else ""
+	if label.text.is_empty():
+		return
+	var w := snappedf(PixelUI.font().get_string_size(label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, BUBBLE_FS).x + 30.0, SCALE)
+	var h := 48.0
+	var mouth := float(said[1])
+	var x := snappedf(clampf(mouth - w * 0.5, 4.0 * SCALE, PANEL_SIZE.x - 4.0 * SCALE - w), SCALE)
+	box.position = Vector2.ZERO
+	box.custom_minimum_size = Vector2(w, h)
+	box.size = Vector2(w, h)
+	bub.position = Vector2(x, 4.0 * SCALE)
+	var tail := bub.get_child(1) as TextureRect
+	var tx := clampf(mouth - x - TAIL.get_width() * 0.5, 9.0, w - 9.0 - TAIL.get_width())
+	tail.position = Vector2(snappedf(tx, SCALE), h - 3.0)
+
+
 func present(level_index: int) -> void:
 	var book: int = BOOK_END.get(level_index, 0)
 	if book == 0:
@@ -240,6 +308,8 @@ func present(level_index: int) -> void:
 		_layers[i].position.y = SETTLE_PX * SCALE
 		_ages[i] = -1.0
 		_captions[i].text = page["captions"][i]
+		var said: Array = page.get("bubbles", [[], [], [], []])[i]
+		_set_bubble(i, said)
 		_cells[i].modulate.a = 0.0
 	_next.text = page["next"]
 	_next.modulate.a = 0.0
@@ -280,6 +350,7 @@ func _process(delta: float) -> void:
 		if _ages[i] >= 0.0:
 			_ages[i] += delta
 			_layers[i].position.y = layer_offset(i) * SCALE
+			_bubbles[i].visible = bubble_visible(i)
 	if _shown < 4 and _t >= STEP:
 		_reveal_next()
 	if _shown == 4 and _since >= MIN_CLOSE:
