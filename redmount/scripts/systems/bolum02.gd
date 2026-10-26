@@ -142,7 +142,9 @@ func _build() -> void:
 	final.reward = HEALTH
 	add_child(final)
 	# Avlunun ucundaki eski baca: duvar-zıplamayla tepede coin zulası.
+	chimney_brick = true   # güneşli Balat sokağı: tuğla kule
 	_chimney(8980, -520, 140, 150)
+	chimney_brick = false
 	_chalk(9200, -190, "G: GECE PAZARI")
 	_story(9100, _sahne_tebesir)
 	_coin_line(9250, 4, 50, -50)

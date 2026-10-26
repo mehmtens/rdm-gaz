@@ -69,6 +69,28 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-10-26 (41) — Gündüz sokaklarında tuğla, konak salonunda ahşap raf kule
+
+**Neden şimdi:** Tur 40'ın önerisi. 36 bölümün 18 baca kulesinin hepsi tek süreçte 1280×720
+çekildi (geçici yakalama betiği, `_chimney_xs` okunarak) ve resimle yan yana değerlendirildi.
+Gece, kale, sarnıç, külhan, fabrika ve su kanalı resimlerinde koyu taş kule uyuyor (4, 7, 11,
+15, 19, 24, 32, 34, 35); 33 ve 36 tur 32'de ahşap raf, 26 tur 40'ta gar tuğlası. Yabancı duran
+dört kule: güneşli Balat sokağı (2), gündüz yeşil sokak (14), Üsküdar meydanı (28) — renkli
+sıvalı evlerin ve sıcak ışığın önünde gri-siyah blok; Çengelköy konağının ahşap ve çini salonu
+(31) — konağın içinde taş kule.
+
+**Oyuncu ne hissedecek:** Gündüz sokaklarında tırmanılan kule, mahallenin sıcak tuğla
+yapılarından biri; konakta salondaki ahşap dolap. Gizli yol aynı, sahne bütün.
+
+**Yapılanlar:** Yalnız bölüm dosyaları: 2, 14, 28'de kule için `chimney_brick` açılıp
+kapanıyor; 31'de `chimney_rack`. Yeni çizim yok (tur 32 ve 40'ın dokuları).
+
+**Testler:** 36 sahne smoke çıkış 0; DTM GAPS PASS; bot Bölüm 2 (9509), 14 (9655), 28 (10107),
+31 (9710) CLEARED. Görsel: dört kule 1280×720 — "ait".
+
+**Sonraki öneri:** Birikimin kalanı insan testine bağlı → yeni denetim (Bölüm 14'ün tamamı
+ya da Kitap 1'den Bölüm 6).
+
 ### 2026-10-26 (40) — Denetim (Bölüm 26): gar avlusunun su kulesi gar tuğlasından
 
 **Neden şimdi:** Birikimin kalanı insan testine bağlı → denetim (Bölüm 30 tur 25'te yapılmıştı,

@@ -44,7 +44,9 @@ func _build() -> void:
 	_balcony(3330, -80, 110)
 	_balcony(3330, -190, 110)
 	_coin_line(3290, 3, 40, -240)
+	chimney_brick = true   # gündüz Üsküdar meydanı: tuğla kule
 	_chimney(3600, -500, 140, 150, ARMOR)
+	chimney_brick = false
 	_enemy(SHIELD, 3850, 0)
 	_enemy(STREET, 3980, 0)
 

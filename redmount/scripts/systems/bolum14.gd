@@ -111,7 +111,9 @@ func _build() -> void:
 	# Fener kulesi: altından geçilen kemer, içi duvar-zıplamayla tırmanılır.
 	_enemy(ELITE, 7250, 0)
 	_enemy(KNIFE, 7350, 0)
+	chimney_brick = true   # gündüz sokağı: tuğla kule
 	_chimney(7550, -520, 140, 150, AMMO)
+	chimney_brick = false
 	_enemy(ASSASSIN, 7780, 0)
 
 	# --- 7. Baskıhane: kalıp; üst kirişte riskli ödül ------------------------------

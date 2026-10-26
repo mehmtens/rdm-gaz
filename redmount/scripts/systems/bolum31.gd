@@ -89,7 +89,9 @@ func _build() -> void:
 	_story(7250, _sahne_muhur_odasi)
 	_pickup(HEALTH, 7550, -160)
 	_coin_line(6950, 6, 50, -160)
+	chimney_rack = true   # konak salonu: ahşap raf kule
 	_chimney(7980, -480, 140, 150, AMMO)
+	chimney_rack = false
 	_enemy(KNIFE, 8150, 0)
 
 	# --- 7. Deniz köşkü: son arena -------------------------------------------
