@@ -7,10 +7,8 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- **[Denetim 26 Ekim]** Bölüm 7'deki uzun tuğla cephe (`dtm_level._interior`, stil 0): aynı pencere
-  ızgarası 4×6 tekrar ediyor, ChatGPT arka planının yanında şablon gibi duruyor. Pencere çeşitlemesi
-  (kepenk, kırık cam, ışıklı/karanlık, saksı), kat silmesi ve alt katta dükkân. Ölçüt: aynı pencere
-  dokusunun yan yana tekrar sayısı ≤ 2.
+- Tuğla cephe alt katında dükkân (kepenk + tabela + tente): pencere çeşitlemesinden kalan dilim;
+  `_interior` stil 0 ve `A_FACTORY` zemin katı hâlâ düz tuğla + pencere.
 - **[Denetim 26 Ekim]** Karakter/zemin ayrışması: alacakaranlık bölümlerinde koyu ceketli düşmanlar
   koyu zemine karışıyor (gece kenar ışığı yalnız `dark_scene`'de). Alacakaranlıkta da zayıf (%50)
   kenar ışığı denenmeli. Ölçüt: düşman silüeti ile 8 px çevresi arasındaki parlaklık farkı.
@@ -40,6 +38,29 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (16) — Tuğla cephe: pencere çeşitleri + kat silmesi (birikim/denetim)
+
+**Neden şimdi:** Birikimin en üstü. Bölüm 7 haddehanesinin 600×480 tuğla cephesi (`A_FACTORY`,
+birikimde yanlışlıkla `_interior` yazılmıştı; ikisi de düzeltildi) aynı yanan pencereyi 4×7
+ızgara hâlinde basıyordu; ChatGPT arka planının yanında şablon gibi duruyordu.
+
+**Oyuncu ne hissedecek:** Cephe yaşanmış bir bina gibi: kimi pencere yanıyor, kimi karanlıkta ay
+yansıtıyor, kimi ahşap kepenkli, birkaçına tahta çakılmış; konut cephelerinde saksılı sardunya.
+İki sırada bir taş kat silmesi yüksek duvarı katlara böler.
+
+**Yapılanlar:** `tools/gen_gpt_style_props.py` → `cephe_pencereleri.png` (5 × 14×20 şerit, aynı
+`arch_window` söve; WARM_GLASS/SEA/WOOD/OLIVE/LEAF/RED rampaları, mor kontur) ve `kat_silmesi.png`
+(16×6 STONE korniş, altta mor gölge). `DtmLevel.facade_window()` konum hash'inden ağırlıklı çeşit
+seçer — yanan %35, karanlık %30, kepenk %20, tahta %15 (saksı izinliyse yanan payının bir kısmı);
+gerekçe: tahta çarpısı en çok göze batan, ilk denemede eşit dağılımda cephenin ~%40'ı çarpı
+görünüp gürültü yaptı. Ardışık iki pencere aynı olmaz (ölçüt: yan yana tekrar ≤ 1). Fabrikada
+saksı yok. `_interior` stil 0'da katlar arasına kat silmesi.
+
+**Testler:** import temiz; 36 sahne smoke çıkış 0 (36 SMOKE OK; başlangıçtaki `Fx` derleme uyarısı `-s` autoload kaynaklı, önceden var); DTM GAPS PASS; bot Bölüm 3 (9009), 7 (9255), 12 (7374) CLEARED. Görsel: Bölüm 7 haddehane cephesi 1280×720, ChatGPT gün batımı
+arka planının yanında — tonlar (koyu tuğla, sıcak cam, mor gölge) sahneye ait.
+
+**Sonraki öneri:** Birikim — alacakaranlıkta karakter/zemin ayrışması (zayıf kenar ışığı).
 
 ### 2026-10-26 (15) — HUD sadeleştirme: öğrenilen ipucu gizlenir, yumruk yazılmaz (birikim/denetim)
 

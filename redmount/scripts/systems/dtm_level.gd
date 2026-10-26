@@ -35,6 +35,9 @@ const PIX_RAIL := preload("res://assets/environment/pixel/ray.png")
 const PIX_CEILING := preload("res://assets/environment/pixel/tavan.png")
 const PIX_BRICK := preload("res://assets/environment/pixel/tugla.png")
 const PIX_WINDOW := preload("res://assets/environment/pixel/fabrika_pencere.png")
+## Tuğla cephe pencere çeşitleri (5 × 14×20 şerit: yanan, karanlık, kepenk, tahta, saksı).
+const PIX_FACADE_WINDOWS := preload("res://assets/environment/pixel/cephe_pencereleri.png")
+const PIX_CORNICE := preload("res://assets/environment/pixel/kat_silmesi.png")
 const PIX_GATE := preload("res://assets/environment/pixel/han_kapisi.png")
 const PIX_BEAM := preload("res://assets/environment/pixel/huzme.png")
 const PIX_STONE := preload("res://assets/environment/pixel/tas_blok.png")
@@ -170,6 +173,19 @@ func _house(left: float, top: float, idx: int) -> float:
 
 
 ## İnşaat hâlindeki han: taş duvar gövde, kiremit başlık, önünde iskele dikmeleri.
+## Cephe penceresi çeşidi (`PIX_FACADE_WINDOWS` hücresi) konum hash'inden, ağırlıklı:
+## yanan %35, karanlık %30, kepenk %20, tahta %15 (saksı izinliyse yanan payından).
+## Ardışık iki pencere aynı çeşit olmaz. Tahta çarpısı göze en çok batan; seyrek kalmalı.
+static func facade_window(h: int, prev: int, pots: bool) -> int:
+	var r := posmod(h, 20)
+	var v := 0 if r < 7 else 1 if r < 13 else 2 if r < 17 else 3
+	if pots and v == 0 and r >= 4:
+		v = 4
+	if v == prev:
+		v = 0 if prev != 0 else 1
+	return v
+
+
 func _building(x0: float, x1: float, top: float) -> void:
 	var body := _solid_box(x0, top, x1 - x0, -top)
 	body.add_child(_Art.new(_Art.A_BUILDING, Vector2(x1 - x0, -top)))
@@ -976,12 +992,24 @@ class _Art extends Node2D:
 				_tiled(PIX_BRICK, Rect2(-hw, -hh, size.x, size.y))
 				var ws := PIX_WINDOW.get_size() * PX
 				var wy := -hh + 30.0
+				var row := 0
+				var prev := -1
 				while wy < hh - ws.y - 20.0:
 					var wx := -hw + 24.0
+					var k := 0
 					while wx < hw - ws.x - 12.0:
-						draw_texture_rect(PIX_WINDOW, Rect2(wx, wy, ws.x, ws.y), false)
+						# Atölye penceresi çeşidi (yanan/karanlık/kepenk/tahta; saksı fabrikaya
+						# yakışmaz): ızgara aynı pencerenin tekrarı gibi okunmasın.
+						var v := DtmLevel.facade_window(hash([int(global_position.x), row, k]), prev, false)
+						prev = v
+						draw_texture_rect_region(PIX_FACADE_WINDOWS, Rect2(wx, wy, ws.x, ws.y), Rect2(v * 14, 0, 14, 20))
 						wx += ws.x + 36.0
+						k += 1
+					if row % 2 == 1 and wy + ws.y + 48.0 < hh - ws.y - 20.0:
+						# İki sırada bir kat silmesi: yüksek duvar katlara bölünsün.
+						_tiled(PIX_CORNICE, Rect2(-hw, wy + ws.y + 15.0, size.x, 18.0))
 					wy += ws.y + 48.0
+					row += 1
 				_tiled(PIX_RAIL, Rect2(-hw - 6.0, -hh - 9.0, size.x + 12.0, 6.0), Color(0.8, 0.82, 0.9), Rect2(0, 0, 16, 2))
 			A_PRESS_FRAME:
 				pass
@@ -1135,14 +1163,32 @@ class _Facade extends Node2D:
 		for fy in floors:
 			levels.append(float(fy))
 		levels.append(rect.position.y)
+		# Tuğlada her pencere konuma bağlı bir çeşit (ardışık ikisi aynı olmaz): ızgara
+		# şablon gibi okunmasın.
+		var prev := -1
 		for i in levels.size() - 1:
 			var lo: float = levels[i]
 			var hi: float = levels[i + 1]
 			var wy := lerpf(hi, lo, 0.5) - ws.y * 0.5 - 6.0
 			var wx := rect.position.x + (170.0 if i == 0 else 50.0)
+			var k := 0
 			while wx < rect.end.x - ws.x - 30.0:
-				draw_texture_rect(PIX_WINDOW, Rect2(wx, wy, ws.x, ws.y), false)
+				if style == 0:
+					var v := DtmLevel.facade_window(hash([int(rect.position.x), i, k]), prev, true)
+					prev = v
+					draw_texture_rect_region(PIX_FACADE_WINDOWS, Rect2(wx, wy, ws.x, ws.y), Rect2(v * 14, 0, 14, 20))
+				else:
+					draw_texture_rect(PIX_WINDOW, Rect2(wx, wy, ws.x, ws.y), false)
 				wx += ws.x + 80.0
+				k += 1
+			if style == 0 and i > 0:
+				# Kat silmesi: taş korniş katları ayırır, altında gölge.
+				var cx := rect.position.x
+				var cw := PIX_CORNICE.get_width() * PX
+				while cx < rect.end.x - 0.5:
+					var seg := minf(cw, rect.end.x - cx)
+					draw_texture_rect_region(PIX_CORNICE, Rect2(cx, lo - 9.0, seg, 18.0), Rect2(0, 0, floorf(seg / PX), 6))
+					cx += cw
 			if style == 1 and i > 0:
 				draw_texture_rect_region(PIX_BEAM_WOOD, Rect2(rect.position.x, lo - 6.0, rect.size.x, 12.0), Rect2(0, 0, 8, 4))
 		if style == 1:

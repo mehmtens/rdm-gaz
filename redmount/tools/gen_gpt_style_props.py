@@ -13,7 +13,7 @@ Kural seti (assets/backgrounds ve book03_final_* sayfalarından ölçüldü):
 Çıktı: assets/environment/pixel/{varil,patlayici,parmaklik,parmaklik_tepe,tup,
 fener,fener_hale,asma_lamba,on_kolon,on_kolon_bas,on_kolon_kaide,on_sarmasik,zincir,halat,kum_torbasi,tas_blok,raf,kaset,cerceve,
 diken,alev_izgara,kablo,bomba,bomba_ikaz,alev,kivilcim,patlama,
-tugla,sivali_tugla,ic_duvar,hatil,ic_pencere,fabrika_pencere,tavan,han_kapisi,
+tugla,sivali_tugla,ic_duvar,hatil,ic_pencere,fabrika_pencere,cephe_pencereleri,kat_silmesi,tavan,han_kapisi,
 pres,pres_kol,ray,su_govde,su_yuzey,anten,kule_ayak,kule_kulube,ahsap_kat,
 kalkan,kalkan_kirik,sancak,catlak,kiymik}.png
 ve assets/pickups/placeholder_rifle.png
@@ -1256,6 +1256,111 @@ def make_fabrika_pencere(rnd):
     return img
 
 
+def make_cephe_pencereleri(rnd):
+    """Tuğla cephe pencere çeşitleri (5 × 14×20 yan yana şerit): 0 yanan, 1 karanlık
+    (sağ üstte ay yansıması), 2 kapalı ahşap kepenk (boya kalkmış), 3 kırık cam üstüne
+    çakılmış tahta, 4 yanan + denizlikte sardunya saksısı. Aynı pencerenin cephede
+    ızgara gibi tekrarını kırar; söve aynı kemer gövdesi (arch_window)."""
+    w, h = 14, 20
+    strip = Image.new("RGBA", (w * 5, h), (0, 0, 0, 0))
+
+    def lit(x, y, d):
+        if x in (4, 9) or y in (8, 13):
+            return IRON[1]
+        lv = 0.85 - d * 0.35 - (y / h) * 0.25 + (rnd.random() - 0.5) * 0.12
+        return pick(WARM_GLASS, lv, rnd, 0.3)
+
+    def dark(x, y, d):
+        if x in (4, 9) or y in (8, 13):
+            return IRON[1]
+        c = pick(SEA, 0.28 - (y / h) * 0.22, rnd, 0.3)
+        if x == 10 and 2 <= y <= 6 or x == 11 and 3 <= y <= 5:
+            c = mix(c, MOON, 0.55)  # ay yansıması
+        return mix(c, (20, 10, 22), 0.35)
+
+    def shutter(x, y, d):
+        # İki kanat, yatay panjur çıtaları; sol kanat fener ışığında.
+        if x == 6 or x == 7:
+            return WOOD[0]  # kanat arası
+        if y % 3 == 0:
+            return WOOD[1]  # çıta gölgesi
+        lv = (0.5 if x < 6 else 0.3) - (y / h) * 0.15
+        if (x * 7 + y * 3) % 11 == 0:
+            lv -= 0.15  # damar
+        c = pick(WOOD, lv, rnd, 0.4)
+        # Eski yeşil boyanın kalıntısı (kalkmış, yer yer).
+        if (x + y * 2) % 5 < 2 and rnd.random() < 0.55:
+            c = mix(c, pick(OLIVE, lv + 0.1, rnd, 0.3), 0.7)
+        return c
+
+    def boarded(x, y, d):
+        c = dark(x, y, d)
+        if x in (4, 9) and not (5 <= y <= 15):
+            return IRON[1]
+        # Çapraz iki tahta + yatay bir tahta.
+        if abs((x - 1) - (y - 4) * 0.75) < 1.4 and 4 <= y <= 17:
+            return pick(WOOD, 0.66 - y * 0.02, rnd, 0.3)
+        if 11 <= y <= 12:
+            return pick(WOOD, 0.5 if y == 11 else 0.24, rnd, 0.3)
+        if abs((12 - x) - (y - 3) * 0.75) < 1.2 and 3 <= y <= 10:
+            return pick(WOOD, 0.4, rnd, 0.3)  # arkadaki tahta gölgede
+        return c
+
+    variants = [lit, dark, shutter, boarded, lit]
+    for i, glass in enumerate(variants):
+        win = arch_window(w, h, rnd, glass)
+        wp = win.load()
+        if i == 1:
+            for x, y in ((3, 12), (2, 13)):
+                wp[x, y] = SEA[0] + (255,)
+        if i == 3:
+            # Çivi başları ve kırık cam kenarı.
+            for x, y in ((2, 6), (10, 10), (3, 10)):
+                wp[x, y] = IRON[6] + (255,)
+            for x, y in ((10, 15), (11, 14), (10, 16)):
+                wp[x, y] = (200, 206, 220, 255)
+        if i == 4:
+            # Denizlikte toprak saksı + sardunya (kırmızı çiçek, koyu yaprak).
+            for y in range(13, 17):
+                for x in range(3, 11):
+                    lv = 0.55 - (x - 3) * 0.05 if y > 13 else 0.75
+                    if y == 16:
+                        lv = 0.2  # saksı tabanı gölgede
+                    wp[x, y] = pick(ORANGE, lv, rnd, 0.3) + (255,)
+            for y in range(9, 13):
+                for x in range(2, 12):
+                    if rnd.random() < 0.85 - abs(x - 6.5) * 0.08:
+                        wp[x, y] = pick(LEAF, 0.55 - (y - 9) * 0.1 + (0.15 if x < 6 else 0.0), rnd, 0.4) + (255,)
+            for x, y in ((3, 9), (6, 8), (9, 9), (4, 10), (8, 8), (10, 10)):
+                wp[x, y] = pick(RED, 0.75, rnd, 0.3) + (255,)
+                if y + 1 < 13:
+                    wp[x, y + 1] = RED[3] + (255,)
+            for x in range(3, 11):
+                wp[x, 13] = pick(ORANGE, 0.85, rnd, 0.2) + (255,)  # saksı ağzı ışıkta
+            wp[2, 13], wp[11, 13] = OUTLINE, OUTLINE
+        strip.paste(win, (i * w, 0))
+    return strip
+
+
+def make_kat_silmesi(rnd):
+    """Kat silmesi (16×6, yatay döşenir): taş korniş; üst yüz fener ışığında, altta
+    çıkıntının düşürdüğü mor gölge ve tuğlaya inen is akıntısı."""
+    w, h = 16, 6
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    for y in range(h):
+        for x in range(w):
+            lv = {0: 0.78, 1: 0.6, 2: 0.46, 3: 0.36, 4: 0.18, 5: 0.06}[y]
+            if x % 8 == 7 and 1 <= y <= 3:
+                lv = 0.12  # taş blok derzi
+            if y == 2 and (x * 5) % 13 == 0:
+                lv -= 0.12  # aşınma
+            px[x, y] = pick(STONE, lv, rnd, 0.35) + (255,)
+    for x in (3, 12):
+        px[x, 5] = (20, 10, 22, 200)  # is akıntısı başlangıcı
+    return img
+
+
 def bx_seed(x, y):
     return x * 0.7 + y * 1.3
 
@@ -2042,6 +2147,8 @@ def main():
     make_hatil(random.Random(103)).save(OUT + "hatil.png")
     make_ic_pencere(random.Random(107)).save(OUT + "ic_pencere.png")
     make_fabrika_pencere(random.Random(109)).save(OUT + "fabrika_pencere.png")
+    make_cephe_pencereleri(random.Random(223)).save(OUT + "cephe_pencereleri.png")
+    make_kat_silmesi(random.Random(227)).save(OUT + "kat_silmesi.png")
     make_tavan(random.Random(113)).save(OUT + "tavan.png")
     make_han_kapisi(random.Random(127)).save(OUT + "han_kapisi.png")
     make_pres(random.Random(131)).save(OUT + "pres.png")
