@@ -7,9 +7,9 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- **[Denetim 26 Ekim, Bölüm 30]** Ön sıra katı evler (`_house`/`A_BUILDING`) 36 bölümde aynı üç
-  Balat evi (artık dört boyayla). Kıyı bölümlerinde (Kitap 3: 29–33) yere özgü ahşap yalı cephesi
-  ChatGPT tarzında çizilmeli. Etki yüksek, maliyet yüksek (büyük sanat).
+- Ön sıra katı evler yalnız 6 bölümde (1, 2, 3, 27, 29, 34; çoğu Kitap 1 Balat — yerine uygun).
+  27/29/34'teki 2–3 ev insan testinde yere yabancı görünürse o bölüme özgü cephe çizilmeli
+  (26 Ekim düzeltmesi: Bölüm 30'daki evler arka sıraydı, kapatıldı; yalı cephesi gereksiz).
 
 - İpucu sırası insan testi: Bölüm 1'de oyuncu hemen koşarsa x=150 "sola bak" (gizli alan) ipucu,
   kart beklerken geçilip x=560 hareket ipucuna yol veriyor. Gizli alan bulma oranı düşerse ipucu
