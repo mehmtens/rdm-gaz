@@ -69,6 +69,28 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-10-26 (39) — Denetim (Bölüm 8): Tünel Bekçisi adıyla dövüşür
+
+**Neden şimdi:** Birikimin kalanı insan testine bağlı → denetim (tur 38'in önerisi). Bölüm 8
+(Yeraltı Sevkiyatı) pencereli bot: CLEARED 9407, 89 sn, 0 ölüm, 18 kare. Sarnıç ve su çarkı
+resimleri, film rulosu bandı (tur 38 düzeltmesiyle temiz), dalga rozetleri iyi. Bulgu: tur 35'in
+taraması yalnız ara sahnede konuşanlara bakmıştı; bölümün son kısmı "Tünel bekçisi" başlıklı,
+bekçi telsizden "Sevkiyatı sarnıçtan geçirin" diyor, ama son arenadaki Ağır Zırhlı'nın çubuğunda
+genel "Ağır Zırhlı" yazıyordu. Telsiz konuşmacıları da tarandı: Ustabaşı, Sur Ağası ve Muhafız
+Başı zaten tur 35'te adlandırılmıştı; Bölüm 7 ve 24'teki Ağır Zırhlılar tanıtılmamış muhafız,
+genel ad doğru.
+
+**Oyuncu ne hissedecek:** Telsizden duyduğu sesin sahibiyle çark dairesinde yüz yüze; çubukta
+"TÜNEL BEKÇİSİ".
+
+**Yapılanlar:** `bolum08.gd` son arena `named_title = "TÜNEL BEKÇİSİ"`, `named_wave = 2`
+(zaten boss: yalnız ad).
+
+**Testler:** import temiz; 36 sahne smoke çıkış 0; bot Bölüm 8 CLEARED 9408. Görsel: çark
+dairesinde boss çubuğu "TÜNEL BEKÇİSİ" 1280×720.
+
+**Sonraki öneri:** Birikimin kalanı insan testine bağlı → yeni denetim (Kitap 3'ten Bölüm 30).
+
 ### 2026-10-26 (38) — Denetim (Bölüm 18 ve 34) + film rulosu bildirimi HUD'a binmez
 
 **Neden şimdi:** Tur 37'nin önerisi: ara arenaların arka plan taraması, sonra yeni denetim.
