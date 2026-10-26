@@ -37,7 +37,7 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 - Bölüm 19 külhan finali (tur 45): Külhanbeyi bire bir + iki alev bacası; bot 4 koşunun 2'sinde
   bir kez öldü. İnsan testinde finalde ölüm 1'i geçerse alev hasarı 12 → 8 ya da tek baca.
 - Orta kesimlerde "200 px kanal + tam üstünde 220 px sağlam plank" kalıbı (tur 60 taraması):
-  Yapılan: 14 (tur 61). Kalan: 15 (6000, 8000), 16 (6900, 8650), 17 (7500, 8850), 18 (7450, 8700), 19 (7200,
+  Yapılan: 14 (tur 61), 15 (tur 62). Kalan: 16 (6900, 8650), 17 (7500, 8850), 18 (7450, 8700), 19 (7200,
   8950), 20 (7550, 8700), 21–23 (8600), 24 (9000, 11450, 13750), 25 (8450), 29 (5300). Kanal
   oynanışta yok, plank üstünden yürünüyor. Bölüm başına bir tur; yere göre: açık atlama
   (çıkış taşı ŞART: `_terrain(x1-50, x1, 55)`), çürük tahta, palet, ayak taşı ya da kanalı
@@ -83,6 +83,28 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (62) — Bölüm 15 sarnıçta çürük bakım tahtaları; gizli kemerde su kalktı
+
+**Neden şimdi:** Orta kesim kanal maddesi (tur 61 önerisi). Zeyrek'te sarnıç ve gizli kemerde
+iki plank'lı kanal daha vardı.
+
+**Oyuncu ne hissedecek:** Bölümün su geçişleri artık birbirinden farklı: kemerde ayak taşları
+(tur 55), sarnıçta 400 px suyun üstünde basınca çöken eski bakım tahtaları + 4 altın (durmadan
+koşmak gerekir, çıkış taşı var). Gizli kemerde su yok.
+
+**Denenen ve geri alınan:** gizli kemerde önce koşarak atlanan açık su (Bölüm 13'teki gibi)
+denendi: karşı kıyıdaki Seçkin Muhafız suda yürüyen oyuncuyu yukarıdan vuruyordu, bot üç
+koşunun üçünde de 2 kez öldü (önceden 0) ve 16–20 sn takıldı. Su kaldırıldı; tekrar 0.
+
+**Testler:** import temiz; 36 sahne smoke çıkış 0 (son değişiklikten sonra yeniden); DTM GAPS
+PASS; Bölüm 15 bot başsız son 3 koşu CLEARED (100,4 / 95,0 / 98,8 sn, yeniden doğma 0).
+Görsel 1280×720: sarnıç — "ait".
+
+**Kural notu:** açık su + yakında menzilli düşman = adil olmayan ölüm. Kalan kanallarda
+açık atlama seçilirse karşı kıyıda 300 px içinde tüfekli/seçkin olmasın.
+
+**Sonraki öneri:** Orta kesim kanal maddesi: Bölüm 16 (6900, 8650).
 
 ### 2026-10-26 (61) — Bölüm 14 kemerli geçit: kanal kalktı, tabanca erişilebilir oldu
 

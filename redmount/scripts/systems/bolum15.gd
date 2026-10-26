@@ -69,8 +69,7 @@ func _build() -> void:
 	# --- 4. Bakım galerisi: tüfekliye yaklaşma, hareketli köprü (isteğe bağlı) -----
 	_checkpoint(4450, 0)
 	_terrain(4400, 6000, 0)
-	_terrain(6200, 8000, 0)
-	_terrain(8200, 9900, 0)
+	_terrain(6400, 9900, 0)
 	_crates(4650, 1, 1)
 	_crates(4740, 1, 2)
 	_terrain(4830, 5150, -180)
@@ -81,11 +80,16 @@ func _build() -> void:
 	_coin_line(5260, 4, 70, -260)
 	_prop("varil", 5450)
 
-	# --- 5. Sarnıç: ikinci sabit iskele, karışık devriye -------------------------
+	# --- 5. Sarnıç: çürük bakım tahtaları, karışık devriye --------------------------
+	# Sabit plank yerine sarnıç suyunun üstünde eski bakım tahtaları: basınca çöker,
+	# durmadan geçilir. Bölümün iki su geçişi ayrı: kemerde ayak taşı, burada çürük tahta.
 	_checkpoint(5850, 0)
-	_canal(6000, 6200, 110)
-	_scaffold(6100, -20, 220)
-	_enemy(KNIFE, 6400, 0)
+	_canal(6000, 6400, 110)
+	_terrain(6350, 6400, 55)  # çıkış taşı
+	for cx in [6075.0, 6225.0]:
+		_collapse(cx, -20.0, 145)
+	_coin_line(6060, 4, 60, -70)
+	_enemy(KNIFE, 6450, 0)
 	_enemy(ASSASSIN, 6600, 0)
 	_pickup(ARMOR, 6500, -45)
 	for x in [5950, 6700]:
@@ -113,10 +117,10 @@ func _build() -> void:
 	wheel.reward = HEALTH
 	add_child(wheel)
 
-	# --- 7. Gizli kemer: üçüncü kesinti, seçkin devriye -----------------------------
+	# --- 7. Gizli kemer: seçkin devriye ----------------------------------------------
+	# Burada su yok: açık suda yürüyen oyuncuyu karşı kıyıdaki seçkin yukarıdan vuruyordu
+	# (bot iki kez öldü). Bölümün iki su geçişi kemer ve sarnıçta.
 	_checkpoint(7850, 0)
-	_canal(8000, 8200, 110)
-	_scaffold(8100, -20, 220)
 	_enemy(ELITE, 8350, 0)
 	_chimney(8530, -500, 140, 150, ARMOR)
 	_pickup(HEALTH, 8300, -45)
