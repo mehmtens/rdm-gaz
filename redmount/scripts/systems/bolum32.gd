@@ -1,7 +1,7 @@
 ## Bölüm 32 — Kuleli Gözetleme Hattı (Kitap 3 / "İstanbul'un Sesi", 8. bölüm).
 ##
 ## Kıyı fenerleri Nüzhet'in teknesinin yolunu çiziyor; boş görünen nöbet noktaları
-## sahte. Kuleli kıyısı -> okul cephesi (arena) -> taş rıhtım (kanal, kayıklar) ->
+## sahte. Kuleli kıyısı -> okul cephesi (arena) -> taş rıhtım (çürük iskele) ->
 ## fener kulesi (tırmanış, projektör) -> sinyal kulübesi (erzak) -> gözetleme
 ## koridoru (arena) -> sinyal kayıt odası (fener defteri) -> sahil kapısı (son
 ## arena). Kayıtta teknenin Vaniköy iskelesine yanaştığı yazıyor.
@@ -39,16 +39,20 @@ func _build() -> void:
 	_pickup(ARMOR, 2330, -275)
 	_coin_line(1700, 8, 70, -395)
 
-	# --- 3. Taş rıhtım: kayık kirişi, sandık merdiveni ---------------------------
+	# --- 3. Taş rıhtım: çürük kayık iskelesi, sandık merdiveni ---------------------
+	# Kanalın üstüne serili sağlam plank yerine 450 px su üstünde çürük iskele: basılan
+	# tahta yarım saniyede çöker, durmadan koşmak gerekir; düşen ıslanır, dipten çıkar.
 	_checkpoint(2550, 0)
-	_canal(2700, 2900, 110)
-	_scaffold(2800, -20, 220)
-	_terrain(2900, 10300, 0)
-	_crates(3050, 1, 1)
-	_scaffold(3210, -150, 130)
-	_scaffold(3360, -260, 130)
-	_coin_line(3180, 4, 60, -310)
-	_enemy(STREET, 3600, 0)
+	_canal(2700, 3150, 110)
+	for cx in [2775.0, 2925.0, 3075.0]:
+		_collapse(cx, -20.0, 145)
+	_coin_line(2760, 5, 70, -70)
+	_terrain(3150, 10300, 0)
+	_crates(3250, 1, 1)
+	_scaffold(3410, -150, 130)
+	_scaffold(3560, -260, 130)
+	_coin_line(3380, 4, 60, -310)
+	_enemy(STREET, 3700, 0)
 
 	# --- 4. Fener kulesi: dış iskele merdiveni + içi tırmanılan fener bacası --------
 	_checkpoint(3850, 0)

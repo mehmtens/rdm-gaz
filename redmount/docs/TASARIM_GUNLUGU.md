@@ -36,6 +36,10 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   insan testinde ölüm hâlâ yığılıyorsa mahzene (x≈8900) simit.
 - Bölüm 19 külhan finali (tur 45): Külhanbeyi bire bir + iki alev bacası; bot 4 koşunun 2'sinde
   bir kez öldü. İnsan testinde finalde ölüm 1'i geçerse alev hasarı 12 → 8 ya da tek baca.
+- Kanal + üstünde sağlam plank kalıbı (tur 58 Kitap 3 taraması): kanalın tam üstüne 220 px
+  tahta serili, oynanışta engel değil. Yapılan: 32 (tur 58, çürük iskele). Kalan: 35 (x 1600,
+  dış sur öncesi), 36 (x 1800). Ayrıca Bölüm 27 köprübaşı hâlâ 60 px çukur meydan (orta
+  iskeleli, kısmen özgün) — sonra.
 - Bölüm 24 finali (kule terası, x≈17600–18100): bot 4 koşunun 4'ünde de 2 yeniden doğma (tur 57;
   değişiklikten önceki sürümde de aynı). İnsan testinde final ölümü 1'i geçerse son kontrol
   noktası önüne simit ya da Ana Vana Muhafızı'nın yardımcı dalgası hafifletilsin.
@@ -75,6 +79,27 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (58) — Denetim (Kitap 3 iskelet taraması) + Bölüm 32 rıhtımında çürük iskele
+
+**Neden şimdi:** Kitap 2 iskeleti kapandı; birikimin üst maddeleri insan testine bağlı, bu
+yüzden denetim. 26–36'nın açılışları tarandı: çoğu çeşitli; iki iz kaldı — 27'de 60 px çukur
+meydan, 32/35/36'da 200 px kanalın tam üstüne serili 220 px sağlam plank (kanal oynanışta
+yok, yalnız süs). Birikime yazıldı; ilki bu turda.
+
+**Oyuncu ne hissedecek:** Kuleli taş rıhtımında 450 px su üstünde çürük kayık iskelesi: basılan
+tahta yarım saniyede çöküp geri geliyor, 5 altın hattı üstte — durmadan koşmak gerekiyor.
+Düşen ıslanıyor, dipten (110) çıkıyor; ölüm yok. Gece rıhtımı ve arkadaki çürük kazıklarla
+uyumlu; Kitap 1'in su kesimlerindeki çürük tahtanın (8, 9, 11, 12) Kitap 3'te tek dönüşü.
+
+**Yapılanlar:** `bolum32.gd` bölüm 3 ve başlık yorumu; sandık merdiveni 200 px sağa kaydı
+(3250/3410/3560), fener kulesi (3850+) dokunulmadı.
+
+**Testler:** import temiz; 36 sahne smoke çıkış 0; DTM GAPS PASS; Bölüm 32 bot başsız 3 koşu
+CLEARED (77,5 / 75,8 / 72,6 sn, yeniden doğma 0). Görsel 1280×720: iskele (bir tahta çökmüş,
+oyuncu suda), sandık merdiveni — "ait".
+
+**Sonraki öneri:** Birikimdeki plank kalıbı: Bölüm 35.
 
 ### 2026-10-26 (57) — Bölüm 24 açılışı yere özgü: kemer bulvarında arena, kemer altında varil pusu; iskelet maddesi kapandı
 
