@@ -11,7 +11,7 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   Deney sahnesinde nişan durumunda 64 px aralık korunuyor (tur 30 düzeltmesi), yığılma kovalama
   ya da geri itilme sonrası oluyor; tek karede yeniden üretilemedi. İnsan testinde ya da bir
   sonraki denetimde yeniden görülürse `CHASE` durumundaki ayrışmaya nişancı komşusu eklensin.
-- Son arenaya düşük canla varış (Bölüm 4: 16–25 can, Bölüm 28: 21 can; bot). İki bölümde de
+- Son arenaya düşük canla varış (Bölüm 4: 16–25 can, Bölüm 5: 29 can, Bölüm 28: 21 can; bot). İki bölümde de
   orta arenadan son arenaya kadar can kaynağı yok (yalnız büfe). İnsan testinde son arenaya
   giriş canı ölçülsün; ortanca %40'ın altındaysa son kontrol noktası önüne kırılabilir simit.
 - Adlı rakiplerin görünümü: Binbaşı Kaya, Sur Ağası ve Muhafız Başı ara sahnede Seçkin
@@ -36,9 +36,11 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   insan testinde ölüm hâlâ yığılıyorsa mahzene (x≈8900) simit.
 - Bölüm 19 külhan finali (tur 45): Külhanbeyi bire bir + iki alev bacası; bot 4 koşunun 2'sinde
   bir kez öldü. İnsan testinde finalde ölüm 1'i geçerse alev hasarı 12 → 8 ya da tek baca.
-- Kitap 2 bölümleri (18–23) iskeletçe hâlâ aynı: son kontrol noktası 9300–9350, final 9700,
-  aynı sıra (sokak → avlu arenası → kanal → galeri+erzak → salon → arena → küçük oda → final).
-  Dalga dizileri tur 45'te ayrıştı; yerleşim de bölüme özgü olmalı (büyük iş, bölüm başına tur).
+- Kitap 2 iskeleti (tur 47 ölçümü): Bölüm 13–25'in açılışı neredeyse aynı — 1700/1850'de
+  basamak, 1850–3200 arası 60 px çukur avlu arenası, 3350 kontrol noktası, 3800'de 200 px'lik
+  kanal + üstte 220 px iskele, 4750 kontrol noktası; 18–23'te devamı da aynı (galeri+erzak →
+  salon → arena → 200 px kanal → küçük oda → 9300–9350 final). Bölüm başına bir tur, yere özgü
+  yeniden düzen. Yapılan: 19 (tur 47, açılış). Sıradaki: 23, 22, 21, 20, 18, sonra 13–17, 24, 25.
 
 - Ön sıra katı evler yalnız 6 bölümde (1, 2, 3, 27, 29, 34; çoğu Kitap 1 Balat — yerine uygun).
   27/29/34'teki 2–3 ev insan testinde yere yabancı görünürse o bölüme özgü cephe çizilmeli
@@ -75,6 +77,30 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (47) — Denetim (Bölüm 2, 3, 5, 11) + Bölüm 19 açılışı yere özgü
+
+**Neden şimdi:** Tur 46'nın önerisi. Pencereli bot: Bölüm 2 CLEARED 9507 (0 ölüm), 3 CLEARED
+9006 (0), 5 CLEARED 9391 (finalde 1 ölüm, finale 29 canla), 11 CLEARED 8655 (pres koridorunda
+1 ölüm — bot zamanlamayı beklemiyor, Bölüm 6 ile aynı). Görselde sorun yok; Kasap Rıza ve
+Pusucu Kemal çubukları, Muhafız Başı telsizi iyi. Bulgu yine verideydi: kontrol noktası ve
+zemin dizilerinin taraması Bölüm 13–25'in açılışının aynı iskelet olduğunu gösterdi (birikimde
+ölçüm). Oyuncu altı bölüm üst üste aynı çukur avluya inip aynı kanalı atlıyor.
+
+**Oyuncu ne hissedecek:** Bölüm 19'da Çemberlitaş meydanı düz; sütunun önündeki iki katlı
+restorasyon iskelesi tüfeklinin ateşinden kaçış ve atlayış saldırısı yolu. Hamam girişi kanal
+yerine iki basamakla çıkılan taş sofa: kalkanlı sofanın kenarında, kapı rafına sofadan çıkılıyor,
+sonra içeri iniliyor — arka plandaki hamam kapısının tam önünde.
+
+**Yapılanlar:** `bolum19.gd` bölüm 2–3. İlk denemede meydana sütun kaidesi olarak taş blok
+kondu: koyu kutu gibi durdu (sütun arkada solda) ve tüfekli arkasına siper alınca bot 37 sn
+takılıp öldü → kaldırıldı, yalnız tek yönlü iskele.
+
+**Testler:** import temiz; 36 sahne smoke çıkış 0; DTM GAPS PASS; Bölüm 19 bot pencereli
+CLEARED 10110 (75 sn, 0 ölüm) ve başsız CLEARED 10107. Görsel: meydan arenası ve taş sofa
+1280×720 — "ait".
+
+**Sonraki öneri:** Kitap 2 iskeletinde sıradaki Bölüm 23 (Saraçhane).
 
 ### 2026-10-26 (46) — Kamera alt sınırı yalnız derin kesimde açılır (Bölüm 8, 9, 10, 21)
 

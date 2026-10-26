@@ -2,7 +2,7 @@
 ##
 ## Kapalıçarşı defteri dağıtım emirlerinin Çemberlitaş'taki kapalı hamamın
 ## külhanından çıktığını gösterir. Gece: arka sokak -> meydan (arena) -> hamam
-## girişi (kanal) -> soyunmalık (galeri, arena, erzak) -> ılıklık (çini rafı) ->
+## girişi (taş sofa) -> soyunmalık (galeri, arena, erzak) -> ılıklık (çini rafı) ->
 ## su servisi (60 px alt rota, arena) -> külhan yaklaşımı (alev bacaları) -> külhan
 ## (alev bacaları arasında Külhanbeyi). Külhanda Kemal Bey'in yarım yanmış mektubu: "Samatya taş depoları".
 extends DtmLevel
@@ -32,33 +32,40 @@ func _build() -> void:
 	for x in [300, 1400]:
 		_lantern(float(x))
 
-	# --- 2. Çemberlitaş meydanı: sığ servis yolu, arena -------------------------
+	# --- 2. Çemberlitaş meydanı: sütunun önünde restorasyon iskelesi, arena ---------
+	# Meydan düz (Kitap 2'nin önceki bölümlerindeki çukur avlu yerine); arenanın üstünde
+	# iki katlı restorasyon iskelesi: tüfeklinin ateşinden üstten kaçış ve atlayış saldırısı.
 	_checkpoint(1550, 0)
-	_terrain(1700, 1850, 30)
-	_terrain(1850, 3200, 60)
+	_terrain(1700, 3350, 0)
 	_lantern(1950)
 	_lantern(3050)
+	_scaffold(2300, -115, 200)
+	_scaffold(2560, -225, 160)
+	_coin_line(2510, 3, 50, -270)
 	var sq: BattleArena = ARENA.instantiate()
-	sq.position = Vector2(2500, 60)
+	sq.position = Vector2(2500, 0)
 	sq.gate_left_x = 2000
 	sq.gate_right_x = 3000
-	sq.floor_y = 60
+	sq.floor_y = 0
 	sq.wave1 = _wave(STREET, KNIFE, STREET)
 	sq.wave2 = _wave(RIFLE, ASSASSIN)
 	sq.reward = HEALTH
 	add_child(sq)
-	_terrain(3200, 3350, 30)
 
-	# --- 3. Hamam girişi: kısa kanal, üst kapı rafı ----------------------------
-	_terrain(3350, 3800, 0)
+	# --- 3. Hamam girişi: yükseltilmiş taş sofa, kapı rafı -----------------------
+	# Hamamın girişi sokaktan iki basamak yukarıda bir taş sofa; kalkanlı sofanın
+	# kenarında bekler, üstteki kapı rafına sofadan çıkılır, sofa sonunda içeri inilir.
 	_checkpoint(3400, 0)
-	_canal(3800, 4000, 110)
-	_scaffold(3900, -20, 220)
-	_terrain(4000, 10300, 0)
+	_terrain(3350, 3550, 0)
+	_terrain(3550, 3640, -45)
+	_terrain(3640, 4060, -90)
+	_terrain(4060, 10300, 0)
+	_enemy(SHIELD, 3900, -90)
+	_scaffold(4000, -210, 130)
 	_scaffold(4200, -140, 130)
-	_scaffold(4350, -250, 130)
-	_pickup(PISTOL, 4350, -295)
-	_enemy(SHIELD, 4550, 0)
+	_pickup(PISTOL, 4000, -255)
+	_coin_line(3680, 4, 60, -150)
+	_enemy(STREET, 4500, 0)
 
 	# --- 4. Soyunmalık: galeri ödülü, menzilli düşman, arena, erzak --------------
 	_checkpoint(4750, 0)
