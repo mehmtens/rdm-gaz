@@ -7,9 +7,9 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- **[Denetim 26 Ekim, Bölüm 20]** Üst bant kalabalığı: bölüm adı kartı, telsiz paneli (400 px) ve
-  ipucu aynı anda üst yarıyı kaplıyor (b/c/d çekimleri). Telsiz, kart sönene kadar beklesin. Ölçüt:
-  aynı anda en fazla bir üst panel. Etki orta, maliyet düşük.
+- İpucu sırası insan testi: Bölüm 1'de oyuncu hemen koşarsa x=150 "sola bak" (gizli alan) ipucu,
+  kart beklerken geçilip x=560 hareket ipucuna yol veriyor. Gizli alan bulma oranı düşerse ipucu
+  560'tan sonraya ya da kart süresi (3,6 sn) kısaltılmalı.
 - **[Denetim 26 Ekim, Bölüm 20]** Son avlu (9450–9950) düz üç dalgalı arena; Kemal Bey'in kayıkla
   kaçışı yalnız hikâye sahnesinde. Arena sırasında arka planda kayığın hazırlanması (set-piece,
   dövüşü bölmeyen) — DTM'de patron/hedef dövüş sırasında görünür. Etki orta, maliyet orta.
@@ -41,6 +41,28 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (23) — Öğretici ipuçları: başlık kartını bekler, üst üste binmez, piksel çerçeve
+
+**Neden şimdi:** Denetimin "üst bant kalabalığı" bulgusu. Ölçünce telsiz bulgusu çekim yönteminin
+eseriydi (oyuncu ışınlanıyordu; en erken telsiz x=2100, kart 3,6 sn — gerçek oyunda çakışmaz).
+Ama gerçek çakışma Bölüm 1'in ilk saniyesinde, oyunun ilk izleniminde: bölüm adı kartının altında
+iki öğretici ipucu üst üste. Üstelik ipucu kutuları `StyleBoxFlat` ile çizilmiş yuvarlak köşeli
+düz kutulardı (piksel art kuralına aykırı).
+
+**Oyuncu ne hissedecek:** Önce "BALAT SOKAKLARI" kartı tek başına, sönünce ipucu gelir; aynı anda tek
+ipucu. Kutular HUD/telsizle aynı altın çerçeveli piksel panel, tuş rozeti piksel tuş başlığı.
+
+**Yapılanlar:** `_TitleCard` grup "title_card"; `HintTrigger` kart varken görünmez (kalma süresi
+de işlemez), yeni ipucu açılınca eskisi yol verir (`_gone`, `static var _current`); tekrar girişte
+yeniden açılır. Çerçeveler `PixelUI.box("panel_hud")` / `("button_normal")`; `_box` (StyleBoxFlat)
+silindi. Yeni `tests/hint_order.tscn`.
+
+**Testler:** import temiz; HINT ORDER PASS; DTM GAPS PASS; 36 sahne smoke çıkış 0; bot Bölüm 1
+(8605), 2 (9506), 13 (9555) CLEARED. Görsel: Bölüm 1 açılışı üç ardışık çekim — kart tek başına,
+sonra tek ipucu, piksel çerçeve.
+
+**Sonraki öneri:** Birikim — Bölüm 20 son avluda kaçış kayığı set-piece'i.
 
 ### 2026-10-26 (22) — Gecede kahramana soğuk ay ışığı konturu (birikim/denetim)
 

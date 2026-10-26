@@ -1506,6 +1506,7 @@ class _TitleCard extends CanvasLayer:
 	func _ready() -> void:
 		layer = 45
 		process_mode = Node.PROCESS_MODE_ALWAYS
+		add_to_group(&"title_card")  # öğretici ipuçları kart sönene kadar bekler
 		var idx := GameState.level_index
 		var book := idx / 12
 		_box = PanelContainer.new()
