@@ -2,7 +2,7 @@
 ##
 ## Zeyrek vanasının kaydı Süleymaniye'de bir ciltçi deposuna çıkar. Sokaklar ve
 ## servis binaları (ibadet alanlarına girilmez): yokuş -> ciltçiler sokağı (arena)
-## -> dış avlu servis yolu -> kâğıt imalathanesi (asma yol) -> cilt atölyesi ->
+## -> dış avlu servis yolu (devriye, taş seki) -> kâğıt imalathanesi (asma yol) -> cilt atölyesi ->
 ## belge odası (arena) -> arşiv mahzeni -> arka teras (asıl liste: Beyazıt posta
 ## hattı). Kâtip'in "yardım malzemesi" kılıfı ortaya çıkar.
 extends DtmLevel
@@ -34,39 +34,39 @@ func _build() -> void:
 	_enemy(STREET, 900, 0)
 	_prop("saksi", 1250)
 
-	# --- 2. Ciltçiler sokağı: 60 px alçak; saçak ödülü; arena; erzak -------------
+	# --- 2. Ciltçiler sokağı: sokak hizasında; saçak ödülü; arena; erzak ----------
+	# Kitap 2'nin ortak çukur avlusu yerine dar sokak düz; cumbalar arenanın önünde.
 	_checkpoint(1550, 0)
-	_terrain(1700, 1850, 30)
-	_terrain(1850, 3300, 60)
+	_terrain(1700, 6900, 0)
 	_balcony(2000, -40, 110)
 	_balcony(2160, -140, 110)
 	_coin_line(2120, 3, 50, -190)
-	_prop("kasa", 2100, 60)
+	_prop("kasa", 2100, 0)
 	var bind: BattleArena = ARENA.instantiate()
-	bind.position = Vector2(2550, 60)
+	bind.position = Vector2(2550, 0)
 	bind.gate_left_x = 2250
 	bind.gate_right_x = 2900
-	bind.floor_y = 60
+	bind.floor_y = 0
 	bind.wave1 = _wave(STREET, KNIFE, STREET)
 	bind.wave2 = _wave(SHIELD, RIFLE)
 	bind.reward = AMMO
 	add_child(bind)
 	var shop: LevelShop = SHOP.new()
-	shop.position = Vector2(3100, 60)
+	shop.position = Vector2(3100, 0)
 	shop.title = "CİLTÇİ ERZAKI"
 	shop.items = PackedStringArray(["can", "cephane", "zirh"])
 	shop.accent = Color("e7a449")
 	add_child(shop)
 
-	# --- 3. Dış avlu servis yolu: drenaj geçişi; üst taş rafı ---------------------
-	_terrain(3300, 3450, 30)
-	_terrain(3450, 3900, 0)
+	# --- 3. Dış avlu servis yolu: revak önünde devriye; taş sekiden üst rafa -------
+	# Drenaj kanalı yerine düz avlu (külliye avlusunda açık kanal yere ait değildi):
+	# arena + erzaktan sonra nefes. İki kişilik devriye; taş sekiden rafa, tepede tabanca.
 	_checkpoint(3500, 0)
-	_canal(3900, 4100, 110)
-	_scaffold(4000, -20, 220)
-	_terrain(4100, 6900, 0)
 	_terrain(7100, 8650, 0)
 	_terrain(8850, 9900, 0)
+	_enemy(STREET, 3800, 0)
+	_enemy(KNIFE, 3950, 0)
+	_stones(4150, 1, 1)
 	_scaffold(4300, -140, 130)
 	_scaffold(4450, -250, 130)
 	_pickup(PISTOL, 4450, -295)

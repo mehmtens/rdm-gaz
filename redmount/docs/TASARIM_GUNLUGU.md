@@ -43,7 +43,7 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   yeniden düzen. Yapılan: 19 (tur 47, açılış), 23 (tur 48, açılış), 22 (tur 49, açılış),
   21 (tur 50, açılış), 20 (tur 51, açılış), 18 (tur 52, arena; bedesten zaten özgündü),
   17 (tur 53, meydan arenası; sahaflar zaten özgündü), 25 (tur 54, açılış), 15 (tur 55,
-  açılış). 13 ve 14 zaten farklı. Sıradaki: 16, 24 (yalnız çukur arena kalmış).
+  açılış), 16 (tur 56, açılış). 13 ve 14 zaten farklı. Sıradaki: 24 (yalnız çukur arena).
 
 - Ön sıra katı evler yalnız 6 bölümde (1, 2, 3, 27, 29, 34; çoğu Kitap 1 Balat — yerine uygun).
   27/29/34'teki 2–3 ev insan testinde yere yabancı görünürse o bölüme özgü cephe çizilmeli
@@ -80,6 +80,27 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (56) — Bölüm 16 açılışı yere özgü: düz ciltçiler sokağı, külliye avlusunda devriye
+
+**Neden şimdi:** Kitap 2 iskeleti maddesi (tur 55 önerisi). Süleymaniye'de 60 px çukur sokak
+arenası ve dış avluda (külliye avlusu, arkada revak ve şadırvan) 200 px açık drenaj kanalı
+vardı — kanal yere ait değildi.
+
+**Oyuncu ne hissedecek:** Ciltçiler sokağı düz; cumbalardaki altınlar ve arena + erzak aynı.
+Dış avlu bir nefes kesimi: revak önünde iki kişilik devriye (sokak serserisi + bıçakçı),
+taş sekiden rafa, tepede tabanca, ardından kalkanlı. Kanalın yerine küçük bir kavga — bölüm
+ritmi arena → erzak → hafif devriye → imalathane tüfeklisi.
+
+**Yapılanlar:** `bolum16.gd` bölüm 2–3 ve başlık yorumu. Eski düzende rafın ilk basamağına
+(−140) iskele planktan (−20) 120 px zıplamayla çıkılıyordu (sınırda); şimdi 90 px taş sekiden
+50 px. Zemin 1700–6900 tek parça.
+
+**Testler:** import temiz; 36 sahne smoke çıkış 0; DTM GAPS PASS; Bölüm 16 bot başsız 4 koşu
+CLEARED (84,8 / 73,3 / 79,2 / 77,8 sn), dördünde de yeniden doğma 0 (birikimdeki eski
+ölçüm: son üçlüde 2 yeniden doğma; final canı 23–40). Görsel 1280×720: sokak, avlu — "ait".
+
+**Sonraki öneri:** Kitap 2 iskeletinde Bölüm 24 (son çukur arena), sonra madde kapanır.
 
 ### 2026-10-26 (55) — Bölüm 15 açılışı yere özgü: düz çeşme meydanı, su kemerinde ayak taşları
 
