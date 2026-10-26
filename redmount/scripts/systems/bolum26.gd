@@ -96,7 +96,9 @@ func _build() -> void:
 	_enemy(RIFLE, 7300, -140)
 
 	# --- 6. Su kulesi: bacadan duvar-zıplamayla tepeye (zırh) -------------------
+	chimney_brick = true   # güneşli gar avlusu: gar binasının tuğlası
 	_chimney(7670, -470, 140, 150, ARMOR)
+	chimney_brick = false
 
 	# --- 7. Arka yük peronu: arena ------------------------------------------
 	_checkpoint(7850, 0)

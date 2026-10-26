@@ -15,7 +15,7 @@ fener,fener_hale,asma_lamba,on_kolon,on_kolon_bas,on_kolon_kaide,on_sarmasik,zin
 diken,alev_izgara,kablo,bomba,bomba_ikaz,alev,kivilcim,patlama,
 tugla,sivali_tugla,ic_duvar,hatil,ic_pencere,fabrika_pencere,cephe_pencereleri,kat_silmesi,saldiri_uyari,dukkan,tavan,han_kapisi,
 pres,pres_kol,ray,su_govde,su_yuzey,anten,kule_ayak,kule_kulube,ahsap_kat,
-kalkan,kalkan_kirik,sancak,catlak,kiymik,depo_rafi,baca_tahta}.png
+kalkan,kalkan_kirik,sancak,catlak,kiymik,depo_rafi,baca_tahta,kule_tugla,baca_tugla}.png
 ve assets/pickups/placeholder_rifle.png
 Oyunda 2x NEAREST ölçeklenir (1 sanat pikseli = 2 ekran pikseli).
 """
@@ -2382,6 +2382,79 @@ def make_baca_tahta(rnd):
     return img
 
 
+# Gar tuğlası (Sirkeci/Haydarpaşa resimlerindeki kırmızı-krem kuşaklı cephe): doygun kırmızı,
+# gölge mora, ışık turuncuya kayar.
+GAR_BRICK = [(34, 12, 24), (62, 20, 30), (92, 30, 34), (122, 42, 38), (150, 58, 44),
+             (176, 80, 54), (204, 112, 72), (228, 150, 96)]
+
+
+def make_kule_tugla(rnd):
+    """Gar tuğlası kule duvarı (20×48, dikey döşenir; gün ışığındaki baca kulesinin duvarı):
+    dört sıra şaşırtmalı kırmızı tuğla + bir sıra krem kesme taş kuşak (gar cephesinin
+    ablak şeridi), her 24 pikselde bir. Sol yüz sıcak ışıkta, sağ kenarda ay parlaması,
+    iki yan kenarda koyu mor kontur; üst/alt kenarda kontur yok (dikişsiz döşeme)."""
+    w, h = 20, 48
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    for y in range(h):
+        band = y % 24
+        for x in range(1, w - 1):
+            side = 0.12 - (x - 1) / (w - 3) * 0.2  # sol ışık -> sağ gölge
+            if band >= 18:
+                # Krem taş kuşak: üst kenar ışıkta, alt kenar gölgede, taş derzleri.
+                ly = band - 18
+                lv = {0: 0.86, 1: 0.7, 2: 0.62, 3: 0.56, 4: 0.44, 5: 0.12}[ly] + side
+                if (x + (band // 6) * 3) % 9 == 0 and ly < 5:
+                    lv = 0.3
+                px[x, y] = pick(PLASTER, lv, rnd, 0.35) + (255,)
+                continue
+            row, ly = band // 4, band % 4
+            off = 3 if row % 2 else 0
+            lx = (x + off) % 7
+            if ly == 3 or lx == 6:
+                px[x, y] = pick(GAR_BRICK, 0.06, rnd, 0.3) + (255,)  # derz
+                continue
+            lv = {0: 0.62, 1: 0.48, 2: 0.36}[ly] + side
+            lv += (((x + off) // 7 * 5 + row * 3) % 5 - 2) * 0.035  # tuğla başına ton
+            if lx == 0:
+                lv += 0.06
+            px[x, y] = pick(GAR_BRICK, lv, rnd, 0.5) + (255,)
+    # Kuşağın altında is/yağmur izi: iki sıra boyunca koyulaşan dar akıntılar.
+    for sx in (5, 13):
+        for y in range(24, 24 + 6):
+            if px[sx, y % h][3]:
+                c = px[sx, y % h][:3]
+                px[sx, y % h] = mix(c, (34, 12, 24), 0.4 - (y - 24) * 0.06) + (255,)
+    for y in range(h):
+        px[0, y] = OUTLINE
+        px[w - 1, y] = OUTLINE
+        px[w - 2, y] = mix(px[w - 2, y][:3], MOON, 0.4) + (255,)
+        px[1, y] = mix(px[1, y][:3], (240, 176, 96), 0.18) + (255,)
+    return img
+
+
+def make_baca_tugla(rnd):
+    """Tuğla baca içi (24×32, döşenir; gar kulesinin içi): duvardan iki-üç ton koyu (oyuk
+    okunsun) şaşırtmalı tuğla, is kararmış ama derzi okunur; sol kenardan sızan soluk sıcak ışık, yer yer kırık."""
+    w, h = 24, 32
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    for y in range(h):
+        row, ly = y // 4, y % 4
+        off = 3 if row % 2 else 0
+        for x in range(w):
+            lx = (x + off) % 7
+            if ly == 3 or lx == 6:
+                px[x, y] = pick(GAR_BRICK, 0.02, rnd, 0.2) + (255,)
+                continue
+            lv = {0: 0.2, 1: 0.14, 2: 0.08}[ly] + max(0.0, 0.14 - x * 0.025)
+            lv += (((x + off) // 7 * 3 + row) % 4 - 1.5) * 0.03
+            px[x, y] = pick(GAR_BRICK, lv, rnd, 0.4) + (255,)
+    for x, y in ((9, 5), (17, 18), (4, 26)):
+        px[x, y] = GAR_BRICK[0] + (255,)
+    return img
+
+
 def main():
     rnd = random.Random(7)
     make_varil(rnd).save(OUT + "varil.png")
@@ -2440,6 +2513,8 @@ def main():
     make_kiymik(random.Random(211)).save(OUT + "kiymik.png")
     make_depo_rafi(random.Random(239)).save(OUT + "depo_rafi.png")
     make_baca_tahta(random.Random(241)).save(OUT + "baca_tahta.png")
+    make_kule_tugla(random.Random(251)).save(OUT + "kule_tugla.png")
+    make_baca_tugla(random.Random(257)).save(OUT + "baca_tugla.png")
 
 
 if __name__ == "__main__":

@@ -69,6 +69,36 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-10-26 (40) — Denetim (Bölüm 26): gar avlusunun su kulesi gar tuğlasından
+
+**Neden şimdi:** Birikimin kalanı insan testine bağlı → denetim (Bölüm 30 tur 25'te yapılmıştı,
+yerine Bölüm 26). Pencereli bot: CLEARED 9756, 78 sn, 0 ölüm, 16 kare. Gar cephesi, peron
+treni, yük avlusu ve sevk odası resimleri; DALGA rozetleri; film rulosu bandı iyi. Bulgu: "Su
+kulesi" tırmanışı (x 7670) güneşli yük avlusunun ortasında koyu demir panelli duvar + neredeyse
+siyah düz kuyu içi; ChatGPT resminin sıcak taş ve ahşabının önünde yapıştırılmış bir blok gibi
+duruyordu (tur 32 bu kuleyi "açık rıhtım, taş uyar" diye geçmişti — gece resimlerinde doğru,
+bu güneşli gar avlusunda değil).
+
+**Oyuncu ne hissedecek:** Tırmanılan kule, arkadaki gar binasıyla aynı kırmızı tuğla ve krem
+taş kuşaklı bir su kulesi; içi iki-üç ton koyu tuğla (oyuk okunuyor), tepede kiremit çatı.
+Gizli zırh yolu aynı, sahne bütün.
+
+**Yapılanlar:** `tools/gen_gpt_style_props.py`: `GAR_BRICK` rampası (8 ton, gölge mora, ışık
+turuncuya), `make_kule_tugla` (20×48: dört sıra şaşırtmalı tuğla + bir sıra krem kesme taş
+kuşak, sol yüz sıcak, sağda ay kenarı, kuşak altında is akıntısı, üst/alt konturu yok → dikişsiz)
+ve `make_baca_tugla` (24×32: koyu tuğla, sol kenardan sıcak sızıntı). İlk sürümde kuyu içi
+duvarla aynı parlaklıktaydı, oyuk okunmuyordu; iki-üç ton koyulaştırıldı. Diğer bütün çıktılar
+bire bir aynı üretildi. `DtmLevel.chimney_brick` (varsayılan false; `chimney_rack` gibi bölüm
+başına seçim): duvar `A_BRICK_TOWER` (altta hatıl), iç `A_SHAFT_BRICK`. Bölüm 26'da yalnız
+su kulesi için açılıp kapanıyor.
+
+**Testler:** import temiz; 36 sahne smoke çıkış 0; DTM GAPS PASS; bot Bölüm 1 (8606), 13 (9559),
+25 (10156), 26 (9755) CLEARED. Görsel: kule önü ve tepe 1280×720, ChatGPT gar avlusu resmiyle
+yan yana — "ait".
+
+**Sonraki öneri:** Gündüz resimli diğer bölümlerdeki baca kulelerine (taş/demir panel) aynı
+gözle bakılsın; sonra yeni denetim (Bölüm 14).
+
 ### 2026-10-26 (39) — Denetim (Bölüm 8): Tünel Bekçisi adıyla dövüşür
 
 **Neden şimdi:** Birikimin kalanı insan testine bağlı → denetim (tur 38'in önerisi). Bölüm 8

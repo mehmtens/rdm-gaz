@@ -61,6 +61,8 @@ const PIX_ANTENNA := preload("res://assets/environment/pixel/anten.png")
 ## İç mekân resmindeki baca kulesi: depo rafı duvarı (20×90) ve is kararmış tahta içi (24×32).
 const PIX_RACK := preload("res://assets/environment/pixel/depo_rafi.png")
 const PIX_SHAFT_WOOD := preload("res://assets/environment/pixel/baca_tahta.png")
+const PIX_BRICK_TOWER := preload("res://assets/environment/pixel/kule_tugla.png")
+const PIX_SHAFT_BRICK := preload("res://assets/environment/pixel/baca_tugla.png")
 const NICHE := preload("res://assets/environment/kit/wall_niche.png")
 ## Vagon: 400 px genişlik; gövde üstü yerden 140 px (tekerlekler altta).
 const WAGON_W := 400.0
@@ -115,6 +117,9 @@ var back_row_skip: Array = []
 ## resimleri). Varsayılan taş kule: sarnıç, külhan, kale gibi taş resimlere o uyuyor
 ## (26 Ekim, 18 bacanın sekizi iç mekân resminde; yalnız Bölüm 33 ve 36'da taş yabancıydı).
 var chimney_rack := false
+## Baca kulesi gar tuğlası (kırmızı + krem taş kuşak) olarak çizilsin: gün ışığındaki gar
+## resimleri (Bölüm 26 denetimi: güneşli yük avlusunda koyu taş kule yapıştırılmış gibiydi).
+var chimney_brick := false
 var zoom_level := 1.12
 ## İç mekânların sıva arka duvarı. Boyalı arka planı zaten iç mekân olan bölümler
 ## false verir: katlar, kirişler, cephe kalır; arkada boyalı resim görünür.
@@ -639,8 +644,10 @@ func _chimney(cx: float, top: float, gap := 140.0, passage := 150.0, reward: Pac
 	for side in [-1.0, 1.0]:
 		var left: float = cx - gap * 0.5 - wall if side < 0.0 else cx + gap * 0.5
 		var body := _solid_box(left, top, wall, h)
-		body.add_child(_Art.new(_Art.A_RACK if indoor else _Art.A_STONES, Vector2(wall, h)))
-	var inside := _Art.new(_Art.A_SHAFT_WOOD if indoor else _Art.A_SHAFT, Vector2(gap, -top))
+		var wall_art := _Art.A_RACK if indoor else _Art.A_BRICK_TOWER if chimney_brick else _Art.A_STONES
+		body.add_child(_Art.new(wall_art, Vector2(wall, h)))
+	var shaft_art := _Art.A_SHAFT_WOOD if indoor else _Art.A_SHAFT_BRICK if chimney_brick else _Art.A_SHAFT
+	var inside := _Art.new(shaft_art, Vector2(gap, -top))
 	inside.position = Vector2(cx, top * 0.5)
 	inside.z_index = -8
 	add_child(inside)
@@ -893,7 +900,7 @@ func _spawn_backdrop() -> void:
 # --- Çizim sınıfları ------------------------------------------------------------
 
 class _Art extends Node2D:
-	enum { A_TERRAIN, A_HOUSE, A_BUILDING, A_CRATES, A_SCAFFOLD, A_BALCONY, A_ROOF, A_WALL_STRIP, A_ROOM, A_GATE, A_STALL, A_WATER, A_SANDBAG, A_TOWER, A_WAGON, A_RAILS, A_FACTORY, A_PRESS_FRAME, A_CEILING, A_PLANK, A_STONES, A_INTERIOR, A_FLOOR, A_ROOFLINE, A_SHAFT, A_RACK, A_SHAFT_WOOD }
+	enum { A_TERRAIN, A_HOUSE, A_BUILDING, A_CRATES, A_SCAFFOLD, A_BALCONY, A_ROOF, A_WALL_STRIP, A_ROOM, A_GATE, A_STALL, A_WATER, A_SANDBAG, A_TOWER, A_WAGON, A_RAILS, A_FACTORY, A_PRESS_FRAME, A_CEILING, A_PLANK, A_STONES, A_INTERIOR, A_FLOOR, A_ROOFLINE, A_SHAFT, A_RACK, A_SHAFT_WOOD, A_BRICK_TOWER, A_SHAFT_BRICK }
 	var kind: int
 	var size: Vector2
 	var tex: Texture2D
@@ -1143,13 +1150,19 @@ class _Art extends Node2D:
 				_tiled(PIX_FLOOR, Rect2(-hw, -2.0, size.x, PIX_FLOOR.get_height() * PX))
 			A_ROOFLINE:
 				draw_texture_rect(ROOF_SLAB, Rect2(-hw - 6.0, -14.0, size.x + 12.0, 34.0), false)
-			A_SHAFT, A_SHAFT_WOOD:
+			A_SHAFT, A_SHAFT_WOOD, A_SHAFT_BRICK:
 				if kind == A_SHAFT:
 					_tiled(PIX_INWALL, Rect2(-hw, -hh, size.x, size.y), Color(0.34, 0.3, 0.32))
+				elif kind == A_SHAFT_BRICK:
+					_tiled(PIX_SHAFT_BRICK, Rect2(-hw, -hh, size.x, size.y))
 				else:
 					_tiled(PIX_SHAFT_WOOD, Rect2(-hw, -hh, size.x, size.y))
 				var cs := PIX_CHAIN.get_size() * PX
 				_tiled(PIX_CHAIN, Rect2(-cs.x * 0.5, -hh + 20.0, cs.x, size.y * 0.55), Color(0.7, 0.7, 0.75))
+			A_BRICK_TOWER:
+				# Gar tuğlası yukarıdan döşenir; altta kemerin üstüne taş hatıl.
+				_tiled(PIX_BRICK_TOWER, Rect2(-hw, -hh, size.x, size.y))
+				_tiled(PIX_FLOOR, Rect2(-hw, hh - PIX_FLOOR.get_height() * PX, size.x, PIX_FLOOR.get_height() * PX))
 			A_RACK:
 				# Raf dikmeleri yukarıdan döşenir; altta kemerin üstüne hatıl tahtası.
 				_tiled(PIX_RACK, Rect2(-hw, -hh, size.x, size.y))
