@@ -69,6 +69,23 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-10-26 (42) — Denetim (Bölüm 6): yeni iş yok, otomasyon durdu
+
+**Neden şimdi:** Tur 41'in önerisi. Bölüm 6 (Karahanlı Haddehanesi) pencereli bot: CLEARED 9455,
+131 sn, 2 yeniden doğma (ilk arena), 26 kare. Bot ilk 4000 px'te 115 → 15 can kaybediyor: alev
+koridorunda (4 zamanlı alev, 12 hasar, üstte iskele yolu) ve pres salonunda zamanlamayı
+beklemeden yerden yürüyor. Tehlikeler telgraflı ve kaçınılabilir; insan testinde bu iki
+bölümdeki hasar ölçülmeden değişiklik yapılmadı. İyi çalışanlar: fabrika ve haddehane
+resimleri, Ustabaşı'nın telsizi, "ZIRHLI USTABAŞI" çubuğu (tur 35), İŞÇİ KANTİNİ, HADDEHANE
+kapısı.
+
+**Durum:** Stil listesi, YOL_HARITASI ve oyun-kalite P1 maddeleri tamam; birikimin her maddesi
+insan testine bağlı. Bu oturumda 11 tur (32–42) yapıldı; son iki denetimden (18, 6) yeni iş
+çıkmadı. Otomatik döngü burada durdu.
+
+**Sonraki öneri:** İnsan testi (özellikle son arenaya giriş canı, adlı rakiplerin dövüş süresi,
+Bölüm 6 alev/pres hasarı). Yeni otomatik denetim için sıradakiler: Bölüm 9, 12, 15, 17, 21.
+
 ### 2026-10-26 (41) — Gündüz sokaklarında tuğla, konak salonunda ahşap raf kule
 
 **Neden şimdi:** Tur 40'ın önerisi. 36 bölümün 18 baca kulesinin hepsi tek süreçte 1280×720
