@@ -19,6 +19,8 @@ func _ready() -> void:
 	var combo: Control = hud._combo
 	var place: Control = hud._place
 	var base_arena := arena.offset_top
+	var boss: Control = hud._boss_bar
+	var base_boss := boss.offset_top
 	RadioPanel.say(get_tree(), "redmount", "REDMOUNT", "Kâğıt kokusu artık barut kokusu.")
 	await _frames(40)
 	var panel: Control = RadioPanel._instance._panel
@@ -28,6 +30,10 @@ func _ready() -> void:
 		var c: Control = pair[0]
 		_check(c.get_global_rect().position.y >= bottom,
 			"%s panelin altında (%.0f ≥ %.0f)" % [pair[1], c.get_global_rect().position.y, bottom])
+	# Masaüstünde boss çubuğu alta sabitli: telsiz onu ekrandan dışarı itmemeli.
+	if boss.anchor_top == 1.0:
+		_check(is_equal_approx(boss.offset_top, base_boss),
+			"alttaki boss çubuğu kaymadı (%.0f)" % boss.offset_top)
 	# Telsiz kapanınca taban yerine döner.
 	await _frames(400)
 	_check(panel.modulate.a < 0.01, "telsiz kapandı")

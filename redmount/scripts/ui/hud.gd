@@ -92,7 +92,9 @@ func _ready() -> void:
 	_boss_bar.visible = false
 	_combo.visible = false
 	for c in [_arena_panel, _combo, _boss_bar]:
-		_top_band[c] = Vector2(c.offset_top, c.offset_bottom)
+		# Boss çubuğu masaüstünde alta sabitli: yalnız üstteyken (mobil) telsizden kaçar.
+		if c.anchor_top == 0.0:
+			_top_band[c] = Vector2(c.offset_top, c.offset_bottom)
 	GameState.coins_changed.connect(_on_coins_changed)
 	Combat.combo_changed.connect(_on_combo_changed)
 	Combat.combo_finished.connect(_on_combo_finished)

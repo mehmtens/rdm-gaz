@@ -47,6 +47,16 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-10-26 (29) — Düzeltme: masaüstünde boss çubuğu telsizle kaymaz
+
+**Neden:** Bölüm 10 denetim koşusunda görüldü: masaüstünde boss çubuğu alta sabitli (anchor_top 1);
+tur 26'da üst bant kaydırmasına eklenmişti, telsiz açıkken +110 px kayıp ekranın dışına
+çıkıyordu (mobilde çubuk üstte, orada kayması doğru). Yalnız üste sabitli öğeler kaydırılır.
+`radio_top_band` testi bu durumu denetliyor (eski kodda düştüğü doğrulandı: 46 ≠ −64).
+
+**Testler:** RADIO TOP BAND PASS; DTM GAPS PASS; 36 sahne smoke çıkış 0; bot Bölüm 1 (8608),
+10 (9205), 13 (9555), 25 (10155) CLEARED.
+
 ### 2026-10-26 (28) — Arka plan geçişi kısaldı: çift pozlama %55 → %15 (birikim)
 
 **Neden şimdi:** Bölüm 16 denetiminin üçüncü bulgusu. Ölçünce sorun tek bölümün değil: `_Sky`
