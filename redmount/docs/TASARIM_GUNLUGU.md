@@ -40,8 +40,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   basamak, 1850–3200 arası 60 px çukur avlu arenası, 3350 kontrol noktası, 3800'de 200 px'lik
   kanal + üstte 220 px iskele, 4750 kontrol noktası; 18–23'te devamı da aynı (galeri+erzak →
   salon → arena → 200 px kanal → küçük oda → 9300–9350 final). Bölüm başına bir tur, yere özgü
-  yeniden düzen. Yapılan: 19 (tur 47, açılış), 23 (tur 48, açılış), 22 (tur 49, açılış).
-  Sıradaki: 21, 20, 18, sonra 13–17, 24, 25.
+  yeniden düzen. Yapılan: 19 (tur 47, açılış), 23 (tur 48, açılış), 22 (tur 49, açılış),
+  21 (tur 50, açılış). Sıradaki: 20, 18, sonra 13–17, 24, 25.
 
 - Ön sıra katı evler yalnız 6 bölümde (1, 2, 3, 27, 29, 34; çoğu Kitap 1 Balat — yerine uygun).
   27/29/34'teki 2–3 ev insan testinde yere yabancı görünürse o bölüme özgü cephe çizilmeli
@@ -78,6 +78,29 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (50) — Bölüm 21 açılışı yere özgü: iskele düzünde balık mezadı, kızak iskelesi
+
+**Neden şimdi:** Kitap 2 iskeleti maddesinde sıradaki bölüm (tur 49 önerisi). Yenikapı da
+60 px çukur avlu arenası + 200 px kanal + 220 px iskele açılışını taşıyordu. (Önceki oturum
+değişikliği yazıp testsiz kesilmişti; bu tur gözden geçirip doğruladı.)
+
+**Oyuncu ne hissedecek:** Mezat arkadaki ahşap iskeleyle aynı hizada, tezgâhların arasında:
+çukura inilmiyor, kavga sokaktan akarak başlıyor. Arenada iki balık sandığı (altın / can) —
+dalga arasında kırılıp nefes alınıyor. İkinci dalgadaki tüfekli bıçakçıyla değişti: düz
+zeminde siper yokken tüfekli yalnız bekleme süresi yaratıyordu. Kayıkhanede kanal yerine
+kızaktaki teknelerin bakım iskelesi: iki sandıktan 180 px iskeleye çıkılır, altında bıçakçı
+pusuda; üst hat tabancaya kadar kesintisiz (iskeleler arası 175 px, koşarak menzil ~250).
+
+**Yapılanlar:** `bolum21.gd` bölüm 2–3 ve başlık yorumu. Sayılar: sandık 90 px, iskele
+sandık üstünden 80 px yukarıda (zıplama ~125), altın hattı iskelenin 45 px üstünde.
+
+**Testler:** import temiz; 36 sahne smoke çıkış 0 (36 SMOKE OK); DTM GAPS PASS; Bölüm 21 bot
+başsız 2 koşu CLEARED (10107 @ 94,8 sn; 10108 @ 92,1 sn; takılma yalnız dokunulmayan sevk
+bürosu arenasında, x≈8120–8270). Görsel 1280×720 (`tests/capture_level`): mezat, kayıkhane
+girişi, bakım iskelesi — "ait".
+
+**Sonraki öneri:** Kitap 2 iskeletinde Bölüm 20.
 
 ### 2026-10-26 (49) — Bölüm 22 açılışı yere özgü: kömür rampasında bombacı, kuru filtre havuzu
 

@@ -1,7 +1,7 @@
 ## Bölüm 21 — Yenikapı Gece Vardiyası (Kitap 2 / "Haliç'in İzi", 9. bölüm).
 ##
 ## Kemal Bey'in kaçtığı Yenikapı'da gece teslimi. Gece sokağı -> balık mezadı
-## (arena) -> kayıkhane (tekne kirişi) -> dış rıhtım (tüfekli, vinç, arena, erzak)
+## (iskele düzünde arena) -> kayıkhane (kızak iskelesi) -> dış rıhtım (tüfekli, vinç, arena, erzak)
 ## -> kuru havuz (iskele) -> sevk bürosu (arena; evrak gemiye değil şehre) ->
 ## tartıhane -> gece iskelesi (yük sandıkları, tüfekli nöbet). Finalde Kemal Bey yakalanır: Kâtip'in
 ## yüzünü görmemiştir ama emirlerin Aksaray eski pompa istasyonundan geldiğini söyler.
@@ -30,29 +30,34 @@ func _build() -> void:
 	for x in [300, 1400]:
 		_lantern(float(x))
 
-	# --- 2. Balık mezadı: alçak servis yolu, iki dalga ----------------------------
+	# --- 2. Balık mezadı: iskele düzünde tezgâhlar arası kavga ----------------------
+	# Mezat arkadaki ahşap iskelenin üstünde, sokakla aynı hizada (Kitap 2'nin ortak çukur
+	# avlusu yerine). Arenada iki balık sandığı: kırılınca altın/can, dalga arasında nefes.
 	_checkpoint(1550, 0)
-	_terrain(1700, 1850, 30)
-	_terrain(1850, 3200, 60)
+	_terrain(1700, 3350, 0)
 	_stall(2000)
 	_stall(2950)
+	_prop("sandik", 2250, 0, COIN)
+	_prop("sandik", 2750, 0, HEALTH)
 	var mezat: BattleArena = ARENA.instantiate()
-	mezat.position = Vector2(2500, 60)
+	mezat.position = Vector2(2500, 0)
 	mezat.gate_left_x = 2050
 	mezat.gate_right_x = 2950
-	mezat.floor_y = 60
+	mezat.floor_y = 0
 	mezat.wave1 = _wave(STREET, KNIFE, STREET)
-	mezat.wave2 = _wave(ASSASSIN, RIFLE)
+	mezat.wave2 = _wave(ASSASSIN, KNIFE)
 	mezat.reward = HEALTH
 	add_child(mezat)
-	_terrain(3200, 3350, 30)
 
-	# --- 3. Kayıkhane: kısa su açıklığı, tekne kirişi -----------------------------
-	_terrain(3350, 3800, 0)
+	# --- 3. Kayıkhane: kızaktaki teknelerin bakım iskelesi, iki kat ---------------
+	# Su açıklığı yerine kızak: tekne kerestesi yığınından bakım iskelesine çıkılır,
+	# üst hat tabancaya kadar kesintisiz; altta kalkanlı ve iskele altında bıçakçı.
+	_terrain(3350, 10300, 0)
 	_checkpoint(3400, 0)
-	_canal(3800, 4000, 110)
-	_scaffold(3900, -20, 220)
-	_terrain(4000, 10300, 0)
+	_crates(3720, 2, 1)
+	_scaffold(3980, -170, 180)
+	_coin_line(3920, 3, 60, -215)
+	_enemy(KNIFE, 3990, 0)
 	_crates(4150, 1, 1)
 	_scaffold(4310, -150, 130)
 	_scaffold(4460, -260, 130)
