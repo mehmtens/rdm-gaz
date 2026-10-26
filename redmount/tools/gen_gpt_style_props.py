@@ -15,7 +15,7 @@ fener,fener_hale,asma_lamba,on_kolon,on_kolon_bas,on_kolon_kaide,on_sarmasik,zin
 diken,alev_izgara,kablo,bomba,bomba_ikaz,alev,kivilcim,patlama,
 tugla,sivali_tugla,ic_duvar,hatil,ic_pencere,fabrika_pencere,cephe_pencereleri,kat_silmesi,saldiri_uyari,dukkan,tavan,han_kapisi,
 pres,pres_kol,ray,su_govde,su_yuzey,anten,kule_ayak,kule_kulube,ahsap_kat,
-kalkan,kalkan_kirik,sancak,catlak,kiymik}.png
+kalkan,kalkan_kirik,sancak,catlak,kiymik,depo_rafi,baca_tahta}.png
 ve assets/pickups/placeholder_rifle.png
 Oyunda 2x NEAREST ölçeklenir (1 sanat pikseli = 2 ekran pikseli).
 """
@@ -2215,6 +2215,173 @@ def make_kiymik(rnd):
     return strip_frames(frames)
 
 
+
+def make_depo_rafi(rnd):
+    """Depo rafı (20×90, dikey döşenir; iç mekân resmindeki baca kulesinin duvarı): ahşap
+    dikmeler, beş raf tahtası (18 piksel aralık: raflar dolu okunsun), raflarda çuval, demir köşeli kasa, defter yığını, pirinç
+    kavanoz. Arka pano koyu dikey tahta; ışık sol üstten, sağ dikmede ay parlaması.
+    Üst/alt kenarda kontur yok: üst üste döşenince dikiş görünmesin."""
+    w, h = 20, 90
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    item = [[False] * h for _ in range(w)]
+    # Arka pano: 5 piksellik dikey tahtalar, aralarında derin oluk.
+    for y in range(h):
+        for x in range(3, 17):
+            lv = 0.03 if (x - 3) % 5 == 4 else 0.09 + 0.05 * ((x - 3) % 5 == 0)
+            px[x, y] = pick(WOOD, lv, rnd, 0.35) + (255,)
+    # Dikmeler: sol ışıkta, sağ gölgede; dış kenarda kontur / ay kenarı.
+    for y in range(h):
+        px[0, y] = OUTLINE
+        px[1, y] = pick(WOOD, 0.72, rnd, 0.4) + (255,)
+        px[2, y] = pick(WOOD, 0.42, rnd, 0.4) + (255,)
+        px[17, y] = pick(WOOD, 0.22, rnd, 0.3) + (255,)
+        px[18, y] = mix(pick(WOOD, 0.3, rnd, 0.3), MOON, 0.45) + (255,)
+        px[19, y] = OUTLINE
+        if y % 18 == 8:
+            px[1, y] = IRON[6] + (255,)  # dikme cıvatası
+            px[2, y] = IRON[3] + (255,)
+    for shelf in range(5):
+        base = shelf * 18 + 15   # raf tahtasının üst yüzü
+        # Raf tahtası: üst yüz sıcak ışık, ön yüz orta, altta pano üstüne AO.
+        for x in range(1, 19):
+            px[x, base] = pick(WOOD, 0.82 if x < 12 else 0.6, rnd, 0.4) + (255,)
+            px[x, base + 1] = pick(WOOD, 0.36, rnd, 0.4) + (255,)
+            px[x, base + 2] = OUTLINE
+            if 3 <= x <= 16 and base + 3 < h:
+                px[x, base + 3] = pick(WOOD, 0.01, rnd, 0.1) + (255,)
+        px[18, base] = mix(px[18, base][:3], MOON, 0.5) + (255,)
+        x = 3
+        while x < 16:
+            # Rafın ilk eşyası rafa göre sabit (kasa, defter, çuval...): tekrar kırılır.
+            kind = [0.45, 0.75, 0.1, 0.5, 0.8][shelf] if x == 3 else rnd.random()
+            room = 16 - x
+            if kind < 0.3 and room >= 6:
+                # Çuval: yuvarlak gövde, bağlı boyun, sol üstten ışık.
+                cw = min(rnd.choice((6, 7)), room)
+                ch = rnd.randrange(9, 13)
+                for bx in range(cw):
+                    for by in range(ch):
+                        u = (bx + 0.5) / cw * 2 - 1
+                        v = by / ch
+                        if by == 0 and abs(u) > 0.4:
+                            continue  # bağlı ağız
+                        if (by == 1 or v > 0.88) and abs(u) > 0.75:
+                            continue  # yuvarlak omuz / taban
+                        lv = light(u) * (0.75 + 0.25 * (1 - v)) - (0.15 if by == ch - 1 else 0)
+                        if by == 1 and abs(u) <= 0.4:
+                            c = pick(HEMP, 0.75, rnd, 0.3)  # ip
+                        else:
+                            c = pick(BURLAP, lv, rnd, 0.5)
+                        X, Y = x + bx, base - ch + by
+                        px[X, Y] = c + (255,)
+                        item[X][Y] = True
+                x += cw
+            elif kind < 0.6 and room >= 5:
+                # Kasa: tahta kapak, demir köşe, üstüne bazen defter.
+                cw = min(rnd.choice((5, 6, 7)), room)
+                ch = rnd.randrange(7, 12)
+                for bx in range(cw):
+                    for by in range(ch):
+                        lv = 0.55 - bx / cw * 0.35
+                        if by == 0:
+                            lv += 0.25
+                        if by == ch // 2:
+                            lv = 0.08  # tahta eki
+                        c = pick(WOOD, lv, rnd, 0.45)
+                        if (bx in (0, cw - 1)) and (by in (0, ch - 1)):
+                            c = IRON[5] if bx == 0 else IRON[2]
+                        X, Y = x + bx, base - ch + by
+                        px[X, Y] = c + (255,)
+                        item[X][Y] = True
+                if rnd.random() < 0.5 and ch < 10:
+                    ramp = [BOOK_RED, BOOK_TEAL, CREAM][rnd.randrange(3)]
+                    for bx in range(1, cw - 1):
+                        for by in range(2):
+                            X, Y = x + bx, base - ch - 2 + by
+                            px[X, Y] = pick(ramp, 0.62 if by == 0 else 0.32, rnd, 0.3) + (255,)
+                            item[X][Y] = True
+                x += cw
+            elif kind < 0.9 and room >= 5:
+                # Defter yığını: yatay ciltler, sırtlarda yaldız.
+                cw = min(rnd.choice((5, 6)), room)
+                layers = rnd.randrange(4, 9)
+                y0 = base - 1
+                for i in range(layers):
+                    ramp = [BOOK_RED, BOOK_TEAL, CREAM, WOOD][rnd.randrange(4)]
+                    off = rnd.choice((0, 0, 1))
+                    for bx in range(off, min(cw, cw - 1 + off)):
+                        lv = 0.6 if i == layers - 1 else 0.38
+                        if bx == off:
+                            lv += 0.2
+                        X, Y = x + bx, y0 - i
+                        px[X, Y] = pick(ramp, lv, rnd, 0.3) + (255,)
+                        item[X][Y] = True
+                x += cw
+            elif room >= 3 and rnd.random() < 0.4:
+                # Pirinç kavanoz: koyu kapak, sol kenarda tek parlama.
+                for bx in range(3):
+                    for by in range(5):
+                        X, Y = x + bx, base - 5 + by
+                        if by == 0:
+                            c = IRON[3 if bx == 0 else 2]
+                        else:
+                            c = pick(BRASS, 0.55 if bx == 0 else 0.3 if bx == 1 else 0.12, rnd, 0.3)
+                        px[X, Y] = c + (255,)
+                        item[X][Y] = True
+                x += 4
+            elif room >= 2:
+                # Dik cilt sırtları: dar boşluğu doldurur.
+                for bx in range(min(room, rnd.choice((2, 3)))):
+                    ramp = [BOOK_RED, BOOK_TEAL, CREAM, WOOD][rnd.randrange(4)]
+                    bh = rnd.randrange(5, 9)
+                    for by in range(bh):
+                        lv = (0.55 if bx == 0 else 0.32) + (0.25 if by == 1 else 0.0)
+                        X, Y = x + bx, base - bh + by
+                        px[X, Y] = pick(ramp, lv, rnd, 0.3) + (255,)
+                        item[X][Y] = True
+                x += 3
+            else:
+                x += 1
+    # Eşyaların panoyla sınırında tek piksel koyu mor kontur.
+    edge = []
+    for y in range(h):
+        for x in range(3, 17):
+            if item[x][y]:
+                continue
+            for nx, ny in ((x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)):
+                if 0 <= nx < w and 0 <= ny < h and item[nx][ny]:
+                    edge.append((x, y))
+                    break
+    for x, y in edge:
+        if y % 18 not in (15, 16):
+            px[x, y] = OUTLINE
+    return img
+
+
+def make_baca_tahta(rnd):
+    """Baca içi tahta pano (24×32, döşenir; iç mekân resmindeki baca kulesinin içi):
+    is kararmış dikey tahtalar, derin oluk, çivi, bir yatay kuşak; sol kenarda soluk
+    sıcak sızıntı ışığı."""
+    w, h = 24, 32
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    for y in range(h):
+        for x in range(w):
+            k = x % 6
+            lv = 0.02 if k == 5 else 0.1 + (0.06 if k == 0 else 0.0)
+            if 20 <= y <= 22:
+                lv = {20: 0.3, 21: 0.18, 22: 0.05}[y]  # kuşak
+            px[x, y] = pick(WOOD, lv, rnd, 0.12) + (255,)
+    for x in range(0, w, 6):
+        px[x + 2, 21] = IRON[5] + (255,)
+        px[x + 2, 4] = IRON[3] + (255,)
+    for y in range(h):
+        if rnd.random() < 0.18:
+            px[1, y] = pick(ORANGE, 0.35, rnd, 0.3) + (255,)
+    return img
+
+
 def main():
     rnd = random.Random(7)
     make_varil(rnd).save(OUT + "varil.png")
@@ -2271,6 +2438,8 @@ def main():
     make_tufek_ikon(random.Random(197)).save("assets/pickups/placeholder_rifle.png")
     make_catlak(random.Random(199)).save(OUT + "catlak.png")
     make_kiymik(random.Random(211)).save(OUT + "kiymik.png")
+    make_depo_rafi(random.Random(239)).save(OUT + "depo_rafi.png")
+    make_baca_tahta(random.Random(241)).save(OUT + "baca_tahta.png")
 
 
 if __name__ == "__main__":

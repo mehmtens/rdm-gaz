@@ -53,6 +53,36 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-10-26 (32) — Baca kulesi verici odası ve gemi ambarında ahşap depo rafı (birikim)
+
+**Neden şimdi:** Bölüm 33 denetiminin bulgusu, birikimin en üstü. Kandilli verici odası
+resminin ortasında 260 px'lik koyu gri, `ic_duvar` dokusu ızgara gibi tekrar eden düz bir sütun
+duruyordu (otomatik gizli baca). Resmin her yeri ahşap, pirinç ve raf; taş-gri kule yapıştırılmış
+gibiydi.
+
+**Ölçüm:** 36 bölümde 18 baca; sekizi iç mekân resmi aralığında. Hepsini tek tek çektim: sarnıç
+(15), külhan (19), su kemeri ve taş salon (24), kale (35) resimlerine taş kule zaten uyuyor;
+Bölüm 26'daki açık rıhtım. Taşın yabancı durduğu yalnız iki resim: verici odası/kasa ambarı (33)
+ve gemi kablo ambarı (36). Bu yüzden kural "iç mekân → ahşap" değil, bölüm başına seçim.
+
+**Oyuncu ne hissedecek:** Verici odasında ve gemi ambarında tırmanılan kule, odanın kendi
+eşyasından bir raf dolabı: rafta çuval, demir köşeli kasa, defter yığını, pirinç kavanoz;
+içi is kararmış tahta. Gizli tırmanış yolu aynı, sahne bütün.
+
+**Yapılanlar:** `tools/gen_gpt_style_props.py`: `make_depo_rafi` (20×90: ahşap dikmeler, beş
+raf, rafın ilk eşyası rafa göre sabit → tekrar kırılır; sol üst sıcak ışık, sağ dikmede ay
+kenarı, eşya sınırında koyu mor kontur, üst/alt kenar konturu yok → dikişsiz dikey döşeme) ve
+`make_baca_tahta` (24×32). Diğer bütün çıktılar bire bir aynı üretildi. `DtmLevel.chimney_rack`
+(varsayılan false): duvar `A_RACK` (altta hatıl tahtası), iç `A_SHAFT_WOOD`, tepe çatı yerine
+ahşap kat. Bölüm 33 ve 36'da açık. Yan düzeltme: `tests/capture_level.gd` bekleme sırasında da
+hikâye sahnelerini atlıyor (ışınlanınca tetiklenen sahne çekimi örtüyordu).
+
+**Testler:** import temiz; DTM GAPS PASS; 36 sahne smoke çıkış 0; bot Bölüm 1 (8604), 13 (9559),
+33 (9757), 36 (16256) CLEARED. Görsel: sekiz bacanın hepsi 1280×720; 33 ve 36 yeni hâliyle, 15
+taş hâliyle ve 33 yakın çekim — raf eşyası resmin kendi raflarıyla aynı aileden, "ait".
+
+**Sonraki öneri:** Birikimin kalanı insan testine bağlı → yeni denetim (Bölüm 22).
+
 ### 2026-10-26 (31) — Tasarım denetimi (Bölüm 33) + kesilen son savuruşta silah kırılır
 
 **Neden şimdi:** Birikimin kalanı insan testine bağlı → denetim. Bölüm 33 (Vaniköy → Kandilli)
@@ -68,15 +98,17 @@ yok, dayanıklılık kararları (son vuruşu neye harcayayım) anlamlı.
 savuruşuysa `_drop_weapon()` çağırır. Yeni `tests/weapon_break_cancel.tscn` (eski kodda FAIL,
 yeni kodda PASS; kullanımı kalan silah kesilince elde kalır).
 
-**Diğer bulgular:** Kandilli kablo kapısında anten 4× ölçekte (1 sanat pikseli = 4 ekran pikseli)
-— piksel yoğunluğu kuralına aykırı, stil listesine eklendi (öncelik 0, sıradaki tur). İyi
-çalışanlar: Vaniköy yalı resmi, YÜKLEME KİLERİ tabelası, iskele set-piece'i, verici odası resmi.
+**Diğer bulgular:** Kandilli kablo kapısındaki koyu gri sütun otomatik baca kulesi (birikime).
+(Önce anteni 4× ölçek yüzünden yoğunluk ihlali sandım; ölçünce ChatGPT arka planlarının ekrandaki
+sanat pikseli ~10 ekran pikseli, proplar 3× — 4× bu aralıkta, ayrı ihlal değil; stil listesine
+eklenmedi.) İyi çalışanlar: Vaniköy yalı resmi, YÜKLEME KİLERİ tabelası, iskele set-piece'i,
+verici odası resmi.
 
 **Testler:** import temiz; WEAPON BREAK CANCEL, NEW MELEE WEAPONS, KALDIRIM TASI, DTM GAPS PASS;
 move_progression çıkış 0; 36 sahne smoke çıkış 0; bot Bölüm 1 (8605), 13 (9560), 25 (10160),
 33 (9760) CLEARED.
 
-**Sonraki öneri:** Stil listesi 7 — piksel yoğunluğu (2×'ten farklı ölçeklenen sanat).
+**Sonraki öneri:** Birikim — iç mekân resmi önündeki otomatik baca kulesi.
 
 ### 2026-10-26 (30) — Tasarım denetimi (Bölüm 10) + nişancılar üst üste yığılmaz
 

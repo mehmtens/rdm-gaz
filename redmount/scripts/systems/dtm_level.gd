@@ -58,6 +58,9 @@ const PIX_IN_WINDOW := preload("res://assets/environment/pixel/ic_pencere.png")
 const PIX_FG_VINE := preload("res://assets/environment/pixel/on_sarmasik.png")
 const PIX_CHAIN := preload("res://assets/environment/pixel/zincir.png")
 const PIX_ANTENNA := preload("res://assets/environment/pixel/anten.png")
+## İç mekân resmindeki baca kulesi: depo rafı duvarı (20×90) ve is kararmış tahta içi (24×32).
+const PIX_RACK := preload("res://assets/environment/pixel/depo_rafi.png")
+const PIX_SHAFT_WOOD := preload("res://assets/environment/pixel/baca_tahta.png")
 const NICHE := preload("res://assets/environment/kit/wall_niche.png")
 ## Vagon: 400 px genişlik; gövde üstü yerden 140 px (tekerlekler altta).
 const WAGON_W := 400.0
@@ -108,6 +111,10 @@ var back_tint := Color(0.34, 0.36, 0.5)
 var back_row_on := false
 ## Arka sıra evlerin çizilmediği dünya x aralıkları (iç mekân / yeraltı): [[x0, x1], ...]
 var back_row_skip: Array = []
+## Baca kuleleri depo rafı + tahta baca olarak çizilsin (ambar/verici odası/gemi ambarı
+## resimleri). Varsayılan taş kule: sarnıç, külhan, kale gibi taş resimlere o uyuyor
+## (26 Ekim, 18 bacanın sekizi iç mekân resminde; yalnız Bölüm 33 ve 36'da taş yabancıydı).
+var chimney_rack := false
 var zoom_level := 1.12
 ## İç mekânların sıva arka duvarı. Boyalı arka planı zaten iç mekân olan bölümler
 ## false verir: katlar, kirişler, cephe kalır; arkada boyalı resim görünür.
@@ -628,15 +635,16 @@ func _interior(x0: float, x1: float, top: float, floors: Array, style := 0) -> v
 func _chimney(cx: float, top: float, gap := 140.0, passage := 150.0, reward: PackedScene = null) -> void:
 	var wall := 60.0
 	var h := -passage - top
+	var indoor := chimney_rack
 	for side in [-1.0, 1.0]:
 		var left: float = cx - gap * 0.5 - wall if side < 0.0 else cx + gap * 0.5
 		var body := _solid_box(left, top, wall, h)
-		body.add_child(_Art.new(_Art.A_STONES, Vector2(wall, h)))
-	var inside := _Art.new(_Art.A_SHAFT, Vector2(gap, -top))
+		body.add_child(_Art.new(_Art.A_RACK if indoor else _Art.A_STONES, Vector2(wall, h)))
+	var inside := _Art.new(_Art.A_SHAFT_WOOD if indoor else _Art.A_SHAFT, Vector2(gap, -top))
 	inside.position = Vector2(cx, top * 0.5)
 	inside.z_index = -8
 	add_child(inside)
-	_oneway_art(cx, top, gap + wall * 2.0 + 10.0, _Art.A_ROOFLINE)
+	_oneway_art(cx, top, gap + wall * 2.0 + 10.0, _Art.A_FLOOR if indoor else _Art.A_ROOFLINE)
 	_coin_line(cx - 20.0, 2, 40, top + 60.0)
 	_coin_line(cx - 20.0, 2, 40, (top - passage) * 0.5)
 	if reward != null:
@@ -885,7 +893,7 @@ func _spawn_backdrop() -> void:
 # --- Çizim sınıfları ------------------------------------------------------------
 
 class _Art extends Node2D:
-	enum { A_TERRAIN, A_HOUSE, A_BUILDING, A_CRATES, A_SCAFFOLD, A_BALCONY, A_ROOF, A_WALL_STRIP, A_ROOM, A_GATE, A_STALL, A_WATER, A_SANDBAG, A_TOWER, A_WAGON, A_RAILS, A_FACTORY, A_PRESS_FRAME, A_CEILING, A_PLANK, A_STONES, A_INTERIOR, A_FLOOR, A_ROOFLINE, A_SHAFT }
+	enum { A_TERRAIN, A_HOUSE, A_BUILDING, A_CRATES, A_SCAFFOLD, A_BALCONY, A_ROOF, A_WALL_STRIP, A_ROOM, A_GATE, A_STALL, A_WATER, A_SANDBAG, A_TOWER, A_WAGON, A_RAILS, A_FACTORY, A_PRESS_FRAME, A_CEILING, A_PLANK, A_STONES, A_INTERIOR, A_FLOOR, A_ROOFLINE, A_SHAFT, A_RACK, A_SHAFT_WOOD }
 	var kind: int
 	var size: Vector2
 	var tex: Texture2D
@@ -1135,10 +1143,17 @@ class _Art extends Node2D:
 				_tiled(PIX_FLOOR, Rect2(-hw, -2.0, size.x, PIX_FLOOR.get_height() * PX))
 			A_ROOFLINE:
 				draw_texture_rect(ROOF_SLAB, Rect2(-hw - 6.0, -14.0, size.x + 12.0, 34.0), false)
-			A_SHAFT:
-				_tiled(PIX_INWALL, Rect2(-hw, -hh, size.x, size.y), Color(0.34, 0.3, 0.32))
+			A_SHAFT, A_SHAFT_WOOD:
+				if kind == A_SHAFT:
+					_tiled(PIX_INWALL, Rect2(-hw, -hh, size.x, size.y), Color(0.34, 0.3, 0.32))
+				else:
+					_tiled(PIX_SHAFT_WOOD, Rect2(-hw, -hh, size.x, size.y))
 				var cs := PIX_CHAIN.get_size() * PX
 				_tiled(PIX_CHAIN, Rect2(-cs.x * 0.5, -hh + 20.0, cs.x, size.y * 0.55), Color(0.7, 0.7, 0.75))
+			A_RACK:
+				# Raf dikmeleri yukarıdan döşenir; altta kemerin üstüne hatıl tahtası.
+				_tiled(PIX_RACK, Rect2(-hw, -hh, size.x, size.y))
+				_tiled(PIX_FLOOR, Rect2(-hw, hh - PIX_FLOOR.get_height() * PX, size.x, PIX_FLOOR.get_height() * PX))
 			A_GATE:
 				# Piksel art kemerli han kapısı (86x100 sanat, 3x).
 				draw_texture_rect(PIX_GATE, Rect2(-hw, -hh, size.x, size.y), false)

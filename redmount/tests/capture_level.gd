@@ -36,6 +36,9 @@ func _ready() -> void:
 		var extra := OS.get_environment("REDMOUNT_SHOT_WAIT").to_int()
 		for i in 30 + extra:
 			await get_tree().physics_frame
+			# Işınlanınca tetiklenen hikâye sahnesi de çekimi örtmesin.
+			if Cutscene.active != null:
+				Cutscene.active._skip = true
 		await RenderingServer.frame_post_draw
 		get_viewport().get_texture().get_image().save_png(folder.path_join("%s.png" % f[0]))
 	get_tree().quit()

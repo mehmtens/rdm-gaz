@@ -23,6 +23,7 @@ func _build() -> void:
 	sky_tint = Color(0.86, 0.86, 0.96)
 	sky_shade = Color(0.03, 0.03, 0.08)
 	back_row_skip = [[2150.0, 18500.0]]
+	chimney_rack = true  # gemi kablo ambarı resmi: taş kule yabancı
 	_night(Color(0.76, 0.78, 0.94))
 
 	# --- 1. Kıyı iskeleleri ----------------------------------------------------

@@ -18,6 +18,7 @@ func _build() -> void:
 	sky_tint = Color(0.86, 0.86, 0.96)
 	sky_shade = Color(0.03, 0.03, 0.08)
 	back_row_skip = [[1450.0, 2150.0], [7300.0, 9400.0]]
+	chimney_rack = true  # verici odası / kasa ambarı resmi: taş kule yabancı
 	_night(Color(0.74, 0.76, 0.94))
 
 	# --- 1. Vaniköy iskelesi -----------------------------------------------------
