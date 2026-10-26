@@ -118,7 +118,10 @@ func _build() -> void:
 	final.floor_y = 0
 	final.wave1 = _wave(RIFLE, KNIFE, STREET)
 	final.wave2 = _wave(ELITE)
+	# Son dalga: ara sahnede kapıları kapattıran Yüzbaşı Demir, tüfekli korumasıyla.
 	final.wave3 = _wave(ELITE, RIFLE)
+	final.named_title = "YÜZBAŞI DEMİR"
+	final.named_wave = 3
 	final.reward = HEALTH
 	add_child(final)
 	_lantern(9000)

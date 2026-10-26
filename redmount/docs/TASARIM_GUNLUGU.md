@@ -7,6 +7,15 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- Adlı rakipler: ara sahnede adıyla konuşan düşmanlardan (KABADAYI, KOMİSER RIFAT, MAKİNİST
+  CEMİL, KASAP RIZA, BİNBAŞI KAYA, SUR AĞASI, ZIRHLI USTABAŞI, MUHAFIZ BAŞI, BIÇAKÇI, PUSUCU KEMAL)
+  hangileri dövüşte sıradan düşman olarak çıkıyor, bölüm bölüm kontrol edilsin; dövüşülenlere
+  `BattleArena.named_title/named_wave` verilsin (Bölüm 4'te Yüzbaşı Demir'le başlandı). Bölüm
+  başına bir adlı rakip; can katı rakibin rolüne göre (yardımcı 1,8, bölüm sonu 2,5).
+- Yüzbaşı Demir'in görünümü sıradan Seçkin Muhafızla aynı (yalnız ad + can çubuğu ayırıyor).
+  İnsan testinde karıştırılırsa ChatGPT tarzında kasket/apolet aksesuarı (palet takası değil).
+- Bot, Bölüm 4 kule köprüsünde (x≈6926, y≈−290) pencereli koşuda bir kez 54 sn takıldı (başsız
+  üç koşuda yok). Botun kuleden tüfekliye tırmanma mantığı; oyun hatası değil, bot güncellenebilir.
 - Bölüm 22 bakım şaftı arenası (x≈7700–8300; Seçkin+Bombacı, sonra Seçkin+Kalkanlı+Tüfekli):
   bot iki koşuda 115 → 6 can ve 2 yeniden doğma. Kaba yapay zekâ olabilir; insan testinde ölüm
   sayısı 2'yi geçerse ikinci dalgadan Tüfekli çıkarılsın (Seçkin zaten menzilli).
@@ -55,6 +64,41 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (34) — Tasarım denetimi (Bölüm 4) + Yüzbaşı Demir adlı rakip olarak dövüşür
+
+**Neden şimdi:** Birikimin kalanı insan testine bağlı → denetim (tur 33'ün önerisi). Bölüm 4
+(Silahlı Kontrol Bölgesi) pencereli bot koşusu: CLEARED 9310, 107 sn, 2 yeniden doğma, 18 kare.
+En somut bulgu bir set-piece kaybı: ara sahnede bölümün kötüsü Yüzbaşı Demir "Kapıları kapatın!"
+diye arenaya yürüyor, ama dövüşte isimsiz, can çubuksuz sıradan bir Seçkin Muhafız; üstelik
+ikinci ve üçüncü dalgada aynı görünümlü iki "Demir" çıkıyor, oyuncu hangisini yendiğini bilmiyor.
+DTM'de bölümün adlı rakibi ad + can çubuğuyla bölümün doruğudur. Yan bulgu: masaüstü HUD'u zırhı
+"Zırh: Zırh 3/6" diye iki kez yazıyordu.
+
+**Oyuncu ne hissedecek:** Üçüncü dalgada Demir, tüfekli korumasıyla gelir; ekranın altında
+"YÜZBAŞI DEMİR" can çubuğu açılır. Daha dayanıklı, daha sık bloklar ("Kalkanımı geçemeyen…"),
+kolay yere düşmez; onu yenmek bölümün kapanış anı olur.
+
+**Yapılanlar:** `EnemyBase.make_named(ad, can katı)`: ayarın kopyası boss olur (HUD can çubuğu
+ve adı mevcut `_register_arena_enemy` yoluyla gelir), can × kat, skor × 3, blok ≥ 0,4, yere düşme
+eşiği ≥ 25, itme direnci ≥ 0,5. `BattleArena.named_title / named_wave / named_health_mult`
+(varsayılan boş → eski davranış): o dalganın ilk düşmanı adlı rakip olur. Bölüm 4 son arena:
+`named_wave = 3`. HUD zırh satırı "Zırh  3/6 · hasar -%50 · hız -%15" (silah satırıyla aynı
+biçim). Sayı gerekçesi: Seçkin 40 can × 2,5 = 100 — Bölüm 24'ün ana vana muhafızı (180) ile
+sokak serserisi arasında, Kitap 1'in dördüncü bölümüne uygun; blok 0,25 → 0,4 Demir'in "kalkan"
+repliğini oynanışa taşır. Hipotez: insan testinde Demir'le dövüş 25–40 sn sürmeli.
+Yeni `tests/named_foe.tscn` (ad, can 100, ikinci düşman sıradan, ortak `.tres` değişmedi).
+
+**Diğer bulgular:** Diğer adlı rakipler, Demir'in görünümü ve botun kule takılması birikime.
+İyi çalışanlar: tepeden gözlem açılışı, kum torbası siperleri, kule köprüsü, kontrol kulesi
+resmi, SINIR KANTİNİ.
+
+**Testler:** import temiz; NAMED FOE, ARENA PURSUER, DTM GAPS, ARENA RESPAWN, TELEGRAPH MARK
+PASS; 36 sahne smoke çıkış 0; bot Bölüm 4 başsız iki koşu (9307, 9310) CLEARED, pencereli koşu
+CLEARED 9308 ama kule köprüsünde 54 sn takılma (bot; birikimde); Bölüm 1 (8604), 13 (9559),
+25 (10155) CLEARED. Görsel: son arenada "YÜZBAŞI DEMİR" çubuğu altta, dalga rozetiyle çakışmıyor.
+
+**Sonraki öneri:** Birikim — adlı rakiplerin taraması.
 
 ### 2026-10-26 (33) — Tasarım denetimi (Bölüm 22) + kapı dışında kalan takipçi arenaya alınır
 

@@ -1123,6 +1123,20 @@ func is_dead() -> bool:
 	return _state == State.DEAD
 
 
+## Ara sahnede tanıtılan adlı rakip (Yüzbaşı Demir gibi): ayarın kopyası boss olur
+## (HUD'da adıyla can çubuğu, sıra beklemeden saldırır), canı `health_mult` katı,
+## daha sık bloklar ve kolay yere düşmez. Sahneye eklenmeden önce çağrılmalı.
+func make_named(title: String, health_mult: float) -> void:
+	config = config.duplicate() if config != null else EnemyConfig.new()
+	config.display_name = title
+	config.is_boss = true
+	config.max_health = int(roundf(config.max_health * health_mult))
+	config.score_value *= 3
+	config.block_chance = maxf(config.block_chance, 0.4)
+	config.knockdown_damage_threshold = maxi(config.knockdown_damage_threshold, 25)
+	config.knockback_resist = maxf(config.knockback_resist, 0.5)
+
+
 ## Oyuncuyu fark edip çatışmaya girdi mi (boşta/devriyede ya da ölü değil)?
 ## Kilitli arena kapı dışında kalan takipçileri bununla içeri alır.
 func is_engaged() -> bool:

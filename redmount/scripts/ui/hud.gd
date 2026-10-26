@@ -350,7 +350,7 @@ func set_ammo(mag: int, reserve: int, has_gun: bool, label := "") -> void:
 
 func set_armor(display_name: String, hp: int, max_hp: int) -> void:
 	_armor.text = ("ZIRH %d/%d" % [hp, max_hp] if TouchControls.active_on_device() else
-		"Zırh: %s %d/%d · hasar -%%50 · hız -%%15" % [display_name, hp, max_hp]) if not display_name.is_empty() else ""
+		"%s  %d/%d · hasar -%%50 · hız -%%15" % [display_name, hp, max_hp]) if not display_name.is_empty() else ""
 
 
 func set_powerups(active: Array) -> void:

@@ -36,6 +36,11 @@ signal wave_changed(wave: int, total: int, remaining: int)
 @export var wave_delay: float = 0.9
 ## Temizlenince düşecek ödül (opsiyonel — HealthPickup / Coin vb).
 @export var reward: PackedScene
+## Adlı rakip: `named_wave` (1 tabanlı) dalgasının ilk düşmanı bu adla boss olur
+## (HUD can çubuğu + ad, canı `named_health_mult` katı). Boşsa yok.
+@export var named_title: String = ""
+@export var named_wave: int = 0
+@export var named_health_mult: float = 2.5
 
 var _active := false
 var _done := false
@@ -203,6 +208,8 @@ func _spawn_wave() -> void:
 		var frac := (float(i) + 0.5) / float(n)
 		var x := lerpf(gate_left_x + 80.0, gate_right_x - 80.0, frac)
 		e.global_position = Vector2(x, floor_y - 24.0)
+		if i == 0 and _wave_idx == named_wave and named_title != "" and e is EnemyBase:
+			(e as EnemyBase).make_named(named_title, named_health_mult)
 		get_parent().add_child(e)
 		if e.has_signal(&"defeated"):
 			e.defeated.connect(_on_enemy_down)
