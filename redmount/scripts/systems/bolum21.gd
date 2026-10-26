@@ -114,10 +114,8 @@ func _build() -> void:
 	buro.reward = AMMO
 	add_child(buro)
 
-	# --- 7. Tartıhane: son açıklık, kayıt izi ----------------------------------
+	# --- 7. Tartıhane: kayıt izi --------------------------------------------------
 	_checkpoint(8450, 0)
-	_canal(8600, 8800, 110)
-	_scaffold(8700, -20, 220)
 	_interior(8900, 9260, -230, [-115.0], 1)
 	_stones(8950, 1, 1)
 	_pickup(HEALTH, 9220, -160)

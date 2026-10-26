@@ -95,10 +95,8 @@ func _build() -> void:
 	_enemy(BRUISER, 8550, 0)
 	_pickup(HEALTH, 8700, -45)
 
-	# --- 6. Ölçüm salonu: kısa kanal, gösterge nöbeti ---------------------------
+	# --- 6. Ölçüm salonu: gösterge nöbeti ----------------------------------------
 	_checkpoint(8850, 0)
-	_canal(9000, 9200, 110)
-	_scaffold(9100, -20, 220)
 	_interior(9300, 9900, -345, [], 0)
 	_stones(9350, 1, 1)
 	_stones(9440, 1, 2)
@@ -116,10 +114,8 @@ func _build() -> void:
 	_enemy(ASSASSIN, 10900, 0)
 	_story(11180, _sahne_merdiven)
 
-	# --- 8. Kemer üst yolu: açıklık, revak savaşı --------------------------------
+	# --- 8. Kemer üst yolu: revak savaşı -----------------------------------------
 	_checkpoint(11300, 0)
-	_canal(11450, 11650, 110)
-	_scaffold(11550, -20, 220)
 	_moving(11800, -230, Vector2(300, 0), 140, 0.0)
 	_scaffold(12220, -230, 120)
 	_pickup(RIFLE_PICKUP, 12220, -275)
@@ -138,10 +134,14 @@ func _build() -> void:
 	a9.reward = ARMOR
 	add_child(a9)
 
-	# --- 10. Komuta arşivi: son açıklık, anahtar ipucu ----------------------------
+	# --- 10. Komuta arşivi: dağıtım haznesinde çürük kapak tahtaları, anahtar ipucu --
+	# Hazne suyunun (arkada savaklar) üstünde sağlam plank yerine eski kapak tahtaları:
+	# basınca çöker, durmadan geçilir; düşen çıkış taşından çıkar.
 	_checkpoint(13600, 0)
-	_canal(13750, 13950, 110)
-	_scaffold(13850, -20, 220)
+	_canal(13750, 14000, 110)
+	_terrain(13950, 14000, 55)  # çıkış taşı
+	for cx in [13815.0, 13940.0]:
+		_collapse(cx, -20.0, 125)
 	_interior(14050, 14650, -230, [-115.0], 1)
 	_story(14150, _sahne_arsiv)
 	_enemy(ASSASSIN, 14400, 0)

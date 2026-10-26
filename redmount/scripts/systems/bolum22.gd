@@ -112,10 +112,8 @@ func _build() -> void:
 	saft.reward = HEALTH
 	add_child(saft)
 
-	# --- 7. Kontrol odası: son açıklık, kapatma çizelgesi ------------------------
+	# --- 7. Kontrol odası: kapatma çizelgesi -------------------------------------
 	_checkpoint(8450, 0)
-	_canal(8600, 8800, 110)
-	_scaffold(8700, -20, 220)
 	_interior(8900, 9280, -230, [-115.0], 0)
 	_story(9000, _sahne_cizelge)
 	_enemy(ELITE, 9150, 0)

@@ -112,10 +112,8 @@ func _build() -> void:
 	bak.reward = HEALTH
 	add_child(bak)
 
-	# --- 7. Kontrol masası: son açıklık, üst hat ipucu ---------------------------
+	# --- 7. Kontrol masası: üst hat ipucu ----------------------------------------
 	_checkpoint(8450, 0)
-	_canal(8600, 8800, 110)
-	_scaffold(8700, -20, 220)
 	_interior(8900, 9280, -230, [-115.0], 1)
 	_story(9000, _sahne_masa)
 	_enemy(ASSASSIN, 9150, 0)

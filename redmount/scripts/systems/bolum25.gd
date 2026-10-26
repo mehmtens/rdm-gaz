@@ -119,8 +119,6 @@ func _build() -> void:
 
 	# --- 7. Dağıtım deposu: sandık içi cephane, seçkin nöbetçi --------------------
 	_checkpoint(8300, 0)
-	_canal(8450, 8650, 110)
-	_scaffold(8550, -20, 220)
 	_prop("sandik", 8850, 0, AMMO)
 	_crates(9000, 1, 1)
 	_crates(9090, 1, 2)

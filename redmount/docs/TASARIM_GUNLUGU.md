@@ -36,11 +36,9 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   insan testinde ölüm hâlâ yığılıyorsa mahzene (x≈8900) simit.
 - Bölüm 19 külhan finali (tur 45): Külhanbeyi bire bir + iki alev bacası; bot 4 koşunun 2'sinde
   bir kez öldü. İnsan testinde finalde ölüm 1'i geçerse alev hasarı 12 → 8 ya da tek baca.
-- Orta kesimlerde "200 px kanal + tam üstünde 220 px sağlam plank" kalıbı (tur 60 taraması):
-  Yapılan: 14 (tur 61), 15 (tur 62), 16 (tur 63), 17–20 (tur 64). Kalan: 21–23 (8600), 24 (9000, 11450, 13750), 25 (8450), 29 (5300). Kanal
-  oynanışta yok, plank üstünden yürünüyor. Bölüm başına bir tur; yere göre: açık atlama
-  (çıkış taşı ŞART: `_terrain(x1-50, x1, 55)`), çürük tahta, palet, ayak taşı ya da kanalı
-  tamamen kaldırma. 13'ün ilk açıklığı (kayıkçı iskelesi), 35 ve 36 kasıtlı köprü.
+- Final yeniden doğmaları (bot, tur 64–65 ölçümü; değişiklik öncesi sürümlerle aynı): Bölüm 19
+  külhan finali 1–2, 21 gece iskelesi finali 0–2, 22 finali 0–2. Birikimdeki 19 maddesiyle
+  birlikte insan testinde ölçülsün.
 - Bölüm 27 kablo koridoru (x≈7300–7500) ve final: bot 5 koşunun 4'ünde 1–2 yeniden doğma (tur 59,
   değişiklik öncesi de 2). İnsan testinde ölüm yığılırsa koridor arenasına simit.
 - Bölüm 24 finali (kule terası, x≈17600–18100): bot 4 koşunun 4'ünde de 2 yeniden doğma (tur 57;
@@ -82,6 +80,38 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (65) — Orta kesim kanal kalıbı kapandı: 21–25 ve 29'da kuru kanallar kalktı, 24 haznesinde çürük kapak
+
+**Neden şimdi:** Tur 64 önerisi; maddenin son grubu. Ekran görüntüleri (tek sayfada 8 nokta):
+tartıhane (21), pompa istasyonu ofisi (22), Saraçhane plan ofisi (23), ölçüm salonu ve kemer
+üst yolu (24), matbaa dağıtım deposu (25), Kuzguncuk bahçe duvarı sokağı (29) — hiçbiri suya
+ait değil. Tek istisna Bölüm 24'ün komuta arşivi önündeki dağıtım haznesi: arkada savaklar
+ve akan su var.
+
+**Oyuncu ne hissedecek:** Odaların ve sokakların ortasında anlamsız su şeridi yok. Bozdoğan
+finalinde hazne suyunun üstünde sağlam plank yerine iki eski kapak tahtası: basınca çöküyor,
+durmadan geçiliyor, çıkış taşı var.
+
+**Yapılanlar:** 21, 22, 23, 25, 29 ve 24'ün 9000/11450 kanalları silindi (29'da bölünmüş zemin
+birleştirildi); 24 haznesi 250 px + iki çürük tahta + çıkış taşı; bölüm başlıklarındaki "son
+açıklık/kısa kanal" ifadeleri düzeltildi.
+
+**Tur 64 düzeltmesi:** Tur 64 kaydında yeniden doğma sayıları yazılmamıştı: 19'da 2 ve 4, 20'de
+1 vardı. Değişiklik öncesi Bölüm 19 iki koşu: 2 ve 2 (hepsi külhan finalinde x≈9550–9700) —
+kanal kaldırmayla ilgisiz.
+
+**Testler:** import temiz; 36 sahne smoke çıkış 0; DTM GAPS PASS; bot başsız ikişer koşu hepsi
+CLEARED: 21 (89,9 / 86,4 sn; yeniden doğma 2/2 — öncesi 2/0, final), 22 (78,1 / 72,5; 0/2),
+23 (95,3 / 100,6; 0/0), 24 (204,8 / 208,5; 2/2 — öncesi de 2, final terası), 25 (87,1 / 76,8;
+1/0), 29 (83,5 / 76,8; 0/0). Görsel 1280×720: 24 haznesi — "ait".
+
+**Madde kapandı:** kanal + sağlam plank kalıbı artık yalnız kasıtlı üç yerde (13 kayıkçı
+iskelesinin ilk açıklığı, 35 Göksu köprüsü, 36 kayıkhane kızağı).
+
+**Sonraki öneri:** Tur 61'deki bulgu genellenebilir: yerden 125 px'ten yüksek ve altında basamak
+olmayan ödüller (Bölüm 14 tabancası gibi). Seviye verisinden otomatik erişilebilirlik
+taraması (test) yazılabilir.
 
 ### 2026-10-26 (64) — Bölüm 17–20 orta kesimlerinde iç mekân kanalları kalktı
 

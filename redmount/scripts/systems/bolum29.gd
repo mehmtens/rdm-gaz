@@ -21,7 +21,7 @@ func _build() -> void:
 	_night(Color(0.76, 0.78, 0.94))
 
 	# --- 1. Sessiz mahalle: sarmaşıklı bahçe duvarları ---------------------------
-	_terrain(-400, 5300, 0)
+	_terrain(-400, 9250, 0)
 	_story(-1.0, _sahne_mahalle, 240.0)
 	for x in [300, 1000]:
 		_lantern(float(x))
@@ -73,9 +73,6 @@ func _build() -> void:
 
 	# --- 5. Rıhtım: kayıklar, vinç paleti ---------------------------------------
 	_checkpoint(5150, 0)
-	_canal(5300, 5500, 110)
-	_scaffold(5400, -20, 220)
-	_terrain(5500, 9250, 0)
 	_crates(5600, 1, 1)
 	_scaffold(5760, -150, 120)
 	_moving(5950, -240, Vector2(300, 0), 140, 0.0)
