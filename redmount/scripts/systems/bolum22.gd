@@ -1,7 +1,7 @@
 ## Bölüm 22 — Aksaray Pompa İstasyonu (Kitap 2 / "Haliç'in İzi", 10. bölüm).
 ##
-## Kemal Bey'in verdiği adres: Aksaray eski pompa istasyonu. Sokak -> istasyon
-## avlusu (arena) -> filtre salonu (kanal, taş raf) -> vana galerisi (boru rafı,
+## Kemal Bey'in verdiği adres: Aksaray eski pompa istasyonu. Sokak -> kömür
+## rampası (bombacı) -> filtre salonu (kuru havuz, boru köprüsü) -> vana galerisi (boru rafı,
 ## arena, erzak) -> pompa salonu (presler gibi işleyen pistonlar, makine rafı) ->
 ## bakım şaftı (arena) -> kontrol odası (kapatma çizelgesi) -> tahliye avlusu (kopuk
 ## kablo). Sahte yardımın yükü değiştirilmiş yedek vanalar: şafakta Saraçhane ana
@@ -31,33 +31,36 @@ func _build() -> void:
 	for x in [300, 1400]:
 		_lantern(float(x))
 
-	# --- 2. İstasyon avlusu: sığ iniş, iki dalga -------------------------------
+	# --- 2. İstasyon önü: kömür rampası, rampada bombacı (kilitsiz) ---------------
+	# Kitap 2'nin ortak çukur avlu arenası yerine kapısız bir yaklaşma kavgası: istasyonun
+	# kömür rampası sokaktan iki basamak yukarıda, bombacı rampadan aşağı atıyor. Rampanın
+	# üstündeki yük iskelesinde cephane; rampanın öbür ucundan avluya inilir.
 	_checkpoint(1550, 0)
-	_terrain(1700, 1850, 30)
-	_terrain(1850, 3200, 60)
+	_terrain(1700, 2200, 0)
+	_terrain(2200, 2290, -45)
+	_terrain(2290, 2900, -90)
+	_terrain(2900, 3350, 0)
 	_lantern(1950)
 	_lantern(3050)
-	var avlu: BattleArena = ARENA.instantiate()
-	avlu.position = Vector2(2500, 60)
-	avlu.gate_left_x = 2050
-	avlu.gate_right_x = 2950
-	avlu.floor_y = 60
-	avlu.wave1 = _wave(STREET, KNIFE, STREET)
-	avlu.wave2 = _wave(SHIELD, ASSASSIN)
-	avlu.reward = AMMO
-	add_child(avlu)
-	_terrain(3200, 3350, 30)
+	_enemy(STREET, 1950, 0)
+	_enemy(KNIFE, 2100, 0)
+	_enemy(BOMBER, 2700, -90)
+	_scaffold(2560, -205, 160)
+	_pickup(AMMO, 2560, -250)
+	_coin_line(2350, 4, 60, -135)
+	_enemy(ASSASSIN, 3150, 0)
 
-	# --- 3. Filtre salonu: kısa kanal, yüksek taş raf ---------------------------
-	_terrain(3350, 3800, 0)
+	# --- 3. Filtre salonu: kuru çökeltme havuzu, üstte boru köprüsü ---------------
+	# İki yol: üstteki boru köprüsünde tabanca (güvenli, hızlı), havuzun dibinde
+	# kalkanlı ve altın dizisi (riskli). Havuz basamaklı; ölüm yok.
+	_terrain(3350, 3750, 0)
 	_checkpoint(3400, 0)
-	_canal(3800, 4000, 110)
-	_scaffold(3900, -20, 220)
-	_terrain(4000, 10300, 0)
-	_stones(4150, 1, 1)
-	_stones(4240, 1, 2)
-	_pickup(PISTOL, 4285, -225)
-	_enemy(SHIELD, 4550, 0)
+	_basin(3750, 4250, 90, 80.0)
+	_terrain(4250, 10300, 0)
+	_scaffold(4000, -70, 300)
+	_pickup(PISTOL, 4000, -115)
+	_enemy(SHIELD, 4000, 90)
+	_coin_line(3880, 5, 60, 45)
 
 	# --- 4. Vana galerisi: menzilli savunma, boru rafı, arena, erzak ------------
 	_checkpoint(4750, 0)

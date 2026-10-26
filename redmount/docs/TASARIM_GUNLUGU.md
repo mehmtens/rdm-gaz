@@ -40,8 +40,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   basamak, 1850–3200 arası 60 px çukur avlu arenası, 3350 kontrol noktası, 3800'de 200 px'lik
   kanal + üstte 220 px iskele, 4750 kontrol noktası; 18–23'te devamı da aynı (galeri+erzak →
   salon → arena → 200 px kanal → küçük oda → 9300–9350 final). Bölüm başına bir tur, yere özgü
-  yeniden düzen. Yapılan: 19 (tur 47, açılış), 23 (tur 48, açılış). Sıradaki: 22, 21, 20, 18,
-  sonra 13–17, 24, 25.
+  yeniden düzen. Yapılan: 19 (tur 47, açılış), 23 (tur 48, açılış), 22 (tur 49, açılış).
+  Sıradaki: 21, 20, 18, sonra 13–17, 24, 25.
 
 - Ön sıra katı evler yalnız 6 bölümde (1, 2, 3, 27, 29, 34; çoğu Kitap 1 Balat — yerine uygun).
   27/29/34'teki 2–3 ev insan testinde yere yabancı görünürse o bölüme özgü cephe çizilmeli
@@ -78,6 +78,29 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (49) — Bölüm 22 açılışı yere özgü: kömür rampasında bombacı, kuru filtre havuzu
+
+**Neden şimdi:** Kitap 2 iskeleti maddesinde sıradaki bölüm. Aksaray da aynı çukur avlu arenası
++ 200 px kanal açılışını taşıyordu.
+
+**Oyuncu ne hissedecek:** İstasyon önünde kilitli arena yok: sokaktan iki basamakla çıkılan
+kömür rampasında bombacı aşağı atıyor, altta sokak serserisi + bıçakçı yaklaşıyor — oyuncu
+rampaya tırmanıp bombacıyı düşürmeyi seçiyor (kapalı kutu yerine akan kavga; bölüm 4 → 3 arena).
+Rampanın üstündeki yük iskelesinde cephane (eski arena ödülü), rampadan inince suikastçı.
+Filtre salonunda kanal yerine 500 px'lik boşaltılmış çökeltme havuzu: üstte boru köprüsünde
+tabanca (güvenli yol), havuzun dibinde kalkanlı + 5 altın (riskli yol). Arkadaki su
+kanallarının devamı gibi duruyor.
+
+**Yapılanlar:** `bolum22.gd` bölüm 2–3. İlk denemede havuz 120 px derindi: kamera alt sınırı
+açılmadan teleport çekiminde dip ekranın altında kaldı → 90 px (derin-kesim eşiği 110'un altı,
+kamera hiç oynamıyor, dip ve kalkanlı tam görünür). Rampa 90 px (zıplama ~125).
+
+**Testler:** import temiz; 36 sahne smoke çıkış 0; DTM GAPS PASS; Bölüm 22 bot başsız 3 koşu
+CLEARED (77,5 sn 2 ölüm; 68,5 sn 0 ölüm; üçüncü 0 ölüm). Ölümler dokunulmayan bakım şaftı/final
+kesiminde; açılış bota ~10 can kaybettiriyor. Görsel 1280×720: rampa, havuz, köprü — "ait".
+
+**Sonraki öneri:** Kitap 2 iskeletinde Bölüm 21.
 
 ### 2026-10-26 (48) — Bölüm 23 açılışı yere özgü: yükseltilmiş çeşme avlusu, su terazisi kulesi
 
