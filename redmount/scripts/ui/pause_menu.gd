@@ -50,6 +50,7 @@ func open() -> void:
 	_refresh_armory_coins(GameState.coins)
 	refresh_costume()
 	_first_btn.grab_focus()
+	Save.set_armory_seen()  # HUD'daki cephanelik ipucu artık gerekmiyor
 
 
 func close() -> void:

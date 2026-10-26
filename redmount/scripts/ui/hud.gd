@@ -310,10 +310,8 @@ func _tick_danger(delta: float) -> void:
 
 
 func set_weapon(display_name: String, uses: int, max_uses: int) -> void:
-	if display_name.is_empty():
-		_weapon.text = "YUMRUK" if TouchControls.active_on_device() else "Silah: Yumruk"
-	else:
-		_weapon.text = ("%s  %d/%d" if TouchControls.active_on_device() else "Silah: %s  (%d/%d)") % [display_name, uses, max_uses]
+	# Yumruk varsayılan, yazmaya gerek yok; silah kısa biçimde (dokunmatikle aynı).
+	_weapon.text = "" if display_name.is_empty() else "%s  %d/%d" % [display_name, uses, max_uses]
 
 
 ## `label` boşsa "MERMİ". Tek atımlık fırlatılan silah (TAŞ) toplam adet gösterir.
@@ -628,8 +626,9 @@ func hide_results() -> void:
 
 
 func _on_coins_changed(total: int) -> void:
-	_coins.text = ("COIN  %03d" if TouchControls.active_on_device() or GameState.level_index == 0 else
-		"COIN  %d  ·  ESC: CEPHANELİK") % total
+	# Cephanelik ipucu yalnız oyuncu duraklatmayı bir kez açana kadar (Bölüm 1'de hiç).
+	var hint := not TouchControls.active_on_device() and GameState.level_index != 0 and not Save.armory_seen
+	_coins.text = ("COIN  %d  ·  ESC: CEPHANELİK" if hint else "COIN  %03d") % total
 	_coin_bump = 1.0
 
 

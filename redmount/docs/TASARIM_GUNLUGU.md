@@ -7,9 +7,6 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- **[Denetim 26 Ekim]** HUD metin kalabalığı: `COIN 32 · ESC: CEPHANELİK` + `Silah: Yumruk` her
-  karede düz yazı; ESC ipucu ilk iki bölümden sonra (ya da cephanelik bir kez açılınca) gizlensin,
-  silah satırı ikon + sayıya insin. Ölçüt: HUD'daki sabit karakter sayısı ~45 → ~15.
 - **[Denetim 26 Ekim]** Bölüm 7'deki uzun tuğla cephe (`dtm_level._interior`, stil 0): aynı pencere
   ızgarası 4×6 tekrar ediyor, ChatGPT arka planının yanında şablon gibi duruyor. Pencere çeşitlemesi
   (kepenk, kırık cam, ışıklı/karanlık, saksı), kat silmesi ve alt katta dükkân. Ölçüt: aynı pencere
@@ -43,6 +40,25 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (15) — HUD sadeleştirme: öğrenilen ipucu gizlenir, yumruk yazılmaz (birikim/denetim)
+
+**Neden şimdi:** Denetimin birikime yazdığı en üst madde. Masaüstü HUD'u her karede
+`COIN 32 · ESC: CEPHANELİK` ve `Silah: Yumruk` yazıyordu — ayrıntılı arka plan üstünde okunması
+gereken iki satır düz metin, ikisi de bilgisi çoktan öğrenilmiş şeyler.
+
+**Oyuncu ne hissedecek:** Sol üstte yalnız can çubuğu ve `COIN 032`; silah alınca kısa `Sopa 8/10`.
+Cephanelik ipucu oyuncu duraklatmayı bir kez açana kadar (Bölüm 2'den itibaren) durur, sonra
+kaybolur — DTM'nin ipucu bir kez öğretip geri çekilme tavrı.
+
+**Yapılanlar:** `Save.armory_seen` (`[hints] armory_seen`, eski kayıtta false, `wipe()` sıfırlar,
+`set_armory_seen()`); `PauseMenu.open()` bayrağı yazar; `hud.gd` ipucu koşulu ve kısa silah
+satırı (yumrukken boş; ad `to_upper` edilmez — Türkçe i/İ bozuluyordu). Ölçüt: sabit HUD metni
+~38 → 8 karakter (silahsız).
+
+**Testler:** import temiz; 36 sahne smoke çıkış 0; DTM GAPS PASS; yeni `tests/hud_hints.tscn` PASS; bot Bölüm 1 (8604), 13 (9559), 25 (10157) CLEARED. Görsel: Bölüm 7 HUD 1280×720 — ipucu ilk kez görünüyor, silah satırı boş, çakışma yok.
+
+**Sonraki öneri:** Birikim — Bölüm 7 tuğla cephe çeşitlemesi.
 
 ### 2026-10-26 (14) — Tasarım denetimi (Bölüm 7) + düşük can uyarısı
 

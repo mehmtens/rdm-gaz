@@ -51,6 +51,9 @@ var daily_best_streak: int = 0
 var master_volume_db: float = 0.0
 ## Telefonda dokunma/isabet titreşimi (eski kayıtlarda yok → açık).
 var vibration: bool = true
+## Oyuncu duraklatma/cephaneliği bir kez açtı mı: HUD'daki "ESC: CEPHANELİK" ipucu
+## öğrenildikten sonra gizlenir (eski kayıtta yok → false).
+var armory_seen: bool = false
 ## Satın alınan mağaza ürün id'leri.
 var purchased: Array = []
 ## Kalıcı kademeli geliştirmeler: ürün id -> kademe.
@@ -109,6 +112,7 @@ func load_game() -> void:
 		save_game()
 	master_volume_db = float(cfg.get_value("settings", "master_volume_db", 0.0))
 	vibration = bool(cfg.get_value("settings", "vibration", true))
+	armory_seen = bool(cfg.get_value("hints", "armory_seen", false))
 	_apply_volume()
 
 
@@ -134,6 +138,7 @@ func save_game() -> void:
 	cfg.set_value("shop", "costume", costume)
 	cfg.set_value("settings", "master_volume_db", master_volume_db)
 	cfg.set_value("settings", "vibration", vibration)
+	cfg.set_value("hints", "armory_seen", armory_seen)
 	var error := cfg.save(_path)
 	if error != OK:
 		push_error("Oyun kaydı yazılamadı: %s (%d)" % [_path, error])
@@ -340,8 +345,16 @@ func set_vibration(on: bool) -> void:
 	save_game()
 
 
+func set_armory_seen() -> void:
+	if armory_seen:
+		return
+	armory_seen = true
+	save_game()
+
+
 func wipe() -> void:
 	unlocked_level = 0
+	armory_seen = false
 	total_coins = 0
 	best_scores = {}
 	secrets = {}
