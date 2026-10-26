@@ -36,6 +36,10 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   insan testinde ölüm hâlâ yığılıyorsa mahzene (x≈8900) simit.
 - Bölüm 19 külhan finali (tur 45): Külhanbeyi bire bir + iki alev bacası; bot 4 koşunun 2'sinde
   bir kez öldü. İnsan testinde finalde ölüm 1'i geçerse alev hasarı 12 → 8 ya da tek baca.
+- "Tüfekli tünek" kalıbı (tur 66 taraması): `_crates(x,1,1)` + `_crates(x+90,1,2)` + 270 px'lik
+  −180 set + üstünde tüfekli, 11 bölümde birebir aynı: 13, 14, 15, 16, 17, 18, 20 (taş
+  bloklu), 21, 23, 24, 36. Bölüm başına bir tur, yerin malzemesi ve hikâyesiyle: kule, balkon,
+  vinç kabini, çatı saçağı, yük rampası; tüfeklinin konumu/dalgası değişebilir.
 - Final yeniden doğmaları (bot, tur 64–65 ölçümü; değişiklik öncesi sürümlerle aynı): Bölüm 19
   külhan finali 1–2, 21 gece iskelesi finali 0–2, 22 finali 0–2. Birikimdeki 19 maddesiyle
   birlikte insan testinde ölçülsün.
@@ -80,6 +84,19 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (66) — Düzeltme (tur 61) + yeni kalıp taraması: tüfekli tünek
+
+**Düzeltme:** Tur 61'de "Bölüm 14 tabancası (−195) pratikte alınamıyordu" yazdım; yanlış.
+Oyuncu gövdesi 112 px (`Redmount.tscn` body 38×112), zıplama ~125 → zirvede gövde üstü
+≈ −237; ödül toplama yarıçapı 24 (`PickupBase.tscn`). Tabanca ayakta zıplayarak alınabiliyordu;
+erişilemeyen yalnız iskelenin kendisiydi (−150). Eklenen taş seki zararsız (iskele artık
+kullanılıyor) ama gerekçe abartılıydı. Aynı nedenle tur 65'te önerdiğim "ödül erişilebilirlik
+taraması" düşürüldü: bu ölçülerle zeminden ~260 px'e kadar her ödül alınabiliyor.
+
+**Yeni tarama:** orta kesimlerde ikinci bir birebir kalıp bulundu — 90+180 sandık basamağından
+270 px'lik −180 sete çıkılan, setin üstünde tüfekli duran "tünek". 11 bölümde aynı sıra ve
+ölçülerle (birikime yazıldı). Kod değişikliği yok; yalnız belge.
 
 ### 2026-10-26 (65) — Orta kesim kanal kalıbı kapandı: 21–25 ve 29'da kuru kanallar kalktı, 24 haznesinde çürük kapak
 
