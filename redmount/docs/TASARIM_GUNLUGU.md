@@ -36,10 +36,12 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   insan testinde ölüm hâlâ yığılıyorsa mahzene (x≈8900) simit.
 - Bölüm 19 külhan finali (tur 45): Külhanbeyi bire bir + iki alev bacası; bot 4 koşunun 2'sinde
   bir kez öldü. İnsan testinde finalde ölüm 1'i geçerse alev hasarı 12 → 8 ya da tek baca.
-- "Tüfekli tünek" kalıbı (tur 66 taraması): `_crates(x,1,1)` + `_crates(x+90,1,2)` + 270 px'lik
-  −180 set + üstünde tüfekli, 11 bölümde birebir aynı: 13, 14, 15, 16, 17, 18, 20 (taş
-  bloklu), 21, 23, 24, 36. Bölüm başına bir tur, yerin malzemesi ve hikâyesiyle: kule, balkon,
-  vinç kabini, çatı saçağı, yük rampası; tüfeklinin konumu/dalgası değişebilir.
+- Bölüm 36 tüfekli tüneği (mavna rampası, x 4030–4400) hâlâ kaldırım bloğu: sandık yığınına
+  (4 sütun × 2) çevrilince bot yeniden doğmaları tutarlı biçimde arttı (eski 3/3/3, yeni
+  5/6/5/6; ölümler tüneğin uzağında, pistonlar x≈5770–6670 ve finalde). Gizli alan yerleşimi
+  ve bot zemin verisi iki sürümde aynı; neden bulunamadı, değişiklik geri alındı (tur 67).
+  Sandık/taş yığınının oyuncu-düşman etkileşimindeki farkı (ör. tüfekli görüş hattı, geri
+  itilme) ayrı deney sahnesinde incelenmeli.
 - Final yeniden doğmaları (bot, tur 64–65 ölçümü; değişiklik öncesi sürümlerle aynı): Bölüm 19
   külhan finali 1–2, 21 gece iskelesi finali 0–2, 22 finali 0–2. Birikimdeki 19 maddesiyle
   birlikte insan testinde ölçülsün.
@@ -84,6 +86,36 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (67) — Tüfekli tünekler yerin malzemesinde (10 bölüm)
+
+**Neden şimdi:** Tur 66'da birikime yazılan kalıp. 11 noktanın ekran görüntüleri tek sayfada:
+−180 set her yerde aynı arnavut kaldırımlı toprak blok olarak çiziliyordu — bakırcı dükkânında,
+pompa dairesinde, kâğıt imalathanesinde de. Malzeme yerle çelişiyor ve 11 bölümde aynı
+siluet kalıbı ele veriyordu.
+
+**Oyuncu ne hissedecek:** Tünek artık yerin parçası ve her yerde aynı değil:
+- sandık yığını (katı): 13 kapan depoları, 21 dış rıhtım, 24 kemer altı pazarı;
+- taş blok (katı): 14 Cibali, 17 posta cephesi, 20 Samatya taş deposu;
+- tek yön bakım iskelesi: 15 Zeyrek galerisi, 16 kâğıt kurutma, 23 pompa dairesi — tüfeklinin
+  altından geçilebiliyor ve alttan zıplanıp iskeleye çıkılabiliyor (yeni yaklaşım seçeneği);
+- dükkân üst kat balkonu (tek yön): 18 bakırcılar.
+
+**Yapılanlar:** her bölümde `_terrain(a, b, -180)` yerine `_crates/_stones(a, n, 2)` (n =
+ceil(genişlik/90), en çok 4) ya da `_scaffold/_balcony(orta, -180, genişlik)`; tüfekli,
+sandık basamakları ve sonraki hareketli platformlar aynı yerde.
+
+**Geri alınan:** Bölüm 36 (mavna rampası) sandık yığınına çevrildiğinde bot yeniden doğmaları
+tutarlı arttı (eski 3/3/3, yeni 5/6/5/6), ölümler tüneğin uzağında. Gizli alan yerleşimi
+(geçici sonda sahnesiyle karşılaştırıldı) ve botun zemin verisi aynı; neden bulunamadı →
+36 eski haline döndü, birikimde açık iş.
+
+**Testler:** import temiz; 36 sahne smoke çıkış 0; DTM GAPS PASS; bot başsız CLEARED: 13 (80,3 sn,
+0), 14 (97,9; 0), 15 (97,7 / 98,6; 0/0), 16 (73,7 / 75,1; 0/0), 17 (82,7; 0), 18 (91,6; 0), 20
+(96,3; 1), 21 (83,8; 1), 23 (89,9 / 95,1; 0/0), 24 (194,1; 2 — öncesi de 2). Görsel: 11
+noktanın önce/sonra çekim sayfası — "ait".
+
+**Sonraki öneri:** Bölüm 36 tünek farkını deney sahnesinde ayırmak; ya da yeni denetim.
 
 ### 2026-10-26 (66) — Düzeltme (tur 61) + yeni kalıp taraması: tüfekli tünek
 

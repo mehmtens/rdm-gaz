@@ -26,7 +26,8 @@ func _build() -> void:
 	_enemy(STREET, 700, 0)
 	_crates(900, 1, 1)
 	_crates(990, 1, 2)
-	_terrain(1080, 1400, -180)
+	## Tüfekli tünek malzemesi yere göre: tüfekli taş blok setin üstünde.
+	_stones(1080, 4, 2)
 	_enemy(RIFLE, 1300, -180)
 	_pickup(ARMOR, 1150, -225)
 	_coin_line(1110, 4, 60, -230)

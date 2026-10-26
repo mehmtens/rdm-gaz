@@ -72,7 +72,8 @@ func _build() -> void:
 	_checkpoint(4800, 0)
 	_crates(5000, 1, 1)
 	_crates(5090, 1, 2)
-	_terrain(5180, 5500, -180)
+	## Tüfekli tünek malzemesi yere göre: Kapan depoları: tüfekli çuval/sandık yığınının üstünde.
+	_crates(5180, 4, 2)
 	_enemy(RIFLE, 5420, -180)
 	_coin_line(5220, 4, 60, -230)
 	_prop("kasa", 5650)

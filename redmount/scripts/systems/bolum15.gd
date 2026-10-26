@@ -72,7 +72,8 @@ func _build() -> void:
 	_terrain(6400, 9900, 0)
 	_crates(4650, 1, 1)
 	_crates(4740, 1, 2)
-	_terrain(4830, 5150, -180)
+	## Tüfekli tünek malzemesi yere göre: tüfekli bakım iskelesinde (tek yön: altından geçilir, alttan çıkılır).
+	_scaffold(4990, -180, 320)
 	_enemy(RIFLE, 5080, -180)
 	_moving(5250, -200, Vector2(260, 0), 130, 0.0)
 	_scaffold(5650, -200, 120)

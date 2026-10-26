@@ -79,7 +79,8 @@ func _build() -> void:
 	_checkpoint(4750, 0)
 	_stones(4880, 1, 1)
 	_stones(4970, 1, 2)
-	_terrain(5060, 5300, -180)
+	## Tüfekli tünek malzemesi yere göre: tüfekli taş blok setin üstünde.
+	_stones(5060, 3, 2)
 	_enemy(RIFLE, 5240, -180)
 	_pickup(RIFLE_PICKUP, 5100, -225)
 	# Depo kapısında nöbet: kilitsiz, tüfekli yukarıdan destekler.

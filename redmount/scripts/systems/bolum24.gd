@@ -49,7 +49,8 @@ func _build() -> void:
 	_enemy(KNIFE, 3830, 0)
 	_crates(3950, 1, 1)
 	_crates(4040, 1, 2)
-	_terrain(4130, 4400, -180)
+	## Tüfekli tünek malzemesi yere göre: tüfekli fıçı/sandık yığınının üstünde.
+	_crates(4130, 3, 2)
 	_enemy(RIFLE, 4350, -180)
 	_enemy(BOMBER, 4600, 0)
 	var shop: LevelShop = SHOP.new()

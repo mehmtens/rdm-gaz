@@ -63,7 +63,8 @@ func _build() -> void:
 	_checkpoint(4750, 0)
 	_crates(4880, 1, 1)
 	_crates(4970, 1, 2)
-	_terrain(5060, 5300, -180)
+	## Tüfekli tünek malzemesi yere göre: tüfekli boru dairesinin bakım iskelesinde (tek yön).
+	_scaffold(5180, -180, 240)
 	_enemy(RIFLE, 5240, -180)
 	_pickup(RIFLE_PICKUP, 5100, -225)
 	# Basınç galerisi: gösterge rafındaki tüfekli + kapı nöbeti; kilitsiz.

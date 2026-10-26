@@ -68,7 +68,8 @@ func _build() -> void:
 	_checkpoint(4750, 0)
 	_crates(4880, 1, 1)
 	_crates(4970, 1, 2)
-	_terrain(5060, 5300, -180)
+	## Tüfekli tünek malzemesi yere göre: tüfekli yük sandıklarının üstünde.
+	_crates(5060, 3, 2)
 	_enemy(RIFLE, 5240, -180)
 	_moving(5450, -250, Vector2(260, 0), 140, 0.0)
 	_pickup(RIFLE_PICKUP, 5720, -305)

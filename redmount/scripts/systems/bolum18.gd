@@ -79,7 +79,8 @@ func _build() -> void:
 	_checkpoint(4650, 0)
 	_crates(4780, 1, 1)
 	_crates(4870, 1, 2)
-	_terrain(4960, 5200, -180)
+	## Tüfekli tünek malzemesi yere göre: tüfekli dükkânın üst kat balkonunda (tek yön).
+	_balcony(5080, -180, 240)
 	_enemy(RIFLE, 5140, -180)
 	_pickup(RIFLE_PICKUP, 5000, -225)
 	_enemy(KNIFE, 5450, 0)
