@@ -36,10 +36,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   insan testinde ölüm hâlâ yığılıyorsa mahzene (x≈8900) simit.
 - Bölüm 19 külhan finali (tur 45): Külhanbeyi bire bir + iki alev bacası; bot 4 koşunun 2'sinde
   bir kez öldü. İnsan testinde finalde ölüm 1'i geçerse alev hasarı 12 → 8 ya da tek baca.
-- Kanal + üstünde sağlam plank kalıbı (tur 58 Kitap 3 taraması): kanalın tam üstüne 220 px
-  tahta serili, oynanışta engel değil. Yapılan: 32 (tur 58, çürük iskele). Kalan: 35 (x 1600,
-  dış sur öncesi), 36 (x 1800). Ayrıca Bölüm 27 köprübaşı hâlâ 60 px çukur meydan (orta
-  iskeleli, kısmen özgün) — sonra.
+- Bölüm 27 kablo koridoru (x≈7300–7500) ve final: bot 5 koşunun 4'ünde 1–2 yeniden doğma (tur 59,
+  değişiklik öncesi de 2). İnsan testinde ölüm yığılırsa koridor arenasına simit.
 - Bölüm 24 finali (kule terası, x≈17600–18100): bot 4 koşunun 4'ünde de 2 yeniden doğma (tur 57;
   değişiklikten önceki sürümde de aynı). İnsan testinde final ölümü 1'i geçerse son kontrol
   noktası önüne simit ya da Ana Vana Muhafızı'nın yardımcı dalgası hafifletilsin.
@@ -79,6 +77,30 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (59) — Bölüm 27 köprübaşı sokak hizasında; Kitap 3 plank kalıbı kapandı
+
+**Neden şimdi:** Tur 58 taramasının kalan izleri. 35 ve 36 incelendi, dokunulmadı: 35'te kesim
+"Göksu kıyısı: taş köprü" — dereyi geçen köprü kasıtlı nefes, hemen sonraki hendek zaten çürük
+tahtalı çivili çukur (yine çürük tahta tekrar olurdu); 36'da finalin açılışında kayıkhane
+kapısının altındaki kızak suyu üstünde iskele tahtası, iki kişilik kavganın ardından nefes.
+Geriye 27'nin 60 px çukur köprübaşı meydanı kaldı.
+
+**Oyuncu ne hissedecek:** Köprübaşı arenası telgraf binasının merdivenli cephesinin önünde,
+sokak hizasında. Orta iskele 50 → 100 px: eskiden çukur tabanından 110 px yüksekti, düz
+zeminde 50 px'te bank gibi kalacaktı; 100 px'te kalabalığın üstüne atlayıp inme yeri olarak
+korunuyor (zıplama ~125). Altınlar iskelenin 50 px üstünde.
+
+**Yapılanlar:** `bolum27.gd` bölüm 2; zemin 1700–3250 tek parça, `_fight(..., 0.0)`.
+
+**Testler:** import temiz; 36 sahne smoke çıkış 0; DTM GAPS PASS; Bölüm 27 bot başsız 4 koşu
+CLEARED (93,4 / 85,7 / 97,5 / 96,8 sn; yeniden doğma 2/0/1/1). Değişiklik öncesi 2 koşu: 92,7
+/ 90,1 sn, ikisinde de 2 yeniden doğma — ölümler dokunulmayan kablo koridoru (x≈7300) ve
+finalde; birikime not edildi. Görsel 1280×720: meydan — "ait".
+
+**Sonraki öneri:** Açılış iskeleti işleri bitti (Kitap 2 + 3). Yeni denetim: Kitap 1
+(1–12) bölüm sonlarında arena/final tekrarı taraması ya da birikimdeki can ekonomisi
+maddeleri için insan testi beklenir.
 
 ### 2026-10-26 (58) — Denetim (Kitap 3 iskelet taraması) + Bölüm 32 rıhtımında çürük iskele
 

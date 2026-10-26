@@ -34,14 +34,14 @@ func _build() -> void:
 	_pickup(ARMOR, 1300, -315)
 	_coin_line(1420, 3, 45, -220)
 
-	# --- 2. Köprübaşı: alçak meydanda arena (orta iskele) -----------------------
+	# --- 2. Köprübaşı: cephe önündeki meydanda arena (orta iskele) ---------------
+	# Kitap 2'nin ortak çukur avlusu yerine meydan sokak hizasında, telgraf binasının
+	# merdivenli cephesinin önünde. Orta iskele 100 px: kalabalığın üstüne atlayıp inme yeri.
 	_checkpoint(1650, 0)
-	_terrain(1700, 1850, 30)
-	_terrain(1850, 3100, 60)
-	_scaffold(2450, -50, 200)
-	_coin_line(2380, 4, 45, -100)
-	_fight(2000, 2900, _wave(STREET, KNIFE, ASSASSIN), _wave(RIFLE, BRUISER), [], AMMO, 60.0)
-	_terrain(3100, 3250, 30)
+	_terrain(1700, 3250, 0)
+	_scaffold(2450, -100, 200)
+	_coin_line(2380, 4, 45, -150)
+	_fight(2000, 2900, _wave(STREET, KNIFE, ASSASSIN), _wave(RIFLE, BRUISER), [], AMMO, 0.0)
 
 	# --- 3. Kamondo merdivenleri: basamak basamak yokuş, sahanlıkta kavga ------
 	_checkpoint(3300, 0)
