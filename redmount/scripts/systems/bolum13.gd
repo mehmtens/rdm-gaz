@@ -49,7 +49,10 @@ func _build() -> void:
 	_coin_line(2700, 6, 60, -200)
 	_prop("saksi", 3150, 90)
 
-	# --- 3. Kayıkçı iskelesi: kısa su boşlukları, sabit iskele -------------------
+	# --- 3. Kayıkçı iskelesi: önce tahtalı açıklık, sonra koşarak atlanan açıklık ---
+	# İlk açıklıkta iskele tahtası (su güvenli, dipten çıkılır); ikincisinde tahta kopmuş:
+	# 200 px koşarak atlanır (menzil ~250), altınlar atlama yayını çizer. Kitabın ilk
+	# atlaması; kaçıran ıslanıp yürür.
 	_checkpoint(3200, 90)
 	_terrain(3300, 3500, 45)
 	_terrain(3500, 3900, 0)
@@ -57,9 +60,10 @@ func _build() -> void:
 	_scaffold(4000, -20, 220)
 	_terrain(4100, 4500, 0)
 	_canal(4500, 4700, 110)
-	_scaffold(4600, -20, 220)
+	_terrain(4650, 4700, 55)  # çıkış taşı: dipten rıhtıma iki adımda
 	_coin_line(3950, 3, 50, -70)
-	_coin_line(4550, 3, 50, -70)
+	for k in 3:
+		_pickup(COIN, 4540.0 + k * 60.0, -70.0 - (40.0 if k == 1 else 0.0))
 	_enemy(SHIELD, 4300, 0)
 	_story(4250, _sahne_kayikci)
 

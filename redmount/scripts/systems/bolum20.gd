@@ -61,7 +61,8 @@ func _build() -> void:
 	_checkpoint(3400, 60)
 	_enemy(KNIFE, 3560, 60)
 	_canal(3700, 4150, 110)
-	_moving(3780, 20, Vector2(290, 0), 140, 0.0)
+	_terrain(4100, 4150, 55)  # çıkış taşı: dipten rıhtıma iki adımda
+	_moving(3780, 20, Vector2(230, 0), 140, 0.0)
 	_coin_line(3800, 5, 65, -25)
 	_scaffold(3330, -230, 140)
 	_scaffold(3560, -250, 140)

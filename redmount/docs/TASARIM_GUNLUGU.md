@@ -36,6 +36,12 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   insan testinde ölüm hâlâ yığılıyorsa mahzene (x≈8900) simit.
 - Bölüm 19 külhan finali (tur 45): Külhanbeyi bire bir + iki alev bacası; bot 4 koşunun 2'sinde
   bir kez öldü. İnsan testinde finalde ölüm 1'i geçerse alev hasarı 12 → 8 ya da tek baca.
+- Orta kesimlerde "200 px kanal + tam üstünde 220 px sağlam plank" kalıbı (tur 60 taraması):
+  14 (3900), 15 (6000, 8000), 16 (6900, 8650), 17 (7500, 8850), 18 (7450, 8700), 19 (7200,
+  8950), 20 (7550, 8700), 21–23 (8600), 24 (9000, 11450, 13750), 25 (8450), 29 (5300). Kanal
+  oynanışta yok, plank üstünden yürünüyor. Bölüm başına bir tur; yere göre: açık atlama
+  (çıkış taşı ŞART: `_terrain(x1-50, x1, 55)`), çürük tahta, palet, ayak taşı ya da kanalı
+  tamamen kaldırma. 13'ün ilk açıklığı (kayıkçı iskelesi), 35 ve 36 kasıtlı köprü.
 - Bölüm 27 kablo koridoru (x≈7300–7500) ve final: bot 5 koşunun 4'ünde 1–2 yeniden doğma (tur 59,
   değişiklik öncesi de 2). İnsan testinde ölüm yığılırsa koridor arenasına simit.
 - Bölüm 24 finali (kule terası, x≈17600–18100): bot 4 koşunun 4'ünde de 2 yeniden doğma (tur 57;
@@ -77,6 +83,30 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-10-26 (60) — Bölüm 13 kayıkçı iskelesinde ilk atlama + plank'sız sulara çıkış taşı
+
+**Neden şimdi:** Tur 59 sonrası Kitap 1 taraması temiz çıktı; ama tüm bölümlerde arama, Kitap 2
+orta kesimlerinde "kanal + üstünde sağlam plank" kalıbının 22 yerde daha durduğunu gösterdi
+(birikime yazıldı). Kitabın ilk bölümünden başlandı.
+
+**Oyuncu ne hissedecek:** Kayıkçı iskelesinde ilk açıklık tahtalı (suyun güvenli olduğunu
+gösterir), ikincisinde tahta kopmuş: 200 px koşarak atlanır, üç altın atlama yayını çizer —
+Kitap 2'nin ilk atlaması. Kaçıran ıslanır, çıkış taşından iki adımda rıhtıma çıkar.
+
+**Bulunan hata (önceki turların iddiası yanlıştı):** Tur 51 ve 55'te "dipten (110) zıplanıp
+çıkılır, zıplama ~125" yazılmıştı. Bot ilk koşuda üç kez 880 sn suda kaldı: dipten zıplayan
+oyuncu rıhtım kenarına ancak yetişip duvara yapışıyor (y≈2–10, zemin yok). `_canal`
+açıklaması zaten "çıkış için uçlara alçak taş basamak konur" diyor; Bölüm 4 ve 29 55 px'lik
+taş kullanıyor. Bu oturumda plank'sız bıraktığım dört suya da çıkış taşı eklendi: 13 (4650),
+15 (3900), 20 (4100), 32 (3100). Bölüm 20'de palet yolu 290 → 230 px kısaldı ki palet taştaki
+oyuncunun üstünden geçmesin (paletten rıhtıma 70 px atlama kaldı).
+
+**Testler:** import temiz; 36 sahne smoke çıkış 0; DTM GAPS PASS; bot başsız: Bölüm 13 3 koşu
+CLEARED (82,1 / 76,6 / 76,6 sn), 15 iki koşu (93,2 / 91,2), 20 iki koşu (93,0 / 92,1), 32 iki
+koşu (77,5 / 77,5); hepsinde yeniden doğma 0. Görsel 1280×720: 13 iskele ve su — "ait".
+
+**Sonraki öneri:** Birikimdeki orta kesim kanal maddesi: Bölüm 14 (3900).
 
 ### 2026-10-26 (59) — Bölüm 27 köprübaşı sokak hizasında; Kitap 3 plank kalıbı kapandı
 

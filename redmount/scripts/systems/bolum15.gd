@@ -56,6 +56,7 @@ func _build() -> void:
 	# başları (90 px) basamak taşı. Kaçıran ıslanır, dipte (110) yürüyüp çıkar; ölüm yok.
 	_checkpoint(3150, 0)
 	_canal(3450, 3950, 110)
+	_terrain(3900, 3950, 55)  # çıkış taşı: dipten rıhtıma iki adımda
 	_pier(3530)
 	_pier(3700)
 	_coin_line(3620, 3, 40, -150)

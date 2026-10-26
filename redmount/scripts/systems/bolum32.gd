@@ -44,6 +44,7 @@ func _build() -> void:
 	# tahta yarım saniyede çöker, durmadan koşmak gerekir; düşen ıslanır, dipten çıkar.
 	_checkpoint(2550, 0)
 	_canal(2700, 3150, 110)
+	_terrain(3100, 3150, 55)  # çıkış taşı: dipten rıhtıma iki adımda
 	for cx in [2775.0, 2925.0, 3075.0]:
 		_collapse(cx, -20.0, 145)
 	_coin_line(2760, 5, 70, -70)
