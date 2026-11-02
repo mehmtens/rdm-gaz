@@ -39,6 +39,11 @@ func _ready() -> void:
 			# Işınlanınca tetiklenen hikâye sahnesi de çekimi örtmesin.
 			if Cutscene.active != null:
 				Cutscene.active._skip = true
+		# Pencere odağı kaçınca açılan duraklat menüsü çekimi örtmesin.
+		if main._pause_menu.is_open():
+			main._pause_menu.close()
+			for i in 5:
+				await get_tree().process_frame
 		await RenderingServer.frame_post_draw
 		get_viewport().get_texture().get_image().save_png(folder.path_join("%s.png" % f[0]))
 	get_tree().quit()

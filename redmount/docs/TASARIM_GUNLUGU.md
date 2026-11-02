@@ -7,10 +7,10 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Yükseltilmiş `_terrain` setlerinin yere uygunluk taraması (tur 69): arnavut kaldırımlı toprak
-  blok kalan setler — 8 (6290, kaya çıkıntısı), 9 (6540), 10 (tepe basamakları 1700–9500),
-  12 (4500), 27 (3820), 29 (4530), 30 (4910), 31 (2940), 34 (1150). Her biri yerin resmiyle
-  yan yana çekilsin; sur/kale ise `_rampart`, depo/rıhtım ise sandık, iç mekân ise iskele.
+- Yükseltilmiş `_terrain` setlerinin yere uygunluk taraması (tur 69; tur 70'te 8, 9, 12 bitti):
+  arnavut kaldırımlı toprak blok kalan setler — 10 (tepe basamakları 1700–9500), 27 (3820),
+  29 (4530), 30 (4910), 31 (2940), 34 (1150). Her biri yerin resmiyle yan yana çekilsin;
+  sur/kale ise `_rampart`, depo/rıhtım ise sandık, iç mekân ise iskele.
 - Bölüm 35 kumanda odası presleri (x 7600, 7950): Boğaz manzaralı açık avlu resminin önünde
   kolları ekranın üstünden sarkıyor, neye asılı olduğu okunmuyor. Preslerin üstüne kiriş/vinç
   ya da bu kesime iç mekân (`_interior`) — bölüm metni "kumanda odası" diyor.
@@ -92,6 +92,35 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-02 (70) — Yükseltilmiş toprak setler yerin malzemesinde: Bölüm 8, 9, 12
+
+**Neden şimdi:** Stil listesi ve iki yol haritası kapalı; birikimin başı tur 69'un taraması.
+Dokuz bölümden yere en açık uymayan üçü bu tura alındı. Oyuncu, ChatGPT'nin kale, sarnıç ve
+yalı resimlerinin önünde arnavut kaldırımlı toprak blok yerine o yerin malzemesini görecek.
+Doğrulama: önce/sonra pencereli çekim + etkilenen üç bölümde bot.
+
+**Önce (çekim):** üçünde de 180 px'lik set, zeminin kaldırım dokusunun koyulaştırılmış
+tekrarı; arkadaki resimle hiçbir malzeme bağı yok.
+
+**Yapılan:**
+- Bölüm 9 üs duvarları (6540–6900): `_rampart` — tur 69'un moloz kumtaşı sur örgüsü; arkadaki
+  kale surunun önüne bir parçası gibi oturuyor.
+- Bölüm 8 sarnıç ikinci kanalı (6290–6500, "kaya çıkıntısı"): `_rampart` — sarnıç sütunlarının
+  taş kaidesiyle aynı sıcak taş tonunda bir ayak; Tüfekli yerinde.
+- Bölüm 12 yalı rıhtımı (4500–4720): `_crates(4500, 2, 2)` — iki sıra rıhtım yükü; genişlik
+  220 → 180 px (sandık 90 px'lik). Önündeki 1×1 sandık basamak olarak kalıyor, Tüfekli (4640)
+  yığının üstünde. Bölüm metni "iç kale" dese de bu kesimin resmi deniz kıyısı salon + iskele.
+- `tests/capture_level.gd`: pencere odağı kaçınca açılan duraklat menüsü çekimi örtüyordu;
+  çekimden önce kapatılıyor.
+
+**Testler:** import temiz (SCRIPT ERROR 0); smoke 36/36 SMOKE OK, SCRIPT ERROR 0, çıkış 0;
+DTM GAPS PASS; bot başsız Bölüm 8 CLEARED (94,2 sn; 0 yeniden doğma), Bölüm 9 CLEARED
+(119,9 sn; 0), Bölüm 12 CLEARED (87,4 sn; 4 — ikisi giriş arenası x≈2000–2700, ikisi taht
+boss'u x≈7370; değişen sette ölüm yok). Görsel: üç set de pencereli çekimde "ait".
+
+**Sonraki öneri:** Taramanın kalanı — Bölüm 10 tepe basamakları (en uzun, 1700–9500) ayrı tur;
+27, 29, 30, 31, 34 setleri birlikte.
 
 ### 2026-10-27 (69) — Denetim (Bölüm 7, 35) + Bölüm 35 sur sırtları gerçek hisar suru; smoke testi onarıldı
 

@@ -94,7 +94,7 @@ func _build() -> void:
 	# --- 5. Üs duvarları: kule tırmanışı; Gazelle surların tepesinde --------------
 	_checkpoint(6320, 0)
 	_crates(6450, 1, 1)
-	_terrain(6540, 6900, -180)
+	_rampart(6540, 6900, -180)  # üs suru
 	_enemy(KNIFE, 6750, -180)
 	_scaffold(6960, -270, 130)
 	_tower(7120, -360, 140)

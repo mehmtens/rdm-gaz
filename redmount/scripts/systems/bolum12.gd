@@ -64,7 +64,7 @@ func _build() -> void:
 	_moving(3800, -150, Vector2(0, -90), 120, 0.0)
 	_pickup(ARMOR, 3800, -330)
 	_terrain(4300, 8700, 0)
-	_terrain(4500, 4720, -180)
+	_crates(4500, 2, 2)  # rıhtım sandıkları
 	_crates(4410, 1, 1)
 	_enemy(RIFLE, 4640, -180)
 

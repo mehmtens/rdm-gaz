@@ -80,7 +80,7 @@ func _build() -> void:
 	# --- 5. İkinci kanal: kaya çıkıntılarında tüfekliler; 2. kapı -----------------
 	_checkpoint(6050, 0)
 	_crates(6200, 1, 1)
-	_terrain(6290, 6500, -180)  # kaya çıkıntısı
+	_rampart(6290, 6500, -180)  # sarnıç ayağı (moloz taş)
 	_enemy(RIFLE, 6420, -180)
 	_canal(6500, 7300, 110)
 	_terrain(7250, 7300, 55)
