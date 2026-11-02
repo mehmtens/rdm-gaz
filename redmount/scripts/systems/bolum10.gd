@@ -31,7 +31,9 @@ func _build() -> void:
 	# --- 2. Birinci burç ---------------------------------------------------------
 	_checkpoint(1500, 0)
 	_crates(1610, 1, 1)
-	_terrain(1700, 2600, -150)
+	# Burçlar kuzey surunun moloz taş örgüsü; altları düz zemin.
+	_terrain(1700, 2600, 0)
+	_rampart(1700, 2600, -150)
 	_enemy(RIFLE, 2350, -150)
 	_prop("saksi", 1900, -150)
 	_coin_line(1780, 6, 70, -200)
@@ -42,8 +44,9 @@ func _build() -> void:
 	# --- 3. İkinci burç: Gazelle'in ayna sinyali ------------------------------------
 	_scaffold(3140, -110, 120)
 	_scaffold(3140, -200, 120)
-	_terrain(3200, 3350, -200)
-	_terrain(3350, 4400, -300)
+	_terrain(3200, 4400, 0)
+	_rampart(3200, 3350, -200, true, false)
+	_rampart(3350, 4400, -300)
 	_checkpoint(3450, -300)
 	_story(3600, _sahne_ayna)
 	_enemy(KNIFE, 3900, -300)
@@ -59,7 +62,8 @@ func _build() -> void:
 	# Köprüden düşen: üçüncü burcun önündeki iskele merdiveni.
 	for k in 3:
 		_scaffold(5040, -110.0 - k * 105.0, 120)
-	_terrain(5100, 6400, -380)
+	_terrain(5100, 6400, 0)
+	_rampart(5100, 6400, -380)
 
 	# --- 5. Üçüncü burç tepesi: arena ---------------------------------------------
 	_checkpoint(5200, -380)
@@ -79,8 +83,9 @@ func _build() -> void:
 	add_child(arena)
 
 	# --- 6. Dördüncü burç: projektörlü kuleler -------------------------------------
-	_terrain(6400, 6500, -420)
-	_terrain(6500, 9500, -460)
+	_terrain(6400, 9500, 0)
+	_rampart(6400, 6500, -420, false, false)
+	_rampart(6500, 9500, -460, true, true)
 	_checkpoint(6560, -460)
 	_tower(6900, -560, 110)
 	_enemy(RIFLE, 6900, -560)

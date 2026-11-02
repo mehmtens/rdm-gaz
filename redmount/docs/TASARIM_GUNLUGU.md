@@ -7,9 +7,9 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Yükseltilmiş `_terrain` setlerinin yere uygunluk taraması (tur 69; tur 70–72'de 8, 9, 12,
-  29, 30, 31, 27 bitti): kalan — 10 (tepe basamakları 1700–9500). Bölüm 34 yokuş basamakları (650–1360) bilinçli olarak kaldırımda
-  bırakıldı: sokak merdiveni, zemin malzemesiyle süreklilik doğru.
+- Yükseltilmiş set taraması kapandı (tur 69–73): 8, 9, 10, 12, 27, 29, 30, 31 yerin malzemesinde;
+  Bölüm 34 yokuş basamakları bilinçli olarak kaldırımda (sokak merdiveni). İnsan testinde uzun
+  sur yüzeylerinde (Bölüm 10, 3000 px) taş tekrarı göze batarsa sıra boyu/kırık taş çeşidi artırılsın.
 - Bölüm 35 kumanda odası presleri (x 7600, 7950): Boğaz manzaralı açık avlu resminin önünde
   kolları ekranın üstünden sarkıyor, neye asılı olduğu okunmuyor. Preslerin üstüne kiriş/vinç
   ya da bu kesime iç mekân (`_interior`) — bölüm metni "kumanda odası" diyor.
@@ -91,6 +91,26 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-02 (73) — Bölüm 10 Kuzey Surları burçları sur örgüsünde (tarama kapandı)
+
+**Neden şimdi:** Yükseltilmiş set taramasının son maddesi. Bölüm "burçtan burca tırmanış";
+dört burç (−150, −200/−300, −380, −420/−460) arnavut kaldırımlı toprak bloktu, arkası ChatGPT'nin
+kale resmi. Oyuncu artık kalenin kendi surlarına tırmandığını görecek.
+
+**Yapılan:** Dört burç `_rampart` (iç basamaklarda yaslanan köşe taşları kapalı); toprak
+bloklar 520 px aşağı iniyordu, sur gövdesi 0'da bittiği için her burcun altına `_terrain(…, 0)`.
+Otomatik baca katı gövdenin altına düşmez (`_chimney_spot_free` yerden yüksek gövdeyi eler);
+çekimlerde de yok.
+
+**Testler:** import temiz; smoke 36/36 SMOKE OK, SCRIPT ERROR 0, çıkış 0; DTM GAPS PASS; bot
+başsız Bölüm 10 iki koşu CLEARED (114,2 / 114,4 sn; 2 / 2 yeniden doğma — x≈776 giriş ve
+x≈7005/8263 tüfekli kuleler ile final arenası; birikimdeki "son arena 3 ölüm" kaydıyla uyumlu).
+Görsel: dört burç pencereli çekimde kale resminin önünde "ait"; −460 surda sıra tekrarı
+seçiliyor ama koyulaşan sıralar ve yosun kırıyor.
+
+**Sonraki öneri:** Birikimde uygulanabilir madde kalmadı (geri kalanı insan testine bağlı) →
+tasarım denetimi; daha önce tek başına denetlenmemiş Kitap 2 bölümleri (ör. 14 ve 20).
 
 ### 2026-11-02 (72) — Bölüm 27 Kamondo merdiveni kesme taşta
 
