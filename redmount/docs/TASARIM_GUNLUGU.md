@@ -7,10 +7,8 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Yükseltilmiş `_terrain` setlerinin yere uygunluk taraması (tur 69; tur 70–71'de 8, 9, 12,
-  29, 30, 31 bitti): kalan — 10 (tepe basamakları 1700–9500) ve 27 Kamondo merdiveni sahanlığı
-  (3820–4150; arkası Galata kesme taş cepheleri, `_rampart` uygun görünüyor, basamaklarla
-  birlikte çevrilmeli). Bölüm 34 yokuş basamakları (650–1360) bilinçli olarak kaldırımda
+- Yükseltilmiş `_terrain` setlerinin yere uygunluk taraması (tur 69; tur 70–72'de 8, 9, 12,
+  29, 30, 31, 27 bitti): kalan — 10 (tepe basamakları 1700–9500). Bölüm 34 yokuş basamakları (650–1360) bilinçli olarak kaldırımda
   bırakıldı: sokak merdiveni, zemin malzemesiyle süreklilik doğru.
 - Bölüm 35 kumanda odası presleri (x 7600, 7950): Boğaz manzaralı açık avlu resminin önünde
   kolları ekranın üstünden sarkıyor, neye asılı olduğu okunmuyor. Preslerin üstüne kiriş/vinç
@@ -93,6 +91,23 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-02 (72) — Bölüm 27 Kamondo merdiveni kesme taşta
+
+**Neden şimdi:** Taramanın tur 71'de kalan maddesi. Dört basamak ve sahanlık arnavut
+kaldırımlı toprak bloktu; arkadaki ChatGPT Galata resmi kesme taş cepheler ve taş merdiven.
+Oyuncu yokuşu bir taş merdiven olarak tırmanacak.
+
+**Yapılan:** Basamaklar `_rampart(…, true, false)` (sol köşe taşı basamak burnu olarak
+görünüyor, sağı bir üst basamağa yaslı), sahanlık `_rampart(3820, 4150, -180, false, true)`;
+altları boştu → `_terrain(3250, 4150, 0)` (eski 3250–3380 parçasını kapsıyor). Saksılar yerinde.
+
+**Testler:** import temiz; smoke 36/36 SMOKE OK, SCRIPT ERROR 0, çıkış 0; DTM GAPS PASS; bot
+başsız Bölüm 27 iki koşu CLEARED (90,9 sn / 87,6 sn; 2 / 0 yeniden doğma — ölümler x≈9370
+finalde, tur 59 kaydıyla aynı aralık). Görsel: pencereli çekimde basamaklar cephelerin önünde
+"ait"; kumtaşı gündüz resminde biraz morumsu kalıyor (gece rampası), kaldırımdan belirgin iyi.
+
+**Sonraki öneri:** Bölüm 10 tepe basamakları (taramanın son maddesi).
 
 ### 2026-11-02 (71) — Bahçe duvarları ve sekiler taşta: Bölüm 29, 30, 31
 

@@ -45,12 +45,13 @@ func _build() -> void:
 
 	# --- 3. Kamondo merdivenleri: basamak basamak yokuş, sahanlıkta kavga ------
 	_checkpoint(3300, 0)
-	_terrain(3250, 3380, 0)
+	# Basamaklar ve sahanlık Galata'nın kesme taşından; altları düz zemin.
+	_terrain(3250, 4150, 0)
 	for k in 4:
-		_terrain(3380.0 + k * 110.0, 3490.0 + k * 110.0, -45.0 * (k + 1))
+		_rampart(3380.0 + k * 110.0, 3490.0 + k * 110.0, -45.0 * (k + 1), true, false)
 		if k % 2 == 1:
 			_prop("saksi", 3420.0 + k * 110.0, -45.0 * (k + 1))
-	_terrain(3820, 4150, -180)
+	_rampart(3820, 4150, -180, false, true)
 	_lantern(3700, -330)
 	_enemy(KNIFE, 3950, -180)
 	_enemy(STREET, 4080, -180)
