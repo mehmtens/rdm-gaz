@@ -64,7 +64,7 @@ func _build() -> void:
 	_checkpoint(4200, 0)
 	_crates(4350, 1, 1)
 	_stones(4440, 1, 2)
-	_terrain(4530, 4890, -180)
+	_rampart(4530, 4890, -180, false, true)  # bahçe duvarı sırtı
 	_enemy(RIFLE, 4800, -180)
 	_pickup(PISTOL, 4600, -225)
 	_coin_line(4560, 5, 60, -240)

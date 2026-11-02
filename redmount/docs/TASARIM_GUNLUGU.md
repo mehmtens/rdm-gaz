@@ -7,10 +7,11 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Yükseltilmiş `_terrain` setlerinin yere uygunluk taraması (tur 69; tur 70'te 8, 9, 12 bitti):
-  arnavut kaldırımlı toprak blok kalan setler — 10 (tepe basamakları 1700–9500), 27 (3820),
-  29 (4530), 30 (4910), 31 (2940), 34 (1150). Her biri yerin resmiyle yan yana çekilsin;
-  sur/kale ise `_rampart`, depo/rıhtım ise sandık, iç mekân ise iskele.
+- Yükseltilmiş `_terrain` setlerinin yere uygunluk taraması (tur 69; tur 70–71'de 8, 9, 12,
+  29, 30, 31 bitti): kalan — 10 (tepe basamakları 1700–9500) ve 27 Kamondo merdiveni sahanlığı
+  (3820–4150; arkası Galata kesme taş cepheleri, `_rampart` uygun görünüyor, basamaklarla
+  birlikte çevrilmeli). Bölüm 34 yokuş basamakları (650–1360) bilinçli olarak kaldırımda
+  bırakıldı: sokak merdiveni, zemin malzemesiyle süreklilik doğru.
 - Bölüm 35 kumanda odası presleri (x 7600, 7950): Boğaz manzaralı açık avlu resminin önünde
   kolları ekranın üstünden sarkıyor, neye asılı olduğu okunmuyor. Preslerin üstüne kiriş/vinç
   ya da bu kesime iç mekân (`_interior`) — bölüm metni "kumanda odası" diyor.
@@ -92,6 +93,30 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-02 (71) — Bahçe duvarları ve sekiler taşta: Bölüm 29, 30, 31
+
+**Neden şimdi:** Tur 70'in devamı (birikimin başı). Beş kalan set pencereli çekildi; üçü
+arkadaki taş duvar/bahçe resmiyle açıkça çelişiyordu.
+
+**Yapılan:**
+- Bölüm 29 bahçe duvarı (4530–4890): `_rampart(…, false, true)` — arkadaki Kuzguncuk bahçe
+  duvarının taş sırası gibi; soldaki iki oyma taşa yaslandığı için sol köşe taşı yok.
+- Bölüm 30 saray bahçesi sekileri (4250–4910 üç seki + 4910–5050): `_rampart` istinat
+  duvarları; seki altları boştu (toprak bloklar 520 px aşağı iniyordu) → altına
+  `_terrain(4250, 5050, 0)`. Sekilerin sağ köşe taşı yok (bir üst sekiye yaslanıyor),
+  son parçanın sol köşesi yok (aynı boy). Mangallar yerinde.
+- Bölüm 31 konak bahçe duvarı (2940–3390): `_rampart`.
+- 27 ve 34 incelendi: 34 yokuş basamakları sokak merdiveni → kaldırım doğru, bırakıldı. 27
+  Kamondo sahanlığı basamaklarla birlikte ele alınmalı (birikimde).
+
+**Testler:** import temiz; smoke 36/36 SMOKE OK, SCRIPT ERROR 0, çıkış 0; DTM GAPS PASS; bot
+başsız Bölüm 29 CLEARED (76,5 sn; 0), 30 CLEARED (78,5 sn; 2 — x≈650 ve 7760), 31 CLEARED
+(81,0 sn; 2 — x≈660 ve 8550); değişen setlerde ölüm yok. Görsel: üçü de pencereli çekimde
+"ait"; otomatik baca/sandık seki altına düşmedi.
+
+**Sonraki öneri:** Bölüm 27 Kamondo merdiveni (basamak + sahanlık birlikte), sonra Bölüm 10
+tepe basamakları.
 
 ### 2026-11-02 (70) — Yükseltilmiş toprak setler yerin malzemesinde: Bölüm 8, 9, 12
 

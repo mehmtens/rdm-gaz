@@ -53,10 +53,12 @@ func _build() -> void:
 
 	# --- 4. Merdivenli bahçe: mangallı sekiler -------------------------------
 	_checkpoint(3600, 0)
+	# Sekiler saray bahçesinin kesme taş istinat duvarları; altları düz zemin.
+	_terrain(4250, 5050, 0)
 	for k in 3:
-		_terrain(4250.0 + k * 220.0, 4470.0 + k * 220.0, -45.0 * (k + 1))
+		_rampart(4250.0 + k * 220.0, 4470.0 + k * 220.0, -45.0 * (k + 1), true, false)
 		_flame(4360.0 + k * 220.0, k * 0.4, -45.0 * (k + 1))
-	_terrain(4910, 5050, -135)
+	_rampart(4910, 5050, -135, false, true)
 	_terrain(5050, 10300, 0)
 	_scaffold(4580, -280, 300)
 	_pickup(PISTOL, 4580, -325)
