@@ -1857,10 +1857,14 @@ class _Chalk extends Node2D:
 		_found = true
 		Sfx.play(&"checkpoint", 1.15)
 		Fx.ring(global_position + Vector2(0, 10), Color(1.0, 0.9, 0.55), 10, 140, 0.45)
-		Fx.popup(global_position + Vector2(0, -50), "İPUCU BULUNDU", Color(1.0, 0.85, 0.4), 24)
+		# Duyuru tek yerde: üst karttaki başlık. Eskiden dünyada ayrıca "İPUCU BULUNDU" yazısı
+		# yükseliyor, kart da tebeşirin aynısını tekrarlıyordu (ekranda 4 yazı bloğu). Kartın
+		# ikinci satırı yazıyı değil anlamını söyler; yazının kendisi duvarda, ışıyan nesne olarak.
 		var hud := get_tree().get_first_node_in_group(&"hud")
 		if hud != null and hud.has_method(&"show_place"):
-			hud.show_place("GAZELLE'İN İPUCU", text, Color("f2e6c8"))
+			hud.show_place("İPUCU BULUNDU", "Gazelle'in tebeşir izi", Color("f2e6c8"))
+		else:
+			Fx.popup(global_position + Vector2(0, -50), "İPUCU BULUNDU", Color(1.0, 0.85, 0.4), 24)
 
 	func _draw() -> void:
 		# Bulunmadan: nabız (dikkat çeker); bulununca: sabit, altın kenarlı.

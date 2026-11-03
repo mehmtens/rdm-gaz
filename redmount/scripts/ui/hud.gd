@@ -232,6 +232,7 @@ func _layout_mobile_boss_bar() -> void:
 func _process(delta: float) -> void:
 	_tick_reveal(delta)
 	_tick_danger(delta)
+	_tick_cutscene_fade(delta)
 	_follow_radio()
 	if _coin_bump > 0.0:
 		_coin_bump = maxf(_coin_bump - delta * 4.0, 0.0)
@@ -314,6 +315,16 @@ func _build_danger_edge() -> void:
 
 ## Kalp atışı gibi çift vuruş: atışta kenar parlar, sonra söner. Can 0'da (ölüm) ve
 ## tehlike dışında yavaşça kaybolur.
+## Sahnede sol üst durum sütunu bütün olarak söner: sinema şeridi (78 px) yalnız can çubuğunu
+## örtüyor, coin/silah/cephane satırları şeridin altından yarım HUD gibi görünüyordu.
+func _tick_cutscene_fade(delta: float) -> void:
+	var target := 0.0 if Cutscene.active != null else 1.0
+	for c: CanvasItem in [$HealthBg, _coins, _weapon, _ammo, _armor, _powerups,
+			_costume_badge, _neighborhood_panel, _neighborhood_portrait, _neighborhood_name]:
+		if c != null:
+			c.modulate.a = move_toward(c.modulate.a, target, delta * 6.0)
+
+
 func _tick_danger(delta: float) -> void:
 	if _danger == null:
 		return

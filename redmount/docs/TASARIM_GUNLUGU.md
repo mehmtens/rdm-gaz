@@ -7,13 +7,6 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Bölüm sonu ipucu kartı kalabalık (tur 116 denetimi, Bölüm 2 x≈9395): "GAZELLE'İN İPUCU" kartı,
-  dünyadaki tebeşir "G: GECE PAZARI" ve soluk "İPUCU BULUNDU" yazısı aynı bölgede üst üste; aynı metin
-  iki kez okunuyor (ekranda 4 ayrı yazı bloğu). Hedef: kart açıkken kartın altında ≤ 1 yazı; duyuru
-  kart gelince söner ya da kartın içine girer.
-- Sahnede HUD yarım (tur 116): bitiş sahnesinde CAN çubuğu gizli ama COIN, silah ve MERMİ satırları
-  açık kalıyor. Hedef: `cutscene` modunda sol üst HUD bütün olarak gizlensin (ya da bütün olarak
-  kalsın); ekran görüntüsünde tek durum.
 - Silah satırı harf biçimi (tur 116): dokunmatikte "Bıçak 10/20 · DEĞİŞ: BIÇAK" (ilk ad küçük harfli,
   yedek BÜYÜK), altında "MERMİ 18/54". Küçük piksel yazıda telefonda tek biçim (BÜYÜK) daha okunur;
   masaüstü "Mermi: 18 | 54" ile dokunmatik "18/54" de tek biçime insin.
@@ -143,6 +136,35 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (117) — Bölüm sonu ipucu ekranı: tek duyuru, sahnede bütün HUD
+
+**Neden şimdi:** Tur 116 denetiminin birikime yazdığı ilk iki madde; ikisi de aynı bitiş ekranında ve
+3 Kasım insan testinin "ipucu bulunduğunda oyuncu açıkça görmeli" beklentisine dokunuyor.
+
+**Ölçüm (Bölüm 2 sonu, dokunmatik pencereli bot):** tebeşir bulununca ekranda 4 yazı bloğu vardı:
+kart başlığı "GAZELLE'İN İPUCU", kartın ikinci satırı "G: GECE PAZARI" (duvardaki yazının aynısı),
+dünyada yükselen "İPUCU BULUNDU" (kartın altına sızıyordu) ve tebeşirin kendisi. Bitiş sahnesinde
+sinema şeridi (üstte 78 px) yalnız can çubuğunu örtüyor, coin/silah/cephane satırları şeridin altından
+yarım HUD gibi görünüyordu.
+
+**Yapılan:** `_Chalk._reveal` duyuruyu tek yere toplar: kart başlığı "İPUCU BULUNDU", ikinci satır
+"Gazelle'in tebeşir izi" (yazının tekrarı değil, anlamı); dünya yazısı yalnız HUD yoksa çıkar. Ses,
+halka ve parlayan tebeşir (görünür nesne) aynen. `Hud._tick_cutscene_fade`: `Cutscene.active`
+varken sol üst durum sütunu (can, coin, silah, cephane, zırh, güçlendirme, kostüm rozeti, mahalle
+portresi) 0,17 sn'de söner, sahne bitince aynı hızla döner. Dalga şeridi ve boss çubuğu dokunulmadı
+(sahne içinde anlamlı olabilirler).
+
+**Oyuncu ne hissedecek:** İpucu anı tek, net bir kart: "İPUCU BULUNDU" ve duvarda ışıyan yazı. Sahnede
+ekran temiz bir sinema karesi; oyun dönünce HUD yumuşakça geri gelir.
+
+**Testler:** `--import` hatasız; yeni `tests/clue_card.tscn` PASS (düzeltme öncesi FAIL 6: kart başlığı,
+tekrar satır, dört HUD satırı sahnede açık); `campaign_smoke` çıkış 0; `dtm_gaps`, `touch_polish`,
+`radio_top_band` (`--fixed-fps 60`) PASS; bot CLEARED: Bölüm 1 (83,6 sn), 2 (pencereli dokunmatik 72,2 sn),
+13 (77,4 sn), 25 (77,5 sn).
+Dokunmatik pencereli 1280×720 ekran görüntüsünde (Bölüm 2, x≈9378–9435) kart + tebeşir: iki yazı bloğu.
+
+**Sonraki öneri:** Birikimdeki silah satırı harf biçimi (dokunmatikte "Bıçak" / "DEĞİŞ: BIÇAK" / "MERMİ").
 
 ### 2026-11-03 (116) — Denetim: telefonda duraklat düğmesi dalga şeridini örtüyordu
 
