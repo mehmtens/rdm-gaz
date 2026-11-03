@@ -40,6 +40,10 @@ var _mode := "hidden"
 var _has_gun := false
 var _can_throw := false
 var _has_next_level := true
+## İnsan testi dokunma ölçümü (boş / kaçan / düzeltme basışları); bölüm sonunda CSV.
+var stats := TouchStats.new()
+## eylem -> aynı başparmak bölgesindeki komşu oyun düğmeleri (düzeltme sayımı için).
+var _neighbors: Dictionary = {}
 
 
 func _ready() -> void:
@@ -99,7 +103,63 @@ func _ready() -> void:
 	_buttons["menu"].pressed.connect(func() -> void: menu_requested.emit())
 	get_viewport().size_changed.connect(_layout)
 	_layout()
+	_neighbors = neighbor_map()
+	stats.reset(Time.get_ticks_msec())
 	set_mode("play")
+
+
+## Komşu: aynı ekran yarısında, merkezleri yarıçap toplamının 1,6 katından yakın.
+## Sol↔sağ ok çifti hariç (başparmağı oklar arasında kaydırmak dönüş, hata değil).
+static func neighbor_map() -> Dictionary:
+	var map := {}
+	for a in BUTTONS:
+		if a[0] not in GAMEPLAY_ACTIONS:
+			continue
+		var list: Array = []
+		for b in BUTTONS:
+			if b[0] == a[0] or b[0] not in GAMEPLAY_ACTIONS or signf(a[3].x) != signf(b[3].x):
+				continue
+			if [a[0], b[0]] in [["move_left", "move_right"], ["move_right", "move_left"]]:
+				continue
+			if (a[3] as Vector2).distance_to(b[3]) <= (a[2] + b[2]) * 1.6:
+				list.append(b[0])
+		map[a[0]] = list
+	return map
+
+
+## Görünür düğmelerin gerçek dokunma daireleri, ekran birimiyle: [[eylem, merkez, yarıçap]].
+func touch_circles() -> Array:
+	var out: Array = []
+	for key in _buttons:
+		var b: TouchScreenButton = _buttons[key]
+		if not b.visible:
+			continue
+		var half := float(b.texture_normal.get_width()) * 0.5
+		out.append([key, b.position + Vector2.ONE * half * b.scale.x,
+			(b.shape as CircleShape2D).radius * b.scale.x])
+	return out
+
+
+func _input(event: InputEvent) -> void:
+	if _mode == "play" and event is InputEventScreenTouch and event.pressed:
+		stats.on_touch(event.position, touch_circles())
+
+
+func _notification(what: int) -> void:
+	if what in [NOTIFICATION_APPLICATION_PAUSED, NOTIFICATION_WM_CLOSE_REQUEST]:
+		flush_stats()
+
+
+func _exit_tree() -> void:
+	flush_stats()
+
+
+## Ölçüm kesitini kapatır (bölüm sonu, menüye dönüş, uygulama arka plana).
+func flush_stats() -> String:
+	if not visible:
+		return ""
+	var level: Node = owner.get("_level") if owner else null
+	return stats.flush(level.name if level else "?", GameState.level_index + 1, Time.get_ticks_msec())
 
 
 func is_enabled() -> bool:
@@ -138,6 +198,8 @@ func set_context(has_gun: bool, can_throw: bool) -> void:
 func set_mode(mode: String, has_next_level: bool = true) -> void:
 	if not visible or (_mode == mode and _has_next_level == has_next_level):
 		return
+	if mode == "results" and _mode != "results":
+		flush_stats()
 	_mode = mode
 	_has_next_level = has_next_level
 	_apply_mode(has_next_level)
@@ -203,6 +265,8 @@ static func safe_vertical_insets(viewport: Viewport) -> Vector2:
 
 
 func _on_press(key: String) -> void:
+	if _mode == "play":
+		stats.on_press(key, Time.get_ticks_msec(), _neighbors)
 	_icons[key].offset.y = 1.0
 	_labels[key].position.y += _labels[key].scale.y * float(_art_scale[key])
 	if key not in ["move_left", "move_right"]:
@@ -210,6 +274,7 @@ func _on_press(key: String) -> void:
 
 
 func _on_release(key: String) -> void:
+	stats.on_release(key, Time.get_ticks_msec())
 	_icons[key].offset.y = 0.0
 	_layout()
 

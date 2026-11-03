@@ -106,7 +106,9 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 - Bıçak savuruşu (`knife_attack` 4) kalıntısı: şapkanın üstünde 1–2 sanat pikseli koyu nokta
   kalıyor (iz ön parçasının içinde ya da ≥ 8 px). İnsan testinde fark edilirse ön parçadan da
   tutam kenarı ayıkla.
-- Telefonda dokunmatik ölçüm: yanlış/kaçırılan basış sayacı (insan testi formuyla bağlanacak).
+- Dokunma ölçümü eşikleri (tur 100): kaçan = kenardan 0,6 yarıçap, düzeltme = <150 ms dokunuş +
+  250 ms içinde komşu. İnsan testinde videodaki elle sayımla CSV karşılaştırılsın; KAY için kaçan
+  oranı %10'u geçerse düğme yeri/boyutu ya da sürüklenebilir düzen (`touch_layout`) uygulansın.
 - Bölüm 18 finali (Çemberlitaş damı, 3 dalga): bot ölmeden ama 115 → 24 canla geçti (tur 88).
   İnsan testinde final ölümü 1'i geçerse üçüncü dalga hafifletilsin ya da 2. dalga sonrası simit.
 - Bölüm 20 finali (Yenikapı gece kapısı, 3 dalga, x≈9500–10000): bot ölmeden ama 27 → 13 canla geçti
@@ -117,6 +119,37 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (100) — Dokunma ölçümü: boş / kaçan / düzeltme basış sayacı
+
+**Neden şimdi:** Stil listesi ve iki yol haritası kapalı; birikimde insan testinden önce yapılabilen
+tek madde buydu ("telefonda yanlış/kaçırılan basış sayacı"). İnsan testi turu planlanıyor (tur 98
+önerisi); KAY düğmesinin yeri ve ZIPLA/VUR yakınlığı ancak sayıyla tartışılabilir, videodan elle saymak
+hem yavaş hem güvenilmez. (Tur, önceki oturumun kesilen işinden devam etti.)
+
+**Oyuncu ne hissedecek:** Doğrudan hiçbir şey — oyun davranışı değişmez. Testi yöneten kişi telefondan
+`user://dokunma_olcum.csv` (ve logcat'te `DOKUNMA ...` satırı) alır: bölüm başına süre, basış, boş basış,
+kaçan basış (en yakın düğmeye yazılır) ve düzeltme çiftleri ("jump>attack 2").
+
+**Yapılanlar:**
+- Yeni `scripts/ui/touch_stats.gd` (`TouchStats`): boş = hiçbir görünür düğmenin dokunma dairesine
+  değmeyen basış; kaçan = boş basışın en yakın düğme kenarına yarıçapın 0,6'sı kadar yakın olanı;
+  düzeltme = oyun düğmesine < 150 ms kısa dokunup 250 ms içinde aynı başparmak bölgesindeki komşu
+  düğmeye geçiş. CSV `user://` altında, başlıklı, sona eklenir; boş kesit yazılmaz.
+- `TouchControls`: `_input` yalnız oyun modunda basışı kaydeder; `_on_press/_on_release` sayacı besler;
+  `neighbor_map()` komşuluğu düğme tablosundan türetir (aynı ekran yarısı, merkezler yarıçap toplamının
+  1,6 katından yakın; ◀/▶ çifti hariç — oklar arası kayma dönüştür, hata değil). Kesit sonuç ekranına
+  geçişte, sahneden çıkışta ve uygulama arka plana atıldığında kapanır.
+
+**Sayılar (hipotez):** 0,6 yarıçap büyük düğmede ≈40 sanal piksel (başparmak kayması); 150 ms bilinçli
+dokunuşun alt ucu; 250 ms fark edip düzeltme tepkisi. İnsan testinde videodaki sayımla karşılaştırılacak.
+
+**Testler:** import temiz; yeni `tests/dokunma_olcum.tscn` PASS (birim sayaçlar, komşuluk, gerçek
+Main sahnesinde boş/kaçan/düzeltme, sonuç ekranında CSV satırı); `touch_polish` PASS; `dtm_gaps` PASS;
+`campaign_smoke` çıkış 0; bot Bölüm 1 (80,6 sn), 13 (83,3 sn), 25 (83,7 sn) CLEARED. Telefonda görülmedi.
+
+**Sonraki öneri:** İnsan testi turu (telefon APK'sı) — ölüm sayıları + bu CSV. Birikimin kalanı insan
+testine bağlı.
 
 ### 2026-11-03 (99) — Hız yıldızı: bölüme özgü hedef süre + kartta "hedef"
 
