@@ -166,7 +166,19 @@ logu artık YOK; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn` PA
 depo/rıhtım sahnesi ChatGPT arka planıyla bütün (vinç paleti, sur kemeri, minare silüeti, fenerler
 uyumlu); sorun yok. Geçici capture dosyaları scratchpad'de, commit'e girmedi.
 
-**Sonraki öneri:** Birikime eklenen küçük not (B20 arena üst şeridi). Kalanı insan testine bağlı.
+**Bug sınıfı taraması:** Aynı desen (yinelenen sinyale bağlı + serbest kalabilen nesne yakalayan
+lambda) tüm `scripts/` içinde tarandı. `book03_level12.gd:242` (boss_health_changed) ve
+`dtm_level.gd:2011` (body_entered) incelendi: ikisinde de bağlantı yakalanan nesnenin KENDİ sinyalinde,
+yani aynı ömürde — nesne serbest kalınca bağlantı da ölüyor, bu hata oluşamaz. Tehlikeli kombinasyon
+(bağlantı yakalanan nesneden uzun yaşar) yalnız bolum20'deydi. Ek kanıt: Bölüm 22 (79,4 sn) ve Bölüm 30
+(Kuzguncuk polis kovalaması, 75,8 sn) bot ile oynatıldı, ikisi de CLEARED, çalışma-zamanı hatası yok.
+
+**Durum:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikim insan testine bağlı. Bu oturumun
+denetimi bir gerçek bug buldu (B20, düzeltildi); bug sınıfı taraması ve iki taze bölüm temiz çıktı.
+Otomasyon, telefonla insan testi ya da yeni yol haritası gelene kadar durdu.
+
+**Sonraki öneri:** İnsan testi (telefon). Birikime eklenen küçük not (B20 arena üst şeridi). Kalanı insan
+testine bağlı.
 
 ### 2026-11-03 (121) — HUD sol sütunu: boş satır yer tutmaz (birikim 1. madde)
 
