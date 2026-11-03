@@ -120,6 +120,36 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-03 (91) — Denetim: Bölüm 21 + gökyüzü geçişi zamana bağlı (arenada çift pozlama bitti)
+
+**Neden şimdi:** Tur 90'ın önerisi. Pencereli bot (8 sn'de bir kare): Bölüm 21 CLEARED 89,3 sn, 1 yeniden
+doğma (birikimdeki gece iskelesi maddesi). Final arenasında (gece iskelesi, x 9400–10000) **tüm dövüş
+boyunca** kemer hücresi ile vapur hücresi yarı saydam üst üste kaldı — sahnenin en okunmaz karesi.
+
+**Neden:** Gökyüzü hücreleri kameranın konumuna göre 240 px'te karışıyordu (tur 16 denetimi). Kilitli
+arenada ve bölüm sonu kamera sınırında kamera bu bandın içinde *duruyor*; ara hâl kalıcı oluyordu.
+Tarama: 36 bölümde 19 arenanın ortası bandın içindeydi (1, 13, 15–17, 19, 21–24, 30, 33–36). Tur 43 ve
+86'da "tek karelik geçiş" diye kabul edilen çift pozlamalar bunun hareketli hâliydi.
+
+**Yapılan:** `_Sky` geçişi zamana bağlı: kamera bandın ortasını (sınır − 120) aşınca sonraki hücre
+`SKY_FADE` 0,6 sn'de belirir; duran kamera asla yarım kalmaz. Geri dönüşte `SKY_HYST` 360 px pay:
+arenada kamera sınırın iki yanında gezinince resim ileri geri değişmiyor (ilk denemede payı yoktu,
+pencereli çekimde final dalga 3'te kemerlere geri döndüğü görüldü). Hücre sınırlarına, atlaslara
+dokunulmadı; yeni çizim yok.
+
+**Sayılar (hipotez):** 0,6 sn ≈ eski 240 px'in koşu hızında (340 px/sn) süresi; geçiş hissi aynı.
+360 px: arenada görülen kamera salınımı ~250 px, üstüne pay.
+
+**Yeni test:** `tests/sky_blend_arenas.tscn` — 81 arenanın ortasında sabit kamera 1 sn'de tek resme
+oturmalı, ±150 px salınımda en fazla bir değişim, sınır aşılınca geçiş görünmeli. PASS; `SKY_HYST = 0`
+ile 11 hata verdiği doğrulandı.
+
+**Testler:** import temiz (SCRIPT ERROR 0); smoke 36/36 SMOKE OK, çıkış 0; DTM GAPS PASS;
+sky_blend_arenas PASS; bot başsız Bölüm 1 (77,4 sn), 13 (83,3), 21 (97,0), 25 (94,5) CLEARED.
+Pencereli Bölüm 21 finali önce/sonra: dövüşün tamamı tek vapur iskelesi resminde — "ait".
+
+**Sonraki öneri:** Kitap 2 denetimine 22 ile devam.
+
 ### 2026-11-03 (90) — Denetim: Bölüm 20 (temiz)
 
 **Neden şimdi:** Tur 89'un önerisi. Pencereli bot (8 sn'de bir kare): Bölüm 20 CLEARED 95,3 sn,

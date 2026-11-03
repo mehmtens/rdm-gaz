@@ -1552,9 +1552,21 @@ class _Sky extends Node2D:
 	## ~%55'i iki resmin yarı saydam üst üste bindiği "çift pozlama"daydı (Bölüm 16 denetimi).
 	## 240 px ≈ koşarken 0,7 sn: geçiş fark edilir ama bulanık ara hâl kısa (~%15).
 	const SKY_BLEND := 240.0
+	## Geçiş zamana bağlı: kamera bandın ortasını (sınır − SKY_BLEND/2) aşınca sonraki
+	## hücre bu sürede belirir. Konuma bağlı karışım, kilitli arenada ya da bölüm sonu
+	## kamera sınırında duran kamerada iki resmi kalıcı olarak üst üste bırakıyordu
+	## (tur 91: 36 bölümde 19 arena bandın içindeydi, Bölüm 21 finali tüm dövüş boyunca).
+	const SKY_FADE := 0.6
+	## Geri dönüş payı: arenada kamera sınırın iki yanında gidip gelince resim dövüş
+	## boyunca ileri geri değişmesin; önceki hücreye ancak bu kadar daha geride dönülür.
+	const SKY_HYST := 360.0
 
 	var level: Node
 	var _camera: Camera2D
+	## Görünen hücre (`sky_cells` sırası), belirmekte olan hücre ve ilerleme (0..1).
+	var _from := -1
+	var _to := -1
+	var _t := 1.0
 
 	func _ready() -> void:
 		z_index = -90
@@ -1568,29 +1580,64 @@ class _Sky extends Node2D:
 		if _camera == null:
 			return
 		global_position = _camera.get_screen_center_position()
+		_advance(_delta)
 		queue_redraw()
 
-	func _draw() -> void:
-		var atlas: Texture2D = level.sky_atlas
+	## Kameranın bulunduğu hücre: sınırın SKY_BLEND/2 öncesinden itibaren sonraki hücre;
+	## geriye ise SKY_HYST kadar daha geride.
+	func target_cell(x: float) -> int:
 		var cells: Array = level.sky_cells
-		var x := global_position.x
 		var cur := 0
 		for k in cells.size():
-			if x >= float(cells[k][1]):
+			if x >= float(cells[k][1]) - SKY_BLEND * 0.5:
 				cur = k
-		# Hücre girdisi [hücre, x] ya da [hücre, x, atlas]: bölüm içinde atlas değişebilir.
-		_cell(cells[cur][2] if cells[cur].size() > 2 else atlas, int(cells[cur][0]), x, 1.0)
-		if cur + 1 < cells.size():
-			var t := clampf((x - float(cells[cur + 1][1]) + SKY_BLEND) / SKY_BLEND, 0.0, 1.0)
-			t = t * t * (3.0 - 2.0 * t)
+		if _to > cur and x >= float(cells[_to][1]) - SKY_BLEND * 0.5 - SKY_HYST:
+			return _to
+		return cur
+
+	func _advance(delta: float) -> void:
+		var tgt := target_cell(global_position.x)
+		if _from < 0:
+			_from = tgt
+			_to = tgt
+			_t = 1.0
+		elif tgt != _to:
+			# Geri dönüşte yarım kalan geçiş tersine akar; yoksa baskın resimden başlar.
+			if tgt == _from and _t < 1.0:
+				_from = _to
+				_t = 1.0 - _t
+			else:
+				_from = _to if _t >= 0.5 else _from
+				_t = 0.0
+			_to = tgt
+		if _t < 1.0:
+			_t = minf(_t + delta / SKY_FADE, 1.0)
+			if _t >= 1.0:
+				_from = _to
+
+	## Geçiş bitti mi (tek resim görünüyor)?
+	func settled() -> bool:
+		return _from == _to and _t >= 1.0
+
+	func _draw() -> void:
+		if _from < 0:
+			return
+		var cells: Array = level.sky_cells
+		var x := global_position.x
+		_draw_entry(cells[_from], x, 1.0)
+		if _to != _from:
+			var t := _t * _t * (3.0 - 2.0 * _t)
 			if t > 0.0:
-				var nxt: Array = cells[cur + 1]
-				_cell(nxt[2] if nxt.size() > 2 else atlas, int(nxt[0]), x, t)
+				_draw_entry(cells[_to], x, t)
 		var dark: Color = level.sky_shade
 		# Alt kısım koyulaşır: oynanan zemin ve arka sıra evler öne çıkar.
 		for i in 6:
 			draw_rect(Rect2(-1100, 60 + i * 40, 2200, 40), Color(dark.r, dark.g, dark.b, 0.12 + i * 0.08))
 		draw_rect(Rect2(-1100, 300, 2200, 500), Color(dark.r, dark.g, dark.b, 0.62))
+
+	## Hücre girdisi [hücre, x] ya da [hücre, x, atlas]: bölüm içinde atlas değişebilir.
+	func _draw_entry(e: Array, x: float, alpha: float) -> void:
+		_cell(e[2] if e.size() > 2 else level.sky_atlas, int(e[0]), x, alpha)
 
 	func _cell(atlas: Texture2D, index: int, x: float, alpha: float) -> void:
 		var half := atlas.get_size() / float(level.sky_grid)
