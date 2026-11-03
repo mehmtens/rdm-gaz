@@ -714,8 +714,12 @@ func _chimney(cx: float, top: float, gap := 140.0, passage := 150.0, reward: Pac
 	for side in [-1.0, 1.0]:
 		var left: float = cx - gap * 0.5 - wall if side < 0.0 else cx + gap * 0.5
 		var body := _solid_box(left, top, wall, h)
-		var wall_art := _Art.A_RACK if indoor else _Art.A_BRICK_TOWER if chimney_brick else _Art.A_STONES
-		body.add_child(_Art.new(wall_art, Vector2(wall, h)))
+		var wall_art := _Art.A_RACK if indoor else _Art.A_BRICK_TOWER if chimney_brick else _Art.A_RAMPART
+		var art := _Art.new(wall_art, Vector2(wall, h))
+		# Taş kule: sur örgüsü, köşe taşı yalnız dış yüzde (iç yüz bacaya bakar).
+		art.corner_l = side < 0.0
+		art.corner_r = side > 0.0
+		body.add_child(art)
 	var shaft_art := _Art.A_SHAFT_WOOD if indoor else _Art.A_SHAFT_BRICK if chimney_brick else _Art.A_SHAFT
 	var inside := _Art.new(shaft_art, Vector2(gap, -top))
 	inside.position = Vector2(cx, top * 0.5)

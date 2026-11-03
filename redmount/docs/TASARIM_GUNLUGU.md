@@ -7,9 +7,8 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Taş baca duvarları (`_chimney`, `chimney_brick`/`chimney_rack` kapalıyken `A_STONES`) hâlâ eski
-  `tas_blok` oyma pano dokusunu kullanıyor — tur 76'da tünek bloklarında "kasa gibi" bulunan doku.
-  Hangi bölümlerde taş baca var, pencereli çekilip sur örgüsüne (köşe taşlı dar kule) geçirilsin.
+- Taş baca içi (`A_SHAFT`): `ic_duvar` 0,34 tonla düz koyu dikdörtgen; sur örgülü duvarların
+  arasında boşluk gibi okunuyor ama dokusuz. Taş kuleye özgü iç (gölgede moloz + yosun) çizilebilir.
 - Bölüm 14 Balat yokuşu (x≈6740) kırmızı tuğla baca kulesi: güneşli sıva/ahşap ev sokağında tek
   başına düz kırmızı; çevre malzemesiyle (sıvalı taş ya da ahşap) çizilsin (`chimney_brick` bölüm
   bayrağı yerine bacaya özgü malzeme).
@@ -103,6 +102,24 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (77) — Taş baca duvarları ve Bölüm 15 kemer ayakları sur örgüsünde
+
+**Neden şimdi:** Tur 76 birikiminin başı. 19 bölümde 20 taş baca kulesi (tuğla/ahşap raf bayrağı
+olmayanlar) duvarlarını eski `tas_blok` oyma panosuyla çiziyordu: Bölüm 7, 24, 35 çekimlerinde
+kule gri pano yığını gibi duruyordu. Oyuncunun gizli alan için tırmandığı yapı artık arkadaki
+kale/sarnıç taşıyla aynı malzemeden bir kule.
+
+**Yapılan:** `_chimney` taş duvarı `A_RAMPART` (taç taşı + sıra taş); köşe taşı yalnız dış yüzde,
+iç yüz bacaya bakıyor. Bölüm 15 kemer ayakları (`_pier`, suda 90×200) da aynı örgüde. `A_STONES`
+yalnız sol mahzenin ekran dışı 30 px arka duvarında kaldı.
+
+**Testler:** import temiz; smoke 36/36 SMOKE OK, SCRIPT ERROR 0, çıkış 0; DTM GAPS PASS; bot başsız
+Bölüm 35 (116,3 sn), 15 (95,8), 7 (93,6), 1 (77,1), 13 (84,5), 25 (78,3) CLEARED. Görsel: Bölüm 35
+kale avlusu, 24 sarnıç, 7 haddehane ve 15 su kemeri çekimlerinde kuleler/ayaklar "ait"; baca içi
+düz koyu kaldı (birikimde).
+
+**Sonraki öneri:** Bölüm 14 tuğla bacası (birikim başı) ya da basamak köşe taşı yüksekliği.
 
 ### 2026-11-03 (76) — Denetim (Bölüm 14, 20) + taş tünek blokları sur örgüsünde (9 bölüm)
 

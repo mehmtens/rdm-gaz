@@ -190,4 +190,4 @@ func _sahne_teras(cs: Cutscene) -> void:
 ## dibine (110) kadar iner; alt kısmı suyun arkasında kalır, havada asılı durmaz.
 func _pier(left: float) -> void:
 	var body := _solid_box(left, -90.0, 90.0, 200.0)
-	body.add_child(_Art.new(_Art.A_STONES, Vector2(90.0, 200.0)))
+	body.add_child(_Art.new(_Art.A_RAMPART, Vector2(90.0, 200.0)))
