@@ -7,12 +7,19 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- (Tur 123 denetimi, Bölüm 1/13) Düşman tipi renk ayrışması: ağır zırhlı, kalkanlı ve bombacı
-  düşmanlar bir bakışta benzer koyu silüet; tip başına belirgin bir aksan rengi (kalkan/omuzluk/fitil)
-  kalabalık arenada kimin ne yaptığını hızlandırır. Orta etki / orta maliyet (tip başına tek piksel aksan).
-- (Tur 123 denetimi) Diyalog + dalga pankartı yığılması: Bölüm 13 finalinde GAZELLE kutusu ile
-  "DALGA 1/2" pankartı üst üste biniyor (B20 notuyla aynı sınıf). Diyalog görünürken dalga pankartı
-  bir satır aşağı ya da diyalog kapanınca gösterilsin. Orta etki / düşük maliyet.
+- (Tur 123/124 denetimi, Bölüm 1/13) Düşman tipi renk ayrışması: ağır zırhlı, kalkanlı ve bombacı
+  düşmanlar bir bakışta benzer koyu silüet; tip başına belirgin bir aksan rengi kalabalık arenada
+  kimin ne yaptığını hızlandırır. **Büyük/orta maliyet:** düşmanlar `enemy_sprite.gd` ile önceden
+  çizilmiş piksel ATLAS sayfaları kullanıyor (`_RIG_STYLES` paleti `enemy_sprite`'ta yutuluyor,
+  prosedürel boyama yok). Ucuz palet-data çözümü yok; seçenekler: (a) atlas sayfalarını tip başına
+  imza rengiyle yeniden boyamak (GPT tarzı, çok sayfa — asıl ama büyük), (b) sayfaya dokunmadan
+  tip başına imza KENAR rengi (`_apply_dark_rim`'i tipe göre; gündüzde ayrışır, gecede sıcak fener
+  kenarı hero/düşman ayrımını koruduğundan sınırlı), (c) hareketli gövdeyle hizalı piksel aksan
+  overlay (kare-kare hizalama zor). **Tur 124'te (b) denendi ve geri alındı:** arcade kamera
+  mesafesinde (karakter ~120px, kenar 1–3px) imza kenar rengi oyun içi görüntüde fark edilmiyor,
+  "bir bakışta ayrışma" hedefini vermiyor; DTM'deki ayrışma tüm kostüm rengiyle (sayfa), kenarla
+  değil. Gerçek çözüm (a) atlas sayfalarını tip başına imza rengiyle yeniden boyamak — insan
+  gözüyle yapılmalı (çok sayfa, GPT tarzı, kör otonom turda riskli).
 - (Tur 123 denetimi) Gündüz arena zemini tektip taş; DTM arenalarında zeminde 1 çevresel etkileşim
   (devrilen tezgâh, kırılabilir yığın, yuvarlanan varil) ritim katıyor. Arena başına tek set-piece
   nesnesi. Orta etki / orta maliyet (mevcut breakable/barrel yeniden kullanılır).
