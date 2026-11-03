@@ -21,17 +21,17 @@ func _build() -> void:
 	chimney_night = true   # baca kulesi loş posta salonunun önünde
 
 	# --- 1. Süleymaniye inişi: devriye, isteğe bağlı çatı ------------------------
-	_terrain(-400, 1700, 0)
+	_terrain(-400, 600, 0)
+	_terrain(950, 1700, 0)
 	_story(-1.0, _sahne_inis, 240.0)
-	var aw0 := AwningBounce.new()
-	aw0.width = 160
-	aw0.height = 60
-	aw0.position = Vector2(560, 0)
-	add_child(aw0)
-	_scaffold(750, -260, 160)
-	_scaffold(940, -300, 160)
-	_pickup(ARMOR, 940, -345)
-	_coin_line(720, 4, 70, -310)
+	# Medrese duvarının dibinde taş seki (Bölüm 16/18'in tente + iskele açılışı yerine):
+	# sekiden buluta, zırh bulutta; bıçakçı sekinin ardında bekler.
+	_terrain(600, 650, -50)
+	_terrain(650, 900, -100)
+	_terrain(900, 950, -50)
+	_coin_line(670, 3, 50, -150)
+	_cloud(850, -205, 130.0, 0)
+	_pickup(ARMOR, 850, -250)
 	_enemy(KNIFE, 1150, 0)
 	_prop("saksi", 1350)
 

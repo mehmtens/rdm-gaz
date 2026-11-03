@@ -20,16 +20,20 @@ func _build() -> void:
 	back_row_skip = [[1700.0, 9600.0]]
 
 	# --- 1. Çarşı kapısı: devriye, ilk saçak rotası ---------------------------
-	_terrain(-400, 1700, 0)
+	_terrain(-400, 800, 0)
+	_terrain(1100, 1700, 0)
 	_story(-1.0, _sahne_kapi, 240.0)
 	var aw := AwningBounce.new()
 	aw.width = 160
 	aw.height = 60
 	aw.position = Vector2(560, 0)
 	add_child(aw)
-	_scaffold(750, -260, 160)
-	_scaffold(940, -300, 160)
-	_pickup(ARMOR, 940, -345)
+	# Çarşı kapısı eşiği: tente ya sekiye ya buluta atar; zırh kapı kemerinden sarkan tahtada.
+	_terrain(800, 850, -50)
+	_terrain(850, 1050, -100)
+	_terrain(1050, 1100, -50)
+	_cloud(980, -205, 130.0, 0)
+	_pickup(ARMOR, 980, -250)
 	_coin_line(720, 4, 70, -310)
 	_stall(420)
 	_enemy(STREET, 1150, 0)

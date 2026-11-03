@@ -20,13 +20,20 @@ func _build() -> void:
 	back_row_skip = [[5900.0, 7150.0]]
 
 	# --- 1. Kale çıkışı: şafak, defter ------------------------------------------
-	_terrain(-400, 1700, 0)
+	# Kale çıkışında sur kaidesi: yokuşa inmeden önce son yükselti (vazo ve kasa üstünde).
+	_terrain(-400, 1050, 0)
+	_terrain(1050, 1100, -50)
+	_terrain(1100, 1300, -100)
+	_terrain(1300, 1350, -50)
+	_terrain(1350, 1700, 0)
 	_story(-1.0, _sahne_safak, 240.0)
 	_prop("saksi", 380)
 	_coin_line(450, 5, 50, -50)
 	_enemy(STREET, 900, 0)
-	_prop("vazo", 1150)
-	_prop("kasa", 1220)
+	_prop("vazo", 1150, -100)
+	_prop("kasa", 1220, -100)
+	# Şafakta surdan sarkan tahta: ilk coin dizisinin üstünde.
+	_cloud(720, -110, 130.0, 2)
 
 	# --- 2. Balat yokuşu: ana yol iner, balkonlar isteğe bağlı ---------------
 	_checkpoint(1500, 0)

@@ -7,8 +7,9 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Zemin yüksekliği + bulut platform denetimi, sonraki dilim: Bölüm 13–18 (tur 106'da 1–3, tur 107'de
-  4–6, tur 108'de 7–12 yapıldı). Kural: bulut yükseltisi kalkış yüzeyinden ≤ 110 px (zıplama tepesi ~120 px,
+- Zemin yüksekliği + bulut platform denetimi, sonraki dilim: Bölüm 19–24 (tur 106'da 1–3, tur 107'de
+  4–6, tur 108'de 7–12, tur 109'da 13–18 yapıldı). Bölüm 16'nın tente + iki iskele açılışı Kitap 2'de
+  tek kaldı; 19–24'te aynı kalıp varsa o da bölüme özgü açılışla değiştirilsin. Kural: bulut yükseltisi kalkış yüzeyinden ≤ 110 px (zıplama tepesi ~120 px,
   `jump_velocity` −580, yerçekimi 1400); her yeni bulut erişim ölçümüyle doğrulanır.
 
 - Bölüm 11 pres koridoru → avlu arenası (x≈1700–5100): pencereli bot koridorda 89 → 34 can (pres hasarı 16,
@@ -129,6 +130,30 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (109) — Bölüm 13–18: açılış kesimleri (düz giriş + kopya açılış kalıbı)
+
+**Neden şimdi:** Birikimin başındaki madde. Denetimde iki sorun çıktı: Bölüm 13'ün açılışı (−400…1500)
+tamamen düzdü; Bölüm 16, 17 ve 18 ise **aynı** açılışla başlıyordu (x 560 tente, 750/−260 ve 940/−300
+iskele, 940'ta zırh, 720'den coin dizisi) — kullanıcının reddettiği "şablon" tekrarı. 14 (sandık + taş
+blok + tüfekli tüneği) ve 15 (balkon seçimi) zaten kendine özgü, dokunulmadı.
+
+**Oyuncu ne hissedecek:** Üç Süleymaniye/çarşı bölümü art arda aynı girişi oynatmaz:
+- B13 kale çıkışı: yokuşa inmeden önce sur kaidesi (vazo + kasa üstünde) ve ilk coin dizisinin üstünde tahta.
+- B16 Süleymaniye yokuşu: tente + iskele açılışı korunur (kalıbın tek sahibi).
+- B17 Süleymaniye inişi: tente ve iskeleler kalktı; medrese duvarının dibinde taş seki, sekiden buluta,
+  zırh bulutta (850, −250); bıçakçı sekinin ardında.
+- B18 çarşı kapısı: tente kalır (çarşıya ait), iskeleler yerine kapı eşiği sekisi + kemerden sarkan tahta,
+  zırh tahtada (980, −250). Tente sıçraması −307'ye çıkıyor; −310'daki coin dizisi hâlâ alınıyor.
+
+**Doğrulama:** Geçici pencereli erişim testi (gerçek girdi) 7/7: B13 set −100, bulut −110; B17 seki −100,
+seki → bulut −205; B18 seki −100, seki → bulut −205, tente sıçraması tepe −307. İlk B17 görüntüsünde coin
+dizisi tahtanın altına sarkıyordu; bulut 20 px sağa, coinler sola alındı, yeniden ölçüldü ve bakıldı.
+
+**Testler:** `--import` hatasız; `dtm_gaps` PASS; `campaign_smoke` çıkış 0; bot Bölüm 13 (78,3 sn), 17
+(87,4 sn, son düzenlemeden sonra yeniden), 18 (90,2 sn) CLEARED, üçünde de 0 yeniden doğma.
+
+**Sonraki öneri:** Bölüm 19–24 için aynı denetim (birikimin başında).
 
 ### 2026-11-03 (108) — Bölüm 7–12: giriş setleri ve bulutlar (erişim ölçümüyle)
 
