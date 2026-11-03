@@ -17,7 +17,11 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   tabelalarının hizasını bozar. Kör otonom turda font metriği değiştirmek riskli (HUD + tüm dünya tabelaları
   + alışveriş); insan, dünya tabelalarıyla yan yana görüp karar vermeli. Gövde/diyalog metni zaten vektör
   yazı tipiyle İ'yi doğru gösterdiğinden sorun yalnız dekoratif PixelText başlıklarında.
-- (Tur 130 denetimi) OYNANIS-KALITE P1 tablosu senkronu: tablo metni (satır 58-64) hâlâ "düşmandan silah
+- ~~(Tur 130 denetimi) OYNANIS-KALITE P1 tablosu senkronu~~ **(Tur 131'de yapıldı, `commit` aşağıda):** 5
+  stale satırın (silah düşmesi, silah çeşitliliği, arena göstergesi, bölüm kartı, kırılabilir ödül; + kostüm,
+  günün dalgası) "kodda görülen" sütunu `ec73bc88` gerçeğine çekildi, kanıt dosyaları eklendi. Aşağıdaki
+  eski açıklama arşiv için bırakıldı:
+  OYNANIS-KALITE P1 tablosu senkronu: tablo metni (satır 58-64) "düşmandan silah
   düşmesi / arena DALGA 2/3 / kırılabilir ganimet tablosu / bölüm kartı rütbe-süre-%100 / yeni yakın silahlar"
   için "uygulanmadı" durumunu anlatıyor, oysa hepsi `ec73bc88`'de uygulanmış (silah düşürme `drop_scene`/
   `drop_chance` ile 4 düşmanda ayarlı; arena göstergesi `hud.gd:477`; yeni silahlar `resources/weapons/
@@ -181,6 +185,23 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-04 (131) — OYNANIS-KALITE P1 tablosu gerçeğe çekildi
+
+**Neden şimdi:** Tur 130 denetimi, P1 tablosunun (satır 58-64) hâlâ bitmiş özellikleri "uygulanmadı" diye
+anlattığını buldu; eski etiketler gelecek otonom turların bitmiş işi yeniden denetlemesine yol açıyor
+(roadmap'in kendi ilk bakım görevi — satır 98). İnsan yargısı gerektirmeyen, doğrulanmış doc işi.
+
+**Yapılan:** 7 P1 satırının "kodda görülen" sütunu kod doğrulamasıyla güncellendi: düşmandan silah düşmesi
+(`EnemyConfig.drop_scene` + `_drop_loot`, 4 düşmanda ayarlı), 3 yeni İstanbul silahı (`anahtar`/`semsiye`/
+`kaldirim_tasi.tres`, 10+ bölümde), arena göstergesi (`hud.gd:452`), bölüm kartı rütbe/süre/%100
+(`main_menu.gd:389-460`), kırılabilir ganimet tablosu (`breakable_prop.gd` DROP_TABLE), kostüm
+(`costume_accessory.gd`), günün dalgası (`DailyWave`). Her biri `ec73bc88` ya da mevcut sistemden.
+
+**Testler:** Yalnız Markdown değişti; kod/sahne dokunulmadı, çalışma zamanı etkilenmez.
+
+**Sonraki öneri:** Birikimdeki başlık İ-kerning işi insan yargısı bekliyor; kalan P1/P2 (savunma i-frame,
+başarım kostüm ödülü) insan testine bağlı. Denetim: en az anılan başka bir bölüm.
 
 ### 2026-11-04 (130) — Denetim: Bölüm 16 (temiz) + başlık "I" serifi okunurluğu
 
