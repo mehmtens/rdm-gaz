@@ -186,6 +186,20 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-04 (133) — Denetim: Bölüm 35 (temiz) — otomasyon durdu
+
+**Neden şimdi:** Tur 132'den sonra listeler kapalı; hiç denetlenmemiş Bölüm 35 (Rumeli Hisarı gecesi)
+pencereli bot ile oynatıldı (12 sn arayla 11 görüntü). CLEARED 139,9 sn; en uzun takılma 23 sn x≈6916
+(rıhtım arenası, Ağır Zırhlı can havuzu; 45 sn sınırının altında).
+
+**Bulgular:** Hisar kapısı, sur içi, HİSARERİ büfesi, rıhtım iskelesi, presler ve bayraklar ChatGPT gece
+arka planıyla uyumlu; kopuk ya da yapıştırılmış görünen öğe yok. Dalga şeridi ve kombo yazısı okunur.
+
+**Testler:** Kod değişmedi. Bot Bölüm 35 pencereli CLEARED.
+
+**Sonraki öneri:** Otonom yapılabilir somut iş kalmadı; telefon testi (birikimdeki ölçümler). Denetim
+sürecekse hiç bakılmamış bölümler: 2, 3, 5, 6, 7, 8, 9, 10, 15, 27, 30, 36.
+
 ### 2026-11-04 (132) — Denetim: Bölüm 17 + iç mekân gizli odası depo dolabı
 
 **Neden şimdi:** Stil listesi, YOL_HARITASI ve P1 kapalı; birikimin tamamı insan testine/yargısına bağlı.
