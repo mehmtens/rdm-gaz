@@ -683,7 +683,8 @@ func _spike_pit(x0: float, x1: float, depth := 130.0) -> void:
 ## Çok katlı iç mekân (depo, konak, han): içeri girince ön cephe saydamlaşır.
 ## Zemin kat düz geçilir; `floors` (yüzey y'leri, yukarı doğru) tek yön ahşap
 ## katlardır (alttan zıplanır); en üstteki `top` yürünür dam. Odalar arkada
-## piksel art sıva + hatıl. Cephe stili: 0 tuğla+pencere, 1 sıva.
+## piksel art sıva + hatıl. Cephe stili: 0 tuğla+pencere, 1 sıva, 2 taş kışla
+## (kale/üs yapıları: sur örgüsü cephe, içeride kemer ayaklı moloz taş duvar).
 func _interior(x0: float, x1: float, top: float, floors: Array, style := 0) -> void:
 	_interiors.append([x0, x1])
 	var w := x1 - x0
@@ -691,6 +692,7 @@ func _interior(x0: float, x1: float, top: float, floors: Array, style := 0) -> v
 	back.position = Vector2(x0 + w * 0.5, top * 0.5)
 	back.z_index = -8
 	back.floors = floors
+	back.stone = style == 2
 	# Boyalı arka planın iç mekân olduğu yerler (arka sıra evlerin atlandığı
 	# aralıklar) açık kesit: sıva duvar o güzel resmi kapatmasın.
 	var painted_inside := false
@@ -1009,6 +1011,8 @@ class _Art extends Node2D:
 	var eave := 0.0
 	var floors: Array = []
 	var open_back := false
+	## İç mekân: hımış sıva yerine taş kışla duvarı (`_interior` stil 2).
+	var stone := false
 	var corner_l := true
 	var corner_r := true
 	## Köşe taşı boyu (üstten, px); < 0 tam boy. Alçak komşuya yaslı basamakta yalnız
@@ -1047,6 +1051,57 @@ class _Art extends Node2D:
 					Rect2(region.position, Vector2(floorf(w / PX), floorf(h / PX))), tint)
 				x += tw
 			y += th
+
+	## Taş kışla içi: sur örgüsü sıralar tavandan aşağı koyulaşır (ışık fenerlerden),
+	## 240 px'te bir köşe taşı ayak, iki bölmede bir asma fener; dipte cephane rafı,
+	## yüksekte demir parmaklıklı pencere. Tablo/tuğla yaması yok (ev değil, kışla).
+	func _draw_stone_room(hw: float, hh: float) -> void:
+		var y := -hh
+		var row := 0
+		while y < hh - 0.5:
+			var dk := clampf(0.62 - row * 0.05, 0.46, 0.62)
+			_tiled(PIX_WALL_BODY, Rect2(-hw, y, size.x, minf(90.0, hh - y)),
+				Color(dk, dk * 0.94, dk * 1.04), Rect2(0, 0, 96, 45))
+			y += 90.0
+			row += 1
+		var bottoms: Array = [hh]
+		for fy in floors:
+			bottoms.append(float(fy) + hh)
+		bottoms.append(-hh)
+		for i in bottoms.size() - 1:
+			var b: float = bottoms[i]
+			var t: float = bottoms[i + 1] + 30.0
+			var n := 0
+			var bx := -hw + 120.0
+			while bx < hw - 70.0:
+				if n % 2 == 0:
+					var ss := PIX_SHELF.get_size() * PX
+					if ss.y < b - t - 6.0:
+						draw_texture_rect(PIX_SHELF, Rect2(bx - ss.x * 0.5, b - 6.0 - ss.y, ss.x, ss.y), false, Color(0.8, 0.76, 0.76))
+				elif b - t > 200.0:
+					var ws := PIX_IN_WINDOW.get_size() * PX
+					draw_texture_rect(PIX_IN_WINDOW, Rect2(bx - ws.x * 0.5, t + 20.0, ws.x, ws.y), false, Color(0.78, 0.76, 0.86))
+				if b - t > 170.0 and n % 2 == 0:
+					var lsz := PIX_HANG_LAMP.get_size() * PX
+					var cs2 := PIX_CHAIN.get_size() * PX
+					var lx := bx + 70.0
+					_tiled(PIX_CHAIN, Rect2(lx - cs2.x * 0.5, t - 30.0, cs2.x, 40.0))
+					draw_texture_rect(PIX_HANG_LAMP, Rect2(lx - lsz.x * 0.5, t + 8.0, lsz.x, lsz.y), false)
+				bx += 240.0
+				n += 1
+		# Kat altı gölge + kiriş; ayaklar (köşe taşı sütunu) katları keser.
+		for fy in floors:
+			var ly: float = float(fy) + hh
+			_tiled(PIX_WALL_BODY, Rect2(-hw, ly + 30.0, size.x, 26.0), Color(0.34, 0.3, 0.38), Rect2(0, 0, 96, 45))
+			_tiled(PIX_BEAM_WOOD, Rect2(-hw, ly + 18.0, size.x, 12.0))
+		var cw := 10.0 * PX
+		var vx := -hw
+		while vx < hw - cw - 1.0:
+			_tiled(PIX_WALL_CORNER, Rect2(vx, -hh, cw, size.y), Color(0.92, 0.86, 0.9), Rect2(0, 0, 10, 45))
+			vx += 240.0
+		_tiled(PIX_WALL_CORNER, Rect2(hw - cw, -hh, cw, size.y), Color(0.92, 0.86, 0.9), Rect2(10, 0, 10, 45))
+		_tiled(PIX_BEAM_WOOD, Rect2(-hw, -hh, size.x, 12.0))
+		_tiled(PIX_WALL_CAP, Rect2(-hw, hh - PIX_WALL_CAP.get_height() * PX, size.x, PIX_WALL_CAP.get_height() * PX), Color(0.72, 0.68, 0.74))
 
 	func _draw() -> void:
 		var hw := size.x * 0.5
@@ -1242,6 +1297,9 @@ class _Art extends Node2D:
 					_tiled(PIX_BEAM_WOOD, Rect2(-hw, -hh, 15.0, size.y))
 					_tiled(PIX_BEAM_WOOD, Rect2(hw - 15.0, -hh, 15.0, size.y))
 					return
+				if stone:
+					_draw_stone_room(hw, hh)
+					return
 				# Hımış iç duvar: kireç sıva + ahşap çatkı (dikmeler, kat kirişleri),
 				# yer yer sıvası dökülmüş tuğla; katların altı gölgeli.
 				_tiled(PIX_INWALL, Rect2(-hw, -hh, size.x, size.y), Color(0.6, 0.53, 0.5))
@@ -1352,6 +1410,9 @@ class _Facade extends Node2D:
 
 	## İç mekân cephesi: piksel tuğla (0) ya da sıva (1), her katta yanan pencereler.
 	func _draw_building() -> void:
+		if style == 2:
+			_draw_stone_facade()
+			return
 		var tex: Texture2D = PIX_BRICK if style == 0 else PIX_INWALL
 		var t := tex.get_size() * PX
 		var tint := Color(0.86, 0.8, 0.76) if style == 0 else Color(0.74, 0.66, 0.6)
@@ -1411,6 +1472,41 @@ class _Facade extends Node2D:
 			draw_texture_rect_region(PIX_BEAM_WOOD, Rect2(rect.end.x - 12.0, rect.position.y, 12.0, rect.size.y), Rect2(0, 0, 4, 8))
 		# Kapı ağzı: zemin katta karanlık kemer (girilebilir olduğunu söyler).
 		draw_texture_rect(PIX_GATE, Rect2(rect.position.x + 6.0, rect.end.y - 156.0, 134.0, 156.0), false, Color(0.75, 0.7, 0.7))
+
+	## Taş kışla cephesi: sur örgüsü (aşağı indikçe fenerden uzaklaşır), iki yanda
+	## köşe taşı, yüksekte seyrek demir parmaklıklı pencere; dükkân yok.
+	func _draw_stone_facade() -> void:
+		var y := rect.position.y
+		var row := 0
+		while y < rect.end.y - 0.5:
+			var dk := clampf(0.92 - row * 0.07, 0.76, 0.92)
+			_tile(PIX_WALL_BODY, Rect2(rect.position.x, y, rect.size.x, minf(90.0, rect.end.y - y)),
+				Rect2(0, 0, 96, 45), Color(dk, dk, dk))
+			y += 90.0
+			row += 1
+		var ws := PIX_IN_WINDOW.get_size() * PX
+		var wx := rect.position.x + 220.0
+		while wx < rect.end.x - ws.x - 60.0:
+			draw_texture_rect(PIX_IN_WINDOW, Rect2(wx, rect.position.y + 40.0, ws.x, ws.y), false, Color(0.6, 0.56, 0.62))
+			wx += 300.0
+		var cw := 10.0 * PX
+		_tile(PIX_WALL_CORNER, Rect2(rect.position.x, rect.position.y, cw, rect.size.y), Rect2(0, 0, 10, 45))
+		_tile(PIX_WALL_CORNER, Rect2(rect.end.x - cw, rect.position.y, cw, rect.size.y), Rect2(10, 0, 10, 45))
+		draw_texture_rect(PIX_GATE, Rect2(rect.position.x + 6.0, rect.end.y - 156.0, 134.0, 156.0), false, Color(0.75, 0.7, 0.7))
+
+	func _tile(t: Texture2D, r: Rect2, region: Rect2, tint := Color.WHITE) -> void:
+		var tw := region.size.x * PX
+		var th := region.size.y * PX
+		var y := r.position.y
+		while y < r.end.y - 0.5:
+			var h := minf(th, r.end.y - y)
+			var x := r.position.x
+			while x < r.end.x - 0.5:
+				var w := minf(tw, r.end.x - x)
+				draw_texture_rect_region(t, Rect2(x, y, w, h),
+					Rect2(region.position, Vector2(floorf(w / PX), floorf(h / PX))), tint)
+				x += tw
+			y += th
 
 
 ## Uzak gökyüzü: boyalı Süleymaniye sahnesi, kameranın %4'ü hızla kayar.

@@ -7,6 +7,11 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- Bölüm 9 finali (Binbaşı Kaya, x≈8180–9120): üç dalga (Ağır Zırhlı+Bombacı → Binbaşı → Seçkin+Ağır
+  Zırhlı); pencereli bot finale 42/115 canla girdi, 2 yeniden doğma. Bölümde 7 Ağır Zırhlı var; ilk avlu
+  arenasında (x≈5300, üç dalganın üçünde de Ağır Zırhlı) 21 sn takılma. İnsan testinde final ölümü 1'i
+  geçerse Binbaşı sonrası üçüncü dalga kalksın (adlı rakip son dalga olur) ya da avlu üçüncü dalgası tek zırhlı.
+
 - Bölüm 26 final arenası (x≈8200–8700, `DALGA 2/2 · 3 DÜŞMAN`): pencereli bot son dalgada 1/115
   cana indi, koşuda 2 yeniden doğma (başsız koşularda 0–1). İnsan testinde final ölümü 1'i geçerse
   ikinci dalga sonrası simit ya da üç düşmandan biri tüfeksiz.
@@ -101,6 +106,32 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (81) — Denetim (Bölüm 3, 9) + Bölüm 9 cephaneliği taş kışla
+
+**Neden şimdi:** Birikimde uygulanabilir madde yok (kalanlar insan testine bağlı) → tur 80'in önerdiği
+Kitap 1 denetimi. Pencereli bot (4 sn'de bir kare): Bölüm 3 CLEARED 71,2 sn (0 yeniden doğma, avluda
+9 sn takılma), Bölüm 9 CLEARED 125,3 sn (finalde 2 yeniden doğma, ilk avlu arenasında 21 sn takılma).
+
+**Bulgular:** Bölüm 3 ritmi (tezgâh kavgası → çapraz iskele → tente ile pazar duvarı → meydan arenası →
+çaycı → çamaşır ipi yolu → depo) temiz, film rulosu ve arena göstergesi okunuyor; görsel kopukluk
+görülmedi. Bölüm 9'un en göze batan karesi cephanelikti: kale/köprü resminin ortasında 1140×345 px
+kahverengi hımış sıva oda (Balat evlerinin iç duvarı), dışarıda tuğla cephe ve cephede **mahalle
+dükkânı tentesi** — askerî üsse ait değil. Final yükü insan testine bağlı olarak birikime yazıldı.
+
+**Yapılan:** `_interior` stil 2 = taş kışla. Cephe: sur örgüsü (`sur_tasi`, aşağı indikçe koyulaşır),
+iki yanda köşe taşı, yüksekte seyrek parmaklıklı pencere, dükkân yok. İç: aynı örgü koyu tonda
+(0,62 → 0,46, gece modülasyonu üstüne), 240 px'te bir köşe taşı ayak (bölmeler okunur), iki bölmede
+bir asma fener, dipte raf, yüksekte pencere; tablo ve tuğla yaması yok. Yalnız Bölüm 9 cephaneliği
+geçti (öbür kale/hamam iç mekânları — 19, 35 — boyalı açık kesit, etkilenmez). Yeni çizim yok:
+tur 70–79'da "ait" bulunan ChatGPT tarzı sur dokuları yeniden kullanıldı. 1280×720 çekimde oda kale
+arka planıyla aynı taş ailesinden, cephe taş zeminle tek kütle — "ait".
+
+**Testler:** import temiz (SCRIPT ERROR 0); smoke 36/36 SMOKE OK, çıkış 0; DTM GAPS PASS; bot başsız
+Bölüm 9 (119,0 sn), 1 (87,4), 13 (77,7), 25 (84,9) CLEARED.
+
+**Sonraki öneri:** Denetim adayları: tek başına bakılmamış Kitap 1 bölümleri (ör. 4, 6) ve Kitap 2'den
+11. İnsan testi (`docs/INSAN-TESTI.md`) hâlâ birikimin çoğunu açacak adım.
 
 ### 2026-11-03 (80) — Denetim: Bölüm 26 (Sirkeci garı) ve 32 (Kuleli–Vaniköy)
 

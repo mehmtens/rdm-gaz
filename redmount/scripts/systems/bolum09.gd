@@ -54,7 +54,7 @@ func _build() -> void:
 	_checkpoint(3260, 0)
 	_story(3340, _sahne_cephanelik)
 	# Cephanelik binası: içeri girince cephe açılır; güçlendirici kasaları içeride.
-	_interior(3420, 4560, -345, [], 0)
+	_interior(3420, 4560, -345, [], 2)
 	_sandbags(3460, 110)
 	_crates(3700, 2, 1)
 	_powerup(3745, -150, PU_SHIELD)
