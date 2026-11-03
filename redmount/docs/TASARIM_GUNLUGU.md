@@ -113,10 +113,28 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 - Telefonda dokunmatik ölçüm: yanlış/kaçırılan basış sayacı (insan testi formuyla bağlanacak).
 - Bölüm 18 finali (Çemberlitaş damı, 3 dalga): bot ölmeden ama 115 → 24 canla geçti (tur 88).
   İnsan testinde final ölümü 1'i geçerse üçüncü dalga hafifletilsin ya da 2. dalga sonrası simit.
+- Bölüm 20 finali (Yenikapı gece kapısı, 3 dalga, x≈9500–10000): bot ölmeden ama 27 → 13 canla geçti
+  (tur 90). İnsan testinde final ölümü 1'i geçerse 2. dalga sonrası simit.
 - KAY düğmesinin yeri gerçek cihazda başparmak erişimiyle doğrulanacak; gerekirse
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (90) — Denetim: Bölüm 20 (temiz)
+
+**Neden şimdi:** Tur 89'un önerisi. Pencereli bot (8 sn'de bir kare): Bölüm 20 CLEARED 95,3 sn,
+0 yeniden doğma, finalde 11 sn takılma. Final arenası (Yenikapı gece kapısı, 3 dalga) botu 27 → 13 cana indirdi.
+
+**Bulgular:** Ritim (Samatya surları dibinde balıkçı çarşısı + arena → deniz kemeri, ayak taşları →
+taş depolar, vinç sandığında tüfekli → Samatya erzakı → ağ deposu arenası → gece kapısı finali) okunuyor.
+Taş setler depo resminin kesme taşıyla, çıkış kapısının gri taşı mavi gece suruyla bir aile — "ait".
+Kopan öğe bulunmadı; değişiklik yok.
+
+**İnsan testi notu (birikime):** Bölüm 20 finali; bot can 13'e düştü.
+
+**Testler:** Kod değişmedi (yalnız günlük).
+
+**Sonraki öneri:** Kitap 2 denetimine 21 ile devam.
 
 ### 2026-11-03 (89) — Denetim: Bölüm 19 + külhan çıkış kapısı ateş tonunda
 
