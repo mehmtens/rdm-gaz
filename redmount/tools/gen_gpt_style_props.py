@@ -14,7 +14,7 @@ Kural seti (assets/backgrounds ve book03_final_* sayfalarından ölçüldü):
 fener,fener_hale,asma_lamba,on_kolon,on_kolon_bas,on_kolon_kaide,on_sarmasik,zincir,halat,kum_torbasi,tas_blok,raf,kaset,cerceve,
 diken,alev_izgara,kablo,bomba,bomba_ikaz,alev,kivilcim,patlama,
 tugla,sivali_tugla,ic_duvar,hatil,ic_pencere,fabrika_pencere,cephe_pencereleri,kat_silmesi,saldiri_uyari,dukkan,tavan,han_kapisi,
-pres,pres_kol,ray,su_govde,su_yuzey,anten,kule_ayak,kule_kulube,ahsap_kat,
+pres,pres_kol,ray,pres_kirisi,pres_ayak,pres_yatak,su_govde,su_yuzey,anten,kule_ayak,kule_kulube,ahsap_kat,
 kalkan,kalkan_kirik,sancak,catlak,kiymik,depo_rafi,baca_tahta,kule_tugla,baca_tugla,
 sur_tasi,sur_tepe,sur_kose}.png
 ve assets/pickups/placeholder_rifle.png
@@ -2609,6 +2609,106 @@ def make_sur_kose(rnd):
     return img
 
 
+def make_pres_kirisi(rnd):
+    """Pres köprüsü kirişi (16×12, yatay döşenir): perçinli çelik I-kiriş. Üst başlık
+    fener ışığında altın şerit, gövde gölgede kafes delikli, alt başlıkta ay parlaması;
+    perçin sırası ve pas akıntısı."""
+    w, h = 16, 12
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    for y in range(h):
+        for x in range(w):
+            if y <= 2:
+                lv = (0.86, 0.6, 0.34)[y]  # üst başlık: ışığa bakan dar şerit
+            elif y >= 9:
+                lv = (0.3, 0.22, 0.12)[y - 9]  # alt başlık gölgede
+            else:
+                lv = 0.2 + (0.06 if y == 3 else 0.0)  # gövde: üst başlığın altında koyu
+                # Kafes (üçgen) delikleri: gövdede eğik kuşaklar.
+                k = (x + (y - 3)) % 8
+                k2 = (x - (y - 3)) % 8
+                if k in (0, 1) or k2 in (0, 1):
+                    lv = 0.42 if k == 0 or k2 == 0 else 0.32
+                elif 4 <= y <= 7:
+                    px[x, y] = (0, 0, 0, 0)  # delikten arkası görünür
+                    continue
+            c = pick(STEEL, lv, rnd, 0.35)
+            if y <= 1:
+                c = mix(c, (206, 166, 106), 0.3 if y == 0 else 0.12)
+            if y == 10 and x % 5 == 2:
+                c = mix(c, MOON, 0.45)  # alt kenarda soğuk parlama
+            if y >= 3 and rnd.random() < 0.06:
+                c = pick(RUST, 0.45, rnd, 0.3)  # pas
+            px[x, y] = c + (255,)
+    for x in (3, 11):
+        px[x, 1] = STEEL[7] + (255,)  # perçin başı
+        px[x, 2] = STEEL[1] + (255,)
+        px[x, 10] = STEEL[5] + (255,)
+    # Pas akıntısı: perçinden aşağı.
+    for y in range(3, 6):
+        if px[11, y][3]:
+            px[11, y] = mix(px[11, y][:3], RUST[2], 0.5) + (255,)
+    outline(img)
+    return img
+
+
+def make_pres_ayak(rnd):
+    """Pres köprüsü ayağı (12×16, dikey döşenir): iki köşebent arasında çapraz kafes.
+    Sol köşebent fener ışığında, sağı ayda; perçinli kuşak plakası."""
+    w, h = 12, 16
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    for y in range(h):
+        for x in (0, 1, 2, 9, 10, 11):
+            u = (-0.7, 0.0, 0.6)[x % 3] if x < 3 else (-0.5, 0.2, 0.8)[x - 9]
+            c = pick(STEEL, light(u) * (0.8 if x < 3 else 0.55) + 0.05, rnd, 0.25)
+            if x >= 9:
+                c = mix(c, MOON, 0.22)
+            if rnd.random() < 0.05:
+                c = pick(RUST, 0.4, rnd, 0.3)
+            px[x, y] = c + (255,)
+    for i in range(h):
+        t = i / (h - 1)
+        xx = int(3 + t * 5.99)
+        for d in (0, 1):
+            if 3 <= xx + d <= 8:
+                px[xx + d, i] = pick(STEEL, 0.38 if d == 0 else 0.14, rnd, 0.2) + (255,)
+    for y in (0, 1):
+        for x in range(3, 9):
+            px[x, y] = pick(STEEL, 0.5 if y == 0 else 0.12, rnd, 0.2) + (255,)
+    px[1, 0] = STEEL[7] + (255,)
+    px[10, 0] = STEEL[5] + (255,)
+    outline_sides(img)
+    return img
+
+
+def make_pres_yatak(rnd):
+    """Piston yatağı (16×10): kirişin altına cıvatalı silindir gövdesi; üstte flanş,
+    altta pistonun çıktığı bilezik. Sol üst sıcak, sağ kenar ayda, alt kenar AO."""
+    w, h = 16, 10
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    for y in range(h):
+        half = 8 if y <= 1 else (5 if y < 8 else 4)
+        for x in range(8 - half, 8 + half):
+            u = (x - 7.5) / half
+            lv = light(u) * 0.85 + 0.04
+            if y <= 1:
+                lv = 0.62 if y == 0 else 0.3  # flanş
+            if y >= 8:
+                lv *= 0.55  # bilezik gölgede
+            c = pick(STEEL, lv, rnd, 0.25)
+            if u > 0.55:
+                c = mix(c, MOON, 0.3)
+            if y == 4 and x in (5, 6):
+                c = HAZARD[2]  # yağ seviyesi camı: sıcak nokta
+            px[x, y] = c + (255,)
+    for x in (1, 14):
+        px[x, 0] = STEEL[7] + (255,)  # cıvata
+    outline(img)
+    return img
+
+
 def main():
     rnd = random.Random(7)
     make_varil(rnd).save(OUT + "varil.png")
@@ -2653,6 +2753,9 @@ def main():
     make_pres(random.Random(131)).save(OUT + "pres.png")
     make_pres_kol(random.Random(137)).save(OUT + "pres_kol.png")
     make_ray(random.Random(139)).save(OUT + "ray.png")
+    make_pres_kirisi(random.Random(277)).save(OUT + "pres_kirisi.png")
+    make_pres_ayak(random.Random(281)).save(OUT + "pres_ayak.png")
+    make_pres_yatak(random.Random(283)).save(OUT + "pres_yatak.png")
     make_su_govde(random.Random(149)).save(OUT + "su_govde.png")
     make_su_yuzey(random.Random(151)).save(OUT + "su_yuzey.png")
     make_anten(random.Random(157)).save(OUT + "anten.png")

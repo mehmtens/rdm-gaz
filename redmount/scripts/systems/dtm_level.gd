@@ -49,6 +49,10 @@ const PIX_FG_COLUMN := preload("res://assets/environment/pixel/on_kolon.png")
 const PIX_FG_CAP := preload("res://assets/environment/pixel/on_kolon_bas.png")
 const PIX_FG_BASE := preload("res://assets/environment/pixel/on_kolon_kaide.png")
 const PIX_BEAM_WOOD := preload("res://assets/environment/pixel/hatil.png")
+## Pres köprüsü: perçinli I-kiriş (16×12), kafes ayak (12×16), piston yatağı (16×10).
+const PIX_GANTRY_BEAM := preload("res://assets/environment/pixel/pres_kirisi.png")
+const PIX_GANTRY_LEG := preload("res://assets/environment/pixel/pres_ayak.png")
+const PIX_GANTRY_SEAT := preload("res://assets/environment/pixel/pres_yatak.png")
 const PIX_BRICK_PATCH := preload("res://assets/environment/pixel/sivali_tugla.png")
 const PIX_SHELF := preload("res://assets/environment/pixel/raf.png")
 const PIX_HANG_LAMP := preload("res://assets/environment/pixel/asma_lamba.png")
@@ -392,6 +396,22 @@ func _press(cx: float, phase := 0.0, period := 2.8, ground := 0.0, beam := NAN) 
 	c.set("phase_offset", phase)
 	c.position = Vector2(cx, ground - 165.0 - 30.0)
 	add_child(c)
+
+
+## Açık havada pres hattı: preslerin üstünde çelik köprü (kiriş + iki kafes ayak, her
+## presin üstünde piston yatağı); kollar yatağa bağlı. Köprü yalnız görsel, çarpışmasız.
+## `beam_y` kirişin üst kenarı.
+func _press_gantry(xs: Array, phases: Array, period := 2.8, beam_y := -360.0) -> void:
+	var x0: float = float(xs.front()) - 100.0
+	var x1: float = float(xs.back()) + 100.0
+	var g := _Art.new(_Art.A_GANTRY, Vector2(x1 - x0, -beam_y))
+	g.position = Vector2((x0 + x1) * 0.5, beam_y * 0.5)
+	for cx in xs:
+		g.floors.append(float(cx) - g.position.x)
+	add_child(g)
+	# Kol, yatağın alt bileziğinin içinden çıkar (kiriş 36 + yatak 30 px).
+	for i in xs.size():
+		_press(float(xs[i]), float(phases[i]), period, 0.0, beam_y + 62.0)
 
 
 ## Alev bacası: zeminden periyodik fışkıran alev (uyarı titremesiyle).
@@ -942,7 +962,7 @@ func _spawn_backdrop() -> void:
 # --- Çizim sınıfları ------------------------------------------------------------
 
 class _Art extends Node2D:
-	enum { A_TERRAIN, A_HOUSE, A_BUILDING, A_CRATES, A_SCAFFOLD, A_BALCONY, A_ROOF, A_WALL_STRIP, A_ROOM, A_GATE, A_STALL, A_WATER, A_SANDBAG, A_TOWER, A_WAGON, A_RAILS, A_FACTORY, A_PRESS_FRAME, A_CEILING, A_PLANK, A_STONES, A_INTERIOR, A_FLOOR, A_ROOFLINE, A_SHAFT, A_RACK, A_SHAFT_WOOD, A_BRICK_TOWER, A_SHAFT_BRICK, A_RAMPART }
+	enum { A_TERRAIN, A_HOUSE, A_BUILDING, A_CRATES, A_SCAFFOLD, A_BALCONY, A_ROOF, A_WALL_STRIP, A_ROOM, A_GATE, A_STALL, A_WATER, A_SANDBAG, A_TOWER, A_WAGON, A_RAILS, A_FACTORY, A_PRESS_FRAME, A_CEILING, A_PLANK, A_STONES, A_INTERIOR, A_FLOOR, A_ROOFLINE, A_SHAFT, A_RACK, A_SHAFT_WOOD, A_BRICK_TOWER, A_SHAFT_BRICK, A_RAMPART, A_GANTRY }
 	var kind: int
 	var size: Vector2
 	var tex: Texture2D
@@ -1105,6 +1125,18 @@ class _Art extends Node2D:
 				_tiled(PIX_RAIL, Rect2(-hw - 6.0, -hh - 9.0, size.x + 12.0, 6.0), Color(0.8, 0.82, 0.9), Rect2(0, 0, 16, 2))
 			A_PRESS_FRAME:
 				pass
+			A_GANTRY:
+				# Ayaklar kirişin altından zemine; kiriş iki uçtan biraz taşar, yataklar
+				# kirişin altına cıvatalı. Ayak dibinde zemin teması (AO).
+				var beam_h := PIX_GANTRY_BEAM.get_height() * PX
+				var leg_w := PIX_GANTRY_LEG.get_width() * PX
+				for lx in [-hw, hw - leg_w]:
+					_tiled(PIX_GANTRY_LEG, Rect2(lx, -hh + beam_h * 0.5, leg_w, size.y - beam_h * 0.5))
+					draw_texture_rect(PIX_SHADOW, Rect2(lx - 12.0, hh - 9.0, leg_w + 24.0, 12.0), false)
+				_tiled(PIX_GANTRY_BEAM, Rect2(-hw - 12.0, -hh, size.x + 24.0, beam_h))
+				var seat := PIX_GANTRY_SEAT.get_size() * PX
+				for fx in floors:
+					draw_texture_rect(PIX_GANTRY_SEAT, Rect2(float(fx) - seat.x * 0.5, -hh + beam_h, seat.x, seat.y), false)
 			A_CEILING:
 				# Piksel art kaya: üst kısım taş dolgu, en altta sarkıtlı şerit.
 				var strip_h := PIX_CEILING.get_height() * PX

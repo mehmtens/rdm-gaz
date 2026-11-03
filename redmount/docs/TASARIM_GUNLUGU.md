@@ -10,9 +10,6 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 - Yükseltilmiş set taraması kapandı (tur 69–73): 8, 9, 10, 12, 27, 29, 30, 31 yerin malzemesinde;
   Bölüm 34 yokuş basamakları bilinçli olarak kaldırımda (sokak merdiveni). İnsan testinde uzun
   sur yüzeylerinde (Bölüm 10, 3000 px) taş tekrarı göze batarsa sıra boyu/kırık taş çeşidi artırılsın.
-- Diğer açık havada duran pres hatları (Bölüm 6, 7, 11, 24, 34, 36) hâlâ ekranın üstüne uzanan
-  kolla çiziliyor. Tur 74'te `_press(..., beam)` eklendi; her bölümün kesimi pencereli çekilip
-  arkası açık gökyüzü olanlara kiriş/galeri verilsin (iç mekân/tonoz altındakiler kalsın).
 - Bölüm 7 dökümhane arenası (x≈5200–5600, üç dalga + Ağır Zırhlı): bot 69 → 23 can, bölümde
   2 yeniden doğma. İnsan testinde arena ölümü 1'i geçerse ikinci dalga sonrası simit.
 
@@ -91,6 +88,34 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (75) — Açık havadaki pres hatları çelik köprüye asılı: Bölüm 6, 7, 36
+
+**Neden şimdi:** Tur 74'ün birikime yazdığı devam. Altı pres hattı pencereli çekildi: Bölüm 11
+(kaya tavan), 24 (taş kemerli kâtip salonu) ve 34 (radyo odası) boyalı iç mekânın önünde,
+kollar tavana/kemere gidiyor — dokunulmadı. Bölüm 36 mavna güvertesinde kollar Boğaz
+gökyüzüne, Bölüm 6 haddehanede iki hatta ve Bölüm 7 fırın yolunda da gökyüzüne sarkıyordu.
+
+**Yapılan:**
+- Yeni piksel art (`tools/gen_gpt_style_props.py`, STEEL/RUST/MOON rampaları, koyu mor kontur):
+  `pres_kirisi` (16×12 perçinli kafes I-kiriş, üst başlıkta fener şeridi, altta ay
+  parlaması, pas akıntısı), `pres_ayak` (12×16 köşebent + çapraz kafes), `pres_yatak` (16×10
+  cıvatalı piston yatağı, yağ camı).
+- `DtmLevel._press_gantry(xs, phases, period, beam_y = -360)`: kiriş + iki ayak (zemine AO) +
+  her presin üstünde yatak; kollar yatağın bileziğinden çıkar (`ceiling_y`). Yalnız görsel,
+  çarpışmasız — otomatik gizli alan yerleştiricisine aday olmaz.
+- Bölüm 6 pres salonu (3 pres) ve döküm avlusu presi, Bölüm 36 piston hattı köprüye taşındı.
+  Bölüm 7'de presler zaten tam üstlerindeki iskele tablalarının altında: kollar tablaya bağlandı
+  (`beam = -250`), yeni yapı gerekmedi.
+
+**Testler:** import temiz; smoke 36/36 SMOKE OK, SCRIPT ERROR 0, çıkış 0; DTM GAPS PASS; CRUSHER BEAM
+PASS; bot başsız Bölüm 6 (134,3 sn), 7 (92,3), 36 (181,4), 1 (82,6), 13 (76,5), 25 (83,4) CLEARED.
+Görsel: Bölüm 36'da köprü gemi makineleri ve vinçle aynı aileden, "ait"; Bölüm 6'da kiriş
+haddehanenin çelik iskeletine karışıyor (koyu, ama yataklar presin neye bağlı olduğunu
+okutuyor); Bölüm 7'de kollar iskeleye bağlı okunuyor.
+
+**Sonraki öneri:** Birikimde uygulanabilir madde kalmadı (geri kalanlar insan testine bağlı) →
+tasarım denetimi; tur 73'ün önerdiği gibi daha önce tek başına denetlenmemiş Bölüm 14 ve 20.
 
 ### 2026-11-03 (74) — Bölüm 35 kumanda odası presleri ahşap galeriye asılı; üstte gizli rota
 

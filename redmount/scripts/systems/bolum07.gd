@@ -87,9 +87,10 @@ func _build() -> void:
 
 	# --- 5. Fırın yolu: pres + alev ritmi, üstte isteğe bağlı iskele ------------
 	_checkpoint(6320, 0)
-	_press(6550, 0.0)
+	# Pres kolları üstteki iskele tablalarına bağlı (iskele -260'ta, presin tam üstünde).
+	_press(6550, 0.0, 2.8, 0.0, -250.0)
 	_flame(6750, 0.4)
-	_press(6950, 0.5)
+	_press(6950, 0.5, 2.8, 0.0, -250.0)
 	_flame(7150, 0.9)
 	_enemy(KNIFE, 7400, 0)
 	_enemy(BRUISER, 7600, 0)

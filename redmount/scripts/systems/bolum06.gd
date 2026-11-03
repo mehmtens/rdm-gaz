@@ -53,9 +53,7 @@ func _build() -> void:
 	# --- 3. Pres salonu: zamanla altından geç ----------------------------------
 	_checkpoint(3420, 0)
 	_story(3460, _sahne_hoparlor)
-	_press(3650, 0.0)
-	_press(3880, 0.35)
-	_press(4110, 0.7)
+	_press_gantry([3650, 3880, 4110], [0.0, 0.35, 0.7])
 	_coin_line(3620, 6, 92, -60)
 	_prop("kasa", 4300)
 
@@ -94,7 +92,7 @@ func _build() -> void:
 	_enemy(KNIFE, 6600, -180)
 	_coin_line(6300, 6, 70, -230)
 	_flame(6800, 0.2)
-	_press(6960, 0.5)
+	_press_gantry([6960], [0.5])
 	_crates(7160, 1, 1)
 	_crates(7250, 1, 2)
 	_factory(7340, 7800, -200)

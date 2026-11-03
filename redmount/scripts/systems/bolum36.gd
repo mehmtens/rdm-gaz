@@ -65,9 +65,7 @@ func _build() -> void:
 
 	# --- 4. Güverte altı: piston hattı, sonra galerili ambarda arena (Yüzbaşı) --------
 	_checkpoint(5150, 0)
-	_press(5350, 0.0, 2.4)
-	_press(5600, 0.33, 2.4)
-	_press(5850, 0.66, 2.4)
+	_press_gantry([5350, 5600, 5850], [0.0, 0.33, 0.66], 2.4)
 	_coin_line(5320, 6, 105, -60)
 	_interior(6150, 7150, -345, [], 0)
 	_scaffold(6320, -115, 180)
