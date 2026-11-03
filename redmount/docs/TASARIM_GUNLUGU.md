@@ -7,6 +7,10 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- Sol sütunda boş satır (tur 119 denetimi, Bölüm 13): yakın silah ve yedek yokken silah satırı boş
+  kalıyor, "MERMİ 18/54" bir satır aşağıda, arada boşluk. Küçük; satırlar dolu olanlara göre sıkıştırılabilir
+  (ya da tabanca varken silah satırı "TABANCA" gösterir). İnsan testinde göze batarsa.
+
 - Kasap Rıza arenası (Bölüm 2, x≈8150–8260): bot üç koşuda 16–17 sn kalıyor, 0 ölüm, ~19 can kaybı.
   Sorun değil; insan testinde arena süresi 40 sn'yi geçerse Rıza'nın can havuzu ölçülsün.
 
@@ -133,6 +137,33 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (119) — Denetim (Bölüm 13): telsiz paneli duraklat düğmesini örtüyordu
+
+**Neden şimdi:** Birikimde insan testine bağlı olmayan madde kalmadı → denetim. Kitap 2'nin ilk bölümü
+dokunmatik kontrollerle pencereli oynatıldı (bot CLEARED, 76,6 / 82,2 sn; 6 ve 2 sn arayla görüntü).
+
+**Bulgular:** (1) Gazelle telsizi (katman 40, x 410–1230, y 16–116) konuşurken üst ortadaki duraklat
+düğmesi (katman 12, y 19–106) panelin arkasında kalıyordu: düğme görünmüyor, dokunuş panelin içine
+düşüyor. HUD'un üst bandı (dalga şeridi, kombo, boss çubuğu) tur 50'den beri telsizden kaçıyordu, düğme
+kaçmıyordu. (2) Yakın silah/yedek yokken sol sütunda boş satır (birikime). Gümrük deposu sandık
+basamakları, arena şeridi, kombo ve telegraf ünlemi temiz; Kitap 2 ilk bölüm ritmi (iskele → depo
+arenası → han avlusu) okunuyor.
+
+**Yapılan (1):** `TouchControls._process` `RadioPanel.top_inset()` değişince yerleşimi yeniler; üstten
+ölçülen düğmeler (duraklat) bu pay kadar aşağı iner, panel kapanırken birlikte döner. Dalga şeridi de
+aynı payla indiği için duraklat + şerit grup olarak panelin altında kalır.
+
+**Oyuncu ne hissedecek:** Telsiz konuşurken de duraklat düğmesi görünür ve dokunulabilir; konuşma
+paneli düğmeyle karışmaz.
+
+**Testler:** `--import` hatasız; `touch_polish` PASS (yeni: telsiz açıkken düğme panelle çakışmaz,
+kapanınca yerine döner; düzeltme öncesi FAIL: panel (410,16) 820×100, düğme (597,19) 86×86);
+`campaign_smoke` çıkış 0; `dtm_gaps`, `clue_card`, `radio_top_band` (`--fixed-fps 60`) PASS; bot CLEARED:
+Bölüm 1 (82,3 sn), 13 (pencereli dokunmatik 82,2 sn; başsız 82,5 sn), 25 (78,9 sn). Pencereli ekran
+görüntüsünde (x≈8677) telsiz, duraklat ve "DALGA 1/2" şeridi üst üste binmeden sıralı.
+
+**Sonraki öneri:** Denetim Kitap 3'ün ilk bölümü (25) dokunmatik pencereli koşuyla.
 
 ### 2026-11-03 (118) — HUD sol sütunu tek yazı biçiminde (telefonda Türkçe BÜYÜK harf)
 

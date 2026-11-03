@@ -98,6 +98,27 @@ func _controls() -> void:
 		"dalga şeridi %s duraklat düğmesiyle %s çakışmamalı" % [banner, pause_rect])
 	_check(banner.end.x < hud.size.x - 16.0, "dalga şeridi ekranın sağından taşmamalı (%s)" % banner)
 
+	# Telsiz paneli açıkken duraklat düğmesi panelin altına kayar, kapanınca yerine döner.
+	var pause_home := pb.position
+	RadioPanel.say(get_tree(), "gazelle", "GAZELLE", "Gümrük kaydında bir imza: tek harf.")
+	var radio_rect := Rect2()
+	for i in 120:
+		await get_tree().process_frame
+		if RadioPanel.top_inset() >= RadioPanel.BAND - 1.0:
+			await get_tree().process_frame
+			radio_rect = RadioPanel._instance._panel.get_global_rect()
+			break
+	_check(radio_rect.size.x > 0.0, "telsiz paneli açılmalı")
+	var pause_now := Rect2(pb.position, Vector2(pb.texture_normal.get_size()) * pb.scale)
+	_check(not pause_now.intersects(radio_rect),
+		"telsiz %s duraklat düğmesini %s örtmemeli" % [radio_rect, pause_now])
+	for i in 600:
+		await get_tree().process_frame
+		if RadioPanel.top_inset() <= 0.0:
+			break
+	await get_tree().process_frame
+	_check(pb.position.is_equal_approx(pause_home), "telsiz kapanınca duraklat yerine dönmeli (%s)" % pb.position)
+
 	# Sol sütun telefonda tek biçim: Türkçe kurallı BÜYÜK harf (Şemsiye → ŞEMSİYE, ŞEMSIYE değil).
 	hud.set_weapon("Bıçak", 3, 20)
 	hud.set_stash("Şemsiye")

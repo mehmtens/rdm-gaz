@@ -236,6 +236,20 @@ func _apply_mode(has_next_level: bool = true) -> void:
 	_labels["next"].text = "SONRAKİ" if has_next_level else "BAŞTAN"
 
 
+## Telsiz paneli (katman 40) üst ortayı kaplarken duraklat düğmesi onun altında kalıyordu
+## (Bölüm 13 denetimi): HUD'un üst bandı gibi düğme de panelin altına kayar.
+var _radio_inset := 0.0
+
+
+func _process(_delta: float) -> void:
+	if not visible:
+		return
+	var inset := roundf(RadioPanel.top_inset())
+	if inset != _radio_inset:
+		_radio_inset = inset
+		_layout()
+
+
 func _layout() -> void:
 	var viewport_size := get_viewport().get_visible_rect().size
 	var insets := safe_insets(get_viewport())
@@ -247,7 +261,8 @@ func _layout() -> void:
 		var offset: Vector2 = spec[3]
 		var center := Vector2(
 			offset.x * button_scale + insets.x if offset.x > 0 else viewport_size.x + offset.x * button_scale - insets.y,
-			viewport_size.y - offset.y * button_scale - vertical.y if offset.y > 0 else -offset.y * button_scale + vertical.x,
+			viewport_size.y - offset.y * button_scale - vertical.y if offset.y > 0
+				else -offset.y * button_scale + vertical.x + _radio_inset,
 		)
 		if is_zero_approx(offset.x):
 			center.x = viewport_size.x * 0.5
