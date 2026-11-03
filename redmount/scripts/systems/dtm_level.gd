@@ -67,6 +67,8 @@ const PIX_RACK := preload("res://assets/environment/pixel/depo_rafi.png")
 const PIX_SHAFT_WOOD := preload("res://assets/environment/pixel/baca_tahta.png")
 const PIX_BRICK_TOWER := preload("res://assets/environment/pixel/kule_tugla.png")
 const PIX_SHAFT_BRICK := preload("res://assets/environment/pixel/baca_tugla.png")
+## Taş kule içi (32×45): sur örgüsünün koyu, isli hâli.
+const PIX_SHAFT_STONE := preload("res://assets/environment/pixel/baca_tas.png")
 ## Hisar suru: moloz kumtaşı örgü (96×90; üst yarı gövde, alt yarı zemine oturan sıra),
 ## taç taşı (96×10) ve köşe taşları (20×45; sol yarı fener ışığı, sağ yarı ay kenarı).
 const PIX_WALL_BODY := preload("res://assets/environment/pixel/sur_tasi.png")
@@ -1280,7 +1282,7 @@ class _Art extends Node2D:
 				draw_texture_rect(ROOF_SLAB, Rect2(-hw - 6.0, -14.0, size.x + 12.0, 34.0), false)
 			A_SHAFT, A_SHAFT_WOOD, A_SHAFT_BRICK:
 				if kind == A_SHAFT:
-					_tiled(PIX_INWALL, Rect2(-hw, -hh, size.x, size.y), Color(0.34, 0.3, 0.32))
+					_tiled(PIX_SHAFT_STONE, Rect2(-hw, -hh, size.x, size.y))
 				elif kind == A_SHAFT_BRICK:
 					_tiled(PIX_SHAFT_BRICK, Rect2(-hw, -hh, size.x, size.y))
 				else:

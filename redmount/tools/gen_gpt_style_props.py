@@ -15,7 +15,7 @@ fener,fener_hale,asma_lamba,on_kolon,on_kolon_bas,on_kolon_kaide,on_sarmasik,zin
 diken,alev_izgara,kablo,bomba,bomba_ikaz,alev,kivilcim,patlama,
 tugla,sivali_tugla,ic_duvar,hatil,ic_pencere,fabrika_pencere,cephe_pencereleri,kat_silmesi,saldiri_uyari,dukkan,tavan,han_kapisi,
 pres,pres_kol,ray,pres_kirisi,pres_ayak,pres_yatak,su_govde,su_yuzey,anten,kule_ayak,kule_kulube,ahsap_kat,
-kalkan,kalkan_kirik,sancak,catlak,kiymik,depo_rafi,baca_tahta,kule_tugla,baca_tugla,
+kalkan,kalkan_kirik,sancak,catlak,kiymik,depo_rafi,baca_tahta,kule_tugla,baca_tugla,baca_tas,
 sur_tasi,sur_tepe,sur_kose}.png
 ve assets/pickups/placeholder_rifle.png
 Oyunda 2x NEAREST ölçeklenir (1 sanat pikseli = 2 ekran pikseli).
@@ -2709,6 +2709,26 @@ def make_pres_yatak(rnd):
     return img
 
 
+def make_baca_tas(rnd):
+    """Taş baca içi (32×45, döşenir; sur örgülü kulenin içi): aynı moloz örgü ama oyuk
+    okunsun diye üç-dört ton koyu; yer yer yosun ve is lekesi (kenar ışığı döşemede şerit
+    yapacağı için dokuda değil). Sıralar yatayda döngüsel (dikiş yok)."""
+    w, h = 32, 45
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    y = 0
+    for k, ch in enumerate((14, 16, 15)):
+        _sur_course(rnd, w, ch, y, px, 0.24 - k * 0.02)
+        y += ch
+    for yy in range(h):
+        for x in range(w):
+            c = px[x, yy][:3]
+            if (x * 5 + yy * 3) % 23 == 0:
+                c = mix(c, (12, 7, 18), 0.4)  # is lekesi
+            px[x, yy] = c + (255,)
+    return img
+
+
 def main():
     rnd = random.Random(7)
     make_varil(rnd).save(OUT + "varil.png")
@@ -2772,6 +2792,7 @@ def main():
     make_baca_tahta(random.Random(241)).save(OUT + "baca_tahta.png")
     make_kule_tugla(random.Random(251)).save(OUT + "kule_tugla.png")
     make_baca_tugla(random.Random(257)).save(OUT + "baca_tugla.png")
+    make_baca_tas(random.Random(293)).save(OUT + "baca_tas.png")
     make_sur_tasi(random.Random(263)).save(OUT + "sur_tasi.png")
     make_sur_tepe(random.Random(269)).save(OUT + "sur_tepe.png")
     make_sur_kose(random.Random(271)).save(OUT + "sur_kose.png")

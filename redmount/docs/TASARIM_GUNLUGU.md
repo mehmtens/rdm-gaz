@@ -7,8 +7,6 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Taş baca içi (`A_SHAFT`): `ic_duvar` 0,34 tonla düz koyu dikdörtgen; sur örgülü duvarların
-  arasında boşluk gibi okunuyor ama dokusuz. Taş kuleye özgü iç (gölgede moloz + yosun) çizilebilir.
 - Bölüm 14 Balat yokuşu (x≈6740) kırmızı tuğla baca kulesi: güneşli sıva/ahşap ev sokağında tek
   başına düz kırmızı; çevre malzemesiyle (sıvalı taş ya da ahşap) çizilsin (`chimney_brick` bölüm
   bayrağı yerine bacaya özgü malzeme).
@@ -102,6 +100,23 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (78) — Taş baca içi isli moloz örgü
+
+**Neden şimdi:** Tur 77 birikiminin başı. Sur örgülü kule duvarlarının arasında baca içi
+`ic_duvar` dokusunun 0,34 tonlu, dokusuz koyu dikdörtgeniydi; duvar zıplamayla tırmanılan yerin
+kendisi boş bir delik gibi duruyordu.
+
+**Yapılan:** `tools/gen_gpt_style_props.py` → `baca_tas.png` (32×45): `_sur_course` ile aynı moloz
+örgü, taban ışığı 0,20–0,24 (oyuk okunsun diye duvardan üç-dört ton koyu), yosun ve is lekesi;
+sıralar yatayda döngüsel. İlk denemede sol kenara sızan ışık her döşemede şerit yaptı, çıkarıldı.
+`A_SHAFT` artık bu dokuyla döşeniyor (19 bölümde 20 taş kule).
+
+**Testler:** import temiz; smoke 36/36 SMOKE OK, SCRIPT ERROR 0, çıkış 0; DTM GAPS PASS; bot başsız
+Bölüm 35 (102,7 sn), 1 (85,9), 13 (82,3), 25 (93,6) CLEARED. Görsel: Bölüm 35 kale avlusu ve 24
+sarnıç çekiminde kulenin içi duvarla aynı taştan, gölgede — "ait".
+
+**Sonraki öneri:** Birikim başı: Bölüm 14 tuğla bacası çevre malzemesiyle.
 
 ### 2026-11-03 (77) — Taş baca duvarları ve Bölüm 15 kemer ayakları sur örgüsünde
 
