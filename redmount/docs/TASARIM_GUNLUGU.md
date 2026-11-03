@@ -10,9 +10,9 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 - Yükseltilmiş set taraması kapandı (tur 69–73): 8, 9, 10, 12, 27, 29, 30, 31 yerin malzemesinde;
   Bölüm 34 yokuş basamakları bilinçli olarak kaldırımda (sokak merdiveni). İnsan testinde uzun
   sur yüzeylerinde (Bölüm 10, 3000 px) taş tekrarı göze batarsa sıra boyu/kırık taş çeşidi artırılsın.
-- Bölüm 35 kumanda odası presleri (x 7600, 7950): Boğaz manzaralı açık avlu resminin önünde
-  kolları ekranın üstünden sarkıyor, neye asılı olduğu okunmuyor. Preslerin üstüne kiriş/vinç
-  ya da bu kesime iç mekân (`_interior`) — bölüm metni "kumanda odası" diyor.
+- Diğer açık havada duran pres hatları (Bölüm 6, 7, 11, 24, 34, 36) hâlâ ekranın üstüne uzanan
+  kolla çiziliyor. Tur 74'te `_press(..., beam)` eklendi; her bölümün kesimi pencereli çekilip
+  arkası açık gökyüzü olanlara kiriş/galeri verilsin (iç mekân/tonoz altındakiler kalsın).
 - Bölüm 7 dökümhane arenası (x≈5200–5600, üç dalga + Ağır Zırhlı): bot 69 → 23 can, bölümde
   2 yeniden doğma. İnsan testinde arena ölümü 1'i geçerse ikinci dalga sonrası simit.
 
@@ -91,6 +91,33 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (74) — Bölüm 35 kumanda odası presleri ahşap galeriye asılı; üstte gizli rota
+
+**Neden şimdi:** Stil listesi ve iki yol haritası kapalı; birikimin uygulanabilir ilk maddesi.
+Presler Boğaz manzaralı açık avlu resminin önünde ekranın tepesinden sarkan 720 px'lik kollarla
+duruyordu; neye bağlı oldukları okunmuyordu. Oyuncu artık avluya kurulmuş bir ahşap pres
+iskelesi görecek: kollar kirişten iner, presler arasından galeriye çıkılır.
+
+**Yapılan:**
+- `Crusher.ceiling_y` (varsayılan NAN = eski uzun kol): verilirse kolun üst ucu kirişte sabit,
+  boyu başlığın konumuna göre her karede ayarlanır (teleskop piston). `_press(..., beam)`.
+- Bölüm 35: `_interior(7470, 8080, -345)` — boyalı avlu açık kalır, yalnız ahşap çatkı (dikmeler +
+  kiriş) ve üstte yürünebilir galeri; presler `beam = -339`.
+- Presler arasına iki iskele basamağı (−115, −230; kışla kesimindeki aralıkla aynı, 115 px <
+  ~125 px zıplama). Otomatik gizli alan yerleştirici en yüksek yüzeyi seçtiği için gizli sandık
+  dış sur sırtından (x 2940, ana yolun üstü — gerçek bir sır değildi) galeriye (x 7775, −405)
+  taşındı; bölümün gizli alan sayısı 3'te kaldı. Galeri presleri atlayan riskli olmayan ama
+  aranması gereken bir üst rota.
+
+**Testler:** import temiz; yeni `tests/crusher_beam.tscn` PASS (70 karede kol kirişte ±3 px ve
+başlığa değiyor, eski pres kolu 240 sanat pikseli); smoke 36/36 SMOKE OK, SCRIPT ERROR 0, çıkış 0;
+DTM GAPS PASS; bot başsız Bölüm 35 (118,2 sn), 1 (80,2), 13 (83,3), 25 (80,7) CLEARED.
+Görsel: pencereli çekimde kiriş/dikmeler resimdeki ahşap merdiven korkuluklarıyla aynı aileden,
+presler kirişe bağlı okunuyor — "ait".
+
+**Sonraki öneri:** Birikimdeki yeni madde: diğer açık hava pres hatlarını (6, 7, 11, 24, 34, 36)
+pencereli çekip arkası gökyüzü olanlara kiriş vermek.
 
 ### 2026-11-02 (73) — Bölüm 10 Kuzey Surları burçları sur örgüsünde (tarama kapandı)
 

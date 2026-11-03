@@ -380,9 +380,11 @@ func _factory(x0: float, x1: float, top: float) -> void:
 	body.add_child(_Art.new(_Art.A_FACTORY, Vector2(x1 - x0, -top)))
 
 
-## Pres: tavandan periyodik inen ezici (alt kenarı inince zemine değer).
-func _press(cx: float, phase := 0.0, period := 2.8, ground := 0.0) -> void:
+## Pres: tavandan periyodik inen ezici (alt kenarı inince zemine değer). `beam`
+## verilirse kol o yükseklikteki kirişe bağlı çizilir (iç mekân / galeri altı).
+func _press(cx: float, phase := 0.0, period := 2.8, ground := 0.0, beam := NAN) -> void:
 	var c := CRUSHER.instantiate()
+	c.set("ceiling_y", beam)
 	c.set("width", 100.0)
 	c.set("thickness", 60.0)
 	c.set("drop_height", 165.0)

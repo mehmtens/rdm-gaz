@@ -20,6 +20,9 @@ const PRES_KOL := preload("res://assets/environment/pixel/pres_kol.png")
 @export var telegraph: float = 0.5
 @export var damage: int = 16
 @export var phase_offset: float = 0.0
+## Kolun bağlı olduğu kirişin dünya y'si. NAN: kol ekranın üstüne uzanır (eski
+## davranış); verilirse kol kirişten başlığa kadar teleskop gibi uzar/kısalır.
+@export var ceiling_y: float = NAN
 
 var _col: CollisionShape2D
 var _vis: Polygon2D
@@ -27,6 +30,7 @@ var _hit: Area2D
 var _base: Vector2
 var _t: float = 0.0
 var _hit_lock: float = 0.0
+var _rod: Sprite2D
 
 
 func _ready() -> void:
@@ -79,6 +83,8 @@ func _ready() -> void:
 	rod.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	rod.z_index = -1
 	_vis.add_child(rod)
+	_rod = rod
+	_fit_rod()
 
 	_hit = Area2D.new()
 	_hit.collision_layer = 0
@@ -121,6 +127,7 @@ func _physics_process(delta: float) -> void:
 		down = 1.0 - clampf(up_f, 0.0, 1.0)
 
 	position = _base + Vector2(0, drop_height * down)
+	_fit_rod()
 
 	if down >= 0.98 and _hit_lock <= 0.0:
 		for b in _hit.get_overlapping_bodies():
@@ -129,3 +136,13 @@ func _physics_process(delta: float) -> void:
 				_hit_lock = period * 0.9
 				Combat.shake(5.0)
 				Fx.dust(global_position + Vector2(0, drop_height * 0 + thickness * 0.5), 0, 6)
+
+
+## Kirişe bağlı kol: üst ucu kirişte sabit, boyu başlığın o anki konumuna göre.
+func _fit_rod() -> void:
+	if is_nan(ceiling_y) or _rod == null:
+		return
+	var head_top := position.y - thickness * 0.5
+	var rod_len := maxf(head_top - ceiling_y, 3.0)
+	_rod.region_rect = Rect2(0, 0, 8, ceil(rod_len / 3.0))
+	_rod.position.y = -thickness * 0.5 - _rod.region_rect.size.y * 3.0
