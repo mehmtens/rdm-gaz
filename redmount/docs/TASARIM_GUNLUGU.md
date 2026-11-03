@@ -131,6 +131,39 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-03 (115) — Denetim: meşgulken basılan zıplama/atılma yutulmasın
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikim insan testine bağlı → denetim.
+Konu tur 114'ün önerisi, telefon testinin kalıcı beklentisi "animasyonlar göze hitap etsin ama oynanışı
+bozmasın". İniş (LAND) yalnız görsel çıktı (hareketi kilitlemiyor); asıl kayıp girdideydi.
+
+**Ölçüm:** Yeni `tests/input_buffer.tscn`: oyuncu yerde, eylem başlar, belirli fazda tuşa tek kare dokunulur
+(basış anı kare sayısıyla değil fazla seçilir, hitstop kareleri uzatıyor). Düzeltmeden önce 8 senaryonun
+6'sında tuş tamamen yutuluyordu: ağır yumruğun vuruş fazında zıplama ve atılma, 3. combo vuruşunda zıplama,
+atılmanın son karelerinde zıplama, sersemlemenin sonunda zıplama ve atılma. Saldırıda yalnız geri dönüş
+fazındaki basış iptal ediyordu; zıplama tamponu (0,1 sn) yalnız normal durumda doluyordu. Ağır yumrukta
+yutulan pencere 0,25 sn (15 kare): telefonda "bastım, zıplamadı" hissi.
+
+**Düzeltme (ortak sistem, `redmount.gd`):** Zıplama ve atılma basışı her durumda 0,16 sn saklanır
+(`_jump_hold`, `_dash_hold`; saldırı tamponuyla aynı süre, aynı gerekçe: erken basış yaklaşık 10 kare
+hafızada). Saldırının geri dönüş fazı saklı basışla iptal olur; atılma/sersemleme bitince normal durum
+saklı zıplamayı zıplama tamponuna, saklı atılmayı atılmaya çevirir. Normal durumda davranış aynı (basış o
+karede tampona geçer). Atılma bekleme süresinde basılan atılma, süre son 0,16 sn içinde bitiyorsa çalışır.
+Aşağı inişte (`_drop_through`) saklı zıplama silinir; yeniden doğuşta ikisi de sıfırlanır.
+0,16 sn hipotez: ağır yumruğun hazırlığının ilk karesinde basılan zıplama hâlâ yutulur (test "çok erken
+basış saklanmaz"), yani uzun saldırının ortasında kendiliğinden zıplama olmuyor.
+
+**Oyuncu ne hissedecek:** Vuruşun bitmesine yakın basılan zıplama/atılma kaybolmaz; vuruş biter bitmez
+karakter zıplar ya da atılır (4–5 kare). Animasyonlar aynı uzunlukta, ama girdiyi cezalandırmıyor.
+
+**Testler:** `--import` hatasız; `dtm_gaps` PASS; `input_buffer` PASS (düzeltme öncesi FAIL 6; ilk
+senaryodaki 69 kare, başsız sabit FPS koşuda gerçek zamanlı hitstop'un kare sayısını şişirmesi);
+`weapon_swap` PASS; `campaign_smoke` çıkış 0; bot CLEARED: Bölüm 1 (96,8 sn, 0 yeniden doğma),
+13 (84,0 sn, 0), 25 (92,5 sn, 0; tur 112'de 2 olan ciltçi arenası bu koşuda ölümsüz).
+
+**Sonraki öneri:** Birikim insan testine bağlı. İnsan testinde tamponun yanlış zıplama ürettiği (ör. combo
+sırasında zıplama tuşuna yanlışlıkla dokunma) görülürse saklama süresi 0,16 → 0,10.
+
 ### 2026-11-03 (114) — Denetim: film rulosu ödülü örtmesin (36 bölüm, 108 sır)
 
 **Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin kalanı insan testine bağlı → denetim.

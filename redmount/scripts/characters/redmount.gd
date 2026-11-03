@@ -109,6 +109,11 @@ var _combo_index: int = 0
 var _queued_next: bool = false
 ## Erken basılan saldırı girişi hafızada tutulur (Görev 19 — input buffer).
 var _attack_buffer: float = 0.0
+## Meşgulken (saldırı, atılma, sersemleme) basılan zıplama/atılma da saldırı tamponu
+## kadar saklanır; meşguliyet bitince yerine gelir, tuş yutulmaz (3 Kasım telefon
+## testi: "animasyonlar oynanışı bozmasın").
+var _jump_hold: float = 0.0
+var _dash_hold: float = 0.0
 ## Bu temas penceresinde vurulan hedefler (çift sayımı önler).
 var _hit_this_swing: Array = []
 ## İnişten hemen önceki dikey hız (sert iniş tespiti).
@@ -196,6 +201,12 @@ func _physics_process(delta: float) -> void:
 	_attack_buffer = maxf(_attack_buffer - delta, 0.0)
 	if Input.is_action_just_pressed(&"attack"):
 		_attack_buffer = 0.16
+	_jump_hold = maxf(_jump_hold - delta, 0.0)
+	_dash_hold = maxf(_dash_hold - delta, 0.0)
+	if Input.is_action_just_pressed(&"jump"):
+		_jump_hold = 0.16
+	if Input.is_action_just_pressed(&"dash"):
+		_dash_hold = 0.16
 	if _drop_timer > 0.0:
 		_drop_timer -= delta
 		if _drop_timer <= 0.0:
@@ -351,7 +362,7 @@ func _process_normal(delta: float) -> void:
 		return
 
 	# Dash: özel tuş veya yön tuşuna çift basma.
-	if _can_dash() and (Input.is_action_just_pressed(&"dash") or _double_tapped(input_dir)):
+	if _can_dash() and (_dash_hold > 0.0 or _double_tapped(input_dir)):
 		_start_dash(input_dir)
 		return
 
@@ -429,6 +440,7 @@ func _start_dash(input_dir: float) -> void:
 		d = 1 if input_dir > 0.0 else -1
 	_facing = d
 	_update_hitbox_side()
+	_dash_hold = 0.0
 	_dash_timer = movement.dash_duration
 	_dash_cd = movement.dash_cooldown + movement.dash_duration
 	if not is_on_floor():
@@ -490,6 +502,7 @@ func bounce(strength: float, boosted_strength: float) -> void:
 
 
 func _drop_through() -> void:
+	_jump_hold = 0.0
 	set_collision_mask_value(8, false)
 	_drop_timer = 0.28
 	position.y += 2.0
@@ -697,7 +710,9 @@ func _update_timers(delta: float) -> void:
 	else:
 		_coyote_timer = maxf(_coyote_timer - delta, 0.0)
 
-	if Input.is_action_just_pressed(&"jump"):
+	# Saklı basış (bu karenin ya da meşguliyet sırasındaki) zıplama tamponuna geçer.
+	if _jump_hold > 0.0:
+		_jump_hold = 0.0
 		_jump_buffer_timer = movement.jump_buffer_time
 	else:
 		_jump_buffer_timer = maxf(_jump_buffer_timer - delta, 0.0)
@@ -902,11 +917,12 @@ func _process_attack(delta: float) -> void:
 
 	# Geri dönüş fazında dash / zıplama saldırıyı iptal eder; kontrol akıcı kalır.
 	if _phase == Phase.RECOVERY:
-		if _can_dash() and Input.is_action_just_pressed(&"dash"):
+		if _can_dash() and _dash_hold > 0.0:
 			_cancel_attack()
 			_start_dash(Input.get_axis(&"move_left", &"move_right"))
 			return
-		if Input.is_action_just_pressed(&"jump") and is_on_floor():
+		if _jump_hold > 0.0 and is_on_floor():
+			_jump_hold = 0.0
 			_cancel_attack()
 			_jump_buffer_timer = movement.jump_buffer_time
 			_coyote_timer = movement.coyote_time
@@ -1390,6 +1406,8 @@ func revive() -> void:
 	_wall_lock = 0.0
 	_drop_timer = 0.0
 	_attack_buffer = 0.0
+	_jump_hold = 0.0
+	_dash_hold = 0.0
 	_air_dashes_left = movement.air_dashes
 	set_collision_mask_value(8, true)
 	if _weapon != null:
