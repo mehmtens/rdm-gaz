@@ -378,6 +378,7 @@ func _trigger_ending() -> void:
 	var stars := _compute_stars()
 	_hud.earned_stars = Save.stars_of(GameState.level_index)
 	Save.record_stars(GameState.level_index, stars)
+	_hud.par_seconds = _par_time
 	get_tree().paused = true
 	_hud.show_results(GameState.coins, _enemy_defeated, _enemy_total, _elapsed,
 		GameState.score, "GAZELLE KURTARILDI", stars, _hits_taken,
@@ -488,6 +489,7 @@ func _on_goal_reached() -> void:
 	_hud.earned_stars = Save.stars_of(GameState.level_index)
 	Save.record_stars(GameState.level_index, stars)
 	Save.record_time(GameState.level_index, _elapsed)
+	_hud.par_seconds = _par_time
 	_hud.secrets_line = "Gizli alan: %d / %d" % [_secrets_found, _secrets_total] if _secrets_total > 0 else ""
 	var mastery := Save.claim_mastery(GameState.level_index)
 	if mastery > 0:

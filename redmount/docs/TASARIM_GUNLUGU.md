@@ -101,9 +101,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 - Şemsiyeyle havaya kaldırılan düşmanı ikinci şemsiye vuruşunun tekrar kaldırması sonsuz
   dizi yaratabilir mi? İnsan testinde bakılacak; gerekirse havadaki düşmana kaldırma yok.
 
-- Hız yıldızının par süresi bölüm başına ayarlanmalı: 34 bölümde düz 240 sn, bot
-  ~80 sn'de bitiriyor. İnsan testinden gelen ortanca sürenin ~0,8'i hedef (ilk koşuda
-  zor, ikinci koşuda alınabilir); `par_time` her `Bolum*.tscn`'de elle.
+- Hız yıldızı hedefleri (tur 99): bölüm başına bot süresi × 2 (140–400 sn). İnsan testinden ortanca
+  süre gelince hedef ≈ ortancanın 0,8'i yapılsın; ilk koşuda alınma oranı %50'yi geçerse hedef sıkılaşsın.
 - Bıçak savuruşu (`knife_attack` 4) kalıntısı: şapkanın üstünde 1–2 sanat pikseli koyu nokta
   kalıyor (iz ön parçasının içinde ya da ≥ 8 px). İnsan testinde fark edilirse ön parçadan da
   tutam kenarı ayıkla.
@@ -118,6 +117,31 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (99) — Hız yıldızı: bölüme özgü hedef süre + kartta "hedef"
+
+**Neden şimdi:** Stil listesi ve iki yol haritası kapalı; birikimin insan testine bağlı olmayan tek
+maddesi hız yıldızıydı. 35 bölümde par düz 240 sn (Bölüm 24'te 600), bot 70–130 sn'de bitiriyor: hız
+yıldızı neredeyse her koşuda bedavaydı ve oyuncu hedefi hiç görmüyordu (kartta yalnız "Süre: 1:35").
+DTM'de hız yıldızı bir meydan okuma; ikinci koşuya sebep olmalı.
+
+**Ne yapıldı:**
+- 36 bölümün hepsi botla koşuldu (36/36 CLEARED, 69–196 sn). `par_time` = bot süresi × 2, 10 sn'ye
+  yukarı yuvarlı: çoğu 150–210 sn; uzun bölümler 4 → 260, 6 → 260, 35 → 270, 36 → 360, 24 → 400.
+  Gerekçe (hipotez): bot hiç keşif yapmıyor, yalnız kısa takılmaları var; ilk koşu yapan insanın
+  ortancası ≈ bot × 2,5 tahmini, hedef ortancanın ~0,8'i → bot × 2. Bölüm 9 ve 10 zaten 240'tı.
+- Sonuç kartında süre "Süre: 1:35 / hedef 2:40" (`hud.gd` `_time_text`, `par_seconds` Main'den; iki
+  bitiş yolu da dolduruyor). Survival kartında hedef yok (`par_seconds` 0). Bölüm sonu satırındaki
+  boşluklar 6 → 3: en geniş durumda (6:35 / hedef 6:40, 111/114, Hasar 13) kart çerçevesine sığıyor
+  (pencereli 1280×720 görüntüyle bakıldı; ilk denemede "Hasar" çerçeveye değiyordu).
+- `tests/level_stars.gd`: kartta hedef yazısı, Survival'da yazılmaması, 36 bölümün par'ı 90–420 sn
+  aralığında ve en az 10 farklı değer.
+
+**Testler:** import temiz; `level_stars` PASS; `dtm_gaps` PASS; `campaign_smoke` çıkış 0; bot
+36/36 CLEARED (değişiklik sonrası 0, 12, 24 yeniden: 82,7 / 76,2 / 85,1 sn).
+
+**Sonraki öneri:** İnsan testinde hız yıldızının ilk koşuda alınma oranı ölçülsün (birikimde).
+Kalan birikim maddeleri insan testine bağlı.
 
 ### 2026-11-03 (98) — Denetim: Bölüm 34 (temiz) — denetim dizisi tamam, otomasyon durdu
 

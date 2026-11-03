@@ -27,6 +27,8 @@ var _boss_ratio: float = 1.0
 @onready var _stage: Label = $StageLabel
 ## Bölüm sonu istatistiğine eklenen satır (Main doldurur): "Gizli alan: 2 / 3".
 var secrets_line := ""
+## Hız yıldızının hedef süresi (Main doldurur, sn); 0 ise kartta hedef yazılmaz (Survival).
+var par_seconds := 0.0
 ## Bu koşudan önce kayıtta olan yıldız maskesi (Main doldurur); kartta soluk gösterilir.
 var earned_stars := 0
 
@@ -435,14 +437,22 @@ func show_place(title: String, story: String, accent: Color = Color("ffc857")) -
 	_place.present(title, story, accent)
 
 
+## Kartın süre alanı: "1:23" ya da hedef varsa "1:23 / hedef 2:40" — hız yıldızı okunur olsun.
+func _time_text(seconds: float) -> String:
+	var t := "%d:%02d" % [int(seconds) / 60, int(seconds) % 60]
+	if par_seconds > 0.0:
+		t += " / hedef %d:%02d" % [int(par_seconds) / 60, int(par_seconds) % 60]
+	return t
+
+
 func show_stage_clear(current: int, stars: int = -1, seconds: float = 0.0,
 		defeated: int = 0, enemy_total: int = 0, hits: int = 0,
 		stage_score: int = 0) -> void:
 	_results_title.text = ("KİTAP 3 · BÖLÜM %d TAMAMLANDI" % (current - 24)
 		if current > 24 else "KİTAP 2 · BÖLÜM %d TAMAMLANDI" % (current - 12)
 		if current > 12 else "BÖLÜM %d TAMAMLANDI" % current)
-	_results_stats.text = "Süre: %d:%02d      Düşman: %d/%d      Hasar: %d\nCoin: %d\nBölüm skoru: %d      Toplam: %d" % [
-		int(seconds) / 60, int(seconds) % 60, defeated, enemy_total, hits,
+	_results_stats.text = "Süre: %s   Düşman: %d/%d   Hasar: %d\nCoin: %d\nBölüm skoru: %d      Toplam: %d" % [
+		_time_text(seconds), defeated, enemy_total, hits,
 		GameState.coins, stage_score, GameState.score,
 	]
 	if secrets_line != "":
@@ -459,12 +469,12 @@ func show_results(coins: int, defeated: int, enemy_total: int, seconds: float, s
 		stage_score: int = -1) -> void:
 	_results_title.text = title
 	if TouchControls.active_on_device():
-		_results_stats.text = "Süre: %d:%02d   Düşman: %d/%d\nCoin: %d   Hasar: %d\nToplam skor: %d" % [
-			int(seconds) / 60, int(seconds) % 60, defeated, enemy_total, coins, hits, score,
+		_results_stats.text = "Süre: %s   Düşman: %d/%d\nCoin: %d   Hasar: %d\nToplam skor: %d" % [
+			_time_text(seconds), defeated, enemy_total, coins, hits, score,
 		]
 	else:
-		_results_stats.text = "Süre: %d:%02d\nCoin: %d\nDüşman: %d / %d\nHasar: %d\n\nSkor: %d" % [
-			int(seconds) / 60, int(seconds) % 60, coins, defeated, enemy_total, hits, score,
+		_results_stats.text = "Süre: %s\nCoin: %d\nDüşman: %d / %d\nHasar: %d\n\nSkor: %d" % [
+			_time_text(seconds), coins, defeated, enemy_total, hits, score,
 		]
 	if stage_score >= 0:
 		_results_stats.text += "  ·  Bölüm: %d" % stage_score

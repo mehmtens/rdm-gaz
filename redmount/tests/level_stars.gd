@@ -74,6 +74,26 @@ func _results_card() -> void:
 	_check(hud._star_icons[1].texture == hud.STAR_FAINT, "soluk yıldız açılışta kalmalı")
 	hud.show_stage_clear(2, 0, 60.0, 3, 4, 1, 900)
 	_check(hud._star_icons[1].texture == hud.STAR_EMPTY, "sonraki kartta eski maske sızmamalı")
+	## Hız yıldızı okunur: hedef süre kartta yazılı; hedefsiz kartta (Survival) yazılmaz.
+	_check(not hud._results_stats.text.contains("hedef"), "hedefsiz kartta 'hedef' yok")
+	hud.par_seconds = 160.0
+	hud.show_stage_clear(2, 0, 83.0, 3, 4, 1, 900)
+	_check(hud._results_stats.text.contains("Süre: 1:23 / hedef 2:40"), "kartta hedef süre: " + hud._results_stats.text)
+	hud.par_seconds = 0.0
 	hud.show_results(0, 0, 0, 10.0, 0, "SURVIVAL", -1)
 	_check(not hud._star_row.visible, "yıldızsız sonuçta sıra gizli")
+	_check(not hud._results_stats.text.contains("hedef"), "Survival kartında hedef yok")
 	hud.queue_free()
+	_level_pars()
+
+
+## Her kampanya bölümünün kendi hız hedefi var (düz 240 sn kalktı); makul aralıkta.
+func _level_pars() -> void:
+	var seen := {}
+	for path in GameState.LEVELS:
+		var lv := (load(path) as PackedScene).instantiate()
+		var par: float = lv.par_time
+		lv.free()
+		_check(par >= 90.0 and par <= 420.0, "%s par aralık dışı: %.0f" % [path, par])
+		seen[par] = true
+	_check(seen.size() >= 10, "par süreleri bölüme özgü olmalı (%d farklı)" % seen.size())
