@@ -61,6 +61,7 @@ var _bar_width: float = 256.0
 
 var _coin_bump: float = 0.0
 var _place: _PlaceBanner
+var _ach: _AchievementToast
 var _combo_pulse: float = 0.0
 ## Üst bant öğesi → taban (offset_top, offset_bottom); telsiz açıkken üstüne `_top_inset` eklenir.
 var _top_band := {}
@@ -100,6 +101,7 @@ func _ready() -> void:
 	GameState.coins_changed.connect(_on_coins_changed)
 	Combat.combo_changed.connect(_on_combo_changed)
 	Combat.combo_finished.connect(_on_combo_finished)
+	Save.achievement_reached.connect(show_achievement)
 
 
 ## Tüm HUD'a okunaklı, tutarlı görünüm — dünya dokusu üstünde net dursun.
@@ -437,6 +439,20 @@ func show_place(title: String, story: String, accent: Color = Color("ffc857")) -
 	_place.present(title, story, accent)
 
 
+## Görev tamamlandı tabelası (Achievements): yıldız + ad + ödül; arka arkaya gelenler sıraya
+## girer. Üst bandın ortasında; dokunmaya kapalı.
+func show_achievement(id: String) -> void:
+	var a := Achievements.find(id)
+	if a.is_empty():
+		return
+	if _ach == null:
+		_ach = _AchievementToast.new()
+		add_child(_ach)
+		_top_band[_ach] = Vector2(_ach.offset_top, _ach.offset_bottom)
+		_top_inset = -1.0
+	_ach.push(String(a.name), int(a.reward))
+
+
 ## Kartın süre alanı: "1:23" ya da hedef varsa "1:23 / hedef 2:40" — hız yıldızı okunur olsun.
 func _time_text(seconds: float) -> String:
 	var t := "%d:%02d" % [int(seconds) / 60, int(seconds) % 60]
@@ -671,6 +687,92 @@ func _on_coins_changed(total: int) -> void:
 
 
 ## Üst ortada kısa süre görünen mekân pankartı (oyunu durdurmaz).
+class _AchievementToast extends PanelContainer:
+	const HOLD := 3.2
+	const STAR := preload("res://assets/ui/pixel/yildiz_dolu.png")
+	const COIN := preload("res://assets/ui/pixel/coin.png")
+
+	var _queue: Array = []
+	var _name: Label
+	var _reward: Label
+	var _t := 0.0
+
+	func _init() -> void:
+		name = "AchievementToast"
+		set_anchors_preset(Control.PRESET_CENTER_TOP)
+		offset_left = -230.0
+		offset_right = 230.0
+		# Üst bandın ortası: solda can/coin, sağda kombo; ortadaki mekân pankartı (96+),
+		# ara sahne kartı ve bölüm sonu kartıyla çakışmaz.
+		offset_top = 12.0
+		offset_bottom = 86.0
+		grow_horizontal = Control.GROW_DIRECTION_BOTH
+		mouse_filter = Control.MOUSE_FILTER_IGNORE
+		texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		add_theme_stylebox_override(&"panel", PixelUI.box("panel_hud", 14))
+		visible = false
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override(&"separation", 14)
+		row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(row)
+		row.add_child(_icon(STAR, Vector2(45, 42)))
+		var col := VBoxContainer.new()
+		col.add_theme_constant_override(&"separation", 0)
+		col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row.add_child(col)
+		var head := Label.new()
+		head.text = "GÖREV TAMAM · ödül arşivde"
+		head.add_theme_font_size_override(&"font_size", 16)
+		head.add_theme_color_override(&"font_color", Color(0.72, 0.68, 0.74))
+		col.add_child(head)
+		_name = Label.new()
+		_name.add_theme_font_size_override(&"font_size", 24)
+		_name.add_theme_color_override(&"font_color", Color(1.0, 0.82, 0.45))
+		col.add_child(_name)
+		row.add_child(_icon(COIN, Vector2(27, 27)))
+		_reward = Label.new()
+		_reward.add_theme_font_size_override(&"font_size", 22)
+		_reward.add_theme_color_override(&"font_color", Color(0.96, 0.92, 0.84))
+		row.add_child(_reward)
+
+	func _icon(tex: Texture2D, sz: Vector2) -> TextureRect:
+		var tr := TextureRect.new()
+		tr.texture = tex
+		tr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		tr.custom_minimum_size = sz
+		tr.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		tr.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		return tr
+
+	func push(title: String, reward: int) -> void:
+		_queue.append([title, reward])
+		if not visible:
+			_next()
+
+	func _next() -> void:
+		if _queue.is_empty():
+			visible = false
+			return
+		var item: Array = _queue.pop_front()
+		_name.text = String(item[0])
+		_reward.text = "+%d" % int(item[1])
+		_t = 0.0
+		visible = true
+		Sfx.play(&"coin", 1.3)
+
+	func _process(delta: float) -> void:
+		if not visible:
+			return
+		_t += delta
+		modulate.a = clampf(minf(_t * 4.0, (HOLD - _t) * 2.5), 0.0, 1.0)
+		if _t >= HOLD:
+			_next()
+
+	func showing() -> String:
+		return _name.text if visible else ""
+
+
 class _PlaceBanner extends Control:
 	const HOLD := 5.5
 	const PX := 3.0

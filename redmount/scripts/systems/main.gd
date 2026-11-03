@@ -329,6 +329,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _on_enemy_defeated(enemy: Node) -> void:
 	_enemy_defeated += 1
+	Save.count_defeat()
 	if enemy.config != null:
 		GameState.add_score(enemy.config.score_value)
 		if enemy.config.is_story_boss and not _finished:

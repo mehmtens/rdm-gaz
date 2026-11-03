@@ -266,6 +266,7 @@ func _spawn(scene: PackedScene, x: float) -> void:
 func _on_enemy_defeated(enemy: Node) -> void:
 	_living -= 1
 	_defeated += 1
+	Save.count_defeat()
 	if enemy.config != null:
 		GameState.add_score(enemy.config.score_value)
 	if _daily and not _dead:

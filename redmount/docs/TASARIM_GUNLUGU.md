@@ -115,6 +115,9 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   (tur 90). İnsan testinde final ölümü 1'i geçerse 2. dalga sonrası simit.
 - Bölüm 25 ciltçi atölyesi arenası → depo (x≈7500–9000): bot can 9'a indi, 1 yeniden doğma (tur 95).
   İnsan testinde ölüm 1'i geçerse depo kapısı önüne simit.
+- Görevler ikinci dilim (tur 102): beceri görevleri (10 düşman fırlat / boss'u hasarsız yen /
+  havadaki düşmanı bitir) için `Save.stat_*` sayaçları; büyük hedeflerden birine Kanıt Arşivi karesi
+  ödülü. Önce insan testinde GÖREVLER sekmesine bakılıyor mu ölçülsün (ödül alınma oranı).
 - Menülerde güvenli alan (tur 101): ana menü ve mağaza çentik payına çekiliyor ama hiç cihazda
   görülmedi; çentikli telefonda sol kenar düğmeleri ve mağaza sekmeleri kontrol edilsin. Duraklat menüsü
   ortalı olduğu için dışarıda bırakıldı.
@@ -122,6 +125,49 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (102) — GÖREVLER: başarımların ilk dilimi (OYNANIS-KALITE P2)
+
+**Neden şimdi:** Stil listesi, iki yol haritasının P0/P1'i kapalı; birikimin tamamı insan testine bağlı.
+Üçüncü denetim tablosunda kod gerektiren ve hiç başlanmamış tek satır "P2 — başarımlar"dı (`achievement`
+yok). DTM'de görev listesi, kampanya bittikten sonra da oyuncuya "bir şey daha" verir; bizde kampanya
+sonrası hedef yalnız yıldız ve Günün Dalgası serisiydi.
+
+**Oyuncu ne hissedecek:** Bölüm 1'i bitirince üst bantta "GÖREV TAMAM · İLK ADIM +30" tabelası; ana
+menüde "KANIT ARŞİVİ · 2 ÖDÜL"; arşivin GÖREVLER sekmesinde 16 hedef (ilerleme sayılarıyla) ve
+"AL +30" düğmesi. Ödül elle alınır: oyuncu menüye döner, listedeki bir sonraki hedefi görür.
+
+**Yapılanlar:**
+- `scripts/systems/achievements.gd` (`Achievements`): 16 görev — 4 kitap/bölüm bitirme, 2 gizli alan
+  (10/50), 30 yıldız, 5 bölüm %100, Survival 10/20, Günün Dalgası 7 gün, 3 kostüm, 6 geliştirme kademesi,
+  100/1000 düşman, 25 kombo. İlerleme kayıttan türetilir; yalnız `stat_defeats` (Main + Survival yenilen
+  düşman) ve `stat_best_combo` (`Combat.combo_finished`) yeni sayaç.
+- `Save`: `[achievements]` bölümü (claimed, seen, defeats, best_combo); `achievement_reached` sinyali
+  (her `save_game`'de ve sayaç eşiğinde yeni tamamlananlar duyurulur, yazma yok); `claim_achievement`;
+  `is_cleared`. Eski kayıt: o ana kadar tamamlananlar "görülmüş" sayılır (tabela yağmuru yok), ödülleri
+  arşivde alınabilir. `wipe` görevleri de sıfırlar.
+- HUD `_AchievementToast`: üst bandın ortasında (can paneliyle aynı `panel_hud` çerçevesi, `yildiz_dolu`
+  ve `coin` ikonları — yeni çizim yok), 3,2 sn, kuyruklu; mobil üst bant payına bağlı. İlk denemede
+  y=226'daydı, ara sahne kartı ve diyalogla çakıştı → y=12'ye alındı (görüntüyle bakıldı: sonuç kartının
+  üstünde, oyun alanını örtmüyor).
+- Ana menü: arşive beşinci sekme GÖREVLER (sekmeler 150 → 124 px, 1280'de sığıyor), ödül varken arşiv
+  doğrudan GÖREVLER'de açılır, ödül alınca menü yeniden kurulur (cüzdan ve sayaç güncel). Eski hata:
+  sekme odağı + tıklama `_select_arch`'ı aynı karede iki kez çağırınca eski hücreler `queue_free`
+  beklerken yenileri eklendiği için hücreler yeniden adlandırılıyordu → önce `remove_child`.
+
+**Sayılar (hipotez):** ödül kademeleri 30/60/120, toplam 1080 coin ≈ iki üst kostüm; kampanya bitince
+oyuncunun eline ≈ 600 coin geçer (ustalık ve seri ödülleriyle aynı ölçek). 1000 düşman ≈ kampanya +
+birkaç Survival koşusu (bot bölüm başına 25–40 düşman yeniyor). İnsan testinde ödüller mağazayı
+erken boşaltıyorsa 120'lik kademe 80'e insin.
+
+**Testler:** import temiz; yeni `tests/achievements.tscn` PASS (tanımlar, ilerleme/ödül, olay sayaçları,
+kalıcılık, eski kayıt, HUD kuyruğu, arşiv sekmesi ve ödül düğmesi, ana menü sayacı); `level_stars`,
+`daily_wave` (sekme sayısı 4 → 5 güncellendi), `costumes`, `costume_badge`, `touch_polish`,
+`dokunma_olcum`, `new_melee_weapons`, `dtm_gaps` PASS; `campaign_smoke` çıkış 0; bot Bölüm 1 (79,1 sn),
+13 (78,3 sn), 25 (91,4 sn) CLEARED.
+
+**Sonraki öneri:** Görevlerin ikinci dilimi (beceri görevleri: 10 düşman fırlat, boss'u hasarsız yen,
+şemsiyeyle havaya kaldırılanı havada bitir) ve tek bir arşiv karesi ödülü — birikime yazıldı.
 
 ### 2026-11-03 (101) — Mobil menüler: farklı oranlarda tarama, kart başlık şeridi, menülerde güvenli alan
 

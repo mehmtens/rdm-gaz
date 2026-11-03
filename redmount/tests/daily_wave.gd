@@ -300,7 +300,7 @@ func _archive_photos() -> void:
 	var menu: Node = (load("res://scenes/MainMenu.tscn") as PackedScene).instantiate()
 	add_child(menu)
 	await get_tree().process_frame
-	_check(menu._arch_tabs.size() == 4 and menu._arch_tabs[3].text == "GÜNLÜK", "arşivde GÜNLÜK sekmesi: %s" % [menu._arch_tabs.map(func(t): return t.text)])
+	_check(menu._arch_tabs.size() == 5 and menu._arch_tabs[3].text == "GÜNLÜK", "arşivde GÜNLÜK sekmesi: %s" % [menu._arch_tabs.map(func(t): return t.text)])
 	menu._select_arch(3)
 	await get_tree().process_frame
 	var shots: Array[String] = []

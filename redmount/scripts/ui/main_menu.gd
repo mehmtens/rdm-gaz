@@ -16,6 +16,8 @@ const LOCK := preload("res://assets/ui/pixel/kilit.png")
 const COIN := preload("res://assets/ui/pixel/coin.png")
 const STAR_FULL_S := preload("res://assets/ui/pixel/yildiz_dolu_kucuk.png")
 const STAR_EMPTY_S := preload("res://assets/ui/pixel/yildiz_bos_kucuk.png")
+const STAR_FULL := preload("res://assets/ui/pixel/yildiz_dolu.png")
+const STAR_EMPTY := preload("res://assets/ui/pixel/yildiz_bos.png")
 const ROOF := preload("res://assets/environment/mahalle/roof_a.png")
 const BRICK := preload("res://assets/environment/pixel/tugla.png")
 const REDMOUNT_FRAMES := preload("res://resources/anim/redmount_frames.tres")
@@ -26,6 +28,8 @@ const MUTED := Color(0.72, 0.68, 0.74)
 ## Uyarı tonu (kopan seri).
 const FIRE := Color(1.0, 0.5, 0.32)
 const PER_BOOK := 12
+## Kanıt Arşivi sekmeleri: 0–2 kitaplar, 3 GÜNLÜK, 4 GÖREVLER.
+const ACH_TAB := 4
 
 var _t := 0.0
 var _home: Control
@@ -235,7 +239,16 @@ func _build_home() -> Control:
 		GameState.daily_run = true
 		Transition.go(SURVIVAL_SCENE))
 	_button(col, "MAĞAZA").pressed.connect(func() -> void: Transition.go(SHOP_SCENE))
-	_button(col, "KANIT ARŞİVİ").pressed.connect(func() -> void: _show(_archive))
+	# Alınmamış görev ödülü varsa düğme söyler ve arşiv doğrudan GÖREVLER'de açılır.
+	var claims := Achievements.unclaimed()
+	var arch := _button(col, "KANIT ARŞİVİ · %d ÖDÜL" % claims if claims > 0 else "KANIT ARŞİVİ")
+	arch.name = "ArchiveButton"
+	if claims > 0:
+		arch.add_theme_color_override(&"font_color", GOLD)
+	arch.pressed.connect(func() -> void:
+		if Achievements.unclaimed() > 0:
+			_arch_book = ACH_TAB
+		_show(_archive))
 	_button(col, "AYARLAR").pressed.connect(func() -> void: _show(_settings))
 	if not OS.has_feature("web"):
 		_button(col, "ÇIKIŞ").pressed.connect(get_tree().quit)
@@ -480,11 +493,11 @@ func _build_archive() -> Control:
 	var count := _label("%d / %d" % [total, GameState.level_count() * 3], MUTED)
 	count.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	head.add_child(count)
-	# Üç kitap + GÜNLÜK (Günün Dalgası seri kareleri, DailyWave.ARCHIVE_DAYS).
-	for b in 4:
+	# Üç kitap + GÜNLÜK (Günün Dalgası seri kareleri, DailyWave.ARCHIVE_DAYS) + GÖREVLER.
+	for b in ACH_TAB + 1:
 		var tab := Button.new()
-		tab.text = "KİTAP %d" % (b + 1) if b < 3 else "GÜNLÜK"
-		tab.custom_minimum_size = Vector2(150, 48)
+		tab.text = "KİTAP %d" % (b + 1) if b < 3 else ("GÜNLÜK" if b == 3 else "GÖREVLER")
+		tab.custom_minimum_size = Vector2(124, 48)
 		tab.pressed.connect(_select_arch.bind(b))
 		tab.focus_entered.connect(_select_arch.bind(b))
 		head.add_child(tab)
@@ -530,7 +543,10 @@ func _select_arch(b: int) -> void:
 		for st in ["normal", "hover", "pressed"]:
 			_arch_tabs[i].add_theme_stylebox_override(st, PixelUI.box("sekme_secili" if sel else "sekme", 10))
 		_arch_tabs[i].add_theme_color_override(&"font_color", GOLD if sel else MUTED)
+	# Sekme odağı ile tıklama aynı karede iki kez çağırabilir: eskiler hemen çıkarılsın
+	# (adlı görev satırları çakışıp yeniden adlandırılmasın).
 	for ch in _arch_grid.get_children():
+		_arch_grid.remove_child(ch)
 		ch.queue_free()
 	_comic_button.visible = b < 3
 	if b < 3:
@@ -539,6 +555,10 @@ func _select_arch(b: int) -> void:
 		_comic_button.text = "▸ KİTAP %d ŞERİDİ" % (b + 1) if open else "ŞERİT · KİTAP %d%s BİTİR" % [b + 1, ["'İ", "'Yİ", "'Ü"][b]]
 	if b == 3:
 		_arch_grid.add_child(_daily_archive_cell())
+		return
+	if b == ACH_TAB:
+		for a in Achievements.LIST:
+			_arch_grid.add_child(_achievement_cell(a))
 		return
 	for k in PER_BOOK:
 		var i := b * PER_BOOK + k
@@ -585,6 +605,60 @@ func _daily_archive_cell() -> Control:
 		tr.texture = load("res://assets/ui/photos/gun_%d.png" % d) if open 			else load("res://assets/ui/photos/kilitli.png")
 		v.add_child(tr)
 		v.add_child(_label("%d GÜN" % d if open else "%d GÜN SERİ" % d, GOLD if open else MUTED))
+	return cell
+
+
+## GÖREVLER sekmesinin satırı: yıldız (dolu = tamam), ad + açıklama, ilerleme ya da ödül
+## düğmesi. Ödül alınınca menü yeniden kurulur (cüzdan ve "· n ÖDÜL" de güncellensin).
+func _achievement_cell(a: Dictionary) -> Control:
+	var done := Achievements.is_done(a)
+	var claimed: bool = a.id in Save.achievements_claimed
+	var cell := PanelContainer.new()
+	cell.name = "Ach_" + String(a.id)
+	cell.add_theme_stylebox_override(&"panel", PixelUI.box("panel_hud", 10))
+	cell.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	cell.custom_minimum_size = Vector2(0, 74)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override(&"separation", 12)
+	cell.add_child(row)
+	var star := TextureRect.new()
+	star.texture = STAR_FULL if done else STAR_EMPTY
+	star.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	star.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	star.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	star.custom_minimum_size = Vector2(30, 28)
+	star.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	row.add_child(star)
+	var text := VBoxContainer.new()
+	text.add_theme_constant_override(&"separation", 0)
+	text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(text)
+	text.add_child(_label(String(a.name), GOLD if done else CREAM))
+	var desc := _label(String(a.desc), MUTED)
+	desc.add_theme_font_size_override(&"font_size", 16)
+	text.add_child(desc)
+	if done and not claimed:
+		var claim := Button.new()
+		claim.name = "Claim"
+		claim.text = "AL +%d" % int(a.reward)
+		claim.custom_minimum_size = Vector2(124, 44)
+		claim.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		claim.add_theme_color_override(&"font_color", GOLD)
+		claim.pressed.connect(func() -> void:
+			if Save.claim_achievement(String(a.id)) > 0:
+				Sfx.play(&"coin", 0.9)
+				# Cüzdan ve ana sayfa düğmesi de değişti: menüyü kur, GÖREVLER'e dön.
+				(func() -> void:
+					_rebuild()
+					_show(_archive)).call_deferred())
+		row.add_child(claim)
+	else:
+		var v := mini(Achievements.value(a), int(a.goal))
+		var tail := _label("ALINDI" if claimed else "%d / %d" % [v, int(a.goal)], MUTED)
+		tail.custom_minimum_size = Vector2(124, 0)
+		tail.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		tail.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		row.add_child(tail)
 	return cell
 
 

@@ -4,6 +4,9 @@
 ## toplam coin, bölüm yüksek skorları, ses ayarı. project.godot -> [autoload] "Save".
 extends Node
 
+## Bir görev (Achievements.LIST) ilk kez tamamlandı; HUD tabela gösterir.
+signal achievement_reached(id: String)
+
 const PATH := "user://redmount_save.cfg"
 ## İnsan testi için başlatma (`-- --bolum=N`): gerçek kayıt yerine ayrı, boş bir
 ## kayıt kullanılır. Böylece test, oyuncunun açtığı bölümleri, coin'lerini ve
@@ -61,12 +64,20 @@ var upgrade_levels: Dictionary = {}
 ## Giyili kostüm id'si (`Shop.COSTUMES`; eski kayıtlarda yok → varsayılan).
 ## Satın alınan kostümler `purchased` içinde "costume_<id>" olarak tutulur.
 var costume: String = "sokak"
+## GÖREVLER (Achievements): ödülü alınmış ve tabelası gösterilmiş görev id'leri, iki
+## olay sayacı (yenilen düşman, en uzun kombo). Eski kayıtta yok → yüklemede o ana kadar
+## tamamlananlar "görülmüş" sayılır (tabela yağmuru olmaz), ödülleri arşivde alınabilir.
+var achievements_claimed: Array = []
+var achievements_seen: Array = []
+var stat_defeats: int = 0
+var stat_best_combo: int = 0
 
 
 func _ready() -> void:
 	if not test_args().is_empty():
 		_path = TEST_PATH
 	load_game()
+	Combat.combo_finished.connect(_on_combo_finished)
 
 
 ## Komut satırı test seçenekleri: `--bolum=N` (1–36), `--bayrak=K` (bölümün K. kontrol
@@ -113,6 +124,13 @@ func load_game() -> void:
 	master_volume_db = float(cfg.get_value("settings", "master_volume_db", 0.0))
 	vibration = bool(cfg.get_value("settings", "vibration", true))
 	armory_seen = bool(cfg.get_value("hints", "armory_seen", false))
+	achievements_claimed = cfg.get_value("achievements", "claimed", [])
+	stat_defeats = int(cfg.get_value("achievements", "defeats", 0))
+	stat_best_combo = int(cfg.get_value("achievements", "best_combo", 0))
+	if cfg.has_section_key("achievements", "seen"):
+		achievements_seen = cfg.get_value("achievements", "seen", [])
+	else:
+		achievements_seen = Achievements.reached()
 	_apply_volume()
 
 
@@ -139,6 +157,11 @@ func save_game() -> void:
 	cfg.set_value("settings", "master_volume_db", master_volume_db)
 	cfg.set_value("settings", "vibration", vibration)
 	cfg.set_value("hints", "armory_seen", armory_seen)
+	_announce_achievements()
+	cfg.set_value("achievements", "claimed", achievements_claimed)
+	cfg.set_value("achievements", "seen", achievements_seen)
+	cfg.set_value("achievements", "defeats", stat_defeats)
+	cfg.set_value("achievements", "best_combo", stat_best_combo)
 	var error := cfg.save(_path)
 	if error != OK:
 		push_error("Oyun kaydı yazılamadı: %s (%d)" % [_path, error])
@@ -208,6 +231,10 @@ func best_time(index: int) -> float:
 
 
 ## Bölüm %100 mü: üç yıldızın hepsi kazanılmış.
+func is_cleared(index: int) -> bool:
+	return best_scores.has(index) or unlocked_level > index
+
+
 func is_complete(index: int) -> bool:
 	return star_count(index) == STARS_PER_LEVEL
 
@@ -372,7 +399,50 @@ func wipe() -> void:
 	purchased = []
 	upgrade_levels = {}
 	costume = "sokak"
+	achievements_claimed = []
+	achievements_seen = []
+	stat_defeats = 0
+	stat_best_combo = 0
 	save_game()
+
+
+# --- Görevler (Achievements) ------------------------------------------------------
+
+## Yenilen düşman (Main ve Survival çağırır). Yalnız bellekte; bölüm/koşu sonundaki
+## kayıtla yazılır. Eşik geçildiyse tabela hemen çıksın diye duyuru da yapılır.
+func count_defeat() -> void:
+	stat_defeats += 1
+	_announce_achievements()
+
+
+func _on_combo_finished(count: int, _bonus: int) -> void:
+	if count > stat_best_combo:
+		stat_best_combo = count
+		_announce_achievements()
+
+
+## Yeni tamamlanan görevleri "görülmüş" işaretler ve sinyalle duyurur (yazma yok).
+func _announce_achievements() -> void:
+	for id in Achievements.reached():
+		if not (id in achievements_seen):
+			achievements_seen.append(id)
+			achievement_reached.emit(id)
+
+
+func can_claim_achievement(id: String) -> bool:
+	var a := Achievements.find(id)
+	return not a.is_empty() and Achievements.is_done(a) and not (id in achievements_claimed)
+
+
+## Görev ödülünü cüzdana ekler, miktarı döner (alınamıyorsa 0).
+func claim_achievement(id: String) -> int:
+	if not can_claim_achievement(id):
+		return 0
+	var reward := int(Achievements.find(id).reward)
+	achievements_claimed.append(id)
+	total_coins += reward
+	save_game()
+	return reward
 
 
 func _apply_volume() -> void:
