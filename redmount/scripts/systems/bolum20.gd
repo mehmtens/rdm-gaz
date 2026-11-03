@@ -11,6 +11,9 @@ extends DtmLevel
 const COAST := preload("res://assets/backgrounds/book02_samatya_coast_atlas.png")
 const DEPOT := preload("res://assets/backgrounds/book02_samatya_depot_atlas.png")
 
+## Kemal Bey'in avluyu izleyen süsü (kaçınca serbest bırakılır).
+var _kemal: AnimatedSprite2D
+
 
 func _build() -> void:
 	sky_atlas = COAST
@@ -172,20 +175,32 @@ func _kemal_watches(arena: BattleArena) -> void:
 	k.modulate = Color(0.7, 0.68, 0.8)
 	k.play(&"idle")
 	add_child(k)
-	arena.wave_changed.connect(func(wave: int, _total: int, _left: int) -> void:
-		if wave < 3 or not is_instance_valid(k) or k.has_meta(&"gone"):
-			return
-		k.set_meta(&"gone", true)
-		k.flip_h = false
-		k.play(&"walk")
-		k.speed_scale = 2.2
-		var t := k.create_tween()
-		t.tween_property(k, ^"position:x", k.position.x + 520.0, 1.1)
-		t.tween_callback(k.queue_free)
-		RadioPanel.say(get_tree(), "gazelle", "GAZELLE", "Kemal Bey kaçıyor! Çabuk, Redmount!"))
-	arena.cleared.connect(func() -> void:
-		if is_instance_valid(k):
-			k.queue_free())
+	_kemal = k
+	## Yakalayan lambda yerine self'e bağlı metot: lambda `k`'yi yakalayıp
+	## kaçışta queue_free edince, sonraki her dalga/düşman ölümünde emit
+	## "Lambda capture ... freed" hatası veriyordu. Bağlı metot self'i tutar.
+	arena.wave_changed.connect(_on_kemal_wave)
+	arena.cleared.connect(_on_kemal_cleared)
+
+
+## Üçüncü dalga başlayınca Kemal arkasını döner, kayığa koşar, Gazelle bağırır;
+## kaçış başladıktan sonra dinlemeye gerek kalmaz, bağlantı kesilir.
+func _on_kemal_wave(wave: int, _total: int, _left: int) -> void:
+	if wave < 3 or not is_instance_valid(_kemal) or _kemal.has_meta(&"gone"):
+		return
+	_kemal.set_meta(&"gone", true)
+	_kemal.flip_h = false
+	_kemal.play(&"walk")
+	_kemal.speed_scale = 2.2
+	var t := _kemal.create_tween()
+	t.tween_property(_kemal, ^"position:x", _kemal.position.x + 520.0, 1.1)
+	t.tween_callback(_kemal.queue_free)
+	RadioPanel.say(get_tree(), "gazelle", "GAZELLE", "Kemal Bey kaçıyor! Çabuk, Redmount!")
+
+
+func _on_kemal_cleared() -> void:
+	if is_instance_valid(_kemal):
+		_kemal.queue_free()
 
 
 # --- Hikâye sahneleri ----------------------------------------------------------

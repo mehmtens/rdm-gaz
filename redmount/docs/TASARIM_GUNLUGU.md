@@ -7,6 +7,11 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- Bölüm 20 arena üst şeridi (tur 122 denetimi): "DALGA 1/2 · 2 DÜŞMAN" dalga şeridi ile "FİLM RULOSU 1/3"
+  üç satırlık toplama bildirimi aynı anda ekranın üstünde art arda diziliyor (1280×720'de okunur).
+  İnsan testinde telefonda üst kenarda sıkışma/çakışma görülürse film-rulosu bildirimi ekranın ortasına
+  ya da dalga şeridi kalkınca gösterilsin.
+
 - Kasap Rıza arenası (Bölüm 2, x≈8150–8260): bot üç koşuda 16–17 sn kalıyor, 0 ölüm, ~19 can kaybı.
   Sorun değil; insan testinde arena süresi 40 sn'yi geçerse Rıza'nın can havuzu ölçülsün.
 
@@ -133,6 +138,35 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (122) — Denetim: Bölüm 20 + çalışma-zamanı hatası düzeltildi
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin tamamı insan testine
+bağlı. Görev kuralı: durmadan önce henüz bakılmamış bir bölümü denetle. Son denetimler Bölüm 2/13/25'ti;
+bu tur Bölüm 20 (Samatya Taş Depoları, Kitap 2) pencereli bot ile oynatıldı (CLEARED 94,7 sn, 0 ölüm,
+6 sn arayla 16 görüntü).
+
+**Bulgu (somut, ölçülebilir):** Bot koşusu "Lambda capture at index 0 was freed. Passed null instead."
+hatasını onlarca kez bastı (`battle_arena.gd:225` `wave_changed.emit` ve `:252` `cleared.emit`
+sırasında). Kök neden `bolum20.gd`: Kemal Bey'i izleyen süs düğümü `k`, `wave_changed`/`cleared`
+sinyallerine yakalayan (capturing) lambda ile bağlıydı; üçüncü dalgada `k.queue_free` edilince lambda
+hâlâ bağlı kalıyor, sonraki her düşman ölümünde serbest bırakılmış nesneyi yakalamaya çalışıyordu.
+`is_instance_valid(k)` koruması gövdeye hiç giremeden, motor çağrı anında hata basıyordu.
+
+**Oyuncu ne hissedecek:** Doğrudan görünür bir belirti yoktu (süs zaten kaçıyordu), ama her kare hata
+loglaması kare düşüşü/takılma riski ve gizli bozulma kaynağıydı; temizlendi.
+
+**Yapılanlar:** `bolum20.gd`: yakalayan iki lambda, `self`'e bağlı `_on_kemal_wave` / `_on_kemal_cleared`
+metotlarına ve `var _kemal` üyesine dönüştürüldü. Callable artık `self`'i (bölüm düğümü, bölüm boyunca
+geçerli) tutuyor; `_kemal` serbest bırakılınca `is_instance_valid` sessizce erken dönüyor, hata yok.
+`book03_level12.gd:217` benzer desende ama yalnız değer-tipi + `self` yakalıyor — bug yok, dokunulmadı.
+
+**Testler:** `--import` hatasız; Bölüm 20 bot tekrar CLEARED (92,4 sn), "Lambda capture"/"freed"
+logu artık YOK; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn` PASS. 1280×720 görüntülerde
+depo/rıhtım sahnesi ChatGPT arka planıyla bütün (vinç paleti, sur kemeri, minare silüeti, fenerler
+uyumlu); sorun yok. Geçici capture dosyaları scratchpad'de, commit'e girmedi.
+
+**Sonraki öneri:** Birikime eklenen küçük not (B20 arena üst şeridi). Kalanı insan testine bağlı.
 
 ### 2026-11-03 (121) — HUD sol sütunu: boş satır yer tutmaz (birikim 1. madde)
 
