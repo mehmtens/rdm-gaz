@@ -7,12 +7,6 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Bölüm 14 Balat yokuşu (x≈6740) kırmızı tuğla baca kulesi: güneşli sıva/ahşap ev sokağında tek
-  başına düz kırmızı; çevre malzemesiyle (sıvalı taş ya da ahşap) çizilsin (`chimney_brick` bölüm
-  bayrağı yerine bacaya özgü malzeme).
-- Taş setlerde (tur 76) yüksek bloğun köşe taşı alçak komşunun önünde de tam boy (Bölüm 23 basamak
-  piramidi x≈3800–4250 sütun sütun görünüyor). `A_RAMPART`'a köşe taşının başlangıç yüksekliği
-  (`corner_from_l/r`) eklenip komşunun üstünden başlatılsın.
 - Bölüm 14 son arena (x≈9000–9500): bot son dalgaya 23/115 canla girdi, 2 yeniden doğma (pencereli
   ve başsız koşu). İnsan testinde arena ölümü 1'i geçerse ikinci dalga sonrası simit.
 - Bölüm 14 halat atölyesi arenası (x≈4100–5100): demir arena kafesi ayrıntılı halat/çark resminin
@@ -100,6 +94,26 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (79) — Taş basamak setlerinde köşe taşı komşunun üstünden başlıyor; Bölüm 14 tuğla kule kontrolü
+
+**Neden şimdi:** Birikimin iki üst maddesi. (1) Bölüm 14 Balat yokuşundaki tuğla kule denetimde
+küçültülmüş karede "düz kırmızı" görünmüştü. 1280×720 tam çözünürlükte taş bantlı, gölgeli tuğla
+örgü; yanındaki kiremit-sıva Balat cepheleriyle aynı sıcak ailede. Bayrak kaldırılıp taş kuleyle
+de çekildi: sur örgüsünün gece rampası gündüz resminde koyu bir blok olarak kaldı. Tuğla kalır,
+değişiklik yok. (2) Tur 76'da taş setlerde yüksek bloğun köşe taşı alçak komşunun önünde de tam
+boydu; Bölüm 23 basamak piramidi sütun sütun okunuyordu.
+
+**Yapılan:** `A_RAMPART`'a `corner_len_l/r` (üstten köşe taşı boyu, < 0 tam). `_stones` bitişik
+bloklarda yüksek bloğun o yandaki köşe taşını komşunun üstünde kalan boya kısaltıyor (sonradan
+eklenen komşu için de geriye dönük). Sur sırtı ve baca çağrıları etkilenmiyor (varsayılan tam boy).
+
+**Testler:** import temiz; smoke 36/36 SMOKE OK, SCRIPT ERROR 0, çıkış 0; DTM GAPS PASS; bot başsız
+Bölüm 23 (107,0 sn), 20 (93,0), 14 (97,6), 1 (76,9) CLEARED. Görsel: Bölüm 23 Saraçhane piramidi
+kademeli tek taş kütle, Bölüm 20 Samatya basamağı tek set olarak "ait".
+
+**Sonraki öneri:** Birikimde uygulanabilir madde kalmadı (kalanlar insan testine bağlı) → yeni
+denetim; tek başına denetlenmemiş Kitap 3 bölümleri (ör. 26 ve 32).
 
 ### 2026-11-03 (78) — Taş baca içi isli moloz örgü
 

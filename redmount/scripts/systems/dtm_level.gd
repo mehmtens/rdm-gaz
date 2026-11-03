@@ -461,23 +461,33 @@ func _stones(left: float, cols: int, rows: int) -> void:
 	var body := _solid_box(left, top, 90.0 * cols, -top)
 	# Sur örgüsü (taç taşı + sıralar): tekrarlayan oyma pano dokusu kasa gibi okunuyordu.
 	var art := _Art.new(_Art.A_RAMPART, Vector2(90.0 * cols, -top))
-	# Bitişik bloklar tek set: alçak (ya da eş) komşuya bakan köşe taşı çizilmez.
+	# Bitişik bloklar tek set: alçak (ya da eş) komşuya bakan köşe taşı çizilmez; yüksek
+	# bloğun köşe taşı yalnız komşunun üstünde kalan boyda.
 	for s in _stone_arts:
 		var touch_l := absf(float(s[1]) - left) < 1.0
 		var touch_r := absf(float(s[0]) - right) < 1.0
 		if not (touch_l or touch_r):
 			continue
 		var other: _Art = s[3]
-		if float(s[2]) >= top - 0.5:
+		var o_top := float(s[2])
+		if o_top >= top - 0.5:
 			if touch_l:
 				other.corner_r = false
 			else:
 				other.corner_l = false
-		if top >= float(s[2]) - 0.5:
+		elif touch_l:
+			other.corner_len_r = top - o_top
+		else:
+			other.corner_len_l = top - o_top
+		if top >= o_top - 0.5:
 			if touch_l:
 				art.corner_l = false
 			else:
 				art.corner_r = false
+		elif touch_l:
+			art.corner_len_l = o_top - top
+		else:
+			art.corner_len_r = o_top - top
 	body.add_child(art)
 	_stone_arts.append([left, right, top, art])
 
@@ -1001,6 +1011,10 @@ class _Art extends Node2D:
 	var open_back := false
 	var corner_l := true
 	var corner_r := true
+	## Köşe taşı boyu (üstten, px); < 0 tam boy. Alçak komşuya yaslı basamakta yalnız
+	## komşunun üstünde kalan kısım.
+	var corner_len_l := -1.0
+	var corner_len_r := -1.0
 
 	func _init(k: int, s: Vector2) -> void:
 		kind = k
@@ -1199,7 +1213,9 @@ class _Art extends Node2D:
 					if (side == 0 and not corner_l) or (side == 1 and not corner_r):
 						continue
 					var cx := -hw if side == 0 else hw - 10.0 * PX
-					_tiled(PIX_WALL_CORNER, Rect2(cx, body_top, 10.0 * PX, size.y - cap_h),
+					var clen := corner_len_l if side == 0 else corner_len_r
+					var ch := size.y - cap_h if clen < 0.0 else maxf(clen - cap_h, 0.0)
+					_tiled(PIX_WALL_CORNER, Rect2(cx, body_top, 10.0 * PX, ch),
 						Color.WHITE, Rect2(side * 10, 0, 10, 45))
 				_tiled(PIX_WALL_CAP, Rect2(-hw, -hh, size.x, cap_h))
 			A_WATER:
