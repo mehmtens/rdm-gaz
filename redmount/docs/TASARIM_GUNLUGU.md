@@ -198,6 +198,23 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-04 (139) — Denetim: Bölüm 2, 3, 5, 6 (temiz) — otomasyon durdu
+
+**Neden şimdi:** Tur 138 sonrası birikimde otonom madde kalmadı (üstteki "İ" aralığı insan yargısı, kalanlar
+telefon testi ölçümü). Öncelik d): hiç bakılmamış dört bölüm pencereli bot ile 10–12 sn arayla görüntüyle
+oynatıldı.
+
+**Bulgular:** Dördü de CLEARED, 0 yeniden doğma: Bölüm 2 76,6 sn (en uzun takılma 14 sn Kasap Rıza — birikimde),
+Bölüm 3 71,7 sn (10 sn @5157), Bölüm 5 95,1 sn (16 sn @5052), Bölüm 6 122,7 sn (15 sn @5321; arenaya 1/115 canla
+girip kazandı — birikimdeki Bölüm 6 orta kesim maddesiyle tutarlı). Haliç pazarı, Kuzguncuk gece iskelesi ve
+bahçe arenası, Sirkeci yük garı + trafo avlusu (Makinist Cemil), dökümhane vinç avlusu ve kale kapısı
+görüntülerinde ChatGPT arka planından kopuk, yapıştırılmış görünen öğe yok; dalga şeridi, film rulosu bildirimi,
+boss çubuğu okunur. Yeni somut iş çıkmadı.
+
+**Testler:** Kod değişmedi. Bot Bölüm 2, 3, 5, 6 pencereli CLEARED.
+
+**Sonraki öneri:** Telefon testi (birikimdeki ölçümler). Denetim sürecekse hiç bakılmamış: 7, 8, 9, 10, 15.
+
 ### 2026-11-04 (138) — `sky_blend_arenas` testi geçiş süresine bağlandı (55 sahte hata)
 
 **Neden şimdi:** Tur 137'de birikime yazılan en üst madde: test 81 arenanın 55'inde "1 sn'de geçiş bitmedi"
