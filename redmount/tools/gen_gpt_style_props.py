@@ -16,7 +16,7 @@ diken,alev_izgara,kablo,bomba,bomba_ikaz,alev,kivilcim,patlama,
 tugla,sivali_tugla,ic_duvar,hatil,ic_pencere,fabrika_pencere,cephe_pencereleri,kat_silmesi,saldiri_uyari,dukkan,tavan,han_kapisi,
 pres,pres_kol,ray,pres_kirisi,pres_ayak,pres_yatak,su_govde,su_yuzey,anten,kule_ayak,kule_kulube,ahsap_kat,
 kalkan,kalkan_kirik,sancak,catlak,kiymik,depo_rafi,baca_tahta,kule_tugla,baca_tugla,baca_tas,
-sur_tasi,sur_tepe,sur_kose}.png
+sur_tasi,sur_tepe,sur_kose,huzme,projektor}.png
 ve assets/pickups/placeholder_rifle.png
 Oyunda 2x NEAREST ölçeklenir (1 sanat pikseli = 2 ekran pikseli).
 """
@@ -2805,6 +2805,114 @@ def make_film_rulo(rnd):
     return img
 
 
+def make_huzme(rnd):
+    """Projektör huzmesi (90×250, eklemeli karışım, oyunda 2x): fener halesiyle aynı
+    yöntem — sıcak krem-altın basamaklar, geçişlerde 4×4 Bayer; eski 50% dama dither
+    koyu arka planda gri bir ağ gibi okunuyordu. Kaynakta dar ve parlak (mercek çapı),
+    uzadıkça genişleyip söner; kenarlar yumuşak, içinde seyrek uçuşan toz zerreleri."""
+    w, h = 90, 250
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    bayer = [[0, 8, 2, 10], [12, 4, 14, 6], [3, 11, 1, 9], [15, 7, 13, 5]]
+    levels = [None, ((150, 84, 52), 26), ((206, 128, 66), 42), ((238, 170, 92), 60),
+              ((252, 206, 132), 80), ((255, 228, 172), 104), ((255, 240, 204), 130)]
+    cx = (w - 1) / 2.0
+    for y in range(h):
+        t = y / (h - 1)
+        half = 4.0 + t * 40.0
+        fade = (1.0 - t) ** 0.9
+        for x in range(w):
+            u = abs(x - cx) / half
+            if u > 1.0:
+                continue
+            i = fade * (1.0 - u * u) ** 0.8 * (len(levels) - 1)
+            if y < 3:
+                i = len(levels) - 1  # mercek ağzı
+            base = int(i)
+            if i - base > (bayer[y % 4][x % 4] + 0.5) / 16.0:
+                base += 1
+            base = min(base, len(levels) - 1)
+            if levels[base] is not None:
+                col, a = levels[base]
+                px[x, y] = col + (a,)
+    # Toz zerreleri: huzmenin içinde tek piksel parıltı, uzakta seyrekleşir.
+    for _ in range(70):
+        y = rnd.randint(8, int(h * 0.8))
+        t = y / (h - 1)
+        half = 4.0 + t * 40.0
+        x = int(cx + (rnd.random() * 2 - 1) * half * 0.7)
+        if px[x, y][3] > 0:
+            px[x, y] = (255, 236, 196, min(110, px[x, y][3] + 40))
+    return img
+
+
+def make_projektor(rnd):
+    """Kule projektörü (5 kare × 28×28): kulübe damına oturan perçinli demir direk +
+    pirinç mafsal, üstünde mercek önde silindir teneke gövde. Huzme açısına göre kare
+    seçilir (sprite döndürülmez, piksel bozulmaz): mercek 20°–72° sola-aşağı.
+    Mafsal (pivot) karede (14, 12); mercek pivotun 8 piksel önünde."""
+    n, frames = 28, 5
+    img = Image.new("RGBA", (n * frames, n), (0, 0, 0, 0))
+    px = img.load()
+    piv = (14.0, 12.0)
+    for f in range(frames):
+        ox = f * n
+        a = math.radians(20 + f * 13)
+        ax, ay = -math.sin(a), math.cos(a)  # mercek yönü (sola-aşağı)
+        nx, ny = -ay, ax  # gövde normali: üst-sol yüz
+        # Direk ve taban plakası (her karede aynı, dönmez).
+        for y in range(14, n):
+            for x in range(13, 16):
+                lv = 0.45 if x == 13 else 0.24 if x == 14 else 0.1
+                if y % 5 == 0:
+                    lv += 0.15  # perçin bileziği
+                c = pick(IRON, lv, rnd, 0.3)
+                if x == 15:
+                    c = mix(c, MOON, 0.3)
+                px[ox + x, y] = c + (255,)
+        for x in range(10, 19):
+            for y in (n - 2, n - 1):
+                c = pick(IRON, 0.4 - (x - 10) * 0.03 - (y - n + 2) * 0.2, rnd, 0.3)
+                px[ox + x, y] = c + (255,)
+        # Silindir gövde: eksen boyunca s ∈ [-3, 8], yarıçap 4,5.
+        for y in range(n):
+            for x in range(n):
+                dx, dy = x - piv[0], y - piv[1]
+                s = dx * ax + dy * ay
+                p = dx * nx + dy * ny  # >0 üst-sol (ışığa bakan) yüz
+                r = 4.6 if s < 6.0 else 5.2  # önde mercek dudağı taşar
+                if s < -3.2 or s > 8.4 or abs(p) > r:
+                    continue
+                lv = light(-p / r) * 0.8
+                if s > 6.6:
+                    # Mercek yüzü: pirinç dudak, içi yanan cam (alt yarı daha parlak).
+                    if abs(p) > 3.6:
+                        c = pick(BRASS, lv + 0.3, rnd, 0.2)
+                    else:
+                        c = pick(WARM_GLASS, 0.72 + 0.06 * (3.6 - abs(p)), rnd, 0.15)
+                elif s > 5.6:
+                    c = pick(BRASS, lv + 0.12, rnd, 0.25)  # ön kelepçe
+                elif s < -2.0:
+                    c = pick(IRON, lv * 0.5, rnd, 0.3)  # arka kapak
+                else:
+                    c = pick(IRON, lv, rnd, 0.45)
+                    if abs(s - 1.0) < 0.55:
+                        c = pick(IRON, lv + 0.18, rnd, 0.2)  # soğutma kaburgası
+                    elif rnd.random() < 0.05:
+                        c = pick(RUST, lv - 0.1, rnd, 0.3)  # pas lekesi
+                if p < -3.4:
+                    c = mix(c, MOON, 0.32)  # alt-sağ kenarda ay ışığı
+                px[ox + x, y] = c + (255,)
+    frame_imgs = []
+    for f in range(frames):
+        fr = img.crop((f * n, 0, (f + 1) * n, n))
+        outline(fr)
+        frame_imgs.append(fr)
+    for f, fr in enumerate(frame_imgs):
+        img.paste(fr, (f * n, 0))
+    return img
+
+
 def main():
     rnd = random.Random(7)
     make_varil(rnd).save(OUT + "varil.png")
@@ -2872,6 +2980,8 @@ def main():
     make_sur_tasi(random.Random(263)).save(OUT + "sur_tasi.png")
     make_sur_tepe(random.Random(269)).save(OUT + "sur_tepe.png")
     make_sur_kose(random.Random(271)).save(OUT + "sur_kose.png")
+    make_huzme(random.Random(307)).save(OUT + "huzme.png")
+    make_projektor(random.Random(311)).save(OUT + "projektor.png")
 
 
 if __name__ == "__main__":

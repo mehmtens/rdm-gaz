@@ -43,6 +43,8 @@ const PIX_SHOP := preload("res://assets/environment/pixel/dukkan.png")
 const PIX_GATE := preload("res://assets/environment/pixel/han_kapisi.png")
 const GOAL_SCRIPT := preload("res://scripts/systems/level_goal.gd")
 const PIX_BEAM := preload("res://assets/environment/pixel/huzme.png")
+## Projektör başlığı: 5 kare × 28×28, mercek 20°–72° sola-aşağı; mafsal karede (14, 12).
+const PIX_SEARCHLIGHT := preload("res://assets/environment/pixel/projektor.png")
 const PIX_STONE := preload("res://assets/environment/pixel/tas_blok.png")
 const PIX_INWALL := preload("res://assets/environment/pixel/ic_duvar.png")
 const PIX_FLOOR := preload("res://assets/environment/pixel/ahsap_kat.png")
@@ -407,7 +409,8 @@ func _tower(cx: float, top: float, w := 110.0, light := true) -> void:
 	body.add_child(_Art.new(_Art.A_TOWER, Vector2(w, -top)))
 	if light:
 		var sl := _Searchlight.new()
-		sl.position = Vector2(cx, top - 40.0)
+		# Damın sol köşesinde: tepedeki nöbetçi (ortada) lambayı örtmesin.
+		sl.position = Vector2(cx - 38.0, top - 40.0)
 		add_child(sl)
 
 
@@ -1935,25 +1938,42 @@ class _Lantern extends Node2D:
 			modulate.a = 0.75 + 0.25 * sin(_t * 3.0)
 
 
-## Projektör: kule tepesinden yavaşça süpüren piksel art (dither) ışık huzmesi.
-class _Searchlight extends Sprite2D:
+## Projektör: kule damındaki piksel art lamba + mercekten çıkan, oyuncunun geldiği yanı
+## (sol) yavaşça tarayan eklemeli ışık huzmesi. Başlık döndürülmez; açıya en yakın kare.
+class _Searchlight extends Node2D:
+	const ART := 2.0
+	const MIN_ANG := deg_to_rad(20.0)
+	const STEP := deg_to_rad(13.0)
 	var _t := randf() * 6.0
+	var _beam := Sprite2D.new()
+	var _head := Sprite2D.new()
 
 	func _ready() -> void:
-		z_index = -5
 		process_mode = Node.PROCESS_MODE_ALWAYS
-		texture = PIX_BEAM
-		centered = false
-		offset = Vector2(-PIX_BEAM.get_width() * 0.5, 0)
-		scale = Vector2(PX, PX)
 		texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		_beam.texture = PIX_BEAM
+		_beam.centered = false
+		# Huzme mercek ağzından başlar (mafsaldan 8 sanat pikseli önde).
+		_beam.offset = Vector2(-PIX_BEAM.get_width() * 0.5, 8.0)
+		_beam.scale = Vector2(ART, ART)
+		_beam.z_index = -5
 		var mat := CanvasItemMaterial.new()
 		mat.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
-		material = mat
+		_beam.material = mat
+		add_child(_beam)
+		_head.texture = PIX_SEARCHLIGHT
+		_head.hframes = 5
+		_head.centered = false
+		_head.offset = Vector2(-14.0, -12.0)
+		_head.scale = Vector2(ART, ART)
+		add_child(_head)
+		_process(0.0)
 
 	func _process(delta: float) -> void:
 		_t += delta
-		rotation = sin(_t * 0.6) * 0.75
+		var ang := MIN_ANG + 2.0 * STEP + sin(_t * 0.6) * 2.0 * STEP
+		_beam.rotation = ang
+		_head.frame = clampi(roundi((ang - MIN_ANG) / STEP), 0, 4)
 
 
 ## Ön plan siluetleri: oyuncunun önünde, kameraya göre %25 fazla kayar (derinlik).

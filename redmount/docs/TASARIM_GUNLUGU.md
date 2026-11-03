@@ -164,6 +164,39 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-04 (128) — Denetim: Bölüm 32 + gözetleme kulesi projektörü ChatGPT tarzında
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikim insan testine bağlı. Öncelik d)
+denetim: tur 127'nin önerdiği en az denetlenen bölüm, Bölüm 32 (Kuleli kıyısı / rasathane). Pencereli bot
+(10 sn arayla 8 görüntü) CLEARED 75,0 sn, 0 yeniden doğma.
+
+**Bulgu (somut):** Kulelerin projektör huzmesi (`huzme.png`) `gen_pixel_props.py`'den kalma eski tarzdaydı:
+%50 dama dither'lı soluk krem koni, oyunda 3x. Koyu arka planda ışık değil gri, desenli bir "file/ağ" gibi
+okunuyordu (Bölüm 32 iskelesi ve rasathanesinde iskele kulesinin yanından sarkan gri kama); kulede ışığın
+çıktığı bir lamba da yoktu. Sanat kuralı sorusuna dürüst cevap "yapıştırılmış" idi. Aynı kule 9 bölümde,
+19 yerde (`_tower`; Bölüm 4, 5, 9, 10, 28, 32, 34, 35, 36, Kitap 2 B12).
+
+**Oyuncu ne hissedecek:** Kule damında perçinli direğe oturmuş demir bir projektör, yanan merceğinden sıcak
+bir ışık konisi oyuncunun geldiği yanı yavaşça tarıyor; gözetleme hattı "nöbet var" diye okunuyor.
+
+**Yapılanlar:**
+- `tools/gen_gpt_style_props.py`: `make_huzme()` — 90×250 (oyunda 2x), fener halesiyle aynı yöntem:
+  6 sıcak basamak (kızıl → altın → krem), geçişlerde 4×4 Bayer, kaynakta dar/parlak, uzadıkça genişleyip
+  söner, içinde seyrek toz zerreleri. `make_projektor()` — 5 kare × 28×28: IRON rampalı silindir gövde,
+  pirinç ön kelepçe + mercek dudağı, WARM_GLASS yanan cam, soğutma kaburgası, seyrek pas, sağ-alt ay
+  kenarı, perçinli direk + taban plakası, koyu mor kontur. Kareler mercek açısı 20°/33°/46°/59°/72°.
+- `dtm_level.gd` `_Searchlight`: Sprite2D → Node2D (huzme + başlık). Başlık döndürülmez (piksel bozulmaz),
+  huzme açısına en yakın kare seçilir; huzme mercek ağzından başlar. Tarama ±43° dikey yerine 20°–72°
+  sol-aşağı (oyuncunun geldiği yan; dikeyde huzme kulübenin içinden geçiyordu). Lamba damın sol
+  köşesinde (cx − 38): ortadaki nöbetçi lambayı örtüyordu.
+- `gen_pixel_props.py`: eski `huzme` artık atlanıyor (yenisinin üstüne yazmasın).
+
+**Testler:** `--import` hatasız; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn` PASS; bot
+Bölüm 1 (77,1 sn), 4 (109,6 sn), 13 (80,4 sn), 25 (84,2 sn), 32 (76,2 sn) CLEARED. 1280×720 görüntüde Bölüm 32 iskele ve rasathane kulesi değerlendirildi: lamba ve koni
+ChatGPT arka planındaki fenerlerle aynı sıcak ışık dilinde; geçici capture dosyaları scratchpad'de.
+
+**Sonraki öneri:** Sıradaki en az denetlenen bölüm (günlükteki anma sayısıyla) ya da insan testi.
+
 ### 2026-11-03 (127) — Denetim: Bölüm 29 + piksel tabela ızgarası ve Ç/Ş çengeli
 
 **Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikim insan testine bağlı. Öncelik d)
