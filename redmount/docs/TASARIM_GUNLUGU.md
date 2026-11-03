@@ -164,6 +164,32 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-03 (127) — Denetim: Bölüm 29 + piksel tabela ızgarası ve Ç/Ş çengeli
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikim insan testine bağlı. Öncelik d)
+denetim: günlükte en az anılan bölüm Bölüm 29 (Kuzguncuk Kıyı Deposu, 3 anma). Pencereli bot (10 sn arayla
+8 görüntü) CLEARED 79,2 sn, 0 yeniden doğma; Kuzguncuk evleri, çeşme meydanı, bahçe duvarı, kıyı iskelesi
+ve matbaa arenası ChatGPT arka planlarıyla bütün.
+
+**Bulgu (somut):** Dükkân tabelası "KIYI ERZAKÇISI" oyunda "ERZAKCISI" okunuyordu. `PixelText.sign_board`
+yazıyı levhanın 2,5 sanat pikseli altına koyuyordu (yarım piksel → ızgara dışı, px 3'te 1,5 ekran pikseli
+kayma) ve renk şeridi hücrenin çengel satırıyla aynı yerdeydi: Ç/Ş çengeli şeridin içinde kayboluyor,
+harf altları şeride yarım piksel biniyordu. Aynı tabela 36 bölümün dükkânlarında (ÇAYCISI, ERZAKÇISI,
+ÇAYOCAĞI…), Bölüm 1 rota tabelalarında, `dtm_level` tabelalarında ve HUD mekân/film rulosu kartında kullanılıyor.
+
+**Oyuncu ne hissedecek:** Tabelalar dünyanın piksel ızgarasına oturuyor; Türkçe çengelli harfler okunuyor,
+altın şerit harflerin altında bir satır nefesle duruyor.
+
+**Yapılanlar:** `pixel_text.gd`: levha 16 → 18 sanat pikseli, yazı üstü 2,5 → 3 (tam piksel), şerit
+`inner.end.y − 3px` → `− 2px`. `hud.gd`: mekân kartında levha merkezi 26 → 29 (üst kenar aynı yerde, alttaki
+hikâye satırıyla çakışma yok).
+
+**Testler:** `--import` hatasız; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn` PASS; bot Bölüm 1
+(82,2 sn), 13 (84,3 sn), 25 (77,8 sn), 29 (94,7 sn) CLEARED. 1280×720 görüntülerde Bölüm 29 "KIYI ERZAKÇISI",
+Bölüm 3 "GECE ÇAYCISI" ve HUD kartında "Ğ Ü Ş" kontrol edildi; geçici capture dosyaları silindi.
+
+**Sonraki öneri:** Sıradaki en az denetlenen bölüm Bölüm 32 (4 anma); yoksa insan testi.
+
 ### 2026-11-03 (126) — Denetim: Bölüm 31 (en az incelenen bölüm)
 
 **Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin tamamı insan testine ya da

@@ -113,7 +113,9 @@ static func sign_board(ci: CanvasItem, center: Vector2, text: String, accent: Co
 		px: float = 3.0, hanging: bool = true) -> Rect2:
 	var text_w := width(text, px)
 	var w := text_w + 14.0 * px
-	var h := 16.0 * px
+	## 18 sanat pikseli: 10 satırlık hücre (şapka + gövde + çengel) levhanın içinde tam
+	## ızgaraya oturur, Ç/Ş çengeli ile gölgesi alttaki renk şeridine değmez.
+	var h := 18.0 * px
 	var board := Rect2(roundf(center.x - w * 0.5), roundf(center.y - h * 0.5), w, h)
 	var ink := Color("17131f")
 	var wood := Color("5a3a2a")
@@ -135,12 +137,12 @@ static func sign_board(ci: CanvasItem, center: Vector2, text: String, accent: Co
 	var inner := board.grow(-2.0 * px)
 	ci.draw_rect(inner, ink)
 	ci.draw_rect(inner.grow(-px), plate)
-	ci.draw_rect(Rect2(inner.position.x + px, inner.end.y - 3.0 * px, inner.size.x - 2.0 * px, px),
+	ci.draw_rect(Rect2(inner.position.x + px, inner.end.y - 2.0 * px, inner.size.x - 2.0 * px, px),
 		Color(accent, 0.85))
 	for corner in [board.position + Vector2(px, px), Vector2(board.end.x - 2.0 * px, board.position.y + px),
 			Vector2(board.position.x + px, board.end.y - 2.0 * px), board.end - Vector2(2.0 * px, 2.0 * px)]:
 		ci.draw_rect(Rect2(corner, Vector2(px, px)), Color("d9b36a"))
-	draw_centered(ci, center.x, board.position.y + 2.5 * px, text, px, Color("f4e6c8"), ink)
+	draw_centered(ci, center.x, board.position.y + 3.0 * px, text, px, Color("f4e6c8"), ink)
 	return board.grow(px)
 
 

@@ -903,4 +903,4 @@ class _PlaceBanner extends Control:
 			visible = false
 
 	func _draw() -> void:
-		PixelText.sign_board(self, Vector2(size.x * 0.5, 26.0), _title, _accent, PX, false)
+		PixelText.sign_board(self, Vector2(size.x * 0.5, 29.0), _title, _accent, PX, false)
