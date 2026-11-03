@@ -132,6 +132,9 @@ var back_tint := Color(0.34, 0.36, 0.5)
 var back_row_on := false
 ## Arka sıra evlerin çizilmediği dünya x aralıkları (iç mekân / yeraltı): [[x0, x1], ...]
 var back_row_skip: Array = []
+## `back_row_skip` içinde resmi açık hava olan aralıklar (avlu, teras): gizli oda orada
+## depo dolabı değil, kiremit damlı ev olarak kalır. [[x0, x1], ...]
+var open_air_skip: Array = []
 ## Baca kuleleri depo rafı + tahta baca olarak çizilsin (ambar/verici odası/gemi ambarı
 ## resimleri). Varsayılan taş kule: sarnıç, külhan, kale gibi taş resimlere o uyuyor
 ## (26 Ekim, 18 bacanın sekizi iç mekân resminde; yalnız Bölüm 33 ve 36'da taş yabancıydı).
@@ -580,17 +583,26 @@ func _stall(cx: float) -> void:
 
 ## Gizli oda: hanın kapısı kırılabilir duvar. İçeri girince ön cephe şeffaflaşır;
 ## içeride Osmanlı sandığı (zırh + coin). Yol, sandık basamağıyla hanın damından geçer.
+## Boyalı iç mekân salonunda (posta, arşiv, depo) kiremit damlı ev yerine depo dolabı:
+## raf cephesi, ahşap tahta dam, hatıl dikme (salonun içinde ev gibi durmasın).
 func _secret_han(left: float, reward: PackedScene = ARMOR) -> void:
 	var w := 300.0
 	var roof_top := -200.0
+	var indoor := false
+	for r in back_row_skip:
+		if left + w > float(r[0]) and left < float(r[1]):
+			indoor = true
+	for r in open_air_skip:
+		if left + w > float(r[0]) and left < float(r[1]):
+			indoor = false
 	# Sandık basamakları (90 -> 180) hanın damına (200) dayanır: arada yarık yok.
 	_crates(left - 180.0, 1, 1)
 	_crates(left - 90.0, 1, 2)
 	# Dam (yürünür) ve sağ duvar.
 	var roof := _solid_box(left, roof_top, w, 30.0)
-	roof.add_child(_Art.new(_Art.A_ROOF, Vector2(w, 30.0)))
+	roof.add_child(_Art.new(_Art.A_LOFT if indoor else _Art.A_ROOF, Vector2(w, 30.0)))
 	var back := _solid_box(left + w - 20.0, roof_top + 30.0, 20.0, -roof_top - 30.0)
-	back.add_child(_Art.new(_Art.A_WALL_STRIP, Vector2(20.0, -roof_top - 30.0)))
+	back.add_child(_Art.new(_Art.A_POST if indoor else _Art.A_WALL_STRIP, Vector2(20.0, -roof_top - 30.0)))
 	var door := BREAKABLE_WALL.instantiate()
 	door.position = Vector2(left + 20.0, 0)
 	add_child(door)
@@ -605,6 +617,8 @@ func _secret_han(left: float, reward: PackedScene = ARMOR) -> void:
 	# Ön cephe: oyuncu odaya girince kaybolur.
 	var facade := _Facade.new()
 	facade.rect = Rect2(left + 40.0, roof_top + 30.0, w - 60.0, -roof_top - 30.0)
+	if indoor:
+		facade.style = 3
 	add_child(facade)
 	_coin_line(left + 40.0, 4, 70, roof_top - 50.0)
 
@@ -1157,7 +1171,7 @@ func _spawn_backdrop() -> void:
 # --- Çizim sınıfları ------------------------------------------------------------
 
 class _Art extends Node2D:
-	enum { A_TERRAIN, A_HOUSE, A_BUILDING, A_CRATES, A_SCAFFOLD, A_BALCONY, A_ROOF, A_WALL_STRIP, A_ROOM, A_GATE, A_STALL, A_WATER, A_SANDBAG, A_TOWER, A_WAGON, A_RAILS, A_FACTORY, A_PRESS_FRAME, A_CEILING, A_PLANK, A_STONES, A_INTERIOR, A_FLOOR, A_ROOFLINE, A_SHAFT, A_RACK, A_SHAFT_WOOD, A_BRICK_TOWER, A_SHAFT_BRICK, A_RAMPART, A_GANTRY, A_WALLTOP }
+	enum { A_TERRAIN, A_HOUSE, A_BUILDING, A_CRATES, A_SCAFFOLD, A_BALCONY, A_ROOF, A_WALL_STRIP, A_ROOM, A_GATE, A_STALL, A_WATER, A_SANDBAG, A_TOWER, A_WAGON, A_RAILS, A_FACTORY, A_PRESS_FRAME, A_CEILING, A_PLANK, A_STONES, A_INTERIOR, A_FLOOR, A_ROOFLINE, A_SHAFT, A_RACK, A_SHAFT_WOOD, A_BRICK_TOWER, A_SHAFT_BRICK, A_RAMPART, A_GANTRY, A_WALLTOP, A_LOFT, A_POST }
 	var kind: int
 	var size: Vector2
 	var tex: Texture2D
@@ -1505,6 +1519,14 @@ class _Art extends Node2D:
 				_tiled(PIX_BEAM_WOOD, Rect2(hw - 15.0, -hh, 15.0, size.y))
 			A_FLOOR:
 				_tiled(PIX_FLOOR, Rect2(-hw, -2.0, size.x, PIX_FLOOR.get_height() * PX))
+			A_LOFT:
+				# Depo dolabı damı: ahşap kat tahtası, altında boydan boya hatıl.
+				var plank_h := PIX_FLOOR.get_height() * PX
+				_tiled(PIX_BEAM_WOOD, Rect2(-hw, -hh + plank_h - 6.0, size.x, hh * 2.0 - plank_h + 6.0), Color(0.82, 0.76, 0.72))
+				_tiled(PIX_FLOOR, Rect2(-hw - 6.0, -hh - 2.0, size.x + 12.0, plank_h))
+			A_POST:
+				# Depo dolabının yan dikmesi: üst üste hatıl.
+				_tiled(PIX_BEAM_WOOD, Rect2(-hw, -hh, size.x, size.y), Color(0.86, 0.8, 0.76))
 			A_ROOFLINE:
 				draw_texture_rect(ROOF_SLAB, Rect2(-hw - 6.0, -14.0, size.x + 12.0, 34.0), false)
 			A_WALLTOP:
@@ -1570,6 +1592,9 @@ class _Facade extends Node2D:
 		if style == 2:
 			_draw_stone_facade()
 			return
+		if style == 3:
+			_draw_rack_facade()
+			return
 		var tex: Texture2D = PIX_BRICK if style == 0 else PIX_INWALL
 		var t := tex.get_size() * PX
 		var tint := Color(0.86, 0.8, 0.76) if style == 0 else Color(0.74, 0.66, 0.6)
@@ -1632,6 +1657,20 @@ class _Facade extends Node2D:
 
 	## Taş kışla cephesi: sur örgüsü (aşağı indikçe fenerden uzaklaşır), iki yanda
 	## köşe taşı, yüksekte seyrek demir parmaklıklı pencere; dükkân yok.
+	## Depo dolabı cephesi (boyalı iç mekân salonunda gizli oda): raf dikmeleri yan yana,
+	## alt rafı zemine oturur (tam sanat pikseli; üstte kalan şerit dam hatılının gölgesi).
+	func _draw_rack_facade() -> void:
+		var tw := PIX_RACK.get_width() * PX
+		var rows := floorf(rect.size.y / PX)
+		var src_y := PIX_RACK.get_height() - rows
+		var top := rect.end.y - rows * PX
+		var x := rect.position.x
+		while x < rect.end.x - 0.5:
+			var w := minf(tw, rect.end.x - x)
+			draw_texture_rect_region(PIX_RACK, Rect2(x, top, w, rows * PX),
+				Rect2(0, src_y, floorf(w / PX), rows), Color(0.88, 0.82, 0.8))
+			x += tw
+
 	func _draw_stone_facade() -> void:
 		var y := rect.position.y
 		var row := 0

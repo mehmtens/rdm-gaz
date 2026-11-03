@@ -186,6 +186,38 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-04 (132) — Denetim: Bölüm 17 + iç mekân gizli odası depo dolabı
+
+**Neden şimdi:** Stil listesi, YOL_HARITASI ve P1 kapalı; birikimin tamamı insan testine/yargısına bağlı.
+Öncelik d) denetim: hiç denetlenmemiş Bölüm 17 (Beyazıt Posta Hattı) pencereli bot ile oynatıldı
+(12 sn arayla 8 görüntü; CLEARED 85,6 sn, 0 yeniden doğma, 13 sn takılma meydan arenasında).
+
+**Bulgu:** Meydan, sahaflar, posta cephesi, tasnif salonu görüntüleri ChatGPT arka planıyla uyumlu.
+**Tek kopuk öğe:** telgraf odasının (boyalı iç mekân) içinde, otomatik gizli oda (`_auto_secrets` →
+`_secret_han`) kırmızı kiremit damlı, pencereli dış cephe ev olarak duruyordu: salonun ortasında ev.
+36 bölüm taraması: `back_row_skip` (boyalı iç mekân) içinde düşen otomatik gizli oda 6 tane — Bölüm 16
+(arşiv), 17 (telgraf), 19 (külhan hamamı), 24 (taş tonoz, x≈10670), 25 (matbaa), 33 (Vaniköy köşkü içi).
+Aynı listedeki diğer 5 kayıt (15, 24 x≈6750, 26, 35, 36) baca kulesi, gizli oda değil. Bölüm 25'in
+resmi açık hava (şehir manzarası, şadırvan): orada kiremitli ev doğru.
+
+**Yapılan:** `_secret_han` boyalı iç mekânda **depo dolabı** kurar: cephe `depo_rafi` raf dikmeleri
+yan yana (alt rafı zemine oturur, tam sanat pikseli; `_Facade` stil 3), dam `ahsap_kat` tahtası + altında
+`hatil` (yeni `A_LOFT`), sağ duvar üst üste hatıl dikme (`A_POST`). Hepsi mevcut ChatGPT tarzı iç mekân
+dokuları; yeni çizim yok. Kırılabilir kapı, sandık basamakları, oda içi ve ödül aynı (oynanış değişmedi).
+Açık hava istisnası için `open_air_skip` (Bölüm 25 matbaa avlusu `[8300, 9400]`). Dış mekân gizli
+odaları (1, 2, 7, 11, 14, 28, 31, 32, 34) değişmedi.
+
+**Görsel kontrol (pencereli, 1280×720):** Bölüm 16 arşivde kitap raflarının, 17 telgraf odasında
+çekmeceli dolapların yanında dolap "sahneye ait" okunuyor; 19, 24, 33 aynı. Bölüm 25 kiremitli ev
+olarak kaldı.
+
+**Testler:** `--import` SCRIPT ERROR yok; yeni `tests/secret_cabinet.tscn` PASS (17/16 dolap, 25/1 ev);
+`dtm_gaps` PASS; `campaign_smoke` 36/36 SMOKE OK exit 0; bot (başsız) CLEARED: Bölüm 1 (77,5 sn), 13 (77,9), 16 (83,7),
+17 (85,3), 19 (81,8), 25 (82,0), 33 (86,8); en uzun takılma 16 sn.
+
+**Sonraki öneri:** Birikim insan testine bağlı; denetimi hiç bakılmamış bölümlerle sürdür (2, 3, 5, 6, 7,
+8, 9, 10, 15, 27, 30, 35, 36).
+
 ### 2026-11-04 (131) — OYNANIS-KALITE P1 tablosu gerçeğe çekildi
 
 **Neden şimdi:** Tur 130 denetimi, P1 tablosunun (satır 58-64) hâlâ bitmiş özellikleri "uygulanmadı" diye

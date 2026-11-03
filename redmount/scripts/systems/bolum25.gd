@@ -18,6 +18,7 @@ func _build() -> void:
 	sky_tint = Color(0.94, 0.9, 0.86)
 	sky_shade = Color(0.08, 0.05, 0.05)
 	back_row_skip = [[4700.0, 6000.0], [8300.0, 9400.0]]
+	open_air_skip = [[8300.0, 9400.0]]   # matbaa avlusu: şehir manzarası, şadırvan
 
 	# --- 1. Cağaloğlu sokağı: devriye, üst tente zırh ---------------------------
 	_terrain(-400, 1700, 0)
