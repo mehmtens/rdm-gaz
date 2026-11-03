@@ -346,9 +346,16 @@ func _tick_danger(delta: float) -> void:
 		Sfx.play(&"land", 0.55, -14.0)  # kalp atışı
 
 
+## Sol sütun yazı biçimi: dokunmatikte küçük piksel yazı tek biçimde (Türkçe BÜYÜK harf) okunur,
+## masaüstünde baş harf büyük. Tur 116 denetimi: telefonda "Bıçak 10/20 · DEĞİŞ: BIÇAK" ile
+## "MERMİ 18/54" karışıktı; `to_upper()` ise "Şemsiye"yi "ŞEMSIYE" yapıyordu.
+func _hud_case(text: String) -> String:
+	return PixelText.upper(text) if TouchControls.active_on_device() else text
+
+
 func set_weapon(display_name: String, uses: int, max_uses: int) -> void:
 	# Yumruk varsayılan, yazmaya gerek yok; silah kısa biçimde (dokunmatikle aynı).
-	_weapon_line = "" if display_name.is_empty() else "%s  %d/%d" % [display_name, uses, max_uses]
+	_weapon_line = "" if display_name.is_empty() else "%s  %d/%d" % [_hud_case(display_name), uses, max_uses]
 	_refresh_weapon_text()
 
 
@@ -364,9 +371,9 @@ var _stash_name := ""
 
 func _refresh_weapon_text() -> void:
 	var swap_key := "DEĞİŞ" if TouchControls.active_on_device() else "Q"
-	var stash := "" if _stash_name.is_empty() else "%s: %s" % [swap_key, _stash_name.to_upper()]
+	var stash := "" if _stash_name.is_empty() else "%s: %s" % [swap_key, _hud_case(_stash_name)]
 	if _weapon_line.is_empty():
-		_weapon.text = "" if stash.is_empty() else "YUMRUK  ·  " + stash
+		_weapon.text = "" if stash.is_empty() else _hud_case("Yumruk") + "  ·  " + stash
 	else:
 		_weapon.text = _weapon_line if stash.is_empty() else "%s  ·  %s" % [_weapon_line, stash]
 
@@ -381,7 +388,7 @@ func set_ammo(mag: int, reserve: int, has_gun: bool, label := "") -> void:
 		_ammo.text = ("%s %d" if TouchControls.active_on_device() else "%s: %d") % [
 			unit if TouchControls.active_on_device() else unit.capitalize(), mag + reserve]
 		return
-	_ammo.text = ("MERMİ %d/%d" if TouchControls.active_on_device() else "Mermi: %d | %d") % [mag, reserve]
+	_ammo.text = ("MERMİ %d/%d" if TouchControls.active_on_device() else "Mermi: %d/%d") % [mag, reserve]
 
 
 func set_armor(display_name: String, hp: int, max_hp: int) -> void:
@@ -395,7 +402,8 @@ func set_powerups(active: Array) -> void:
 		return
 	var parts: PackedStringArray = []
 	for e in active:
-		parts.append("%s %.1fs" % [e.name, maxf(e.left, 0.0)])
+		parts.append(("%s %.1f SN" if TouchControls.active_on_device() else "%s %.1fs") % [
+			_hud_case(e.name), maxf(e.left, 0.0)])
 	_powerups.text = "  ".join(parts)
 
 

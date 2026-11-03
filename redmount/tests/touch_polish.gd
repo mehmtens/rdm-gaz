@@ -97,5 +97,14 @@ func _controls() -> void:
 	_check(not banner.intersects(pause_rect),
 		"dalga şeridi %s duraklat düğmesiyle %s çakışmamalı" % [banner, pause_rect])
 	_check(banner.end.x < hud.size.x - 16.0, "dalga şeridi ekranın sağından taşmamalı (%s)" % banner)
+
+	# Sol sütun telefonda tek biçim: Türkçe kurallı BÜYÜK harf (Şemsiye → ŞEMSİYE, ŞEMSIYE değil).
+	hud.set_weapon("Bıçak", 3, 20)
+	hud.set_stash("Şemsiye")
+	_check(hud._weapon.text == "BIÇAK  3/20  ·  DEĞİŞ: ŞEMSİYE", "silah satırı: " + hud._weapon.text)
+	hud.set_weapon("", 0, 0)
+	_check(hud._weapon.text == "YUMRUK  ·  DEĞİŞ: ŞEMSİYE", "yumruk satırı: " + hud._weapon.text)
+	hud.set_ammo(18, 54, true)
+	_check(hud._ammo.text == "MERMİ 18/54", "cephane satırı: " + hud._ammo.text)
 	main.queue_free()
 	await get_tree().process_frame

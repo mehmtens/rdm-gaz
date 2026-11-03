@@ -7,9 +7,6 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Silah satırı harf biçimi (tur 116): dokunmatikte "Bıçak 10/20 · DEĞİŞ: BIÇAK" (ilk ad küçük harfli,
-  yedek BÜYÜK), altında "MERMİ 18/54". Küçük piksel yazıda telefonda tek biçim (BÜYÜK) daha okunur;
-  masaüstü "Mermi: 18 | 54" ile dokunmatik "18/54" de tek biçime insin.
 - Kasap Rıza arenası (Bölüm 2, x≈8150–8260): bot üç koşuda 16–17 sn kalıyor, 0 ölüm, ~19 can kaybı.
   Sorun değil; insan testinde arena süresi 40 sn'yi geçerse Rıza'nın can havuzu ölçülsün.
 
@@ -136,6 +133,33 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (118) — HUD sol sütunu tek yazı biçiminde (telefonda Türkçe BÜYÜK harf)
+
+**Neden şimdi:** Tur 116 denetiminin birikimdeki son somut maddesi; küçük, test edilebilir, telefonda
+her saniye görünen satırlar.
+
+**Ölçüm:** Dokunmatikte silah satırı "Bıçak 10/20 · DEĞİŞ: BIÇAK" (silah adı küçük harfli, yedek
+BÜYÜK), cephane "MERMİ 18/54", güçlendirme "Hız 3.2s". Yedek adı Godot `to_upper()` ile çevriliyordu:
+"Şemsiye" → "ŞEMSIYE" (Türkçe İ yerine I; şemsiye yedekteyken telefonda yanlış yazılıyordu).
+Masaüstünde cephane "Mermi: 18 | 54", silah "Sopa 9/12 · Q: SOPA".
+
+**Yapılan:** `Hud._hud_case`: dokunmatikte `PixelText.upper` (Türkçe kurallı: i → İ, ı → I), masaüstünde
+olduğu gibi. Silah adı, yedek adı, "Yumruk" ve güçlendirme adları bundan geçer; dokunmatikte güçlendirme
+süresi "3.2 SN". Masaüstü cephanesi "Mermi: 18/54" (dokunmatikle aynı ayraç). Zırh ve taş satırları zaten
+tutarlıydı.
+
+**Oyuncu ne hissedecek:** Telefonda sol üst sütun tek düzen okunur: "BIÇAK 14/20 · DEĞİŞ: ŞEMSİYE",
+"MERMİ 18/54". Masaüstünde baş harf büyük, yedek de öyle ("Q: Şemsiye").
+
+**Testler:** `--import` hatasız; `touch_polish` PASS (yeni: silah/yumruk/cephane satırları, ŞEMSİYE);
+`campaign_smoke` çıkış 0; `dtm_gaps`, `clue_card`, `weapon_swap`, `kaldirim_tasi`, `costume_badge` PASS;
+bot CLEARED: Bölüm 1 (77,2 sn), 2 (pencereli dokunmatik 76,4 sn), 13 (78,9 sn), 25 (90,7 sn).
+Pencereli dokunmatik ekran görüntüsünde (büyütülmüş kırpım) sol sütun kontrol edildi.
+
+**Sonraki öneri:** Tur 116 denetiminin somut maddeleri bitti; birikimin kalanı insan testine bağlı. Bir
+sonraki denetim telefon testinin ikinci bölgesi (Bölüm 3) ya da Kitap 2'nin ilk bölümü (13) dokunmatik
+pencereli koşuyla.
 
 ### 2026-11-03 (117) — Bölüm sonu ipucu ekranı: tek duyuru, sahnede bütün HUD
 
