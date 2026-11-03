@@ -164,6 +164,20 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-04 (129) — Denetim: Bölüm 11 (temiz) — otomasyon durdu
+
+**Neden şimdi:** Tur 128'den sonra listeler hâlâ kapalı; günlükte en az anılan bölümlerden Bölüm 11 (6 anma)
+pencereli bot ile oynatıldı (12 sn arayla 8 görüntü). CLEARED 89,5 sn, 0 yeniden doğma; 23 sn takılma
+Muhafız Başı dövüşünde (x≈7800, can havuzu; birikimdeki pres koridoru → avlu maddesiyle aynı bölge).
+
+**Bulgular:** Pres koridoru, kale avlusu, kiremit damlı taş ev ve makine dairesi görüntülerinde ChatGPT
+arka planından kopuk öğe yok. Açılışta "FİLM RULOSU 1/3" bildirimi, kombo yazısı ve telsiz paneli üst
+kenarda üst üste geliyor; birikimdeki Bölüm 20 bildirim maddesiyle aynı, insan testine bağlı.
+
+**Testler:** Kod değişmedi. Bot Bölüm 11 pencereli CLEARED.
+
+**Sonraki öneri:** Otonom yapılabilir somut iş kalmadı; telefon testi (birikimdeki ölçümler).
+
 ### 2026-11-04 (128) — Denetim: Bölüm 32 + gözetleme kulesi projektörü ChatGPT tarzında
 
 **Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikim insan testine bağlı. Öncelik d)
