@@ -54,6 +54,13 @@ static func box(kind: String, pad := 18) -> StyleBoxTexture:
 	sb.content_margin_right = pad
 	sb.content_margin_top = maxi(6, pad - 6)
 	sb.content_margin_bottom = maxi(6, pad - 6)
+	## Kartın üst kenarında 18 px'lik kırmızı başlık şeridi, yanlarda 12, altta 12 px çerçeve
+	## var: içerik şeridin altından ve altın çizgiden nefes payıyla başlasın.
+	if kind.begins_with("kart"):
+		sb.content_margin_left = maxi(sb.content_margin_left, 18)
+		sb.content_margin_right = maxi(sb.content_margin_right, 16)
+		sb.content_margin_top = maxi(sb.content_margin_top, 20)
+		sb.content_margin_bottom = maxi(sb.content_margin_bottom, 12)
 	sb.axis_stretch_horizontal = StyleBoxTexture.AXIS_STRETCH_MODE_TILE_FIT
 	sb.axis_stretch_vertical = StyleBoxTexture.AXIS_STRETCH_MODE_TILE_FIT
 	_boxes[key] = sb

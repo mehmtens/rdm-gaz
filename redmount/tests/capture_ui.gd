@@ -19,6 +19,8 @@ func _ready() -> void:
 				node._show(node.get("_" + page))
 		if f[1].ends_with("tab2"):
 			node._select(1)
+		if f[1].ends_with("tab3"):
+			node._select(2)
 		if f[1].ends_with("archive"):
 			for i in 36:
 				Save.secrets[i] = [i % 4, 3]

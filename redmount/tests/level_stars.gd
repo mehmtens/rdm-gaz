@@ -15,10 +15,35 @@ func _ready() -> void:
 	_save_merge()
 	_legacy_save()
 	await _results_card()
+	await _menu_cards()
 	Save.wipe()
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(PATH))
 	print("LEVEL STARS: %s" % ("PASS" if _fails == 0 else "FAIL (%d)" % _fails))
 	get_tree().quit(0 if _fails == 0 else 1)
+
+
+## Bölüm/mağaza kartı: yazı kartın kırmızı başlık şeridinin (üst 18 px) altında başlamalı,
+## iki satıra kırılan uzun ad süre satırını alt çerçeveye itmemeli.
+func _menu_cards() -> void:
+	_check(PixelUI.box("kart", 14).content_margin_top >= 20, "kart içeriği şeridin altında")
+	Save.unlocked_level = 11
+	var menu: Node = load("res://scenes/MainMenu.tscn").instantiate()
+	add_child(menu)
+	await get_tree().process_frame
+	menu._show(menu._levels)
+	for i in 4:
+		await get_tree().process_frame
+	## Bölüm 4 "Silahlı Kontrol Bölgesi" 1280 genişlikte iki satıra kırılıyor.
+	var card: Button = menu._grid.get_child(3)
+	var labels := card.find_children("*", "Label", true, false)
+	_check(labels.size() >= 3, "kartta numara, ad, süre satırı")
+	for l: Label in labels:
+		var top := l.global_position.y - card.global_position.y
+		var bottom := top + l.size.y
+		_check(top >= 18.0, "'%s' şeridin üstüne biniyor (y=%d)" % [l.text, top])
+		_check(bottom <= card.size.y - 8.0, "'%s' alt çerçeveye taşıyor (%d/%d)" % [l.text, bottom, card.size.y])
+	menu.queue_free()
+	await get_tree().process_frame
 
 
 func _check(ok: bool, what: String) -> void:

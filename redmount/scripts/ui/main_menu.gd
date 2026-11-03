@@ -51,6 +51,7 @@ func _ready() -> void:
 	Music.play("menu")
 	theme = UIStyle.menu_theme()
 	_rebuild()
+	get_viewport().size_changed.connect(_apply_safe_area)
 
 
 ## Sayfaları baştan kurar (açılış ve kayıt değişince, ör. seri kurtarma sonrası).
@@ -64,7 +65,19 @@ func _rebuild() -> void:
 	_levels = _build_levels()
 	_settings = _build_settings()
 	_archive = _build_archive()
+	_apply_safe_area()
 	_show(_home)
+
+
+## Çentik / yuvarlak köşe: sayfalar ekranın güvenli alanına çekilir (arka plan tam ekran
+## kalır). Sayfa içeriği kenardan zaten ≥ 40 px içeride; payın yalnız aşan kısmı kaydırılır.
+func _apply_safe_area() -> void:
+	var insets := TouchControls.safe_insets(get_viewport())
+	for page in [_home, _levels, _settings, _archive]:
+		if page == null:
+			continue
+		page.offset_left = maxf(0.0, insets.x - 28.0)
+		page.offset_right = -maxf(0.0, insets.y - 28.0)
 
 
 func _process(delta: float) -> void:
@@ -365,7 +378,8 @@ func _select_book(b: int) -> void:
 func _card(i: int) -> Button:
 	var locked := i > Save.unlocked_level
 	var card := Button.new()
-	card.custom_minimum_size = Vector2(278, 112)
+	## 138: başlık şeridi (20) + numara/yıldız satırı + iki satıra kırılan ad + süre satırı.
+	card.custom_minimum_size = Vector2(278, 138)
 	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	card.disabled = locked
 	var kind := "kart_kilitli" if locked else "kart"
@@ -377,15 +391,21 @@ func _card(i: int) -> Button:
 
 	var v := VBoxContainer.new()
 	v.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	v.offset_left = 16
-	v.offset_right = -12
-	v.offset_top = 4
-	v.offset_bottom = -8
-	v.add_theme_constant_override(&"separation", 2)
+	## Kartın üstündeki kırmızı şerit 18 px: içerik şeridin altından başlar.
+	v.offset_left = 18
+	v.offset_right = -14
+	v.offset_top = 20
+	v.offset_bottom = -10
+	v.add_theme_constant_override(&"separation", 0)
 	v.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	card.add_child(v)
+	## Üst satır: numara solda, yıldızlar sağ kenarda (geniş ekranda kartla birlikte kayar).
+	var top := HBoxContainer.new()
+	top.add_theme_constant_override(&"separation", 5)
+	v.add_child(top)
 	var num := _label("BÖLÜM %d" % (i + 1), GOLD if not locked else MUTED)
-	v.add_child(num)
+	num.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	top.add_child(num)
 	var name := _label(GameState.LEVEL_NAMES[i] if not locked else "? ? ?", CREAM if not locked else MUTED)
 	name.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	name.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -394,7 +414,11 @@ func _card(i: int) -> Button:
 		var lk := TextureRect.new()
 		lk.texture = LOCK
 		lk.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-		lk.position = Vector2(232, 14)
+		lk.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+		lk.offset_left = -14 - LOCK.get_width()
+		lk.offset_right = -14
+		lk.offset_top = 24
+		lk.offset_bottom = 24 + LOCK.get_height()
 		lk.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		card.add_child(lk)
 	else:
@@ -409,19 +433,19 @@ func _card(i: int) -> Button:
 			st.texture = STAR_FULL_S if mask & (1 << k) else STAR_EMPTY_S
 			st.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 			st.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-			st.size = STAR_FULL_S.get_size() * 3.0
-			st.position = Vector2(170 + k * 32, 10)
-			st.mouse_filter = Control.MOUSE_FILTER_IGNORE
-			card.add_child(st)
-		if Save.is_complete(i):
-			var full := _label("%100", Color(1.0, 0.85, 0.3))
-			full.position = Vector2(206, 52)
-			full.mouse_filter = Control.MOUSE_FILTER_IGNORE
-			card.add_child(full)
+			st.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+			st.custom_minimum_size = STAR_FULL_S.get_size() * 3.0
+			top.add_child(st)
 		if sec.size() == 2:
 			line += " · GİZLİ %d/%d" % [int(sec[0]), int(sec[1])]
-		v.add_child(_label(line, Color(0.95, 0.55, 0.42) if line == "YENİ" else MUTED))
-	for ch in v.get_children():
+		var bottom := HBoxContainer.new()
+		v.add_child(bottom)
+		var info := _label(line, Color(0.95, 0.55, 0.42) if line == "YENİ" else MUTED)
+		info.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		bottom.add_child(info)
+		if Save.is_complete(i):
+			bottom.add_child(_label("%100", Color(1.0, 0.85, 0.3)))
+	for ch in v.find_children("*", "Control", true, false):
 		ch.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	return card
 

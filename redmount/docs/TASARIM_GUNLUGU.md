@@ -115,10 +115,45 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   (tur 90). İnsan testinde final ölümü 1'i geçerse 2. dalga sonrası simit.
 - Bölüm 25 ciltçi atölyesi arenası → depo (x≈7500–9000): bot can 9'a indi, 1 yeniden doğma (tur 95).
   İnsan testinde ölüm 1'i geçerse depo kapısı önüne simit.
+- Menülerde güvenli alan (tur 101): ana menü ve mağaza çentik payına çekiliyor ama hiç cihazda
+  görülmedi; çentikli telefonda sol kenar düğmeleri ve mağaza sekmeleri kontrol edilsin. Duraklat menüsü
+  ortalı olduğu için dışarıda bırakıldı.
 - KAY düğmesinin yeri gerçek cihazda başparmak erişimiyle doğrulanacak; gerekirse
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (101) — Mobil menüler: farklı oranlarda tarama, kart başlık şeridi, menülerde güvenli alan
+
+**Neden şimdi:** Stil listesi ve iki yol haritası kapalı, birikimin tamamı insan testine bağlı. OYNANIS-KALITE
+P1 "mobil menüler" maddesi (çentikli/farklı oranlı telefonda menü, mağaza, duraklat görüntüsü) cihaz
+gerektirmeden yapılabilen tek açık P1'di: `stretch/aspect=expand` olduğu için 20:9 telefon 1600×720,
+tablet 1280×960 sanal ekran görür; bunlar pencereli görüntüyle taranabilir.
+
+**Bulgular (16:9, 1600×720, 1280×960; ana menü, bölüm seç, arşiv, ayarlar, mağaza 3 sekme, duraklat,
+sonuç kartı):** Kesilen sekme/kart yok, geniş ekranda paneller esniyor. İki gerçek hata: (1) `kart`
+kutusunun üst 18 px'i kırmızı başlık şeridi ama iç pay 8 px'ti — bölüm seçimindeki "BÖLÜM n" ve mağazadaki
+kart başlıkları şeridin üstüne biniyordu (her oranda); yıldızlar da şeridin üstünde, sabit x=170'te
+(geniş kartta ortada kalıyordu). (2) İki satıra kırılan uzun bölüm adı (ör. "Silahlı Kontrol Bölgesi")
+süre satırını 112 px kartın alt çerçevesine itiyordu. Ayrıca menüler çentik payını hiç uygulamıyordu
+(yalnız HUD ve dokunmatik düğmeler uyguluyordu).
+
+**Yapılanlar:**
+- `PixelUI.box`: `kart*` kutularında iç pay üst ≥ 20, alt ≥ 12, sol ≥ 18, sağ ≥ 16 (altın kenar çizgisi
+  9–11. pikselde; yazı ona yapışıyordu). Mağazanın üç sekmesi de bundan yararlanıyor.
+- Bölüm kartı (`main_menu._card`): içerik şeridin altından başlıyor; üst satır numara + sağa yaslı
+  yıldızlar, ortada iki satıra kadar ad, alt satır süre/GİZLİ + `%100`. Kart 112 → 138 px (3 sıra
+  1280×720'de GERİ düğmesiyle birlikte sığıyor, görüntüyle bakıldı). Kilit simgesi sağ üste anchor'lı.
+- Güvenli alan: ana menü sayfaları ve mağaza paneli `TouchControls.safe_insets` ile içeri çekiliyor
+  (içerik zaten kenardan 40 px içeride; yalnız aşan pay kaydırılır). Masaüstünde 0 döner.
+- `tests/level_stars.gd`: kart iç payı ve 4. bölüm kartında her yazının şeridin altında ve alt çerçevenin
+  içinde kalması (eski düzende "BÖLÜM 4 y=4" ile FAIL verdiği doğrulandı). `capture_ui` `tab3` (kostüm sekmesi).
+
+**Testler:** import temiz; `level_stars` PASS; `costumes`, `costume_badge`, `daily_wave` PASS; `dtm_gaps`
+PASS; `campaign_smoke` çıkış 0; bot Bölüm 1 CLEARED (84,2 sn). Güvenli alan telefonda görülmedi.
+
+**Sonraki öneri:** İnsan testi turu (telefon APK'sı): çentikli telefonda menü kenarları + ölüm sayıları +
+dokunma CSV'si. Otomasyonla yapılabilecek açık iş kalmadı.
 
 ### 2026-11-03 (100) — Dokunma ölçümü: boş / kaçan / düzeltme basış sayacı
 

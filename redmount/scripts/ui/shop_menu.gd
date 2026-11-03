@@ -40,8 +40,10 @@ func _ready() -> void:
 	var panel := PanelContainer.new()
 	panel.add_theme_stylebox_override(&"panel", PixelUI.box("panel", 24))
 	panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	panel.offset_left = 40
-	panel.offset_right = -40
+	## Çentik / yuvarlak köşe payı: güvenli alan 40 px kenar payını aşıyorsa panel içeri çekilir.
+	var insets := TouchControls.safe_insets(get_viewport())
+	panel.offset_left = maxf(40.0, insets.x + 12.0)
+	panel.offset_right = -maxf(40.0, insets.y + 12.0)
 	panel.offset_top = 24
 	panel.offset_bottom = -24
 	add_child(panel)
