@@ -118,6 +118,27 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-03 (89) — Denetim: Bölüm 19 + külhan çıkış kapısı ateş tonunda
+
+**Neden şimdi:** Tur 88'in önerisi (Kitap 2 denetimi, 19). Pencereli bot (8 sn'de bir kare): Bölüm 19
+CLEARED 82,7 sn, 2 yeniden doğma (külhan finali; birikimdeki 19 maddesiyle aynı yer), finalde 14 sn takılma.
+
+**Bulgular:** Ritim (Çemberlitaş meydanı → hamam avlusu + tünel balkonu → hamam erzakı arenası → yeraltı
+sarnıç koridoru → külhan hikâye sahnesi → külhan finali) okunuyor. Kopan tek öğe çıkış kapısıydı:
+"SAMATYA" kapısının taşı gece tonunda soğuk gri, arkasında kızıl tuğla külhan ve köz — yapıştırılmış
+gibiydi. 17 gece bölümünün çıkış kapısı 1280×720 çekildi: ateş ışıklı resim önünde iki kapı (6 haddehane,
+19 külhan); diğerleri ay ışıklı/mavi gecede gri taşla "ait".
+
+**Yapılan:** `DtmLevel.gate_fire` + `FIRE_STONE` (1,42 / 1,02 / 0,74); `_han_gate` bayrak varsa kapıyı
+közün tonuna çeker. Yalnız Bölüm 19'da açık. Bölüm 6'da denendi, reddedildi: haddehane resmi koyu gri taş
+sur, ısınan kapı orada çevresinden açık kalıyordu; gri hâli zaten o taşla bir aile. Yeni çizim yok.
+Önce/sonra çekim: 19'da kapı kızıl tuğla külhanla tek kütle, kiremit saçak köz ışığında — "ait".
+
+**Testler:** import temiz (SCRIPT ERROR 0); smoke 36/36 SMOKE OK, çıkış 0; DTM GAPS PASS; bot başsız
+Bölüm 1 (86,6 sn), 13 (76,5), 19 (80,9), 25 (94,5) CLEARED.
+
+**Sonraki öneri:** Kitap 2 denetimine 20 ile devam.
+
 ### 2026-11-03 (88) — Denetim: Bölüm 18 (temiz)
 
 **Neden şimdi:** Tur 87'nin önerisi. Pencereli bot (8 sn'de bir kare): Bölüm 18 CLEARED 100,3 sn,

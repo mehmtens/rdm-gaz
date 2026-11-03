@@ -136,6 +136,10 @@ const DAY_STONE := Color(1.5, 1.36, 0.98)
 ## Gündüz bölümünde bile kule karanlık boyalı iç mekânın (sarnıç, loş salon) önündeyse
 ## gece tonunda kalsın (sıcak ton orada parlayıp yapıştırılmış gibi duruyor).
 var chimney_night := false
+## Çıkış kapısı ateş ışıklı resmin (külhan, haddehane) önünde: gece taşı oradaki
+## turuncu közün yanında soğuk gri kalıp yapıştırılmış gibi duruyordu (tur 89).
+var gate_fire := false
+const FIRE_STONE := Color(1.42, 1.02, 0.74)
 var zoom_level := 1.12
 ## İç mekânların sıva arka duvarı. Boyalı arka planı zaten iç mekân olan bölümler
 ## false verir: katlar, kirişler, cephe kalır; arkada boyalı resim görünür.
@@ -575,7 +579,9 @@ func _han_gate(cx: float, title := "") -> void:
 	# Kapının taşı gece için boyandı; gündüz güneşli resmin önünde baca kulesi gibi
 	# güneş tonuna çekilir (gece ayarı `_build` içinde sonradan da gelebilir: ertelenir).
 	(func() -> void:
-		if not is_in_group(&"dark_scene"):
+		if gate_fire:
+			art.modulate = FIRE_STONE
+		elif not is_in_group(&"dark_scene"):
 			art.modulate = DAY_STONE
 		# Çıkış bu kapıdaysa önündeki niş kapıyı örtmesin (`_goal` sonra da gelebilir).
 		for g in get_tree().get_nodes_in_group(&"level_goal"):

@@ -19,6 +19,7 @@ func _build() -> void:
 	sky_shade = Color(0.04, 0.03, 0.07)
 	back_row_skip = [[4300.0, 10300.0]]
 	_night(Color(0.8, 0.78, 0.92))
+	gate_fire = true   # çıkış kapısı ateş ışıklı resmin önünde
 
 	# --- 1. Arka sokak: devriye, ilk balkon seçimi ------------------------------
 	_terrain(-400, 1700, 0)
