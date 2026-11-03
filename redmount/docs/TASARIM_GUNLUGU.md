@@ -7,6 +7,24 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 130 denetimi, Bölüm 16) PixelText tabela başlıklarında Türkçe "İ" okunurluğu: kelime ortasındaki İ
+  dar-gövdeli bir harfle (Y, V) yan yana gelince orta 5 satırda iki ince dikey arası boş kalıyor, sabit
+  adımlı yazıda kelime arası boşluk gibi okunuyor ("SÜLEYMANİYE ARŞİVİ" → "SÜLEYMANI YE ARŞI VI"). Tur 130'da
+  "I" serifi tam genişliğe çekilerek harf netleştirildi ama iç boşluk kapanmadı (serif üst/alt satırı
+  düzeltir, orta satırlar İ+Y'de ikisi de dar). **Çözüm (insan yargısı):** (a) belirli çiftler için negatif
+  kerning tablosu (İ→Y/V/İ yaklaştır) — en hedefli ama elle çift listesi ister; (b) glif başına proportional
+  adım — İ'yi daraltıp komşuyu çeker, ama tüm metni etkiler ve turn 127'de kasıtlı ızgaraya hizalanan dünya
+  tabelalarının hizasını bozar. Kör otonom turda font metriği değiştirmek riskli (HUD + tüm dünya tabelaları
+  + alışveriş); insan, dünya tabelalarıyla yan yana görüp karar vermeli. Gövde/diyalog metni zaten vektör
+  yazı tipiyle İ'yi doğru gösterdiğinden sorun yalnız dekoratif PixelText başlıklarında.
+- (Tur 130 denetimi) OYNANIS-KALITE P1 tablosu senkronu: tablo metni (satır 58-64) hâlâ "düşmandan silah
+  düşmesi / arena DALGA 2/3 / kırılabilir ganimet tablosu / bölüm kartı rütbe-süre-%100 / yeni yakın silahlar"
+  için "uygulanmadı" durumunu anlatıyor, oysa hepsi `ec73bc88`'de uygulanmış (silah düşürme `drop_scene`/
+  `drop_chance` ile 4 düşmanda ayarlı; arena göstergesi `hud.gd:477`; yeni silahlar `resources/weapons/
+  {semsiye,kaldirim_tasi,anahtar}.tres` ve 10+ bölümde yerleştirilmiş; kostüm `costume_accessory.gd`; günün
+  dalgası `DailyWave`). Tek başına doc işi (roadmap'in kendi ilk bakım görevi — satır 98); eski etiketler
+  gelecek otonom turların bitmiş özellikleri yeniden denetlemesine yol açıyor. Düşük maliyet.
+
 - (Tur 123/124 denetimi, Bölüm 1/13) Düşman tipi renk ayrışması: ağır zırhlı, kalkanlı ve bombacı
   düşmanlar bir bakışta benzer koyu silüet; tip başına belirgin bir aksan rengi kalabalık arenada
   kimin ne yaptığını hızlandırır. **Büyük/orta maliyet:** düşmanlar `enemy_sprite.gd` ile önceden
@@ -163,6 +181,36 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-04 (130) — Denetim: Bölüm 16 (temiz) + başlık "I" serifi okunurluğu
+
+**Neden şimdi:** Stil listesi, YOL_HARITASI ve P1 öğeleri (arena göstergesi, düşmandan silah düşmesi,
+kırılabilir ganimet tablosu, bölüm kartı rütbe/süre/%100, 3 yeni İstanbul silahı, kostüm, günün dalgası)
+`ec73bc88`'de uygulanmış ve doğrulandı; birikim insan-yargısına bağlı. Öncelik d) denetim: son turlarda
+denetlenmeyen Bölüm 16 (Süleymaniye Arşivi) pencereli bot ile 6 noktadan çekildi (giriş, kademe, orta,
+kütüphane, çatı, final).
+
+**Bulgular:** Ciltçiler sokağı / arşiv iç mekânı, raflar, sütunlar, asma fenerler, bayrak ve kasalar ChatGPT
+arka planıyla tam uyumlu; kopuk öğe yok. Telsiz/diyalog metni (vektör yazı tipi) İ'yi sorunsuz gösteriyor,
+okunur. **Tek kusur:** PixelText tabela başlıklarında ince "I/İ" glifi (yalnız 1-3. sütun) sabit adımlı
+yazıda etrafında çift boşluk bırakıyor; "SÜLEYMANİYE ARŞİVİ" başlığı "SÜLEYMANI YE ARŞI VI" gibi kelime
+kırığıyla okunuyor.
+
+**Yapılan:** `pixel_text.gd` "I" glifinin seriflerini tam hücre genişliğine çekildi (klasik serifli I).
+Komşu harfle aynı yatay ağırlığı verir, I harfini (tally çizgisi gibiydi) her tabela/başlıkta netleştirir.
+Genişlik/adım (`ADVANCE`, `width()`) değişmediğinden tabela kutuları ve ortalama aynı kalır; serif col0/col4
+komşu hücreyle 1px boşluk korur, çakışma yok. BALAT SOKAKLARI ve SÜLEYMANİYE kartlarında pencereli görüntüyle
+doğrulandı: sondaki "I" (SOKAKLARI) artık düzgün harf, regresyon yok.
+
+**Kalan (birikime):** İ'nin kelime ortasında dar-gövdeli harfle (Y/V) yan yana geldiği iç boşluk serifle
+kapanmıyor (orta 5 satır iki ince dikey arası boş). Gerçek çözüm çift-kerning / proportional metrik, ama
+turn 127'de insan tarafından ızgaraya hizalanan dünya tabelalarını etkiler — insan yargısı gerektirir.
+
+**Testler:** `--import` exit 0 (SCRIPT ERROR yok), `dtm_gaps` PASS, `campaign_smoke` 36 sahne SMOKE OK exit 0.
+Bölüm 16 pencereli 6 görüntü + Bölüm 1 tabela doğrulaması.
+
+**Sonraki öneri:** Başlık İ-kerning işi (birikim) ya da OYNANIS-KALITE P1 tablosundaki eski "uygulanmadı"
+etiketlerini `ec73bc88` gerçeğine çekmek (doğrulandı: 1-7. öğeler uygulanmış).
 
 ### 2026-11-04 (129) — Denetim: Bölüm 11 (temiz) — otomasyon durdu
 
