@@ -7,6 +7,10 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- Zemin yüksekliği + bulut platform denetimi, sonraki dilim: Bölüm 7–12 (tur 106'da 1–3, tur 107'de
+  4–6 yapıldı). Kural: bulut yükseltisi kalkış yüzeyinden ≤ 110 px (zıplama tepesi ~120 px,
+  `jump_velocity` −580, yerçekimi 1400); her yeni bulut erişim ölçümüyle doğrulanır.
+
 - Bölüm 11 pres koridoru → avlu arenası (x≈1700–5100): pencereli bot koridorda 89 → 34 can (pres hasarı 16,
   üç pres 2,4 sn döngü), arenaya 34/115 canla girip 2 kez öldü. Tek can kaynağı üst galerideki simit
   (x 2410, −305). İnsan testinde arena ölümü 1'i geçerse hücre penceresi kontrol noktasına (x 3120) simit.
@@ -125,6 +129,36 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (107) — Bölüm 4–6: zemin setleri ve bulut platformlar (erişim ölçümüyle)
+
+**Neden şimdi:** Tur 106'nın (ilk insan testi) "sonraki" önerisi: 1–3'teki düz zemin ve isteğe bağlı üst
+rota düzeltmesi 4. bölümden sonrasına taşınmalı. Stil listesi, yol haritası ve P1'ler kapalı. Önceki
+otomasyon oturumu bu işi başlatıp test etmeden kesilmişti (commit edilmemiş 4–6 değişiklikleri); bu tur
+onları ölçtü, düzeltti, tamamladı.
+
+**Oyuncu ne hissedecek:** Uzun düz zemin yerine basamaklı setler (Bölüm 4 ateş hattında toprak siper,
+Bölüm 5 büfe önünde yük rampası, Bölüm 6'da fabrika damlarından inen beton basamaklar) ve kavgaların
+üstünde bir zıplamalık coin yolları (Bölüm 4 tepe ve kule inişi, Bölüm 5 vagon arası ve uzun tren, Bölüm 6
+girişi).
+
+**Bulgu ve düzeltme:** Oyuncunun gerçek zıplama tepesi ~120 px (`redmount_movement.tres`: −580 px/sn,
+1400 yerçekimi). Yarım kalan değişiklikte bulutların dördü erişilemezdi: Bölüm 6 ilk bulutu yerden 130 px,
+Bölüm 5 tren bulutları vagon tepesinden 125/135 px, Bölüm 4 tepe bulutu 215 px uzakta. Yeni değerler:
+B4 (860, −210) tepenin ucundan 90 px; B5 (1180, −240), (6560, −245), (7040, −250) vagondan 100–110 px;
+B6 (760, −110). Kural birikime yazıldı (≤ 110 px).
+
+**Doğrulama:** Geçici erişim testi (pencereli, gerçek girdi: koş + kenarda zıpla, düşmanlar kaldırılmış)
+9/10 durumda beklenen yüzeye indi: B4 tepe → −210, kule → −235 → −150, B5 vagon → −240, tren → −245 ve
+−250, rampa → −100, B6 bulut 1 → −110, bulut 2 → −220, set (yürüyerek) → −50. Onuncu durum (B4 siper,
+kum torbasıyla set arasındaki 30 px boşluğa ışınlama) kurulamadı; aynı geometrinin rampası B5'te geçti.
+1280×720 görüntülerde tahta bulut ve taş setler sahneye ait, taşma yok.
+
+**Testler:** `--import` hatasız; `dtm_gaps` PASS; `campaign_smoke` çıkış 0; bot Bölüm 4 (108,8 sn),
+5 (102,2 sn), 6 (129,7 sn) CLEARED, en uzun takılma 14/25/17 sn (her birinde 2 yeniden doğma, birikimdeki
+son arena maddeleriyle aynı).
+
+**Sonraki öneri:** Bölüm 7–12 için aynı denetim (birikimin başında).
 
 ### 2026-11-03 (106) — İlk insan oyun testi geri bildirimi (Bölüm 1–3)
 

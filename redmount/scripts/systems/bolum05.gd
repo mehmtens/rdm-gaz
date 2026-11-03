@@ -14,7 +14,12 @@ func _build() -> void:
 	sky_tint = Color(0.86, 0.82, 0.86)
 	back_tint = Color(0.3, 0.3, 0.42)
 
-	_terrain(-400, 9700, 0)
+	# Depo çıkışında yük rampası (iki basamak, ray üstünde peron gibi).
+	_terrain(-400, 5410, 0)
+	_terrain(5410, 5460, -50)
+	_terrain(5460, 5540, -100)
+	_terrain(5540, 5590, -50)
+	_terrain(5590, 9700, 0)
 	_rails(-400, 9700)
 
 	# --- 1. Altıncı peron: Gazelle vagon yediye itilir ---------------------------
@@ -30,6 +35,8 @@ func _build() -> void:
 	_crates(1250, 1, 1)
 	x = _wagon(1340, Color(0.9, 0.95, 1.0))
 	_enemy(RIFLE, 1620, -140)
+	# Bulut platformlar: vagon arasındaki boşluğun üstünde, ilk vagondan erişilir.
+	_cloud(1180, -240, 130.0, 3)
 	_prop("vazo", 1450, -140)
 
 	# --- 2. Vagon tepeleri + zamanlı vinç paletleri (üstte isteğe bağlı yol) ------
@@ -99,6 +106,9 @@ func _build() -> void:
 	_enemy(STREET, 7200, -140)
 	_enemy(ASSASSIN, 7600, -140)
 	_prop("kasa", 7400, -140)
+	# Uzun trenin üstünde ikinci kat: vagon tepesinden bir zıplamalık coin yolu.
+	_cloud(6560, -245, 130.0, 3)
+	_cloud(7040, -250, 130.0, 3)
 
 	# --- 6. Makinist Cemil; kalkan trene atlayış ----------------------------------
 	_checkpoint(7950, 0)

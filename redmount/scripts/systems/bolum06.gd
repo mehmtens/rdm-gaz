@@ -18,7 +18,14 @@ func _build() -> void:
 	back_row_on = false
 	_night(Color(0.8, 0.76, 0.82))
 
-	_terrain(-400, 9800, 0)
+	# Fabrika damlarından inişte iki basamaklı beton setler: zemin düz kalmasın.
+	_terrain(-400, 3300, 0)
+	_terrain(3300, 3350, -100)
+	_terrain(3350, 3395, -50)
+	_terrain(3395, 7800, 0)
+	_terrain(7800, 7860, -100)
+	_terrain(7860, 7910, -50)
+	_terrain(7910, 9800, 0)
 	_rails(-400, 1200)
 
 	# --- 1. Varış: trenden atlayış, Gazelle fabrikaya götürülür --------------------
@@ -30,6 +37,9 @@ func _build() -> void:
 	_prop("varil", 1150)
 	_lantern(560)
 	_lantern(1240)
+	# Bulut platformlar: kavganın üstünden isteğe bağlı coin yolu.
+	_cloud(760, -110, 130.0, 2)
+	_cloud(910, -220, 130.0, 3)
 
 	# --- 2. Alev koridoru: altta zamanlı alevler, üstte metal iskele yolu ---------
 	_checkpoint(1400, 0)

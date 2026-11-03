@@ -24,7 +24,11 @@ func _build() -> void:
 	_terrain(-400, 700, -120)
 	_terrain(700, 800, -80)
 	_terrain(800, 900, -40)
-	_terrain(900, 6200, 0)
+	# Ateş hattında toprak siper seti (iki basamak): ikinci kum torbasını aşmak için yükselti.
+	_terrain(900, 1950, 0)
+	_terrain(1950, 2000, -50)
+	_terrain(2000, 2080, -100)
+	_terrain(2080, 6200, 0)
 	_story(-1.0, _sahne_tepe, 220.0)
 	_prop("saksi", 420, -120)
 	_prop("vazo", 520, -120)
@@ -33,6 +37,8 @@ func _build() -> void:
 	_enemy(KNIFE, 1300, 0)
 	_prop("kasa", 1420)
 	_lantern(1000)
+	# Bulut platform: tepenin ucundan (y −120) zıplayan iner; 90 px yükselti, iniş penceresi 840–900.
+	_cloud(860, -210, 130.0, 3)
 
 	# --- 2. Ateş hattı: kum torbaları, kuleye tırmanış, tepede tüfekli ------------
 	_checkpoint(1560, 0)
@@ -104,6 +110,9 @@ func _build() -> void:
 	_tower(7000, -320)
 	_enemy(RIFLE, 7000, -320)
 	_sandbags(7150, 100)
+	# Kuleden inen bulut basamakları: kum torbasını üstten aşan isteğe bağlı yol.
+	_cloud(7170, -235, 120.0, 2)
+	_cloud(7330, -150, 120.0, 2)
 
 	# --- 5. Bariyer: Yüzbaşı Demir; tren düdüğü -----------------------------------
 	_checkpoint(7320, 0)
