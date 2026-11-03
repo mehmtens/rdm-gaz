@@ -572,6 +572,15 @@ func _han_gate(cx: float, title := "") -> void:
 	art.position = Vector2(cx, -150)
 	art.z_index = -7
 	add_child(art)
+	# Kapının taşı gece için boyandı; gündüz güneşli resmin önünde baca kulesi gibi
+	# güneş tonuna çekilir (gece ayarı `_build` içinde sonradan da gelebilir: ertelenir).
+	(func() -> void:
+		if not is_in_group(&"dark_scene"):
+			art.modulate = DAY_STONE
+		# Çıkış bu kapıdaysa önündeki niş kapıyı örtmesin (`_goal` sonra da gelebilir).
+		for g in get_tree().get_nodes_in_group(&"level_goal"):
+			if is_ancestor_of(g) and absf(g.global_position.x - global_position.x - cx) < 80.0:
+				g.show_arch = false).call_deferred()
 	if title != "":
 		var sign := _Sign.new()
 		sign.text = title

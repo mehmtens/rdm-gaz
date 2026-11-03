@@ -111,10 +111,40 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   kalıyor (iz ön parçasının içinde ya da ≥ 8 px). İnsan testinde fark edilirse ön parçadan da
   tutam kenarı ayıkla.
 - Telefonda dokunmatik ölçüm: yanlış/kaçırılan basış sayacı (insan testi formuyla bağlanacak).
+- Atlas hücre geçişi (`SKY_BLEND`): iki boyalı resim geçiş boyunca üst üste biniyor (Bölüm 13
+  x≈3300 çift pozlama). Geçiş daraltılabilir ya da ön plan nesnesinin arkasına alınabilir (tur 86).
 - KAY düğmesinin yeri gerçek cihazda başparmak erişimiyle doğrulanacak; gerekirse
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (86) — Denetim: Bölüm 13 + çıkış kapısı görünür (niş kapıyı örtmüyor), gündüz taş tonu
+
+**Neden şimdi:** Tur 85'in önerisi (Kitap 2 denetimi, 13). Pencereli bot (8 sn'de bir kare): Bölüm 13
+CLEARED 78 sn, 0 yeniden doğma, ilk arenada 13 sn takılma. Ritim (kale çıkışı → Balat yokuşu → kayıkçı
+iskelesi → kapan depoları arenası → vinç üst rotası → gümrük avlusu) okunuyor; erzak dükkânı, film rulosu,
+dalga göstergesi yerinde.
+
+**Bulgu:** Çıkışta iki görsel üst üste: `_han_gate` (ahşap çift kanatlı kapı, almaşık kemer) ve aynı x'te
+`LevelGoal`'ün ChatGPT kesimi mavi taş nişi. Niş kapıyı tamamen örtüyordu; oyuncu kiremit saçak + gri taş
+kenarlar arasında mumlu bir niş görüyordu — "çıkış kapısı" okunmuyordu. 31 bölümde aynı. Gündüz gümrük
+avlusunun sıcak taş resminde kapının taşı da gece tonundaydı (tur 85'teki baca kulesi sorunu).
+
+**Yapılan:** `LevelGoal.show_arch`; `_han_gate` ertelenmiş geçişte 80 px içindeki çıkışın nişini kapatır,
+kapının kendisi çıkış olur. Gündüz bölümlerinde (`dark_scene` değil) kapı taşı `DAY_STONE` ile açılır.
+Han kapısı olmayan çıkışlar (story_blockout bölümleri) nişi çizmeye devam eder. Yeni çizim yok.
+1280×720 çekim: Bölüm 13 gündüz (gümrük avlusu) ve Bölüm 3 gece (pazar çıkışı) — ahşap kapı tabelanın
+altında çıkış olarak okunuyor, soldaki ev kapılarıyla aynı aile — "ait". Gündüzde kiremit saçak parlak;
+insan testinde göze batarsa saçak ayrı tonlanabilir.
+
+**Testler:** import temiz (SCRIPT ERROR 0); smoke 36/36 SMOKE OK, çıkış 0; DTM GAPS PASS (yeni kontrol:
+Bölüm 13 çıkışında niş gizli; ters koşulla FAIL verdiği doğrulandı); bot başsız Bölüm 1 (81,2 sn),
+13 (84,0), 25 (87,9) CLEARED.
+
+**Birikime:** Atlas hücre geçişi (`SKY_BLEND`) iki boyalı resmi üst üste bindiriyor; Bölüm 13 x≈3300'de
+çift pozlama gibi duruyor. Geçişi daraltmak ya da bir ön plan nesnesinin arkasına almak denenebilir.
+
+**Sonraki öneri:** Kitap 2 denetimine 14 ile devam.
 
 ### 2026-11-03 (85) — Gündüz bölümlerinde taş baca kulesi güneş tonunda; iç mekân cephe taraması
 

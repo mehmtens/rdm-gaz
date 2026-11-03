@@ -16,6 +16,7 @@ func _ready() -> void:
 	await _hud_counter()
 	await _arena_signal()
 	await _enemy_drop()
+	await _exit_gate()
 	Save.wipe()
 	DirAccess.remove_absolute(ProjectSettings.globalize_path("user://dtm_gaps_test.cfg"))
 	print("DTM GAPS: %s" % ("PASS" if _fails == 0 else "FAIL (%d)" % _fails))
@@ -111,4 +112,16 @@ func _enemy_drop() -> void:
 			dropped = n.weapon.resource_path.ends_with("knife.tres")
 	_check(dropped, "Bıçaklı Ajan bıçağını bırakmalı")
 	holder.queue_free()
+	await get_tree().process_frame
+
+
+## Çıkış han kapısındaysa önündeki niş çizilmez (kapı çıkışın kendisi).
+func _exit_gate() -> void:
+	var level: Node = (load("res://scenes/levels/Bolum13.tscn") as PackedScene).instantiate()
+	add_child(level)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	var goals := get_tree().get_nodes_in_group(&"level_goal")
+	_check(goals.size() == 1 and not goals[0].show_arch, "han kapılı çıkışta niş gizlenmeli")
+	level.queue_free()
 	await get_tree().process_frame

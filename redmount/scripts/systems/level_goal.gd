@@ -10,6 +10,11 @@ signal reached
 const ARCH := preload("res://assets/environment/kit/wall_niche.png")
 
 var _done: bool = false
+## Çıkışta han kapısı varsa niş çizilmez: kapının kendisi çıkış (niş kapıyı örtüyordu).
+var show_arch := true:
+	set(v):
+		show_arch = v
+		queue_redraw()
 
 
 func _ready() -> void:
@@ -26,6 +31,8 @@ func _ready() -> void:
 
 
 func _draw() -> void:
+	if not show_arch:
+		return
 	var size := Vector2(ARCH.get_width(), ARCH.get_height()) * 1.15
 	draw_texture_rect(ARCH, Rect2(Vector2(-size.x * 0.5, -size.y), size), false)
 
