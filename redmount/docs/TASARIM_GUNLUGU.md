@@ -64,6 +64,11 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   verisiyle denge değiştirilmez. İnsan testinde pres hattında ölüm 1'i geçerse aralık 300 px / periyot 3,0
   ya da 5150 kontrol noktası pres hattının sonrasına.
 
+- Bölüm 30 evrak salonu arenası (x≈6850–7650; tur 136 denetimi): üç koşuda da bot arenaya 18–24/115 canla
+  giriyor, 1–2 yeniden doğma. Can, mangallı sekiler (x≈4250–5050, üç alev) ve yanan arşivde (5250–6250, dört
+  alev + 3 düşman) 115 → ~20'ye eriyor; tek can kaynağı arşiv üst katındaki sandık (6150, −230; bot almıyor),
+  arada İSKELE ERZAKI büfesi var. İnsan testinde arena ölümü 1'i geçerse arşiv zemin katına (x≈6200) kırılabilir simit.
+
 - Kasap Rıza arenası (Bölüm 2, x≈8150–8260): bot üç koşuda 16–17 sn kalıyor, 0 ölüm, ~19 can kaybı.
   Sorun değil; insan testinde arena süresi 40 sn'yi geçerse Rıza'nın can havuzu ölçülsün.
 
@@ -192,6 +197,23 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-04 (136) — Denetim: Bölüm 30 (görsel temiz, denge birikime) — otomasyon durdu
+
+**Neden şimdi:** Tur 135 ile aynı gerekçe; hiç bakılmamış Bölüm 30 (Beylerbeyi gecesi: sahil → yalı sokağı →
+iskele → merdivenli bahçe → yanan arşiv → evrak salonu → kasa odası → arka iskele) pencereli bot ile 10 sn
+arayla 9 görüntüyle oynatıldı, ölüm yerleri için iki başsız koşu.
+
+**Bulgular:** Görsel temiz: `sky_cells` sınırları (4950 arşiv, 6300 salon, 7550 kasa, 8750 iskele) iç
+mekânlar ve kontrol noktalarıyla hizalı (tur 135'teki Bölüm 27 kaymasının benzeri yok); gece paleti, bahçe
+sekileri, ARŞİV KASASI tabelası, büfe ChatGPT resmiyle uyumlu. Denge: üç koşuda (pencereli 86,0 sn, başsız
+77,4 / 77,3 sn) CLEARED, 1–2 yeniden doğma, hepsi evrak salonu arenasında; arenaya 18–24 canla giriliyor.
+Kural gereği birikime yazıldı (simit önerisiyle).
+
+**Testler:** Kod değişmedi. Bot Bölüm 30 pencereli + 2 başsız CLEARED.
+
+**Sonraki öneri:** Otonom somut iş kalmadı; telefon testi (birikimdeki ölçümler). Denetim sürecekse hiç
+bakılmamış: 2, 3, 5, 6, 7, 8, 9, 10, 15.
 
 ### 2026-11-04 (135) — Denetim: Bölüm 27 + arşiv/teras arka plan hücreleri yerine oturdu
 
