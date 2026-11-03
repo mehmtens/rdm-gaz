@@ -57,6 +57,13 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   İnsan testinde telefonda üst kenarda sıkışma/çakışma görülürse film-rulosu bildirimi ekranın ortasına
   ya da dalga şeridi kalkınca gösterilsin.
 
+- Bölüm 36 (final, tur 134 denetimi): üç koşuda 3–4 ölüm, yerleri değişken — güverte altı pres hattı
+  (x≈5350–5850, üç pres 250 px aralık, 2,4 sn dalga; başsız koşuda 4 sn'de 63 → 15 can = 3 pres vuruşu),
+  galerili ambar arenası (x≈6200–7100), x≈8200 ve x≈13000. Yayın Şefi'nde 0–1. Pres hattı Bölüm 11'deki
+  koridorla aynı ritimde ve günlükteki "pres aralığı ≥300 px, periyot 3,0" tuzak notunun altında; bot
+  verisiyle denge değiştirilmez. İnsan testinde pres hattında ölüm 1'i geçerse aralık 300 px / periyot 3,0
+  ya da 5150 kontrol noktası pres hattının sonrasına.
+
 - Kasap Rıza arenası (Bölüm 2, x≈8150–8260): bot üç koşuda 16–17 sn kalıyor, 0 ölüm, ~19 can kaybı.
   Sorun değil; insan testinde arena süresi 40 sn'yi geçerse Rıza'nın can havuzu ölçülsün.
 
@@ -185,6 +192,24 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-04 (134) — Denetim: Bölüm 36 (görsel temiz, denge birikime) — otomasyon durdu
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikim insan testine bağlı. Öncelik d)
+denetim: hiç bakılmamış final bölümü 36 (Haliç mavnası → güverte altı → jeneratör → yayın odası → Yayın
+Şefi) pencereli bot ile 12 sn arayla 15 görüntüyle oynatıldı; ölüm yerleri için iki başsız koşu.
+
+**Bulgular:** Tersane, mavna rampası, güverte altı ambar, jeneratör dairesi, yayın stüdyosu ve şafak
+köprüüstü görüntülerinde ChatGPT arka planından kopuk öğe yok; bayraklar, bağlantı tabelaları, dalga şeridi,
+boss can çubuğu okunur. Denge: pencereli CLEARED 173,8 sn (3 ölüm, 30 sn takılma Yayın Şefi'nde), başsız
+koşularda 3–4 ölüm; biri pres hattında (3 pres vuruşu art arda). Final bölümü için yüksek ama bot kaba;
+kural gereği birikime yazıldı (pres aralığı/periyodu ve kontrol noktası önerisiyle).
+
+**Testler:** Kod değişmedi (pres vuruşu sayımı için geçici log eklenip geri alındı). Bot Bölüm 36
+pencereli + 2 başsız CLEARED.
+
+**Sonraki öneri:** Otonom yapılabilir somut iş kalmadı; telefon testi (birikimdeki ölçümler, özellikle
+Bölüm 36 ve Bölüm 11 pres hatları). Denetim sürecekse hiç bakılmamış: 2, 3, 5, 6, 7, 8, 9, 10, 15, 27, 30.
 
 ### 2026-11-04 (133) — Denetim: Bölüm 35 (temiz) — otomasyon durdu
 
