@@ -85,6 +85,9 @@ var _hits_taken: int = 0
 ## değişmemişse "TEMİZ İŞ" görevi sayılır.
 var _boss_mark: int = -1
 var _boss_mark_player: Node = null
+## Bu darbeyi atan oyuncu silahının kimliği (silah dosyasının adı; boş = silahsız). Vuran
+## `apply_hit`'ten hemen önce yazar, hemen sonra siler (bkz. `Redmount`, `Projectile`).
+var weapon_hit: StringName = &""
 var _armor_break_timer: float = 0.0
 var _slam_done: bool = false
 var _thrown_timer: float = 0.0
@@ -803,6 +806,7 @@ func apply_hit(damage: int, dir: Vector2, knockback: float) -> void:
 	_mark_boss_fight()
 	## Havaya kalkmış (yerde değil, devrik) düşman bu darbeyle biterse "YERE DEĞMEDEN".
 	var airborne := can_be_juggled()
+	var weapon := weapon_hit
 
 	var push := signf(dir.x)
 	if is_zero_approx(push):
@@ -860,7 +864,7 @@ func apply_hit(damage: int, dir: Vector2, knockback: float) -> void:
 		if not _defeated_sent:
 			_defeated_sent = true
 			_drop_loot()
-			_count_skill_defeat(airborne)
+			_count_skill_defeat(airborne, weapon)
 			defeated.emit(self)
 		return
 
@@ -1094,9 +1098,11 @@ func _mark_boss_fight() -> void:
 	_boss_mark = int(_player.hits_taken)
 
 
-func _count_skill_defeat(airborne: bool) -> void:
+func _count_skill_defeat(airborne: bool, weapon: StringName) -> void:
 	if airborne:
 		Save.count_air_kill()
+	if weapon != &"":
+		Save.count_weapon_kill(weapon)
 	## Yeniden doğan oyuncu yeni düğümdür: işaret başka oyuncudaysa sayılmaz.
 	if config.is_boss and _boss_mark >= 0 and is_instance_valid(_boss_mark_player) 			and _boss_mark_player == _player and int(_player.hits_taken) == _boss_mark:
 		Save.count_flawless_boss()

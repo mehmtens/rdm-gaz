@@ -553,6 +553,7 @@ func _fire_gun() -> void:
 	)
 	if shot != null:
 		shot.arc_gravity = _gun.projectile_gravity
+		shot.weapon_id = Achievements.weapon_id(_gun)
 	Sfx.play(_gun.fire_sfx)
 	Combat.shake(2.5 if _gun.projectile_gravity <= 0.0 else 1.0)
 	_play(_gun.shoot_anim)
@@ -1162,10 +1163,16 @@ func _deal_attack_hit(target: Node, dash_counter := false) -> void:
 	var armed := _attack == Attack.WEAPON and _weapon != null
 	# Boru Anahtarı: blok/kalkan savunmasını deler (yalnız düşman bunu destekliyorsa).
 	var guard_broken := false
+	## "ALET EDEVAT" görevleri: darbe silahlıysa düşman hangi silahla bittiğini bilsin.
+	var tagged := armed and "weapon_hit" in target
+	if tagged:
+		target.weapon_hit = Achievements.weapon_id(_weapon)
 	if armed and _weapon.guard_break and target.has_method(&"apply_guard_break_hit"):
 		guard_broken = target.apply_guard_break_hit(dmg, Vector2(_facing, 0.0), _current_knockback())
 	else:
 		target.apply_hit(dmg, Vector2(_facing, 0.0), _current_knockback())
+	if tagged and is_instance_valid(target):
+		target.weapon_hit = &""
 	if target.has_method(&"launch"):
 		if armed and _weapon.launch_speed > 0.0:
 			# Şemsiye: kancayla düşmanı havaya kaldırır; hava dizi ile takip edilir.

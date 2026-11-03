@@ -74,6 +74,9 @@ var stat_best_combo: int = 0
 var stat_throws: int = 0
 var stat_air_kills: int = 0
 var stat_flawless_bosses: int = 0
+var stat_weapon_kills: int = 0
+## Düşman bitirmiş silahların kimlikleri (`Achievements.weapon_id`, tekrarsız).
+var stat_weapon_kinds: Array = []
 
 
 func _ready() -> void:
@@ -133,6 +136,8 @@ func load_game() -> void:
 	stat_throws = int(cfg.get_value("achievements", "throws", 0))
 	stat_air_kills = int(cfg.get_value("achievements", "air_kills", 0))
 	stat_flawless_bosses = int(cfg.get_value("achievements", "flawless_bosses", 0))
+	stat_weapon_kills = int(cfg.get_value("achievements", "weapon_kills", 0))
+	stat_weapon_kinds = cfg.get_value("achievements", "weapon_kinds", [])
 	if cfg.has_section_key("achievements", "seen"):
 		achievements_seen = cfg.get_value("achievements", "seen", [])
 	else:
@@ -171,6 +176,8 @@ func save_game() -> void:
 	cfg.set_value("achievements", "throws", stat_throws)
 	cfg.set_value("achievements", "air_kills", stat_air_kills)
 	cfg.set_value("achievements", "flawless_bosses", stat_flawless_bosses)
+	cfg.set_value("achievements", "weapon_kills", stat_weapon_kills)
+	cfg.set_value("achievements", "weapon_kinds", stat_weapon_kinds)
 	var error := cfg.save(_path)
 	if error != OK:
 		push_error("Oyun kaydı yazılamadı: %s (%d)" % [_path, error])
@@ -415,6 +422,8 @@ func wipe() -> void:
 	stat_throws = 0
 	stat_air_kills = 0
 	stat_flawless_bosses = 0
+	stat_weapon_kills = 0
+	stat_weapon_kinds = []
 	save_game()
 
 
@@ -441,6 +450,13 @@ func count_air_kill() -> void:
 
 func count_flawless_boss() -> void:
 	stat_flawless_bosses += 1
+	_announce_achievements()
+
+
+func count_weapon_kill(weapon: StringName) -> void:
+	stat_weapon_kills += 1
+	if not (String(weapon) in stat_weapon_kinds):
+		stat_weapon_kinds.append(String(weapon))
 	_announce_achievements()
 
 

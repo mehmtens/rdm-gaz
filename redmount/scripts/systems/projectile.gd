@@ -20,6 +20,8 @@ var _life: float = 2.5
 var _shooter: Node = null
 ## > 0 ise yay çizer ve döner (fırlatılan taş). spawn() sonrası atanır.
 var arc_gravity: float = 0.0
+## Oyuncunun ateşlediği silahın kimliği (`Achievements.weapon_id`); düşman mermisinde boş.
+var weapon_id: StringName = &""
 
 
 ## Bir mermi oluştur ve `world` altına ekle. `scene_path` boşsa standart mermi.
@@ -67,7 +69,12 @@ func _on_area_entered(area: Area2D) -> void:
 	if target == _shooter:
 		return
 	if target != null and target.has_method(&"apply_hit"):
+		var tagged := weapon_id != &"" and "weapon_hit" in target
+		if tagged:
+			target.weapon_hit = weapon_id
 		target.apply_hit(_damage, Vector2(signf(_velocity.x), 0.0), _knockback)
+		if tagged and is_instance_valid(target):
+			target.weapon_hit = &""
 		Sfx.play(&"hit", 1.2)
 		Combat.shake(2.0)
 	queue_free()

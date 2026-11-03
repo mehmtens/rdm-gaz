@@ -115,8 +115,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   (tur 90). İnsan testinde final ölümü 1'i geçerse 2. dalga sonrası simit.
 - Bölüm 25 ciltçi atölyesi arenası → depo (x≈7500–9000): bot can 9'a indi, 1 yeniden doğma (tur 95).
   İnsan testinde ölüm 1'i geçerse depo kapısı önüne simit.
-- Görevler üçüncü dilim (tur 103 sonrası): büyük hedeflerden birine (ör. TEMİZ İŞ ya da KİTAP 3)
-  Kanıt Arşivi karesi ödülü ve "silahla 50 düşman" görevi. Önce insan testinde GÖREVLER sekmesine
+- Görevler dördüncü dilim (tur 104 sonrası): büyük hedeflerden birine (ör. TEMİZ İŞ ya da KİTAP 3)
+  Kanıt Arşivi karesi ödülü (yeni piksel kare gerekir). Önce insan testinde GÖREVLER sekmesine
   bakılıyor mu, beceri görevleri hangi bölümde açılıyor ölçülsün (ödül alınma oranı).
 - Menülerde güvenli alan (tur 101): ana menü ve mağaza çentik payına çekiliyor ama hiç cihazda
   görülmedi; çentikli telefonda sol kenar düğmeleri ve mağaza sekmeleri kontrol edilsin. Duraklat menüsü
@@ -125,6 +125,43 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (104) — GÖREVLER üçüncü dilim: silah görevleri
+
+**Neden şimdi:** Stil listesi, yol haritası ve P1'ler kapalı; birikimin geri kalanı insan testine bağlı.
+OYNANIS-KALITE P2 "başarımlar" satırında açık kalan "silahla yenilen" görevi insan testi gerektirmiyor.
+Oyunda 7 silah var (sopa, bıçak, anahtar, şemsiye, tabanca, tüfek, taş) ama oyuncuyu yerdeki silahı
+kapıp harcamaya ya da cephanelikte farklı silah denemeye yönelten hiçbir hedef yoktu.
+
+**Oyuncu ne hissedecek:** Arşivde iki yeni hedef — ALET EDEVAT ("Silahla 50 düşman yen", 60 coin) ve
+HER TELDEN ("7 silahın her biriyle düşman yen", 120 coin). İlki silahı saklamak yerine kullanmayı, ikincisi
+şemsiye/anahtar gibi ayırt edici silahları ve taşı en az bir kez denemeyi ödüllendirir.
+
+**Yapılanlar:**
+- `EnemyBase.weapon_hit`: vuran, `apply_hit`'ten hemen önce silah kimliğini yazar, hemen sonra siler;
+  ölüm darbesi etiketliyse `Save.count_weapon_kill(id)`. Kalkanlı Zabıta ve blok delme yolu da aynı
+  `apply_hit`'ten geçtiği için sayılır.
+- `Redmount._deal_attack_hit`: silahlı vuruşta etiket; `_fire_gun`: mermiye `weapon_id`.
+  `Projectile` isabette etiketi düşmana taşır (düşman mermisi kimliksiz → sayılmaz).
+- `Achievements.weapon_id(res)` = silah dosyasının adı; `WEAPON_COUNT = 7`; 21 görev.
+- `Save`: `stat_weapon_kills`, `stat_weapon_kinds` (`[achievements] weapon_kills/weapon_kinds`,
+  eski kayıtta 0 / boş), `wipe` sıfırlar.
+- Yeni çizim yok. 1280×720 görüntüde GÖREVLER sekmesinin altı: iki yeni satır ve AL +120 düğmesi
+  sığıyor, GERİ'yle çakışma yok.
+
+**Sayılar (hipotez):** 50 silah öldürmesi ≈ Kitap 1 boyunca yerdeki silahları kullanan oyuncunun
+yarısı–tamamı (silah 10–16 kullanımlık, bir silah 2–4 düşman bitirir). Yalnız son darbe sayılır
+(silahla yumuşatıp yumrukla bitirmek sayılmaz) — görev "silahla yen" diyor. HER TELDEN tüfek/bıçağın
+cephanelikten (duraklat menüsü) de alınabildiği için Kitap 1 sonunda ulaşılabilir; 120 bu yüzden.
+
+**Testler:** `--import` hatasız; yeni `tests/weapon_achievements.tscn` PASS (silah kimlikleri = 7 dosya,
+yumruk sayılmaz, sopa ve anahtar (kalkan delme) öldürmesi sayılır, ölmeyen darbe ve silahsız son darbe
+sayılmaz, taş mermisi sayılır, kimliksiz mermi sayılmaz, tür tekrarsız, kayıt + eski kayıt);
+`skill_achievements`, `achievements`, `dtm_gaps`, `new_melee_weapons`, `kaldirim_tasi` PASS;
+`campaign_smoke` çıkış 0; bot Bölüm 1 (86,6 sn), 13 (82,1 sn), 25 (106,2 sn) CLEARED.
+
+**Sonraki öneri:** Birikimin tamamı insan testine ya da yeni piksel karesine bağlı; telefon APK'sıyla
+insan testi turu.
 
 ### 2026-11-03 (103) — GÖREVLER ikinci dilim: beceri görevleri
 
