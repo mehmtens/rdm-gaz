@@ -117,6 +117,22 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-03 (94) — Denetim: Bölüm 24 (temiz)
+
+**Neden şimdi:** Tur 93'ün önerisi. Pencereli bot (10 sn'de bir kare): Bölüm 24 CLEARED 198,8 sn
+(en uzun bölüm, 18 700 px), 2 yeniden doğma (finalde; birikimdeki 24 maddesiyle aynı), finalde 19 sn takılma.
+
+**Bulgular:** Ritim (Bozdoğan kemer bulvarı arenası → kemer altı pazar → kemer erzakı → su kanalı tonozu
++ baca kulesi → vana salonu → merdivenli galeri + gizli baca → kemer tepesi manzarası → bent kapakları,
+Ağır Zırhlı → harita odası → kule çarkları, Kule Reviri → kule terası finali, Ana Vana Muhafızı) okunuyor;
+DTM ölçüsünde "uzun yolculuk" bölümü, her kesim kendi resminde. Tur 91 düzeltmesiyle 15 550–16 250 ve
+17 150–18 250 arenaları (taramada geçiş bandında) tek resimde. Gündüz taş kuleleri (tur 85) dış yüzü güneş
+tonunda, içi isli — "ait". Tur 93'teki sıcak ön plan kolonları kemer altında oturuyor. Değişiklik yok.
+
+**Testler:** Kod değişmedi (yalnız günlük).
+
+**Sonraki öneri:** Kitap 2 denetimine 25 ile devam (Kitap 2'nin finali).
+
 ### 2026-11-03 (93) — Denetim: Bölüm 23 + gündüz bölümlerinde ön plan kolonu sıcak taşta
 
 **Neden şimdi:** Tur 92'nin önerisi. Pencereli bot (8 sn'de bir kare): Bölüm 23 CLEARED 98,8 sn,
