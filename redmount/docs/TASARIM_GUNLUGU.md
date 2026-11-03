@@ -205,6 +205,27 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-04 (144) — Denetim: düşman telegraf kapsamı (temiz) — otomasyon durdu
+
+**Neden şimdi:** Tur 142–143 ses boyutunu bitirdi; "saldırı okunurluğu" (OYNANIS-KALITE P1) açısından hiç
+kod düzeyinde denetlenmemiş alt-soru: menzilli düşmanlar (tüfekli, bombacı) yakın dövüşenler gibi atışlarını
+telegraf ediyor mu, yoksa küçük ekranda uyarısız mı ateş ediyor? Doğrulama: `enemy_base._do_ranged` +
+`bomber.gd` okuması.
+
+**Bulgu — telegraf kapsamı tam, boşluk yok:** Yakın (windup), ağır (`aim_time`), dash (`dash_prepare_time`)
+hamleler `_telegraph()` çağırıyor (ünlem + kontur kırpışması). Menzilli yol (`_do_ranged:510-514`): ateşe
+hazır olunca `_aiming=true` + `aim` animasyonu + `_telegraph(true, aim_time)` — tüfekli, atıştan önce
+`aim_time` boyunca uyarı gösteriyor. Bombacı (`bomber.gd`) aynı menzilli yolu miras alıyor, ÜSTÜNE nişan
+sırasında elinde kıvılcımlı bomba (`bomba_ikaz.png`) görünür — iki kat telegraf. Uyarısız ateş eden düşman
+tipi yok.
+
+**Testler:** Kod değişmedi (yalnız günlük). Önceki turda bot 36 CLEARED.
+
+**Sonraki öneri:** Otonom denetim boyutları tükendi — görsel (36 bölüm), dövüş derinliği (141), ses kapsamı
+(142–143), telegraf okunurluğu (bu tur) hepsi temiz ya da ucuz boşlukları kapandı. Kalan değer telefon +
+insan testinde (birikimdeki ölçümler: son arenaya düşük canla varış, dokunma yanlış-basma CSV'si, saldırı
+uyarısının gerçek cihazda okunurluğu, placeholder WAV mix'i). Otomasyon durdu.
+
 ### 2026-11-04 (143) — Boss faz geçişi ses stingeri (Yayın Şefi)
 
 **Neden şimdi:** Tur 142'nin ses denetiminde birikime yazılan en üst otonom aday. Yayın Şefi
