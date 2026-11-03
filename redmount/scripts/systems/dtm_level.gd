@@ -805,11 +805,11 @@ func _chimney(cx: float, top: float, gap := 140.0, passage := 150.0, reward: Pac
 	_oneway_art(cx, top, gap + wall * 2.0 + 10.0, top_art).modulate = day_tint
 	# İç basamaklar (tek yön, alttan geçilir): baca yalnız art arda duvar zıplamasıyla
 	# çıkılıyordu, telefonda "imkânsız" (3 Kasım oyun testi). 105 px aralık < ~125 px
-	# zıplama; duvar zıplaması hâlâ daha hızlı yol.
-	var rung := -110.0
-	while rung > top + 70.0:
-		_oneway_art(cx, rung, gap - 8.0, _Art.A_PLANK)
-		rung -= 105.0
+	# zıplama; duvar zıplaması hâlâ daha hızlı yol. Aralık baca boyuna eşit bölünür:
+	# alttan 105'er dizilince son basamak ile tepe arası 175 px'e çıkıyordu (−600 baca).
+	var steps := ceili(-top / 105.0)
+	for k in range(1, steps):
+		_oneway_art(cx, top * float(k) / float(steps), gap - 8.0, _Art.A_PLANK)
 	_coin_line(cx - 20.0, 2, 40, top + 60.0)
 	_coin_line(cx - 20.0, 2, 40, (top - passage) * 0.5)
 	if reward != null:
@@ -935,16 +935,15 @@ func _roof_secrets(min_h := 240.0, spacing := 1200.0) -> void:
 	if _secret_count >= SECRET_GOAL:
 		return
 	var cands: Array = []
-	for ch in get_children():
-		if not (ch is StaticBody2D) or ch is AwningBounce:
-			continue
-		for sh in ch.get_children():
-			if sh is CollisionShape2D and sh.shape is RectangleShape2D:
-				var sz: Vector2 = sh.shape.size
-				var p: Vector2 = (ch as Node2D).position + sh.position
-				var top: float = p.y - sz.y * 0.5
-				if top <= -min_h and sz.x >= 100.0 and p.x > 1300.0:
-					cands.append([top, p.x, sz.x])
+	# Yalnız yerden tek zıplamalarla çıkılan yüzeyler: dam sırrı kapalı iç mekân damına,
+	# hareketli platformun ilk konumuna ya da duvar zıplaması zinciri isteyen iskeleye
+	# düşüyordu (3 Kasım oyun testi: "gizli alan ulaşılamaz"; 107 sırdan 12'si).
+	for s in _reachable_surfaces():
+		var top: float = s[2]
+		var w: float = float(s[1]) - float(s[0])
+		var cx: float = (float(s[0]) + float(s[1])) * 0.5
+		if s[3] and s[5] and not s[4] and top <= -min_h and w >= 100.0 and cx > 1300.0:
+			cands.append([top, cx, w])
 	# En alçak (yere en yakın) adaylar önce: en yüksek damlar oyuncuya ulaşılmaz geliyordu.
 	cands.sort_custom(func(a, b): return a[0] > b[0])
 	var taken: Array = []
@@ -970,6 +969,48 @@ func _roof_secrets(min_h := 240.0, spacing := 1200.0) -> void:
 		_coin_line(cx - 60.0, 3, 60, top - 60.0)
 		_secret_zone(Rect2(cx - w * 0.5, top - 110.0, w, 100.0))
 		taken.append(cx)
+
+
+## Sabit gövdelerin üst yüzeyleri [sol, sağ, üst, ulaşılır, tente, doğrudan çocuk] — zemin hizasından
+## başlayıp tek zıplamayla (≤ REACH_RISE yükselti, ≤ REACH_GAP boşluk) ya da düşerek
+## geçilen yüzeyler ulaşılır sayılır; tente sıçratır (REACH_BOUNCE). Hareketli
+## gövdeler (pres, asansör) yol sayılmaz: ilk konumları oyunda kalıcı değil.
+const REACH_RISE := 115.0
+const REACH_BOUNCE := 250.0
+const REACH_GAP := 220.0
+
+
+func _reachable_surfaces() -> Array:
+	var surf: Array = []
+	var stack: Array = get_children()
+	while not stack.is_empty():
+		var n: Node = stack.pop_back()
+		stack.append_array(n.get_children())
+		if not (n is StaticBody2D) or n is AnimatableBody2D:
+			continue
+		for sh in n.get_children():
+			if sh is CollisionShape2D and sh.shape is RectangleShape2D and not sh.disabled:
+				var sz: Vector2 = sh.shape.size
+				var p: Vector2 = to_local((sh as Node2D).global_position)
+				surf.append([p.x - sz.x * 0.5, p.x + sz.x * 0.5, p.y - sz.y * 0.5, false, n is AwningBounce, n.get_parent() == self])
+	var queue: Array = []
+	for i in surf.size():
+		if float(surf[i][2]) >= -20.0:
+			surf[i][3] = true
+			queue.append(i)
+	while not queue.is_empty():
+		var a: Array = surf[queue.pop_front()]
+		var rise := REACH_BOUNCE if a[4] else REACH_RISE
+		for i in surf.size():
+			var b: Array = surf[i]
+			if b[3]:
+				continue
+			var dx := maxf(0.0, maxf(float(b[0]) - float(a[1]), float(a[0]) - float(b[1])))
+			var dy: float = float(a[2]) - float(b[2])
+			if (dy >= 0.0 and dy <= rise and dx <= REACH_GAP) or (dy < 0.0 and dx <= REACH_GAP + 100.0):
+				b[3] = true
+				queue.append(i)
+	return surf
 
 
 func _chimney_spot_free(cx: float) -> bool:

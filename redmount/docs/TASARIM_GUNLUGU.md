@@ -7,6 +7,13 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- Bölüm 8'de yalnız 2 gizli alan var (mahzen + 1); otomatik yerleştirme uygun düz zemin/ulaşılır dam
+  bulamıyor (tur 112 ölçümü). Bölüme özgü, yürüyüş hizasında elle üçüncü sır tasarlanmalı (kırılır kapı,
+  iskele altı ya da kanal kıyısı); `tests/secret_reach.tscn` ile doğrula. Kartta "GİZLİ n/2" görünüyor.
+- Dam sırlarında film rulosu (z 3, roll_at = taban − 34) sandığın tam önünde duruyor; sandık görünmüyor
+  (tur 112 B19/B22 görüntüsü). İnsan testinde "kırılacak bir şey var mı?" karışıklığı görülürse rulo sandığın
+  üstüne (−34 → −80) alınsın.
+
 - Açılış/yükselti turları (106–111) insan testi: 36 bölümün ilk ekranı artık farklı; telefonda ölçülsün
   (a) bulut/tahta üst rotası kaç oyuncuca fark ediliyor (zırh alınma oranı), (b) 50 px basamaklar
   koşarken takılma hissi veriyor mu (basamak zıplamadan çıkılmıyor; B1–3'teki insan testi olumluydu),
@@ -130,6 +137,45 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (112) — Denetim: gizli alanların ulaşılırlığı (36 bölüm, 107 sır)
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1 maddeleri kapalı; birikimin tamamı insan testine bağlı
+→ denetim. Konu, bugünkü ilk telefon testinin kalıcı beklentisi: "gizli alan alçak, yürüyüş hizasında
+ulaşılır". Tur 106 bunu Bölüm 1–3'te düzeltti; 4–36 hiç ölçülmemişti.
+
+**Ölçüm:** Yeni `tests/secret_reach.tscn` 36 bölümü yükler, sabit gövdelerin üst yüzeylerinden yerden
+başlayan bir erişim grafiği kurar (tek zıplama ≤ 115 px yükselti, ≤ 220 px boşluk; düşüş serbest; tente
+250 px; hareketli gövde — pres, asansör — yol sayılmaz) ve her gizli bölgenin zeminini sınar. 115 px,
+ölçülen ~125 px zıplamadan pay bırakır (tur 111 bulut kuralı ≤ 110 ile uyumlu). Sonuç: 107 sırdan 17'si
+yerden ulaşılamıyordu.
+- 12'si otomatik **dam sırrı** (`_roof_secrets`): yalnız yüksekliğe bakıp aday seçiyordu. B19 sandığı külhan
+  iç mekânının kapalı damına (−345), B12'deki hareketli platformun *ilk konumuna* (platform kalkınca sandık
+  havada kalıyordu), B22/B26/B30/B33/B36'da iskele dizilerine (−260…−300, basamak yok) düşüyordu.
+- 5'i elle konmuş yüksek **baca** (B26 −470, B31 −480, B32 −600, B35 −560, B36 −560): iç basamaklar alttan
+  105'er dizildiği için son basamak ile tepe arası 135–175 px kalıyordu → yine duvar zıplaması zinciri.
+
+**Düzeltme (ortak sistem):** `DtmLevel._reachable_surfaces()` aynı grafiği bölüm kurulurken hesaplar;
+dam sırrı yalnız ulaşılır, sabit ve bölümün doğrudan gövdesi olan yüzeye konur (aday sırası ve aralık
+kuralı aynı: en alçak önce). Baca basamakları boya eşit bölünür (`ceil(-top/105)` aralık, her aralık ≤ 105).
+Yan etki: daha sıkı ölçüt yüzünden 15 bölümde zaten "ulaşılır" sayılan bazı dam sırları komşu, daha alçak ya
+da basamaklı bir dama kaydı (ör. B13 −240 → −150, B06 −260 → −200). Sır sayıları değişmedi (Bölüm 8 önceden
+de 2 sır).
+
+**Oyuncu ne hissedecek:** Film rulosunu gördüğü her yere duvar zıplaması zinciri bilmeden çıkabilir;
+yüksek bacalarda basamaklar tepeye kadar sürer (duvar zıplaması hâlâ kısa yol).
+
+**Görsel kontrol (1280×720):** B19 yeni sır alçak iskelede, film rulosu + coin okunuyor; B22 taş setten
+iskeleye tek zıplama; B32 bacasında eşit aralıklı basamaklar taş şaftın içinde. Yeni sanat yok.
+
+**Testler:** `--import` hatasız; `campaign_smoke` çıkış 0; `dtm_gaps` PASS; `secret_reach` PASS (107 sır;
+düzeltme geri alınınca FAIL 17); bot CLEARED: Bölüm 1 (78,3 sn, 0 yeniden doğma), 13 (82,1; 0), 19 (83,8; 1 —
+külhan finali, birikimde), 25 (94,1; 2 — ciltçi arenası x≈7500–8000, birikimde), 32 (77,5; 0). Beş bot
+paralel koştu; ölümlerin hiçbiri sır konumlarının yakınında değil.
+
+**Sonraki öneri:** Birikim yine insan testine bağlı. Yeni eklenen iki küçük madde (Bölüm 8'in üçüncü sırrı,
+dam sırrında film rulosunun sandığı örtmesi) birikimin başında; bir sonraki tur Bölüm 8'e elle üçüncü sır
+(bölüme özgü, yürüyüş hizasında) tasarlayabilir.
 
 ### 2026-11-03 (111) — Bölüm 25–36: açılışlar (son dilim)
 
