@@ -90,6 +90,11 @@ const HOUSE_EAVE := [0.2, 0.17, 0.0]
 ## konturlanır, kahraman ters tonda kalır — kalabalıkta dost/düşman bir bakışta ayrılır
 ## (tarzın sağ kenar ay parlamasıyla aynı renk ailesi).
 const HERO_NIGHT_RIM := Color(0.62, 0.74, 1.0, 0.85)
+## Gündüz bölümlerinde kahramanın okunurluk konturu: koyu giysili silüet koyu taş/sandık
+## önünde arka plana karışıyordu (t0015/t0030 denetimi). Tarzın sol üst sıcak fener ışığı
+## tonunda ince, soluk bir kenar — silüeti kaldırır, "yapıştırılmış" kalın kontur değil
+## (geceden düşük alfa + dar). Yalnız varsayılan kostümde: kostüm paletleri zaten parlak.
+const HERO_DAY_RIM := Color(0.86, 0.70, 0.46, 0.5)
 ## Her evin sıva boyası çeşitleri: özgün bej, gül kurusu, gri-mavi, okra (aynı çizim,
 ## tools/gen_house_variants.py yalnız sıvayı boyar). 36 bölümde üç ev aynı bej
 ## tekrarlanıyordu; aynı ev yan yana farklı boyayla mahalle gibi okunur.
@@ -361,7 +366,8 @@ func _rim_player() -> void:
 		rig.material.set_shader_parameter(&"rim_enabled", true)
 		rig.material.set_shader_parameter(&"rim_color", HERO_NIGHT_RIM)
 		return
-	if rig.material != null:
+	# Varsayılan kostüm: gündüz bölümünden gelen okunurluk konturunu gece konturuyla değiştir.
+	if rig.material != null and not rig.material.has_meta(&"day_rim"):
 		return
 	var mat := ShaderMaterial.new()
 	mat.shader = preload("res://shaders/dark_rim.gdshader")
@@ -369,6 +375,24 @@ func _rim_player() -> void:
 	mat.set_meta(&"night_rim", true)
 	rig.material = mat
 
+
+## Gündüz okunurluk konturu: yalnız varsayılan kostümde (malzemesiz rig). Gece bölümünden
+## gelindiyse gece malzemesini bununla değiştirir; kostüm malzemesi varsa dokunmaz
+## (kostüm paleti zaten ayrışıyor, geçişte paylaşılan malzemeyi bozmamak için).
+func _rim_player_day() -> void:
+	var p := get_tree().get_first_node_in_group(&"player")
+	var rig: CanvasItem = p.get_node_or_null(^"Rig") if p != null else null
+	if rig == null:
+		return
+	if rig.material != null and not rig.material.has_meta(&"night_rim") \
+			and not rig.material.has_meta(&"day_rim"):
+		return  # Kostüm malzemesi (ya da başka): kendi hâlinde bırak.
+	var mat := ShaderMaterial.new()
+	mat.shader = preload("res://shaders/dark_rim.gdshader")
+	mat.set_shader_parameter(&"rim_color", HERO_DAY_RIM)
+	mat.set_shader_parameter(&"width", 2.0)
+	mat.set_meta(&"day_rim", true)
+	rig.material = mat
 
 
 ## Kum torbası siperi: katı, alçak (mermiyi keser); üstünden atlanır.
@@ -1067,6 +1091,9 @@ func _back_row() -> void:
 func _ready() -> void:
 	super._ready()
 	set_process(true)
+	# Gece bölümü konturu _night() içinde verdi; gündüz bölümünde okunurluk konturunu burada.
+	if not is_in_group(&"dark_scene"):
+		_rim_player_day.call_deferred()
 	var card := _TitleCard.new()
 	card.level = self
 	add_child(card)

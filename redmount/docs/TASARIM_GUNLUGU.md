@@ -7,6 +7,17 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 123 denetimi, Bölüm 1/13) Düşman tipi renk ayrışması: ağır zırhlı, kalkanlı ve bombacı
+  düşmanlar bir bakışta benzer koyu silüet; tip başına belirgin bir aksan rengi (kalkan/omuzluk/fitil)
+  kalabalık arenada kimin ne yaptığını hızlandırır. Orta etki / orta maliyet (tip başına tek piksel aksan).
+- (Tur 123 denetimi) Diyalog + dalga pankartı yığılması: Bölüm 13 finalinde GAZELLE kutusu ile
+  "DALGA 1/2" pankartı üst üste biniyor (B20 notuyla aynı sınıf). Diyalog görünürken dalga pankartı
+  bir satır aşağı ya da diyalog kapanınca gösterilsin. Orta etki / düşük maliyet.
+- (Tur 123 denetimi) Gündüz arena zemini tektip taş; DTM arenalarında zeminde 1 çevresel etkileşim
+  (devrilen tezgâh, kırılabilir yığın, yuvarlanan varil) ritim katıyor. Arena başına tek set-piece
+  nesnesi. Orta etki / orta maliyet (mevcut breakable/barrel yeniden kullanılır).
+- (Tur 123 denetimi) Kombo sayacı "COMBO ×N +P" sağ üst köşede; yüksek N/P değerlerinde sağ kenara
+  taşma riski 1280×720'de ölçülmedi — ×20+ comboda konum/ölçek denetimi. Düşük etki / düşük maliyet.
 - Bölüm 20 arena üst şeridi (tur 122 denetimi): "DALGA 1/2 · 2 DÜŞMAN" dalga şeridi ile "FİLM RULOSU 1/3"
   üç satırlık toplama bildirimi aynı anda ekranın üstünde art arda diziliyor (1280×720'de okunur).
   İnsan testinde telefonda üst kenarda sıkışma/çakışma görülürse film-rulosu bildirimi ekranın ortasına
@@ -138,6 +149,46 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (123) — Denetim + kahraman gündüz okunurluk konturu
+
+**Neden şimdi:** Stil listesi (33/33), YOL_HARITASI ve OYNANIS-KALITE P1 bitti; birikimin açık
+maddeleri "insan testinde görülürse" koşullu, otonom yapılamaz. Öncelik d) tasarım denetimi:
+Bölüm 1 ve 13 bot ile oynatıldı, pencereli ekran görüntüleri (t0012/t0024/t0050/t0070) DTM
+sütunlarıyla karşılaştırıldı. En somut bulgu: koyu giysili kahraman silüeti gündüz bölümlerinde
+koyu taş duvar/sandık önünde arka plana karışıyor (t0012, t0030). Gece bölümlerinde zaten soğuk
+ay ışığı konturu var; gündüzde kahraman kontursuz (varsayılan "sokak" kostümü malzemesiz). DTM
+kahramanı her zaman temiz bir kenarla okunur. 5 denetim maddesi birikime yazıldı, en üstteki
+(okunurluk konturu) bu turda uygulandı.
+
+**Oyuncu ne hissedecek:** Gündüz sahnelerinde Redmount'un silüeti koyu arka plandan kalkar;
+kalabalık arenada kendini anında bulur. Kenar sahnenin sıcak fener ışığıyla aynı renk ailesinde
+ve ince (gece konturundan düşük alfa + dar) olduğu için "yapıştırılmış kalın kontur" değil, ışık
+kenarı gibi okunur.
+
+**Yapılanlar:**
+- `dtm_level.gd`: `HERO_DAY_RIM` (sıcak-soluk, alfa 0,5), `_rim_player_day()` — yalnız varsayılan
+  kostümde (malzemesiz rig) `dark_rim` malzemesi, `width=2`, meta `day_rim`. `_ready()` gece
+  olmayan bölümde çağırır. Gece `_rim_player()` artık gündüz konturunu gece konturuyla değiştirir
+  (eski `if material != null: return` day_rim'i atlamıyordu).
+- `redmount.gd` `apply_costume()`: koruma gece konturu yanında `day_rim`'i de korur (bölüm içi
+  kostüm yeniden uygulamada okunurluk konturu silinmesin).
+- Kostüm malzemeli oyuncuya dokunulmadı: kostüm paletleri zaten parlak/ayrışıyor ve paylaşılan
+  malzemeyi gündüz↔gece geçişinde bozmamak için kapsam varsayılan kostümle sınırlı.
+
+**Sayılar (hipotez):** Gündüz rim alfa 0,5 ve `width=2` (gece 0,85 / 3): gündüz arka planları gece
+kadar koyu değil, güçlü kontur sticker gibi durur; soluk kenar yeterli ayrım verir. Renk
+(0,86·0,70·0,46) tarzın sol üst sıcak fener tonundan — yabancı renk değil, sahne ışığının devamı.
+
+**Testler:** `--import` hatasız; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn` PASS;
+yeni `tests/hero_rim.tscn` PASS (gündüz→gündüz konturu, gece→gece konturu, gündüz↔gece geçişinde
+doğru konturun kalması — paylaşılan rig malzemesi eski bölümün `_exit_tree`'sinde bozulmuyor);
+bot Bölüm 1 (80,4 sn), 13 (80,4 sn), 25 (89,1 sn) CLEARED. 1280×720 ekran görüntüsünde (t0012,
+koyu taş duvar önünde kayma) kenarın silüeti kaldırdığı ve sahneye ait durduğu doğrulandı.
+Telefonda ve kostümle görülmedi.
+
+**Sonraki öneri:** Birikimin yeni başı düşman tipi renk ayrışması (ağır zırhlı/kalkanlı/bombacı
+bir bakışta ayrılsın) — kalabalık arenada okunurluğu doğrudan artırır.
 
 ### 2026-11-03 (122) — Denetim: Bölüm 20 + çalışma-zamanı hatası düzeltildi
 
