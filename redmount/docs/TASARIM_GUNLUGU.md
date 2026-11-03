@@ -7,10 +7,6 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- (Tur 137) `tests/sky_blend_arenas.tscn` FAIL (81 arena, 55 "YARIM: kamera Xʼda 1 sn'de geçiş bitmedi");
-  tur 137 değişikliğinden önce de aynı. Testin başsız zamanlayıcı/kamera sorunu mu, yoksa arenalarda gerçekten
-  iki resmin üst üste kaldığı mı ayırt edilmeli (pencereli bir arenada görüntüyle). Gerçekse tur 91 düzeltmesi
-  gerilemiş demektir. Orta öncelik, otonom yapılabilir.
 - (Tur 130 denetimi, Bölüm 16) PixelText tabela başlıklarında Türkçe "İ" okunurluğu: kelime ortasındaki İ
   dar-gövdeli bir harfle (Y, V) yan yana gelince orta 5 satırda iki ince dikey arası boş kalıyor, sabit
   adımlı yazıda kelime arası boşluk gibi okunuyor ("SÜLEYMANİYE ARŞİVİ" → "SÜLEYMANI YE ARŞI VI"). Tur 130'da
@@ -202,6 +198,23 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-04 (138) — `sky_blend_arenas` testi geçiş süresine bağlandı (55 sahte hata)
+
+**Neden şimdi:** Tur 137'de birikime yazılan en üst madde: test 81 arenanın 55'inde "1 sn'de geçiş bitmedi"
+diyordu; gerçek bir gerileme (arenada kalıcı çift resim) olup olmadığı ayrılmalıydı.
+
+**Bulgu:** Test bayattı, oyun değil. Arena başına 1,0 sn bekliyordu; `SKY_FADE` 3 Kasım oyun testi
+düzeltmesinde (`51aa4beb`, perde süpürmesi) 0,6 → 1,5 sn'ye çıkmış, test güncellenmemişti. Kamera önceki
+arenadan ışınlanınca başlayan süpürme 1 sn'de bitmiyordu.
+
+**Yapılan:** `tests/sky_blend_arenas.gd` bekleme süresi `sky.SKY_FADE + 0,3` (sabit sayı yerine sınıf
+sabiti: süre yine değişirse test kendiliğinden uyar).
+
+**Testler:** `sky_blend_arenas` PASS (81 arena, 0 hata; SALINIM ve ANI denetimleri de temiz — kilitli arenada
+çift pozlama yok, tur 91 düzeltmesi sağlam). Oyun kodu değişmedi.
+
+**Sonraki öneri:** Denetim: hiç bakılmamış 2, 3, 5, 6, 7, 8, 9, 10, 15.
+
 ### 2026-11-04 (137) — Denetim: arka plan hücresi ↔ iç mekân taraması; Bölüm 28 röle salonu hizalandı
 
 **Neden şimdi:** Listeler kapalı, birikim insan testine bağlı; öncelik d) denetim. Tur 135'in önerisi
@@ -224,8 +237,8 @@ Kız Kulesi manzarası (sol kenarda yalnız oda çıkış direği).
 
 **Testler:** `--import` SCRIPT ERROR yok; `campaign_smoke` 36/36 SMOKE OK exit 0; `dtm_gaps` PASS; bot
 Bölüm 28 CLEARED 92,4 sn (0 yeniden doğma). `sky_blend_arenas` FAIL (81 arena, 55 hata) — değişiklik
-öncesiyle birebir aynı sonuç (stash ile karşılaştırıldı), yani önceden kırık; Bölüm 28'deki iki "YARIM"
-satırı da eskisinde var. Başsız 1 sn zamanlayıcıyla ilgili olabilir; ayrı turda incelenmeli (birikime yazıldı).
+öncesiyle birebir aynı sonuç (stash ile karşılaştırıldı), yani önceden kırık; tur 138'de bayat test beklemesi
+olduğu bulundu ve düzeltildi.
 
 **Sonraki öneri:** `sky_blend_arenas` testinin neden 55 arenada "geçiş bitmedi" dediğini incelemek
 (test mi, gerçek kalıcı çift resim mi). Denetim sürecekse hiç bakılmamış: 2, 3, 5, 6, 7, 8, 9, 10, 15.

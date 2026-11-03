@@ -1,7 +1,7 @@
 ## Kilitli arenada ve bölüm sonu kamera sınırında kamera neredeyse sabit durur. Gökyüzü
 ## geçişi konuma bağlıyken bant içindeki duran kamera iki resmi kalıcı olarak üst üste
 ## gösteriyordu (tur 91: 19 arena, Bölüm 21 finali tüm dövüş boyunca). Geçiş artık zamana
-## bağlı: her arenanın ortasında duran kamera ~1 sn içinde tek resme oturmalı, ±150 px
+## bağlı: her arenanın ortasında duran kamera geçiş süresi içinde tek resme oturmalı, ±150 px
 ## gezinen kamerada resim en fazla bir kez değişmeli (geri dönüş payı); tek
 ## geçişin ortasında iki resim de görünmeli (geçiş gerçekten oluyor).
 ##
@@ -34,11 +34,13 @@ func _ready() -> void:
 				xs.append((a.gate_left_x + a.gate_right_x) * 0.5)
 		for x in xs:
 			cam.global_position = Vector2(x, -200)
-			await get_tree().create_timer(1.0).timeout
+			# Geçiş süresi (perde süpürmesi, 3 Kasım'da 0,6 → 1,5 sn) + pay.
+			var wait: float = sky.SKY_FADE + 0.3
+			await get_tree().create_timer(wait).timeout
 			checked += 1
 			if not sky.settled():
 				bad += 1
-				print("YARIM %s: kamera %.0f'da 1 sn'de geçiş bitmedi" % [path.get_file(), x])
+				print("YARIM %s: kamera %.0f'da %.1f sn'de geçiş bitmedi" % [path.get_file(), x, wait])
 			# Dövüşte kamera arena içinde ±150 px gezinir: sınır aradaysa resim bir kez
 			# değişebilir, ama ileri geri değişmemeli.
 			var shown: int = sky._to
