@@ -111,10 +111,30 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   kalıyor (iz ön parçasının içinde ya da ≥ 8 px). İnsan testinde fark edilirse ön parçadan da
   tutam kenarı ayıkla.
 - Telefonda dokunmatik ölçüm: yanlış/kaçırılan basış sayacı (insan testi formuyla bağlanacak).
+- Bölüm 18 finali (Çemberlitaş damı, 3 dalga): bot ölmeden ama 115 → 24 canla geçti (tur 88).
+  İnsan testinde final ölümü 1'i geçerse üçüncü dalga hafifletilsin ya da 2. dalga sonrası simit.
 - KAY düğmesinin yeri gerçek cihazda başparmak erişimiyle doğrulanacak; gerekirse
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (88) — Denetim: Bölüm 18 (temiz)
+
+**Neden şimdi:** Tur 87'nin önerisi. Pencereli bot (8 sn'de bir kare): Bölüm 18 CLEARED 100,3 sn,
+0 yeniden doğma, 13 sn takılma (x≈8400). Final arenası (Çemberlitaş damı, 3 dalga) botu 115 → 24 cana
+indirdi; ölüm yok.
+
+**Bulgular:** Ritim (Kapalıçarşı halı sırası → bedesten arenası → bakırcılar çarşısı + balkon rotası →
+Bakırcı erzakı → sahte mühürlü çuval deposu arenası → kâtip kütüphanesi hikâye sahnesi → dam terası
+finali) okunuyor; her kesim kendi boyalı resminde, iskele/merdiven ve dükkân öğeleri sahneye oturuyor.
+Çıkış kapısı ("ÇEMBERLİTAŞ") gündüz taşında, tur 86'daki gibi "ait". Kopan öğe bulunmadı; değişiklik yok.
+
+**İnsan testi notu (birikime):** Bölüm 18 finali 3 dalga; bot can 24'e düştü. Final ölümleri 1'i geçerse
+üçüncü dalga hafifletilsin ya da dalga 2 sonrası simit.
+
+**Testler:** Kod değişmedi (yalnız günlük).
+
+**Sonraki öneri:** Kitap 2 denetimine 19 ile devam.
 
 ### 2026-11-03 (87) — Denetim: Bölüm 14 (temiz)
 
