@@ -119,6 +119,21 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-03 (96) — Denetim: Bölüm 28 (temiz)
+
+**Neden şimdi:** Tur 95'in önerisi (Kitap 3'te yakın zamanda bakılmamış bölümler). Pencereli bot (8 sn'de
+bir kare): Bölüm 28 CLEARED 93,4 sn, 0 yeniden doğma; röle salonu arenasında 14 sn takılma, final
+arenasına (Kız Kulesi rıhtımı) 53 canla girip 25 canla çıktı.
+
+**Bulgular:** Ritim (Üsküdar vapur iskelesi → cami avlusu, şadırvan → yokuş, cumbalı evler → Üsküdar
+erzakı + tüfekli tüneği → depo avlusu → röle salonu arenası + şerit makinesi → rıhtım finali) okunuyor;
+gündüz Boğaz resimleri parlak ve okunur, iskele/tünek öğeleri ahşap-demir ailesinde. Kopan öğe yok;
+değişiklik yok.
+
+**Testler:** Kod değişmedi (yalnız günlük).
+
+**Sonraki öneri:** Bölüm 33 ve 34 denetimi.
+
 ### 2026-11-03 (95) — Denetim: Bölüm 25 (temiz) — Kitap 2 denetimi tamam
 
 **Neden şimdi:** Tur 94'ün önerisi. Pencereli bot (8 sn'de bir kare): Bölüm 25 CLEARED 89,3 sn,
