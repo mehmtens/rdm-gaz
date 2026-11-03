@@ -152,10 +152,51 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 - Menülerde güvenli alan (tur 101): ana menü ve mağaza çentik payına çekiliyor ama hiç cihazda
   görülmedi; çentikli telefonda sol kenar düğmeleri ve mağaza sekmeleri kontrol edilsin. Duraklat menüsü
   ortalı olduğu için dışarıda bırakıldı.
+- Sonuç kartı (tur 125 denetimi): kart açıkken dokunmatik oynanış düğmeleri ve duraklat düğmesi görünür
+  kalıyor (örtmüyor). İnsan testinde dikkat dağıtıyorsa sonuç kartında `TouchControls` gizlensin.
 - KAY düğmesinin yeri gerçek cihazda başparmak erişimiyle doğrulanacak; gerekirse
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (125) — Denetim: gizli alan film rulosu dünya ölçeğinde yeniden çizildi
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin kalanı insan testine ya
+da insan görsel yargısına bağlı. Öncelik d) denetim: tur 124'ün önerdiği HUD/menü taraması 20:9
+(1600×720, dokunmatik açık) ve 16:9'da yapıldı (oynanış HUD'u, duraklat, sonuç kartı). HUD ve menüler
+temiz çıktı; en somut bulgu sahnenin içindeydi: Bölüm 1 damındaki gizli alan film rulosu, HUD ikonu
+`ui/pixel/film.png` (14×12 sanat, dosyada 3x) dünyada bir kez daha 2x büyütüldüğü için 6 ekran
+piksellik bloklarla, 4 tonlu düz bir kutu olarak duruyordu — yanındaki coin ve sandık 2 px yoğunlukta.
+Sanat kuralı sorusuna ("sahneye ait mi?") dürüst cevap "yapıştırılmış" idi.
+
+**Oyuncu ne hissedecek:** Gizli alan ödülü artık sahnenin geri kalanı gibi çizilmiş bir nesne:
+üç delikli teneke makara, alttan açılan delikli selüloit şerit; delikten arka plan görünür.
+"Bu ne?" yerine "film makarası!" okunur.
+
+**Yapılanlar:**
+- `tools/gen_gpt_style_props.py`: `FILM` selüloit rampası (8 ton, gölge mürdüm, ışık yanık altın) ve
+  `make_film_rulo()` — 34×28 sanat pikseli (oyunda 2x): IRON/BRASS teneke dudak sol üstte pirinç ışık,
+  sağ kenarda ay ışığı, delik ağızlarında kalınlık ışığı/gölgesi, pas lekesi, koyu mor kontur.
+  Çıktı `assets/pickups/film_rulo.png` (yalnız bu fonksiyonla üretildi; diğer prop'lar yeniden yazılmadı).
+- `dtm_level.gd` `_SecretZone.FILM` yeni sprite'a bağlandı; parıltı kıvılcımı makaranın pirinç
+  dudağına (2, −20) taşındı. HUD/çizgi roman ikonu `film.png` olduğu gibi kaldı (HUD ölçeğinde doğru).
+- Sprite 84×72 → 68×56 ekran pikseli; `_clear_rewards` ve `roll_rect` boyutu dokudan okuduğu için
+  ödülle çakışma kuralı kendiliğinden uyuyor (108 rulo testi geçti).
+
+**Testler:** `--import` hatasız; `campaign_smoke` çıkış 0; `dtm_gaps` PASS; `secret_count` çıkış 0,
+`secret_reach` PASS (108 sır), `secret_roll_clear` PASS (108 rulo); bot Bölüm 1 (81,1 sn), 13 (77,4 sn),
+25 (78,3 sn) CLEARED. Pencereli görüntü: Bölüm 1 damı (gündüz, coin/sandık yanında) ve Bölüm 4 iç
+mekân (gece) — piksel yoğunluğu sahneyle aynı, sahneye ait. Telefonda görülmedi.
+
+**Denetimden diğer notlar:** Sonuç kartında oynanış dokunmatik düğmeleri ve duraklat düğmesi görünür
+kalıyor (kartın altına çizildikleri için örtmüyorlar; kart düğmesi çıkınca dikkat dağıtıyorsa insan
+testinde gizlensin) — birikime yazıldı.
+
+**Tarama:** `ui/pixel/*.png` dünya sahnesinde başka yerde kullanılmıyor; yalnız büfe fiyat etiketi/rozeti
+(`level_shop.gd`) dünyada, ama bunlar bilinçli arayüz etiketi. Aynı hatanın başka örneği yok.
+
+**Sonraki öneri:** Otonom yapılabilir somut iş kalmadı; birikim insan testine bağlı. İlk telefon
+testinde gizli alan bulma oranı ve makaranın fark edilmesi ölçülsün.
 
 ### 2026-11-03 (124) — Denetim devamı: düşman ayrışması (geri alındı) + doğrulamalar
 

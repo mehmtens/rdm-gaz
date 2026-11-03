@@ -2729,6 +2729,82 @@ def make_baca_tas(rnd):
     return img
 
 
+# Selüloit: koyu kehribar; gölge mürdüme, ışık yanık altına.
+FILM = [(22, 12, 20), (40, 22, 26), (62, 34, 30), (88, 50, 34), (118, 70, 38),
+        (150, 96, 46), (186, 130, 62), (222, 172, 96)]
+
+
+def make_film_rulo(rnd):
+    """Gizli alan ödülü: üç delikli teneke makara, alttan sağa açılan delikli şerit.
+    HUD ikonu (ui/pixel/film.png, 3x) dünyada 2x daha büyütülünce 6 px'lik bloklar
+    sahneden kopuyordu; bu sprite 1x sanat, oyunda 2x."""
+    w, h = 34, 28
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = img.load()
+    # Şerit önce (makara üstüne biner): 7 sıra = kenar, delik, 3 kare, delik, kenar.
+    for x in range(10, w - 1):
+        drop = 0 if x < 28 else (x - 27)
+        u = (x - 10) / (w - 11)
+        for k in range(7):
+            y = 19 + k + drop
+            if y >= h - 1:
+                continue
+            lv = 0.6 - u * 0.32 - k * 0.03
+            if k in (1, 5):
+                c = pick(FILM, lv - 0.3, rnd, 0.2)
+                if x % 3 == 1:
+                    c = pick(CREAM, lv + 0.15, rnd, 0.15)  # delikten sızan ışık
+            elif k in (0, 6):
+                c = pick(FILM, lv - 0.12, rnd, 0.25)
+            else:
+                c = pick(FILM, lv + (0.14 if k == 2 else -0.04 * (k - 2)), rnd, 0.35)
+                if (x - 10) % 6 == 0:
+                    c = FILM[1]  # kare arası
+                elif k == 2 and x < 22:
+                    c = mix(c, (240, 196, 120), 0.3)  # fener yansıması
+            if x >= w - 3:
+                c = mix(c, MOON, 0.3)
+            px[x, y] = c + (255,)
+    cx, cy, r = 11.0, 11.0, 10.4
+    holes = [(cx + 5.3 * math.cos(a), cy + 5.3 * math.sin(a))
+             for a in (-math.pi / 2, math.pi / 6, 5 * math.pi / 6)]
+    for y in range(h):
+        for x in range(w):
+            dx, dy = x - cx, y - cy
+            d = math.hypot(dx, dy)
+            if d > r:
+                continue
+            if any(math.hypot(x - hx, y - hy) < 2.3 for hx, hy in holes):
+                px[x, y] = (0, 0, 0, 0)  # makara deliği: arka plan görünür
+                continue
+            lv = 0.46 - (dx + dy * 1.1) / r * 0.3  # sol üst sıcak ışık
+            if d > r - 1.8:  # dış dudak: kalın teneke, ışıkta pirinç
+                c = pick(IRON, lv + 0.22, rnd, 0.3)
+                if dx + dy < -4:
+                    c = pick(BRASS, lv + 0.2, rnd, 0.2)
+            elif d < 1.3:
+                c = OUTLINE[:3]  # mil deliği
+            elif d < 3.0:  # göbek pulu
+                c = pick(IRON, lv + (0.28 if dx + dy < 0 else -0.05), rnd, 0.25)
+            else:
+                c = pick(IRON, lv, rnd, 0.45)
+                if 3.0 <= d < 3.8:
+                    c = pick(IRON, lv - 0.2, rnd, 0.2)  # pul çevresi oluğu
+                elif rnd.random() < 0.08:
+                    c = pick(RUST, lv + 0.1, rnd, 0.3)  # pas lekesi
+            # Deliklerin alt-sağ ağzı ışık yakalar (kalınlık), üst-sol gölge.
+            for hx, hy in holes:
+                hd = math.hypot(x - hx, y - hy)
+                if hd < 3.4:
+                    c = (pick(IRON, lv + 0.3, rnd, 0.2) if (x - hx) + (y - hy) > 0
+                         else pick(IRON, lv - 0.25, rnd, 0.2))
+            if dx > r * 0.55 and d > r - 2.6:
+                c = mix(c, MOON, 0.35)  # sağ kenarda ay ışığı
+            px[x, y] = c + (255,)
+    outline(img)
+    return img
+
+
 def main():
     rnd = random.Random(7)
     make_varil(rnd).save(OUT + "varil.png")

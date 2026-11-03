@@ -2015,7 +2015,8 @@ class _Foreground extends Node2D:
 ## Gizli bölge: oyuncu ilk girişte `found` yayar (Main sayar, HUD duyurur).
 class _SecretZone extends Area2D:
 	signal found
-	const FILM := preload("res://assets/ui/pixel/film.png")
+	## Dünya ölçeğinde makara (1x sanat, 2x); 3x HUD ikonu film.png burada iri bloklar veriyordu.
+	const FILM := preload("res://assets/pickups/film_rulo.png")
 	var _done := false
 	## Film rulosunun bölgeye göre yeri (taban ortası).
 	var roll_at := Vector2.ZERO
@@ -2083,7 +2084,7 @@ class _SecretZone extends Area2D:
 		var glint := maxf(0.0, sin(_t * 1.7)) ** 12
 		_roll.modulate = Color(1, 1, 1).lerp(Color(1.6, 1.45, 1.0), glint)
 		if glint > 0.95 and Engine.get_process_frames() % 6 == 0:
-			Fx.spark(_roll.global_position + Vector2(10, -14), Vector2(0, -1), 2, Color(1, 0.95, 0.7), 0.5)
+			Fx.spark(_roll.global_position + Vector2(2, -20), Vector2(0, -1), 2, Color(1, 0.95, 0.7), 0.5)
 
 	func _collect() -> void:
 		var at := _roll.global_position
