@@ -25,6 +25,11 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   boş zemin" kısmen çözülmüş. Kalan: devrilen tezgâh / kırılabilir yığın gibi arena-özgü ikinci bir
   set-piece — ama bu her arenaya elle, bölüme uygun yerleşim ister (formül/şişirme riski). İnsan
   seviye-tasarım yargısıyla yapılmalı; kör otonom turda tek tip nesneyi her arenaya basmak değersiz.
+- Bölüm 31 deniz köşkü finali (x≈8450–9350, üç dalga / 7 düşman, son dalga Ağır Zırhlı+Tüfekli):
+  başsız bot finale 10–20/115 canla girip 2 yeniden doğma (75,2 sn CLEARED); pencereli bot kütüphane
+  arenasında (x≈6100) 2 yeniden doğma, finalde 6/115 cana indi. Kütüphane arenasından finale tek can
+  kaynağı mühür odası üst katındaki simit (x 7550, −160; bot almıyor). İnsan testinde final ölümü 1'i
+  geçerse son kontrol noktası (x 8250) önüne kırılabilir simit ya da baca rafı ödülü AMMO → HEALTH.
 - Bölüm 20 arena üst şeridi (tur 122 denetimi): "DALGA 1/2 · 2 DÜŞMAN" dalga şeridi ile "FİLM RULOSU 1/3"
   üç satırlık toplama bildirimi aynı anda ekranın üstünde art arda diziliyor (1280×720'de okunur).
   İnsan testinde telefonda üst kenarda sıkışma/çakışma görülürse film-rulosu bildirimi ekranın ortasına
@@ -158,6 +163,27 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (126) — Denetim: Bölüm 31 (en az incelenen bölüm)
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin tamamı insan testine ya da
+insan görsel/seviye yargısına bağlı. Öncelik d) denetim: günlükte en az anılan bölüm (Bölüm 31, Çengelköy
+Sahil Konağı) pencereli (10 sn arayla 9 görüntü) ve başsız bot ile oynatıldı.
+
+**Bulgular:**
+- Görsel: sahil yolu, konak bahçesi, selamlık cephesi, kütüphane, mühür odası ve deniz köşkü görüntülerinde
+  "yapıştırılmış" duran öğe yok; piksel yoğunluğu, ışık yönü ve konturlar ChatGPT arka planlarıyla uyumlu.
+  Telsiz paneli açıkken dalga şeridi panelin altına kayıyor (tur 124'te doğrulanan davranış).
+- Denge: kütüphane arenasından (x 6600) finale (x 8450) tek can kaynağı üst kattaki simit; başsız bot
+  finale 10–20/115 canla girip 2 kez öldü, pencereli bot ilk arenada 2 kez öldü. Bölüm 4/5/28 ile aynı
+  desen; önceki turların kuralı gereği (bot verisiyle denge değiştirilmez) birikime yazıldı.
+- `tests/capture_level.tscn` ışınlamalı çekimde ilk kare bölüm kartının altında, ikinci kare eski kamera
+  konumunda çıktı (araç kaynaklı, oyunu etkilemiyor); bot anlık görüntüleri yeterli olduğu için düzeltilmedi.
+
+**Testler:** Kod değişmedi. Bot Bölüm 31 başsız CLEARED (75,2 sn), pencereli koşu tamamlandı.
+
+**Sonraki öneri:** Otonom yapılabilir somut iş yok; ilk telefon testinde Bölüm 31 final giriş canı ve
+ölüm sayısı ölçülsün.
 
 ### 2026-11-03 (125) — Denetim: gizli alan film rulosu dünya ölçeğinde yeniden çizildi
 
