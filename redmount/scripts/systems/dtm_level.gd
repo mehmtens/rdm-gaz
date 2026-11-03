@@ -739,7 +739,9 @@ func _chimney(cx: float, top: float, gap := 140.0, passage := 150.0, reward: Pac
 	inside.position = Vector2(cx, top * 0.5)
 	inside.z_index = -8
 	add_child(inside)
-	_oneway_art(cx, top, gap + wall * 2.0 + 10.0, _Art.A_FLOOR if indoor else _Art.A_ROOFLINE)
+	# Tepe: raf kulede tahta, tuğla kulede kiremit, taş kulede sur taç taşı (kalede kiremit yabancı).
+	var top_art := _Art.A_FLOOR if indoor else _Art.A_ROOFLINE if chimney_brick else _Art.A_WALLTOP
+	_oneway_art(cx, top, gap + wall * 2.0 + 10.0, top_art)
 	_coin_line(cx - 20.0, 2, 40, top + 60.0)
 	_coin_line(cx - 20.0, 2, 40, (top - passage) * 0.5)
 	if reward != null:
@@ -1004,7 +1006,7 @@ func _spawn_backdrop() -> void:
 # --- Çizim sınıfları ------------------------------------------------------------
 
 class _Art extends Node2D:
-	enum { A_TERRAIN, A_HOUSE, A_BUILDING, A_CRATES, A_SCAFFOLD, A_BALCONY, A_ROOF, A_WALL_STRIP, A_ROOM, A_GATE, A_STALL, A_WATER, A_SANDBAG, A_TOWER, A_WAGON, A_RAILS, A_FACTORY, A_PRESS_FRAME, A_CEILING, A_PLANK, A_STONES, A_INTERIOR, A_FLOOR, A_ROOFLINE, A_SHAFT, A_RACK, A_SHAFT_WOOD, A_BRICK_TOWER, A_SHAFT_BRICK, A_RAMPART, A_GANTRY }
+	enum { A_TERRAIN, A_HOUSE, A_BUILDING, A_CRATES, A_SCAFFOLD, A_BALCONY, A_ROOF, A_WALL_STRIP, A_ROOM, A_GATE, A_STALL, A_WATER, A_SANDBAG, A_TOWER, A_WAGON, A_RAILS, A_FACTORY, A_PRESS_FRAME, A_CEILING, A_PLANK, A_STONES, A_INTERIOR, A_FLOOR, A_ROOFLINE, A_SHAFT, A_RACK, A_SHAFT_WOOD, A_BRICK_TOWER, A_SHAFT_BRICK, A_RAMPART, A_GANTRY, A_WALLTOP }
 	var kind: int
 	var size: Vector2
 	var tex: Texture2D
@@ -1354,6 +1356,10 @@ class _Art extends Node2D:
 				_tiled(PIX_FLOOR, Rect2(-hw, -2.0, size.x, PIX_FLOOR.get_height() * PX))
 			A_ROOFLINE:
 				draw_texture_rect(ROOF_SLAB, Rect2(-hw - 6.0, -14.0, size.x + 12.0, 34.0), false)
+			A_WALLTOP:
+				# Sur taç taşı sırası: yürünen üst yüz platformla aynı hizada, iki yanda hafif taşma.
+				var top_h := PIX_WALL_CAP.get_height() * PX
+				_tiled(PIX_WALL_CAP, Rect2(-hw - 6.0, -4.0, size.x + 12.0, top_h))
 			A_SHAFT, A_SHAFT_WOOD, A_SHAFT_BRICK:
 				if kind == A_SHAFT:
 					_tiled(PIX_SHAFT_STONE, Rect2(-hw, -hh, size.x, size.y))

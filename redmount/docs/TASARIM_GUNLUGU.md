@@ -7,6 +7,10 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- Bölüm 11 pres koridoru → avlu arenası (x≈1700–5100): pencereli bot koridorda 89 → 34 can (pres hasarı 16,
+  üç pres 2,4 sn döngü), arenaya 34/115 canla girip 2 kez öldü. Tek can kaynağı üst galerideki simit
+  (x 2410, −305). İnsan testinde arena ölümü 1'i geçerse hücre penceresi kontrol noktasına (x 3120) simit.
+
 - Bölüm 6 orta kesim (alev koridoru → pres salonu → döküm avlusu, x≈1800–5600): pencereli bot döküm
   avlusu arenasına 15/115 canla girdi, bölümde 2 yeniden doğma (122,8 sn). Alev koridorunda tek can
   kaynağı varil (x=2700). İnsan testinde avlu arenasında ölüm 1'i geçerse pres salonu çıkışına (x≈4300
@@ -111,6 +115,31 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (83) — Denetim: Bölüm 11 (Sessiz Koridor) + taş baca kulelerinin tepesi sur taç taşı
+
+**Neden şimdi:** Stil listesi ve iki yol haritası kapalı, birikimin tamamı insan testine bağlı → tur 82'nin
+önerdiği Kitap 2 başı denetimi. Pencereli bot (6 sn'de bir kare): Bölüm 11 CLEARED 108,8 sn, 2 yeniden
+doğma (ilk arenada, x≈4300–4600), son arenada 23 sn takılma.
+
+**Bulgular:** Ritim (pusu → pres koridoru + üst galeri → hücre penceresi → avlu arenası → sarnıç tahtaları →
+Muhafız Başı) temiz; dalga göstergesi ve adlı rakip çubuğu okunuyor. Görselde kopan tek öğe avludaki
+otomatik gizli baca kulesiydi (x 5580): sur örgüsü taş gövdenin tepesinde **mahalle kiremidi**
+(`ROOF_SLAB`) — kale avlusuna ait değil. Aynı kiremit tüm taş bacalarda vardı (13 bölüm, ör. 24'ün
+sarnıcında). Ölçülebilir oynanış bulgusu: bot pres koridorunda 89 → 34 can kaybetti, ilk arenaya 34/115
+canla girip iki kez öldü → birikime (insan testine bağlı).
+
+**Yapılan:** `_Art.A_WALLTOP` — tek yeni çizim yok, tur 70–79'da "ait" bulunan `sur_tepe` (yosunlu taç taşı,
+ışığa bakan üst şerit) bacanın iki duvarını ve ağzını örten tek sıra olarak, yürünen yüzle aynı hizada.
+`_chimney` tepesi artık: raf kule → tahta, tuğla kule (`chimney_brick`) → kiremit (Balat/gar/Üsküdar
+gündüz sokakları, değişmedi), taş kule → taç taşı. Çarpışma değişmedi.
+
+**Testler:** import temiz; smoke 36/36 SMOKE OK, SCRIPT ERROR 0, çıkış 0; DTM GAPS PASS; bot başsız
+Bölüm 11 (109,9 sn), 24 (188,3), 1 (81,0), 13 (84,0), 25 (85,4) CLEARED. Görsel (1280×720): Bölüm 11 avlusu, 4 kontrol noktası, 24 sarnıcı taç taşıyla
+arka planın taşıyla tek aile — "ait"; 28 tuğla kule kiremitli, 31 raf kule tahtalı kaldı.
+
+**Sonraki öneri:** Kitap 2 denetimine 12–13 ile devam; insan testi (`docs/INSAN-TESTI.md`) birikimin çoğunu
+açacak adım olmaya devam ediyor.
 
 ### 2026-11-03 (82) — Denetim: Bölüm 4 (kontrol noktası) ve 6 (sanayi kuşağı)
 
