@@ -7,12 +7,10 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- (Tur 142 ses denetimi) Boss faz geçişi ses stingeri: `boss_slam` klibi şu an yalnız şok dalgası AoE'sinde
-  (`shockwave.gd`) çalıyor; boss bir sonraki faza geçince (örn. `book03_level12.gd` faz kaydı) ayrı bir ses
-  yok — görsel boss çubuğu/yazı değişirken an sessiz. **Düşük maliyet, otonom yapılabilir:** faz değişim
-  noktasına `powerup`/`boss_slam` türevi bir stinger. Ama önce boss çubuğunun faz geçişinde zaten bir
-  görsel/titreşim verip vermediği doğrulanmalı (çifte uyarı olmasın); yeri `enemy_base`/`story_boss` faz
-  sinyali. Orta güven — bir sonraki ses turunun ilk adayı.
+- ~~(Tur 142 ses denetimi) Boss faz geçişi ses stingeri~~ **(Tur 143'te yapıldı, `commit` aşağıda):** Yayın
+  Şefi (`broadcast_director.gd`) faz yükselişine alçak perdeli `boss_slam` (×0,72 +2 dB) eklendi; şok
+  dalgasının slam'inden perdeyle ayrı. Diğer bosslar (`story_boss`, Karahanlı, Ana Vana vb.) tek dalga/çubuk
+  yapısında, kod düzeyinde çok-fazlı geçiş yok — tek kademeli boss için stinger yeri yok.
 - (Tur 142 ses denetimi) Tüm WAV'lar placeholder (`sfx.gd`: "Sesler placeholder; gerçek mix sonra");
   perde/dB dengesi `TRIM` tablosunda kabaca ayarlı ama gerçek ses tasarımı ve mix insan kulağı gerektirir —
   otonom turda körlemesine WAV üretmek değersiz. İnsan/ses yargısına bağlı.
@@ -206,6 +204,25 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-04 (143) — Boss faz geçişi ses stingeri (Yayın Şefi)
+
+**Neden şimdi:** Tur 142'nin ses denetiminde birikime yazılan en üst otonom aday. Yayın Şefi
+(`broadcast_director.gd`, final boss) can eşiklerini geçince faz değiştiriyor: büyük popup ("II · HAT KOPTU" /
+"III · SON EMİR"), `break_guard()` ve stat değişimi — ama dramatik ana özel bir ses yoktu. `break_guard()`
+yalnızca `armor_break_hits > 0` ise genel `armor_break` çatlaması çalar; faz yükselişinin kendisi sessizdi.
+Oyuncu ne hissedecek: boss daha tehlikeli hale gelince görsel çubuk/yazı değişirken kulakta da uğursuz bir
+"güçlendi" tokadı duyar.
+
+**Yapılan:** Faz commit noktasına (popup'ın yanına) `Sfx.play(&"boss_slam", 0.72, 2.0)` — alçak perdeli ağır
+tokat, şok dalgasının `boss_slam`'inden (perde 1,0) belirgin ayrı. Diğer bosslar kod düzeyinde tek kademeli
+(tek dalga/çubuk), çok-fazlı geçiş yalnız Yayın Şefi'nde; başka stinger yeri yok.
+
+**Testler:** `--import` SCRIPT ERROR yok; bot Bölüm 36 CLEARED 178,5 sn (final boss faz dövüşü koşuldu).
+Lokal boss değişikliği (ortak sistem değil).
+
+**Sonraki öneri:** Otonom ses adayı kalmadı (placeholder WAV mix'i insan kulağı ister). Görsel + mekanik +
+ses denetim boyutları tükendi; kalan değer telefon + insan testinde (birikimdeki ölçümler).
 
 ### 2026-11-04 (142) — Ses denetimi: imza hareketlere özel ses vurgusu
 

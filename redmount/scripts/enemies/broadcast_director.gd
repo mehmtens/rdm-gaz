@@ -39,6 +39,10 @@ func apply_hit(damage: int, dir: Vector2, knockback: float) -> void:
 	config.attack_recovery = 0.65 if phase == 1 else 0.85
 	config.heavy_attack_recovery = 1.0
 	break_guard()
+	## Faz yükselişinin kendi uğursuz ses stingeri: alçak perdeli ağır tokat,
+	## şok dalgasının boss_slam'inden (perde 1,0) belirgin ayrı. Görsel popup +
+	## çubuk değişimi artık kulakta da işaretli.
+	Sfx.play(&"boss_slam", 0.72, 2.0)
 	Fx.popup(global_position + Vector2(0, -180),
 		"II · HAT KOPTU" if phase == 1 else "III · SON EMİR", Color("efc47d"), 25)
 
