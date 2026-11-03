@@ -7,6 +7,15 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 142 ses denetimi) Boss faz geçişi ses stingeri: `boss_slam` klibi şu an yalnız şok dalgası AoE'sinde
+  (`shockwave.gd`) çalıyor; boss bir sonraki faza geçince (örn. `book03_level12.gd` faz kaydı) ayrı bir ses
+  yok — görsel boss çubuğu/yazı değişirken an sessiz. **Düşük maliyet, otonom yapılabilir:** faz değişim
+  noktasına `powerup`/`boss_slam` türevi bir stinger. Ama önce boss çubuğunun faz geçişinde zaten bir
+  görsel/titreşim verip vermediği doğrulanmalı (çifte uyarı olmasın); yeri `enemy_base`/`story_boss` faz
+  sinyali. Orta güven — bir sonraki ses turunun ilk adayı.
+- (Tur 142 ses denetimi) Tüm WAV'lar placeholder (`sfx.gd`: "Sesler placeholder; gerçek mix sonra");
+  perde/dB dengesi `TRIM` tablosunda kabaca ayarlı ama gerçek ses tasarımı ve mix insan kulağı gerektirir —
+  otonom turda körlemesine WAV üretmek değersiz. İnsan/ses yargısına bağlı.
 - (Tur 130 denetimi, Bölüm 16) PixelText tabela başlıklarında Türkçe "İ" okunurluğu: kelime ortasındaki İ
   dar-gövdeli bir harfle (Y, V) yan yana gelince orta 5 satırda iki ince dikey arası boş kalıyor, sabit
   adımlı yazıda kelime arası boşluk gibi okunuyor ("SÜLEYMANİYE ARŞİVİ" → "SÜLEYMANI YE ARŞI VI"). Tur 130'da
@@ -197,6 +206,32 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-04 (142) — Ses denetimi: imza hareketlere özel ses vurgusu
+
+**Neden şimdi:** Görsel (36 bölüm, tur 134–140) ve dövüş mekaniği (tur 141) denetlendi, temizdi; hiç
+bakılmamış boyut: ses/oyun hissi kapsamı. Denetim (öncelik d): `sfx.gd` CLIP_NAMES ↔ `assets/audio/*.wav`
+↔ koddaki `Sfx.play` çağrıları karşılaştırıldı. **22 klibin 22'si dosya olarak var ve 22'si de kodda
+kullanılıyor** — öksüz klip yok, eksik dosya yok; kapsam tam. **Bulunan tek somut boşluk:** dört imza
+hareket (BİTİRİCİ, HAVA TAKİBİ, KALKAN DELİNDİ, KARŞILIK) ekranda dört ayrı renkli yazıyla güçlü ayrışıyor
+ama dördü de `_deal_attack_hit`'teki aynı genel `heavy_hit`/`hit` sesini çalıyordu — görsel "özel!" derken
+kulak "sıradan vuruş" duyuyordu. FIRLAT! de yalnız `heavy_hit`. Oyuncu ne hissedecek: imza hareketler
+kulakta da ayrışır, DTM'deki özel-hamle tınısı; görsel-işitsel okunurluk hizalanır.
+
+**Yapılan (`redmount.gd`):** Her imza hareketin popup'ının yanına temel isabet sesinin üstüne binen kısa bir
+aksan eklendi (mevcut klipler yeniden kullanıldı, yeni ses üretilmedi, her biri ayrı perde/tını):
+BİTİRİCİ → `boss_slam` ×1,15 −4 dB (ağır bitiş); HAVA TAKİBİ → `dash` ×1,5 +1 dB (yukarı ıslık);
+KALKAN DELİNDİ → `armor_break` ×1,0 (zırh/kalkan çatlaması, tematik); KARŞILIK → `shield` ×1,3 +2 dB
+(metalik çınlama); FIRLAT → `swing` ×0,5 −2 dB (ağır savurma yayı). Ses aksanları popup mantığıyla birebir
+aynı `if`'lerde, yani görsel etiket neyse ses de o. Perde/dB değerleri hipotez (insan kulağı gelene kadar).
+
+**Testler:** `--import` SCRIPT ERROR yok (exit 0); `campaign_smoke` 36/36 SMOKE OK exit 0; `dtm_gaps` PASS;
+bot Bölüm 1 CLEARED 78,5 sn, Bölüm 13 CLEARED 77,8 sn, Bölüm 25 CLEARED 84,5 sn (ortak sistem değiştiği için 0/12/24).
+
+**Sonraki öneri:** Ses boyutunda kalan iki aday birikime yazıldı: (a) boss faz geçişi için ayrı ses stingeri
+(şu an `boss_slam` yalnız şok dalgası AoE'sinde; faz değişimi sessiz), (b) tüm WAV'lar placeholder
+(`sfx.gd`: "gerçek mix sonra") — gerçek ses tasarımı/mix insan kulağı gerektirir. Otonom denetim boyutları:
+görsel + mekanik + ses kapsamı tükendi; kalan değer telefon + insan testinde.
 
 ### 2026-11-04 (141) — Denetim: dövüş derinliği ve isabet geri bildirimi (kodla; DTM boşluğu yok)
 

@@ -1007,6 +1007,7 @@ func _try_throw() -> bool:
 	Combat.rumble(0.65)
 	Combat.combo_hit()
 	Sfx.play(&"heavy_hit")
+	Sfx.play(&"swing", 0.5, -2.0)  ## savurma yayının ağır ıslığı (imza aksan)
 	Fx.popup(target.global_position + Vector2(0, -85), "FIRLAT!", Color(1.0, 0.65, 0.2), 20)
 	return true
 
@@ -1230,14 +1231,21 @@ func _deal_attack_hit(target: Node, dash_counter := false) -> void:
 		Color(1, 0.85, 0.4) if not heavy else Color(1, 0.6, 0.3), 1.7 if heavy else 1.0)
 	var boosted := _damage_mult() > 1.0
 	Fx.popup(impact + Vector2(0, -16), str(dmg), Color(1, 0.4, 0.35) if boosted else Color(1, 0.95, 0.7))
+	## İmza hareketlerin kendi ses vurgusu: temel isabet sesinin üstüne binen kısa
+	## bir aksan, hareketi ekrandaki yazı kadar kulakta da ayrı kılar. Mevcut
+	## klipler yeniden kullanılır (yeni ses üretilmez), her biri ayrı perde/tını.
 	if finisher:
 		Fx.popup(impact + Vector2(0, -42), "BİTİRİCİ!", Color(1.0, 0.65, 0.2), 20)
+		Sfx.play(&"boss_slam", 1.15, -4.0)  ## ağır bitiş tokadı
 	if juggle:
 		Fx.popup(impact + Vector2(0, -42), "HAVA TAKİBİ!", Color(0.45, 0.85, 1.0), 20)
+		Sfx.play(&"dash", 1.5, 1.0)  ## yukarı savuran ıslık
 	if guard_broken:
 		Fx.popup(impact + Vector2(0, -42), "KALKAN DELİNDİ!", Color(0.75, 0.85, 0.95), 20)
+		Sfx.play(&"armor_break", 1.0)  ## kalkan/zırh çatlaması
 	if dash_counter:
 		Fx.popup(impact + Vector2(0, -42), "KARŞILIK!", Color(0.3, 0.95, 0.85), 20)
+		Sfx.play(&"shield", 1.3, 2.0)  ## metalik karşılık çınlaması
 
 
 func _on_hurtbox_area_entered(area: Area2D) -> void:
