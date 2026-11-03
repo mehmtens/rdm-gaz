@@ -120,6 +120,20 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-03 (92) — Denetim: Bölüm 22 (temiz)
+
+**Neden şimdi:** Tur 91'in önerisi. Pencereli bot (8 sn'de bir kare): Bölüm 22 CLEARED 80,5 sn,
+2 yeniden doğma (bakım şaftı arenası x≈7965'te 21 can, final; birikimdeki 22 maddeleriyle aynı yerler).
+
+**Bulgular:** Ritim (pompa istasyonu cephesi → çinili pompa salonu → buhar makineleri + pres hattı,
+erzakçı → bakım şaftı arenası → harita odası hikâyesi → Saraçhane bent kapakları finali) okunuyor.
+Final arenası (x 9450–10000) tur 91 taramasında geçiş bandındaydı; şimdi dövüş boyunca tek bent resmi —
+düzeltme burada da doğrulandı. Pres kasaları, iskele ve kapı resme oturuyor; kopan öğe yok, değişiklik yok.
+
+**Testler:** Kod değişmedi (yalnız günlük).
+
+**Sonraki öneri:** Kitap 2 denetimine 23 ile devam.
+
 ### 2026-11-03 (91) — Denetim: Bölüm 21 + gökyüzü geçişi zamana bağlı (arenada çift pozlama bitti)
 
 **Neden şimdi:** Tur 90'ın önerisi. Pencereli bot (8 sn'de bir kare): Bölüm 21 CLEARED 89,3 sn, 1 yeniden
