@@ -43,10 +43,14 @@ var _rot := 0.0            # yumuşatılmış gövde eğimi (hurt/dead)
 var _t := 0.0
 var _action_override: StringName = &""
 var _action_until_ms: int = 0
+## Esneme/basılma (yalnız görsel; ayak noktası sabit, çarpışma değişmez).
+var _base_scale := Vector2.ONE
+var _squash := Vector2.ONE
 
 
 func _ready() -> void:
 	centered = true
+	_base_scale = scale
 	offset = Vector2(0, -(CELL_H * 0.5 - FOOT_PAD))
 	_register_bat_variants()
 	_register_tas_sheets()
@@ -276,6 +280,8 @@ func _on_anim_finished() -> void:
 func reset_visual_state() -> void:
 	rotation = 0.0
 	skew = 0.0
+	_squash = Vector2.ONE
+	scale = _base_scale
 	position = Vector2.ZERO
 	_rot = 0.0
 	modulate = Color.WHITE
@@ -311,14 +317,23 @@ func _process(delta: float) -> void:
 			target_skew = deg_to_rad(8.0 * facing)
 		"ATTACK":
 			if _attack == "SLIDE_KICK":
-				# Kayma: gövde geriye yatar, yere yakın süzülür.
-				target_rot = deg_to_rad(-34.0 * facing)
-				target_pos = Vector2(-facing * 6.0, 18.0)
+				# Kayma: gövde geriye yatar, yere yakın süzülür. Dönme ayak noktası
+				# çevresinde; aşağı kaydırma yok (ayak zemine gömülüyordu).
+				target_rot = deg_to_rad(-24.0 * facing)
+				target_pos = Vector2(-facing * 6.0, 0.0)
 				rot_k = 22.0
 	_rot = lerp_angle(_rot, target_rot, clampf(delta * rot_k, 0.0, 1.0))
 	rotation = _rot
 	skew = lerp_angle(skew, target_skew, clampf(delta * 10.0, 0.0, 1.0))
 	position = position.lerp(target_pos, clampf(delta * 14.0, 0.0, 1.0))
+	_squash = _squash.lerp(Vector2.ONE, clampf(delta * 16.0, 0.0, 1.0))
+	scale = _base_scale * _squash
+
+
+## Kısa esneme: zıplamada (0.9, 1.1) uzar, inişte (1.1, 0.9) basılır; ~0,15 sn'de
+## yaya geri döner. Ayaklar origin'de olduğu için zemine gömülmez.
+func squash(amount: Vector2) -> void:
+	_squash = amount
 
 
 ## Hız izi / dash trail — mevcut kareyi sabit noktada soluk bırakır.

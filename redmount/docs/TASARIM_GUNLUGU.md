@@ -126,6 +126,39 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-03 (106) — İlk insan oyun testi geri bildirimi (Bölüm 1–3)
+
+Kullanıcı telefonda ilk üç bölümü oynadı; 12 madde. Otomasyon bu iş için duraklatıldı.
+- Kayma batması: `player_sprite` kayarken gövdeyi 18 px aşağı itip ayak çevresinde 34° yatırıyordu; ayak
+  kaldırımın 10–15 px altına iniyordu. Aşağı itme yok, eğim 24° (ekran görüntüsüyle zeminde).
+- Girişte "zıplayarak yürüme": Gazelle'in yürüme karesi yoktu, sahne onu 5 px sekerek taşıyordu.
+  `tools/gen_gazelle_walk.py` kendi `freed` karesinden 8 karelik yürüyüş üretir (ön bacak ayrılır, arka
+  bacak onun mor gölgeli kopyası, kalçadan makas; adım uçlarında gövde iner). Sekme yalnız yürüme
+  karesi olmayan aktörde.
+- Mobilde sahne atlama: "ATLA" 36 px'lik duraklat tuşuydu ve üst ortada bölüm kartının altında
+  kalıyordu. Sahnenin kendi sağ üst ATLA düğmesi (PixelUI); dokunma `_input`'ta konumla yakalanır.
+- Karahanlı boyu: rig ölçeği 1.12 → 0.96 (çizimi 204 px, Redmount 196 px), sahnede 0.68 → 0.576.
+  İri olan yalnız ara patronlar (miniboss 1.35, bruiser 1.18).
+- Silah değiştirme: yedek yuva. Yeni silah alınca eldeki yedeğe geçer; Q / LB / DEĞİŞ (yalnız yedek
+  varken görünür) yer değiştirir, kullanım korunur; eldeki kırılınca yedek kendiliğinden ele gelir;
+  ölümde/yeniden doğuşta silinir. HUD: "SOPA 8/12 · Q: BIÇAK". Test: `tests/weapon_swap.tscn`.
+- Arka plan aniden değişiyor: 0,6 sn'lik yerinde çapraz geçiş yerine yeni resim ilerleme yönünden
+  520 px yumuşak kenarlı perdeyle 1,5 sn'de süpürür (16 px şeritler).
+- Gizli alanlar ulaşılamaz: bacalara tek yönlü iç basamaklar (105 px aralık); otomatik sırlar baca
+  yerine yürüyüş hizasında kırılır kapılı oda (`_secret_han`, coin sandığı); dam sırlarında en alçak
+  çıkıntı önce.
+- İpucu anlaşılmıyor: her gizli alanın tabanında süzülen, parıldayan film rulosu; alınca yukarı
+  fırlar, halka + kıvılcım + "FİLM RULOSU!". Gazelle'in tebeşir izi bulunana dek nabız gibi parlar,
+  toz saçar; 230 px'e gelince "İPUCU BULUNDU" + yer kartı.
+- Bölüm 2 son kapı: bitişte küçük duvar nişi yarım duvar gibiydi. Bitişte kapı yoksa `_exit_gates`
+  kemerli han kapısı kurar (bütün bölümler).
+- Bulut platform: `_cloud` (havada tek yönlü tahta + coin); Bölüm 1–3'e isteğe bağlı üst rotalar.
+- Zemin derinliği: Bölüm 1 (han önü), 2 (avlu girişi, tebeşirli son set), 3 (tezgâh ucu) iki
+  basamaklı taş setler.
+- Animasyon: zıplamada esneme (0.9, 1.1), inişte sertliğe göre basılma; yalnız görsel.
+Sonraki: 4. ve sonraki bölümlerde zemin yüksekliği ve bulut platform denetimi; insan testinde gizli
+oda ve ATLA düğmesinin telefonda okunurluğu.
+
 ### 2026-11-03 (105) — GÖREVLER dördüncü dilim: büyük görevlere Kanıt Arşivi karesi
 
 **Neden şimdi:** Stil listesi, YOL_HARITASI ve P1'ler kapalı; 36 bölüm tur 68–98'de denetlendi.

@@ -344,7 +344,7 @@ const _RIG_STYLES := {
 			"shoe": Color(0.1, 0.1, 0.11), "metal": Color(0.22, 0.22, 0.26)},
 	},
 	"karahanli": {
-		"head": "slick", "scale": 1.12,
+		"head": "slick", "scale": 0.96,  # çizimi 204 px (Redmount 196): aynı boy; iri olan yalnız ara patronlar
 		"pal": {"hair": Color(0.1, 0.09, 0.09), "hair_hi": Color(0.22, 0.2, 0.2),
 			"skin": Color(0.78, 0.56, 0.4), "skin_sh": Color(0.56, 0.38, 0.28),
 			"jacket": Color(0.08, 0.08, 0.09), "jacket_hi": Color(0.16, 0.16, 0.18),

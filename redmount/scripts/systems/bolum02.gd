@@ -13,19 +13,26 @@ func _build() -> void:
 	sky_tint = Color(0.86, 0.8, 0.8)
 
 	# --- 1. Kuzey Hanı arka avlusu: film rulosu, avluda kavga --------------------
-	_terrain(-400, 3700, 0)
+	# Avlu düz değil: kapının ardında iki basamaklı taş set.
+	_terrain(-400, 1060, 0)
+	_terrain(1060, 1140, -50)
+	_terrain(1140, 1260, -100)
+	_terrain(1260, 3700, 0)
 	_han_gate(-60, "KUZEY HANI")
 	_story(-1.0, _sahne_film_rulosu, 200.0)
 	_deco(PLANT, 160, 0, 0.9)
 	_prop("saksi", 300)
 	_prop("vazo", 360)
 	_coin_line(420, 4, 50, -50)
+	# Bulut platformlar: avlunun üstünde isteğe bağlı coin yolu.
+	_cloud(470, -125)
+	_cloud(630, -215, 130.0, 3)
 	_enemy(STREET, 700, 0)
 	_enemy(STREET, 830, 0)
 	_enemy(KNIFE, 960, 0)
-	_prop("kasa", 1120)
-	_prop("varil", 1190)
-	_deco(TREE_POT, 1260, 0, 1.0)
+	_prop("kasa", 1100, -50)
+	_prop("varil", 1200, -100)
+	_deco(TREE_POT, 1290, 0, 1.0)
 
 	# --- 2. Çift katlı arka sokak: altta düşmanlar, üstte iskele yolu ------------
 	_checkpoint(1330, 0)
@@ -97,7 +104,12 @@ func _build() -> void:
 
 	# --- 5. Çatıdan gizli dinleme: sokak bina ile kapanır, yol çatılardan ---------
 	_checkpoint(5880, 0)
-	_terrain(6000, 9800, 0)
+	_terrain(6000, 9040, 0)
+	# Son avlu: tebeşir izi basamaklı taş setin üstünde, sahne gibi öne çıkar.
+	_terrain(9040, 9120, -50)
+	_terrain(9120, 9330, -100)
+	_terrain(9330, 9410, -50)
+	_terrain(9410, 9800, 0)
 	var aw2 := AwningBounce.new()
 	aw2.width = 180
 	aw2.height = 60
@@ -145,9 +157,9 @@ func _build() -> void:
 	chimney_brick = true   # güneşli Balat sokağı: tuğla kule
 	_chimney(8980, -520, 140, 150)
 	chimney_brick = false
-	_chalk(9200, -190, "G: GECE PAZARI")
+	_chalk(9290, -300, "G: GECE PAZARI")
 	_story(9100, _sahne_tebesir)
-	_coin_line(9250, 4, 50, -50)
+	_coin_line(9150, 4, 50, -150)
 	# Çevresel tehlikeler.
 	_falling_pot(5962, -129)
 	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.

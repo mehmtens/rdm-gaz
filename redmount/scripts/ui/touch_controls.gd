@@ -19,6 +19,8 @@ const BUTTONS := [
 	["fire", "ATEŞ", 46, Vector2(-232, 253), "kucuk", ""],
 	## Kayma tekmesi kısayolu: telefonda koşarken ▼'a aynı başparmakla basmak zor.
 	["slide", "KAY", 46, Vector2(-372, 214), "kucuk", ""],
+	## Yedek silahla yer değiştir: yalnız yedek varken görünür (AĞIR'ın üstünde).
+	["swap_weapon", "DEĞİŞ", 46, Vector2(-104, 372), "kucuk", ""],
 	["pause", "", 36, Vector2(0, -52), "mini", "durdur"],  # x = 0: yatayda ortalı
 	["retry", "TEKRAR", 80, Vector2(-210, 112), "genis", ""],
 	["next", "DEVAM", 80, Vector2(-210, 112), "genis", ""],
@@ -29,7 +31,7 @@ const ART_DIR := "res://assets/ui/pixel/"
 ## başparmak oklar arasında kayarken sürekli vızıldamasın.
 const TICK_MS := 12
 const TICK_STRENGTH := 0.3
-const GAMEPLAY_ACTIONS := ["move_left", "move_right", "crouch", "dash", "attack", "jump", "heavy_attack", "fire", "slide"]
+const GAMEPLAY_ACTIONS := ["move_left", "move_right", "crouch", "dash", "attack", "jump", "heavy_attack", "fire", "slide", "swap_weapon"]
 
 var _buttons: Dictionary = {}
 var _labels: Dictionary = {}
@@ -39,6 +41,7 @@ var _art_scale: Dictionary = {}
 var _mode := "hidden"
 var _has_gun := false
 var _can_throw := false
+var _can_swap := false
 var _has_next_level := true
 ## İnsan testi dokunma ölçümü (boş / kaçan / düzeltme basışları); bölüm sonunda CSV.
 var stats := TouchStats.new()
@@ -187,11 +190,12 @@ static func active_on_device() -> bool:
 
 ## Oyuncunun durumu: silah yokken ATEŞ gizlenir; fırlatılabilir düşman
 ## yakındayken AĞIR düğmesi FIRLAT olur.
-func set_context(has_gun: bool, can_throw: bool) -> void:
-	if not visible or (has_gun == _has_gun and can_throw == _can_throw):
+func set_context(has_gun: bool, can_throw: bool, can_swap := false) -> void:
+	if not visible or (has_gun == _has_gun and can_throw == _can_throw and can_swap == _can_swap):
 		return
 	_has_gun = has_gun
 	_can_throw = can_throw
+	_can_swap = can_swap
 	_apply_mode(_has_next_level)
 
 
@@ -214,9 +218,9 @@ func _apply_mode(has_next_level: bool = true) -> void:
 	var mode := _mode
 	for key in _buttons:
 		var show: bool = (mode == "play" and key not in ["retry", "next", "menu"]
-				and (key != "fire" or _has_gun)) \
+				and (key != "fire" or _has_gun) and (key != "swap_weapon" or _can_swap)) \
 			or (mode == "dialogue" and key == "attack") \
-			or (mode == "cutscene" and key in ["attack", "pause"]) \
+			or (mode == "cutscene" and key == "attack") \
 			or (mode == "dead" and key in ["retry", "pause"]) \
 			or (mode == "results" and key in ["next", "menu"])
 		_buttons[key].visible = show
@@ -224,8 +228,10 @@ func _apply_mode(has_next_level: bool = true) -> void:
 		if not show and InputMap.has_action(key):
 			Input.action_release(key)
 	_labels["attack"].text = "DEVAM" if mode in ["dialogue", "cutscene"] else "VUR"
-	_labels["pause"].text = "ATLA" if mode == "cutscene" else ""
-	_icons["pause"].visible = mode != "cutscene"
+	# Sahnede geçme: sahnenin kendi sağ üst ATLA düğmesi (Cutscene._skip_btn); küçük
+	# duraklat tuşu bölüm kartının altında kalıp görünmüyordu.
+	_labels["pause"].text = ""
+	_icons["pause"].visible = true
 	_labels["heavy_attack"].text = "FIRLAT" if _can_throw else "AĞIR"
 	_labels["next"].text = "SONRAKİ" if has_next_level else "BAŞTAN"
 

@@ -37,6 +37,8 @@ signal health_changed(current: int, maximum: int)
 signal died
 ## Silah kuşanınca / kırılınca. name boşsa silahsız. (Görev 4)
 signal weapon_changed(display_name: String, uses: int, max_uses: int)
+## Yedek yakın dövüş silahı değişince (değiştir ile ele alınır). name boşsa yedek yok.
+signal stash_changed(display_name: String)
 ## Ateşli silah / cephane değişince. has_gun false ise menzilli silah yok. (Görev 7)
 signal ammo_changed(mag: int, reserve: int, has_gun: bool, label: String)
 ## Aktif güçlendirmeler değişince. Her eleman: {name, left, total, kind}. (Görev 8)
@@ -116,6 +118,10 @@ var _land_impact: float = 0.0
 var _weapon: WeaponConfig
 ## Kuşanılan silahın kalan savuruşu.
 var _weapon_uses: int = 0
+## Yedek silah yuvası: yeni silah alınınca eldeki buraya geçer; `swap_weapon`
+## (Q / LB / DEĞİŞ) ikisini yer değiştirir, eldeki kırılınca yedek ele gelir.
+var _stash: WeaponConfig
+var _stash_uses: int = 0
 ## Silahsız yumruk hitbox'ının sahnedeki temel ölçüsü / ileri ofseti.
 var _punch_reach: Vector2 = Vector2(96, 96)
 var _punch_offset: float = 55.0
@@ -323,6 +329,8 @@ func _process_normal(delta: float) -> void:
 		else:
 			_start_attack(Attack.COMBO)
 		return
+	if Input.is_action_just_pressed(&"swap_weapon"):
+		swap_weapon()
 	if Input.is_action_just_pressed(&"heavy_attack") and is_on_floor():
 		if _try_throw():
 			return
@@ -730,6 +738,7 @@ func _try_jump() -> void:
 		_jump_buffer_timer = 0.0
 		_coyote_timer = 0.0
 		Sfx.play(&"jump")
+		rig.squash(Vector2(0.9, 1.1))
 		if grounded:
 			Fx.dust(global_position + Vector2(0, -2), 0, 4)
 
@@ -767,6 +776,7 @@ func _update_state(input_dir: float, wants_run: bool, sliding: bool = false) -> 
 		_set_state(State.LAND)
 		Sfx.play(&"land")
 		var hard: float = clampf(_land_impact / 780.0, 0.0, 1.6)  # 0..1.6
+		rig.squash(Vector2(1.0 + 0.06 + hard * 0.05, 1.0 - 0.06 - hard * 0.05))
 		Fx.dust(global_position + Vector2(0, -2), 0, int(5 + hard * 6))
 		Combat.shake(1.2 + hard * 3.0)
 		if hard > 0.6:
@@ -1284,6 +1294,7 @@ func apply_hit(damage: int, dir: Vector2, _knockback: float) -> void:
 			_weapon = null
 			_weapon_uses = 0
 			weapon_changed.emit("", 0, 0)
+		_clear_stash()
 		if _gun != null:
 			_drop_gun()
 		if not _pu.is_empty():
@@ -1383,6 +1394,7 @@ func revive() -> void:
 	set_collision_mask_value(8, true)
 	if _weapon != null:
 		_drop_weapon(false)
+	_clear_stash()
 	if _gun != null:
 		_drop_gun()
 	_armor = null
@@ -1462,6 +1474,11 @@ func equip_weapon(cfg: WeaponConfig) -> void:
 	if cfg == null:
 		return
 	_cancel_attack()
+	# Eldeki silah yedeğe geçer (yedek doluysa eldeki bırakılır, yedek korunur).
+	if _weapon != null and _stash == null:
+		_stash = _weapon
+		_stash_uses = _weapon_uses
+		stash_changed.emit(_stash.display_name)
 	_weapon = cfg
 	_weapon_uses = _weapon_max_uses()
 	weapon_changed.emit(cfg.display_name, _weapon_uses, _weapon_max_uses())
@@ -1479,6 +1496,46 @@ func _drop_weapon(play_break_sound := true) -> void:
 	weapon_changed.emit("", 0, 0)
 	if play_break_sound:
 		Sfx.play(&"weapon_break")
+		# Kırılınca yedek kendiliğinden ele gelir (dövüşün ortasında menü yok).
+		if _stash != null:
+			swap_weapon()
+
+
+## Eldeki silahla yedeği yer değiştirir (yedek yoksa eldeki yedeğe geçer, yumruğa
+## dönülür). Saldırı / sersemleme sırasında yok sayılır.
+func swap_weapon() -> void:
+	if (_weapon == null and _stash == null) or _state in [State.ATTACK, State.HURT, State.KNOCKDOWN, State.DEAD]:
+		return
+	var cfg := _stash
+	var uses := _stash_uses
+	_stash = _weapon
+	_stash_uses = _weapon_uses
+	_weapon = cfg
+	_weapon_uses = uses
+	if _weapon != null:
+		_apply_hitbox_profile(_weapon.reach, _weapon.reach_offset)
+		weapon_changed.emit(_weapon.display_name, _weapon_uses, _weapon_max_uses())
+	else:
+		_apply_hitbox_profile(_punch_reach, _punch_offset)
+		weapon_changed.emit("", 0, 0)
+	stash_changed.emit(_stash.display_name if _stash != null else "")
+	rig.play_action(&"idle", 0.12)
+	Sfx.play(&"swing", 1.4, -6.0)
+	Fx.ring(global_position + Vector2(0, -58), Color(1, 0.9, 0.5), 5, 20, 0.18)
+	Fx.popup(global_position + Vector2(0, -150), _weapon.display_name.to_upper() if _weapon != null else "YUMRUK",
+		Color(1.0, 0.9, 0.6), 18)
+
+
+func has_stash() -> bool:
+	return _stash != null
+
+
+func _clear_stash() -> void:
+	if _stash == null:
+		return
+	_stash = null
+	_stash_uses = 0
+	stash_changed.emit("")
 
 
 func select_fists() -> void:

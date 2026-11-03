@@ -27,6 +27,10 @@ func _build() -> void:
 	_enemy(STREET, 960, 0)
 	_prop("kasa", 1050)
 	_prop("vazo", 1110)
+	# Bulut platformlar: kavganın üstünden tenteye uzanan isteğe bağlı coin yolu.
+	_cloud(660, -120)
+	_cloud(820, -210)
+	_cloud(980, -290, 130.0, 3)
 
 	# --- 2. Tente -> çatılar ---------------------------------------------------
 	# Tezgâh evin duvarına dayalı: duvara çarpan yeniden tenteye düşer.
@@ -102,7 +106,12 @@ func _build() -> void:
 
 	# --- 5. İnşaat iskelesi + vinç paleti --------------------------------------
 	_checkpoint(5260, 0)
-	_terrain(5300, 8900, 0)
+	# Zemin düz kalmasın: hanın önünde taş tümsek (iki basamak), üstünde bulut.
+	_terrain(5300, 7190, 0)
+	_terrain(7190, 7250, -50)
+	_terrain(7250, 7370, -100)
+	_terrain(7370, 8900, 0)
+	_cloud(7310, -215, 120.0, 3)
 	# İskele katları binanın önünde üst üste: her biri bir zıplama (110 px).
 	_scaffold(5560, -110, 150)
 	_scaffold(5560, -220, 150)
@@ -128,8 +137,8 @@ func _build() -> void:
 
 	# --- 6. Han kapısı: son kavga + çıkış --------------------------------------
 	_checkpoint(7150, 0)
-	_prop("vazo", 7260)
-	_prop("saksi", 7330)
+	_prop("vazo", 7270, -100)
+	_prop("saksi", 7340, -100)
 	var final: BattleArena = ARENA.instantiate()
 	final.position = Vector2(7850, 0)
 	final.gate_left_x = 7420

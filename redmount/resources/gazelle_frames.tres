@@ -1,10 +1,44 @@
-[gd_resource type="SpriteFrames" load_steps=6 format=3]
+[gd_resource type="SpriteFrames" load_steps=15 format=3]
 
 [ext_resource type="Texture2D" path="res://assets/characters/gazelle/placeholder_bound_idle.png" id="1"]
 [ext_resource type="Texture2D" path="res://assets/characters/gazelle/placeholder_flinch.png" id="2"]
 [ext_resource type="Texture2D" path="res://assets/characters/gazelle/placeholder_rescue_react.png" id="3"]
 [ext_resource type="Texture2D" path="res://assets/characters/gazelle/placeholder_freed.png" id="4"]
 [ext_resource type="Texture2D" path="res://assets/characters/gazelle/placeholder_rescue_pose.png" id="5"]
+
+[ext_resource type="Texture2D" path="res://assets/characters/gazelle/placeholder_walk.png" id="6"]
+
+[sub_resource type="AtlasTexture" id="walk_0"]
+atlas = ExtResource("6")
+region = Rect2(0, 0, 128, 256)
+
+[sub_resource type="AtlasTexture" id="walk_1"]
+atlas = ExtResource("6")
+region = Rect2(128, 0, 128, 256)
+
+[sub_resource type="AtlasTexture" id="walk_2"]
+atlas = ExtResource("6")
+region = Rect2(256, 0, 128, 256)
+
+[sub_resource type="AtlasTexture" id="walk_3"]
+atlas = ExtResource("6")
+region = Rect2(384, 0, 128, 256)
+
+[sub_resource type="AtlasTexture" id="walk_4"]
+atlas = ExtResource("6")
+region = Rect2(512, 0, 128, 256)
+
+[sub_resource type="AtlasTexture" id="walk_5"]
+atlas = ExtResource("6")
+region = Rect2(640, 0, 128, 256)
+
+[sub_resource type="AtlasTexture" id="walk_6"]
+atlas = ExtResource("6")
+region = Rect2(768, 0, 128, 256)
+
+[sub_resource type="AtlasTexture" id="walk_7"]
+atlas = ExtResource("6")
+region = Rect2(896, 0, 128, 256)
 
 [resource]
 animations = [{
@@ -17,4 +51,6 @@ animations = [{
 "frames": [{"duration": 1.0, "texture": ExtResource("4")}], "loop": false, "name": &"freed", "speed": 8.0
 }, {
 "frames": [{"duration": 1.0, "texture": ExtResource("5")}], "loop": true, "name": &"rescue_pose", "speed": 4.0
+}, {
+"frames": [{"duration": 1.0, "texture": SubResource("walk_0")}, {"duration": 1.0, "texture": SubResource("walk_1")}, {"duration": 1.0, "texture": SubResource("walk_2")}, {"duration": 1.0, "texture": SubResource("walk_3")}, {"duration": 1.0, "texture": SubResource("walk_4")}, {"duration": 1.0, "texture": SubResource("walk_5")}, {"duration": 1.0, "texture": SubResource("walk_6")}, {"duration": 1.0, "texture": SubResource("walk_7")}], "loop": true, "name": &"walk", "speed": 10.0
 }]

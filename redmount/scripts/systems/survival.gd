@@ -74,6 +74,7 @@ func _ready() -> void:
 	_player.set_camera_limits(-820, -720, 820, 180)
 	_player.health_changed.connect(_hud.set_health)
 	_player.weapon_changed.connect(_hud.set_weapon)
+	_player.stash_changed.connect(_hud.set_stash)
 	_player.ammo_changed.connect(_hud.set_ammo)
 	_player.powerups_changed.connect(_hud.set_powerups)
 	_player.armor_changed.connect(_hud.set_armor)

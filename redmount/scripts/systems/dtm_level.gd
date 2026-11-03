@@ -41,6 +41,7 @@ const PIX_CORNICE := preload("res://assets/environment/pixel/kat_silmesi.png")
 ## Mahalle dükkânı (40×32): tabela + tente + yarı inik kepenk; satır 14–31 yükleme kapısı.
 const PIX_SHOP := preload("res://assets/environment/pixel/dukkan.png")
 const PIX_GATE := preload("res://assets/environment/pixel/han_kapisi.png")
+const GOAL_SCRIPT := preload("res://scripts/systems/level_goal.gd")
 const PIX_BEAM := preload("res://assets/environment/pixel/huzme.png")
 const PIX_STONE := preload("res://assets/environment/pixel/tas_blok.png")
 const PIX_INWALL := preload("res://assets/environment/pixel/ic_duvar.png")
@@ -178,6 +179,7 @@ func _build_chapter() -> void:
 	# Önce içerik: bölüm sky_* / back_row_on ayarlarını _build içinde verir.
 	camera_limit_left = mini(camera_limit_left, -640)
 	_build()
+	_exit_gates()
 	_cut_holes()
 	for g in _ground_parts:
 		if g[2] > 110.0:
@@ -306,6 +308,14 @@ func _oneway_art(cx: float, y: float, w: float, kind: int) -> _Art:
 	body.add_child(art)
 	add_child(body)
 	return art
+
+
+## Bulut platform (Dan the Man): havada duran tek yönlü tahta; alttan geçilir, ▼+zıpla
+## ile inilir. Sokağın üstüne isteğe bağlı coin rotası kurar. `coins` üstündeki coin.
+func _cloud(cx: float, y: float, w := 130.0, coins := 2) -> void:
+	_oneway_art(cx, y, w, _Art.A_PLANK)
+	if coins > 0:
+		_coin_line(cx - (coins - 1) * 22.0, coins, 44, y - 45.0)
 
 
 ## Çarpışmasız süs (zemine oturur). `scale_f` sanat ölçeği, `z` çizim sırası.
@@ -543,7 +553,7 @@ func _stall(cx: float) -> void:
 
 ## Gizli oda: hanın kapısı kırılabilir duvar. İçeri girince ön cephe şeffaflaşır;
 ## içeride Osmanlı sandığı (zırh + coin). Yol, sandık basamağıyla hanın damından geçer.
-func _secret_han(left: float) -> void:
+func _secret_han(left: float, reward: PackedScene = ARMOR) -> void:
 	var w := 300.0
 	var roof_top := -200.0
 	# Sandık basamakları (90 -> 180) hanın damına (200) dayanır: arada yarık yok.
@@ -562,7 +572,7 @@ func _secret_han(left: float) -> void:
 	inside.position = Vector2(left + w * 0.5, (roof_top + 30.0) * 0.5)
 	inside.z_index = -8
 	add_child(inside)
-	_prop("sandik", left + 180.0, 0, ARMOR)
+	_prop("sandik", left + 180.0, 0, reward)
 	_coin_line(left + 80.0, 4, 45, -60)
 	_secret_zone(Rect2(left + 60.0, roof_top + 40.0, w - 100.0, -roof_top - 40.0))
 	# Ön cephe: oyuncu odaya girince kaybolur.
@@ -573,9 +583,10 @@ func _secret_han(left: float) -> void:
 
 
 ## Bitiş: hanın kemerli kapısı (süs); `title` tabelaya yazılır.
-func _han_gate(cx: float, title := "") -> void:
+func _han_gate(cx: float, title := "", ground := 0.0) -> void:
 	var art := _Art.new(_Art.A_GATE, Vector2(260, 300))
-	art.position = Vector2(cx, -150)
+	art.position = Vector2(cx, ground - 150.0)
+	_gate_xs.append(cx)
 	art.z_index = -7
 	add_child(art)
 	# Kapının taşı gece için boyandı; gündüz güneşli resmin önünde baca kulesi gibi
@@ -592,8 +603,27 @@ func _han_gate(cx: float, title := "") -> void:
 	if title != "":
 		var sign := _Sign.new()
 		sign.text = title
-		sign.position = Vector2(cx, -340)
+		sign.position = Vector2(cx, ground - 340.0)
 		add_child(sign)
+
+
+## Han kapılarının x'leri (çıkışta kapı var mı diye bakılır).
+var _gate_xs: Array = []
+
+
+## Bitişte kapı yoksa kemerli han kapısı kur: küçük duvar nişi "yarım yamalak bir
+## duvar" gibi duruyordu (3 Kasım oyun testi, Bölüm 2). Kapı nişi gizler.
+func _exit_gates() -> void:
+	for g in get_children():
+		if not (g is Area2D and g.get_script() == GOAL_SCRIPT):
+			continue
+		var gx: float = (g as Node2D).position.x
+		var has_gate := false
+		for x in _gate_xs:
+			if absf(float(x) - gx) < 80.0:
+				has_gate = true
+		if not has_gate:
+			_han_gate(gx, "", (g as Node2D).position.y)
 
 
 ## Kilitli dövüş alanı (kapılar `left`..`right`, zemin `floor`). Dalgalar sırayla.
@@ -773,6 +803,13 @@ func _chimney(cx: float, top: float, gap := 140.0, passage := 150.0, reward: Pac
 	# Tepe: raf kulede tahta, tuğla kulede kiremit, taş kulede sur taç taşı (kalede kiremit yabancı).
 	var top_art := _Art.A_FLOOR if indoor else _Art.A_ROOFLINE if chimney_brick else _Art.A_WALLTOP
 	_oneway_art(cx, top, gap + wall * 2.0 + 10.0, top_art).modulate = day_tint
+	# İç basamaklar (tek yön, alttan geçilir): baca yalnız art arda duvar zıplamasıyla
+	# çıkılıyordu, telefonda "imkânsız" (3 Kasım oyun testi). 105 px aralık < ~125 px
+	# zıplama; duvar zıplaması hâlâ daha hızlı yol.
+	var rung := -110.0
+	while rung > top + 70.0:
+		_oneway_art(cx, rung, gap - 8.0, _Art.A_PLANK)
+		rung -= 105.0
 	_coin_line(cx - 20.0, 2, 40, top + 60.0)
 	_coin_line(cx - 20.0, 2, 40, (top - passage) * 0.5)
 	if reward != null:
@@ -810,10 +847,12 @@ func _antenna(cx: float, ground := 0.0, scale_f := 4.0) -> void:
 
 # --- Gizli alanlar -----------------------------------------------------------
 
-## Oyuncu ilk kez girince sayılan gizli bölge (görünmez).
+## Oyuncu ilk kez girince sayılan gizli bölge; tabanında görünür film rulosu durur
+## (oyuncu ödülü uzaktan görsün, alınca bulduğunu anlasın).
 func _secret_zone(r: Rect2) -> void:
 	var z := _SecretZone.new()
 	z.position = r.get_center()
+	z.roll_at = Vector2(0.0, r.size.y * 0.5 - 34.0)
 	var col := CollisionShape2D.new()
 	var shape := RectangleShape2D.new()
 	shape.size = r.size
@@ -858,7 +897,7 @@ func _arena_barrels() -> void:
 			_prop("patlayici", float(ch.gate_right_x) - 170.0, float(ch.floor_y))
 
 
-## Sır sayısı SECRET_GOAL'a ulaşana kadar düz, boş zemine baca yerleştir.
+## Sır sayısı SECRET_GOAL'a ulaşana kadar düz, boş zemine kırılır kapılı gizli oda kur.
 func _auto_secrets() -> void:
 	var right := float(camera_limit_right)
 	var tries := 0
@@ -882,13 +921,16 @@ func _auto_secrets() -> void:
 					top = maxf(top, float(c[2]) + 40.0)
 			if top > -330.0:
 				continue
-			_chimney(bx, top, 140, 150, COIN)
+			# Dan the Man gibi sır aşağıda, yürüyüş hizasında: çatlak kapı kırılır,
+			# içeride sandık. (Baca kulesi oyunda "ulaşılamaz" okunuyordu.)
+			_chimney_xs.append(bx)
+			_secret_han(bx - 150.0, COIN)
 	_roof_secrets()
 	_roof_secrets(130.0, 800.0)
 
 
-## Kalan sırlar: bölümün en yüksek damlarına / iskelelerine gizli sandık. Dan the
-## Man'deki gibi isteğe bağlı yüksek rotayı ödüllendirir (arena içleri hariç).
+## Kalan sırlar: bölümün yüksek damlarına / iskelelerine gizli sandık; en alçak uygun
+## çıkıntıdan başlanır. İsteğe bağlı üst rotayı ödüllendirir (arena içleri hariç).
 func _roof_secrets(min_h := 240.0, spacing := 1200.0) -> void:
 	if _secret_count >= SECRET_GOAL:
 		return
@@ -903,7 +945,8 @@ func _roof_secrets(min_h := 240.0, spacing := 1200.0) -> void:
 				var top: float = p.y - sz.y * 0.5
 				if top <= -min_h and sz.x >= 100.0 and p.x > 1300.0:
 					cands.append([top, p.x, sz.x])
-	cands.sort_custom(func(a, b): return a[0] < b[0])
+	# En alçak (yere en yakın) adaylar önce: en yüksek damlar oyuncuya ulaşılmaz geliyordu.
+	cands.sort_custom(func(a, b): return a[0] > b[0])
 	var taken: Array = []
 	for z in get_children():
 		if z is _SecretZone:
@@ -1564,7 +1607,13 @@ class _Sky extends Node2D:
 	## hücre bu sürede belirir. Konuma bağlı karışım, kilitli arenada ya da bölüm sonu
 	## kamera sınırında duran kamerada iki resmi kalıcı olarak üst üste bırakıyordu
 	## (tur 91: 36 bölümde 19 arena bandın içindeydi, Bölüm 21 finali tüm dövüş boyunca).
-	const SKY_FADE := 0.6
+	## 3 Kasım oyun testi: 0,6 sn'lik yerinde çapraz geçiş "arka plan aniden değişiyor"
+	## diye okunuyordu. Artık yeni resim ilerleme yönünden yumuşak kenarlı bir perde gibi
+	## ekranı süpürür (Dan the Man'deki gibi yer akarak değişir); süre daha uzun.
+	const SKY_FADE := 1.5
+	## Süpürme perdesinin yumuşak kenarı (ekran px) ve şerit genişliği.
+	const WIPE_FEATHER := 520.0
+	const WIPE_STRIP := 16.0
 	## Geri dönüş payı: arenada kamera sınırın iki yanında gidip gelince resim dövüş
 	## boyunca ileri geri değişmesin; önceki hücreye ancak bu kadar daha geride dönülür.
 	const SKY_HYST := 360.0
@@ -1575,6 +1624,8 @@ class _Sky extends Node2D:
 	var _from := -1
 	var _to := -1
 	var _t := 1.0
+	## Süpürme yönü: +1 ileri (yeni resim sağdan gelir), -1 geri.
+	var _dir := 1
 
 	func _ready() -> void:
 		z_index = -90
@@ -1618,6 +1669,7 @@ class _Sky extends Node2D:
 				_from = _to if _t >= 0.5 else _from
 				_t = 0.0
 			_to = tgt
+			_dir = 1 if _to > _from else -1
 		if _t < 1.0:
 			_t = minf(_t + delta / SKY_FADE, 1.0)
 			if _t >= 1.0:
@@ -1636,7 +1688,7 @@ class _Sky extends Node2D:
 		if _to != _from:
 			var t := _t * _t * (3.0 - 2.0 * _t)
 			if t > 0.0:
-				_draw_entry(cells[_to], x, t)
+				_draw_wipe(cells[_to], x, t)
 		var dark: Color = level.sky_shade
 		# Alt kısım koyulaşır: oynanan zemin ve arka sıra evler öne çıkar.
 		for i in 6:
@@ -1647,14 +1699,29 @@ class _Sky extends Node2D:
 	func _draw_entry(e: Array, x: float, alpha: float) -> void:
 		_cell(e[2] if e.size() > 2 else level.sky_atlas, int(e[0]), x, alpha)
 
-	func _cell(atlas: Texture2D, index: int, x: float, alpha: float) -> void:
+	## Yeni resim, ilerleme yönünden yumuşak kenarlı perdeyle: perdenin önü t=0'da
+	## ekranın gelinen kenarında, t=1'de öbür kenarın da ötesinde (tamamen örtülü).
+	func _draw_wipe(e: Array, x: float, t: float) -> void:
+		var atlas: Texture2D = e[2] if e.size() > 2 else level.sky_atlas
+		var edge := lerpf(760.0, -760.0 - WIPE_FEATHER, t)
+		var sx := -760.0
+		while sx < 760.0:
+			var mid := (sx + WIPE_STRIP * 0.5) * float(_dir)
+			var a := clampf((mid - edge) / WIPE_FEATHER, 0.0, 1.0)
+			if a > 0.0:
+				_cell(atlas, int(e[0]), x, a * a * (3.0 - 2.0 * a), sx, sx + WIPE_STRIP)
+			sx += WIPE_STRIP
+
+	## [x0, x1]: hedef dikdörtgenin yalnız bu dikey şeridi (süpürme perdesi için).
+	func _cell(atlas: Texture2D, index: int, x: float, alpha: float, x0 := -760.0, x1 := 760.0) -> void:
 		var half := atlas.get_size() / float(level.sky_grid)
 		var cell := Vector2(index % 2, index / 2) * half
 		var src_w := half.x * 0.8
 		var scroll := fposmod(x * 0.04, half.x - src_w)
 		var tint: Color = level.sky_tint
-		draw_texture_rect_region(atlas, Rect2(-760, -560, 1520, 860),
-			Rect2(cell + Vector2(2.0 + scroll, 2.0), Vector2(src_w - 4.0, half.y * 0.86)),
+		var k := (src_w - 4.0) / 1520.0
+		draw_texture_rect_region(atlas, Rect2(x0, -560, x1 - x0, 860),
+			Rect2(cell + Vector2(2.0 + scroll + (x0 + 760.0) * k, 2.0), Vector2((x1 - x0) * k, half.y * 0.86)),
 			Color(tint.r, tint.g, tint.b, alpha))
 
 
@@ -1715,15 +1782,51 @@ class _Sign extends Node2D:
 
 
 ## Tebeşir yazısı: duvara çizilmiş beyazımsı piksel harfler.
+## Gazelle'in tebeşir izi (hikâye ipucu). 3 Kasım oyun testi: düz beyaz yazı fon
+## gibi okunuyor, oyuncu ipucunu bulduğunu anlamıyordu. Bulunana dek nabız gibi
+## parlar ve tebeşir tozu saçar; yaklaşınca "İPUCU BULUNDU" duyurusu + ses + halka.
 class _Chalk extends Node2D:
+	const FIND_DIST := 230.0
 	var text := ""
+	var _found := false
+	var _t := 0.0
+	var _spark_t := 0.0
+	var _player: Node2D
 
 	func _ready() -> void:
 		z_index = -5
 		texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 
+	func _process(delta: float) -> void:
+		_t += delta
+		if not _found:
+			if _player == null or not is_instance_valid(_player):
+				_player = get_tree().get_first_node_in_group(&"player") as Node2D
+			_spark_t -= delta
+			if _spark_t <= 0.0:
+				_spark_t = 0.9
+				var w := PixelText.width(text, 3.0)
+				Fx.spark(global_position + Vector2(randf_range(-w * 0.5, w * 0.5), 10.0),
+					Vector2(0, -1), 3, Color(1.0, 0.95, 0.75), 0.6)
+			if _player != null and _player.global_position.distance_to(global_position) < FIND_DIST:
+				_reveal()
+		queue_redraw()
+
+	func _reveal() -> void:
+		_found = true
+		Sfx.play(&"checkpoint", 1.15)
+		Fx.ring(global_position + Vector2(0, 10), Color(1.0, 0.9, 0.55), 10, 140, 0.45)
+		Fx.popup(global_position + Vector2(0, -50), "İPUCU BULUNDU", Color(1.0, 0.85, 0.4), 24)
+		var hud := get_tree().get_first_node_in_group(&"hud")
+		if hud != null and hud.has_method(&"show_place"):
+			hud.show_place("GAZELLE'İN İPUCU", text, Color("f2e6c8"))
+
 	func _draw() -> void:
-		PixelText.draw_centered(self, 0.0, 0.0, text, 3.0, Color(0.95, 0.95, 0.9, 0.9), Color(0.2, 0.2, 0.25, 0.6))
+		# Bulunmadan: nabız (dikkat çeker); bulununca: sabit, altın kenarlı.
+		var pulse := 0.65 + 0.35 * (0.5 + 0.5 * sin(_t * 4.0)) if not _found else 1.0
+		var ink := Color(1.0, 0.98, 0.9, pulse)
+		var edge := Color(0.55, 0.42, 0.18, 0.8) if _found else Color(0.2, 0.2, 0.25, 0.7)
+		PixelText.draw_centered(self, 0.0, 0.0, text, 3.0, ink, edge)
 
 
 ## Fener: piksel art direk + cam fener; eklemeli karışımlı dither hale.
@@ -1840,16 +1943,52 @@ class _Foreground extends Node2D:
 ## Gizli bölge: oyuncu ilk girişte `found` yayar (Main sayar, HUD duyurur).
 class _SecretZone extends Area2D:
 	signal found
+	const FILM := preload("res://assets/ui/pixel/film.png")
 	var _done := false
+	## Film rulosunun bölgeye göre yeri (taban ortası).
+	var roll_at := Vector2.ZERO
+	var _roll: Sprite2D
+	var _t := 0.0
 
 	func _ready() -> void:
 		collision_layer = 0
 		collision_mask = 2
 		add_to_group(&"secret_zone")
+		_roll = Sprite2D.new()
+		_roll.texture = FILM
+		_roll.scale = Vector2(2, 2)
+		_roll.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		_roll.position = roll_at
+		_roll.z_index = 3
+		add_child(_roll)
+		_t = randf() * TAU
 		body_entered.connect(func(b: Node) -> void:
 			if not _done and b.is_in_group(&"player"):
 				_done = true
+				_collect()
 				found.emit())
+
+	func _process(delta: float) -> void:
+		if _done or _roll == null:
+			return
+		# Hafif süzülme + ara ara parıltı: oyuncunun gözü buraya gitsin.
+		_t += delta
+		_roll.position = roll_at + Vector2(0, roundf(sin(_t * 2.6) * 3.0) * 2.0)
+		var glint := maxf(0.0, sin(_t * 1.7)) ** 12
+		_roll.modulate = Color(1, 1, 1).lerp(Color(1.6, 1.45, 1.0), glint)
+		if glint > 0.95 and Engine.get_process_frames() % 6 == 0:
+			Fx.spark(_roll.global_position + Vector2(10, -14), Vector2(0, -1), 2, Color(1, 0.95, 0.7), 0.5)
+
+	func _collect() -> void:
+		var at := _roll.global_position
+		Fx.ring(at, Color(1.0, 0.85, 0.4), 8, 110, 0.4)
+		Fx.spark(at, Vector2(0, -1), 14, Color(1.0, 0.9, 0.55), 1.2)
+		Fx.popup(at + Vector2(0, -40), "FİLM RULOSU!", Color(1.0, 0.85, 0.4), 26)
+		Combat.flash(Color(1.0, 0.9, 0.6, 0.25), 0.15)
+		var tw := _roll.create_tween().set_parallel(true)
+		tw.tween_property(_roll, ^"position:y", _roll.position.y - 90.0, 0.5).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
+		tw.tween_property(_roll, ^"scale", Vector2(3, 3), 0.5)
+		tw.chain().tween_property(_roll, ^"modulate:a", 0.0, 0.25)
 
 
 ## Telsiz tetiği: oyuncu x'i geçince satırı RadioPanel kuyruğuna yollar (bir kez).

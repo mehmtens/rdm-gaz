@@ -51,6 +51,8 @@ var _bars: CanvasLayer
 var _top: ColorRect
 var _bottom: ColorRect
 var _hint: Label
+## Dokunmatikte de sahneyi geçmek için sağ üstte "ATLA" düğmesi (ESC'nin karşılığı).
+var _skip_btn: Button
 var _advance := false
 var _player: Node2D
 var _hidden: Array = []
@@ -81,7 +83,7 @@ func _process(_delta: float) -> void:
 func _input(event: InputEvent) -> void:
 	if active != self:
 		return
-	if event.is_action_pressed(&"pause"):
+	if event.is_action_pressed(&"pause") or _hits_skip_button(event):
 		request_skip()
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed(&"ui_accept") or event.is_action_pressed(&"attack") \
@@ -89,6 +91,20 @@ func _input(event: InputEvent) -> void:
 			or (event is InputEventScreenTouch and event.pressed):
 		_advance = true
 		get_viewport().set_input_as_handled()
+
+
+## Dokunma / tık ATLA düğmesinin üstünde mi? (_input dokunmayı "ilerlet" olarak
+## tükettiği için düğme kendi sinyalini alamaz; konum burada denetlenir.)
+func _hits_skip_button(event: InputEvent) -> bool:
+	if _skip_btn == null or not is_instance_valid(_skip_btn) or not _skip_btn.visible:
+		return false
+	var pressed: bool = (event is InputEventScreenTouch and event.pressed) 		or (event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT)
+	if not pressed:
+		return false
+	if _skip_btn.get_global_rect().grow(12.0).has_point(event.position):
+		_skip_btn.button_pressed = true
+		return true
+	return false
 
 
 func request_skip() -> void:
@@ -211,7 +227,7 @@ func actor(id: String, kind: String, pos: Vector2, facing := 1) -> Node2D:
 				a.offset = Vector2(0, -114)
 			"karahanli":
 				a.sprite_frames = KARAHANLI_FRAMES
-				a.scale = Vector2(0.68, 0.68)
+				a.scale = Vector2(0.576, 0.576)   # Redmount boyunda (bkz. enemy_base karahanli); yalnız ara patronlar iri
 				a.offset = Vector2(0, -114)
 		a.flip_h = facing < 0
 		root.add_child(a)
@@ -249,7 +265,7 @@ func remove(id: String) -> void:
 		_actors.erase(id)
 
 
-## Yürü / koş: hedef x'e `time` saniyede (Gazelle'de yürüme karesi yok: sekerek).
+## Yürü / koş: hedef x'e `time` saniyede (yürüme karesi olmayan aktör sekerek).
 func move(id: String, to_x: float, time: float, anim := "walk", wait := true) -> void:
 	var a: Node2D = _actors[id]
 	var dir := signi(int(to_x - a.position.x))
@@ -259,7 +275,7 @@ func move(id: String, to_x: float, time: float, anim := "walk", wait := true) ->
 	var t := create_tween()
 	t.tween_property(a, ^"position:x", to_x, _dur(time))
 	var body := _body(id)
-	if a.get_meta(&"kind") == "gazelle" and body != null:
+	if a.get_meta(&"kind") == "gazelle" and body is AnimatedSprite2D 			and not (body as AnimatedSprite2D).sprite_frames.has_animation(anim):
 		var bob := create_tween().set_loops(maxi(1, int(time / 0.18)))
 		bob.tween_property(body, ^"position:y", -5.0, _dur(0.09))
 		bob.tween_property(body, ^"position:y", 0.0, _dur(0.09))
@@ -453,6 +469,21 @@ func _letterbox(show: bool) -> void:
 		_hint = Label.new()
 		_hint.text = ("Dokun: ilerlet     ATLA: sahneyi geç" if TouchControls.active_on_device() else
 			"ESC: sahneyi geç     Enter / J: ilerlet")
+		_skip_btn = Button.new()
+		_skip_btn.theme = PixelUI.theme()
+		_skip_btn.text = "ATLA"
+		_skip_btn.toggle_mode = true   # basılınca basılı karesi görünsün
+		_skip_btn.focus_mode = Control.FOCUS_NONE
+		_skip_btn.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_skip_btn.add_theme_font_size_override(&"font_size", 24)
+		_skip_btn.anchor_left = 1.0
+		_skip_btn.anchor_right = 1.0
+		_skip_btn.offset_left = -168.0
+		_skip_btn.offset_right = -24.0
+		_skip_btn.offset_top = 12.0
+		_skip_btn.offset_bottom = 66.0
+		_skip_btn.modulate.a = 0.0
+		_bars.add_child(_skip_btn)
 		_hint.add_theme_font_size_override(&"font_size", 15)
 		_hint.add_theme_color_override(&"font_color", Color(0.75, 0.75, 0.8, 0.8))
 		_hint.anchor_left = 1.0
@@ -465,7 +496,9 @@ func _letterbox(show: bool) -> void:
 		var t := create_tween().set_parallel(true)
 		t.tween_property(_top, ^"offset_bottom", 78.0, 0.35)
 		t.tween_property(_bottom, ^"offset_top", -78.0, 0.35)
+		t.tween_property(_skip_btn, ^"modulate:a", 1.0, 0.35)
 	elif _bars != null:
+		_skip_btn.visible = false
 		var t := create_tween().set_parallel(true)
 		t.tween_property(_top, ^"offset_bottom", 0.0, 0.25)
 		t.tween_property(_bottom, ^"offset_top", 0.0, 0.25)

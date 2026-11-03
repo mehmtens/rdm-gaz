@@ -52,6 +52,7 @@ func _ready() -> void:
 	_player.health_changed.connect(_hud.set_health)
 	_player.health_changed.connect(_on_health_changed)
 	_player.weapon_changed.connect(_hud.set_weapon)
+	_player.stash_changed.connect(_hud.set_stash)
 	_player.ammo_changed.connect(_hud.set_ammo)
 	_player.powerups_changed.connect(_hud.set_powerups)
 	_player.armor_changed.connect(_hud.set_armor)
@@ -96,7 +97,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if not _touch.is_enabled():
 		return
-	_touch.set_context(_player.has_gun(), _player.can_throw_nearby())
+	_touch.set_context(_player.has_gun(), _player.can_throw_nearby(), _player.has_stash())
 	if _pause_menu.is_open() or _story_card.is_active() or LevelShop.is_any_open():
 		_touch.set_mode("hidden")
 	elif Cutscene.active != null:

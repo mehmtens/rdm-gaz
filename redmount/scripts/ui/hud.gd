@@ -78,6 +78,7 @@ var _costume_bonus: Label
 
 
 func _ready() -> void:
+	add_to_group(&"hud")   # bölüm öğeleri (ipucu tebeşiri) duyuru gösterebilsin
 	_style()
 	_style_neighborhood()
 	if TouchControls.active_on_device():
@@ -336,7 +337,27 @@ func _tick_danger(delta: float) -> void:
 
 func set_weapon(display_name: String, uses: int, max_uses: int) -> void:
 	# Yumruk varsayılan, yazmaya gerek yok; silah kısa biçimde (dokunmatikle aynı).
-	_weapon.text = "" if display_name.is_empty() else "%s  %d/%d" % [display_name, uses, max_uses]
+	_weapon_line = "" if display_name.is_empty() else "%s  %d/%d" % [display_name, uses, max_uses]
+	_refresh_weapon_text()
+
+
+## Yedek silah (Q / LB / DEĞİŞ ile ele alınır): silah satırının yanında gösterilir.
+func set_stash(display_name: String) -> void:
+	_stash_name = display_name
+	_refresh_weapon_text()
+
+
+var _weapon_line := ""
+var _stash_name := ""
+
+
+func _refresh_weapon_text() -> void:
+	var swap_key := "DEĞİŞ" if TouchControls.active_on_device() else "Q"
+	var stash := "" if _stash_name.is_empty() else "%s: %s" % [swap_key, _stash_name.to_upper()]
+	if _weapon_line.is_empty():
+		_weapon.text = "" if stash.is_empty() else "YUMRUK  ·  " + stash
+	else:
+		_weapon.text = _weapon_line if stash.is_empty() else "%s  ·  %s" % [_weapon_line, stash]
 
 
 ## `label` boşsa "MERMİ". Tek atımlık fırlatılan silah (TAŞ) toplam adet gösterir.

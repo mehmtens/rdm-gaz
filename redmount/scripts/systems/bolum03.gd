@@ -17,7 +17,11 @@ func _build() -> void:
 	_night()
 
 	# --- 1. Pazar girişi: saklanan esnaf, tezgâhlar arası ilk kavga -------------
-	_terrain(-400, 3400, 0)
+	_terrain(-400, 1270, 0)
+	# Tezgâhların ucunda taş basamak (zemin düz kalmasın).
+	_terrain(1270, 1330, -50)
+	_terrain(1330, 1395, -100)
+	_terrain(1395, 3400, 0)
 	_story(-1.0, _sahne_esnaf, 200.0)
 	for x in [120, 520, 900, 1300]:
 		_lantern(float(x))
@@ -33,6 +37,10 @@ func _build() -> void:
 	_enemy(KNIFE, 980, 0)
 	_prop("vazo", 1030)
 	_prop("varil", 1250)
+	# Bulut platformlar: tezgâh tentelerinin üstünde coin yolu.
+	_cloud(450, -120)
+	_cloud(610, -210, 130.0, 3)
+	_cloud(1000, -125)
 
 	# --- 2. Çapraz iskeleler: altta tezgâh sandıkları, üstte zikzak yol ----------
 	_checkpoint(1420, 0)
@@ -131,6 +139,8 @@ func _build() -> void:
 	for x in [6400, 6900, 7400, 7900, 8400, 8900]:
 		_lantern(float(x))
 	_stall(7700)
+	_cloud(7780, -120)
+	_cloud(7910, -210, 120.0, 3)
 
 	# --- 6. Çıkış: toplanan esnaf kurtarılır --------------------------------------
 	_checkpoint(7950, 0)
