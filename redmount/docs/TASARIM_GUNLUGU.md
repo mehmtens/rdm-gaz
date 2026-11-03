@@ -7,6 +7,21 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- Taş baca duvarları (`_chimney`, `chimney_brick`/`chimney_rack` kapalıyken `A_STONES`) hâlâ eski
+  `tas_blok` oyma pano dokusunu kullanıyor — tur 76'da tünek bloklarında "kasa gibi" bulunan doku.
+  Hangi bölümlerde taş baca var, pencereli çekilip sur örgüsüne (köşe taşlı dar kule) geçirilsin.
+- Bölüm 14 Balat yokuşu (x≈6740) kırmızı tuğla baca kulesi: güneşli sıva/ahşap ev sokağında tek
+  başına düz kırmızı; çevre malzemesiyle (sıvalı taş ya da ahşap) çizilsin (`chimney_brick` bölüm
+  bayrağı yerine bacaya özgü malzeme).
+- Taş setlerde (tur 76) yüksek bloğun köşe taşı alçak komşunun önünde de tam boy (Bölüm 23 basamak
+  piramidi x≈3800–4250 sütun sütun görünüyor). `A_RAMPART`'a köşe taşının başlangıç yüksekliği
+  (`corner_from_l/r`) eklenip komşunun üstünden başlatılsın.
+- Bölüm 14 son arena (x≈9000–9500): bot son dalgaya 23/115 canla girdi, 2 yeniden doğma (pencereli
+  ve başsız koşu). İnsan testinde arena ölümü 1'i geçerse ikinci dalga sonrası simit.
+- Bölüm 14 halat atölyesi arenası (x≈4100–5100): demir arena kafesi ayrıntılı halat/çark resminin
+  önünde ince çizgi olarak kayboluyor; insan testinde "neden geçemiyorum" görülürse kafese kalın
+  kenar ışığı ya da kapı direğine fener.
+
 - Yükseltilmiş set taraması kapandı (tur 69–73): 8, 9, 10, 12, 27, 29, 30, 31 yerin malzemesinde;
   Bölüm 34 yokuş basamakları bilinçli olarak kaldırımda (sokak merdiveni). İnsan testinde uzun
   sur yüzeylerinde (Bölüm 10, 3000 px) taş tekrarı göze batarsa sıra boyu/kırık taş çeşidi artırılsın.
@@ -88,6 +103,30 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (76) — Denetim (Bölüm 14, 20) + taş tünek blokları sur örgüsünde (9 bölüm)
+
+**Neden şimdi:** Birikim boşaldı (geri kalan insan testine bağlı) → tur 73'ün önerdiği denetim.
+Bölüm 14 ve 20 pencereli bot koşusuyla oynandı (4 sn'de bir kare, 24/25 kare); ikisi de CLEARED
+(93 / 100 sn; 2 / 1 yeniden doğma).
+
+**Denetim (DTM'ye göre):** hareket ve dövüş okunur; arena göstergesi (`DALGA 2/2 · 1 DÜŞMAN`)
+ve kombo/rütbe HUD'u çalışıyor; bölüm ritmi geçiş → tünek tüfekli → arena → büfe → final arenası,
+katmanlı balkon rotaları var. En göze batan bulgu görseldi: tüfekli tünek taş setleri (`_stones`,
+9 bölümde 26 yer) ChatGPT taş duvarlarının önünde **gri metal kasa** gibi duruyordu — 90 px'lik
+aynı oyma pano (`tas_blok`) tekrarı, derz yok. Beş bulgu daha birikime yazıldı (taş baca
+duvarları, Bölüm 14 tuğla bacası, basamak köşe taşları, Bölüm 14 final canı, arena kafesi).
+
+**Yapılan:** `_stones` artık tur 70–73'te "ait" bulunan sur örgüsüyle (`A_RAMPART`: taç taşı,
+sıra taşlar, köşe taşı) çiziliyor; çarpışma aynı. Bitişik bloklar tek set: alçak ya da eş komşuya
+bakan köşe taşı kapanır (`_stone_arts`). `A_STONES`/`tas_blok` yalnız taş bacada kaldı (birikimde).
+
+**Testler:** import temiz; smoke 36/36 SMOKE OK, SCRIPT ERROR 0, çıkış 0; DTM GAPS PASS; bot başsız
+Bölüm 14 (93,2 sn), 20 (102,9), 23 (89,9), 1 (82,2), 13 (81,9), 25 (88,8) CLEARED. Görsel: 1280×720
+çekimde Bölüm 14 gümrük avlusu, Bölüm 20 Samatya ambarı ve Bölüm 23 Saraçhane çeşmesi önünde
+setler taş kaide olarak "ait"; Bölüm 23 basamak piramidinde köşe taşları sütun gibi (birikimde).
+
+**Sonraki öneri:** Birikimin başı — taş baca duvarlarını aynı örgüye geçirmek.
 
 ### 2026-11-03 (75) — Açık havadaki pres hatları çelik köprüye asılı: Bölüm 6, 7, 36
 

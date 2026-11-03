@@ -147,6 +147,8 @@ const SECRET_GOAL := 3
 var _secret_count := 0
 var _chimney_xs: Array = []
 var _interiors: Array = []
+## `_stones` blokları: [sol, sağ, üst, sanat] (bitişik basamak köşeleri için).
+var _stone_arts: Array = []
 var _ceilings: Array = []
 ## Düz zeminde kamera alt sınırı: zemin ekranın alt beşte birinde (36 bölümün çoğu).
 const CAM_BOTTOM_FLAT := 130
@@ -450,10 +452,32 @@ func _collapse(cx: float, top: float, w := 140.0) -> void:
 	vis.add_child(art)
 
 
-## Taş blok yığını: `cols` sütun, `rows` sıra (90 px oyma taş).
+## Taş blok seti: `cols` sütun, `rows` sıra (90 px; sur örgüsünde kesme taş).
 func _stones(left: float, cols: int, rows: int) -> void:
-	var body := _solid_box(left, -90.0 * rows, 90.0 * cols, 90.0 * rows)
-	body.add_child(_Art.new(_Art.A_STONES, Vector2(90.0 * cols, 90.0 * rows)))
+	var right := left + 90.0 * cols
+	var top := -90.0 * rows
+	var body := _solid_box(left, top, 90.0 * cols, -top)
+	# Sur örgüsü (taç taşı + sıralar): tekrarlayan oyma pano dokusu kasa gibi okunuyordu.
+	var art := _Art.new(_Art.A_RAMPART, Vector2(90.0 * cols, -top))
+	# Bitişik bloklar tek set: alçak (ya da eş) komşuya bakan köşe taşı çizilmez.
+	for s in _stone_arts:
+		var touch_l := absf(float(s[1]) - left) < 1.0
+		var touch_r := absf(float(s[0]) - right) < 1.0
+		if not (touch_l or touch_r):
+			continue
+		var other: _Art = s[3]
+		if float(s[2]) >= top - 0.5:
+			if touch_l:
+				other.corner_r = false
+			else:
+				other.corner_l = false
+		if top >= float(s[2]) - 0.5:
+			if touch_l:
+				art.corner_l = false
+			else:
+				art.corner_r = false
+	body.add_child(art)
+	_stone_arts.append([left, right, top, art])
 
 
 ## Sur sırtı / sur basamağı: `top` yüksekliğinde yürünür, katı moloz taş duvar.
