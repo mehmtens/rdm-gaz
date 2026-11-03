@@ -45,7 +45,8 @@ func _build() -> void:
 		var cx := 1790.0 + k * 175.0
 		_collapse(cx, -20.0, 150)
 		_pickup(COIN, cx, -75.0)
-	_terrain(2950, 3500, 0)
+	_terrain(2950, 3240, 0)
+	_zula(3240, 3500)
 	_enemy(BOMBER, 3200, 0)
 	_prop("varil", 3350)
 
@@ -126,6 +127,47 @@ func _build() -> void:
 	_radio(5197, "telsiz", "TÜNEL BEKÇİSİ (telsiz)", "Su yükseliyor. Sevkiyatı sarnıçtan geçirin, çabuk.")
 	_radio(8032, "gazelle", "GAZELLE (tebeşir notu)", "\"Zırhlı üs. Köprü. Acele et.\" — G.")
 	_goal(9450, 0)
+
+
+## Kaçakçı zulası: mağara çukurunun sol duvarına oyulmuş bölme (bölümün üçüncü sırrı).
+## Üstü yürünen taş tabla; çukura düşen oyuncu duvardaki çatlağı kırar, bölme
+## çukurdan 40 px aşağıda (Dan the Man gibi "biraz aşağıda"). Film rulosu dolgunun
+## önünde süzülür: oyuncu çukurdan duvarın ardında bir şey olduğunu görür.
+func _zula(x0: float, x1: float) -> void:
+	var floor_y := 200.0
+	var slab := 70.0
+	# Tabla: üstü zemin hizası (kontrol noktası, varil burada), altı bölmenin tavanı.
+	var top := _solid_box(x0, 0.0, x1 - x0, slab)
+	top.add_child(_Art.new(_Art.A_TERRAIN, Vector2(x1 - x0, slab)))
+	_terrain(x0, x1, floor_y)
+	var inside := _Art.new(_Art.A_SHAFT, Vector2(x1 - x0 - 40.0, floor_y - slab))
+	inside.position = Vector2((x0 + x1 - 40.0) * 0.5, (floor_y + slab) * 0.5)
+	inside.z_index = -8
+	add_child(inside)
+	# Çatlak duvar 200 px: bölme tabanından zemin hizasına kadar ağzı kapatır.
+	var door := BREAKABLE_WALL.instantiate()
+	door.position = Vector2(x1 - 20.0, floor_y)
+	add_child(door)
+	var cover := _ZulaCover.new()
+	cover.rect = Rect2(x0, slab, x1 - x0 - 40.0, floor_y - slab)
+	add_child(cover)
+	_prop("sandik", x0 + 90.0, floor_y, COIN)
+	_coin_line(x0 + 140.0, 2, 45, floor_y - 50.0)
+	_secret_zone(Rect2(x0 + 20.0, slab + 10.0, x1 - x0 - 80.0, floor_y - slab - 10.0))
+
+
+## Zula dolgusu: dışarıdan zeminin taş dolgusu gibi görünür, oyuncu girince silinir.
+class _ZulaCover extends DtmLevel._Facade:
+	func _draw() -> void:
+		var y := rect.position.y
+		var row := 0
+		while y < rect.end.y - 0.5:
+			var dk := clampf(0.78 - row * 0.09, 0.32, 1.0)
+			var h := minf(56.0, rect.end.y - y)
+			draw_texture_rect_region(DtmLevel.STONE, Rect2(rect.position.x, y, rect.size.x, h),
+				Rect2(0, 0, rect.size.x, h), Color(dk, dk, dk * 1.05))
+			y += 56.0
+			row += 1
 
 
 # --- Hikâye sahneleri ----------------------------------------------------------

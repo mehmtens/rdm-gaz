@@ -7,9 +7,6 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Bölüm 8'de yalnız 2 gizli alan var (mahzen + 1); otomatik yerleştirme uygun düz zemin/ulaşılır dam
-  bulamıyor (tur 112 ölçümü). Bölüme özgü, yürüyüş hizasında elle üçüncü sır tasarlanmalı (kırılır kapı,
-  iskele altı ya da kanal kıyısı); `tests/secret_reach.tscn` ile doğrula. Kartta "GİZLİ n/2" görünüyor.
 - Dam sırlarında film rulosu (z 3, roll_at = taban − 34) sandığın tam önünde duruyor; sandık görünmüyor
   (tur 112 B19/B22 görüntüsü). İnsan testinde "kırılacak bir şey var mı?" karışıklığı görülürse rulo sandığın
   üstüne (−34 → −80) alınsın.
@@ -138,6 +135,33 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-03 (113) — Bölüm 8 üçüncü sırrı: mağara çukurunda kaçakçı zulası
+
+**Neden şimdi:** Tur 112 ölçümünün çıkardığı, insan testine bağlı olmayan tek birikim maddesi. Bölüm 8
+36 bölümde 2 sırla kalan tek bölümdü: tünel tavanı (−440) ve kesintisiz kanal/arena dizisi otomatik
+odaya yer bırakmıyor; kart "GİZLİ n/2" gösteriyordu.
+
+**Tasarım:** Bölüme özgü, yürüyüş hizasının "biraz altında" (kullanıcının telefon testindeki DTM
+beklentisi). Mağara çukurunun (taban +160) sol duvarı, x 3240–3500: üstü yürünen taş tabla (kontrol noktası
+ve varil yerinde kalır), altı oyulmuş bölme; taban +200, çukurdan 40 px aşağı inilir. Ağız 200 px'lik
+çatlak duvarla kapalı (bölmenin tabanından zemin hizasına kadar, tablayla aynı hizada biter). Bölmenin önü
+zeminin taş dolgusuyla örtülü (`_ZulaCover`, `_Facade` solma davranışı; oyuncu girince silinir); film rulosu
+dolgunun önünde süzülür, böylece çukura düşen ya da çukura bakan oyuncu duvarın ardında bir şey olduğunu
+görür. İçeride Osmanlı sandığı (coin) + 2 coin; iç yüz taş şaft resmi. Yeni sanat yok, var olan piksel
+dokular (`stone_fill`, şaft, çatlak duvar).
+
+**Oyuncu ne hissedecek:** Hareketli paletlerden düşmek ceza değil, küçük bir keşif: çukurun dibinde çatlak
+duvar, ardında zula. Ana rota (paletler) değişmedi.
+
+**Doğrulama:** `secret_reach` Bölüm 8: 3 sır, hepsi ulaşılır; 36 bölüm PASS. 1280×720 görüntü: çukurdan
+çatlak duvar + rulo okunuyor, dolgu çevredeki zeminle aynı taş; içeride sandık ve "Kanıt Arşivi'ne
+eklendi" duyurusu.
+
+**Testler:** `--import` hatasız; `campaign_smoke` çıkış 0; `dtm_gaps` PASS; `secret_reach` PASS; bot Bölüm 8
+CLEARED (89,8 sn, 0 yeniden doğma; 22 sn takılma final arenasında, x 9057).
+
+**Sonraki öneri:** Birikimin kalanı insan testine bağlı (dam sırrında rulonun sandığı örtmesi dahil).
+
 ### 2026-11-03 (112) — Denetim: gizli alanların ulaşılırlığı (36 bölüm, 107 sır)
 
 **Neden şimdi:** Stil listesi, iki yol haritası ve P1 maddeleri kapalı; birikimin tamamı insan testine bağlı
@@ -175,7 +199,7 @@ paralel koştu; ölümlerin hiçbiri sır konumlarının yakınında değil.
 
 **Sonraki öneri:** Birikim yine insan testine bağlı. Yeni eklenen iki küçük madde (Bölüm 8'in üçüncü sırrı,
 dam sırrında film rulosunun sandığı örtmesi) birikimin başında; bir sonraki tur Bölüm 8'e elle üçüncü sır
-(bölüme özgü, yürüyüş hizasında) tasarlayabilir.
+(bölüme özgü, yürüyüş hizasında) tasarlayabilir. *(Tur 113'te yapıldı.)*
 
 ### 2026-11-03 (111) — Bölüm 25–36: açılışlar (son dilim)
 
