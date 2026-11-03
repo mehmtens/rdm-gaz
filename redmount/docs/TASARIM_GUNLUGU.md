@@ -198,6 +198,25 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-04 (140) — Denetim: Bölüm 7, 8, 9, 10, 15 (temiz) — otomasyon durdu
+
+**Neden şimdi:** Stil listesi, iki yol haritası kapalı; birikimde otonom madde yok (kalanlar insan yargısı /
+telefon ölçümü). Öncelik d): tur 139'un önerdiği, hiç bakılmamış son beş bölüm pencereli bot ile 12–15 sn arayla
+görüntüyle oynatıldı.
+
+**Bulgular:** Beşi de CLEARED. Bölüm 7 110,6 sn, 2 yeniden doğma (20 sn @5820 — birikimdeki dökümhane arenası
+maddesiyle aynı yer), Bölüm 8 86,9 sn, 0 (23 sn @9062 Tünel Bekçisi boss dövüşü), Bölüm 9 119,6 sn, 0 (20 sn
+@5298 ilk avlu arenası; finali 3/115 canla bitirdi — birikimdeki Bölüm 9 maddeleriyle tutarlı), Bölüm 10
+119,9 sn, 2 (25 sn @6227 sur arenası; birikimdeki Bölüm 10 son arena maddesi), Bölüm 15 90,0 sn, 0. Dökümhane,
+yerebatan sarnıcı + su çarkı, kale suru gece ve sarnıç kuleleri görüntülerinde ChatGPT arka planından kopuk
+öğe yok; dalga şeridi, boss çubuğu, diyalog kutusu okunur. Combo yazısındaki "HARİKA"/"İYİ" İ aralığı
+birikimdeki PixelText maddesinin bir başka örneği (yeni madde değil).
+
+**Testler:** Kod değişmedi. Bot Bölüm 7, 8, 9, 10, 15 pencereli CLEARED.
+
+**Sonraki öneri:** 36 bölümün tamamı en az bir kez görüntüyle denetlendi. Sıradaki değer telefon testinde
+(birikimdeki ölçümler); otonom turlar insan verisi gelene kadar yeni iş üretmiyor.
+
 ### 2026-11-04 (139) — Denetim: Bölüm 2, 3, 5, 6 (temiz) — otomasyon durdu
 
 **Neden şimdi:** Tur 138 sonrası birikimde otonom madde kalmadı (üstteki "İ" aralığı insan yargısı, kalanlar
