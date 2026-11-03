@@ -7,6 +7,11 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- Bölüm 6 orta kesim (alev koridoru → pres salonu → döküm avlusu, x≈1800–5600): pencereli bot döküm
+  avlusu arenasına 15/115 canla girdi, bölümde 2 yeniden doğma (122,8 sn). Alev koridorunda tek can
+  kaynağı varil (x=2700). İnsan testinde avlu arenasında ölüm 1'i geçerse pres salonu çıkışına (x≈4300
+  kasası) simit.
+
 - Bölüm 9 finali (Binbaşı Kaya, x≈8180–9120): üç dalga (Ağır Zırhlı+Bombacı → Binbaşı → Seçkin+Ağır
   Zırhlı); pencereli bot finale 42/115 canla girdi, 2 yeniden doğma. Bölümde 7 Ağır Zırhlı var; ilk avlu
   arenasında (x≈5300, üç dalganın üçünde de Ağır Zırhlı) 21 sn takılma. İnsan testinde final ölümü 1'i
@@ -106,6 +111,25 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (82) — Denetim: Bölüm 4 (kontrol noktası) ve 6 (sanayi kuşağı)
+
+**Neden şimdi:** Tur 81'in önerisi; birikimde uygulanabilir madde yok. Pencereli bot: Bölüm 4 CLEARED
+112,4 sn (2 yeniden doğma, tünek kulesinde 14/115 can), Bölüm 6 CLEARED 122,8 sn (2 yeniden doğma,
+döküm avlusuna 15/115 canla giriş).
+
+**Bulgular:** İki bölümde de ritim geçiş → tünek tüfekli → arena → kantin → final; alev koridoru ve
+pres salonu zamanlama meydan okuması olarak okunuyor, adlı rakip (Zırhlı Ustabaşı) can çubuğu ve dalga
+göstergesi net. Görselde sahneden kopan öğe görülmedi: Bölüm 4 tel örgü/kule kontrol noktası ve
+Bölüm 6 haddehane surları ChatGPT arka planıyla bir. Bölüm 6 tünek bloğu (`A_FACTORY`, tuğla atölye)
+fabrika resminin önünde küçük kalıyor ama tur 46–48'de bilinçli ayarlandı; yeniden çizilmedi. Ölçülebilir
+tek yeni bulgu Bölüm 6 orta kesim canı → birikime (insan testine bağlı). Kod değişikliği yok.
+
+**Testler:** yalnız denetim koşuları (yukarıda).
+
+**Sonraki öneri:** Kitap 1'in denetimi büyük ölçüde tamam; birikimin tamamı insan testine bağlı.
+En değerli sonraki adım insan testi (`docs/INSAN-TESTI.md`) ve güncel APK; otomasyon için sıradaki
+aday Kitap 2'den 11.
 
 ### 2026-11-03 (81) — Denetim (Bölüm 3, 9) + Bölüm 9 cephaneliği taş kışla
 
