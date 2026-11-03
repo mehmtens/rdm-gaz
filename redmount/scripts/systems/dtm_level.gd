@@ -2003,11 +2003,45 @@ class _SecretZone extends Area2D:
 		_roll.z_index = 3
 		add_child(_roll)
 		_t = randf() * TAU
+		_clear_rewards.call_deferred()
 		body_entered.connect(func(b: Node) -> void:
 			if not _done and b.is_in_group(&"player"):
 				_done = true
 				_collect()
 				found.emit())
+
+	## Rulonun ekrandaki dikdörtgeni (süzülme payı dahil).
+	func roll_rect() -> Rect2:
+		var sz := FILM.get_size() * 2.0
+		return Rect2(global_position + roll_at - sz * 0.5 - Vector2(0, 6), sz + Vector2(0, 12))
+
+	## Rulo bölgenin taban ortasında duruyordu; dam ve baca sırlarında ödül de tam oraya
+	## konduğundan sandığı/pikabı örtüyordu ("kırılacak bir şey var mı?" — 3 Kasım oyun
+	## testi: ödül görünür olmalı). Çakışan ödülün üstüne alınır: rulo ödülü işaret eder.
+	func _clear_rewards() -> void:
+		var lvl := get_parent()
+		if lvl == null:
+			return
+		for _pass in 3:
+			var moved := false
+			for n in lvl.get_children():
+				var r := reward_rect(n)
+				if r.size != Vector2.ZERO and roll_rect().intersects(r):
+					roll_at.y = r.position.y - global_position.y - FILM.get_height() - 10.0
+					moved = true
+			if not moved:
+				break
+		if _roll != null:
+			_roll.position = roll_at
+
+	## Ödül nesnesinin (kırılır kap ya da coin dışı pikap) kaba görsel dikdörtgeni; değilse boş.
+	static func reward_rect(n: Node) -> Rect2:
+		if n is BreakableProp:
+			var sz: Vector2 = n._size()
+			return Rect2(n.global_position - Vector2(sz.x * 0.5, sz.y), sz)
+		if n is PickupBase and n.kind != "coin":  # coin dizisi rulonun yanında kalabilir
+			return Rect2(n.global_position - Vector2(24, 30), Vector2(48, 48))
+		return Rect2()
 
 	func _process(delta: float) -> void:
 		if _done or _roll == null:

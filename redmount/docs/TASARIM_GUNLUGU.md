@@ -7,10 +7,6 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Dam sırlarında film rulosu (z 3, roll_at = taban − 34) sandığın tam önünde duruyor; sandık görünmüyor
-  (tur 112 B19/B22 görüntüsü). İnsan testinde "kırılacak bir şey var mı?" karışıklığı görülürse rulo sandığın
-  üstüne (−34 → −80) alınsın.
-
 - Açılış/yükselti turları (106–111) insan testi: 36 bölümün ilk ekranı artık farklı; telefonda ölçülsün
   (a) bulut/tahta üst rotası kaç oyuncuca fark ediliyor (zırh alınma oranı), (b) 50 px basamaklar
   koşarken takılma hissi veriyor mu (basamak zıplamadan çıkılmıyor; B1–3'teki insan testi olumluydu),
@@ -134,6 +130,38 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (114) — Denetim: film rulosu ödülü örtmesin (36 bölüm, 108 sır)
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin kalanı insan testine bağlı → denetim.
+Birikimin başındaki "rulo sandığı örtüyor" maddesi insan testine bağlanmıştı, ama bugünkü telefon testinin
+kalıcı beklentisi zaten "ödül görünür nesne olarak okunmalı"; ölçmeden beklemek gereksizdi.
+
+**Ölçüm:** Yeni `tests/secret_roll_clear.tscn` 36 bölümde her rulonun dikdörtgenini (84×72, süzülme payı
+±6) aynı bölümdeki kırılır kaplar ve coin dışı pikaplarla kesiştirir. Düzeltme kapalıyken 108 rulodan
+126 çakışma: rulo bölge tabanının ortasında duruyor, dam sırrında sandık (76×58), bacada pikap, mahzende
+ve handa sandık da tam ya da yarı o noktada. Yani sorun yalnız B19/B22 değil, bütün sır türleri.
+
+**Düzeltme (ortak sistem):** `_SecretZone._clear_rewards()` bölüm kurulduktan sonra (ertelenmiş) rulonun
+altına düşen ödülü bulur ve ruloyu ödülün 10 px üstüne alır; rulo artık ödülü işaret eder. Coin dizileri
+sayılmaz (zaten mıknatısla toplanır, rulonun yanında kalabilir). Bölgenin kendisi (tetik alanı, sayım)
+değişmedi; yeni sanat yok.
+`tests/secret_reach.gd` sırrın zeminini rulodan (`roll_at + 34`) çıkarıyordu; artık bölge şeklinin taban
+ortasından (aynı değer) — rulo kayınca yanlış FAIL veriyordu.
+
+**Oyuncu ne hissedecek:** Damda, bacada, handa sandık/pikap görünür, üstünde parıldayan rulo süzülür:
+"orada bir ödül var ve bu bir gizli alan" tek bakışta okunur.
+
+**Görsel kontrol (1280×720):** B19 ve B22 dam sırrı, B27 dam (kiremit üstü sandık), B32 iskele: sandık
+rulonun altında tam görünüyor, rulo platformun üstündeki boşlukta. B1 mahzeni: rulo cephenin önünde, kapı
+hizasında okunuyor.
+
+**Testler:** `--import` hatasız; `campaign_smoke` çıkış 0; `dtm_gaps` PASS; `secret_reach` PASS (108);
+`secret_roll_clear` PASS (108; düzeltme kapalıyken FAIL 126); bot CLEARED: Bölüm 1 (85,1 sn, 2 yeniden
+doğma — değişiklik yalnız rulonun çizim yeri, ölümler sır dışında), 13 (84,4 sn, 0), 25 (79,0 sn, 0).
+
+**Sonraki öneri:** Birikim insan testine bağlı; bir sonraki denetim konusu olarak telefon testinin kalan
+beklentileri (ör. "animasyonlar oynanışı bozmasın": saldırı/iniş görsellerinin girdi gecikmesi) ölçülebilir.
 
 ### 2026-11-03 (113) — Bölüm 8 üçüncü sırrı: mağara çukurunda kaçakçı zulası
 

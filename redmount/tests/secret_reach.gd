@@ -68,9 +68,14 @@ func _audit(no: int, lvl: Node) -> int:
 		if not lvl.is_ancestor_of(z):
 			continue
 		count += 1
-		# Film rulosu bölge tabanının 34 px üstünde; altındaki en yüksek yüzey sırrın zemini.
-		var roll: Vector2 = (z as Node2D).global_position + z.roll_at
-		var floor_y := roll.y + 34.0
+		# Bölge şeklinin taban ortası; altındaki en yüksek yüzey sırrın zemini. (Film rulosu
+		# ödülün üstüne kayabildiği için artık zemin ölçüsü değil.)
+		var shape: RectangleShape2D = null
+		for c in z.get_children():
+			if c is CollisionShape2D:
+				shape = c.shape
+		var roll: Vector2 = (z as Node2D).global_position + Vector2(0.0, shape.size.y * 0.5)
+		var floor_y := roll.y
 		var best: Dictionary = {}
 		for s in surf:
 			if roll.x >= float(s.x0) - 10.0 and roll.x <= float(s.x1) + 10.0 \
