@@ -119,6 +119,20 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-03 (97) — Denetim: Bölüm 33 (temiz)
+
+**Neden şimdi:** Tur 96'nın önerisi. Pencereli bot (8 sn'de bir kare): Bölüm 33 CLEARED 86,7 sn,
+0 yeniden doğma, sevk deposu arenasında 10 sn takılma.
+
+**Bulgular:** Ritim (Vaniköy yalı sokağı → bahçe kapısı arenası → iskele sandık yığınları, tüfekli →
+tekne kızağı ve çürük iskele → Yükleme kileri → sevk deposu arenası → Kandilli verici odası) okunuyor;
+gece Boğaz resmi fenerlerle okunur, sandık/iskele/raf baca öğeleri ahşap ailesinde. Tur 91 taramasında
+geçiş bandındaki 2350–3150 arenası artık tek resimde. Kopan öğe yok; değişiklik yok.
+
+**Testler:** Kod değişmedi (yalnız günlük).
+
+**Sonraki öneri:** Bölüm 34 denetimi.
+
 ### 2026-11-03 (96) — Denetim: Bölüm 28 (temiz)
 
 **Neden şimdi:** Tur 95'in önerisi (Kitap 3'te yakın zamanda bakılmamış bölümler). Pencereli bot (8 sn'de
