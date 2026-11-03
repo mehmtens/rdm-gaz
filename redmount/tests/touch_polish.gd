@@ -85,5 +85,17 @@ func _controls() -> void:
 		Save.vibration = true
 		pause.toggle_vibration()
 		_check(not Save.vibration and vib.text == "TİTREŞİM: KAPALI", "titreşim düğmesi ayarı kapatmalı")
+
+	# Arena dalga şeridi ortadaki duraklat düğmesinin altında kalmamalı (denetim, 3 Kasım).
+	var hud = main.get_node(^"UI/HUD")
+	hud.set_arena_wave(2, 3, 4)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	var pb: TouchScreenButton = touch._buttons["pause"]
+	var pause_rect := Rect2(pb.position, Vector2(pb.texture_normal.get_size()) * pb.scale)
+	var banner: Rect2 = hud._arena_panel.get_global_rect()
+	_check(not banner.intersects(pause_rect),
+		"dalga şeridi %s duraklat düğmesiyle %s çakışmamalı" % [banner, pause_rect])
+	_check(banner.end.x < hud.size.x - 16.0, "dalga şeridi ekranın sağından taşmamalı (%s)" % banner)
 	main.queue_free()
 	await get_tree().process_frame

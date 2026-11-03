@@ -7,6 +7,19 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- Bölüm sonu ipucu kartı kalabalık (tur 116 denetimi, Bölüm 2 x≈9395): "GAZELLE'İN İPUCU" kartı,
+  dünyadaki tebeşir "G: GECE PAZARI" ve soluk "İPUCU BULUNDU" yazısı aynı bölgede üst üste; aynı metin
+  iki kez okunuyor (ekranda 4 ayrı yazı bloğu). Hedef: kart açıkken kartın altında ≤ 1 yazı; duyuru
+  kart gelince söner ya da kartın içine girer.
+- Sahnede HUD yarım (tur 116): bitiş sahnesinde CAN çubuğu gizli ama COIN, silah ve MERMİ satırları
+  açık kalıyor. Hedef: `cutscene` modunda sol üst HUD bütün olarak gizlensin (ya da bütün olarak
+  kalsın); ekran görüntüsünde tek durum.
+- Silah satırı harf biçimi (tur 116): dokunmatikte "Bıçak 10/20 · DEĞİŞ: BIÇAK" (ilk ad küçük harfli,
+  yedek BÜYÜK), altında "MERMİ 18/54". Küçük piksel yazıda telefonda tek biçim (BÜYÜK) daha okunur;
+  masaüstü "Mermi: 18 | 54" ile dokunmatik "18/54" de tek biçime insin.
+- Kasap Rıza arenası (Bölüm 2, x≈8150–8260): bot üç koşuda 16–17 sn kalıyor, 0 ölüm, ~19 can kaybı.
+  Sorun değil; insan testinde arena süresi 40 sn'yi geçerse Rıza'nın can havuzu ölçülsün.
+
 - Açılış/yükselti turları (106–111) insan testi: 36 bölümün ilk ekranı artık farklı; telefonda ölçülsün
   (a) bulut/tahta üst rotası kaç oyuncuca fark ediliyor (zırh alınma oranı), (b) 50 px basamaklar
   koşarken takılma hissi veriyor mu (basamak zıplamadan çıkılmıyor; B1–3'teki insan testi olumluydu),
@@ -130,6 +143,38 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (116) — Denetim: telefonda duraklat düğmesi dalga şeridini örtüyordu
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikim insan testine bağlı → denetim.
+İnsan testi Bölüm 1–3 üzerineydi; Bölüm 2 bot ile pencereli, bir kez masaüstü bir kez dokunmatik
+kontrollerle (`REDMOUNT_TOUCH_CONTROLS=1`) oynatıldı, 5 sn arayla 30 ekran görüntüsü.
+
+**Bulgular (etki/maliyet sırası, birikime yazıldı):** (1) Dokunmatikte üst ortadaki duraklat düğmesi
+(çizimi 86×86 px, y 19–106) arena şeridinin (y 12–64, x 500–780) tam ortasına biniyordu: "DALGA 2/3" ve
+düşman sayısı okunmuyordu — P1 arena göstergesi telefonda işe yaramıyordu. (2) Bölüm sonu ipucu kartı +
+dünya tebeşiri + "İPUCU BULUNDU" üst üste, aynı metin iki kez. (3) Bitiş sahnesinde HUD yarım açık.
+(4) Silah/cephane satırında karışık harf ve iki ayrı biçim. (5) Kasap Rıza arenası 16–17 sn (sorun değil,
+insan testinde ölçülsün). Hareket, telegraf ünlemi, kombo ve dalga duyurusu masaüstünde temiz.
+
+**Yapılan (1):** `TouchControls.pause_half_width` (düğme tablosundan, ölçekli); `Hud._fit_arena_panel`
+dokunmatikte şeridi ortalamak yerine duraklat düğmesinin hemen sağından başlatır (dokunma yarıçapı + 18 px;
+çizimden ~11 px boşluk). Duraklat + şerit tek grup gibi okunuyor; sağdaki kombo yazısıyla (x ≥ 980)
+çakışmıyor, telsiz kaydırması aynen çalışıyor. Masaüstünde şerit ortada kalır.
+
+**Oyuncu ne hissedecek:** Telefonda arena kilitlenince kaç dalga ve kaç düşman kaldığı ilk bakışta
+görülür; "neden geçemiyorum" belirsizliği azalır.
+
+**Testler:** `--import` hatasız; `campaign_smoke` çıkış 0; `dtm_gaps` PASS; `touch_polish` PASS (yeni
+kontrol: şerit duraklat düğmesiyle çakışmaz, sağdan taşmaz — düzeltme öncesi FAIL: şerit (500,12)
+280×52, düğme (597,19) 86×86); `radio_top_band` `--fixed-fps 60` ile PASS (sabit FPS'siz çalıştırmada
+düzeltmeden önce de FAIL; zamanlamaya bağlı, bu tura ait değil); `story_boss_bar` (Bölüm 12) PASS;
+bot CLEARED: Bölüm 1 (78,4 sn), 2 (pencereli: masaüstü 81,4 sn, dokunmatik 76,2 ve 75,9 sn; 0 yeniden
+doğma), 13 (80,9 sn), 25 (85,2 sn).
+Dokunmatik pencereli 1280×720 ekran görüntüsünde dalga şeridi ve boss çubuğu birlikte kontrol edildi.
+
+**Sonraki öneri:** Birikimin ilk iki maddesi (bölüm sonu ipucu kartı kalabalığı, sahnede yarım HUD) —
+ikisi de aynı bitiş ekranında, tek turda.
 
 ### 2026-11-03 (115) — Denetim: meşgulken basılan zıplama/atılma yutulmasın
 

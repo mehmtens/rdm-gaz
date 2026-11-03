@@ -432,8 +432,13 @@ func set_arena_wave(wave: int, total: int, remaining: int) -> void:
 
 func _fit_arena_panel() -> void:
 	var w := _arena_panel.get_combined_minimum_size().x
-	_arena_panel.offset_left = -w * 0.5
-	_arena_panel.offset_right = w * 0.5
+	# Dokunmatikte ortada duraklat düğmesi var: şerit ortalanırsa "DALGA 2/3" ve düşman
+	# sayısı düğmenin altında kalıyordu → şerit düğmenin hemen sağından başlar.
+	var left := -w * 0.5
+	if TouchControls.active_on_device():
+		left = TouchControls.pause_half_width(get_viewport()) + 18.0
+	_arena_panel.offset_left = left
+	_arena_panel.offset_right = left + w
 
 
 func show_death() -> void:

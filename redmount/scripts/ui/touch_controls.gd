@@ -257,6 +257,16 @@ func _layout() -> void:
 		_labels[key].position = center - Vector2.ONE * radius * button_scale
 
 
+## Ortadaki duraklat düğmesinin dokunma yarıçapı (görüntü birimi; çizimi ~7 px daha geniş); üst ortadaki HUD
+## öğeleri (arena dalga şeridi) bu payın sağına yerleşir, düğmenin altında kalmaz.
+static func pause_half_width(viewport: Viewport) -> float:
+	var button_scale := clampf(viewport.get_visible_rect().size.y / 720.0, 0.85, 1.2)
+	for spec in BUTTONS:
+		if spec[0] == "pause":
+			return float(spec[2]) * button_scale
+	return 0.0
+
+
 static func safe_vertical_insets(viewport: Viewport) -> Vector2:
 	if not OS.has_feature("mobile"):
 		return Vector2.ZERO
