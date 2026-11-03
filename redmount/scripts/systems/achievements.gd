@@ -43,6 +43,24 @@ const LIST: Array[Dictionary] = [
 ]
 
 
+## Kanıt Arşivi karesi açan büyük görevler (dördüncü dilim): satırda kilitli/açık kare
+## görünür, görev bitince açılır (ödül alınmasını beklemez; kayıttan türer, yeni alan yok).
+## Kareler `tools/gen_photos.py` → `assets/ui/photos/gorev_<id>.png`.
+const PHOTOS: Array[String] = ["temiz_is", "her_telden", "kitap3"]
+
+
+static func photo_path(id: String) -> String:
+	return "res://assets/ui/photos/gorev_%s.png" % id if id in PHOTOS else ""
+
+
+## Açılmış görev karesi sayısı.
+static func photos_open() -> int:
+	var n := 0
+	for id in PHOTOS:
+		if is_done(find(id)):
+			n += 1
+	return n
+
 
 ## Silah kaynağının görev kimliği: dosya adı (`bat`, `semsiye`, `kaldirim_tasi`...).
 static func weapon_id(res: Resource) -> StringName:

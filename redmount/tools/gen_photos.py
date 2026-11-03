@@ -2,6 +2,7 @@
 
     python tools/gen_photos.py  -> assets/ui/photos/bNN_k.png (72x48, piksel art)
                                    assets/ui/photos/gun_N.png (Günün Dalgası seri kareleri)
+                                   assets/ui/photos/gorev_<id>.png (büyük görevlerin kareleri)
 
 Her bölümün gökyüzü atlasından (2x2 hücre) üç hücre kırpılır, kutu filtresiyle
 küçültülür, 20 renge indirilir ve hafif sepya-sıcak tona çekilir: Gazelle'in
@@ -89,6 +90,49 @@ def daily_photo(img, cell, day):
     q.save(OUT / ("gun_%d.png" % day))
 
 
+# Büyük görevlerin arşiv kareleri (Achievements.PHOTOS): görev → (bölüm atlası, hücre).
+# Günlük karelerin daha sıkı kırpmasıyla: aynı atlastan çıkan bölüm karesinden farklı çerçeve.
+ACH_PHOTOS = {
+    "temiz_is": ("assets/backgrounds/level04_fortress_atlas.png", 3),  # meşaleli kale kapısı
+    "her_telden": ("assets/backgrounds/level03_high_furnace.png", 1),  # dökümhane bacaları
+    "kitap3": ("assets/backgrounds/book03_final_shore_atlas.png", 1),  # Boğaz'da ay
+}
+# 7x7 görev yıldızı (arşivdeki GÖREVLER yıldızıyla aynı simge).
+STAR = ("...#...", "..###..", "#######", ".#####.", "..###..", ".##.##.", "#.....#")
+
+
+def ach_photo(img, cell, aid):
+    """Görev karesi: günlük karelerle aynı kırpma ve ton, sağ altta kırmızı yıldız mührü."""
+    w, h = img.size
+    cx, cy = (cell % 2) * w // 2, (cell // 2) * h // 2
+    q = img.crop((cx + w // 8, cy + h // 10, cx + w // 2 - w // 12, cy + h // 2 - h // 7))
+    q = q.convert("RGB").resize((72, 48), Image.BOX)
+    q = q.quantize(colors=18, method=Image.Quantize.MEDIANCUT).convert("RGB")
+    # Günlük karelerle aynı akşamüstü tonu; ayrımı yıldız mührü yapar.
+    r, g, b = q.split()
+    r = r.point(lambda v: min(255, int(v * 1.10 + 14)))
+    g = g.point(lambda v: int(v * 0.90))
+    b = b.point(lambda v: min(255, int(v * 0.95 + 8)))
+    q = Image.merge("RGB", (r, g, b))
+    px = q.load()
+    sw, sh = 11, 11
+    x0, y0 = 72 - sw - 2, 48 - sh - 2
+    for y in range(sh):
+        for x in range(sw):
+            edge = x in (0, sw - 1) or y in (0, sh - 1)
+            v = 3 if edge else 6 - y // 3 - (1 if (x * 7 + y * 3) % 11 == 0 else 0)
+            if not edge and (x * 5 + y * 9) % 23 == 0:
+                continue
+            px[x0 + x, y0 + y] = STAMP[max(0, min(7, v))]
+    for y, row in enumerate(STAR):
+        for x, bit in enumerate(row):
+            if bit == "#":
+                # Yıldızın üst yarısı ışıkta (sol üst fener), alt kolları bir ton koyu.
+                px[x0 + 2 + x, y0 + 2 + y] = (246, 226, 188) if y < 4 else (226, 196, 140)
+    q = ImageOps.expand(q, border=1, fill=INK)
+    q.save(OUT / ("gorev_%s.png" % aid))
+
+
 if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
     for n in range(1, 37):
@@ -98,4 +142,6 @@ if __name__ == "__main__":
     daily = Image.open(ROOT / DAILY_ATLAS)
     for cell, day in zip((0, 1, 3), DAILY_DAYS):
         daily_photo(daily, cell, day)
+    for aid, (atlas, cell) in ACH_PHOTOS.items():
+        ach_photo(Image.open(ROOT / atlas), cell, aid)
     print("ok")

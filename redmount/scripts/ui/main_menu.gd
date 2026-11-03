@@ -608,8 +608,8 @@ func _daily_archive_cell() -> Control:
 	return cell
 
 
-## GÖREVLER sekmesinin satırı: yıldız (dolu = tamam), ad + açıklama, ilerleme ya da ödül
-## düğmesi. Ödül alınınca menü yeniden kurulur (cüzdan ve "· n ÖDÜL" de güncellensin).
+## GÖREVLER sekmesinin satırı: yıldız (dolu = tamam), ad + açıklama, büyük görevde arşiv
+## karesi, ilerleme ya da ödül düğmesi. Ödül alınınca menü yeniden kurulur (cüzdan ve "· n ÖDÜL" de güncellensin).
 func _achievement_cell(a: Dictionary) -> Control:
 	var done := Achievements.is_done(a)
 	var claimed: bool = a.id in Save.achievements_claimed
@@ -637,6 +637,16 @@ func _achievement_cell(a: Dictionary) -> Control:
 	var desc := _label(String(a.desc), MUTED)
 	desc.add_theme_font_size_override(&"font_size", 16)
 	text.add_child(desc)
+	# Büyük görevin arşiv karesi: bitince açılır, öncesinde kilitli kare hedefi gösterir.
+	if String(a.id) in Achievements.PHOTOS:
+		var photo := TextureRect.new()
+		photo.name = "Photo"
+		photo.texture = load(Achievements.photo_path(String(a.id)) if done else "res://assets/ui/photos/kilitli.png")
+		photo.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		photo.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		photo.custom_minimum_size = Vector2(74, 50)
+		photo.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		row.add_child(photo)
 	if done and not claimed:
 		var claim := Button.new()
 		claim.name = "Claim"

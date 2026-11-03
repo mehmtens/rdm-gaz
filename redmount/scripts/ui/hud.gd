@@ -450,7 +450,7 @@ func show_achievement(id: String) -> void:
 		add_child(_ach)
 		_top_band[_ach] = Vector2(_ach.offset_top, _ach.offset_bottom)
 		_top_inset = -1.0
-	_ach.push(String(a.name), int(a.reward))
+	_ach.push(String(a.name), int(a.reward), id in Achievements.PHOTOS)
 
 
 ## Kartın süre alanı: "1:23" ya da hedef varsa "1:23 / hedef 2:40" — hız yıldızı okunur olsun.
@@ -694,6 +694,7 @@ class _AchievementToast extends PanelContainer:
 
 	var _queue: Array = []
 	var _name: Label
+	var _head: Label
 	var _reward: Label
 	var _t := 0.0
 
@@ -720,7 +721,8 @@ class _AchievementToast extends PanelContainer:
 		col.add_theme_constant_override(&"separation", 0)
 		col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		row.add_child(col)
-		var head := Label.new()
+		_head = Label.new()
+		var head := _head
 		head.text = "GÖREV TAMAM · ödül arşivde"
 		head.add_theme_font_size_override(&"font_size", 16)
 		head.add_theme_color_override(&"font_color", Color(0.72, 0.68, 0.74))
@@ -745,8 +747,9 @@ class _AchievementToast extends PanelContainer:
 		tr.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		return tr
 
-	func push(title: String, reward: int) -> void:
-		_queue.append([title, reward])
+	## photo: büyük görev arşive kare de açar (Achievements.PHOTOS); başlık bunu söyler.
+	func push(title: String, reward: int, photo := false) -> void:
+		_queue.append([title, reward, photo])
 		if not visible:
 			_next()
 
@@ -757,6 +760,7 @@ class _AchievementToast extends PanelContainer:
 		var item: Array = _queue.pop_front()
 		_name.text = String(item[0])
 		_reward.text = "+%d" % int(item[1])
+		_head.text = "ödül + kare arşivde" if item[2] else "GÖREV TAMAM · ödül arşivde"
 		_t = 0.0
 		visible = true
 		Sfx.play(&"coin", 1.3)

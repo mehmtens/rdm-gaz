@@ -115,9 +115,9 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   (tur 90). İnsan testinde final ölümü 1'i geçerse 2. dalga sonrası simit.
 - Bölüm 25 ciltçi atölyesi arenası → depo (x≈7500–9000): bot can 9'a indi, 1 yeniden doğma (tur 95).
   İnsan testinde ölüm 1'i geçerse depo kapısı önüne simit.
-- Görevler dördüncü dilim (tur 104 sonrası): büyük hedeflerden birine (ör. TEMİZ İŞ ya da KİTAP 3)
-  Kanıt Arşivi karesi ödülü (yeni piksel kare gerekir). Önce insan testinde GÖREVLER sekmesine
-  bakılıyor mu, beceri görevleri hangi bölümde açılıyor ölçülsün (ödül alınma oranı).
+- Görev kareleri (tur 105): insan testinde GÖREVLER sekmesine bakılıyor mu, kilitli kare hedef olarak
+  fark ediliyor mu, beceri görevleri hangi bölümde açılıyor ölçülsün (ödül alınma oranı). Bakılmıyorsa
+  ana menü düğmesindeki "· n ÖDÜL" yanına kare sayısı.
 - Menülerde güvenli alan (tur 101): ana menü ve mağaza çentik payına çekiliyor ama hiç cihazda
   görülmedi; çentikli telefonda sol kenar düğmeleri ve mağaza sekmeleri kontrol edilsin. Duraklat menüsü
   ortalı olduğu için dışarıda bırakıldı.
@@ -125,6 +125,40 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (105) — GÖREVLER dördüncü dilim: büyük görevlere Kanıt Arşivi karesi
+
+**Neden şimdi:** Stil listesi, YOL_HARITASI ve P1'ler kapalı; 36 bölüm tur 68–98'de denetlendi.
+OYNANIS-KALITE P2 "başarımlar" satırında tek açık parça "arşiv karesi ödülü"ydü ve insan testi
+gerektirmiyor. Görev ödülü yalnız coin'di; coin bitince (mağaza tükenince) en zor üç hedefin
+kalıcı bir karşılığı yoktu. Kanıt Arşivi zaten oyuncunun koleksiyonu (gizli alan + günlük seri kareleri).
+
+**Oyuncu ne hissedecek:** TEMİZ İŞ, HER TELDEN ve ŞEHİR UYANDI satırlarında baştan kilitli bir kare
+görünür — hedefin ne kazandıracağı önceden belli. Görev bitince kare açılır, HUD tabelası
+"ödül + kare arşivde" der.
+
+**Yapılanlar:**
+- `tools/gen_photos.py` → `assets/ui/photos/gorev_{temiz_is,her_telden,kitap3}.png` (72×48 + mor
+  kontur): günlük karelerle aynı yöntem (atlas çeyreği, kutu küçültme, 18 renk, akşamüstü ton), sağ
+  altta rakam yerine 7×7 piksel yıldızlı kırmızı mühür. Kaynak: meşaleli kale kapısı (patron kapısı),
+  dökümhane bacaları (silah), Boğaz'da ay (Kitap 3 sonu). İlk denemede seçilen iki çeyrek (düz duvar,
+  boş karanlık iskele) ve mavi ton kaydırması okunmuyordu; dört çeyrek yan yana bakılıp değiştirildi.
+- `Achievements.PHOTOS`, `photo_path`, `photos_open`: kare kayıttan türer (görev bitince açık), yeni
+  Save alanı yok → eski kayıtla uyumlu.
+- Arşiv GÖREVLER satırı: büyük görevde 74×50 kare (açık ya da `kilitli.png`); satır sayısı değişmedi.
+- HUD tabelası: büyük görevde başlık "ödül + kare arşivde". İlk biçim ("GÖREV TAMAM · ödül + kare
+  arşivde") tabelayı 460 → ~520 px genişletip can paneline bindiriyordu; kısaltıldı, teste genişlik sınırı.
+- 1280×720 görüntüde arşiv: kare + AL +120 satıra sığıyor, kilitli kare okunuyor; tabela can panelinden ayrı.
+
+**Sayılar:** Yeni sayı yok (coin ödülleri aynı). Kare görev bitince açılır, ödül alınmasını beklemez:
+kare bir kanıt, coin ise elle alınan ödül — ikisini bağlamak oyuncuya fazladan menü adımı olurdu.
+
+**Testler:** `--import` hatasız; yeni `tests/achievement_photos.tscn` PASS (dosya ölçüsü, kayıttan açılma
+ve yeniden yükleme, satırda açık/kilitli kare, küçük görevde kare yok, AL düğmesi satırda, tabela
+başlığı ve ≤ 460 px); `achievements`, `skill_achievements`, `weapon_achievements`, `daily_wave`,
+`dtm_gaps` PASS; `campaign_smoke` çıkış 0; bot Bölüm 1 (90,1 sn), 13 (78,0 sn), 25 (93,8 sn) CLEARED.
+
+**Sonraki öneri:** Birikimin tamamı insan testine bağlı; telefon APK'sıyla insan testi turu.
 
 ### 2026-11-03 (104) — GÖREVLER üçüncü dilim: silah görevleri
 
