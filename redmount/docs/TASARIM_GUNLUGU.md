@@ -138,6 +138,24 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-03 (120) — Denetim: Bölüm 25 (temiz) — otomasyon durdu
+
+**Neden şimdi:** Tur 119'un önerisi; Kitap 3'ün ilk bölümü dokunmatik kontrollerle pencereli (bot CLEARED,
+88,6 sn, 0 yeniden doğma; 7 sn arayla 13 görüntü).
+
+**Bakılanlar:** matbaa sokağı arenasında telsiz + duraklat + "DALGA 2/2" sıralı (tur 119 düzeltmesi
+sahada doğrulandı); matbaa arenasında telegraf ve kombo okunuyor; sağ kümedeki düğmelerin arkasında
+kalan düşmanlar yarı saydam dolgudan (alfa ~0,51) görülüyor; Sirkeci çıkışında han kapısı ve tabela net;
+sol sütun telefonda tek biçim ("BIÇAK 5/20", "MERMİ 18/70", "ZIRH 1/6"). Yeni ölçülebilir sorun yok;
+sol sütundaki boş satır birikimde (insan testine bağlı).
+
+**Durum:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin tamamı insan testine bağlı; bu
+oturumun üç denetimi (Bölüm 2, 13, 25) bulduğu dört somut sorunu düzeltti (tur 116–119). Otomasyon,
+telefonla ikinci insan testi ya da yeni bir yol haritası gelene kadar durdu.
+
+**Sonraki öneri:** İnsan testi (telefon): arena dalga şeridi, telsiz sırasında duraklat, bölüm sonu ipucu
+kartı ve sol sütun yazıları; ardından birikimdeki insan testi ölçümleri.
+
 ### 2026-11-03 (119) — Denetim (Bölüm 13): telsiz paneli duraklat düğmesini örtüyordu
 
 **Neden şimdi:** Birikimde insan testine bağlı olmayan madde kalmadı → denetim. Kitap 2'nin ilk bölümü
