@@ -111,12 +111,26 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   kalıyor (iz ön parçasının içinde ya da ≥ 8 px). İnsan testinde fark edilirse ön parçadan da
   tutam kenarı ayıkla.
 - Telefonda dokunmatik ölçüm: yanlış/kaçırılan basış sayacı (insan testi formuyla bağlanacak).
-- Atlas hücre geçişi (`SKY_BLEND`): iki boyalı resim geçiş boyunca üst üste biniyor (Bölüm 13
-  x≈3300 çift pozlama). Geçiş daraltılabilir ya da ön plan nesnesinin arkasına alınabilir (tur 86).
 - KAY düğmesinin yeri gerçek cihazda başparmak erişimiyle doğrulanacak; gerekirse
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (87) — Denetim: Bölüm 14 (temiz)
+
+**Neden şimdi:** Tur 86'nın önerisi. Pencereli bot (8 sn'de bir kare): Bölüm 14 CLEARED 96,2 sn,
+0 yeniden doğma, final arenası önünde 12 sn takılma (bot 115 → 44 can; final dalgaları sert ama ölüm yok).
+
+**Bulgular:** Ritim (kale kapısı → Unkapanı çarşısı + fırın dükkânı → kemerli pasaj → halat deposu
+arenası → tuğla fabrika rıhtımı → tuğla baca kulesi → matbaa hikâye sahnesi → sur dibi arşiv arenası)
+okunuyor. Tur 86'nın çıkış kapısı burada da doğrulandı: güneşli sur önünde gündüz taşı + ahşap kapı
+"ARŞİV" tabelasının altında çıkış olarak okunuyor — "ait". Elle seçilmiş tuğla baca kulesi güneşli Balat
+sokağına oturuyor. Kopan öğe bulunmadı; değişiklik yapılmadı. Halat deposundaki tek karelik çift
+pozlama bilinen atlas geçişi.
+
+**Testler:** Kod değişmedi (yalnız günlük).
+
+**Sonraki öneri:** Kitap 2 denetimine 18 ile devam (15–17 tur 44 ve 85'te bakıldı).
 
 ### 2026-11-03 (86) — Denetim: Bölüm 13 + çıkış kapısı görünür (niş kapıyı örtmüyor), gündüz taş tonu
 
@@ -141,8 +155,8 @@ insan testinde göze batarsa saçak ayrı tonlanabilir.
 Bölüm 13 çıkışında niş gizli; ters koşulla FAIL verdiği doğrulandı); bot başsız Bölüm 1 (81,2 sn),
 13 (84,0), 25 (87,9) CLEARED.
 
-**Birikime:** Atlas hücre geçişi (`SKY_BLEND`) iki boyalı resmi üst üste bindiriyor; Bölüm 13 x≈3300'de
-çift pozlama gibi duruyor. Geçişi daraltmak ya da bir ön plan nesnesinin arkasına almak denenebilir.
+**Not:** Bölüm 13 x≈3300'deki çift pozlama atlas hücre geçişi (`SKY_BLEND` 240 px); tur 43'te
+zaten kısaltılıp kabul edilmişti, birikime eklenmedi.
 
 **Sonraki öneri:** Kitap 2 denetimine 14 ile devam.
 
