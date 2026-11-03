@@ -115,9 +115,9 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   (tur 90). İnsan testinde final ölümü 1'i geçerse 2. dalga sonrası simit.
 - Bölüm 25 ciltçi atölyesi arenası → depo (x≈7500–9000): bot can 9'a indi, 1 yeniden doğma (tur 95).
   İnsan testinde ölüm 1'i geçerse depo kapısı önüne simit.
-- Görevler ikinci dilim (tur 102): beceri görevleri (10 düşman fırlat / boss'u hasarsız yen /
-  havadaki düşmanı bitir) için `Save.stat_*` sayaçları; büyük hedeflerden birine Kanıt Arşivi karesi
-  ödülü. Önce insan testinde GÖREVLER sekmesine bakılıyor mu ölçülsün (ödül alınma oranı).
+- Görevler üçüncü dilim (tur 103 sonrası): büyük hedeflerden birine (ör. TEMİZ İŞ ya da KİTAP 3)
+  Kanıt Arşivi karesi ödülü ve "silahla 50 düşman" görevi. Önce insan testinde GÖREVLER sekmesine
+  bakılıyor mu, beceri görevleri hangi bölümde açılıyor ölçülsün (ödül alınma oranı).
 - Menülerde güvenli alan (tur 101): ana menü ve mağaza çentik payına çekiliyor ama hiç cihazda
   görülmedi; çentikli telefonda sol kenar düğmeleri ve mağaza sekmeleri kontrol edilsin. Duraklat menüsü
   ortalı olduğu için dışarıda bırakıldı.
@@ -125,6 +125,43 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (103) — GÖREVLER ikinci dilim: beceri görevleri
+
+**Neden şimdi:** Stil listesi ve iki yol haritasının P0/P1'i kapalı, birikimin geri kalanı insan testine
+bağlı. Tur 102'nin görevleri hep *ilerleme* sayıyordu (bitir, topla, satın al); DTM'nin görev listesini
+canlı tutan şey ise oyun tarzı istemesi. Fırlatma ve hava dizisi oyunda var ama oyuncuyu bunlara
+yönelten hiçbir şey yoktu.
+
+**Oyuncu ne hissedecek:** Arşivde üç yeni hedef — "15 düşmanı fırlat", "havadaki 10 düşmanı bitir",
+"bir patronu hasar almadan yen". İlk ikisi dövüşte zaten yapılan hareketleri (sersemletip fırlat,
+aparkat/şemsiyeyle kaldırıp havada bitir) bilinçli denemeye çevirir; üçüncüsü tekrar oynama sebebi.
+
+**Yapılanlar:**
+- `Achievements.LIST` +3: HAMAL KOLU (`throws`, 15, 30 coin), YERE DEĞMEDEN (`air_kills`, 10, 60),
+  TEMİZ İŞ (`flawless_boss`, 1, 120). 19 görev.
+- `Save`: `stat_throws`, `stat_air_kills`, `stat_flawless_bosses` (`[achievements] throws/air_kills/
+  flawless_bosses`, eski kayıtta 0), `count_throw/count_air_kill/count_flawless_boss`; `wipe` sıfırlar.
+- `Redmount.hits_taken`: gerçekten can düşüren darbe sayısı (kalkan/dokunulmazlık saymaz);
+  `_try_throw` başarılı fırlatışta `Save.count_throw()`.
+- `EnemyBase`: ölüm darbesinden önce `can_be_juggled()` (devrik + yerde değil) → `count_air_kill`.
+  Patron (`config.is_boss`) ilk görüşte ya da ilk darbede oyuncunun `hits_taken`'ını işaretler; ölümde
+  aynı oyuncu ve aynı sayıysa `count_flawless_boss`. Yeniden doğma ya da tek darbe hakkı bozar.
+- Yeni çizim yok; arşiv satırı ve HUD tabelası mevcut bileşenler. 1280×720 görüntüyle bakıldı: iki
+  sütun, 19 satır kaydırmayla okunuyor, AL düğmeleri satıra sığıyor.
+
+**Sayılar (hipotez):** 15 fırlatış ≈ Kitap 1'in yarısı (fırlatma yalnız sersem/devrik düşmanda);
+10 hava bitirişi şemsiye ya da aparkat kullanan oyuncuda Kitap 1 içinde, kullanmayanda hiç — bilinçli.
+Hasarsız patron en zor tek hedef, bu yüzden 120. Fırlatılan düşmanın çarptığı başka düşman havada
+ölürse o da sayılır (oyuncunun eseri).
+
+**Testler:** import temiz; yeni `tests/skill_achievements.tscn` PASS (gerçek Main + düşmanlarla
+fırlatma, havada/yerde bitirme ayrımı, hasarsız ve darbe yemiş patron, kalıcılık, eski kayıt);
+`achievements`, `dtm_gaps`, `new_melee_weapons`, `kaldirim_tasi` PASS; `campaign_smoke` çıkış 0;
+bot Bölüm 1 (80,2 sn), 13 (78,0 sn), 25 (84,0 sn) CLEARED.
+
+**Sonraki öneri:** Birikimin tamamı insan testine bağlı; telefon APK'sıyla insan testi turu. Görevlerin
+üçüncü dilimi (arşiv karesi ödülü) birikimde.
 
 ### 2026-11-03 (102) — GÖREVLER: başarımların ilk dilimi (OYNANIS-KALITE P2)
 

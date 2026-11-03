@@ -71,6 +71,9 @@ var achievements_claimed: Array = []
 var achievements_seen: Array = []
 var stat_defeats: int = 0
 var stat_best_combo: int = 0
+var stat_throws: int = 0
+var stat_air_kills: int = 0
+var stat_flawless_bosses: int = 0
 
 
 func _ready() -> void:
@@ -127,6 +130,9 @@ func load_game() -> void:
 	achievements_claimed = cfg.get_value("achievements", "claimed", [])
 	stat_defeats = int(cfg.get_value("achievements", "defeats", 0))
 	stat_best_combo = int(cfg.get_value("achievements", "best_combo", 0))
+	stat_throws = int(cfg.get_value("achievements", "throws", 0))
+	stat_air_kills = int(cfg.get_value("achievements", "air_kills", 0))
+	stat_flawless_bosses = int(cfg.get_value("achievements", "flawless_bosses", 0))
 	if cfg.has_section_key("achievements", "seen"):
 		achievements_seen = cfg.get_value("achievements", "seen", [])
 	else:
@@ -162,6 +168,9 @@ func save_game() -> void:
 	cfg.set_value("achievements", "seen", achievements_seen)
 	cfg.set_value("achievements", "defeats", stat_defeats)
 	cfg.set_value("achievements", "best_combo", stat_best_combo)
+	cfg.set_value("achievements", "throws", stat_throws)
+	cfg.set_value("achievements", "air_kills", stat_air_kills)
+	cfg.set_value("achievements", "flawless_bosses", stat_flawless_bosses)
 	var error := cfg.save(_path)
 	if error != OK:
 		push_error("Oyun kaydı yazılamadı: %s (%d)" % [_path, error])
@@ -403,6 +412,9 @@ func wipe() -> void:
 	achievements_seen = []
 	stat_defeats = 0
 	stat_best_combo = 0
+	stat_throws = 0
+	stat_air_kills = 0
+	stat_flawless_bosses = 0
 	save_game()
 
 
@@ -412,6 +424,23 @@ func wipe() -> void:
 ## kayıtla yazılır. Eşik geçildiyse tabela hemen çıksın diye duyuru da yapılır.
 func count_defeat() -> void:
 	stat_defeats += 1
+	_announce_achievements()
+
+
+## Beceri sayaçları (oyuncu fırlatışı, havada biten düşman, hasarsız patron); bellekte
+## birikir, `count_defeat` gibi bölüm/koşu sonundaki kayıtla yazılır.
+func count_throw() -> void:
+	stat_throws += 1
+	_announce_achievements()
+
+
+func count_air_kill() -> void:
+	stat_air_kills += 1
+	_announce_achievements()
+
+
+func count_flawless_boss() -> void:
+	stat_flawless_bosses += 1
 	_announce_achievements()
 
 

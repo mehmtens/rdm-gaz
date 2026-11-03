@@ -81,6 +81,10 @@ var _evade_dir: int = 1
 var _spawn_y: float = 0.0
 
 var _hits_taken: int = 0
+## Patron: dövüş başladığında oyuncunun `hits_taken` değeri (-1 = başlamadı). Ölümde
+## değişmemişse "TEMİZ İŞ" görevi sayılır.
+var _boss_mark: int = -1
+var _boss_mark_player: Node = null
 var _armor_break_timer: float = 0.0
 var _slam_done: bool = false
 var _thrown_timer: float = 0.0
@@ -796,6 +800,9 @@ func _recover() -> void:
 func apply_hit(damage: int, dir: Vector2, knockback: float) -> void:
 	if _state == State.DEAD:
 		return
+	_mark_boss_fight()
+	## Havaya kalkmış (yerde değil, devrik) düşman bu darbeyle biterse "YERE DEĞMEDEN".
+	var airborne := can_be_juggled()
 
 	var push := signf(dir.x)
 	if is_zero_approx(push):
@@ -853,6 +860,7 @@ func apply_hit(damage: int, dir: Vector2, knockback: float) -> void:
 		if not _defeated_sent:
 			_defeated_sent = true
 			_drop_loot()
+			_count_skill_defeat(airborne)
 			defeated.emit(self)
 		return
 
@@ -1076,7 +1084,26 @@ func _safe_to_step(direction: float, ahead := 30.0) -> bool:
 	return not get_world_2d().direct_space_state.intersect_ray(query).is_empty()
 
 
+## Patron dövüşünün başı: ilk görüş ya da ilk darbe (hangisi önceyse).
+func _mark_boss_fight() -> void:
+	if not config.is_boss or _boss_mark >= 0:
+		return
+	if _player == null or not is_instance_valid(_player) or not ("hits_taken" in _player):
+		return
+	_boss_mark_player = _player
+	_boss_mark = int(_player.hits_taken)
+
+
+func _count_skill_defeat(airborne: bool) -> void:
+	if airborne:
+		Save.count_air_kill()
+	## Yeniden doğan oyuncu yeni düğümdür: işaret başka oyuncudaysa sayılmaz.
+	if config.is_boss and _boss_mark >= 0 and is_instance_valid(_boss_mark_player) 			and _boss_mark_player == _player and int(_player.hits_taken) == _boss_mark:
+		Save.count_flawless_boss()
+
+
 func _enter_alert() -> void:
+	_mark_boss_fight()
 	_alert_timer = config.alert_time
 	velocity.x = 0.0
 	_face_player()

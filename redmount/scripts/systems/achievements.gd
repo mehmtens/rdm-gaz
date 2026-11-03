@@ -9,7 +9,7 @@ class_name Achievements
 extends RefCounted
 
 ## kind: clear (bölüm `goal`-1 bitti), secrets, stars, mastered, survival, streak,
-## costumes, upgrades, defeats, combo. Ödül kademeleri 30 / 60 / 120 coin — ustalık
+## costumes, upgrades, defeats, combo; beceri: throws, air_kills, flawless_boss. Ödül kademeleri 30 / 60 / 120 coin — ustalık
 ## (50) ve seri ödülleriyle (40–200) aynı ölçek; toplamı (≈1000) iki kostüm eder.
 const LIST: Array[Dictionary] = [
 	{"id": "ilk_adim", "name": "İLK ADIM", "desc": "Bölüm 1'i bitir", "kind": "clear", "goal": 1, "reward": 30},
@@ -28,6 +28,10 @@ const LIST: Array[Dictionary] = [
 	{"id": "yuz_kavga", "name": "MAHALLE KAVGASI", "desc": "100 düşman yen", "kind": "defeats", "goal": 100, "reward": 30},
 	{"id": "bin_kavga", "name": "ŞEHRİN KABUSU", "desc": "1000 düşman yen", "kind": "defeats", "goal": 1000, "reward": 120},
 	{"id": "kombo_25", "name": "DURMAK YOK", "desc": "25 vuruşluk kombo yap", "kind": "combo", "goal": 25, "reward": 60},
+	## Beceri görevleri (ikinci dilim): ilerleme değil oyun tarzı ister.
+	{"id": "firlatici", "name": "HAMAL KOLU", "desc": "15 düşmanı fırlat", "kind": "throws", "goal": 15, "reward": 30},
+	{"id": "havada", "name": "YERE DEĞMEDEN", "desc": "Havadaki 10 düşmanı bitir", "kind": "air_kills", "goal": 10, "reward": 60},
+	{"id": "temiz_is", "name": "TEMİZ İŞ", "desc": "Bir patronu hasar almadan yen", "kind": "flawless_boss", "goal": 1, "reward": 120},
 ]
 
 
@@ -73,6 +77,12 @@ static func value(a: Dictionary) -> int:
 			return Save.stat_defeats
 		"combo":
 			return Save.stat_best_combo
+		"throws":
+			return Save.stat_throws
+		"air_kills":
+			return Save.stat_air_kills
+		"flawless_boss":
+			return Save.stat_flawless_bosses
 	return 0
 
 

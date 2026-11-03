@@ -91,6 +91,8 @@ var _health: int = 0
 var _bonus_health: int = 0
 ## Darbe sonrası dokunulmazlık sayacı.
 var _invuln_timer: float = 0.0
+## Oyuncunun yediği darbe sayısı (kalkan/dokunulmazlıkta artmaz); patron "hasarsız" görevi okur.
+var hits_taken: int = 0
 
 ## Aktif saldırı türü.
 var _attack: Attack = Attack.NONE
@@ -972,6 +974,7 @@ func _try_throw() -> bool:
 		_facing = int(side)
 	_start_attack(Attack.HEAVY, "throw")
 	target.throw_by(Vector2(_facing * 560.0, -360.0), int(roundf(16.0 * _melee_damage_multiplier())))
+	Save.count_throw()
 	Combat.hitstop(combat.hitstop_seconds * 1.7)
 	Combat.shake(combat.shake_on_heavy)
 	Combat.rumble(0.65)
@@ -1246,6 +1249,7 @@ func apply_hit(damage: int, dir: Vector2, _knockback: float) -> void:
 			armor_changed.emit(_armor.display_name, _armor_hp, _armor.durability)
 
 	_health = maxi(_health - damage, 0)
+	hits_taken += 1
 	health_changed.emit(_health, get_max_health())
 	_invuln_timer = combat.invuln_after_hit
 	_cancel_attack()
