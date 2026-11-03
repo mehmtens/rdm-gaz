@@ -7,6 +7,10 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 137) `tests/sky_blend_arenas.tscn` FAIL (81 arena, 55 "YARIM: kamera Xʼda 1 sn'de geçiş bitmedi");
+  tur 137 değişikliğinden önce de aynı. Testin başsız zamanlayıcı/kamera sorunu mu, yoksa arenalarda gerçekten
+  iki resmin üst üste kaldığı mı ayırt edilmeli (pencereli bir arenada görüntüyle). Gerçekse tur 91 düzeltmesi
+  gerilemiş demektir. Orta öncelik, otonom yapılabilir.
 - (Tur 130 denetimi, Bölüm 16) PixelText tabela başlıklarında Türkçe "İ" okunurluğu: kelime ortasındaki İ
   dar-gövdeli bir harfle (Y, V) yan yana gelince orta 5 satırda iki ince dikey arası boş kalıyor, sabit
   adımlı yazıda kelime arası boşluk gibi okunuyor ("SÜLEYMANİYE ARŞİVİ" → "SÜLEYMANI YE ARŞI VI"). Tur 130'da
@@ -197,6 +201,34 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-04 (137) — Denetim: arka plan hücresi ↔ iç mekân taraması; Bölüm 28 röle salonu hizalandı
+
+**Neden şimdi:** Listeler kapalı, birikim insan testine bağlı; öncelik d) denetim. Tur 135'in önerisi
+uygulandı: 36 bölümde `sky_cells` sınırı bir `_interior` aralığını kesiyor mu diye betikle tarandı (12 aday).
+Önceki turlarda bakılmış olanlar (27, 30, 35, 36) dışındaki 7 aday (19, 24, 26, 28, 29, 31, 33) sınırın iki
+yanından 1280×720 görüntüyle kontrol edildi.
+
+**Bulgular:** 19, 24, 26, 31, 33 temiz (19a/26a'daki kara alan çekimin ilk karelerinde yükleme artefaktı;
+200 kare beklemeyle kayboldu). 29: DEPOT atlası tümüyle dış mekân, depo açık kesit iskele deposu gibi
+okunuyor — dokunulmadı. **28 kopuk:** röle salonu odası (`_interior` 6850–7800, içinde arena 6900–7750)
+ilk ~350 px boyunca dış röle avlusu resminin (kapı, baraka, deniz) önünde oynanıyordu; şerit makineli salon
+resmi 7200'de başlıyordu. Arşiv (fıçılı mahzen resmi) 8300'de başlıyor, oda 8200'de; Kız Kulesi rıhtımı
+resmi 9150'de, oda 8800'de bitiyor.
+
+**Yapılan:** `bolum28.gd` `sky_cells`: salon 7200 → 6850, arşiv 8300 → 8200, rıhtım 9150 → 8850. Oynanış
+değişmedi. Arena merkezi (7325) yeni sınırın geri dönüş payının (360 px) dışında; dövüşte resim değişmez.
+
+**Görsel kontrol:** x≈6950 ve 7300 oda + salon resmi "ait"; x≈8300 arşiv mahzeni; x≈8950 rıhtıma çıkınca
+Kız Kulesi manzarası (sol kenarda yalnız oda çıkış direği).
+
+**Testler:** `--import` SCRIPT ERROR yok; `campaign_smoke` 36/36 SMOKE OK exit 0; `dtm_gaps` PASS; bot
+Bölüm 28 CLEARED 92,4 sn (0 yeniden doğma). `sky_blend_arenas` FAIL (81 arena, 55 hata) — değişiklik
+öncesiyle birebir aynı sonuç (stash ile karşılaştırıldı), yani önceden kırık; Bölüm 28'deki iki "YARIM"
+satırı da eskisinde var. Başsız 1 sn zamanlayıcıyla ilgili olabilir; ayrı turda incelenmeli (birikime yazıldı).
+
+**Sonraki öneri:** `sky_blend_arenas` testinin neden 55 arenada "geçiş bitmedi" dediğini incelemek
+(test mi, gerçek kalıcı çift resim mi). Denetim sürecekse hiç bakılmamış: 2, 3, 5, 6, 7, 8, 9, 10, 15.
 
 ### 2026-11-04 (136) — Denetim: Bölüm 30 (görsel temiz, denge birikime) — otomasyon durdu
 
