@@ -21,7 +21,11 @@ func _build() -> void:
 	_ceiling(-400, 8900, -440)
 
 	# --- 1. Surdan iniş: duvardaki tıkırtı -----------------------------------------
-	_terrain(-400, 3400, 0)
+	# Sur dibinde yıkık duvar seti: suikastçı kavgasından sonra kasanın durduğu yükselti.
+	_terrain(-400, 1150, 0)
+	_terrain(1150, 1200, -50)
+	_terrain(1200, 1350, -100)
+	_terrain(1350, 3400, 0)
 	_story(-1.0, _sahne_inis, 220.0)
 	for x in [300, 900, 1500]:
 		_lantern(float(x))
@@ -29,7 +33,7 @@ func _build() -> void:
 	_prop("sandik", 560, 0, AMMO)
 	_enemy(KNIFE, 820, 0)
 	_enemy(ASSASSIN, 1050, 0)
-	_prop("kasa", 1250)
+	_prop("kasa", 1250, -100)
 
 	# --- 2. Tuzaklı koridor: presler; üstte galeri -----------------------------
 	_checkpoint(1420, 0)

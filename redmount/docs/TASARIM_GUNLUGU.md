@@ -7,8 +7,8 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Zemin yüksekliği + bulut platform denetimi, sonraki dilim: Bölüm 7–12 (tur 106'da 1–3, tur 107'de
-  4–6 yapıldı). Kural: bulut yükseltisi kalkış yüzeyinden ≤ 110 px (zıplama tepesi ~120 px,
+- Zemin yüksekliği + bulut platform denetimi, sonraki dilim: Bölüm 13–18 (tur 106'da 1–3, tur 107'de
+  4–6, tur 108'de 7–12 yapıldı). Kural: bulut yükseltisi kalkış yüzeyinden ≤ 110 px (zıplama tepesi ~120 px,
   `jump_velocity` −580, yerçekimi 1400); her yeni bulut erişim ölçümüyle doğrulanır.
 
 - Bölüm 11 pres koridoru → avlu arenası (x≈1700–5100): pencereli bot koridorda 89 → 34 can (pres hasarı 16,
@@ -129,6 +129,33 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (108) — Bölüm 7–12: giriş setleri ve bulutlar (erişim ölçümüyle)
+
+**Neden şimdi:** Birikimin başındaki madde (tur 107'nin devamı). 7–12'nin orta ve son kesimleri zaten
+dikey (kanal, burç, iskele, sur); düz kalan yer altı bölümün de **açılış kesimi** (−400…~1700, iki düşman
++ birkaç sandık, tamamen y 0). İlk insan testinin "zemin düz" şikâyeti tam olarak bu ilk ekranlardı.
+
+**Oyuncu ne hissedecek:** Her bölüm ilk ekranda farklı bir yükseltiyle açılır; aynı kalıp tekrar etmesin
+diye biçimler bölüme göre değişir:
+- B7 haddehane: iki yanı basamaklı döküm kalıbı tezgâhı, üstünden buluta (900, −200), oradan kavgaya iniş.
+- B8 sarnıç kuyusu: varilin üstünde tek tahta (720, −110) + kanal ağzına çıkan, uçta kesilen basamak.
+- B9 köprü başı: 200 px'lik taş ayak (varil ve kasa üstünde), ucundan nehir yatağına bakan bulut (1580, −200).
+- B10 sur dibi: birinci burca adım adım çıkan moloz basamaklar; kontrol noktası basamağın tepesinde.
+- B11 sur dibi: suikastçı kavgasının arkasında yıkık duvar seti, kasa üstünde (bulut yok: hemen sonra galeri var).
+- B12 iç kale girişi: kavganın üstünde kademeli iki tahta (760, −110) → (980, −215); fener 1000 → 1200.
+
+**Doğrulama:** Geçici pencereli erişim testi (gerçek girdi: koş + kenarda zıpla, düşmanlar kaldırılmış)
+11/11 durumda beklenen yüzeye indi (B7 set → −100, set → bulut −200; B8 bulut −110, set −100; B9 set
+−100, set → bulut −200; B10 set −100, set → sur −150; B11 set −100; B12 bulut −110 → −215). 1280×720
+görüntülerde taş setler ve tahtalar sahneye ait; B12'de tahtalar iç mekân resminin önünde biraz düşük
+kontrastlı ama seçiliyor.
+
+**Testler:** `--import` hatasız; `dtm_gaps` PASS; `campaign_smoke` çıkış 0; bot Bölüm 7 (107,1 sn, 2 yeniden
+doğma), 8 (86,7 sn, 0), 9 (125,4 sn, 0), 10 (108,3 sn, 2), 11 (87,4 sn, 0), 12 (79,5 sn, 2) CLEARED; en uzun
+takılma 18–23 sn, hepsi açılış kesiminin dışında (arenalar/final), birikimdeki maddelerle aynı yerler.
+
+**Sonraki öneri:** Bölüm 13–18 için aynı denetim (birikimin başında).
 
 ### 2026-11-03 (107) — Bölüm 4–6: zemin setleri ve bulut platformlar (erişim ölçümüyle)
 

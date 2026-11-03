@@ -23,14 +23,19 @@ func _build() -> void:
 	_night(Color(0.76, 0.76, 0.9))
 
 	# --- 1. Tünel çıkışı: köprüde Gazelle'i taşıyan araç ---------------------------
-	_terrain(-400, 1800, 0)
+	# Köprü başı: basamaklı taş ayak; ucundan buluta, oradan nehir yatağına.
+	_terrain(-400, 1150, 0)
+	_terrain(1150, 1200, -50)
+	_terrain(1200, 1400, -100)
+	_terrain(1400, 1800, 0)
 	_han_gate(-60, "TÜNEL")
 	_story(-1.0, _sahne_gecit, 220.0)
 	_powerup(560, -60, PU_DAMAGE)
 	_enemy(BRUISER, 900, 0)
 	_enemy(STREET, 1120, 0)
-	_prop("varil", 1280)
-	_prop("kasa", 1340)
+	_prop("varil", 1280, -100)
+	_prop("kasa", 1340, -100)
+	_cloud(1580, -200, 130.0, 3)
 	_lantern(400)
 	_lantern(1500)
 

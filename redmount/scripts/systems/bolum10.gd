@@ -18,7 +18,8 @@ func _build() -> void:
 	_night(Color(0.74, 0.74, 0.9))
 
 	# --- 1. Surların dibi: açık kapı, meydan okuma --------------------------------
-	_terrain(-400, 1700, 0)
+	_terrain(-400, 1380, 0)
+	_terrain(1560, 1700, 0)
 	_han_gate(560, "ANA KAPI")
 	_story(-1.0, _sahne_acik_kapi, 220.0)
 	_enemy(STREET, 900, 0)
@@ -26,10 +27,13 @@ func _build() -> void:
 	_prop("varil", 1250)
 	_prop("vazo", 1320)
 	_lantern(300)
-	_lantern(1450)
+	_lantern(1200)
 
 	# --- 2. Birinci burç ---------------------------------------------------------
-	_checkpoint(1500, 0)
+	# Surun önünde moloz basamaklar: birinci burca adım adım çıkış.
+	_terrain(1380, 1430, -50)
+	_terrain(1430, 1560, -100)
+	_checkpoint(1500, -100)
 	_crates(1610, 1, 1)
 	# Burçlar kuzey surunun moloz taş örgüsü; altları düz zemin.
 	_terrain(1700, 2600, 0)

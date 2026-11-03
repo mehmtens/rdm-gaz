@@ -27,12 +27,15 @@ func _build() -> void:
 	# --- 1. İç kale girişi ---------------------------------------------------------
 	_terrain(-400, 3300, 0)
 	_story(-1.0, _sahne_giris, 220.0)
-	for x in [300, 1000]:
+	for x in [300, 1200]:
 		_lantern(float(x))
 	_prop("vazo", 450)
 	_prop("sandik", 600, 0, HEALTH)
 	_enemy(ELITE, 900, 0)
 	_enemy(KNIFE, 1100, 0)
+	# Kapı kemerinden sarkan iki tahta: kavganın üstünde kademeli coin yolu.
+	_cloud(760, -110, 130.0, 2)
+	_cloud(980, -215, 130.0, 3)
 
 	# --- 2. Cephanelik: güçlendiriciler + kilitli arena ---------------------------
 	_checkpoint(1380, 0)

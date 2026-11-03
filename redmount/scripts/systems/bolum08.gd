@@ -20,12 +20,18 @@ func _build() -> void:
 	_ceiling(-400, 9700, -440)
 
 	# --- 1. Asansör kuyusu dibi: tebeşir çizgileri ------------------------------
-	_terrain(-400, 1700, 0)
+	# Kuyu dibinde kanal ağzına çıkan taş basamaklar; uçtan kanala bakan set.
+	_terrain(-400, 1280, 0)
+	_terrain(1280, 1330, -50)
+	_terrain(1330, 1420, -100)
+	_terrain(1420, 1700, 0)
 	_story(-1.0, _sahne_kuyu, 220.0)
 	_chalk(520, -170, "I I I")
 	for x in [300, 900, 1450]:
 		_lantern(float(x))
 	_prop("varil", 640)
+	# Kuyu kirişinden sarkan tahta: varilin üstünden bir zıplamalık coin.
+	_cloud(720, -110, 130.0, 2)
 	_enemy(KNIFE, 820, 0)
 	_enemy(STREET, 980, 0)
 	_prop("kasa", 1150)

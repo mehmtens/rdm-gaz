@@ -18,7 +18,12 @@ func _build() -> void:
 	back_row_on = false
 	_night(Color(0.86, 0.76, 0.74))
 
-	_terrain(-400, 1700, 0)
+	# Girişte döküm kalıbı tezgâhı (iki yanı basamaklı): üstünden buluta, oradan ilk kavgaya inilir.
+	_terrain(-400, 560, 0)
+	_terrain(560, 610, -50)
+	_terrain(610, 710, -100)
+	_terrain(710, 760, -50)
+	_terrain(760, 1700, 0)
 
 	# --- 1. Giriş: Karahanlı'nın sesi -------------------------------------------
 	_story(-1.0, _sahne_ses, 220.0)
@@ -27,7 +32,8 @@ func _build() -> void:
 	_enemy(BRUISER, 820, 0)
 	_enemy(STREET, 1000, 0)
 	_prop("varil", 1200)
-	_lantern(640)
+	_lantern(300)
+	_cloud(900, -200, 130.0, 3)
 	_lantern(1350)
 
 	# --- 2. Su verme kanalı: buharlı su, paletler, kenarda alevler --------------
