@@ -708,7 +708,8 @@ func _interior(x0: float, x1: float, top: float, floors: Array, style := 0) -> v
 		# cephe yok (resim zaten iç mekân).
 		_oneway_art(x0 + w * 0.5, top, w - 8.0, _Art.A_FLOOR)
 		return
-	_oneway_art(x0 + w * 0.5, top, w + 24.0, _Art.A_ROOFLINE)
+	# Taş kışla (stil 2) sur taç taşıyla biter; ev cepheleri kiremitle.
+	_oneway_art(x0 + w * 0.5, top, w + 24.0, _Art.A_WALLTOP if style == 2 else _Art.A_ROOFLINE)
 	var facade := _Facade.new()
 	facade.rect = Rect2(x0, top, w, -top)
 	facade.style = style

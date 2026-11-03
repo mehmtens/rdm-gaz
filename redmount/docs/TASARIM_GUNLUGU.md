@@ -116,6 +116,26 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-03 (84) — Denetim: Bölüm 12 + tutukevi taş hücre bloğu; taş kışla çatısı taç taşı
+
+**Neden şimdi:** Tur 83'ün önerisi (Kitap 2 denetimi). Pencereli bot (8 sn'de bir kare): Bölüm 12 CLEARED
+80,8 sn, 2 yeniden doğma (yalı kesimi, x≈4600–5400; birikimdeki madde ile aynı yer), ilk arenada 15 sn takılma.
+
+**Bulgular:** Ritim (matbaa arenası → çöken iskele → rıhtım tüfeklisi → tutukevi → taht salonu) okunuyor.
+Görselde kopan öğe tutukeviydi (x 5250–6150): yalı salonu resminin önünde **Balat tuğla evi**, kiremit
+saçak ve cephede **dükkân tentesi** — hücre bloğu olarak okunmuyordu. Ayrıca taş kışla stilinin (tur 81,
+Bölüm 9 cephaneliği) tepesi hâlâ mahalle kiremidiydi.
+
+**Yapılan:** Tutukevi `_interior(..., 2)` → taş kışla: sur örgüsü cephe, köşe taşları, yüksekte parmaklıklı
+pencere, dükkân yok; içte koyu taş örgü + fener. `_interior` stil 2'nin tepesi `A_WALLTOP` (tur 83'teki
+sur taç taşı); ev cepheleri (stil 0/1) kiremitli kalır. Yeni çizim yok. 1280×720 çekimde tutukevi ve
+Bölüm 9 cephaneliği taç taşıyla tek taş kütle — "ait"; kapı (`PIX_GATE`) tur 81'deki gibi.
+
+**Testler:** import temiz (SCRIPT ERROR 0); smoke 36/36 SMOKE OK, çıkış 0; DTM GAPS PASS; bot başsız
+Bölüm 12 (80,3 sn), 9 (120,3), 1 (85,4), 13 (76,6), 25 (79,6) CLEARED.
+
+**Sonraki öneri:** Kitap 2 denetimine 13 ile devam.
+
 ### 2026-11-03 (83) — Denetim: Bölüm 11 (Sessiz Koridor) + taş baca kulelerinin tepesi sur taç taşı
 
 **Neden şimdi:** Stil listesi ve iki yol haritası kapalı, birikimin tamamı insan testine bağlı → tur 82'nin
