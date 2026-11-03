@@ -24,9 +24,6 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 - Bölüm 26 final arenası (x≈8200–8700, `DALGA 2/2 · 3 DÜŞMAN`): pencereli bot son dalgada 1/115
   cana indi, koşuda 2 yeniden doğma (başsız koşularda 0–1). İnsan testinde final ölümü 1'i geçerse
   ikinci dalga sonrası simit ya da üç düşmandan biri tüfeksiz.
-- Ön plan kolonu (`_fg("kolon")`, 13 kullanım) gündüz bölümlerinde (ör. Bölüm 26 gar meydanı) soğuk
-  gri taş; ön plan olduğu için koyu silüet bilinçli. İnsan testinde "yapıştırılmış" denirse gündüz
-  bölümlerinde `sky_tint` ile ısıtılsın.
 
 - Bölüm 14 son arena (x≈9000–9500): bot son dalgaya 23/115 canla girdi, 2 yeniden doğma (pencereli
   ve başsız koşu). İnsan testinde arena ölümü 1'i geçerse ikinci dalga sonrası simit.
@@ -119,6 +116,28 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (93) — Denetim: Bölüm 23 + gündüz bölümlerinde ön plan kolonu sıcak taşta
+
+**Neden şimdi:** Tur 92'nin önerisi. Pencereli bot (8 sn'de bir kare): Bölüm 23 CLEARED 98,8 sn,
+0 yeniden doğma, final arenasında bot 46 can.
+
+**Bulgu:** Ritim (Saraçhane çeşme avlusu → su terazisi kulesi → saatli vana koridoru → Saraçhane erzakı
+→ ana vana galerisi arenası → harita odası → Bozdoğan kemeri finali) okunuyor. Kopan öğe: ana vana
+galerisinde ön plan kolonları (`_fg("kolon")`) altın ışıklı taş resmin önünde soğuk mavi-gri — üç karede
+belirgin. Birikimdeki "ön plan kolonu gündüzde soğuk gri" maddesi; insan testi beklemeye gerek
+görmedim, pencereli çekimde açıkça yapıştırılmış gibiydi.
+
+**Yapılan:** Ön plan katmanı gece olmayan bölümlerde `FG_DAY` (1,3 / 1,14 / 0,86) ile ısınır;
+`chimney_night` bölümleri (karanlık sarnıç 15, loş posta salonu 17) gece tonunda kalır. Ton DAY_STONE'dan
+yumuşak: ön plan koyu silüet kalmalı. Etkilenen gündüz kolonları: 16, 23, 24, 26, 27. Yeni çizim yok.
+Önce/sonra 1280×720: 16 (mahzen), 23 (vana galerisi), 24 (kemer altı tonoz) belirgin iyileşti; 26 gar
+meydanı ve 27 köprübaşı güneşinde de "ait". Birikimden ilgili madde çıkarıldı.
+
+**Testler:** import temiz (SCRIPT ERROR 0); smoke 36/36 SMOKE OK, çıkış 0; DTM GAPS PASS; bot başsız
+Bölüm 1 (83,8 sn), 13 (83,0), 23 (89,9), 25 (83,3) CLEARED (değişiklik yalnız görsel).
+
+**Sonraki öneri:** Kitap 2 denetimine 24 ile devam.
 
 ### 2026-11-03 (92) — Denetim: Bölüm 22 (temiz)
 

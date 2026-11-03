@@ -140,6 +140,8 @@ var chimney_night := false
 ## turuncu közün yanında soğuk gri kalıp yapıştırılmış gibi duruyordu (tur 89).
 var gate_fire := false
 const FIRE_STONE := Color(1.42, 1.02, 0.74)
+## Gündüz bölümlerinde ön plan kolonunun tonu (DAY_STONE'dan yumuşak: ön plan koyu kalmalı).
+const FG_DAY := Color(1.3, 1.14, 0.86)
 var zoom_level := 1.12
 ## İç mekânların sıva arka duvarı. Boyalı arka planı zaten iç mekân olan bölümler
 ## false verir: katlar, kirişler, cephe kalır; arkada boyalı resim görünür.
@@ -785,6 +787,12 @@ func _fg(kind: String, x: float, y := 0.0, length := 0.0) -> void:
 	if _fg_layer == null:
 		_fg_layer = _Foreground.new()
 		add_child(_fg_layer)
+		# Ön plan taşı gece için boyandı; gündüzün sıcak taş resminin önünde soğuk
+		# mavi-gri kalıyordu (tur 93, Bölüm 23 ana vana koridoru). Ön plan olduğu için
+		# kule kadar açılmaz, koyu silüet kalır (gece ayarı sonradan gelebilir: ertelenir).
+		(func() -> void:
+			if not chimney_night and not is_in_group(&"dark_scene"):
+				_fg_layer.modulate = FG_DAY).call_deferred()
 	_fg_layer.items.append([kind, x, y, length])
 
 
