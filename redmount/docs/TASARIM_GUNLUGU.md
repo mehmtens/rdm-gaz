@@ -119,6 +119,24 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-03 (98) — Denetim: Bölüm 34 (temiz) — denetim dizisi tamam, otomasyon durdu
+
+**Neden şimdi:** Tur 97'nin önerisi. Pencereli bot (8 sn'de bir kare): Bölüm 34 CLEARED 70,5 sn,
+0 yeniden doğma.
+
+**Bulgular:** Ritim (Kandilli yokuşu, ön sıra evler → bahçe merdivenleri arenası → sur kemerleri, tüfekli
+tüneği → iskele + gece taş kulesi → Sırt kantini, pres kasaları → verici salonu → verici iskelesi →
+Anadoluhisarı rıhtım finali) okunuyor. Ön sıra sıva evler birikimdeki maddeyle aynı (gece fenerli, insan
+testine bırakıldı). Tur 91 taramasındaki 9000–9600 final arenası tek resimde. Değişiklik yok.
+
+**Durum:** Stil listesi ve iki yol haritası kapalı; 36 bölümün tamamı tur 68–98 denetimlerinde görüldü.
+Birikimdeki maddelerin hepsi insan testi koşuluna bağlı (ölüm sayıları, ipucu sırası, dokunmatik ölçüm).
+Bu oturumda denetim üç ortak düzeltme çıkardı (tur 89 köz tonlu kapı, 91 zamana bağlı gökyüzü geçişi,
+93 gündüz ön plan kolonu). Yeni iş çıkmadığı için otomasyon durdu.
+
+**Sonraki öneri:** İnsan testi turu (telefon APK'sı): Bölüm 6, 9, 14, 19, 20, 24, 26 finallerinde ölüm
+sayısı + son arenaya giriş canı; sonuçlara göre birikimdeki simit/dalga maddeleri uygulanır.
+
 ### 2026-11-03 (97) — Denetim: Bölüm 33 (temiz)
 
 **Neden şimdi:** Tur 96'nın önerisi. Pencereli bot (8 sn'de bir kare): Bölüm 33 CLEARED 86,7 sn,
