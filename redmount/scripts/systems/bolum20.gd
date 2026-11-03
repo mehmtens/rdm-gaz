@@ -24,9 +24,11 @@ func _build() -> void:
 	# --- 1. Arka sokak: devriye, güvenli balkon -------------------------------
 	_terrain(-400, 1700, 0)
 	_story(-1.0, _sahne_sahil, 240.0)
-	_balcony(560, -70, 110)
-	_balcony(720, -170, 110)
-	_pickup(ARMOR, 720, -215)
+	# Sahil yolunda taşkın havuzu: altta coin, üstte zırhlı tahta (balkon açılışı yerine).
+	_basin(600, 980, 80)
+	_coin_line(725, 4, 45, 40)
+	_cloud(790, -95, 130.0, 0)
+	_pickup(ARMOR, 790, -140)
 	_enemy(STREET, 1050, 0)
 	_prop("saksi", 1250)
 	for x in [300, 1400]:

@@ -24,9 +24,10 @@ func _build() -> void:
 	# --- 1. Aksaray sokağı: devriye, balkon ----------------------------------
 	_terrain(-400, 1700, 0)
 	_story(-1.0, _sahne_sokak, 240.0)
-	_balcony(560, -70, 110)
-	_balcony(720, -170, 110)
-	_pickup(ARMOR, 720, -215)
+	# Aksaray'da han cephesine kurulu tadilat iskelesi: iki kademe, zırh üstte.
+	_scaffold(620, -100, 140)
+	_scaffold(820, -200, 140)
+	_pickup(ARMOR, 820, -245)
 	_enemy(STREET, 1050, 0)
 	for x in [300, 1400]:
 		_lantern(float(x))

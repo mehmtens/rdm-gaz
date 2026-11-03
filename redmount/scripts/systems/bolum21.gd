@@ -23,9 +23,10 @@ func _build() -> void:
 	# --- 1. Gece sokağı: devriye, kısa balkon rotası ------------------------------
 	_terrain(-400, 1700, 0)
 	_story(-1.0, _sahne_sokak, 240.0)
-	_balcony(560, -70, 110)
-	_balcony(720, -170, 110)
-	_pickup(ARMOR, 720, -215)
+	# Gece sokağında yıkık sur parçası: tahtadan duvarın tepesine, zırh tepede.
+	_cloud(600, -95, 120.0, 2)
+	_stones(700, 2, 2)
+	_pickup(ARMOR, 790, -225)
 	_enemy(KNIFE, 1050, 0)
 	for x in [300, 1400]:
 		_lantern(float(x))

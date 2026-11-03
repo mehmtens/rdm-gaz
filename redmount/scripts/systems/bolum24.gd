@@ -26,7 +26,12 @@ func _build() -> void:
 
 	# --- 1. Saraçhane yaklaşımı: devriye, kemer bulvarında arena -------------------
 	# Kitap 2'nin ortak çukur avlusu yerine arena kemerin altındaki düz bulvarda.
-	_terrain(-400, 19500, 0)
+	# Bulvarın başında kemer ayağı kaidesi: arenaya girmeden tek yükselti.
+	_terrain(-400, 1150, 0)
+	_terrain(1150, 1200, -50)
+	_terrain(1200, 1400, -100)
+	_terrain(1400, 1450, -50)
+	_terrain(1450, 19500, 0)
 	_story(-1.0, _sahne_baslangic, 240.0)
 	_enemy(STREET, 700, 0)
 	_prop("saksi", 900)

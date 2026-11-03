@@ -7,9 +7,9 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Zemin yüksekliği + bulut platform denetimi, sonraki dilim: Bölüm 19–24 (tur 106'da 1–3, tur 107'de
-  4–6, tur 108'de 7–12, tur 109'da 13–18 yapıldı). Bölüm 16'nın tente + iki iskele açılışı Kitap 2'de
-  tek kaldı; 19–24'te aynı kalıp varsa o da bölüme özgü açılışla değiştirilsin. Kural: bulut yükseltisi kalkış yüzeyinden ≤ 110 px (zıplama tepesi ~120 px,
+- Zemin yüksekliği + açılış denetimi, son dilim: Bölüm 25–36 (tur 106–110'da 1–24 yapıldı). Kitap 2'de
+  kopya açılış kalıpları temizlendi (16: tente + iskele, 15: iki balkon tek sahipleri); Kitap 3'te
+  aynı açılışı paylaşan bölümler varsa bölüme özgü açılışla değiştirilsin. Kural: bulut yükseltisi kalkış yüzeyinden ≤ 110 px (zıplama tepesi ~120 px,
   `jump_velocity` −580, yerçekimi 1400); her yeni bulut erişim ölçümüyle doğrulanır.
 
 - Bölüm 11 pres koridoru → avlu arenası (x≈1700–5100): pencereli bot koridorda 89 → 34 can (pres hasarı 16,
@@ -130,6 +130,35 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (110) — Bölüm 19–24: kopya balkon açılışı yerine bölüme özgü girişler
+
+**Neden şimdi:** Birikimin başındaki madde. Denetimde Kitap 2'nin en büyük kalıp tekrarı çıktı: 15, 19,
+20, 21, 22 ve 23 **birebir aynı** açılışla başlıyordu (560/−70 ve 720/−170 balkon, 720'de zırh,
+1050'de tek düşman). Bölüm 24'ün açılışı (ve 19 500 px'lik zemini) tamamen düzdü.
+
+**Oyuncu ne hissedecek:** Her bölüm farklı bir malzeme ve hareketle açılır; zırh her birinde başka
+bir küçük bulmacanın ucunda:
+- B15: iki balkon açılışı korunur (kalıbın tek sahibi).
+- B19 arka sokak: hamam odunu sandıkları (90/180 px) → bulut (870, −280), zırh bulutta.
+- B20 sahil yolu: taşkın havuzu (80 px derin, ölümcül değil) — altta coin, üstte zırhlı tahta: alt/üst rota seçimi.
+- B21 gece sokağı: tahtadan yıkık sur parçasının tepesine (180 px), zırh tepede.
+- B22 Aksaray: han cephesinde iki kademeli tadilat iskelesi; ardından gelen kömür rampasıyla çakışmasın
+  diye zemin seti yerine iskele.
+- B23 Saraçhane: dükkân tentesi tek yüksek balkona atar (930, −200, 200 px). İlk yerleşimde (800, −240)
+  sıçrama yayı balkonu aşıyordu; ölçülen iniş noktalarına (963 ve 983) göre taşındı ve genişletildi.
+- B24 bulvar başı: kemer ayağı kaidesi (−50/−100/−50).
+
+**Doğrulama:** Geçici pencereli erişim testi (gerçek girdi) 12/12: B19 sandık −90 → −180 → bulut −280;
+B20 havuz +40/+80, bulut −95; B21 bulut −95 → sur −180; B22 iskele −100 → −200; B23 tente −60 → balkon
+−200 (iki farklı kalkış noktasından); B24 set −100. 1280×720 görüntülerde sandık, havuz, sur parçası ve
+balkon sahneye ait.
+
+**Testler:** `--import` hatasız; `dtm_gaps` PASS; `campaign_smoke` çıkış 0; bot Bölüm 19 (85,5 sn, 0 yeniden
+doğma), 20 (87,0 sn, 0), 21 (97,8 sn, 2), 22 (75,2 sn, 0), 23 (98,3 sn, 0), 24 (200,0 sn, 2) CLEARED; en uzun
+takılmalar (7–23 sn) açılışların dışında, 21 ve 24'ün yeniden doğmaları birikimdeki final maddeleriyle aynı.
+
+**Sonraki öneri:** Bölüm 25–36 için aynı denetim (birikimin başında).
 
 ### 2026-11-03 (109) — Bölüm 13–18: açılış kesimleri (düz giriş + kopya açılış kalıbı)
 

@@ -22,9 +22,14 @@ func _build() -> void:
 	# --- 1. Saraçhane sokağı: şafak, devriye ------------------------------------
 	_terrain(-400, 1700, 0)
 	_story(-1.0, _sahne_sokak, 240.0)
-	_balcony(560, -70, 110)
-	_balcony(720, -170, 110)
-	_pickup(ARMOR, 720, -215)
+	# Saraçhane'de dükkân tentesi tek yüksek balkona atar; zırh balkonda.
+	var aw0 := AwningBounce.new()
+	aw0.width = 160
+	aw0.height = 60
+	aw0.position = Vector2(600, 0)
+	add_child(aw0)
+	_balcony(930, -200, 200)
+	_pickup(ARMOR, 940, -245)
 	_enemy(STREET, 1050, 0)
 
 	# --- 2. Çeşme avlusu: sokaktan yükseltilmiş taraça, hızlı/zırhlı iki dalga ----
