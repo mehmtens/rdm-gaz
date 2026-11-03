@@ -193,6 +193,31 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-04 (135) — Denetim: Bölüm 27 + arşiv/teras arka plan hücreleri yerine oturdu
+
+**Neden şimdi:** Listeler kapalı, birikim insan testine bağlı; öncelik d) denetim. Hiç bakılmamış Bölüm 27
+(Galata Telgrafı) pencereli bot ile oynatıldı (12 sn arayla 8 görüntü; CLEARED 89,7 sn, 0 yeniden doğma).
+
+**Bulgu:** Kıyı, köprübaşı arenası, Kamondo basamakları, mors salonu ve kablo koridoru temiz. Kopuk olan:
+telgraf atlasının arşiv odası hücresi (raflar + pencere) x=8600'de başlıyordu, oysa oynanan arşiv odası
+(`_interior` 8050–8500, açık kesit) 7950'de başlıyor. Sonuç: arşiv odası kablo koridoru resminin önünde
+oynanıyor, son arenanın "çatı direkleri" (`_antenna` 9250/9650) ise 8600–9250 arasında kitap raflı odanın
+içinde, pencerenin önünde dikiliyordu (x≈9127 görüntüsü). Anten sprite'ı zaten ChatGPT tarzında (c698388f);
+sorun yerleşim/resim eşleşmesi.
+
+**Yapılan:** `bolum27.gd` `sky_cells`: arşiv hücresi 8600 → 7950 (arşiv kontrol noktası), teras 9250 → 8760
+(çökmüş döşemenin bittiği yer; kamera geçişi 8640'ta, anten 9250 ekrana ~8610'da girer, perde sağdan
+geldiği için örtüşme fark edilmiyor). Oynanış değişmedi.
+
+**Görsel kontrol (pencereli, 1280×720, 3 sn arayla):** x≈8324 arşiv odası raflı resmin önünde; x≈8910
+terasa geçiş perdesi; x≈9340 antenler Galata manzaralı terasta "ait"; x≈7646 kablo koridoru arenası aynı.
+
+**Testler:** `--import` SCRIPT ERROR yok; `campaign_smoke` 36/36 SMOKE OK exit 0; `dtm_gaps` PASS; bot
+Bölüm 27 pencereli CLEARED 85,8 sn, başsız CLEARED 96,1 sn (0 yeniden doğma, en uzun takılma 11 sn).
+
+**Sonraki öneri:** Diğer bölümlerde `sky_cells` sınırı ile `_interior`/kontrol noktası hizası taranabilir
+(aynı kaymanın başka örneği var mı). Hiç bakılmamış: 2, 3, 5, 6, 7, 8, 9, 10, 15, 30.
+
 ### 2026-11-04 (134) — Denetim: Bölüm 36 (görsel temiz, denge birikime) — otomasyon durdu
 
 **Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikim insan testine bağlı. Öncelik d)
