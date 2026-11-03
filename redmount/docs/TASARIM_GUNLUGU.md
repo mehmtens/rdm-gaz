@@ -20,11 +20,11 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   "bir bakışta ayrışma" hedefini vermiyor; DTM'deki ayrışma tüm kostüm rengiyle (sayfa), kenarla
   değil. Gerçek çözüm (a) atlas sayfalarını tip başına imza rengiyle yeniden boyamak — insan
   gözüyle yapılmalı (çok sayfa, GPT tarzı, kör otonom turda riskli).
-- (Tur 123 denetimi) Gündüz arena zemini tektip taş; DTM arenalarında zeminde 1 çevresel etkileşim
-  (devrilen tezgâh, kırılabilir yığın, yuvarlanan varil) ritim katıyor. Arena başına tek set-piece
-  nesnesi. Orta etki / orta maliyet (mevcut breakable/barrel yeniden kullanılır).
-- (Tur 123 denetimi) Kombo sayacı "COMBO ×N +P" sağ üst köşede; yüksek N/P değerlerinde sağ kenara
-  taşma riski 1280×720'de ölçülmedi — ×20+ comboda konum/ölçek denetimi. Düşük etki / düşük maliyet.
+- (Tur 123 denetimi, tur 124'te daraltıldı) Gündüz arena zemini çeşitliliği: her geniş arenada
+  `_arena_barrels()` zaten bir patlayıcı varil koyuyor (≥550px arena, sağ kapı yanı), yani "tektip
+  boş zemin" kısmen çözülmüş. Kalan: devrilen tezgâh / kırılabilir yığın gibi arena-özgü ikinci bir
+  set-piece — ama bu her arenaya elle, bölüme uygun yerleşim ister (formül/şişirme riski). İnsan
+  seviye-tasarım yargısıyla yapılmalı; kör otonom turda tek tip nesneyi her arenaya basmak değersiz.
 - Bölüm 20 arena üst şeridi (tur 122 denetimi): "DALGA 1/2 · 2 DÜŞMAN" dalga şeridi ile "FİLM RULOSU 1/3"
   üç satırlık toplama bildirimi aynı anda ekranın üstünde art arda diziliyor (1280×720'de okunur).
   İnsan testinde telefonda üst kenarda sıkışma/çakışma görülürse film-rulosu bildirimi ekranın ortasına
@@ -156,6 +156,34 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (124) — Denetim devamı: düşman ayrışması (geri alındı) + doğrulamalar
+
+**Neden şimdi:** Tur 123 konturu push edildikten sonra döngü birikimin yeni başını (düşman tipi
+renk ayrışması) aldı. İnceleme sonucu üç bulgu, hiçbiri yeni sevkiyat içermiyor (yalnız belge).
+
+**Yapılanlar / bulgular:**
+- Düşman tipi ayrışması: düşmanlar `enemy_sprite.gd` ile önceden çizilmiş atlas sayfaları kullanıyor
+  (`_RIG_STYLES` paleti yutuluyor), ucuz palet-data çözümü yok. Tip başına imza KENAR rengi
+  (`_apply_dark_rim`, gündüz) uygulandı ve Bölüm 13 pencereli görüntüyle denendi; arcade kamera
+  mesafesinde 1–3px kenar fark edilmedi, "bir bakışta ayrışma" hedefini vermedi → geri alındı
+  (`enemy_base.gd` HEAD'e eşit). Gerçek çözüm atlas sayfalarını tip başına yeniden boyamak, insan
+  gözüyle. Birikim maddesi buna göre yeniden ölçeklendirildi.
+- Diyalog + dalga pankartı "yığılması" (123 denetiminde not edilmişti): hata değil — `_follow_radio`
+  telsiz paneli açıkken üst bant öğelerini (dalga sayacı, kombo, afiş) panelin altına kaydırıyor.
+  Birikimden çıkarıldı.
+- Kombo sayacı taşması: `ComboLabel` `anchor_right=1.0`, sağ hizalı, sağ-merkez pivotla nabız →
+  yüksek değerler sola büyür, sağ kenardan/ekrandan taşmaz. Sorun değil, birikimden çıkarıldı.
+- Arena zemini: `_arena_barrels()` zaten ≥550px her arenaya patlayıcı varil koyuyor; madde
+  daraltıldı (kalan ikinci set-piece insan yerleşim yargısı ister).
+
+**Testler:** `--import` hatasız (geri alınan `enemy_base.gd` temiz derleniyor). Kod sevkiyatı yok;
+yalnız belge güncellendi.
+
+**Sonraki öneri:** Birikimdeki açık maddeler artık insan görsel/seviye-tasarım yargısı (düşman
+sayfa boyama, arena ikinci set-piece) ya da insan testine bağlı. Otonom turda ChatGPT kalitesine
+çıkarılacak somut, düşük-riskli bir görsel/UI öğesi için bir sonraki denetimde HUD ve menü
+okunurluğu (telefon çentiği, 20:9) yeniden taranabilir.
 
 ### 2026-11-03 (123) — Denetim + kahraman gündüz okunurluk konturu
 
