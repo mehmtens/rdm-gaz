@@ -112,10 +112,28 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   İnsan testinde final ölümü 1'i geçerse üçüncü dalga hafifletilsin ya da 2. dalga sonrası simit.
 - Bölüm 20 finali (Yenikapı gece kapısı, 3 dalga, x≈9500–10000): bot ölmeden ama 27 → 13 canla geçti
   (tur 90). İnsan testinde final ölümü 1'i geçerse 2. dalga sonrası simit.
+- Bölüm 25 ciltçi atölyesi arenası → depo (x≈7500–9000): bot can 9'a indi, 1 yeniden doğma (tur 95).
+  İnsan testinde ölüm 1'i geçerse depo kapısı önüne simit.
 - KAY düğmesinin yeri gerçek cihazda başparmak erişimiyle doğrulanacak; gerekirse
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (95) — Denetim: Bölüm 25 (temiz) — Kitap 2 denetimi tamam
+
+**Neden şimdi:** Tur 94'ün önerisi. Pencereli bot (8 sn'de bir kare): Bölüm 25 CLEARED 89,3 sn,
+1 yeniden doğma; ciltçi atölyesi arenası ile depo arasında (x≈7500–9000) can 9'a indi.
+
+**Bulgular:** Ritim (kitapçı yokuşu → avlu, kâğıt balyaları → matbaa presi + Matbaa erzakı → dam rotası
+→ ciltçi atölyesi arenası → depo kapısı + gizli baca → Sirkeci kapısı finali) okunuyor. Depodaki koyu blok
+otomatik gizli bacanın gündüz taş kulesi (dış yüz güneş tonunda, iç isli — tur 85 kararı), resme oturuyor.
+Kopan öğe yok; değişiklik yok. Kitap 2 (13–25) bu denetim dizisinde baştan sona görüldü.
+
+**İnsan testi notu (birikime):** Bölüm 25 ciltçi atölyesi → depo arası can düşüşü.
+
+**Testler:** Kod değişmedi (yalnız günlük).
+
+**Sonraki öneri:** Kitap 3'te yakın zamanda bakılmamış 28, 33, 34 (26, 27, 29–32, 35, 36 tur 68–80'de).
 
 ### 2026-11-03 (94) — Denetim: Bölüm 24 (temiz)
 
