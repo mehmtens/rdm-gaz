@@ -7,6 +7,13 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- Bölüm 26 final arenası (x≈8200–8700, `DALGA 2/2 · 3 DÜŞMAN`): pencereli bot son dalgada 1/115
+  cana indi, koşuda 2 yeniden doğma (başsız koşularda 0–1). İnsan testinde final ölümü 1'i geçerse
+  ikinci dalga sonrası simit ya da üç düşmandan biri tüfeksiz.
+- Ön plan kolonu (`_fg("kolon")`, 13 kullanım) gündüz bölümlerinde (ör. Bölüm 26 gar meydanı) soğuk
+  gri taş; ön plan olduğu için koyu silüet bilinçli. İnsan testinde "yapıştırılmış" denirse gündüz
+  bölümlerinde `sky_tint` ile ısıtılsın.
+
 - Bölüm 14 son arena (x≈9000–9500): bot son dalgaya 23/115 canla girdi, 2 yeniden doğma (pencereli
   ve başsız koşu). İnsan testinde arena ölümü 1'i geçerse ikinci dalga sonrası simit.
 - Bölüm 14 halat atölyesi arenası (x≈4100–5100): demir arena kafesi ayrıntılı halat/çark resminin
@@ -94,6 +101,25 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (80) — Denetim: Bölüm 26 (Sirkeci garı) ve 32 (Kuleli–Vaniköy)
+
+**Neden şimdi:** Birikimde uygulanabilir madde kalmadı → tur 79'un önerdiği denetim. İki bölüm
+pencereli bot koşusuyla oynandı (4 sn'de bir kare): Bölüm 26 CLEARED 83,3 sn (2 yeniden doğma),
+Bölüm 32 CLEARED 75,8 sn (0).
+
+**Bulgular (DTM sütunlarına göre):** Ritim iki bölümde de geçiş → tünek → arena → büfe → final;
+Bölüm 26'da yük vagonu, iskele ve revak saçağı katmanlı rota veriyor, Bölüm 32'de rıhtım
+basamakları ve kafes kule tüneği. Görsel birlik iyi: tur 74–79'da dönüştürülen taş set, baca,
+pres köprüsü bu bölümlerde de sahneye oturuyor; düz renkli ya da yapıştırılmış duran öğe
+görülmedi. Arena göstergesi ve kombo HUD'u okunuyor. Ölçülebilir iki bulgu insan testine bağlı
+olarak birikime yazıldı (Bölüm 26 final canı; ön plan kolonunun gündüz tonu). Kod değişikliği yok.
+
+**Testler:** yalnız denetim koşuları (yukarıda); kod değişmediği için ek test gerekmedi.
+
+**Sonraki öneri:** Birikimdeki bütün maddeler insan testine bağlı. Sıradaki değerli adım insan
+testi (`docs/INSAN-TESTI.md`) ve güncel release APK; otomasyon için yeni denetim adayları
+Kitap 1'in tek başına bakılmamış bölümleri (ör. 3 ve 9).
 
 ### 2026-11-03 (79) — Taş basamak setlerinde köşe taşı komşunun üstünden başlıyor; Bölüm 14 tuğla kule kontrolü
 
