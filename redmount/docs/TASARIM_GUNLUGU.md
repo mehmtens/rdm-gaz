@@ -157,7 +157,7 @@ iskele platformu sahneye ait.
 **Testler:** `--import` hatasız; `dtm_gaps` PASS; `campaign_smoke` çıkış 0; bot CLEARED: Bölüm 25 (98,4 sn, 0
 yeniden doğma), 26 (79,2; 0), 30 (84,8; 2), 31 (85,5; 2), 32 (75,7; 0), 33 (86,1; 0), 35 (115,5; 2), 36
 (191,3; 7). Bölüm 36'daki 7, üç botun paralel koşusundaydı ve ölümler açılıştan uzak (x 6391–12744); tur
-40'taki "nedeni bulunamayan artış" kaydı yüzünden karşılaştırmalı ölçüldü: değişiklik öncesi sürüm 4/3,
+67'deki "nedeni bulunamayan artış" kaydı yüzünden karşılaştırmalı ölçüldü: değişiklik öncesi sürüm 4/3,
 yeni sürüm 3/4 yeniden doğma (ikişer koşu) → gerileme yok, bot gürültüsü.
 
 **Kapanış:** Açılış/yükselti denetimi 36 bölümde tamamlandı (tur 106–111). Kopya açılış kalıpları
