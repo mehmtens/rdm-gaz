@@ -22,15 +22,12 @@ func _build() -> void:
 	# --- 1. Cağaloğlu sokağı: devriye, üst tente zırh ---------------------------
 	_terrain(-400, 1700, 0)
 	_story(-1.0, _sahne_sabah, 240.0)
-	var aw := AwningBounce.new()
-	aw.width = 160
-	aw.height = 60
-	aw.position = Vector2(560, 0)
-	add_child(aw)
-	_scaffold(750, -260, 160)
-	_scaffold(940, -300, 160)
-	_pickup(ARMOR, 940, -345)
-	_coin_line(720, 4, 70, -310)
+	# Matbaa önüne yığılmış kâğıt balyaları (Bölüm 16'nın tente + iskele açılışı yerine):
+	# balyanın ucundan sarkan tabelaya, zırh tabelada.
+	_crates(600, 2, 1)
+	_coin_line(620, 3, 60, -135)
+	_cloud(945, -190, 130.0, 0)
+	_pickup(ARMOR, 945, -235)
 	_enemy(STREET, 1100, 0)
 	_prop("saksi", 1300)
 

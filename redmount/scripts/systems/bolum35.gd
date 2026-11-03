@@ -22,11 +22,16 @@ func _build() -> void:
 	_night(Color(0.74, 0.76, 0.94))
 
 	# --- 1. Göksu kıyısı: taş köprü ---------------------------------------------
-	_terrain(-400, 1600, 0)
+	# Göksu üstündeki taş köprünün ayağı: kanala inmeden önce kemerin sırtı.
+	_terrain(-400, 1100, 0)
+	_terrain(1100, 1150, -50)
+	_terrain(1150, 1450, -100)
+	_terrain(1450, 1500, -50)
+	_terrain(1500, 1600, 0)
 	_story(-1.0, _sahne_kiyi, 240.0)
 	_lantern(300)
 	_enemy(KNIFE, 900, 0)
-	_enemy(STREET, 1100, 0)
+	_enemy(STREET, 1300, -100)
 	_canal(1600, 1800, 110)
 	_scaffold(1700, -20, 220)
 

@@ -36,11 +36,10 @@ func _build() -> void:
 	aw.position = Vector2(560, 0)
 	add_child(aw)
 	# Üst yol: gar saçağı (zırh + coin); alt yol: devriye.
-	_scaffold(750, -260, 160)
-	_scaffold(940, -300, 160)
-	_scaffold(1140, -300, 160)
-	_pickup(ARMOR, 940, -345)
-	_coin_line(1090, 4, 40, -350)
+	# Tente tek uzun gar saçağına atar (kademeli iskele kalıbı yerine); zırh saçağın ucunda.
+	_scaffold(960, -250, 400)
+	_coin_line(820, 5, 60, -295)
+	_pickup(ARMOR, 1120, -295)
 	_enemy(STREET, 1100, 0)
 	_enemy(KNIFE, 1350, 0)
 	_prop("kasa", 1430, 0, COIN)

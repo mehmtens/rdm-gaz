@@ -21,11 +21,16 @@ func _build() -> void:
 	_night(Color(0.74, 0.76, 0.94))
 
 	# --- 1. Kuleli kıyısı ------------------------------------------------------
-	_terrain(-400, 2700, 0)
+	# Kuleli kıyısında taraça: bıçakçı yukarıda bekler, okul kapısına inilir.
+	_terrain(-400, 600, 0)
+	_terrain(600, 650, -45)
+	_terrain(650, 1000, -90)
+	_terrain(1000, 1050, -45)
+	_terrain(1050, 2700, 0)
 	_story(-1.0, _sahne_kiyi, 240.0)
 	_lantern(300)
 	_lantern(1100)
-	_enemy(KNIFE, 900, 0)
+	_enemy(KNIFE, 900, -90)
 	_prop("varil", 1200)
 
 	# --- 2. Okul binası: üç kat koridor, nöbetçiler kat kat ---------------------

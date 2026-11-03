@@ -21,7 +21,11 @@ func _build() -> void:
 	_night(Color(0.76, 0.78, 0.94))
 
 	# --- 1. Gece sahili --------------------------------------------------------
-	_terrain(-400, 2700, 0)
+	# Gece sahilinde rıhtım babası: iki basamak çıkılır, deniz tarafı dik iner.
+	_terrain(-400, 1150, 0)
+	_terrain(1150, 1200, -50)
+	_terrain(1200, 1350, -100)
+	_terrain(1350, 2700, 0)
 	_story(-1.0, _sahne_sahil, 240.0)
 	for x in [300, 1100]:
 		_lantern(float(x))

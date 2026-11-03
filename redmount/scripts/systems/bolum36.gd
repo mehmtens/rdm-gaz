@@ -32,6 +32,9 @@ func _build() -> void:
 	_lantern(300)
 	_lantern(1300)
 	_enemy(KNIFE, 900, 0)
+	# Kıyı iskelelerinde vinç kolundan sarkan iki palet: kavganın üstünde kademeli coin.
+	_cloud(760, -110, 130.0, 2)
+	_cloud(1000, -215, 130.0, 3)
 	_enemy(ASSASSIN, 1150, 0)
 	_canal(1800, 2000, 110)
 	_scaffold(1900, -20, 220)

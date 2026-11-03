@@ -29,6 +29,8 @@ func _build() -> void:
 	_enemy(KNIFE, 850, 0)
 	_enemy(STREET, 1050, 0)
 	_prop("varil", 1200)
+	# İskele ağzında geniş bekleme platformu (tek yönlü): üstte coin, altta devriye.
+	_cloud(700, -100, 200.0, 4)
 
 	# --- 2. Yalı: iki katlı ahşap yalı, katlardan geçiş --------------------------
 	_checkpoint(1300, 0)

@@ -7,10 +7,10 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Zemin yüksekliği + açılış denetimi, son dilim: Bölüm 25–36 (tur 106–110'da 1–24 yapıldı). Kitap 2'de
-  kopya açılış kalıpları temizlendi (16: tente + iskele, 15: iki balkon tek sahipleri); Kitap 3'te
-  aynı açılışı paylaşan bölümler varsa bölüme özgü açılışla değiştirilsin. Kural: bulut yükseltisi kalkış yüzeyinden ≤ 110 px (zıplama tepesi ~120 px,
-  `jump_velocity` −580, yerçekimi 1400); her yeni bulut erişim ölçümüyle doğrulanır.
+- Açılış/yükselti turları (106–111) insan testi: 36 bölümün ilk ekranı artık farklı; telefonda ölçülsün
+  (a) bulut/tahta üst rotası kaç oyuncuca fark ediliyor (zırh alınma oranı), (b) 50 px basamaklar
+  koşarken takılma hissi veriyor mu (basamak zıplamadan çıkılmıyor; B1–3'teki insan testi olumluydu),
+  (c) B20 taşkın havuzu ve B23/B26 tente sıçraması ilk denemede anlaşılıyor mu.
 
 - Bölüm 11 pres koridoru → avlu arenası (x≈1700–5100): pencereli bot koridorda 89 → 34 can (pres hasarı 16,
   üç pres 2,4 sn döngü), arenaya 34/115 canla girip 2 kez öldü. Tek can kaynağı üst galerideki simit
@@ -130,6 +130,42 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (111) — Bölüm 25–36: açılışlar (son dilim)
+
+**Neden şimdi:** Birikimin başındaki maddenin son dilimi. Kitap 3'te iki sorun: Bölüm 25 ve 26 yine
+Bölüm 16'nın tente + kademeli iskele açılışını kopyalıyordu; 30, 31, 32, 33, 35 ve 36'nın ilk ekranı düzdü
+(27, 28, 29, 34 zaten kendine özgü: tezgâh + balkon kulesi, kanal, kovalamaca, yokuş basamakları).
+
+**Oyuncu ne hissedecek:**
+- B25 Cağaloğlu: matbaa önünde kâğıt balyaları, balyanın ucundan tabelaya; zırh tabelada (945, −235).
+- B26 Sirkeci: tente kalır (tema "tenteyle saçağa"), kademeli iskele yerine tek uzun gar saçağı (400 px,
+  −250), zırh saçağın ucunda. Tente sıçrama iniş noktaları 840 ve 898 ölçüldü, saçak 760–1160.
+- B30 Beylerbeyi: rıhtım babası (iki basamak çıkılır, deniz tarafı dik iner).
+- B31 Çengelköy: bahçe duvarı payandası (saksı üstünde) + çınar dalına asılı tahta.
+- B32 Kuleli: kıyı taraçası, bıçakçı taraçada bekler.
+- B33 Vaniköy: iskele ağzında 200 px'lik geniş bekleme platformu, üstte 4 coin.
+- B35 Göksu: taş köprünün ayağı (arka plandaki köprüyle hizalı), sokak serserisi köprü sırtında.
+- B36 kıyı iskeleleri: vinç kolundan sarkan iki palet, kademeli coin.
+
+**Doğrulama:** Geçici pencereli erişim testi (gerçek girdi) 12/12: B25 balya −90 → tabela −190; B26 tente
+−60 → saçak −250 (iki kalkış noktası); B30 −100; B31 tahta −110, payanda −90; B32 −90; B33 −100; B35
+−100; B36 palet −110 → −215. Ölçümde bir tuzak: tente katı blok (60 px), zıplamadan yanına dayanılır;
+test kalkışı tentenin önüne alındı (oyun hatası değil). 1280×720 görüntülerde balya, saçak, köprü ayağı ve
+iskele platformu sahneye ait.
+
+**Testler:** `--import` hatasız; `dtm_gaps` PASS; `campaign_smoke` çıkış 0; bot CLEARED: Bölüm 25 (98,4 sn, 0
+yeniden doğma), 26 (79,2; 0), 30 (84,8; 2), 31 (85,5; 2), 32 (75,7; 0), 33 (86,1; 0), 35 (115,5; 2), 36
+(191,3; 7). Bölüm 36'daki 7, üç botun paralel koşusundaydı ve ölümler açılıştan uzak (x 6391–12744); tur
+40'taki "nedeni bulunamayan artış" kaydı yüzünden karşılaştırmalı ölçüldü: değişiklik öncesi sürüm 4/3,
+yeni sürüm 3/4 yeniden doğma (ikişer koşu) → gerileme yok, bot gürültüsü.
+
+**Kapanış:** Açılış/yükselti denetimi 36 bölümde tamamlandı (tur 106–111). Kopya açılış kalıpları
+temizlendi: tente + iskele yalnız Bölüm 16'da, iki balkon yalnız Bölüm 15'te. Bulut kuralı: kalkış
+yüzeyinden ≤ 110 px yükselti.
+
+**Sonraki öneri:** Birikimdeki maddelerin tamamı insan testine bağlı; telefon APK'sıyla yeni açılışların
+insan testi (birikimin başındaki madde).
 
 ### 2026-11-03 (110) — Bölüm 19–24: kopya balkon açılışı yerine bölüme özgü girişler
 

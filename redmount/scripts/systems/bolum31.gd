@@ -26,7 +26,10 @@ func _build() -> void:
 	for x in [300, 1100]:
 		_lantern(float(x))
 	_enemy(KNIFE, 900, 0)
-	_prop("saksi", 1150)
+	# Sahil yolunda bahçe duvarı payandası (saksı üstünde) ve çınar dalına asılı tahta.
+	_stones(1100, 1, 1)
+	_prop("saksi", 1150, -90)
+	_cloud(720, -110, 130.0, 3)
 
 	# --- 2. Çınar altı: dallarda coin, altta devriye (kilitsiz) --------------------
 	_checkpoint(1400, 0)
