@@ -131,6 +131,11 @@ var chimney_rack := false
 ## Baca kulesi gar tuğlası (kırmızı + krem taş kuşak) olarak çizilsin: gün ışığındaki gar
 ## resimleri (Bölüm 26 denetimi: güneşli yük avlusunda koyu taş kule yapıştırılmış gibiydi).
 var chimney_brick := false
+## Gündüz bölümlerinde taş kule tonu (gece boyalı sur dokusunu güneşe çeker).
+const DAY_STONE := Color(1.5, 1.36, 0.98)
+## Gündüz bölümünde bile kule karanlık boyalı iç mekânın (sarnıç, loş salon) önündeyse
+## gece tonunda kalsın (sıcak ton orada parlayıp yapıştırılmış gibi duruyor).
+var chimney_night := false
 var zoom_level := 1.12
 ## İç mekânların sıva arka duvarı. Boyalı arka planı zaten iç mekân olan bölümler
 ## false verir: katlar, kirişler, cephe kalır; arkada boyalı resim görünür.
@@ -279,7 +284,7 @@ func _balcony(cx: float, y: float, w: float) -> void:
 	_oneway_art(cx, y, w, _Art.A_BALCONY)
 
 
-func _oneway_art(cx: float, y: float, w: float, kind: int) -> void:
+func _oneway_art(cx: float, y: float, w: float, kind: int) -> _Art:
 	var body := StaticBody2D.new()
 	body.collision_layer = 128
 	body.collision_mask = 0
@@ -294,6 +299,7 @@ func _oneway_art(cx: float, y: float, w: float, kind: int) -> void:
 	var art := _Art.new(kind, Vector2(w, -y))
 	body.add_child(art)
 	add_child(body)
+	return art
 
 
 ## Çarpışmasız süs (zemine oturur). `scale_f` sanat ölçeği, `z` çizim sırası.
@@ -726,6 +732,11 @@ func _chimney(cx: float, top: float, gap := 140.0, passage := 150.0, reward: Pac
 	var wall := 60.0
 	var h := -passage - top
 	var indoor := chimney_rack
+	# Sur taşı gece için koyu boyandı; gündüz (CanvasModulate yok) güneşli taş resmin
+	# önünde gece tonunda kalmasın diye sıcak ışıkla açılır.
+	var day_tint := Color.WHITE
+	if not indoor and not chimney_brick and not chimney_night and not is_in_group(&"dark_scene"):
+		day_tint = DAY_STONE
 	for side in [-1.0, 1.0]:
 		var left: float = cx - gap * 0.5 - wall if side < 0.0 else cx + gap * 0.5
 		var body := _solid_box(left, top, wall, h)
@@ -734,15 +745,17 @@ func _chimney(cx: float, top: float, gap := 140.0, passage := 150.0, reward: Pac
 		# Taş kule: sur örgüsü, köşe taşı yalnız dış yüzde (iç yüz bacaya bakar).
 		art.corner_l = side < 0.0
 		art.corner_r = side > 0.0
+		art.modulate = day_tint
 		body.add_child(art)
 	var shaft_art := _Art.A_SHAFT_WOOD if indoor else _Art.A_SHAFT_BRICK if chimney_brick else _Art.A_SHAFT
 	var inside := _Art.new(shaft_art, Vector2(gap, -top))
 	inside.position = Vector2(cx, top * 0.5)
 	inside.z_index = -8
+	inside.modulate = day_tint
 	add_child(inside)
 	# Tepe: raf kulede tahta, tuğla kulede kiremit, taş kulede sur taç taşı (kalede kiremit yabancı).
 	var top_art := _Art.A_FLOOR if indoor else _Art.A_ROOFLINE if chimney_brick else _Art.A_WALLTOP
-	_oneway_art(cx, top, gap + wall * 2.0 + 10.0, top_art)
+	_oneway_art(cx, top, gap + wall * 2.0 + 10.0, top_art).modulate = day_tint
 	_coin_line(cx - 20.0, 2, 40, top + 60.0)
 	_coin_line(cx - 20.0, 2, 40, (top - passage) * 0.5)
 	if reward != null:

@@ -116,6 +116,33 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-03 (85) — Gündüz bölümlerinde taş baca kulesi güneş tonunda; iç mekân cephe taraması
+
+**Neden şimdi:** Tur 84'ten sonra tutukevi benzeri yanlış cepheler için 53 `_interior` çağrısı tarandı:
+çoğu boyalı salon aralığında (`back_row_skip`, cephe çizilmiyor); cepheli olup bakılmamış tek aday
+Bölüm 25 ciltçi atölyesiydi (sıva ev, güneşli eski İstanbul sokağında — "ait", dokunulmadı). Aynı
+karede otomatik taş baca kulesi gece tonunda (koyu mor sur taşı) güneşli taş resmin önünde
+yapıştırılmış gibiydi; Bölüm 17 (Beyazıt postası avlusu) ve 16'da da aynı. Gündüz sokaklarında
+(2, 14, 26, 28) tuğla kule zaten elle seçilmişti; taş resimli gündüz bölümleri gece tonunda kalmıştı.
+
+**Yapılan:** `_chimney` taş kulesi (raf/tuğla değil) `dark_scene` olmayan bölümde `DAY_STONE`
+(1,5 / 1,36 / 0,98) ile açılır: duvarlar, baca içi ve taç taşı. Gece bölümleri (CanvasModulate'li)
+değişmez. Ton hipotez: iki denemede (1,4/1,25/1,05 hâlâ morumsu) sıcak kahveye çekildi; resimdeki
+bejden biraz koyu ama aynı taş ailesi. Baca içi isli olduğu için koyu kalır (bilinçli).
+`_oneway_art` artık sanat düğümünü döndürüyor (çağıranlar etkilenmez).
+Etkilenen gündüz taş kuleleri: Bölüm 15, 16, 17, 25.
+
+**Kesinti sonrası tamamlama:** Tur yarıda kesilmişti; 1280×720 çekimlerle dört kule yeniden
+karşılaştırıldı. Bölüm 25 (güneşli matbaa avlusu) ve 16 (sıcak lambalı arşiv) gündüz tonunda "ait";
+Bölüm 15 (karanlık sarnıç) ve 17 (loş teal posta salonu) önünde turuncu kule parlıyordu → yeni
+`chimney_night` bayrağı bu iki bölümde kuleyi gece tonunda bırakır. `back_row_skip` ölçüt olarak
+denendi, reddedildi: 25'in güneşli avlusu da boyalı iç mekân aralığında.
+
+**Testler:** import temiz (SCRIPT ERROR 0); smoke 36/36 SMOKE OK, çıkış 0; DTM GAPS PASS; bot başsız
+Bölüm 15 (96,1 sn), 17 (84,2), 25 (95,9) CLEARED (bayrak yalnız görsel).
+
+**Sonraki öneri:** Kitap 2 denetimine 13 ile devam.
+
 ### 2026-11-03 (84) — Denetim: Bölüm 12 + tutukevi taş hücre bloğu; taş kışla çatısı taç taşı
 
 **Neden şimdi:** Tur 83'ün önerisi (Kitap 2 denetimi). Pencereli bot (8 sn'de bir kare): Bölüm 12 CLEARED

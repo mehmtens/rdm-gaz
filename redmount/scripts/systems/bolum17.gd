@@ -18,6 +18,7 @@ func _build() -> void:
 	sky_tint = Color(0.92, 0.9, 0.86)
 	sky_shade = Color(0.06, 0.05, 0.06)
 	back_row_skip = [[6100.0, 9500.0]]
+	chimney_night = true   # baca kulesi loş posta salonunun önünde
 
 	# --- 1. Süleymaniye inişi: devriye, isteğe bağlı çatı ------------------------
 	_terrain(-400, 1700, 0)

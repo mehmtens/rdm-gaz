@@ -18,6 +18,7 @@ func _build() -> void:
 	sky_tint = Color(0.9, 0.88, 0.86)
 	sky_shade = Color(0.05, 0.06, 0.07)
 	back_row_skip = [[4500.0, 8900.0]]
+	chimney_night = true   # baca kulesi karanlık sarnıç resminin önünde
 
 	# --- 1. Zeyrek mahallesi: devriye, balkon seçimi, erzak tezgâhı -------------
 	_terrain(-400, 1700, 0)
