@@ -7,10 +7,6 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- Sol sütunda boş satır (tur 119 denetimi, Bölüm 13): yakın silah ve yedek yokken silah satırı boş
-  kalıyor, "MERMİ 18/54" bir satır aşağıda, arada boşluk. Küçük; satırlar dolu olanlara göre sıkıştırılabilir
-  (ya da tabanca varken silah satırı "TABANCA" gösterir). İnsan testinde göze batarsa.
-
 - Kasap Rıza arenası (Bölüm 2, x≈8150–8260): bot üç koşuda 16–17 sn kalıyor, 0 ölüm, ~19 can kaybı.
   Sorun değil; insan testinde arena süresi 40 sn'yi geçerse Rıza'nın can havuzu ölçülsün.
 
@@ -137,6 +133,29 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-03 (121) — HUD sol sütunu: boş satır yer tutmaz (birikim 1. madde)
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin insan testi beklemeden
+yapılabilen tek maddesi en üstteydi (tur 119 denetimi). Yakın silah yokken can/coin ile "MERMİ 18/54"
+arasında bir satır boşluk kalıyordu; telefonda sütun kopuk ve "bir şey eksik" gibi okunuyordu.
+
+**Oyuncu ne hissedecek:** Sol sütun hep sıkı: silah, mermi, zırh, güç satırlarından boş olan yer
+tutmaz, alttakiler yukarı kayar; silah alınınca satırlar eski yerine döner. Mahalle panelinde (Bölüm 1)
+silah satırı panelin içinde olduğundan, silahsızken mermi satırı panelin içine çıkar.
+
+**Yapılanlar:** `hud.gd`: yerleşim kurulunca (`_style_neighborhood`, `set_level_context`) dört satırın
+konumu sırayla saklanır (`_save_column_slots`); her satır yazısı değişince `_restack_column` dolu satırları
+sırayla bu konumlara dizer. Mahalle yerleşiminde mermi/zırh/güç satırlarının x'i de açıkça 16'ya kondu
+(yeniden dizilimden sonra Bölüm 1'e dönüşte kayma olmasın). Yeni `tests/hud_column.tscn`.
+
+**Testler:** `--import` hatasız; yeni `tests/hud_column.tscn` PASS (sokak ve mahalle yerleşimi: silahsız →
+mermi yukarı, yalnız zırh ilk satırda, silah alınınca eski yer); `tests/hud_hints.tscn` PASS;
+`tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn` PASS; bot Bölüm 1 (80,8 sn), 13 (83,1 sn),
+25 (78,1 sn) CLEARED. 1280×720 görüntüde iki yerleşim kontrol edildi (boşluk yok, panel kenarına
+taşma yok); telefon yerleşimi aynı kodla, cihazda görülmedi.
+
+**Sonraki öneri:** Birikimin kalanı insan testine bağlı; telefonla ikinci insan testi.
 
 ### 2026-11-03 (120) — Denetim: Bölüm 25 (temiz) — otomasyon durdu
 

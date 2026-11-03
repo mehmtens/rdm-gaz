@@ -175,9 +175,10 @@ func _style_neighborhood() -> void:
 	_coins.add_theme_font_size_override("font_size", 16)
 	_weapon.position = Vector2(20, 130) if mobile else Vector2(108, 108)
 	_weapon.add_theme_font_size_override("font_size", 14)
-	_ammo.position.y = 158 if mobile else 143
-	_armor.position.y = 186 if mobile else 165
-	_powerups.position.y = 214 if mobile else 187
+	_ammo.position = Vector2(16, 158 if mobile else 143)
+	_armor.position = Vector2(16, 186 if mobile else 165)
+	_powerups.position = Vector2(16, 214 if mobile else 187)
+	_save_column_slots()
 	_stage.add_theme_color_override("font_color", Color("ffd584"))
 
 
@@ -211,9 +212,10 @@ func set_level_context(index: int) -> void:
 		$HealthBg.position = Vector2(82, 52) if mobile else Vector2(108, 49)
 		_coins.position = Vector2(82, 86) if mobile else Vector2(108, 84)
 		_weapon.position = Vector2(20, 130) if mobile else Vector2(108, 108)
-		_ammo.position.y = 158 if mobile else 143
-		_armor.position.y = 186 if mobile else 165
-		_powerups.position.y = 214 if mobile else 187
+		_ammo.position = Vector2(16, 158 if mobile else 143)
+		_armor.position = Vector2(16, 186 if mobile else 165)
+		_powerups.position = Vector2(16, 214 if mobile else 187)
+	_save_column_slots()
 	if mobile:
 		_layout_mobile_boss_bar()
 	_on_coins_changed(GameState.coins)
@@ -376,35 +378,66 @@ func _refresh_weapon_text() -> void:
 		_weapon.text = "" if stash.is_empty() else _hud_case("Yumruk") + "  ·  " + stash
 	else:
 		_weapon.text = _weapon_line if stash.is_empty() else "%s  ·  %s" % [_weapon_line, stash]
+	_restack_column()
+
+
+## Sol sütun satırları (silah, mermi, zırh, güç): boş olan satır yer tutmaz, alttakiler yukarı kayar.
+## Tur 119 denetimi: yakın silah yokken "MERMİ 18/54" ile can çubuğu arasında bir satır boşluk kalıyordu.
+## Yerleşim kurulunca satır konumları sırayla saklanır (mahalle panelinde silah satırı panelin içinde,
+## bu yüzden x de saklanır); doluluk değişince yeniden dizilir.
+var _column_slots: PackedVector2Array = []
+
+
+func _column_labels() -> Array[Label]:
+	return [_weapon, _ammo, _armor, _powerups]
+
+
+func _save_column_slots() -> void:
+	_column_slots.clear()
+	for l: Label in _column_labels():
+		_column_slots.append(l.position)
+	_restack_column()
+
+
+func _restack_column() -> void:
+	if _column_slots.size() != 4:
+		return
+	var row := 0
+	for l: Label in _column_labels():
+		l.position = _column_slots[row]
+		if not l.text.is_empty():
+			row += 1
 
 
 ## `label` boşsa "MERMİ". Tek atımlık fırlatılan silah (TAŞ) toplam adet gösterir.
 func set_ammo(mag: int, reserve: int, has_gun: bool, label := "") -> void:
 	if not has_gun:
 		_ammo.text = ""
-		return
-	var unit := label if label != "" else "MERMİ"
-	if unit != "MERMİ":
+	elif label != "" and label != "MERMİ":
 		_ammo.text = ("%s %d" if TouchControls.active_on_device() else "%s: %d") % [
-			unit if TouchControls.active_on_device() else unit.capitalize(), mag + reserve]
-		return
-	_ammo.text = ("MERMİ %d/%d" if TouchControls.active_on_device() else "Mermi: %d/%d") % [mag, reserve]
+			label if TouchControls.active_on_device() else label.capitalize(), mag + reserve]
+	else:
+		_ammo.text = ("MERMİ %d/%d" if TouchControls.active_on_device() else "Mermi: %d/%d") % [mag, reserve]
+	_restack_column()
 
 
 func set_armor(display_name: String, hp: int, max_hp: int) -> void:
 	_armor.text = ("ZIRH %d/%d" % [hp, max_hp] if TouchControls.active_on_device() else
 		"%s  %d/%d" % [display_name, hp, max_hp]) if not display_name.is_empty() else ""
+	_restack_column()
 
 
 func set_powerups(active: Array) -> void:
 	if active.is_empty():
 		_powerups.text = ""
+		_restack_column()
 		return
 	var parts: PackedStringArray = []
 	for e in active:
 		parts.append(("%s %.1f SN" if TouchControls.active_on_device() else "%s %.1fs") % [
 			_hud_case(e.name), maxf(e.left, 0.0)])
 	_powerups.text = "  ".join(parts)
+	_restack_column()
 
 
 func set_boss_health(current: int, maximum: int) -> void:
