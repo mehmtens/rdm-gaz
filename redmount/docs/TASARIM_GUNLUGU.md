@@ -198,6 +198,43 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-04 (141) — Denetim: dövüş derinliği ve isabet geri bildirimi (kodla; DTM boşluğu yok)
+
+**Neden şimdi:** Stil listesi + iki yol haritası + P1'ler kapalı; birikim insan/cihaz testine bağlı.
+Son yedi tur (134–140) 36 bölümün tamamını GÖRSEL olarak denetledi (temiz). Hiç yapılmamış boyut: oynanış
+mekaniğinin (dövüş derinliği ve oyun hissi) DTM'ye göre kod düzeyinde boşluk denetimi. Oyuncu ne hissedecek:
+bu tur yeni iş değil, gelecekteki turların dövüş sistemini yeniden keşfetmesini önleyen bir referans +
+mevcut derinliğin yeterliliğinin tespiti. Doğrulama: kod okuma + Bölüm 1 bot koşusu (dövüş döngüsü çalışıyor mu).
+
+**Bulgular — moveset DTM derinliğinde, eksik imza hareket yok:**
+- Yer kombosu zinciri (`punch_1/2/3`, `combo_finish` kilidiyle 3'e çıkar; tampon `_queued_next` temas/geri
+  dönüşte sıradakini kuyruğa alır), 3. vuruş BİTİRİCİ (launch 260).
+- Launcher + hava takibi: `uppercut` (launch 430) → zıpla → `air_knee` düşman havadayken `can_be_juggled`
+  ise HAVA TAKİBİ (launch 340 + oyuncu `velocity.y=-250`, zincir sürer) — DTM imza juggle'ı mevcut.
+- Süpürme (`slide_kick`, alçak gövde mermi altından geçer, launch 240), yere çakma (`ground_slam`/dive,
+  iniş AoE `_slam_impact` 125 px halka + kalkan kırar), `dash_strike`, dash-karşılık (`land_dash_counter` → KARŞILIK!).
+- Fırlatma (`_try_throw`, 95 px menzil, 1,7× hitstop + FIRLAT! yazısı), düşmandan silah kapma (zaten `ec73bc88`),
+  İstanbul silahları: boru anahtarı `guard_break` (KALKAN DELİNDİ!), şemsiye `launch_speed` (havaya kaldırır,
+  hava dizisiyle takip), kaldırım taşı (fırlatılır).
+- Geri dönüş fazı dash/zıplama ile iptal edilebilir (akıcı kontrol) — DTM'nin cancel hissi.
+- İsabet geri bildirimi (`_deal_attack_hit`): hitstop hasarla ölçekli (ağırda 1,7×), shake (hit/heavy/counter
+  ayrı), rumble, ağırda zoom_punch + beyaz flash + kamera dip; kıvılcım + hasar sayısı popup'ı + güç rengi;
+  BİTİRİCİ/HAVA TAKİBİ/KALKAN DELİNDİ/KARŞILIK yazıları. Telegraf: baş üstü piksel ünlem (ağırda kızıl) +
+  gövde konturu beyaz kırpışır, MIN_SHOW 0,28 sn.
+- Hitbox ↔ görsel hizası: WINDUP→ACTIVE geçişinde hitbox aç + `_spawn_attack_slash()` aynı karede;
+  roadmap Aşama 2 "görsel vuruş ile hitbox ayrı karede" riski yok.
+
+Sonuç: dövüş mekaniği ve oyun hissi DTM kalitesinde; kör otonom turda ucuz, değerli, insan yargısı
+gerektirmeyen bir derinlik boşluğu yok. Kalan dövüş işleri (düşman tipi renk ayrışması atlas yeniden boyama,
+denge sayıları) birikimde ve insan/sanat yargısına bağlı.
+
+**Testler:** `--import` SCRIPT ERROR yok (exit 0). Bot Bölüm 1 CLEARED 80,8 sn (en uzun takılma 6 sn @8057).
+Kod değişmedi (yalnız günlük).
+
+**Sonraki öneri:** Otonom yapılabilir somut dövüş/görsel iş kalmadı; değer artık telefon + insan testinde
+(birikimdeki ölçümler: son arenaya düşük canla varış, saldırı uyarısının küçük ekranda okunurluğu, dokunma
+yanlış-basma CSV'si). Denetim boyutları tükendi: görsel (36 bölüm) + mekanik (bu tur). Otomasyon durdu.
+
 ### 2026-11-04 (140) — Denetim: Bölüm 7, 8, 9, 10, 15 (temiz) — otomasyon durdu
 
 **Neden şimdi:** Stil listesi, iki yol haritası kapalı; birikimde otonom madde yok (kalanlar insan yargısı /
