@@ -243,7 +243,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 - Bölüm 20 finali (Yenikapı gece kapısı, 3 dalga, x≈9500–10000): bot ölmeden ama 27 → 13 canla geçti
   (tur 90). İnsan testinde final ölümü 1'i geçerse 2. dalga sonrası simit.
 - Bölüm 25 ciltçi atölyesi arenası → depo (x≈7500–9000): bot can 9'a indi, 1 yeniden doğma (tur 95).
-  İnsan testinde ölüm 1'i geçerse depo kapısı önüne simit.
+  İnsan testinde ölüm 1'i geçerse depo kapısı önüne simit. Tur 171 (düzeltilmiş sayaç): başsız bot 0 ölüm,
+  en düşük can 28/115 — eski ölçüm çift sayımdı; madde yalnız insan testine bağlı.
 - Görev kareleri (tur 105): insan testinde GÖREVLER sekmesine bakılıyor mu, kilitli kare hedef olarak
   fark ediliyor mu, beceri görevleri hangi bölümde açılıyor ölçülsün (ödül alınma oranı). Bakılmıyorsa
   ana menü düğmesindeki "· n ÖDÜL" yanına kare sayısı.
@@ -256,6 +257,24 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-04 (171) — Denetim: Bölüm 13 ve 25 (en eski başlıklı denetimler) — temiz, yeni iş yok — otomasyon durdu
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin kalanı insan/cihaz testine bağlı.
+Başlıklı son denetimi en eski iki bölüm seçildi (13: tur 119, 25: tur 120). Her biri 1 başsız bot koşusu.
+
+**Bulgular:** Bölüm 13 CLEARED 85,6 sn, 0 ölüm; en düşük can 51/115 (x≈8650–9080 son arena), 16 sn takılma
+@6257 (arena içi yol bulma). Bölüm 25 CLEARED 88,5 sn, 0 ölüm; ciltçi atölyesi → depo kesiminde can 67 → 28
+(en düşük), 12 sn takılma @2850. Birikimdeki Bölüm 25 maddesi (tur 95: can 9, 1 yeniden doğma) eski çift
+sayımlı ölçümdü; bugün ölüm yok, madde güncellendi. İki bölümde de denge veya düzen değişikliğini haklı
+çıkaracak veri yok.
+
+**Testler:** Kod değişikliği yok; yalnız günlük. Bot: Bölüm 13 ×1, Bölüm 25 ×1 CLEARED (başsız).
+
+**Durum:** Tur 163'ten bu yana dokuzuncu getirisiz tur (169 kural uyumu hariç). Bütün bölümler en az bir kez
+başlıklı denetimden geçti. Otomasyon durdu. **Sonraki öneri:** otonom denetim döngüsü tükendi; ilerleme için
+telefonda insan testi (final can eğrileri, coin toplama oranı, dokunmatik KAY erişimi) ya da insan gözetiminde
+düşman tipi renk ayrışması / adlı rakip görünümleri.
 
 ### 2026-11-04 (170) — Deneme: Bölüm 6 pres salonu tuzak kuralına — fayda yok, geri alındı
 
