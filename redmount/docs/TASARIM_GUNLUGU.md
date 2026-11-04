@@ -91,6 +91,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   arenasında (x≈6100) 2 yeniden doğma, finalde 6/115 cana indi. Kütüphane arenasından finale tek can
   kaynağı mühür odası üst katındaki simit (x 7550, −160; bot almıyor). İnsan testinde final ölümü 1'i
   geçerse son kontrol noktası (x 8250) önüne kırılabilir simit ya da baca rafı ödülü AMMO → HEALTH.
+  Tur 164 (düzeltilmiş sayaç): pencereli bot finale ~35/115 canla girdi, ilk dalgada 15'e indi, 1 ölüm
+  (81,0 sn CLEARED); eski "2 yeniden doğma" çift sayımdı. Koşul hâlâ insan testine bağlı.
 - Bölüm 20 arena üst şeridi (tur 122 denetimi): "DALGA 1/2 · 2 DÜŞMAN" dalga şeridi ile "FİLM RULOSU 1/3"
   üç satırlık toplama bildirimi aynı anda ekranın üstünde art arda diziliyor (1280×720'de okunur).
   İnsan testinde telefonda üst kenarda sıkışma/çakışma görülürse film-rulosu bildirimi ekranın ortasına
@@ -237,6 +239,23 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-04 (164) — Denetim: Bölüm 31 (Kuleli) ve 34 (Anadolu Hisarı kıyısı) — temiz, yeni iş yok — otomasyon durdu
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin kalanı insan/cihaz testine bağlı.
+Günlükte en az anılan iki bölüm (31: 6, 34: 7 kayıt) seçildi. Pencereli bot, 1280×720, 2–3 sn'de bir kare.
+
+**Bulgular:** Bölüm 31 CLEARED 81,0 sn, 1 ölüm (deniz köşkü finali, x≈9100; finale ~35/115 can). Ritim:
+çiçekli sahil kahvesi (geçiş) → konak sokağı + Gazelle telsizi → KONAK KİLERİ büfesi → vitray konak arenası
+(DALGA 1/2) → basım odası sinematiği → deniz köşkü üç dalgalı final. Bölüm 34 CLEARED 69,5 sn, 0 ölüm; film
+rulosu 1/3 erken, SIRT KANTİNİ büfesi, vinçli rıhtım arenası (DALGA 1/2). İki bölümde de telsiz paneli, dalga
+şeridi, combo ve bildirim üst üste binmiyor; arka planlar tekrar etmiyor, karakterler sahneye ait duruyor.
+Bölüm 31 final notu birikimde zaten var; ölüm sayısı düzeltilmiş sayaçla güncellendi (2 → 1).
+
+**Testler:** Kod değişikliği yok; yalnız günlük.
+
+**Durum:** Yeni iş çıkmadı; otomasyon durdu. **Sonraki öneri:** telefonda insan testi (Bölüm 31 finali can
+eğrisi, film rulosu bildirimi okunurluğu, dokunmatik sonuç kartı).
 
 ### 2026-11-04 (163) — Denetim: Bölüm 29 (Kuzguncuk) — temiz, yeni iş yok — otomasyon durdu
 
