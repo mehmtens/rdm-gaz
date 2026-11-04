@@ -26,6 +26,9 @@ const BUTTONS := [
 	["next", "DEVAM", 80, Vector2(-210, 112), "genis", ""],
 	["menu", "MENÜ", 80, Vector2(-410, 112), "genis", ""],
 ]
+## Sonuç kartı açıkken SONRAKİ/MENÜ kartın sağında dikey sütun: alt sıradaki yerlerinde
+## MENÜ 16:9'da kartın sağ alt köşesini (ipucu satırını) örtüyordu.
+const RESULTS_POS := {"next": Vector2(-110, 112), "menu": Vector2(-110, 300)}
 const ART_DIR := "res://assets/ui/pixel/"
 ## Dokunma geri bildirimi: kısa, hafif "tık" (ms, güç). Hareket okları hariç —
 ## başparmak oklar arasında kayarken sürekli vızıldamasın.
@@ -207,6 +210,7 @@ func set_mode(mode: String, has_next_level: bool = true) -> void:
 	_mode = mode
 	_has_next_level = has_next_level
 	_apply_mode(has_next_level)
+	_layout()
 
 
 static func release_gameplay_inputs() -> void:
@@ -258,7 +262,7 @@ func _layout() -> void:
 	for spec in BUTTONS:
 		var key: String = spec[0]
 		var radius: int = spec[2]
-		var offset: Vector2 = spec[3]
+		var offset: Vector2 = RESULTS_POS.get(key, spec[3]) if _mode == "results" else spec[3]
 		var center := Vector2(
 			offset.x * button_scale + insets.x if offset.x > 0 else viewport_size.x + offset.x * button_scale - insets.y,
 			viewport_size.y - offset.y * button_scale - vertical.y if offset.y > 0

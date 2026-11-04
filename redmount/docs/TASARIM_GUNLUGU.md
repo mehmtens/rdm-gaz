@@ -231,12 +231,42 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 - Menülerde güvenli alan (tur 101): ana menü ve mağaza çentik payına çekiliyor ama hiç cihazda
   görülmedi; çentikli telefonda sol kenar düğmeleri ve mağaza sekmeleri kontrol edilsin. Duraklat menüsü
   ortalı olduğu için dışarıda bırakıldı.
-- Sonuç kartı (tur 125 denetimi): kart açıkken dokunmatik oynanış düğmeleri ve duraklat düğmesi görünür
-  kalıyor (örtmüyor). İnsan testinde dikkat dağıtıyorsa sonuç kartında `TouchControls` gizlensin.
+- ~~Sonuç kartı (tur 125 denetimi) dokunmatik düğmeleri~~ **(Tur 160'ta kapandı):** kart zaten "results"
+  kipindeydi (oynanış düğmeleri gizli); asıl sorun MENÜ düğmesinin kartı örtmesiydi, düğmeler kartın sağına taşındı.
 - KAY düğmesinin yeri gerçek cihazda başparmak erişimiyle doğrulanacak; gerekirse
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-04 (160) — Telefonda sonuç kartı: MENÜ düğmesi kartı örtüyordu, ipuçları klavye harfi gösteriyordu
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin kalanı insan/cihaz testine bağlı.
+Denetim (d) mobil dokunmatik sütunundan başladı: birikimdeki "sonuç kartında `TouchControls`" maddesi kontrol
+edildi. Oynanış düğmeleri zaten gizliydi (madde bayattı), ama `REDMOUNT_TOUCH_CONTROLS=1` ile 1280×720 ekran
+görüntüsünde iki gerçek hata çıktı: (1) MENÜ düğmesi (alt sıra, sağdan 410) kartın sağ alt köşesini ve ipucu
+satırını örtüyordu — 16:9'da açık çakışma, 20:9 telefonda bile ~15 px; (2) telefonda kart "R — sonraki bölüm ·
+M — ana menü", ölüm yazısı "R ile yeniden başla" diyordu — dokunmatikte R/M tuşu yok. Survival/günün dalgası
+bitişinde dokunmatikte MENÜ düğmesi hiç yoktu (yalnız TEKRAR + duraklat).
+
+**Oyuncu ne hissedecek:** Bölüm bitince kart temiz, sağ kenarda başparmak altında SONRAKİ (alt) ve MENÜ (üst)
+dikey sütunu; kartta yalnız gerektiğinde ("Yeni vuruş mağazada — MENÜ'den bak") ipucu satırı. Ölünce "TEKRAR'a
+dokun". Klavye/masaüstü metinleri aynı kaldı.
+
+**Yapılan:**
+- `touch_controls.gd`: `RESULTS_POS` — results kipinde next (sağdan 110, alttan 112) ve menu (sağdan 110, alttan
+  300); `set_mode` kip değişince `_layout()` çağırır. Kart sağ kenarı ≤ vw/2+330, düğme sol kenarı ≥ vw−190:
+  vw ≥ 1280'de en az 120 px açık.
+- `hud.gd`: `input_hint(klavye, dokunmatik)`; dokunmatikte düz kart ipucu boş (düğmeler kendini anlatıyor) ve boş
+  ipucu kutusu gizlenir; mağaza bildirimi kısaldı; ölüm yazısı cihaza göre.
+- `survival.gd`: bitişte "results" kipi (BAŞTAN + MENÜ), `next_requested` → yeniden başla.
+
+**Testler:** `--import` hatasız; `campaign_smoke` çıkış 0; `dtm_gaps` PASS; `touch_polish` PASS; `level_stars`
+PASS; yeni `tests/touch_hints.tscn` PASS (dokunmatik ipucu boş + gizli, SONRAKİ/MENÜ kartın sağında, ölümde
+TEKRAR, klavye metni korunuyor); bot Bölüm 1 (84,8 sn), 13 (83,7 sn), 25 (82,5 sn) CLEARED. Önce/sonra ekran
+görüntüsü (dokunmatik zorlanmış, 1280×720) Read ile kontrol edildi; telefonda görülmedi.
+
+**Sonraki öneri:** Mobil sütun denetimine devam — mağaza ve bölüm seçme ekranlarında dokunmatik zorlanmış ekran
+görüntüsüyle klavye-yalnız metin / düğme çakışması taraması.
 
 ### 2026-11-04 (159) — Kesme işareti daraltıldı: "GAZELLE' İN" → "GAZELLE'İN" (piksel TTF)
 

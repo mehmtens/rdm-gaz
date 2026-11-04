@@ -86,6 +86,7 @@ func _ready() -> void:
 	_touch.pause_requested.connect(_pause.toggle)
 	_touch.retry_requested.connect(_restart)
 	_touch.menu_requested.connect(_menu)
+	_touch.next_requested.connect(_restart)
 	get_viewport().size_changed.connect(_apply_safe_area)
 	_apply_safe_area()
 	GameState.start_run()
@@ -104,7 +105,9 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if not _touch.is_enabled():
 		return
-	_touch.set_mode("hidden" if _pause.is_open() else "dead" if _dead or _finished else "play")
+	## Sonuç kartında MENÜ düğmesi de görünsün (eskiden yalnız TEKRAR + duraklat vardı).
+	_touch.set_mode("hidden" if _pause.is_open() else "results" if _finished
+		else "dead" if _dead else "play", false)
 
 
 ## Günün kuralını uygular; günün ilk denemesiyse hakkı hemen kullanır (yarıda
@@ -324,7 +327,8 @@ func _finish_daily() -> void:
 			GameState.coins, bonus, photo, streak, GameState.score]
 	else:
 		_hud._results_stats.text += "Antrenman: coin yazılmadı\nYarın yeni dalga  ·  Skor: %d" % GameState.score
-	_hud._results_hint.text = "R — antrenman     ·     M — ana menü"
+	_hud._results_hint.text = _hud.input_hint("R — antrenman     ·     M — ana menü",
+		"")
 	Sfx.play(&"powerup")
 
 

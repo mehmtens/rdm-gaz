@@ -84,6 +84,7 @@ func _ready() -> void:
 	if TouchControls.active_on_device():
 		_style_mobile()
 	set_level_context(GameState.level_index)
+	_death.text = input_hint("ÖLDÜN — R ile yeniden başla", "ÖLDÜN — TEKRAR'a dokun")
 	_death.visible = false
 	_stage.visible = false  # bölüm / kitap numarası oyun içinde gösterilmez
 	_results.visible = false
@@ -551,10 +552,12 @@ func show_stage_clear(current: int, stars: int = -1, seconds: float = 0.0,
 	]
 	if secrets_line != "":
 		_results_stats.text += "\n" + secrets_line
-	_results_hint.text = "R — sonraki bölüm     ·     M — ana menü"
+	_results_hint.text = input_hint("R — sonraki bölüm     ·     M — ana menü",
+		"")
 	for it in Shop.ITEMS:
 		if int(it.get("unlock_level", 0)) == current and not Save.owns(it.id):
-			_results_hint.text = "Yeni vuruş mağazada!  M — mağaza  ·  R — devam"
+			_results_hint.text = input_hint("Yeni vuruş mağazada!  M — mağaza  ·  R — devam",
+				"Yeni vuruş mağazada — MENÜ'den bak")
 	_reveal(stars)
 
 
@@ -574,9 +577,17 @@ func show_results(coins: int, defeated: int, enemy_total: int, seconds: float, s
 		_results_stats.text += "  ·  Bölüm: %d" % stage_score
 	if secrets_line != "":
 		_results_stats.text += "\n" + secrets_line
-	_results_hint.text = ("R — sonraki bölüm     ·     M — ana menü"
-		if GameState.has_next_level() else "R — baştan başla     ·     M — ana menü")
+	_results_hint.text = (input_hint("R — sonraki bölüm     ·     M — ana menü",
+			"")
+		if GameState.has_next_level() else input_hint("R — baştan başla     ·     M — ana menü",
+			""))
 	_reveal(stars)
+
+
+## Kart/ölüm ipucu: telefonda klavye harfi yerine dokunmatik karşılığı. Sonuç kartında
+## SONRAKİ/BAŞTAN + MENÜ düğmeleri kendini anlatır, ipucu satırı boşsa gizlenir.
+static func input_hint(keys: String, touch: String) -> String:
+	return touch if TouchControls.active_on_device() else keys
 
 
 var _reveal_t: float = 0.0
@@ -608,6 +619,7 @@ func _tick_reveal(delta: float) -> void:
 	if not _results.visible:
 		return
 	_reveal_t += delta
+	_results_hint.visible = _results_hint.text != ""
 	_results.modulate.a = minf(_results.modulate.a + delta * 5.0, 1.0)
 	if _reveal_stars < 0:
 		return
