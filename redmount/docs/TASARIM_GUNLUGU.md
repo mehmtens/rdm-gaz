@@ -238,6 +238,26 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-04 (163) — Denetim: Bölüm 29 (Kuzguncuk) — temiz, yeni iş yok — otomasyon durdu
+
+**Neden şimdi:** Tur 162'nin önerisi: ritim/ödül sütunları için başka kitaptan bir bölüm. Pencereli bot
+(1280×720, 0,5 sn'de bir kare, ~150 kare; CLEARED 75,1 sn, takılma 13 sn @8586 — kayıt odası arenası).
+
+**Bulgular:** Ritim DTM ölçütüne uygun: iskele girişi (geçiş) → renkli sokak + film rulosu 1/3 (gizli alan
+ödülü erken) → çeşme meydanı arenası (dövüş) → bahçe duvarı (nefes) → sahil vinci + KIYI ERZAKÇISI büfesi
+(ekonomi) → kayıt odası iki dalgalı arena (meydan okuma) → gece iskelesi finali. Altı ayrı arka plan dokusu,
+hiçbiri tekrar etmiyor. Dalga şeridi, combo ("x13" artık tek parça), telsiz paneli ve film rulosu bildirimi
+üst üste binmiyor. Bot arenaya 115/115 canla giriyor; ölüm yok. Tek gözlem: film rulosu bildiriminin iki alt
+satırı panelsiz, renkli sarmaşık önünde yalnız konturla duruyor — 1280×720'de okunur, telefonda ölçülsün
+(birikimdeki Bölüm 20 üst şerit maddesiyle aynı aile; ayrı madde açılmadı).
+
+**Testler:** Kod değişikliği yok; yalnız günlük.
+
+**Durum:** Stil listesi, iki yol haritası, P1'ler kapalı; birikimin kalanı insan/cihaz testine bağlı; bu
+oturumun üç denetiminden (mobil kart, menü, oyun hissi) çıkan işler tur 160–162'de yapıldı, bu denetim yeni iş
+çıkarmadı. Otomasyon durdu. **Sonraki öneri:** telefonda insan testi (dokunmatik sonuç kartı sütunu, combo/süre
+rakamları, film rulosu bildirimi okunurluğu).
+
 ### 2026-11-04 (162) — Oyun hissi denetimi, Bölüm 18: combo sayacında "x14" → "x1 4" kırığı (rakam "1")
 
 **Neden şimdi:** Tur 161'in önerdiği oyun hissi sütunu. Bölüm 18 pencereli bot koşusu (1280×720, 0,35 sn'de bir
