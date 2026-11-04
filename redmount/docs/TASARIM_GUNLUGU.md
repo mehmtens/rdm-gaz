@@ -238,6 +238,27 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-04 (162) — Oyun hissi denetimi, Bölüm 18: combo sayacında "x14" → "x1 4" kırığı (rakam "1")
+
+**Neden şimdi:** Tur 161'in önerdiği oyun hissi sütunu. Bölüm 18 pencereli bot koşusu (1280×720, 0,35 sn'de bir
+kare, 233 kare; CLEARED 88,3 sn). Kapalı çarşı ve bakırcılar arenalarında isabet kıvılcımı, devrik düşman ve dalga
+şeridi okunuyor; hitstop/sarsıntı karede ölçülemez (insan testi). Tek somut okunurluk kusuru combo sayacındaydı:
+"EFSANE x14" ekranda "x1 4" — "1" glifi hücrenin ortasında tek sütun gövde, iki yanı boş; "4"ün sol üstü de boş,
+aradaki ~4 piksel boşluk kelime boşluğuyla aynı. Aynı kırık süre ("1:16"), coin, skor, "+180" gibi her rakam
+dizisinde var; oyuncu dövüş ortasında combo sayısını yanlış okuyor.
+
+**Oyuncu ne hissedecek:** Combo, süre, skor ve coin sayıları tek parça; "x14" bir bakışta 14.
+
+**Yapılan:** `pixel_text.gd` `_BODY["1"]`: bayraklı (`#.#..`) ve tam genişlik tabanlı (`#####`) klasik piksel 1.
+Adım değişmedi — rakamlar sabit genişlikte kalır, sağa yaslı sayaç/süre artarken titremez (dar adım bu yüzden
+seçilmedi). `tools/gen_pixel_font.py` ile `redmount_pixel.ttf` yeniden üretildi (glif PixelText'ten okunur).
+
+**Testler:** `--import` hatasız; `font_metrics` PASS; `campaign_smoke` çıkış 0; `dtm_gaps` PASS; `touch_hints`
+PASS; bot Bölüm 1 (76,8 sn), 13 (78,4 sn), 25 (86,0 sn), 18 pencereli (100,7 sn) CLEARED. Pencereli koşunun
+combo kırpıntılarında "x13", "x14", "+180" tek sayı okunuyor (Read ile kontrol edildi).
+
+**Sonraki öneri:** Denetim, kalan sütunlar (bölüm ritmi / ödül) için başka bir kitaptan bir bölüm (ör. 29).
+
 ### 2026-11-04 (161) — Ana menü alt başlığı "İ STANBUL' UN SESİ" → "İSTANBUL'UN SESİ"
 
 **Neden şimdi:** Tur 160'ın önerdiği mobil menü taraması (dokunmatik zorlanmış 1280×720 ana sayfa, bölüm seç,
