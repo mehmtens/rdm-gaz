@@ -124,7 +124,7 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   Deney sahnesinde nişan durumunda 64 px aralık korunuyor (tur 30 düzeltmesi), yığılma kovalama
   ya da geri itilme sonrası oluyor; tek karede yeniden üretilemedi. İnsan testinde ya da bir
   sonraki denetimde yeniden görülürse `CHASE` durumundaki ayrışmaya nişancı komşusu eklensin.
-- Son arenaya düşük canla varış (Bölüm 4: 16–25 can, Bölüm 5: 29 can, Bölüm 28: 21 can; bot). İki bölümde de
+- Son arenaya düşük canla varış (Bölüm 4: 16–25 can, Bölüm 5: 29 can, Bölüm 28: 21 can [tur 150: 39→8 can]; bot). İki bölümde de
   orta arenadan son arenaya kadar can kaynağı yok (yalnız büfe). İnsan testinde son arenaya
   giriş canı ölçülsün; ortanca %40'ın altındaysa son kontrol noktası önüne kırılabilir simit.
 - Adlı rakiplerin görünümü: Binbaşı Kaya, Sur Ağası ve Muhafız Başı ara sahnede Seçkin
@@ -208,6 +208,28 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-04 (150) — Denetim: Bölüm 28 (temiz) — en eski açık denetim kapandı — otomasyon durdu
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin tamamı insan/cihaz testine bağlı.
+Öncelik d): günlükte adıyla en eski denetlenmiş bölüm Bölüm 28'di (tur 35; 148'in başsız ölüm taraması dışında
+görsel/ritim denetimi yok). Bir pencereli koşu (9 sn arayla ekran görüntüsü, 1280×720) + log analizi.
+
+**Bölüm 28 (Sarayburnu/Boğaz):** CLEARED 95,8 sn, 0 yeniden doğma. Ritim doğru: sokak geçişi → cami avlusu
+arenası (DALGA 2/2, x≈2500, varilli) → şerit makinesi iç mekânı arenası (DALGA 1-2/2, x≈7250) → Boğaz yük
+peronu finali (x≈9400). Can eğrisi doğru yönde: cami arenasında 115, şerit arenasına 95, finale 39 → 8 (zirve
+sonda). Dört ekran görüntüsünde görsel tamamen uyumlu: Süleymaniye kubbesi/şadırvan, şerit makinesi iç mekânı
+(kemerli pencerelerden Boğaz), Kız Kulesi + Ayasofya silüeti + yelkenli/vapur, hepsi ChatGPT arka planlarıyla
+tek sahne. HUD (can/coin/silah/mermi), üst ortada dalga şeridi, sağda combo yazısı ve Komiser Rıfat telsiz
+diyalog kutusu çakışmıyor, taşma/kırpma yok. Tek takılma şerit arenasında 14 sn (x7239, bilinen bot kovalama
+davranışı; oyun hatası değil). Final 39→8 düşüşü birikimdeki "son arenaya düşük canla varış (B28)" notuyla
+aynı — veri eklendi, karar insan testinde.
+
+**Testler:** Kod değişmedi (yalnız günlük); bot Bölüm 28 pencereli CLEARED (95,8 sn) yukarıda.
+
+**Sonraki öneri:** Artık 36 bölümün hepsi tur 80 sonrası (çoğu birden çok kez) denetlendi; en eski açık denetim
+(B28, tur 35) de kapandı. Otonom listeler ve denetim boyutlarının tamamı kapalı, somut otonom kusur kalmadı;
+kalan değer insan/cihaz testinde (birikimdeki ölçüm maddeleri). Otomasyon durdu.
 
 ### 2026-11-04 (149) — Denetim: Bölüm 26 ve 14 (temiz) — otomasyon durdu
 
