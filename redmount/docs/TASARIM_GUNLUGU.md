@@ -240,6 +240,26 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-04 (165) — Denetim: Bölüm 32 ve 17 — temiz, yeni iş yok — otomasyon durdu
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin kalanı insan/cihaz testine bağlı.
+Günlükte en az anılan, henüz denetlenmemiş iki bölüm (32: 9, 17: 10 kayıt) seçildi. Pencereli bot, 1280×720,
+4 sn'de bir kare (19 + 22 kare).
+
+**Bulgular:** Bölüm 32 CLEARED 75,3 sn (takılma 8 sn @9496, rıhtım finali `DALGA 2/2`; finale ~33/115 can).
+Ritim: fenerli konak cephesi + iskele katlarında dövüş → FENERCİ KİLERİ büfesi (nefes/ekonomi) → zincirli rıhtım
+arenası. Bölüm 17 CLEARED 86,8 sn (takılma 16 sn @5121): üniversite kapısı arenası (`DALGA 2/2`) → SAHAFLAR
+ERZAKI büfesi → yükseltide tüfekli (sandık basamağıyla 88 + 92 px çıkılıyor; bot basamağı geç buluyor, oyuncu
+için okunur ve tek zıplamalık — oyun hatası değil) → telsizli depo avlusu. Telsiz paneli, dalga şeridi, combo,
+HUD satırları üst üste binmiyor; tabelalar tek parça ("KİLERİ", "ERZAKI"); karakterler ve arka planlar aynı GPT
+tarzında, yapıştırılmış duran öğe yok.
+
+**Testler:** Kod değişikliği yok; yalnız günlük.
+
+**Durum:** Üst üste üçüncü temiz denetim (163, 164, 165). Otomasyon durdu. **Sonraki öneri:** otonom
+denetim artık getiri vermiyor; telefonda insan testi (birikimdeki final can eğrileri, film rulosu bildirimi,
+dokunmatik sonuç kartı) ya da İ-kerning / düşman tipi renk ayrışması gibi insan gözetimi isteyen işler.
+
 ### 2026-11-04 (164) — Denetim: Bölüm 31 (Kuleli) ve 34 (Anadolu Hisarı kıyısı) — temiz, yeni iş yok — otomasyon durdu
 
 **Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin kalanı insan/cihaz testine bağlı.
