@@ -224,6 +224,28 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-04 (157) — Denetim: tuş ezme kilitleri (diz hava takibi + 8 düşman tipi) — yeni iş yok
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikim insan/cihaz testine bağlı. Tur 155'teki
+şemsiye kilidi gibi, gerçek girdiyle ölçülebilen başka "tek tuşla sonsuz kilit" var mı diye baktım.
+
+**Ölçüm (geçici sondalar, Bölüm 1, 10 sn, gerçek `Input` basışı, düşman canı 100000):**
+- Diz hava takibi (`AIR_KNEE`): zıpla+saldırı aynı karede basılınca yerde kombo çıkıyor (oyuncu zıplamıyor);
+  havadaki düşmana diz zinciri kurulamadı — oyuncu her dizde 250 hızla yükselip düşmandan ayrılıyor. Kilit yok.
+- Yalnız saldırı ezme (her 6 karede), düşmanın saldırıya geçiş sayısı / en uzun serbest pencere:
+  Sokak Serserisi 2 / 19 kare (%89 HURT); Bıçakçı 3 / 102 (geri çekiliyor); Kalkanlı 14 / 6 (blokla karşılık);
+  Bombacı ve Tüfekli 4 / 419 (menzile kaçıp ateş); Suikastçı 6 / 287 (kaçış); Seçkin 8 / 417; Ağır Zırhlı 7 / 5
+  (zırh kırığı penceresi 334 kare).
+
+**Sonuç:** Kilit yalnız ilk ve en zayıf düşmanda (Serseri) var; kombo üçüncü vuruşta devirip kalkışta yeniden
+yakalanıyor — türün olağan "temel düşmanı dövme" hissi. Diğer yedi tip kendi araçlarıyla (blok, kaçış, menzil,
+zırh) ezmeyi kırıyor; bu zaten düşman çeşitliliğinin işi. Kalkışa dokunulmazlık eklemek tüm dövüş ritmini ve bot
+dengesini değiştirir; bot verisiyle yapılmaz. Kod değişmedi.
+
+**Testler:** Kod değişmedi; yalnız belge. Sondalar silindi.
+
+**Sonraki öneri:** Otonom tarafta açık iş yok; birikim insan/cihaz testine bağlı. Otomasyon durur.
+
 ### 2026-11-04 (156) — Denetim: Bölüm 3, 5, 6, 8, 15 — başlıklı denetimi olmayan son bölümler
 
 **Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikim insan/cihaz testine bağlı. Öncelik d):
