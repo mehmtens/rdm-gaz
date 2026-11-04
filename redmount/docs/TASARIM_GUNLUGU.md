@@ -258,6 +258,34 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-04 (172) — Görsel stil denetimi: Bölüm 18 ve 21 (ChatGPT uyumu) — temiz, yeni iş yok — otomasyon durdu
+
+**Neden şimdi:** Stil listesi (33/33), iki yol haritası ve P1'ler kapalı; birikimin kalanı insan/cihaz testine
+bağlı. Son dokuz tur (163–171) hareket/denge denetimine odaklandı; bu turda en üst öncelik olan **görsel stil
+uyumu** açısından henüz özel çekimle bakılmamış iki orta kampanya bölümü seçildi (Bölüm 18 Kapalıçarşı Arka Hanı
+— gündüz iç/dış çarşı; Bölüm 21 Yenikapı Gece Vardiyası — gece rıhtım/kuru havuz, farklı biome). Amaç: üretilen
+her prop/platform/düşman ChatGPT arka planının yanında "sahneye ait mi, yapıştırılmış gibi mi?" sorusunu geçiyor
+mu. Oyuncu bir bakışta tutarlı, atmosferik bir dünya görmeli.
+
+**Yöntem:** `tests/capture_level.tscn` ile pencereli 1280×720, bölüm başına 3 nokta (giriş / orta arena / iç
+mekân-büro). Çekimler scratchpad'e alındı, Read ile tek tek incelendi.
+
+**Bulgular:** Her altı karede de kenar ışığı (sol üst sıcak fener, sağ soğuk ay/gece), mor-laciverte kayan gölge
+rampaları ve malzeme dokusu tutarlı. Bölüm 18: tente platformları, sandık/kasa siperleri, bakırcılar örs+kazan
+dekoru, han ambarı denkleri ve asma fenerleri — hepsi ChatGPT çarşı/han atlasıyla aynı tonda, yapıştırma izlenimi
+yok. Bölüm 21: gece limanı (tekneler, vinçler, şehir ışıkları), kasa istifleri, kuru havuzdaki gemi gövdesi, kalkanlı/
+suikastçı/tüfekli düşmanlar ve can/coin pickup'ları gece paletine oturuyor. HUD, başlık kartı ve telsiz kutusu
+okunur. Not: orta/iç çekimlerde başlık kartı yarı saydam üst üste biniyor — bu yalnız ışınlanmalı çekimin
+artefaktı (gerçek oyunda kart yalnız açılışta), oyun hatası değil.
+
+**Testler:** Kod değişikliği yok; yalnız günlük. Çekim: Bölüm 18 ×3, Bölüm 21 ×3 nokta (SCRIPT ERROR yok). Geçici
+capture PNG'leri scratchpad'de, commit'e girmedi.
+
+**Durum:** Tur 163'ten bu yana onuncu getirisiz tur (169 kural uyumu hariç). Görsel stil uyumu da örneklemeyle
+doğrulandı: üretilen içerik ChatGPT temeline ait. Otonom denetim döngüsü (hareket, denge, görsel) tükendi.
+Otomasyon durdu. **Sonraki öneri:** telefonda insan testi (final can eğrileri, coin toplama oranı, dokunmatik
+KAY erişimi) ya da insan gözetiminde düşman tipi imza-renk ayrışması / adlı rakip dövüş-görünüm eşitlemesi.
+
 ### 2026-11-04 (171) — Denetim: Bölüm 13 ve 25 (en eski başlıklı denetimler) — temiz, yeni iş yok — otomasyon durdu
 
 **Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin kalanı insan/cihaz testine bağlı.
