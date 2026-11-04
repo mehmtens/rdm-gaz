@@ -7,6 +7,9 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 145 ekonomi) İnsan testinde bölüm başına coin toplama oranı ölçülsün (sonuç kartı "Coin" / `tests/coin_economy`
+  azamisi). Tur 145 eğrisi %50 toplayıcıya göre kuruldu (katalog Bölüm 20'de biter); oran %30'un altındaysa kademe 3
+  ×1,75'e, %70'in üstündeyse kostümler ×2,5'e. Bölüm içi büfe harcaması (15–45) modelde yok.
 - ~~(Tur 142 ses denetimi) Boss faz geçişi ses stingeri~~ **(Tur 143'te yapıldı, `commit` aşağıda):** Yayın
   Şefi (`broadcast_director.gd`) faz yükselişine alçak perdeli `boss_slam` (×0,72 +2 dB) eklendi; şok
   dalgasının slam'inden perdeyle ayrı. Diğer bosslar (`story_boss`, Karahanlı, Ana Vana vb.) tek dalga/çubuk
@@ -204,6 +207,40 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-04 (145) — Coin ekonomisi eğrisi: katalog kampanyanın ikinci yarısına yayıldı
+
+**Neden şimdi:** Stil listesi, yol haritası ve P1 maddeleri bitti; birikim yalnız insan testine bağlı.
+Denetim boyutlarından "ödül/ekonomi" hiç ölçülmemişti (önceki denetimler görsel, dövüş, ses, telegraf).
+DTM'de coin oyunun sonuna kadar bir şey satın alır; REDMOUNT'ta bu ölçülmemişti.
+
+**Ölçüm (yeni `tests/coin_economy.tscn`):** 36 bölüm yüklenip toplanabilir azami coin sayıldı (gevşek
+coin ×2, kırılan kap coin'i ×2, film rulosu +10; düşman coin bırakmıyor). Bölüm başına 176–386 (Kitap 1
+~330, Kitap 3 ~230), kampanya toplamı 9528. Kalıcı katalog (hareket + 7×3 kademe + 4 kostüm) yalnız
+**2910**'du ve Çift coin 60'a ilk bölümden alınabiliyordu. Simülasyon (oyuncu her bölümde %r toplar, Çift
+coin'i kilidi açılıp parası yetince alır): %50 toplayan kataloğu **Bölüm 10**'da, %100 toplayan **Bölüm 5**'te
+bitiriyordu → 26–31 bölüm boyunca coin'in kalıcı karşılığı yok. Bot ölçümü (toplama alt sınırı, bot rota
+odaklı): Bölüm 1 170/386 (%44), 13 68/334 (%20), 25 38/234 (%16).
+
+**Yapılan (`scripts/systems/shop.gd`):** 1. kademe ve temel hareketler (55–100) aynı — erken "yeni vuruş"
+hissi bozulmasın. Kademe 2 ×1,5, kademe 3 ×2 (ör. Yumruk gücü 45/75/110 → 45/115/220); kostümler ×2
+(240/300/360/480, kilit seviyeleri aynı); Çift coin 60 → 200 ve Bölüm 5 kilidi (ilk bölümden ikiye
+katlamak eğrinin en büyük bozucusuydu; artık bir yatırım kararı). Katalog 2910 → 4935. Simülasyon: %50
+toplayan Bölüm 20, %100 toplayan Bölüm 11'de bitiriyor; başarım (1500) ve ustalık (+50/bölüm) ödülleri
+sayılmadığından gerçekte birkaç bölüm erken. Kayıt formatı değişmedi (sahip olunanlar/kademeler aynen kalır).
+
+**Sayılar (hipotez):** Test eşikleri — yarı toplayan oyuncu kataloğu Bölüm 16'dan önce bitirmemeli ve
+kampanya içinde bitirebilmeli; her şeyi toplayan Bölüm 10'dan önce bitirmemeli; yarı toplayan Bölüm 1 sonunda
+bir hareket (55) alabilmeli (193 ≥ 55). İnsan testinden gerçek toplama oranı gelince (%r) eşikler yeniden
+denenmeli; rota odaklı oyuncu (%20) kataloğun ~%60'ını görür — DTM'de de tam katalog toplayan oyuncunun ödülü.
+
+**Testler:** `--import` SCRIPT ERROR yok; `tests/campaign_smoke.gd` çıkış 0 (36 SMOKE OK); `tests/dtm_gaps.tscn`
+PASS; yeni `tests/coin_economy.tscn` PASS (eski fiyatlarla iki eşikte FAIL verdiği doğrulandı); `costumes`,
+`achievements`, `costume_badge`, `daily_wave`, `skill_achievements` geçti; bot Bölüm 1 (77,8 sn), 13 (83,9 sn), 25 (79,6 sn) CLEARED.
+1280×720'de mağazanın üç sekmesi kontrol edildi: 3 haneli fiyatlar etikete sığıyor, taşma yok.
+
+**Sonraki öneri:** İnsan testinde bölüm sonu coin / azami oranı kaydedilsin (sonuç kartında zaten "Coin"
+var); oran %50'nin çok altındaysa kademe 3 ×1,75'e çekilsin. Otonom denetim boyutlarından kalan: yok.
 
 ### 2026-11-04 (144) — Denetim: düşman telegraf kapsamı (temiz) — otomasyon durdu
 
