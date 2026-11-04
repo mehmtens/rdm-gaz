@@ -122,6 +122,11 @@ func _run() -> void:
 		if e is CanvasItem and (e as CanvasItem).visible:
 			(e as CanvasItem).visible = false
 			_hidden.append(e)
+	# Öğretici ipucu balonları da: ağaç durunca söner kalmazlar, sinematiğin üstünde donup kalıyorlardı.
+	for h in get_tree().get_nodes_in_group(&"hint"):
+		if h is CanvasItem and (h as CanvasItem).visible:
+			(h as CanvasItem).visible = false
+			_hidden.append(h)
 	_letterbox(true)
 	_prev_cam = get_viewport().get_camera_2d()
 	_cam = Camera2D.new()

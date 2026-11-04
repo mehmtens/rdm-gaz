@@ -208,6 +208,36 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-04 (146) — Denetim: Bölüm 1 — sinematik sırasında ipucu ve duyuru katmanı
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimdeki maddeler insan/cihaz testine
+bağlı. Bölüm 1, oyuncunun ilk izlenimi olduğu hâlde en son tur 123'te denetlenmişti. Pencereli bot (8 sn
+aralıklı ekran görüntüsü) + kod okuması.
+
+**Bulgu:** Çatıdaki film rulosu (x≈1378) minibüs sahnesinin tetiğinin hemen önünde. Alınınca (a) "FİLM RULOSU
+1/3" duyurusu sahne boyunca oynayıp sahne bitmeden sönüyordu — HUD duraklamada da işlediğinden 5,5 sn'lik süre
+sinematiğin arkasında harcanıyordu, oyuncu ödülünü hiç okumuyordu; (b) "Tenteye zıplayıp çatılara çık" ipucu
+balonu ağaç duraklayınca sönme fırsatı bulamadan sinematiğin üstünde donup kalıyordu. Aynı durum ipucunun
+yanında sahne tetiklenen her bölüm için geçerli (36 bölümde ~100 sahne).
+
+**Yapılan:** `cutscene.gd` sahne başında `hint` grubundaki görünür balonları düşmanlarla aynı yolla gizler,
+bitişte geri getirir. `hud.gd` yer/film rulosu duyurusu (`_PlaceBanner`) ve görev kartı (`_AchievementToast`)
+`Cutscene.active` varken süre işletmez ve görünmez; sahne bitince baştan okunur.
+Durum sütunu zaten sönüyordu (tur 91 sonrası); şimdi üst bandın tamamı sinematiğe saygılı.
+
+**Oyuncu ne hissedecek:** Sinema şeridi iner, ekranda yalnız sahne vardır; sahne bitince "FİLM RULOSU 1/3 ·
++10 coin" duyurusu tam süresiyle gelir — ödül kaybolmaz.
+
+**Testler:** `--import` SCRIPT ERROR yok; `tests/campaign_smoke.gd` çıkış 0 (36 SMOKE OK); `tests/dtm_gaps.tscn`
+PASS; `hint_order`, `hud_hints` geçti; yeni `tests/cutscene_overlays.tscn` PASS (düzeltme olmadan 3 denetimde
+FAIL verdiği doğrulandı); bot Bölüm 1 (77,7 sn), 13 (84,5 sn), 25 (81,4 sn) CLEARED. Pencereli Bölüm 1 koşusunda
+duyuru sahne bittikten sonra (t≈10) göründü; geçici hata ayıklama çıktısı sahne başında 5 ipucunun gizlendiğini
+gösterdi (bot sahneyi anında atladığından ekran görüntüsü yalnız şerit kapanışını yakaladı, o anda ipucu
+kasıtlı olarak geri gelmiş durumda).
+
+**Sonraki öneri:** Bölüm 1'in geri kalanında (t 16–78) görsel/ritim sorunu görülmedi: arena dalga şeridi, büfe
+tabelası, çatı rotası okunur. Kalan değer insan/cihaz testinde (birikimdeki ölçümler).
+
 ### 2026-11-04 (145) — Coin ekonomisi eğrisi: katalog kampanyanın ikinci yarısına yayıldı
 
 **Neden şimdi:** Stil listesi, yol haritası ve P1 maddeleri bitti; birikim yalnız insan testine bağlı.

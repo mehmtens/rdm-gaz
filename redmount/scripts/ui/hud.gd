@@ -846,6 +846,11 @@ class _AchievementToast extends PanelContainer:
 	func _process(delta: float) -> void:
 		if not visible:
 			return
+		## Sinematik sırasında süre işlemez: sahneden hemen önce kazanılan görev
+		## kartı şeridin arkasında kaybolmasın, sahne bitince baştan okunur.
+		if Cutscene.active != null:
+			modulate.a = 0.0
+			return
 		_t += delta
 		modulate.a = clampf(minf(_t * 4.0, (HOLD - _t) * 2.5), 0.0, 1.0)
 		if _t >= HOLD:
@@ -896,6 +901,11 @@ class _PlaceBanner extends Control:
 
 	func _process(delta: float) -> void:
 		if not visible:
+			return
+		## Sinematik sırasında bekler (Bölüm 1 denetimi: çatıdaki film rulosu
+		## duyurusu minibüs sahnesinin üstünde oynayıp sahne bitmeden sönüyordu).
+		if Cutscene.active != null:
+			modulate.a = 0.0
 			return
 		_t += delta
 		modulate.a = clampf(minf(_t * 3.0, (HOLD - _t) * 2.0), 0.0, 1.0)
