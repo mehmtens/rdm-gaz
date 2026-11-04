@@ -15,7 +15,9 @@ const ADVANCE := 6
 ## yanında 2'şer boş sütun kalıyor, dar komşuyla (Y, V, T) kelime arası gibi
 ## okunuyordu ("VANİKÖY" → "VANI KÖY"). Serif denemeleri (tur 130, 152) boşluğu
 ## kapatmadı; orantılı adım komşuyu çeker. Yazı yalnız daralır, taşma olmaz.
-const _NARROW := {"I": [2, 1], "İ": [2, 1]}
+## Kesme işareti de dar (tur 161): menü başlığında "İSTANBUL' UN" diye kırılıyordu; TTF'deki
+## aynı düzeltme (tur 159) ile eş. Dünya tabelalarında kesme işareti yok, ızgara hizası korunur.
+const _NARROW := {"I": [2, 1], "İ": [2, 1], "'": [1, 2]}
 
 const _BODY := {
 	"A": [".###.", "#...#", "#...#", "#####", "#...#", "#...#", "#...#"],

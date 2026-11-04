@@ -238,6 +238,29 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-04 (161) — Ana menü alt başlığı "İ STANBUL' UN SESİ" → "İSTANBUL'UN SESİ"
+
+**Neden şimdi:** Tur 160'ın önerdiği mobil menü taraması (dokunmatik zorlanmış 1280×720 ana sayfa, bölüm seç,
+arşiv, ayarlar, mağaza). Kod taramasında dokunmatikte görünen klavye-yalnız metin kalmadı (`pause_menu` silah
+`note` alanları hiçbir yerde okunmuyor; `level03_redesign` kampanya dışı). Mağaza ve bölüm seç düğmeleri
+çakışmasız. Tek kusur oyunun ilk ekranındaydı: alt başlık PNG'si (`logo_alt.png`) tur 153/159'dan ÖNCEKİ TTF
+metrikleriyle üretilmişti — "İ STANBUL' UN SESİ" üç kelime kırığıyla okunuyordu.
+
+**Oyuncu ne hissedecek:** Oyun açılır açılmaz başlık tek parça okunur; kitap adı yanlış yazılmış gibi durmaz.
+
+**Yapılan:**
+- `assets/ui/pixel/logo_alt.png` yalnız `gen_pixel_menu.logo("İSTANBUL'UN SESİ", …)` çağrılarak güncel TTF ile
+  yeniden üretildi (104 → 93 px genişlik; aynı GPT rampası, aynı gürültü). Script'in tamamı çalıştırılmadı:
+  ChatGPT tarzına yeniden boyanmış ikonların (kilit, coin, …) üstüne yazardı.
+- `pixel_text.gd` `_NARROW`'a `"'": [1, 2]` — PixelText'te de kesme işareti TTF ile eş dar adım (dünya
+  tabelalarında kesme işareti yok, ızgara hizası değişmez; ileride kesmeli tabela/başlık kırılmasın).
+
+**Testler:** `--import` hatasız; `campaign_smoke` çıkış 0; `dtm_gaps` PASS; `touch_hints` PASS; bot Bölüm 1
+(82,8 sn), 13 (79,2 sn), 25 (82,9 sn) CLEARED. Ana menü 1280×720 ekran görüntüsü Read ile kontrol edildi.
+
+**Sonraki öneri:** Mobil sütun bitti. Sıradaki denetim sütunu: oyun hissi — tek bölümde (ör. 18) isabet/hitstop
+ve parçacık okunurluğunu pencereli ekran görüntüleriyle DTM ölçütüne göre karşılaştır.
+
 ### 2026-11-04 (160) — Telefonda sonuç kartı: MENÜ düğmesi kartı örtüyordu, ipuçları klavye harfi gösteriyordu
 
 **Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin kalanı insan/cihaz testine bağlı.
