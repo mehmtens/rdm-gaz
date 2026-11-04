@@ -42,6 +42,18 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   çekirdeğini değiştirir, 36 bölüm tabelası + HUD + mağaza regresyonu ister; otonom turda kör yapılmamalı,
   insan gözetiminde kapsamlı bir iş olarak ele alınmalı. Aynı kart doğru yazdığı yerler: "KİLERİ" (İ→L/R/E
   geniş komşu, `denetim33/yukleme.png`) sorunsuz — yalnız İ/I + dar komşu (Y/V/İ/I) çiftinde kırılıyor.
+- (Tur 158 denetimi, Bölüm 7/23) **Vektör yazı tipi (`redmount_pixel.ttf`) apostrof genişliği:** düz
+  apostrof (U+0027) glifinin ilerleme (advance) genişliği yaklaşık bir boşluk kadar; Türkçe apostroflu ekler
+  araya boşluk girmiş gibi okunuyor. Başlık kartı alt başlığı (Label düğümü, vektör yazı tipi) kaynakta
+  boşluksuz "GAZELLE'İN İZİ" / "HALİÇ'İN İZİ" yazdığı hâlde ekranda "GAZELLE' İN İZİ" / "HALİÇ' İN İZİ"
+  çıkıyor (ölçüm: `scratchpad/denetim_b7/giris.png`, `scratchpad/denetim_b23/giris.png`). Kaynak dizgi doğru
+  (ikisi de U+0027, aradaki tek 0x20 yalnız İN↔İZİ arası), yani sorun font metriğinde. **Kapsam:** tüm Label'lar
+  (başlık kartı, telsiz/diyalog, menü, mağaza, HUD) — oyun genelinde her apostrof. **Maliyet/risk:** PixelText
+  İ-kerning maddesiyle aynı aile — `redmount_pixel.ttf` `hmtx` metriğini (ya da eksik glifi) değiştirmek
+  fonttools ister ve her boyut/bağlamı etkiler; yanlış advance glif çakışması yapar. Düzeltilirse her apostrof
+  (GAZELLE'İN, Balat'ın, Haliç'te, İstanbul'un …) doğru sıkışır — net kazanç ama regresyon alanı geniş. **Değer:**
+  düşük (alt başlık 3,6 sn görünür, hâlâ okunur); kör otonom turda font metriği değiştirmek riskli, insan
+  gözetiminde İ-kerning işiyle birlikte ele alınmalı.
 - ~~(Tur 130 denetimi) OYNANIS-KALITE P1 tablosu senkronu~~ **(Tur 131'de yapıldı, `commit` aşağıda):** 5
   stale satırın (silah düşmesi, silah çeşitliliği, arena göstergesi, bölüm kartı, kırılabilir ödül; + kostüm,
   günün dalgası) "kodda görülen" sütunu `ec73bc88` gerçeğine çekildi, kanıt dosyaları eklendi. Aşağıdaki
@@ -223,6 +235,38 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-04 (158) — Görsel denetim: Bölüm 7 (haddehane) + Bölüm 23 (Saraçhane) — yeni iş yok (1 madde birikime)
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin üstü insan/cihaz testine bağlı. Öncelik
+(d) gereği iki bölümü farklı biome'da (biome 1 fırın, biome 0 Süleymaniye) pencereli ekran görüntüsüyle DTM gözüyle
+denetledim: sanat uyumu, bölüm ritmi, okunurluk, telegraf, set-piece, HUD.
+
+**Yöntem:** `tests/capture_level.tscn` ile her bölümden 5 nokta (1280×720 pencereli, arena kaldırılmış, sahne
+atlanmış): Bölüm 7 giriş/kanal/tırmanış/fabrika/final, Bölüm 23 giriş/çeşme/galeri/vana/taşma. 10 kare Read ile
+değerlendirildi.
+
+**Bulgular (olumlu):**
+- Sanat uyumu tam: fırın (lav akıntıları, Süleymaniye silueti, demir köprüler), Saraçhane (Bozdoğan Kemeri,
+  İznik çinili basınç galerisi, ahşap konaklar, pirinç manometreler) — Claude propları (varil/kasa/iskele/tuğla
+  duvar/sign board) ChatGPT arka planına "ait"; yapıştırılmış duran öğe görülmedi.
+- Bölüm ritmi ve set-piece bölüme özgü: VERİCİ (haddehane), ANA VANA + su terazisi + maket masası-su krokisi
+  (Saraçhane). Formül/şişirme yok.
+- Telegraf ve oyun hissi: tüfekli üstünde "!" uyarısı, suikastçı baskınında kırmızı flaş; HUD (CAN/COIN)
+  okunur; diyalog yazı makinesi tam satırı doğru yazıyor ("...kahraman da bükülür." fabrika karesinde tam).
+- Düşman/kahraman okunurluğu kabul edilebilir: kahraman koyu ceket + mavi kot + beyaz ayakkabı + saçla ayrışıyor.
+
+**Bulgu (birikime):** Vektör yazı tipi apostrof genişliği — başlık kartı alt başlığı "GAZELLE'İN"/"HALİÇ'İN"
+kaynakta boşluksuz olduğu hâlde "GAZELLE' İN"/"HALİÇ' İN" render ediliyor (U+0027 advance ≈ boşluk). Oyun geneli,
+font metriği, düşük değer, İ-kerning ailesiyle insan gözetiminde ele alınmalı (ayrıntı birikimde).
+
+**Sonuç:** İki bölüm de DTM kalitesinde ve cilalı; güvenli, yüksek değerli otonom iş çıkmadı. Kod değişmedi; yalnız
+belge. Yeniden onaylanan tek görsel-okunurluk konusu düşman tip renk ayrışması (zaten birikimde, insan gözü gerekli).
+
+**Testler:** Kod değişmedi; yalnız belge. Geçici capture dosyaları scratchpad'de (depoda değil).
+
+**Sonraki adım:** Birikim ve listeler güvenli otonom iş bakımından tükendi; sıradaki turlarda yeni bölümlerin
+görsel denetimine devam (Bölüm 28/32 gibi geç bölümler) ya da insan testi verisi gelince birikim maddeleri.
 
 ### 2026-11-04 (157) — Denetim: tuş ezme kilitleri (diz hava takibi + 8 düşman tipi) — yeni iş yok
 
