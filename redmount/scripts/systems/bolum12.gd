@@ -52,7 +52,8 @@ func _build() -> void:
 	armory.floor_y = 0
 	armory.wave1 = _wave(ELITE, KNIFE, BOMBER)
 	armory.wave2 = _wave(BRUISER, ELITE)
-	armory.wave3 = _wave(ASSASSIN, ELITE, ELITE)
+	# Son dalga ikili: kitabın zirvesi taht salonu, cephanelik değil (tur 147).
+	armory.wave3 = _wave(ASSASSIN, ELITE)
 	armory.reward = HEALTH
 	add_child(armory)
 

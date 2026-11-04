@@ -208,6 +208,40 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-04 (147) — Denetim: Bölüm 4 ve 12 — Kitap 1 finalinde zorluk eğrisi düzeltildi
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikim insan/cihaz testine bağlı. Öncelik d):
+tur 120+ dizisinde hiç bakılmamış en eski iki bölüm (4: tur 82, 12: tur 84). Pencereli bot, 10 sn arayla
+ekran görüntüsü + 2 başsız koşu.
+
+**Görsel:** İkisi de temiz. Bölüm 4 sınır kapısı (gözetleme kulesi projektörü, SINIR KANTİNİ büfesi, film
+rulosu duyuruları) ve Bölüm 12 iç kale (cephanelik baskı salonu, yalı tutukevi, vitraylı taht salonu) ChatGPT
+arka planlarıyla uyumlu; telsiz paneli dalga şeridini aşağı itiyor, çakışma yok.
+
+**Bulgu (Bölüm 12):** Kitap 1 finalinde zirve taht salonu değil açılış arenasıydı. Cephanelik arenası (x 1750–2850)
+üç dalgada 8 düşman / **4 Seçkin**; son dalga Suikastçı + iki Seçkin — Kitap 1'de üç kişilik dalgada iki Seçkin
+yalnız burada (Bölüm 10–11'de Seçkin çiftleri ikili dalga). Üç koşunun ikisinde bot burada iki kez öldü
+(84 → 24 can, 3. dalgada), Karahanlı'yı ise üç koşuda da ölmeden geçti. Oyuncu kitabın son boss'una "asıl duvar
+geride kaldı" hissiyle girer; DTM'de bölüm ritmi zirveyi boss'a koyar.
+
+**Yapılan:** `bolum12.gd` cephanelik 3. dalgası `ASSASSIN, ELITE, ELITE` → `ASSASSIN, ELITE` (Bölüm 11'in son
+ikilisiyle aynı kalıp). Arena yine 3 dalga / 7 düşman / 3 Seçkin, kitabın en kalabalık arenalarından biri.
+
+**Sayılar (hipotez):** Sonrası 3 başsız koşu: 0 yeniden doğma (önce 3 koşuda 2+2+0 cephanelikte, 1 tutukevinde);
+arenadan 48–84 canla çıkış, en düşük can artık Karahanlı dövüşünde (12–44/115). İnsan testinde Karahanlı'da
+ölüm 2'yi geçerse arena ödülü/tutukevi simidi yeterli mi ölçülsün; cephanelik çok kolay hissettirirse 3. dalgaya
+Bıçakçı eklensin (Seçkin değil).
+
+**Bölüm 4:** Pencereli koşuda son arena (Yüzbaşı Demir, x≈8100–8800) 37 canla girildi, 2 yeniden doğma — birikimdeki
+"son arenaya düşük canla varış (Bölüm 4)" maddesiyle aynı; insan testine bırakıldı.
+
+**Testler:** `--import` SCRIPT ERROR yok; `tests/campaign_smoke.gd` çıkış 0 (36 SMOKE OK); `tests/dtm_gaps.tscn`
+PASS; bot Bölüm 12 üç başsız koşu CLEARED (74,7 / 70,3 / 75,9 sn), Bölüm 4 pencereli CLEARED (124,5 sn).
+Ortak sistem değişmediğinden diğer bölümler koşulmadı.
+
+**Sonraki öneri:** Aynı "zirve boss'ta mı?" sorusu kitap finalleri için (Bölüm 24, 36) bot can eğrisiyle
+taranabilir; ikisinde de bot verisi zaten finalde düşük can gösteriyor (doğru yön).
+
 ### 2026-11-04 (146) — Denetim: Bölüm 1 — sinematik sırasında ipucu ve duyuru katmanı
 
 **Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimdeki maddeler insan/cihaz testine
