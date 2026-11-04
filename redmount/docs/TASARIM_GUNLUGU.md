@@ -7,6 +7,10 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- **(Tur 154) Ölçüm uyarısı:** Tur 154 öncesi bot koşularındaki "N yeniden doğma" verisinde dövüş ölümleri iki kez
+  sayılıyordu (`_autoplay.gd` geri ışınlanmayı düşme sanıyordu). Aşağıdaki bölüm maddelerinde ölüm sayılarını
+  yaklaşık ikiye bölün; Bölüm 10 son arenası gerçekte koşu başına 1 ölüm.
+
 - (Tur 145 ekonomi) İnsan testinde bölüm başına coin toplama oranı ölçülsün (sonuç kartı "Coin" / `tests/coin_economy`
   azamisi). Tur 145 eğrisi %50 toplayıcıya göre kuruldu (katalog Bölüm 20'de biter); oran %30'un altındaysa kademe 3
   ×1,75'e, %70'in üstündeyse kostümler ×2,5'e. Bölüm içi büfe harcaması (15–45) modelde yok.
@@ -149,7 +153,7 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   2'yi geçerse yalı arenasının önüne simit.
 - Bölüm 22 bakım şaftı arenası (x≈7700–8300): tur 45'te Bombacı+Kalkanlı, sonra Seçkin+Bıçakçı
   (eski: iki Seçkin + Tüfekli). İnsan testinde ölüm sayısı ölçülsün.
-- Bölüm 10 son arena (x≈8200–8700, Ağır Zırhlı + iki tüfekli): bot 3 ölüm, 21 sn takılma.
+- Bölüm 10 son arena (x≈8200–8700, Ağır Zırhlı + iki tüfekli): bot 3 ölüm, 21 sn takılma (tur 154: sayaç çiftti, gerçekte ~1).
   Kaba yapay zekâ olabilir; insan testinde arena başına ölüm sayısı ölçülsün, 2'yi geçerse
   üçüncü dalgadan bir tüfekli çıkarılsın ya da ikinci dalga sonrası ödül simit olsun.
 - Kamera çerçevesi: zemin ekranın %63'ünde (kamera oyuncunun 95 px üstünde), alt %37 zemin altı.
@@ -219,6 +223,34 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-04 (154) — Denetim: Bölüm 10 — bot ölüm sayacı her ölümü iki kez sayıyordu (ölçüm düzeltildi)
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikim insan/cihaz testine bağlı. Öncelik d):
+Bölüm 10 yalnız toplu denetimlerde (tur 73) görülmüştü; birikimde "son arena 3 ölüm" maddesi duruyordu.
+
+**Bulgu:** Başsız koşu "2 yeniden doğma" verdi ama can izi son arenada tek bir düşüş gösteriyordu (11 can → 4 sn
+içinde `respawns=2`, ardından 115). Sebep `_autoplay.gd`: can 0 olunca bot `_respawn_player()` çağırıp sayacı
+artırıyor, sonraki karede oyuncu kontrol noktasına/arena kapısına geri ışınlandığı için "x 150 px geri sıçradı"
+(düşme tespiti) kuralı aynı ölümü **ikinci kez** sayıyordu. Düşerek ölme (`main.gd` kendi ışınlıyor) tek sayılıyordu;
+dövüşte ölme çift. Yani günlükte ve birikimde "N yeniden doğma" diye geçen dövüş ölümleri çoğunlukla N/2 ölüm.
+
+**Önce denenen ve geri alınan:** Sayaç hatası anlaşılmadan Bölüm 10 final 3. dalgası `ELITE, ELITE` → `ELITE, KNIFE`
+yapıldı; üç koşuda yine "2" çıktı (değişiklik etkisiz, çünkü ölçüm çiftti) → geri alındı, bölüm dengesine dokunulmadı.
+
+**Yapılan:** `_autoplay.gd`: bot ölümünde ışınlamadan sonra `_prev_x` güncelleniyor; geri sıçrama kuralı yalnız
+gerçek düşmeleri sayıyor.
+
+**Oyuncu ne hissedecek:** Doğrudan değil — ama bundan sonraki denge kararları (tur 147 gibi bot verisiyle dalga
+hafifletme) iki kat şişik ölüm verisine dayanmayacak; kampanya gereksiz kolaylaştırılmayacak.
+
+**Testler:** `--import` SCRIPT ERROR yok; `tests/campaign_smoke.gd` çıkış 0 (36 SMOKE OK); `tests/dtm_gaps.tscn`
+PASS; bot Bölüm 10 CLEARED 120,9 sn **1** yeniden doğma (sur arenası), Bölüm 1 CLEARED 81,7 sn 0, Bölüm 12 CLEARED
+72,2 sn 0. Bölüm 10 son arena, düzeltme öncesi 4 koşuda "2" = gerçekte 1 ölüm / koşu.
+
+**Sonraki öneri:** Birikimdeki bot ölüm sayılarını okurken ikiye böl (tur 154 öncesi). "Ölüm 1'i geçerse"
+eşikleri çoğu bölümde zaten karşılanmıyor demektir; insan testi bunu doğrulasın. Tur 147'nin Bölüm 12 cephanelik
+hafifletmesi (2+2+0 → gerçekte 1+1+0) korunabilir — zirveyi boss'a taşıma gerekçesi ölümden bağımsız.
 
 ### 2026-11-04 (153) — Türkçe İ/i kelime kırığı kapandı: orantılı dar glif (PixelText + piksel TTF)
 

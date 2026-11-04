@@ -62,6 +62,8 @@ func _physics_process(delta: float) -> void:
 	if _player.get_health() <= 0:
 		_main._respawn_player()
 		_respawns += 1
+		# Geri ışınlanma sonraki karede ">150 px geri" kuralıyla ikinci kez sayılmasın.
+		_prev_x = _player.global_position.x
 		return
 	if x < _prev_x - 150.0:
 		_respawns += 1
