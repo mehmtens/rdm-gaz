@@ -103,7 +103,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 - Bölüm 26 final arenası (x≈8200–8700, `DALGA 2/2 · 3 DÜŞMAN`): pencereli bot son dalgada 1/115
   cana indi, koşuda 2 yeniden doğma (başsız koşularda 0–1). İnsan testinde final ölümü 1'i geçerse
-  ikinci dalga sonrası simit ya da üç düşmandan biri tüfeksiz.
+  ikinci dalga sonrası simit ya da üç düşmandan biri tüfeksiz. Tur 149: 4 koşuda arenaya 55–103 canla
+  girildi, 2. dalgada (Ağır Zırhlı+Kalkanlı+Suikastçı) 4–10 cana inildi, 1 ölüm — eğri tutarlı, kararlı.
 
 - Bölüm 14 son arena (x≈9000–9500): bot son dalgaya 23/115 canla girdi, 2 yeniden doğma (pencereli
   ve başsız koşu). İnsan testinde arena ölümü 1'i geçerse ikinci dalga sonrası simit.
@@ -207,6 +208,27 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-04 (149) — Denetim: Bölüm 26 ve 14 (temiz) — otomasyon durdu
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin tamamı insan/cihaz testine bağlı.
+Öncelik d): en uzun süredir bakılmayan iki bölüm (26: tur 80, 14: tur 87). Her biri bir pencereli koşu
+(10–12 sn arayla ekran görüntüsü) + başsız koşular.
+
+**Bölüm 26 (Sirkeci):** 4 koşu CLEARED (97,1 / 81,9 / 85,2 / 84,8 sn). Gar cephesi, yolcu peronu, bekleme
+salonu iç mekânı, yük rampası ve arka yük peronu ChatGPT arka planlarıyla uyumlu; HUD, dalga şeridi ve
+combo yazısı çakışmıyor. Pencereli koşudaki tek ölüm yükleme çukurunda (diken, x 6300–6460) bot sapması;
+üç başsız koşuda çukurda ölüm yok (160 px çukur koşarak ~250 px'lik zıplamayla rahat geçiliyor). Zirve doğru
+yerde: arka yük peronu arenasının 2. dalgası (Ağır Zırhlı+Kalkanlı+Suikastçı) dört koşuda da canı 4–10'a
+indiriyor, 1 ölüm — birikimdeki B26 notuna veri eklendi, karar insan testinde.
+
+**Bölüm 14 (halat atölyesi):** 3 koşu CLEARED (~91–93 sn), 0 ölüm, en düşük can 32–58 son arenada (doğru yön).
+Görsel temiz; halat atölyesi arenasında demir kafesin ayrıntılı resmin önünde durması birikimde zaten kayıtlı.
+
+**Testler:** Kod değişmedi (yalnız günlük); bot koşuları yukarıda.
+
+**Sonraki öneri:** Otonom listeler kapalı ve son 36 bölümün hepsi tur 80+ sonrası en az bir kez denetlendi;
+kalan değer insan/cihaz testinde (birikimdeki ölçüm maddeleri). Otomasyon durdu.
 
 ### 2026-11-04 (148) — Denetim: 36 bölüm ölüm yeri taraması (tur 147'nin devamı)
 
