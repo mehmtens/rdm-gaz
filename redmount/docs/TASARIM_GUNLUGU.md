@@ -168,7 +168,12 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   (x≈4600–5400; bot 2 ölüm, 21 → 7 can): kaba yapay zekâ olabilir; insan testinde ölüm sayısı
   2'yi geçerse yalı arenasının önüne simit.
 - Bölüm 22 bakım şaftı arenası (x≈7700–8300): tur 45'te Bombacı+Kalkanlı, sonra Seçkin+Bıçakçı
-  (eski: iki Seçkin + Tüfekli). İnsan testinde ölüm sayısı ölçülsün.
+  (eski: iki Seçkin + Tüfekli). İnsan testinde ölüm sayısı ölçülsün. **Tur 166 ölçümü (düzeltilmiş sayaç,
+  3 koşu):** her koşuda tam 1 ölüm (1× şaft arenası, 2× tahliye avlusu finali). Pres koridoru (x≈6400–7100)
+  koşu başına 28–32 can yiyor (bot pres ritmini zamanlamıyor), şafta 20–34 canla giriliyor. Koridordan önce
+  SU ERZAKÇISI (can/zırh), şaft ödülü can, kontrol odasında yüksek simit (9240, −160) var — bot büfe
+  kullanmıyor, simidi kaçırıyor. İnsan testinde ölüm 1'i geçerse önce pres döngüsü (üç pres, 3,0 sn, faz 0/1/2)
+  incelensin, sonra şaft 2. dalgası Seçkin → Bıçakçı.
 - Bölüm 10 son arena (x≈8200–8700, Ağır Zırhlı + iki tüfekli): bot 3 ölüm, 21 sn takılma (tur 154: sayaç çiftti, gerçekte ~1).
   Kaba yapay zekâ olabilir; insan testinde arena başına ölüm sayısı ölçülsün, 2'yi geçerse
   üçüncü dalgadan bir tüfekli çıkarılsın ya da ikinci dalga sonrası ödül simit olsun.
@@ -239,6 +244,28 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-04 (166) — Denetim: Bölüm 21 (Kasımpaşa/Yenikapı) ve 22 (Aksaray pompa) — temiz, yeni iş yok — otomasyon durdu
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin kalanı insan/cihaz testine bağlı.
+Başlıklı son denetimi en eski iki bölüm (21: tur 91, 22: tur 92) seçildi. Her biri 1 pencereli koşu (1280×720,
+4 sn'de bir kare; 26 + 21 kare) + 2 başsız koşu.
+
+**Bulgular:** Bölüm 21 CLEARED 103,3–103,7 sn, başsız koşularda 0 ölüm. Ritim: fenerli iskele (geçiş) → balık
+mezadı arenası (`DALGA 1/2`) → tersane kızağı + film rulosu 1/3 → sandık yığınında tüfekli → RIHTIM ERZAKÇISI
+(nefes/ekonomi) → kuru havuz iskeleleri → evrak salonu arenası → vinçli depo → Aksaray iskelesi üç dalgalı
+final; finalden önce can dolumu (86 → 115) var, final ~20–34 canla bitiyor. Sandık yığınında her koşu 15–19 sn
+takılma (x≈4931) botun basamak bulma mantığı; tur 165'te Bölüm 17'deki aynı durum. Bölüm 22 CLEARED 75,1–83,8 sn,
+üç koşuda da 1 ölüm — sayılar ve gerekçe birikimdeki Bölüm 22 maddesine yazıldı (büfe, şaft ödülü ve simit
+zaten var; bot büfe kullanmıyor, pres ritmini zamanlamıyor → düzen değiştirilmedi). İki bölümde telsiz paneli,
+dalga şeridi, combo ("EFSANE x13" tek parça) ve film rulosu bildirimi üst üste binmiyor; tabelalar
+("RIHTIM ERZAKÇISI", "SU ERZAKÇISI", "AKSARAY", "SARAÇHANE") tek parça; arka planlar tekrar etmiyor,
+karakterler ve sahne öğeleri aynı GPT tarzında.
+
+**Testler:** Kod değişikliği yok; yalnız günlük. Bot: Bölüm 21 ×3, Bölüm 22 ×3 CLEARED.
+
+**Durum:** Üst üste dördüncü temiz denetim (163–166). Otomasyon durdu. **Sonraki öneri:** telefonda insan testi
+(Bölüm 22 pres koridoru + final ölüm sayısı, final can eğrileri, dokunmatik sonuç kartı).
 
 ### 2026-11-04 (165) — Denetim: Bölüm 32 ve 17 — temiz, yeni iş yok — otomasyon durdu
 
