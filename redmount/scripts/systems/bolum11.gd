@@ -37,9 +37,9 @@ func _build() -> void:
 
 	# --- 2. Tuzaklı koridor: presler; üstte galeri -----------------------------
 	_checkpoint(1420, 0)
-	_press(1750, 0.0, 2.4)
-	_press(2000, 0.33, 2.4)
-	_press(2250, 0.66, 2.4)
+	_press(1700, 0.0, 3.0)
+	_press(2000, 0.33, 3.0)
+	_press(2300, 0.66, 3.0)
 	_coin_line(1720, 6, 105, -60)
 	var aw := AwningBounce.new()
 	aw.width = 160

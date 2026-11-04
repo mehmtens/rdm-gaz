@@ -98,7 +98,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   İnsan testinde telefonda üst kenarda sıkışma/çakışma görülürse film-rulosu bildirimi ekranın ortasına
   ya da dalga şeridi kalkınca gösterilsin.
 
-- Bölüm 36 (final, tur 134 denetimi): üç koşuda 3–4 ölüm, yerleri değişken — güverte altı pres hattı
+- **(Tur 169: pres hattı kurala çekildi — 5300/5600/5900, periyot 3,0; ölüm pres hattından arenaya kaydı, aşağıya bkz.)**
+  Bölüm 36 (final, tur 134 denetimi): üç koşuda 3–4 ölüm, yerleri değişken — güverte altı pres hattı
   (x≈5350–5850, üç pres 250 px aralık, 2,4 sn dalga; başsız koşuda 4 sn'de 63 → 15 can = 3 pres vuruşu),
   galerili ambar arenası (x≈6200–7100), x≈8200 ve x≈13000. Yayın Şefi'nde 0–1. Pres hattı Bölüm 11'deki
   koridorla aynı ritimde ve günlükteki "pres aralığı ≥300 px, periyot 3,0" tuzak notunun altında; bot
@@ -110,6 +111,13 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   alev + 3 düşman) 115 → ~20'ye eriyor; tek can kaynağı arşiv üst katındaki sandık (6150, −230; bot almıyor),
   arada İSKELE ERZAKI büfesi var. İnsan testinde arena ölümü 1'i geçerse arşiv zemin katına (x≈6200) kırılabilir simit.
 
+- (Tur 169) Bölüm 36 galerili ambar arenası (x≈6200–7100, Seçkin+Bıçakçı+Suikastçı → Yüzbaşı+Tüfekli): pres
+  hattı düzeltildikten sonra iki koşuda da ilk ölüm burada — bot 5000'deki Seçkin + 1–2 pres vuruşuyla arenaya
+  29–36/115 canla giriyor; 5150 kontrol noktasından arenaya can kaynağı yok. İnsan testinde arena ölümü 1'i
+  geçerse pres köprüsü sonrasına (x≈6050) kırılabilir simit. Bölüm 34 pres hattı (230 px, 2,6 sn) da kuralın
+  biraz altında ama 7400 jeneratör binası ve 6550 kontrol noktası arada 300 px aralığa yer bırakmıyor; ölüm
+  verisi yok, dokunulmadı.
+
 - Kasap Rıza arenası (Bölüm 2, x≈8150–8260): bot üç koşuda 16–17 sn kalıyor, 0 ölüm, ~19 can kaybı.
   Sorun değil; insan testinde arena süresi 40 sn'yi geçerse Rıza'nın can havuzu ölçülsün.
 
@@ -118,7 +126,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   koşarken takılma hissi veriyor mu (basamak zıplamadan çıkılmıyor; B1–3'teki insan testi olumluydu),
   (c) B20 taşkın havuzu ve B23/B26 tente sıçraması ilk denemede anlaşılıyor mu.
 
-- Bölüm 11 pres koridoru → avlu arenası (x≈1700–5100): pencereli bot koridorda 89 → 34 can (pres hasarı 16,
+- **(Tur 169: koridor presleri 1700/2000/2300, periyot 3,0 — tuzak kuralına çekildi; iki başsız koşu 0 ölüm.)**
+  Bölüm 11 pres koridoru → avlu arenası (x≈1700–5100): pencereli bot koridorda 89 → 34 can (pres hasarı 16,
   üç pres 2,4 sn döngü), arenaya 34/115 canla girip 2 kez öldü. Tek can kaynağı üst galerideki simit
   (x 2410, −305). İnsan testinde arena ölümü 1'i geçerse hücre penceresi kontrol noktasına (x 3120) simit.
 
@@ -244,6 +253,29 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-04 (169) — Pres hatları tuzak kuralına çekildi: Bölüm 36 güverte altı ve Bölüm 11 koridoru
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin kalanı insan testine bağlı. En az
+denetlenmiş iki uç bölüm (Bölüm 1 ilk izlenim, Bölüm 36 final) denetlendi. Bölüm 1 başsız bot CLEARED 82,7 sn,
+0 ölüm — temiz. Bölüm 36 CLEARED 180,1 sn ama **3 gerçek ölüm** (tur 154 sayaç düzeltmesinden sonra; çift sayım
+değil): pres hattında (x 5349 → 5518, can 62 → 30 → ölüm), ambar sonrası x≈8200 ve x≈13000. Pres hattı
+(250 px aralık, 2,4 sn) projenin kendi tuzak kuralının ("pres hattında aralık ≥300 px, periyot 3,0") altındaydı;
+Bölüm 11 koridoru aynı 250/2,4 kalıbında. Bu bot verisine dayalı denge kararı değil, kurala uyum düzeltmesi.
+
+**Ne yapıldı:** `bolum36.gd` `_press_gantry([5300, 5600, 5900], …, 3.0)` (köprü 700 → 800 px, 6150 ambar
+iç mekânına 150 px kalıyor; 5150 kontrol noktasına ilk pres kenarı 100 px). `bolum11.gd` presler 1700/2000/2300,
+periyot 3,0 (coin çizgisi 1720–2245 ve üst galeri iskeleleri olduğu gibi). Fazlar (0 / 0,33 / 0,66) korunarak
+"dalga" ritmi sürüyor; daha uzun periyot her presin altında koşarak geçiş penceresini ~%25 açar. Oyuncu hissi:
+final hâlâ tehlikeli bir koridor ama ezilerek ölmek yerine bir vuruş yiyip geçilen bir ritim testi.
+
+**Testler:** Derleme SCRIPT ERROR'suz; 36 sahne smoke çıkış 0; DTM GAPS: PASS. Bot: Bölüm 11 ×2 CLEARED (91,6 /
+95,5 sn, 0 ölüm); Bölüm 36 ×2 CLEARED (172,7 / 180,5 sn, 2 ölüm her biri — pres hattında 0, ilk ölüm ambar
+arenasına kaydı, birikime yazıldı). Pencereli 1280×720 çekim (`scratchpad/pres36/t0048_x5393.png`,
+`t0049_x5784.png`): çelik köprü üç presi kapsıyor, sarı-siyah uyarı bantları ve aralar okunur, sahneye ait.
+
+**Sonraki öneri:** Bölüm 36 ambar arenası girişi can kaynağı (insan testine bağlı, birikimde). Diğer işler
+insan/cihaz testi bekliyor.
 
 ### 2026-11-04 (168) — Denetim: Bölüm 8 (Yeraltı Sevkiyatı) ve 14 (Urgancı/Balat) — temiz, yeni iş yok — otomasyon durdu
 
