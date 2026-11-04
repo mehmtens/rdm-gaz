@@ -245,6 +245,28 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-04 (167) — Denetim: Bölüm 19 (Samatya külhanı) ve 24 (Bozdoğan/Kitap 2 finali) — temiz, yeni iş yok — otomasyon durdu
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin kalanı insan/cihaz testine bağlı.
+Başlıklı son denetimi en eski iki bölüm (19: tur 89, 24: tur 94) seçildi. Her biri 1 pencereli koşu (1280×720,
+5 sn'de bir kare; 20 + 41 kare).
+
+**Bulgular:** Bölüm 19 CLEARED 96,2 sn (takılma 18 sn @9837, Külhanbeyi finalinde `DALGA 2/2`): meydan → hamam
+avlusu arenası (`DALGA 2/2 GELİYOR`, HAMAM ERZAKI büfesi yanında) → külhan finali; finale 103/115 canla girildi.
+Bölüm 24 CLEARED 200,4 sn — kampanyanın en uzun bölümü (x 18655) ama Kitap 2 finali olduğu için bilerek uzun:
+su kemeri arenası → kemer altı pusu + KEMER ERZAKI → su kapısı avlusu → sarnıç savak arenası (Ağır Zırhlı, can
+29/115'e indi) → çark salonu → Ana Vana Muhafızı surları (`DALGA 3/3`, 82/115 can). x≈3860–3960'ta 40 sn takılma
+botun basamak bulma sınırı: `_crates` 90 → 180 → 180 px merdiven, her basamak tek zıplamalık (~125 px) — oyuncu için
+okunur, düzen değiştirilmedi. İki bölümde telsiz paneli, dalga şeridi, combo ("EFSANE x28"), boss çubuğu ve HUD
+satırları üst üste binmiyor; tabelalar tek parça ("SAMATYA", "HAMAM ERZ…" yalnız ekran kenarında kesik);
+arka planlar, karakterler ve sahne öğeleri aynı GPT tarzında, yapıştırılmış duran öğe yok.
+
+**Testler:** Kod değişikliği yok; yalnız günlük. Bot: Bölüm 19 ×1, Bölüm 24 ×1 CLEARED (pencereli).
+
+**Durum:** Üst üste beşinci temiz denetim (163–167). Otomasyon durdu. **Sonraki öneri:** otonom denetim getiri
+vermiyor; telefonda insan testi (final can eğrileri, Bölüm 24 süresi ~3 dk'nın sıkıcı olup olmadığı, dokunmatik
+sonuç kartı) ya da düşman tipi renk ayrışması gibi insan gözetimi isteyen işler.
+
 ### 2026-11-04 (166) — Denetim: Bölüm 21 (Kasımpaşa/Yenikapı) ve 22 (Aksaray pompa) — temiz, yeni iş yok — otomasyon durdu
 
 **Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin kalanı insan/cihaz testine bağlı.
