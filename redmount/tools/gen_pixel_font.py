@@ -21,6 +21,11 @@ ROWS = 12
 BASE_ROW = 9  # 9. satırın üst kenarı taban çizgisi
 
 B = "....."
+# Dar glifler: (ilk dolu sütun, genişlik). pixel_text.gd'deki _NARROW ile aynı;
+# İ/I/i/ı tek sütun gövdeli, sabit 600'lük adım dar komşuyla kelime kırığı açıyordu
+# ("VANİKÖY" -> "VANI KÖY"). Kırpılıp (genişlik+1) piksel adım alır. Küçük i/ı/l
+# 3 sütunluk serifli gövde; diyalogda "kesiliyor" -> "kesil iyor" gibi kırılıyordu.
+NARROW = {"I": (2, 1), "İ": (2, 1), "i": (1, 3), "ı": (1, 3), "l": (1, 3)}
 
 
 def parse_pixeltext():
@@ -167,10 +172,15 @@ def main():
         rows = rows_for(ch, body, marked)
         if rows is None:
             continue
+        advance = 600
+        if ch in NARROW:
+            first, w = NARROW[ch]
+            rows = [r[first:first + w] for r in rows]
+            advance = (w + 1) * UNIT
         name = "uni%04X" % ord(ch)
         order.append(name)
         glyphs[name] = glyph_from_rows(rows)
-        metrics[name] = (600, 0)
+        metrics[name] = (advance, 0)
         cmap[ord(ch)] = name
     fb = FontBuilder(UNIT * ROWS, isTTF=True)
     fb.setupGlyphOrder(order)

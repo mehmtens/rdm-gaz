@@ -11,6 +11,11 @@ const CELL_W := 5
 const CELL_H := 10
 ## Harfler arası boşluk dâhil adım (piksel).
 const ADVANCE := 6
+## Dar glifler: [ilk dolu sütun, genişlik]. İ/I tek sütun: sabit 5'lik hücrede iki
+## yanında 2'şer boş sütun kalıyor, dar komşuyla (Y, V, T) kelime arası gibi
+## okunuyordu ("VANİKÖY" → "VANI KÖY"). Serif denemeleri (tur 130, 152) boşluğu
+## kapatmadı; orantılı adım komşuyu çeker. Yazı yalnız daralır, taşma olmaz.
+const _NARROW := {"I": [2, 1], "İ": [2, 1]}
 
 const _BODY := {
 	"A": [".###.", "#...#", "#...#", "#####", "#...#", "#...#", "#...#"],
@@ -21,11 +26,9 @@ const _BODY := {
 	"F": ["#####", "#....", "#....", "####.", "#....", "#....", "#...."],
 	"G": [".###.", "#...#", "#....", "#.###", "#...#", "#...#", ".###."],
 	"H": ["#...#", "#...#", "#...#", "#####", "#...#", "#...#", "#...#"],
-	## Serifler hücre genişliğinde: dar gövde (yalnız orta sütun) sabit adımlı
-	## yazıda etrafında çift boşluk bırakıp İ içeren Türkçe adları ("SÜLEYMANİYE")
-	## kelime kırığı gibi gösteriyordu; tam genişlik serif komşu harfle aynı
-	## yatay ağırlığı verir (Bölüm 16 denetimi).
-	"I": ["#####", "..#..", "..#..", "..#..", "..#..", "..#..", "#####"],
+	## Yalnız orta sütun; çizimde `_NARROW` ile kırpılıp adımı daralır (Bölüm 16 ve 33
+	## denetimleri). tools/gen_pixel_font.py aynı kırpmayı TTF'ye uygular.
+	"I": ["..#..", "..#..", "..#..", "..#..", "..#..", "..#..", "..#.."],
 	"J": ["..###", "...#.", "...#.", "...#.", "...#.", "#..#.", ".##.."],
 	"K": ["#...#", "#..#.", "#.#..", "##...", "#.#..", "#..#.", "#...#"],
 	"L": ["#....", "#....", "#....", "#....", "#....", "#....", "#####"],
@@ -84,8 +87,16 @@ static func upper(text: String) -> String:
 	return text.replace("i", "İ").replace("ı", "I").to_upper()
 
 
+## Karakterin boşluk dâhil adımı (sanat pikseli).
+static func advance(ch: String) -> int:
+	return (int(_NARROW[ch][1]) if _NARROW.has(ch) else CELL_W) + ADVANCE - CELL_W
+
+
 static func width(text: String, px: float) -> float:
-	return maxf(float(upper(text).length() * ADVANCE - 1), 0.0) * px
+	var total := 0
+	for ch in upper(text):
+		total += advance(ch)
+	return maxf(float(total - 1), 0.0) * px
 
 
 static func height(px: float) -> float:
@@ -101,10 +112,12 @@ static func draw(ci: CanvasItem, pos: Vector2, text: String, px: float, color: C
 		if tint.a <= 0.0:
 			continue
 		var origin := pos + (Vector2(px, px) if pass_index == 0 else Vector2.ZERO)
-		for i in caps.length():
-			for run in _glyph_runs(caps[i]):
-				ci.draw_rect(Rect2(origin + Vector2(float(i * ADVANCE + run.x), float(run.y)) * px,
+		var x := 0
+		for ch in caps:
+			for run in _glyph_runs(ch):
+				ci.draw_rect(Rect2(origin + Vector2(float(x + run.x), float(run.y)) * px,
 					Vector2(float(run.z) * px, px)), tint)
+			x += advance(ch)
 
 
 static func draw_centered(ci: CanvasItem, center_x: float, top: float, text: String, px: float,
@@ -165,6 +178,7 @@ static func _glyph_runs(ch: String) -> Array:
 		rows.append_array(_BODY[ch])
 		rows.append(".....")
 	var out: Array = []
+	var shift: int = _NARROW[ch][0] if _NARROW.has(ch) else 0
 	for y in rows.size():
 		var row: String = rows[y]
 		var x := 0
@@ -175,6 +189,6 @@ static func _glyph_runs(ch: String) -> Array:
 			var start := x
 			while x < row.length() and row[x] == "#":
 				x += 1
-			out.append(Vector3i(start, y, x - start))
+			out.append(Vector3i(start - shift, y, x - start))
 	_runs[ch] = out
 	return out

@@ -17,7 +17,9 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 - (Tur 142 ses denetimi) Tüm WAV'lar placeholder (`sfx.gd`: "Sesler placeholder; gerçek mix sonra");
   perde/dB dengesi `TRIM` tablosunda kabaca ayarlı ama gerçek ses tasarımı ve mix insan kulağı gerektirir —
   otonom turda körlemesine WAV üretmek değersiz. İnsan/ses yargısına bağlı.
-- (Tur 130 denetimi, Bölüm 16) PixelText tabela başlıklarında Türkçe "İ" okunurluğu: kelime ortasındaki İ
+- ~~(Tur 130 denetimi, Bölüm 16) İ-kerning~~ **(Tur 153'te yapıldı):** İ/I orantılı tek sütun glif
+  (PixelText + `redmount_pixel.ttf`), küçük i/ı/l 3 sütun. Aşağıdaki eski açıklama arşiv için bırakıldı:
+  PixelText tabela başlıklarında Türkçe "İ" okunurluğu: kelime ortasındaki İ
   dar-gövdeli bir harfle (Y, V) yan yana gelince orta 5 satırda iki ince dikey arası boş kalıyor, sabit
   adımlı yazıda kelime arası boşluk gibi okunuyor ("SÜLEYMANİYE ARŞİVİ" → "SÜLEYMANI YE ARŞI VI"). Tur 130'da
   "I" serifi tam genişliğe çekilerek harf netleştirildi ama iç boşluk kapanmadı (serif üst/alt satırı
@@ -217,6 +219,36 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-04 (153) — Türkçe İ/i kelime kırığı kapandı: orantılı dar glif (PixelText + piksel TTF)
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimde otonom yapılabilir tek görünür kusur
+İ-kerning'di (tur 130'dan beri, tur 152'de serif denemesiyle ampirik doğrulandı). "İnsan dünya tabelalarıyla yan
+yana görsün" şartını oyun içi 1280×720 ekran görüntüleriyle bu tur karşıladım. Ayrıca kırığın asıl görünür yeri
+PixelText değil, `PixelText` gliflerinden üretilen `assets/ui/redmount_pixel.ttf` (açılış kartı, menü, mağaza,
+diyalog) çıktı — tur 152'nin glif denemesi TTF yeniden üretilmediği için ekranda hiç görünmemişti.
+
+**Oyuncu ne hissedecek:** "VANİKÖY GECE SEVKİYATI", "SÜLEYMANİYE YOLU", "KİTAP", "GELİŞTİRMELER" ve diyalogdaki
+"kesiliyor", "değil" tek kelime olarak okunuyor (önce "VANI KÖY", "kesil iyor").
+
+**Yapılan:**
+- `scripts/ui/pixel_text.gd`: `_NARROW` ([ilk sütun, genişlik]) + `advance(ch)`; `width()` ve `draw()` karakter
+  başına adım topluyor. İ/I tek sütun (adım 2), tur 130'un tam genişlik serifi kaldırıldı. Yazı yalnız daralır:
+  tüm çağıranlar (`sign_board`, `draw_centered`, mağaza etiketleri, HUD) `width()` kullandığı için taşma yok.
+- `tools/gen_pixel_font.py`: aynı `NARROW` kırpması TTF'ye; büyük İ/I (adım 200), küçük i/ı/l 3 sütun (adım 400;
+  serifli gövdenin iki yanındaki boş sütun "sul ar" kırığı açıyordu). TTF yeniden üretildi.
+
+**Sayılar:** Orantılı adım yalnız boş sütunu atar; diğer harflerin 6'lık adımı ve kelime arası (boşluk 4 + 1)
+değişmedi, böylece kelime arası hâlâ harf içi boşluktan belirgin geniş.
+
+**Testler:** `--import` hatasız; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn` PASS; bot Bölüm 1
+(81,0 sn), 13 (78,5 sn), 25 (81,3 sn) CLEARED, 0 yeniden doğma. 1280×720 ekran görüntüleri: Bölüm 33 açılış kartı,
+Bölüm 15 "SÜLEYMANİYE YOLU" tabelası + Gazelle diyaloğu, bölüm seçme, mağaza — taşma/çakışma yok, tüm İ'ler
+kelime içinde.
+
+**Sonraki öneri:** Kalan birikim insan/cihaz testine bağlı. Telefonda küçük ölçekte tek sütun İ'nin
+noktasının okunduğu kontrol edilsin.
+
 
 ### 2026-11-04 (152) — Denetim: Bölüm 33 (görsel temiz) + İ-kerning ampirik test — otomasyon durdu
 
