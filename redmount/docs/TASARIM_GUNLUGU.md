@@ -27,6 +27,15 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   tabelalarının hizasını bozar. Kör otonom turda font metriği değiştirmek riskli (HUD + tüm dünya tabelaları
   + alışveriş); insan, dünya tabelalarıyla yan yana görüp karar vermeli. Gövde/diyalog metni zaten vektör
   yazı tipiyle İ'yi doğru gösterdiğinden sorun yalnız dekoratif PixelText başlıklarında.
+  **Tur 152 ampirik kanıt:** Bölüm 33 açılış kartında net görülüyor — "VANİKÖY" → "VANI KÖY",
+  "SEVKİYATI" → "SEVKI YATI" (1280×720 pencereli, `scratchpad/denetim33/iskele.png`). Metrik-koruyan
+  (adım/genişlik değişmeyen, ızgarayı bozmayan) serif-kiriş I denendi — `I` orta satırlara `#...#` köşe
+  dönüşü eklendi, oyun içinde render edildi (`denetim33b/iskele.png`): bu ölçekte boşluğu KAPATMADI,
+  kelime kırığı sürdü, değişiklik geri alındı. Sonuç: serif/glif-şekli yolu yetersiz; gerçek çözüm yalnız
+  proportional kerning (İ/I komşu boşluğunu kısaltmak) — bu `draw`/`width`/`draw_centered`/`sign_board`
+  çekirdeğini değiştirir, 36 bölüm tabelası + HUD + mağaza regresyonu ister; otonom turda kör yapılmamalı,
+  insan gözetiminde kapsamlı bir iş olarak ele alınmalı. Aynı kart doğru yazdığı yerler: "KİLERİ" (İ→L/R/E
+  geniş komşu, `denetim33/yukleme.png`) sorunsuz — yalnız İ/I + dar komşu (Y/V/İ/I) çiftinde kırılıyor.
 - ~~(Tur 130 denetimi) OYNANIS-KALITE P1 tablosu senkronu~~ **(Tur 131'de yapıldı, `commit` aşağıda):** 5
   stale satırın (silah düşmesi, silah çeşitliliği, arena göstergesi, bölüm kartı, kırılabilir ödül; + kostüm,
   günün dalgası) "kodda görülen" sütunu `ec73bc88` gerçeğine çekildi, kanıt dosyaları eklendi. Aşağıdaki
@@ -208,6 +217,35 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-04 (152) — Denetim: Bölüm 33 (görsel temiz) + İ-kerning ampirik test — otomasyon durdu
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin tamamı insan/cihaz testine bağlı.
+Görev (öncelik d): hiç görsel denetlenmemiş bir Kitap 3 bölümünü bot/ekran görüntüsüyle DTM gözüyle tara,
+yeni otonom iş çıkar, en üsttekini uygula. Seçilen bölüm: **Bölüm 33 — Vaniköy Gece Sevkiyatı** (Boğaz gecesi,
+daha önce görsel denetlenmedi).
+
+**Yapılan:** `tests/capture_level.tscn` ile 8 noktadan 1280×720 pencereli ekran görüntüsü (iskele / yalı iç
+mekân / kayık arenası / kasa dağı / vinç rıhtımı / yükleme hattı / kasa ambarı / son arena-kablo kapısı).
+Değerlendirme (ChatGPT arka planı yanında, "sahneye ait mi?"): **8 sahnenin tamamı temiz** — zengin ChatGPT
+tarzı cephe/su/çınar, mor gölge + altın fener rampası tutarlı, Karahanlı oyuncu boyunda, proplar (varil, kasa
+yığını, büfe "YÜKLEME KİLERİ", vinç paleti, çöken iskele) sahneye oturuyor, gece fener konturu hero/düşman
+okunurluğunu veriyor. Yapıştırılmış/yabancı duran öğe yok. Dövüş/denge gözlemleri için başsız bot gerekmedi
+(görsel denetim).
+
+Tek göze çarpan kusur: açılış kartında İ-kerning boşluğu ("VANİKÖY"→"VANI KÖY", "SEVKİYATI"→"SEVKI YATI").
+Bu, ~20 turdur "insan dünya tabelalarıyla yan yana görsün" diye bekletiliyordu; bu tur tam o karşılaştırmayı
+kendim yapabildiğim için **metrik-koruyan bir düzeltme denedim ve ölçtüm**: `I` glifine serif-kiriş köşe dönüşü
+(`#...#` orta satırlarda) — adım/genişlik/ızgara değişmez. Oyun içinde render edildi; bu ölçekte boşluğu
+kapatmadı, geri alındı (kod diff 0). Ampirik sonuç birikime yazıldı: serif/glif yolu yetersiz, gerçek çözüm
+proportional kerning = çekirdek metin motoru (`draw/width/draw_centered/sign_board`) değişikliği, 36 tabela +
+HUD + mağaza regresyonu ister, otonom turda kör yapılmamalı.
+
+**Testler:** Kod değişmedi (glif denemesi geri alındı, `git diff scripts/ui/pixel_text.gd` = 0 satır). Yalnız
+belge. Ekran görüntüleri scratchpad'de (geçici, commit edilmedi).
+
+**Sonraki öneri:** Otonom görsel/kod kusuru çıkmadı. Kalan tek yüksek-görünürlük iş İ-kerning çekirdek
+refactor'ü — insan gözetiminde yapılmalı. Diğer her şey insan/cihaz testine bağlı. Otomasyon durdu.
 
 ### 2026-11-04 (151) — Belge bakımı: README ve 3 dünya tasarımındaki bayat durum etiketleri
 
