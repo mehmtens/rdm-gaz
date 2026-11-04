@@ -245,6 +245,31 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-04 (168) — Denetim: Bölüm 8 (Yeraltı Sevkiyatı) ve 14 (Urgancı/Balat) — temiz, yeni iş yok — otomasyon durdu
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin kalanı insan/cihaz testine bağlı.
+Son beş tur (163–167) kampanyanın geç ve en eski başlıklı bölümlerini denetledi; bu turda henüz denetlenmemiş
+orta-erken iki bölüm seçildi (Bölüm 8, Bölüm 14). Her biri: 1 başsız bot koşusu + 1 pencereli çekim (1280×720,
+3 nokta/2 nokta).
+
+**Bulgular:** Bölüm 8 (Yeraltı Sevkiyatı — sarnıç/su değirmeni) başsız bot CLEARED 88,2 sn, 0 ölüm; son arena
+(x≈8650–9070) ~25 sn takılma, can 99→74 — botun arena yol-bulma artefaktı, ölüm yok, denge değiştirilmedi.
+Pencereli çekim: açılışta sur dibi + tüfekli nişancı silüeti okunur; set-piece olarak dev su çarkı + şelale
+(final) ve Bizans sarnıcı (sütunlar, yansıyan su, kırmızı küp/amfora) — ikisi de GPT tarzında, zengin tonlu,
+yapıştırılmış duran öğe yok. Bölüm 14 (urgancı atölyesi → Balat yokuşu) başsız bot CLEARED 89,8 sn, 0 ölüm,
+takılma yalnız 7 sn. Çekim: halat yığınları + gün batımı Galata silüeti arka planı, sonra renkli Balat evleri
+(begonvil, taş merdiven, fener) — oyuncu yakın düşmanla göğüs göğüse + solda menzilli tüfekli (katmanlı dövüş),
+kılıç yay efekti okunur. HUD/telsiz/başlık kartı gerçek oyunda üst üste binmiyor (orta çekimde ikisi birden
+göründü — ışınlama artefaktı, açılış katmanları henüz kapanmamıştı).
+
+**Testler:** Kod değişikliği yok; yalnız günlük. Derleme (`--import`) SCRIPT ERROR'suz. Bot: Bölüm 8 ×1
+(CLEARED 88,2 sn, 0 ölüm), Bölüm 14 ×1 (CLEARED 89,8 sn, 0 ölüm).
+
+**Durum:** Üst üste altıncı temiz denetim (163–168). Otomasyon durdu. **Sonraki öneri:** otonom denetim getiri
+vermiyor; insan/cihaz testi (final can eğrileri, dokunmatik sonuç kartı, coin toplama oranı) ya da düşman tipi
+renk ayrışması / atlas yeniden boyama gibi insan gözetimi isteyen işler. Bölüm 8 son arena süresi insan testinde
+ölçülsün (telefonda 40 sn'yi geçerse Ağır Zırhlı can havuzu ya da arena boyu).
+
 ### 2026-11-04 (167) — Denetim: Bölüm 19 (Samatya külhanı) ve 24 (Bozdoğan/Kitap 2 finali) — temiz, yeni iş yok — otomasyon durdu
 
 **Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin kalanı insan/cihaz testine bağlı.
