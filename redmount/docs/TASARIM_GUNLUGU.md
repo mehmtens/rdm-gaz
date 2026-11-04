@@ -42,7 +42,9 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   çekirdeğini değiştirir, 36 bölüm tabelası + HUD + mağaza regresyonu ister; otonom turda kör yapılmamalı,
   insan gözetiminde kapsamlı bir iş olarak ele alınmalı. Aynı kart doğru yazdığı yerler: "KİLERİ" (İ→L/R/E
   geniş komşu, `denetim33/yukleme.png`) sorunsuz — yalnız İ/I + dar komşu (Y/V/İ/I) çiftinde kırılıyor.
-- (Tur 158 denetimi, Bölüm 7/23) **Vektör yazı tipi (`redmount_pixel.ttf`) apostrof genişliği:** düz
+- ~~(Tur 158 denetimi, Bölüm 7/23) Apostrof genişliği~~ **(Tur 159'da yapıldı):** TTF'de kesme işareti dar glif
+  (adım 300, boşluk 400); PixelText tabelaları bilerek değişmedi. Aşağıdaki eski açıklama arşiv için bırakıldı:
+  **Vektör yazı tipi (`redmount_pixel.ttf`) apostrof genişliği:** düz
   apostrof (U+0027) glifinin ilerleme (advance) genişliği yaklaşık bir boşluk kadar; Türkçe apostroflu ekler
   araya boşluk girmiş gibi okunuyor. Başlık kartı alt başlığı (Label düğümü, vektör yazı tipi) kaynakta
   boşluksuz "GAZELLE'İN İZİ" / "HALİÇ'İN İZİ" yazdığı hâlde ekranda "GAZELLE' İN İZİ" / "HALİÇ' İN İZİ"
@@ -235,6 +237,34 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-04 (159) — Kesme işareti daraltıldı: "GAZELLE' İN" → "GAZELLE'İN" (piksel TTF)
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin geri kalanı insan/cihaz testine bağlı.
+Tur 158'in birikime yazdığı apostrof maddesi "riskli font metriği işi" diye bekletilmişti; incelenince risk
+dar çıktı: sorun tek glifin ilerlemesi. `gen_pixel_font.py`'de `'` 5 sütunluk hücrede yalnız 1–2. sütunu
+boyuyor ama 600 birim (6 piksel) adım alıyordu — sağında 4 piksel boşluk, boşluk karakterinin (400) bile
+üstünde. Bu yüzden Türkçe her kesmeli ek (GAZELLE'İN, HALİÇ'İN, İSTANBUL'UN, KARAHANLI'NIN, Hanı'na, Balat'ın…)
+ayrı kelime gibi okunuyordu.
+
+**Oyuncu ne hissedecek:** Bölüm kartı alt başlığı, kitap adları, telsiz/diyalog konuşmacı adları ve diyalog
+metnindeki her kesmeli ek tek kelime olarak okunur; İ-dar glif düzeltmesiyle (tur 153) aynı aile.
+
+**Yapılan:** `tools/gen_pixel_font.py` `NARROW` sözlüğüne `"'": (1, 2)` — glif 2 sütuna kırpılır, adım
+(2+1)×100 = 300. Glif şekli aynı (üstten aşağı-sola kuyruk). `assets/ui/redmount_pixel.ttf` yeniden üretildi.
+PixelText (`pixel_text.gd` `_NARROW`) bilerek değişmedi: dünya tabelalarında kesme işareti yok ve tur 127 ızgara
+hizası korunuyor.
+
+**Neden bu sayı:** 300 < boşluk 400; harfler arası 1 piksel boşluk korunuyor (kesme işareti önceki harfin 1 piksel
+boşluğundan sonra, sonraki harfe 1 piksel boşlukla), yani glif yapışmıyor.
+
+**Testler:** `--import` hatasız; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn` PASS; yeni
+`tests/font_metrics.tscn` PASS (kesme < boşluk, "E'İN" < "E İN", İ/I/i/ı/l < A); bot Bölüm 1 CLEARED (78,6 sn).
+Bölüm 7 başlık kartı 1280×720 pencereli görüntüde büyütülerek kontrol edildi: "GAZELLE'İN İZİ" bitişik
+(`scratchpad/apos/zoom.png`). Not: eski TTF'de test ilk koşulda düşerdi (600 ≥ 400).
+
+**Sonraki adım:** Birikimde otonom güvenli iş kalmadı (kalanlar insan testi/ses/atlas yeniden boyama); İ-kerning
+PixelText işi insan gözetiminde. Sonraki turlar geç bölümlerin görsel denetimi (Bölüm 29, 34 en az denetlenen).
 
 ### 2026-11-04 (158) — Görsel denetim: Bölüm 7 (haddehane) + Bölüm 23 (Saraçhane) — yeni iş yok (1 madde birikime)
 

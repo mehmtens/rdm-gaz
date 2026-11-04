@@ -25,7 +25,7 @@ B = "....."
 # İ/I/i/ı tek sütun gövdeli, sabit 600'lük adım dar komşuyla kelime kırığı açıyordu
 # ("VANİKÖY" -> "VANI KÖY"). Kırpılıp (genişlik+1) piksel adım alır. Küçük i/ı/l
 # 3 sütunluk serifli gövde; diyalogda "kesiliyor" -> "kesil iyor" gibi kırılıyordu.
-NARROW = {"I": (2, 1), "İ": (2, 1), "i": (1, 3), "ı": (1, 3), "l": (1, 3)}
+NARROW = {"I": (2, 1), "İ": (2, 1), "i": (1, 3), "ı": (1, 3), "l": (1, 3), "'": (1, 2)}
 
 
 def parse_pixeltext():
