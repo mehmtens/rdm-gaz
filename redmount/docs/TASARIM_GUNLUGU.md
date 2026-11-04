@@ -131,7 +131,7 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   Kemal ve Yüzbaşı Demir sıradan düşmanla aynı. İnsan testinde karışıklık görülürse ara sahne
   aktörü dövüşteki görünüme eşitlensin, gerekirse ChatGPT tarzında kişiye özgü aksesuar.
 - Bot, Bölüm 4 kule köprüsünde (x≈6926, y≈−290) pencereli koşuda bir kez 54 sn takıldı (başsız
-  üç koşuda yok). Botun kuleden tüfekliye tırmanma mantığı; oyun hatası değil, bot güncellenebilir.
+  üç koşuda yok; tur 147 taramasında 6 paralel başsız koşuda 59 sn, bir düşüşle). Botun kuleden tüfekliye tırmanma mantığı; oyun hatası değil, bot güncellenebilir.
 - Bölüm 9 ilk arena (x≈5000–5700; bot 109 → 25 can, 20 sn takılma) ve Bölüm 12 yalı kesimi
   (x≈4600–5400; bot 2 ölüm, 21 → 7 can): kaba yapay zekâ olabilir; insan testinde ölüm sayısı
   2'yi geçerse yalı arenasının önüne simit.
@@ -207,6 +207,23 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-04 (148) — Denetim: 36 bölüm ölüm yeri taraması (tur 147'nin devamı)
+
+**Neden şimdi:** Tur 147 Bölüm 12'de zorluk zirvesinin boss yerine açılış arenasında olduğunu buldu; aynı ters
+eğri başka bölümde var mı? 36 bölüm başsız bot (6 paralel), ölüm konumu ve en düşük can konumu arena sınırlarıyla
+karşılaştırıldı.
+
+**Bulgu:** 36/36 bölüm sonuna ulaşıyor. 25 bölümde ölüm yok ya da tek ölüm final arenasında; en düşük can
+çoğunlukla son arenada (doğru yön). Bölüm 12 düzeltme sonrası 0 ölüm, en düşük can Karahanlı'da (2/115). Orta
+bölüm ölümleri (B4 kule, B6 döküm avlusu, B7, B10, B35, B36 pres hattı) birikimde zaten kayıtlı ve hepsinde
+final de zor — B12'deki gibi "açılış ölümcül, boss rahat" ters eğri başka yerde yok. İki koşu yalnız botun
+45 sn takılma eşiği yüzünden BASARISIZ: B4 kule köprüsü 59 sn (birikimdeki bilinen bot tırmanma takılması,
+birikim notu güncellendi), B18 final arenası tam 45 sn (paralel yük altında; tek başına koşuda tur 88'de geçti).
+
+**Testler:** Kod değişmedi (yalnız günlük).
+
+**Sonraki öneri:** Otonom listeler ve denetim boyutları kapalı; kalan değer insan/cihaz testinde. Otomasyon durdu.
 
 ### 2026-11-04 (147) — Denetim: Bölüm 4 ve 12 — Kitap 1 finalinde zorluk eğrisi düzeltildi
 
