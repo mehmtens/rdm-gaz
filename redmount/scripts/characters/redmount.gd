@@ -1192,6 +1192,8 @@ func _deal_attack_hit(target: Node, dash_counter := false) -> void:
 	var guard_broken := false
 	## "ALET EDEVAT" görevleri: darbe silahlıysa düşman hangi silahla bittiğini bilsin.
 	var tagged := armed and "weapon_hit" in target
+	## Şemsiye kilidi: zaten devrik (havada ya da iniş karesinde) düşmanı yeniden kaldırmaz.
+	var was_down: bool = target.has_method(&"is_knocked_down") and target.is_knocked_down()
 	if tagged:
 		target.weapon_hit = Achievements.weapon_id(_weapon)
 	if armed and _weapon.guard_break and target.has_method(&"apply_guard_break_hit"):
@@ -1203,7 +1205,9 @@ func _deal_attack_hit(target: Node, dash_counter := false) -> void:
 	if target.has_method(&"launch"):
 		if armed and _weapon.launch_speed > 0.0:
 			# Şemsiye: kancayla düşmanı havaya kaldırır; hava dizi ile takip edilir.
-			target.launch(_weapon.launch_speed)
+			# Devrik düşmanı yeniden kaldırmaz: yoksa her inişte kalkıp sonsuz kilit olur.
+			if not was_down:
+				target.launch(_weapon.launch_speed)
 		elif juggle:
 			target.launch(340.0)
 			velocity.y = -250.0

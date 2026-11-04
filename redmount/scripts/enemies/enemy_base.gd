@@ -933,6 +933,11 @@ func can_be_thrown() -> bool:
 	return _state in [State.HURT, State.KNOCKDOWN] and config.knockback_resist < 0.5
 
 
+## Devrik (havada ya da yerde yatarken); şemsiye kaldırması buna bakar.
+func is_knocked_down() -> bool:
+	return _state == State.KNOCKDOWN
+
+
 func can_be_juggled() -> bool:
 	return _state == State.KNOCKDOWN and not is_on_floor()
 

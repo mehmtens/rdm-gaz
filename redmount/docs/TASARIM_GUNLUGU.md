@@ -194,8 +194,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   kenarında 2–4 piksel ceket rengi (kontura yapışık, kırıntı birleştirmesine girmiyor).
   26 Ekim: 2–4 px, önceki turlar "kostüm kalıntı turları kapanmalı" dedi → yalnız insan testinde
   fark edilirse ele alınacak (tek başına tur değeri yok).
-- Şemsiyeyle havaya kaldırılan düşmanı ikinci şemsiye vuruşunun tekrar kaldırması sonsuz
-  dizi yaratabilir mi? İnsan testinde bakılacak; gerekirse havadaki düşmana kaldırma yok.
+- ~~Şemsiye sonsuz dizi sorusu~~ **(Tur 155'te ölçüldü ve kapandı):** evet, kilit vardı (iniş karesinde
+  yeniden kaldırma); şemsiye artık devrik düşmanı kaldırmıyor, `tests/semsiye_juggle.tscn` korur.
 
 - Hız yıldızı hedefleri (tur 99): bölüm başına bot süresi × 2 (140–400 sn). İnsan testinden ortanca
   süre gelince hedef ≈ ortancanın 0,8'i yapılsın; ilk koşuda alınma oranı %50'yi geçerse hedef sıkılaşsın.
@@ -223,6 +223,34 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-04 (155) — Şemsiye kilidi: devrik düşman her inişte yeniden kaldırılıyordu
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı. Birikimin kalanı insan/cihaz testine bağlı; tek
+istisna "şemsiye sonsuz dizi yaratabilir mi?" sorusuydu — bu kodla, gerçek girdiyle ölçülebilir.
+
+**Bulgu (ölçüm):** Bölüm 1'de Sokak Serserisi önünde şemsiyeyle saldırı tuşu seri basıldı (her 2 ve 6 karede),
+kare kare düşman durumu kaydedildi. Düşman 34 karelik döngüyle **iniş karesinde** (`is_on_floor` = true, durum hâlâ
+KNOCKDOWN) yeniden 320 hızla kaldırılıyordu: 10 sn'de 8 kaldırış, 7'si devrikken, **0 kalkış**. Yani hiçbir beceri
+gerektirmeden, tek tuşla, silah dayanıklılığı bitene kadar (16 vuruş) düşman hiç harekete geçemiyordu. Havadaki
+düşmanı yeniden kaldırma yasağı yetmezdi — vuruş tam iniş karesine denk geliyor.
+
+**Yapılan:** `enemy_base.gd` → `is_knocked_down()`; `redmount.gd _deal_attack_hit`: düşmanın devrik olup olmadığı
+vuruştan **önce** okunuyor, şemsiye yalnız devrik olmayan düşmanı kaldırıyor (hasar ve itme yine işliyor). Diz
+hava dizisi (`AIR_KNEE` + `can_be_juggled`), aparkat, kayma tekmesi ve bitirici kaldırmaları değişmedi: onlar
+zamanlama/konum ister ve oyuncuyu da hareket ettirir.
+
+**Oyuncu ne hissedecek:** Şemsiye hâlâ "havaya kaldırır" — ilk vuruş düşmanı kaldırıp diz dizisine açar — ama
+düşman indikten sonra kalkıp karşılık verir; şemsiye tuş ezme kilidi olmaktan çıkıp açılış hamlesi oldu. Düzeltme
+sonrası aynı seride 5 kaldırış / 4 kalkış, hasar 80 → 90 (düşman kalkınca vuruşlar devrik hasar eşiğine takılmıyor).
+
+**Testler:** `--import` SCRIPT ERROR 0; `tests/campaign_smoke.gd` çıkış 0 (36 SMOKE OK); `tests/dtm_gaps.tscn` PASS;
+`tests/new_melee_weapons.tscn` PASS; `tests/weapon_achievements.tscn` PASS; yeni `tests/semsiye_juggle.tscn` PASS
+(düzeltme geri alınınca FAIL: "kalkış 0/8" — regresyonu yakalıyor); bot Bölüm 1 CLEARED 78,3 sn, Bölüm 13 CLEARED
+78,4 sn, Bölüm 25 CLEARED 86,2 sn.
+
+**Sonraki öneri:** Birikimin tamamı insan/cihaz testine bağlı (coin oranı, dokunma eşikleri, hız yıldızı süreleri,
+güvenli alan, KAY yeri). Otonom tarafta yeni iş yok; insan testi gelene kadar otomasyon durur.
 
 ### 2026-11-04 (154) — Denetim: Bölüm 10 — bot ölüm sayacı her ölümü iki kez sayıyordu (ölçüm düzeltildi)
 
