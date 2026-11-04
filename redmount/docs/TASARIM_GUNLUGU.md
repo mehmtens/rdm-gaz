@@ -131,7 +131,10 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   üç pres 2,4 sn döngü), arenaya 34/115 canla girip 2 kez öldü. Tek can kaynağı üst galerideki simit
   (x 2410, −305). İnsan testinde arena ölümü 1'i geçerse hücre penceresi kontrol noktasına (x 3120) simit.
 
-- Bölüm 6 orta kesim (alev koridoru → pres salonu → döküm avlusu, x≈1800–5600): pencereli bot döküm
+- **(Tur 170 denemesi, geri alındı):** pres salonu kurala çekildi (3580/3880/4180, 3,0 sn) ama 2+2 başsız
+  koşuda fayda yok — eski 1+1 ölüm, yeni 2+1; bot salona zaten 31/115 canla giriyor (erime alev koridorunda,
+  x≈1800–3400). Pres salonu 230 px / 2,8 sn olarak kaldı; asıl kaldıraç koridor sonrası can kaynağı.
+  Bölüm 6 orta kesim (alev koridoru → pres salonu → döküm avlusu, x≈1800–5600): pencereli bot döküm
   avlusu arenasına 15/115 canla girdi, bölümde 2 yeniden doğma (122,8 sn). Alev koridorunda tek can
   kaynağı varil (x=2700). İnsan testinde avlu arenasında ölüm 1'i geçerse pres salonu çıkışına (x≈4300
   kasası) simit.
@@ -253,6 +256,15 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-04 (170) — Deneme: Bölüm 6 pres salonu tuzak kuralına — fayda yok, geri alındı
+
+**Neden:** Tur 169'un devamı; Bölüm 6 pres salonu (230 px, 2,8 sn) aynı kuralın altında ve birikimde döküm
+avlusuna 15/115 canla varış notu vardı. **Ne denendi:** `_press_gantry([3580, 3880, 4180], …, 3.0)`.
+**Sonuç:** Eski sürüm ×2 CLEARED 125,9 / 126,2 sn, 1+1 ölüm (arenada, x≈5030); yeni ×2 CLEARED 144,0 / 141,5 sn,
+2+1 ölüm. Can izi: bot pres salonuna her iki sürümde ~31 canla giriyor — kayıp alev koridorunda. Kural uyumu
+burada ölçülebilir fayda vermediği için değişiklik commit edilmedi (derleme, smoke, DTM GAPS yeni sürümde
+geçmişti). Bulgu birikimdeki Bölüm 6 maddesine eklendi. Kod değişikliği yok, yalnız günlük.
 
 ### 2026-11-04 (169) — Pres hatları tuzak kuralına çekildi: Bölüm 36 güverte altı ve Bölüm 11 koridoru
 
