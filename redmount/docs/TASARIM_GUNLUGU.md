@@ -139,7 +139,7 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   Deney sahnesinde nişan durumunda 64 px aralık korunuyor (tur 30 düzeltmesi), yığılma kovalama
   ya da geri itilme sonrası oluyor; tek karede yeniden üretilemedi. İnsan testinde ya da bir
   sonraki denetimde yeniden görülürse `CHASE` durumundaki ayrışmaya nişancı komşusu eklensin.
-- Son arenaya düşük canla varış (Bölüm 4: 16–25 can, Bölüm 5: 29 can, Bölüm 28: 21 can [tur 150: 39→8 can]; bot). İki bölümde de
+- Son arenaya düşük canla varış (Bölüm 4: 16–25 can, Bölüm 5: 29 can [tur 156: 33–43 can, iki koşuda da 1 ölüm], Bölüm 6: 12 can [tur 156, 1 ölüm], Bölüm 28: 21 can [tur 150: 39→8 can]; bot). Dört bölümde de
   orta arenadan son arenaya kadar can kaynağı yok (yalnız büfe). İnsan testinde son arenaya
   giriş canı ölçülsün; ortanca %40'ın altındaysa son kontrol noktası önüne kırılabilir simit.
 - Adlı rakiplerin görünümü: Binbaşı Kaya, Sur Ağası ve Muhafız Başı ara sahnede Seçkin
@@ -223,6 +223,38 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-04 (156) — Denetim: Bölüm 3, 5, 6, 8, 15 — başlıklı denetimi olmayan son bölümler
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikim insan/cihaz testine bağlı. Öncelik d):
+günlükte "Denetim: Bölüm N" başlığı hiç almamış bölümler 3, 5, 6, 8, 9, 15'ti (3 ve 9 tur 81'de birlikte bakılmış).
+Bu tur kalan beşini bot ile oynattı; Bölüm 5 pencereli koşuyla da görüldü (4 ekran görüntüsü: depo arenası, makas
+kulesi film rulosu, uzun tren, Makinist Cemil arenası).
+
+**Ölçüm (başsız bot, tur 154 sonrası tek sayımlı ölüm sayacı):**
+
+| Bölüm | Süre | Ölüm | En uzun takılma | Not |
+|---|---|---|---|---|
+| 3 | 67,9 sn | 0 | 8 sn @5145 | temiz |
+| 5 | 100,0 sn (pencereli 92,4) | 1 (iki koşuda da) | 26 sn @8917 | son arenaya 43 → 21 can, Makinist Cemil dalgasında ölüm |
+| 6 | 129,1 sn | 1 | 18 sn @5340 | son arenaya 12 can, 16 sn 4 canla dayanıp ölüm |
+| 8 | 88,3 sn | 0 | 25 sn @9060 | son arena uzun ama ölümsüz |
+| 15 | 93,6 sn | 0 | 12 sn @4701 | temiz |
+
+**Görsel:** Bölüm 5 dört karede ChatGPT arka planı (Haydarpaşa peron sundurması, makas kulesi, trafo sahası) ile
+karakter/vagon/sandık uyumlu; HUD dalga şeridi ve film rulosu bildirimi okunur, çakışma yok. Yeni stil işi çıkmadı.
+
+**Sonuç:** Yeni otonom iş yok. Bölüm 5 ve 6, birikimdeki "son arenaya düşük canla varış" maddesine (Bölüm 4, 28)
+eklendi: dört bölümde de orta arenadan son arenaya bot için can kaynağı yok (büfe var; bot satın almıyor, üst rotaları
+almıyor). Desen dört bölümde tutarlı olsa da dengeyi bot verisiyle değiştirmiyorum — insan büfeyi ve üst rotayı
+kullanır; madde insan testinde giriş canı ortancası %40'ın altındaysa kontrol noktası önüne kırılabilir simit önerisiyle
+duruyor. Bölüm 6'nın başsız çıkışındaki "5 resources still in use" uyarısı yalnız kapanışta (çıkış kodu 0), bilinen
+headless kapanış sızıntısı.
+
+**Testler:** Kod değişmedi; yalnız belge. Bot: Bölüm 3, 5 (başsız + pencereli), 6, 8, 15 CLEARED.
+
+**Sonraki öneri:** 36 bölümün her biri en az bir kez başlıklı denetim gördü. Otonom tarafta açık iş yok; birikim
+insan/cihaz testine bağlı. Otomasyon durur.
 
 ### 2026-11-04 (155) — Şemsiye kilidi: devrik düşman her inişte yeniden kaldırılıyordu
 
