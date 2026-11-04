@@ -1,7 +1,9 @@
 # REDMOUNT — Üç Dünyalı Kampanya Tasarımı (Dan the Man ölçeği)
 
-> Durum: **TASARIM — henüz uygulanmadı.** Bu belge onay/ayarlama içindir; kod ve
-> içerik üretimi bir sonraki adımdır. Mevcut [12-BOLUM-KAMPANYA.md](12-BOLUM-KAMPANYA.md)
+> Durum: **UYGULANDI (tarihçe belgesi).** Üç kitap / 36 bölüm `GameState.LEVELS` içinde
+> (`scenes/levels/Bolum01..36.tscn`); uygulama sırasında ayrıntılar bu plandan saptı, güncel
+> gerçek için sahneler, `docs/TASARIM_GUNLUGU.md` ve testler esas alınır. Aşağıdaki metin
+> ilk tasarım önerisi olarak arşivde kalır. Mevcut [12-BOLUM-KAMPANYA.md](12-BOLUM-KAMPANYA.md)
 > artık **Kitap I**'in ayrıntılı planı olarak kalır ve değişmeden yürürlükte kalır.
 
 ## Neden bu yapı

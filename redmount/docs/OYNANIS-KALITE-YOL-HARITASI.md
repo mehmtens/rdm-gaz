@@ -95,7 +95,7 @@ Karşılaştırma, Dan the Man'in herkese açık oynanış yapısına (hikâye m
 
 **Önemli ayrım:** Smoke test “sahne açılıyor” der. Otomatik oynama “belirli girdilerle bitişe ulaşılıyor” der. İnsan testi “oynamak anlaşılır ve eğlenceli” sorusuna yaklaşır. Gerçek cihaz testi ise dokunma, performans ve okunurluğu doğrular. Dördünün sonuçları birbirinin yerine yazılmayacak.
 
-**Belgelerdeki tarih farkı:** `README.md` ve `3-DUNYA-KAMPANYA-TASARIMI.md` içinde eski 12 bölümlük veya “henüz uygulanmadı” ifadeleri bulunuyor. Güncel kampanya envanteri için `GameState.LEVELS`, sahneler ve güncel testler esas alınmalı. Bu yol haritasının ilk bakım işi, eski durum etiketlerini düzeltmektir.
+**Belgelerdeki tarih farkı:** `README.md` ve `3-DUNYA-KAMPANYA-TASARIMI.md` içinde eski 12 bölümlük veya “henüz uygulanmadı” ifadeleri bulunuyor. Güncel kampanya envanteri için `GameState.LEVELS`, sahneler ve güncel testler esas alınmalı. Bu yol haritasının ilk bakım işi, eski durum etiketlerini düzeltmektir. **(4 Kasım, tur 151: yapıldı.** README'ye güncel 36 bölümlük envanter eklendi, eski "Durum" blokları ve `Level01..12` mimari satırı tarihçe olarak işaretlendi; `3-DUNYA-KAMPANYA-TASARIMI.md` durumu "UYGULANDI (tarihçe)" yapıldı.)
 
 ## 2. Hedef oynanış: oyuncu ne hissetmeli?
 

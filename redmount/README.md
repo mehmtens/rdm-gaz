@@ -7,7 +7,13 @@ geceden şafağa 12 mekân ve hikâyeyi kapatan epilog içerir.
 
 Ana plan: [`../PROJE-ANA-PLANI.md`](../PROJE-ANA-PLANI.md) · Animasyon notları: [`../character-animation-bible.md`](../character-animation-bible.md)
 
-**Durum (12 bölümlük kampanya blockout'u):** Güncel kampanya sırası dört perde ×
+**Güncel bölüm envanteri:** `GameState.LEVELS` = `scenes/levels/Bolum01..36.tscn` (3 kitap × 12;
+her biri `scripts/systems/bolumNN.gd`, `DtmLevel` → `StoryBlockout` tabanı). Aşağıdaki "Durum"
+blokları geliştirme tarihçesidir; içlerindeki `Level01–12` / `Book02LevelNN` sahneleri artık
+kampanya sırasında değil (eski botlar ve testler için duruyor). Güncel ilerleme:
+[`docs/TASARIM_GUNLUGU.md`](docs/TASARIM_GUNLUGU.md).
+
+**Durum (tarihçe — 12 bölümlük kampanya blockout'u):** O dönem kampanya sırası dört perde ×
 üç bölüm olarak `GameState.LEVELS` içine alındı. Mevcut beş büyük prototip
 bölümünün arasına yedi özgün hikâye/parkur blockout'u eklendi
 (`Level06–12.tscn`, `story_blockout.gd`). Bölüm hedefleri ve anlatı ritmi:
@@ -164,10 +170,12 @@ görünmezlik süreli; kalkan bir darbe engeller).
   Aksi hâlde `R` / düşme = son kontrol noktası. Main `PROCESS_MODE_ALWAYS`, dünya `PAUSABLE`.
 - **`scripts/systems/level.gd`** (`class_name Level`) — her `LevelXX.tscn` kökü: `display_name`,
   kamera sınırları, `fall_respawn_y`. Geometri/düşman/pickup/`PlayerSpawn`/`LevelGoal` sahnede.
-- **`scenes/levels/Level01..Level12.tscn`** — 4 perde / 12 bölümlük sıra.
-  Level01–05 elde yazılmış büyük prototip sahneleridir; Level06–12,
-  `story_blockout.gd` içindeki yedi ayrı elle bestelenmiş bağlayıcı parkuru taşır.
-  Karahanlı ve Gazelle finali sıranın 12. bölümündeki `Level05.tscn` sahnesidir.
+- **`scenes/levels/Bolum01..Bolum36.tscn`** — güncel kampanya: 3 kitap × 4 perde × 3 bölüm
+  (`GameState.LEVELS`). Her bölüm kendi `scripts/systems/bolumNN.gd` betiğiyle elle düzenlenir;
+  ortak taban `DtmLevel` (`StoryBlockout`'u genişletir). Kitap 1 finali Bölüm 12 (Karahanlı),
+  kampanya finali Bölüm 36 (Yayın Şefi).
+- **`scenes/levels/Level01..Level12.tscn`, `Book02LevelNN`, `Book03LevelNN`** — tarihçe: eski
+  12 bölümlük sıra ve kitap prototipleri; kampanya sırasında değil, eski testler için duruyor.
   `TestLevel.tscn` sıralama dışı geliştirici kum havuzudur.
 - **`scenes/enemies/EliteGuard.tscn`** + `elite_guard.tres` — Elit Muhafız (md. 10.7): 40 can,
   `is_ranged` (kısa mesafe seri ateş) + yakın combo + `heavy_attack_chance` + `block_chance`.

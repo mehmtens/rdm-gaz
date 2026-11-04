@@ -209,6 +209,22 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-04 (151) — Belge bakımı: README ve 3 dünya tasarımındaki bayat durum etiketleri
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikim insan testine bağlı. Taramada
+OYNANIS-KALITE'nin kendi "ilk bakım işi" (satır 98: README ve `3-DUNYA-KAMPANYA-TASARIMI.md` içindeki eski
+"12 bölümlük" / "henüz uygulanmadı" etiketleri) hâlâ açık bulundu. Bayat etiket, otonom turları ve yeni
+okuyucuyu kampanyanın `Level01–12` sahnelerinde olduğuna inandırıyor (gerçek: `Bolum01..36.tscn`).
+
+**Yapılan:** README başına güncel envanter (`GameState.LEVELS`, `bolumNN.gd` → `DtmLevel` → `StoryBlockout`);
+eski "Durum (12 bölümlük...)" bloğu ve mimari bölümündeki `Level01..Level12` satırı tarihçe olarak işaretlendi,
+yerine `Bolum01..36` satırı (Kitap 1 finali Bölüm 12, kampanya finali Bölüm 36). Tasarım belgesinin durumu
+"UYGULANDI (tarihçe belgesi)". OYNANIS-KALITE satır 98'e kapanış notu.
+
+**Testler:** Yalnız belge; kod/sahne değişmedi, test gerekmez.
+
+**Sonraki öneri:** Otonom kusur kalmadı; kalan değer insan/cihaz testinde (birikimdeki ölçüm maddeleri). Otomasyon durdu.
+
 ### 2026-11-04 (150) — Denetim: Bölüm 28 (temiz) — en eski açık denetim kapandı — otomasyon durdu
 
 **Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin tamamı insan/cihaz testine bağlı.
