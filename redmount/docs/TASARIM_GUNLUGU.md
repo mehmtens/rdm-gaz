@@ -162,6 +162,7 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   2 yeniden doğma. İnsan testinde arena ölümü 1'i geçerse ikinci dalga sonrası simit.
 
 - Bölüm 34 son arenasında iki Seçkin Muhafız yan yana (~37 px) nişan alıyordu; bot 101 → 6 can.
+  (Tur 173 ölçümü: Bölüm 35 sırtında çift en yakın 57 px, 30 px altı 0 sn — yeniden üretilemedi.)
   Tur 69 ek kanıt: Bölüm 35 iç sur sırtında Tüfekli + Seçkin (250 px ayrı başlıyor) oyuncuya
   ulaşınca ~30 px içinde üst üste (iki pencereli koşuda da).
   Deney sahnesinde nişan durumunda 64 px aralık korunuyor (tur 30 düzeltmesi), yığılma kovalama
@@ -257,6 +258,26 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-13 (173) — Denetim: Bölüm 35 (Rumeli Hisarı) + nişancı yığılması ölçümü — temiz, yeni iş yok — otomasyon durdu
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin kalanı insan/cihaz testine bağlı.
+Bölüm 35 en uzun süredir adıyla denetlenmemiş bölümdü (tur 69). Birikimde şartlı bir madde vardı: "Bölüm 35 iç
+sur sırtında Tüfekli + Seçkin üst üste biniyor; bir sonraki denetimde yeniden görülürse `CHASE` ayrışmasına
+nişancı komşusu eklensin."
+
+**Bulgular:** Başsız bot ×2 CLEARED (128,0 / 103,2 sn). İlk koşuda 2 ölüm: kışla arenası (x≈6350–7150, Seçkin+Seçkin
+→ Yüzbaşı+Kalkanlı) 51 → 3 can, 22 sn takılma @6910; ardından pres hattına (7600/7950, 350 px, 3,0 sn — kurala
+uygun) 32 canla girip ezilme. Geçici ölçüm betiği (bot + her karede aynı satırdaki nişancıların yatay aralığı,
+commit edilmedi) iç sur sırtında Tüfekli/Seçkin çiftini 250 px'ten 57 px'e kadar yaklaşırken ölçtü; 30 px altı
+süre 0,0 sn. Yani tur 30'daki 64 px nişancı aralığı tutuyor, tur 69 yığılması yeniden üretilemedi; şartlı madde
+tetiklenmedi. Kışla arenası ölümü bot can verisi; birikimdeki "son arenaya düşük canla varış" ailesine giriyor
+(arena hemen önünde HİSAR KİLERİ büfesi ve sonunda HEALTH ödülü var, bot büfeyi kullanmıyor) — insan testi bekler.
+
+**Testler:** Kod değişikliği yok; yalnız günlük. Bot: Bölüm 35 ×2 CLEARED (başsız).
+
+**Durum:** Otonom denetim döngüsü yine getirisiz. **Sonraki öneri:** telefonda insan testi (arena giriş canı,
+coin toplama oranı, KAY erişimi); İ-kerning ve düşman tipi renk ayrışması insan gözetiminde.
 
 ### 2026-11-04 (172) — Görsel stil denetimi: Bölüm 18 ve 21 (ChatGPT uyumu) — temiz, yeni iş yok — otomasyon durdu
 
