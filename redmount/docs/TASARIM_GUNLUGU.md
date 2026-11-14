@@ -260,6 +260,25 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-14 (181) — Denetim: Bölüm 4 (Silah Deposu) ve 12 (İç Kale / Karahanlı) — temiz, yeni iş yok — otomasyon durdu
+
+**Neden şimdi:** Tur 180'den sonra başlıklı son denetimi en eski kalan iki bölüm (tur 147). Tur 148 düzeltmesinden sonra
+Kitap 1 finalinin zorluk eğrisi yeniden ölçülmemişti.
+
+**Bulgular:**
+- Bölüm 4: CLEARED 104,1 sn, 0 ölüm, en düşük can 27 (x≈4943 arenada 15 sn takılma). Birikimdeki "son arenaya 16–25
+  canla varış" eğrisiyle tutarlı; koşul insan testine bağlı kaldı.
+- Bölüm 12: CLEARED 72,5 sn, 0 ölüm. Can eğrisi 115 → 66 (cephanelik arenası) → 43 (yalı) → 3 (Karahanlı). Zirve
+  tur 148'de kurulduğu gibi bossta (o zaman 2/115) — doğru yön, değişmedi.
+- Görsel: kontrol kulesi projektörü, yalı tutukevi, vitraylı taht salonu ChatGPT atlasıyla aynı tonda; tur 180 düzeltmesiyle
+  "İÇ KALE / KARAHANLI" ve "KİTAP 1" doğru. Kule çekiminde film rulosu duyurusu solmakta olan bölüm kartının üstüne biniyor —
+  ışınlanan çekim aracından (gerçek oyunda kart x≈6900'e varmadan çoktan kalkıyor), iş değil.
+
+**Testler:** kod değişikliği yok; bot Bölüm 4 ve 12 CLEARED, pencereli çekim 6 kare (çıkış 0). Geçici PNG'ler scratchpad'de.
+
+**Durum:** bu oturumda tur 180 bir gerçek hata buldu ve kapattı; tur 181 temiz. Otomasyon durdu.
+**Sonraki öneri:** insan/cihaz testi (birikim); İ-kerning maddesi tur 180 sonrası yeniden değerlendirilsin.
+
 ### 2026-11-14 (180) — Denetim: Bölüm 1 ve 11 → Türkçe büyük harf hatası: "SESSIZ" → "SESSİZ" (bölüm kartı, hikâye kartı, mağaza, silah duyurusu)
 
 **Neden şimdi:** Listeler kapalı; başlıklı son denetimi en eski kalan bölümler seçildi: Bölüm 1 (tur 146) ve Bölüm 11
