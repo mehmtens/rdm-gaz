@@ -260,6 +260,27 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-15 (188) — Denetim: Bölüm 21 ve 22 (tur 166) — temiz, yeni iş yok — otomasyon durdu
+
+**Neden şimdi:** Tur 187'nin önerdiği en eski iki aday; tur 182 ağır çekim ve tur 187 kamera düzeltmelerinden sonra
+ölçülmemişlerdi.
+
+**Ölçüm (tek başsız koşu, `--fixed-fps 60`):**
+- Bölüm 21: CLEARED 102,1 sn, 1 ölüm (x≈9500–9700, son arena; can 48 → 20 → ölüm), takılma 16 sn @4941.
+- Bölüm 22: CLEARED 79,8 sn, 1 ölüm (x≈7900–8000, bakım şaftı arenası; can 12 → 2 → ölüm), takılma 6 sn @9925. Birikimdeki
+  "Bölüm 22 bakım şaftı arenası" maddesiyle aynı yer; eşikte (koşu başına 1), değişmedi → insan testine bağlı.
+- İki yeniden doğma da tur 187 kamera kesmesiyle sorunsuz (bot koşuyu bitirdi).
+
+**Görsel (pencereli `capture_level`, 2×3 nokta):** Yenikapı rıhtımı (kasalar, tente, gemi direkleri) ve Aksaray pompa
+istasyonu (çeşme, iskele kirişleri, kazan salonu) ChatGPT arka planıyla aynı ışık ve tonda; bölüm kartları "YENİKAPI GECE
+VARDİYASI" / "AKSARAY POMPA İSTASYONU" / "HALİÇ'İN İZİ" doğru büyük harf ve kesme işaretiyle. Bölüm 21 x≈8500 çekimindeki
+liman → istasyon iç mekânı yarım geçiş ışınlanan çekimden (süpürme perdesi), oyun hatası değil. Yeni stil işi yok.
+
+**Testler:** kod değişikliği yok; bot Bölüm 21 ve 22 CLEARED; iki pencereli çekim çıkış 0. Geçici PNG'ler scratchpad'de.
+**Durum:** otonom tarafta açık iş yok. Otomasyon durdu.
+**Sonraki öneri:** insan/cihaz testi (birikim: Bölüm 21 son arena ve Bölüm 22 bakım şaftı ölümleri, coin oranı, KAY düğmesi
+yeri); yeniden doğmada kameranın kontrol noktasına kesmesi telefonda hissedilsin (tur 187).
+
 ### 2026-11-15 (187) — Denetim: Bölüm 17 ve 32 → uzak katman kameradan geri kalıyordu, yeniden doğmada kamera kayıyordu
 
 **Neden şimdi:** Stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Öncelik d):
