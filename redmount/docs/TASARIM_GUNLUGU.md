@@ -259,6 +259,40 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-14 (175) — Denetim: Bölüm 29 (Kuzguncuk Kıyı Deposu) ve 31 (Çengelköy Konağı) — temiz, yeni iş yok — otomasyon durdu
+
+**Neden şimdi:** Stil listesi (33/33), iki yol haritası ve P1'ler kapalı; birikimin en üstündeki maddeler
+(ölçüm uyarısı, coin ekonomisi, ses mix, İ-kerning/apostrof font metriği) hepsi açıkça insan/cihaz testine
+ya da font çekirdeği regresyonu gerektiren insan gözetimine bağlı — kör otonom turda yapılmamalı. Mention
+sayısına göre kampanyanın en az odaklanılmış iki bölümü olan Kitap 3'ten Bölüm 29 ve 31 seçildi; ikisi de
+gece Boğaz biome'u (Kuzguncuk / Çengelköy), farklı atlas. Amaç: üretilen her prop/platform/düşman ChatGPT
+arka planının yanında "sahneye ait mi, yapıştırılmış gibi mi?" testini geçiyor mu + bölüm ritmi/katmanlı rota
+DTM kalitesinde mi.
+
+**Yöntem:** Bölüm 29 pencereli 1280×720 beş nokta çekim (`capture_level.tscn`: giriş / çeşme meydanı / bahçe
+duvarı rıhtımı / defter odası iç mekânı / gizli rıhtım son arena); her kare Read ile incelendi. Her iki bölümün
+(`bolum29.gd`, `bolum31.gd`) kaynak düzeni baştan sona okundu.
+
+**Bulgular (temiz):** Beş karenin tamamında sol-üst sıcak fener + sağ soğuk ay ışığı kenar parlaması, mor-laciverte
+kayan gölge rampaları ve malzeme dokusu tutarlı. Bölüm 29: iskele/kayık/otobüs açılışı, sarmaşık-begonvilli
+renkli Kuzguncuk evleri (çatı rotası), taş bahçe duvarı sırtında kenar-ışıklı tüfekli (katmanlı dövüş okunur),
+depo iç mekânında Süleymaniye silüetli gün batımı set-piece'i, defter odasında hikâyeye bağlı raf+defter istifleri
+ve gaz lambası — hiçbir öğe yapıştırılmış durmuyor, hepsi GPT atlasıyla aynı tonda. Bayrak, Türk kimliği öğeleri
+yerinde. Düzen DTM kalitesinde: katmanlı rota (tente→balkon→çatı coin hattı), çeşme meydanı arenası, rıhtım hareketli
+platformu, erzakçı nefes noktası, üç katlı depo, defter odası arenası, çöken iskele finali. Bölüm 31 kaynağı aynı
+kalitede: çınar altı kilitsiz devriye, gizli han (`_secret_han`), baca-raf set-piece'i (`_chimney`), düşen saksı
+çevresel tehlikeleri, 3 dalgalı deniz köşkü finali (KNIFE/ASSASSIN/BOMBER → ELITE/SHIELD → BRUISER/RIFLE — zengin
+düşman kompozisyonu). Not: ışınlanmalı çekimin bilinen artefaktı — açılış telsiz satırı ("Fazla sessiz.") ve başlık
+kartı orta/iç karelerde üst üste biniyor; gerçek oyunda ikisi de yalnız açılışta. Oyun hatası değil.
+
+**Testler:** Kod değişikliği yok; yalnız günlük. Çekim: Bölüm 29 ×5 nokta (çıkış 0, SCRIPT ERROR yok). Geçici capture
+PNG'leri scratchpad'de, commit'e girmedi.
+
+**Durum:** Tur 163'ten bu yana (169 kural uyumu hariç) art arda getirisiz denetim turu; otonom denetim döngüsü
+(hareket, denge, görsel stil) kampanya genelinde tükendi. Otomasyon durdu. **Sonraki öneri:** ilerleme yalnız insan/
+cihaz testiyle gelir — telefonda final can eğrileri, coin toplama oranı, dokunmatik KAY erişimi; insan gözetiminde
+İ-kerning/apostrof font metriği ve düşman tipi imza-renk ayrışması.
+
 ### 2026-11-14 (174) — Denetim: Bölüm 23 (Bozdoğan Kemeri) ve 27 — temiz, yeni iş yok — otomasyon durdu
 
 **Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin kalanı insan/cihaz testine bağlı.
