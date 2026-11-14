@@ -260,6 +260,20 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-14 (183) — Ölçüm: ağır çekim düzeltmesinden sonra ölümlü bölümler (6, 11, 30, 31) — eşik altı, otomasyon durdu
+
+**Neden şimdi:** Tur 182'deki `slowmo` hatası, botun ilk ölümünden sonraki her şeyi ×0,45 hızda oynatıyordu; birikimdeki
+ölüm sayıları bu yüzden şişmiş olabilirdi.
+
+**Sonuç (tek başsız koşu, `--fixed-fps 60`):** Bölüm 6 CLEARED 128,8 sn, 1 ölüm (x≈4891, pres salonu/döküm avlusu arası;
+birikimde 1+1 / 2+1); Bölüm 11 CLEARED 87,9 sn, 0 ölüm; Bölüm 30 CLEARED 79,8 sn, 0 ölüm (birikimde evrak salonu 1);
+Bölüm 31 CLEARED 81,1 sn, 1 ölüm (x≈8565, deniz köşkü finali; birikimde 1). Bölüm 36 tur 182'de 0 ölüm. Hiçbiri birikimdeki
+"insan testinde ölüm 1'i geçerse" eşiğini aşmıyor; denge değiştirilmedi, maddeler insan testine bağlı kaldı.
+
+**Testler:** kod değişikliği yok; dört bot koşusu CLEARED.
+**Durum:** stil listesi, yol haritaları ve P1 kapalı; birikimin kalanı insan/cihaz testi ya da insan yargısı (İ-kerning,
+düşman atlas renkleri, ses mix). Otomasyon durdu.
+
 ### 2026-11-14 (182) — Denetim: Bölüm 36 ve 26 → ölümden sonra oyun ağır çekimde kalıyordu (`Combat.slowmo` bitişi)
 
 **Neden şimdi:** Yol haritası, stil listesi ve OYNANIS-KALITE P1 kapalı; birikimin kalanı insan testine bağlı. Başlıklı son
