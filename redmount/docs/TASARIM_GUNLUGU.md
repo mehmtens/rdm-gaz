@@ -259,6 +259,37 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-14 (176) — Denetim: Bölüm 2 (Arka Sokak İzi) — temiz, yeni iş yok — otomasyon durdu
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin kalanı insan/cihaz testine ya da
+insan gözetimli font/atlas işine bağlı. Günlük başlıklarında en az denetlenmiş bölümler 1, 2 ve 34; Bölüm 34
+tur 164'te, Bölüm 1 tur 146'da bakıldı, Bölüm 2'nin başlıklı ayrı denetimi yoktu. Kitap 1'in ikinci bölümü
+oyuncunun ilk "gerçek" bölümü: ritim ve görsel dil burada oturmazsa sonraki 34 bölümün değeri düşer.
+
+**Yöntem:** Başsız bot (`bolum_play`, Bölüm 2) + pencereli 1280×720 altı nokta çekim (`capture_level.tscn`:
+Kuzey Hanı avlusu / iskele üst yolu / kanal / çeşme meydanı / çatı rotası / tebeşir avlusu); her kare Read ile
+incelendi, `bolum02.gd` düzeni baştan sona okundu.
+
+**Bulgular (temiz):** Bot CLEARED (80,4 sn, 0 ölüm). Can eğrisi Kitap 1 başı için doğru: 115 → 97 (iskele altı
+bıçaklı/tüfekli) → 87 (çeşme arenası 3 dalga) → arena ödülüyle 115 → final avlusunda Kasap Rıza dalgasında 95,
+tek takılma (15 sn, x≈8450, adlı rakip ×2 can — beklenen). Ritim DTM kalıbında: avlu kavgası → çift katlı sokak
+(üst iskele coin/zırh yolu, alt kavga yolu — gerçek katmanlı rota) → kanal paleti (nefes + hareketli platform) →
+çeşme arenası → bakkal (nefes) → tente-balkon-çatı rotası + gizli dinleme sahnesi → iki katlı kasap dükkânı →
+adlı rakip finali → tuğla baca coin zulası. Altı karede kenar ışığı, mor/lacivert gölge, tezgâh/sandık/varil/
+kiremitli Balat evleri ChatGPT Cibali atlasıyla aynı tonda; yapıştırılmış duran öğe yok. İki şüphe elendi:
+(1) tebeşir avlusunda "GECE"nin E harfi üstündeki soluk sarı kare `_Chalk` bulunma efektinin (`Fx.spark`/`Fx.ring`)
+anlık parçacığı — geçici, hata değil; (2) masaüstü HUD'da "Zırh 6/6" küçük harfli, CAN/COIN büyük — `_hud_case`
+yorumunda kasıtlı karar (tur 116: telefonda tek biçim BÜYÜK, masaüstünde baş harf büyük), telefon yolu doğru.
+Kanal karesinde ışınlanan oyuncunun suya düşmesi ve açılış telsizinin iç karelerde görünmesi çekim artefaktı.
+
+**Testler:** Kod değişikliği yok; yalnız günlük. Bot Bölüm 2 CLEARED; çekim ×6 (çıkış 0, SCRIPT ERROR yok).
+Geçici PNG'ler scratchpad'de, commit'e girmedi.
+
+**Durum:** Otonom denetim döngüsü yine getirisiz (tur 163'ten bu yana 11. temiz denetim). Otomasyon durdu.
+**Sonraki öneri:** ilerleme insan/cihaz testine bağlı — telefonda final can eğrileri ve büfe kullanımı, coin
+toplama oranı, KAY erişimi; insan gözetiminde İ-kerning/apostrof font metriği ve düşman tipi imza-renk atlası.
+Zamanlanmış görevin aralığını seyreltmek (her 5 dk yerine günlük) boş denetim turlarını azaltır.
+
 ### 2026-11-14 (175) — Denetim: Bölüm 29 (Kuzguncuk Kıyı Deposu) ve 31 (Çengelköy Konağı) — temiz, yeni iş yok — otomasyon durdu
 
 **Neden şimdi:** Stil listesi (33/33), iki yol haritası ve P1'ler kapalı; birikimin en üstündeki maddeler
