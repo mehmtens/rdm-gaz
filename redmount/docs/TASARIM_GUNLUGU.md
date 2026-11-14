@@ -260,6 +260,27 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-15 (190) — Denetim: Bölüm 8 ve 14 (tur 168) — temiz, yeni iş yok — otomasyon durdu
+
+**Neden şimdi:** Tur 189'un önerdiği en eski iki aday; ağır çekim (182), kamera (187) ve çizim sırası (189)
+düzeltmelerinden sonra ölçülmemişlerdi.
+
+**Ölçüm (tek başsız koşu, `--fixed-fps 60`):**
+- Bölüm 8: CLEARED 89,3 sn, 0 ölüm; son arena (x≈8900–9070) 25 sn takılma, can 82 → 57 — tur 168'deki bot yol-bulma
+  artefaktıyla aynı (88,2 sn / 25 sn), ölüm yok; birikimdeki "son arena süresi insan testinde ölçülsün" notu geçerli.
+- Bölüm 14: CLEARED 91,4 sn, 0 ölüm, takılma 8 sn @9385.
+
+**Görsel (pencereli `capture_level`, 2×3 nokta):** Bölüm 8 Bizans sarnıcı (sütunlar, yansıyan su, fenerler) ve su
+çarkı + şelale finali, Bölüm 14 urgancı atölyesi (halat yığınları, çark, gün batımı) ChatGPT arka planıyla aynı ışıkta;
+kalkanlı ve bıçaklı düşman, varil/kasa önünde doğru katmanda (tur 189). Bölüm 14 arşiv sinematiğinde aktörler zeminden
+~45 px yukarıda göründü: çekim aracı oyuncuyu ışınlayınca `is_on_floor()` bir kare bayat kalıyor ve sahne o konumda
+başlıyor; gerçek oyunda sahne yalnız oyuncu yere basınca başlar (`cutscene.gd` `grounded`) — oyun hatası değil.
+
+**Testler:** kod değişikliği yok; bot Bölüm 8 ve 14 CLEARED; iki pencereli çekim çıkış 0. Geçici PNG'ler scratchpad'de.
+**Durum:** otonom tarafta açık iş yok. Otomasyon durdu.
+**Sonraki öneri:** insan/cihaz testi (birikim; ayrıca tur 189 çizim sırası telefonda hissedilsin). Denetim için sıradaki
+en eski adaylar Bölüm 19 ve 24 (tur 167).
+
 ### 2026-11-15 (189) — Denetim: Bölüm 5 ve 34 → kırılabilir varil/kasa kahramanı ve düşmanı örtüyordu
 
 **Neden şimdi:** Stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Öncelik d):
