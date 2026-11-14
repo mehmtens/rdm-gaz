@@ -260,6 +260,28 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-15 (191) — Denetim: Bölüm 19 ve 24 (tur 167) — temiz, yeni iş yok — otomasyon durdu
+
+**Neden şimdi:** Tur 190'ın önerdiği en eski iki aday; ağır çekim (182), kamera (187) ve çizim sırası (189)
+düzeltmelerinden sonra ölçülmemişlerdi.
+
+**Ölçüm (tek başsız koşu, `--fixed-fps 60`):**
+- Bölüm 19: CLEARED 88,2 sn, 1 ölüm (x≈9730, Külhanbeyi finali; can 7 → ölüm), takılma 14 sn @9729. Tur 167: 96,2 sn,
+  18 sn @9837; birikimdeki "külhan finali 1–2" aralığının altında — eşikte, değişmedi.
+- Bölüm 24: CLEARED 205,6 sn, 1 ölüm (x≈12200; can 15 → ölüm), takılma 23 sn @18001. Tur 167: 200,4 sn — Kitap 2 finali,
+  bilerek kampanyanın en uzunu; süre tutarlı.
+
+**Görsel (pencereli `capture_level`, 2×3 nokta):** Çemberlitaş sokağı, hamam iç mekânı (sütunlar, çini pano, iskele) ve
+külhan ocakları; Bozdoğan Kemeri gün batımı, kemer üstü iskele ve kule finali ChatGPT arka planıyla aynı ışık ve tonda.
+Kahraman ve düşmanlar kasa/varil önünde doğru katmanda (tur 189). Bölüm kartları "ÇEMBERLİTAŞ KÜLHANI" / "BOZDOĞAN KEMERİ"
+/ "HALİÇ'İN İZİ" doğru. Final tabelası "CAĞALOĞLU" semtin gerçek yazımı (C ile), hata değil. Bölüm 24 final sinematiğinde
+aktörlerin zeminden yukarıda görünmesi tur 190'daki çekim aracı artefaktı (ışınlanmada bayat `is_on_floor()`).
+
+**Testler:** kod değişikliği yok; bot Bölüm 19 ve 24 CLEARED; iki pencereli çekim çıkış 0. Geçici PNG'ler scratchpad'de.
+**Durum:** otonom tarafta açık iş yok. Otomasyon durdu.
+**Sonraki öneri:** insan/cihaz testi (birikim: arena ölümleri, coin oranı, KAY düğmesi yeri); denetim için sıradaki en eski
+adaylar tur 168–170 aralığındaki bölümler.
+
 ### 2026-11-15 (190) — Denetim: Bölüm 8 ve 14 (tur 168) — temiz, yeni iş yok — otomasyon durdu
 
 **Neden şimdi:** Tur 189'un önerdiği en eski iki aday; ağır çekim (182), kamera (187) ve çizim sırası (189)
