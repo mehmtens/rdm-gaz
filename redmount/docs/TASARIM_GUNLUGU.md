@@ -241,6 +241,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   250 ms içinde komşu. İnsan testinde videodaki elle sayımla CSV karşılaştırılsın; KAY için kaçan
   oranı %10'u geçerse düğme yeri/boyutu ya da sürüklenebilir düzen (`touch_layout`) uygulansın.
 - Bölüm 18 finali (Çemberlitaş damı, 3 dalga): bot ölmeden ama 115 → 24 canla geçti (tur 88).
+  Tur 193 (düzeltilmiş sayaç, 2 başsız koşu): ikisinde de finalde 1 ölüm; finale x≈8000–8800 arenasından 16 canla
+  varılıyor. Eşikte ("1'i geçerse"), değişmedi; insan testinde ölçülsün.
   İnsan testinde final ölümü 1'i geçerse üçüncü dalga hafifletilsin ya da 2. dalga sonrası simit.
 - Bölüm 20 finali (Yenikapı gece kapısı, 3 dalga, x≈9500–10000): bot ölmeden ama 27 → 13 canla geçti
   (tur 90). İnsan testinde final ölümü 1'i geçerse 2. dalga sonrası simit.
@@ -259,6 +261,31 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-15 (193) — Denetim: Bölüm 16 (tur 179) ve 18 (tur 172) — temiz, yeni iş yok — otomasyon durdu
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Öncelik d):
+tur 192'nin önerdiği en eski iki aday; ikisi de ağır çekim (182), kamera (187) ve çizim sırası (189) düzeltmelerinden
+sonra ölçülmemişti.
+
+**Ölçüm (iki başsız koşu, `--fixed-fps 60`):**
+- Bölüm 16: CLEARED 82,6 sn / 76,4 sn; ilk koşuda 1 ölüm (x≈9500, son arena; can 18 → ölüm), ikincide 0 ölüm, en düşük
+  can 30. Tur 179: 77,8 sn, 0 ölüm — bot varyansı, eşik altı.
+- Bölüm 18: CLEARED 87,7 sn / 93,3 sn; ikisinde de 1 ölüm (x≈9750–9850, Çemberlitaş damı finali). x≈8000–8800 arenası
+  canı 55 → 16'ya indiriyor, finale düşük canla varılıyor. Birikimdeki tur 88 ölçümü ("ölmeden, 24 can") eski çift
+  sayımlı sayaçla değil ama ışınlamasız eski botla alınmıştı; yeni veri birikime eklendi. Eşikte ("1'i geçerse"), değişmedi.
+
+**Görsel (pencereli `capture_level`, 2×3 nokta):** Bölüm 16 ciltçiler sokağı (çamaşır ipleri, kasa yığını, kalkanlı ve
+nişancı düşman) ve Süleymaniye teras finali (Haliç manzarası, fener, kemerli kapı) ChatGPT arka planıyla aynı ışıkta;
+Bölüm 18 bakırcılar çarşısı (bakır tepsi, saksılı balkon, bıçaklı düşman) ve Çemberlitaş damı (kubbeler, coin dizisi)
+uyumlu. Bölüm kartları "SÜLEYMANİYE ARŞİVİ" / "KAPALIÇARŞI ARKA HANI" / "HALİÇ'İN İZİ" doğru (İ ve apostrof düzgün);
+telsiz metni "Bedesten... Kâtip kalabalığın içi" büyütülerek kontrol edildi, kırık yok.
+
+**Testler:** kod değişikliği yok; bot Bölüm 16 ve 18 ikişer koşu CLEARED; iki pencereli çekim çıkış 0. Geçici PNG'ler
+scratchpad'de.
+**Durum:** otonom tarafta açık iş yok. Otomasyon durdu.
+**Sonraki öneri:** insan/cihaz testi (birikim: Bölüm 18 finali, arena can eğrileri, coin oranı, KAY düğmesi yeri);
+denetim için sıradaki en eski adaylar Bölüm 35 (tur 173) ve 23/27 (tur 174).
 
 ### 2026-11-15 (192) — Denetim: Bölüm 13 ve 25 (tur 171) — temiz, yeni iş yok — otomasyon durdu
 
