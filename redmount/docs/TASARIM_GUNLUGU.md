@@ -260,6 +260,29 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-15 (192) — Denetim: Bölüm 13 ve 25 (tur 171) — temiz, yeni iş yok — otomasyon durdu
+
+**Neden şimdi:** Ağır çekim (182), kamera (187) ve çizim sırası (189) düzeltmelerinden sonra ölçülmemiş bölümler içinde
+başlıklı son denetimi en eski olan ikisi (tur 171). Tur 171'de görsel çekim yoktu; bu tur eklendi.
+
+**Ölçüm (tek başsız koşu, `--fixed-fps 60`):**
+- Bölüm 13: CLEARED 78,6 sn, 0 ölüm; en düşük can 63/115 (x≈8830, son arena), takılma 13 sn @5064. Tur 171: 85,6 sn,
+  en düşük 51 — iyileşme yönünde, denge değişikliği gerektirmiyor.
+- Bölüm 25: CLEARED 82,7 sn, 0 ölüm; ciltçi geçidi arenasında can 80 → 42, son arenada en düşük 27/115, takılma 6 sn
+  @7456. Tur 171: 88,5 sn, en düşük 28 — aynı eğri.
+
+**Görsel (pencereli `capture_level`, 4 + 5 nokta):** Bölüm 13 Haliç surları (gün doğumu, bayrak sancakları), Haliç
+iskelesi (vinç, çuval, kasa) ve han avlusu şadırvanı; Bölüm 25 Cağaloğlu kitapçı yokuşu, ciltçi geçidi (rıhtım arka planı
+önünde katlı han) ve Sirkeci arşiv kapısı ChatGPT arka planlarıyla aynı ışıkta. Bölüm kartları "HALİÇ'TE ŞAFAK /
+HALİÇ'İN İZİ" ve "CAĞALOĞLU'NDA İLK BASKIN / İSTANBUL'UN SESİ" doğru (İ ve apostrof düzgün). Kahraman, düşmanlar ve
+varil/kasa doğru katmanda (tur 189). Telsiz kutusunun art arda çekimlerde aynı replikle kalması çekim aracının
+ışınlanmasından (birden çok tetik); oyunda sıra korunuyor.
+
+**Testler:** kod değişikliği yok; bot Bölüm 13 ve 25 CLEARED; iki pencereli çekim çıkış 0. Geçici PNG'ler scratchpad'de.
+**Durum:** otonom tarafta açık iş yok. Otomasyon durdu.
+**Sonraki öneri:** insan/cihaz testi (birikim: arena can eğrileri, coin oranı, KAY düğmesi yeri). Denetim için sıradaki
+en eski adaylar Bölüm 18 (tur 172) ve 16/20 (tur 179).
+
 ### 2026-11-15 (191) — Denetim: Bölüm 19 ve 24 (tur 167) — temiz, yeni iş yok — otomasyon durdu
 
 **Neden şimdi:** Tur 190'ın önerdiği en eski iki aday; ağır çekim (182), kamera (187) ve çizim sırası (189)
