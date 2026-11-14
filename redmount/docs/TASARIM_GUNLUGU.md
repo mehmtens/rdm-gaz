@@ -272,8 +272,8 @@ sonra ölçülmemişti.
 - Bölüm 16: CLEARED 82,6 sn / 76,4 sn; ilk koşuda 1 ölüm (x≈9500, son arena; can 18 → ölüm), ikincide 0 ölüm, en düşük
   can 30. Tur 179: 77,8 sn, 0 ölüm — bot varyansı, eşik altı.
 - Bölüm 18: CLEARED 87,7 sn / 93,3 sn; ikisinde de 1 ölüm (x≈9750–9850, Çemberlitaş damı finali). x≈8000–8800 arenası
-  canı 55 → 16'ya indiriyor, finale düşük canla varılıyor. Birikimdeki tur 88 ölçümü ("ölmeden, 24 can") eski çift
-  sayımlı sayaçla değil ama ışınlamasız eski botla alınmıştı; yeni veri birikime eklendi. Eşikte ("1'i geçerse"), değişmedi.
+  canı 55 → 16'ya indiriyor, finale düşük canla varılıyor. Tur 88'de (pencereli bot) ölüm yoktu, en düşük can 24;
+  farkın nedeni (bot varyansı ya da aradaki değişiklikler) ayrıştırılmadı. Yeni veri birikime eklendi. Eşikte ("1'i geçerse"), değişmedi.
 
 **Görsel (pencereli `capture_level`, 2×3 nokta):** Bölüm 16 ciltçiler sokağı (çamaşır ipleri, kasa yığını, kalkanlı ve
 nişancı düşman) ve Süleymaniye teras finali (Haliç manzarası, fener, kemerli kapı) ChatGPT arka planıyla aynı ışıkta;
