@@ -260,6 +260,29 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-14 (180) — Denetim: Bölüm 1 ve 11 → Türkçe büyük harf hatası: "SESSIZ" → "SESSİZ" (bölüm kartı, hikâye kartı, mağaza, silah duyurusu)
+
+**Neden şimdi:** Listeler kapalı; başlıklı son denetimi en eski kalan bölümler seçildi: Bölüm 1 (tur 146) ve Bölüm 11
+(yalnız tur 169 pres düzeltmesi). Oyuncu her bölümün ilk 3,6 saniyesinde büyük başlığı okuyor; Türkçe olmayan "I" İstanbul
+kimliğine yabancı ve "yarım yerelleştirilmiş" izlenimi veriyor.
+
+**Bulgular:**
+- Bot: Bölüm 1 CLEARED 83,2 sn, 0 ölüm (en düşük can 62, Kuzey Hanı arenasında 9 sn takılma); Bölüm 11 CLEARED 89,6 sn,
+  0 ölüm (avlu arenasında 115 → 62, final arenasında x≈7794 23 sn takılma ama can 64'ün altına inmedi). Denge işi yok.
+- Görsel: Balat çatıları, han avlusu, pres koridoru, çark atölyesi ChatGPT atlasıyla aynı tonda; yapıştırılmış öğe yok.
+- **Hata:** bölüm başlık kartı `String.to_upper()` kullanıyordu; Godot dil-bağımsız büyütür, "i" → "I". 36 bölüm adından
+  küçük "i" içerenlerin hepsi noktasız çıkıyordu ("SESSIZ KORIDOR", "SÜLEYMANIYE ARŞIVI" …). Tur 179'da İ-kerning'e
+  bağlanan "ARŞIVI" kırığının bir kısmı aslında bu hataydı. Aynı kalıp hikâye kartı başlığında (`story_card.gd`), mağaza kart
+  başlığında (`shop_menu.gd`) ve silah alma duyurusunda ("ŞEMSIYE", `redmount.gd`) de vardı. `hud.gd` ve `shop.gd` bu tuzağı
+  zaten biliyor ve `PixelText.upper` kullanıyordu; dört çağrı aynı yardımcıya çekildi.
+
+**Testler:** derleme (SCRIPT ERROR yok); `campaign_smoke` çıkış 0; `dtm_gaps` PASS; yeni `tests/turkce_buyuk_harf.tscn` PASS
+(her bölüm adında i → İ, ı → I); bot Bölüm 1, 13, 25 CLEARED (0/12/24 — ortak `dtm_level` değişti) + denetimde Bölüm 11
+CLEARED. Pencereli çekim: Bölüm 11 kartı "SESSİZ KORİDOR", Bölüm 16 "SÜLEYMANİYE ARŞİVİ" — önce/sonra karşılaştırıldı.
+
+**Sonraki öneri:** kalan iş insan/cihaz testine bağlı (birikim). İ-kerning maddesi yeniden ölçülmeli: doğru İ ile kırık
+yalnız İ + dar komşu çiftinde mi sürüyor (Bölüm 16 kartında artık görülmüyor).
+
 ### 2026-11-14 (179) — Denetim: Bölüm 16 (Süleymaniye Arşivi) ve 20 (Samatya Taş Depoları) — temiz, yeni iş yok — otomasyon durdu
 
 **Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin kalanı insan/cihaz testine bağlı. Başlıklı son

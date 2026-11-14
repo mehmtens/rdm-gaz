@@ -230,7 +230,7 @@ func _card(title: String, desc: String) -> PanelContainer:
 	text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	text.add_theme_constant_override(&"separation", 2)
 	row.add_child(text)
-	text.add_child(_label(title.to_upper(), GOLD))
+	text.add_child(_label(PixelText.upper(title), GOLD))
 	var d := _label(desc, CREAM)
 	d.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	text.add_child(d)

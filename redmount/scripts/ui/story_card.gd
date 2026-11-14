@@ -86,7 +86,7 @@ func is_active() -> bool:
 
 func present(header: String, title: String, brief: String, goal: String) -> void:
 	_header.text = header
-	_title.text = title.to_upper()
+	_title.text = PixelText.upper(title)
 	_brief.text = brief
 	_goal.text = "HEDEF  ·  %s" % goal if not goal.is_empty() else ""
 	_goal.visible = not goal.is_empty()

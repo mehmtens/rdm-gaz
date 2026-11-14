@@ -1552,7 +1552,7 @@ func swap_weapon() -> void:
 	rig.play_action(&"idle", 0.12)
 	Sfx.play(&"swing", 1.4, -6.0)
 	Fx.ring(global_position + Vector2(0, -58), Color(1, 0.9, 0.5), 5, 20, 0.18)
-	Fx.popup(global_position + Vector2(0, -150), _weapon.display_name.to_upper() if _weapon != null else "YUMRUK",
+	Fx.popup(global_position + Vector2(0, -150), PixelText.upper(_weapon.display_name) if _weapon != null else "YUMRUK",
 		Color(1.0, 0.9, 0.6), 18)
 
 

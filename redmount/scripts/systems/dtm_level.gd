@@ -2201,7 +2201,7 @@ class _TitleCard extends CanvasLayer:
 		top.add_theme_color_override(&"font_color", Color(0.95, 0.55, 0.42))
 		col.add_child(top)
 		var name := Label.new()
-		name.text = String(GameState.LEVEL_NAMES[idx]).to_upper() if idx < GameState.LEVEL_NAMES.size() else ""
+		name.text = PixelText.upper(String(GameState.LEVEL_NAMES[idx])) if idx < GameState.LEVEL_NAMES.size() else ""
 		name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		name.add_theme_font_size_override(&"font_size", 48)
 		name.add_theme_color_override(&"font_color", Color(1.0, 0.82, 0.45))
