@@ -262,6 +262,31 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-15 (194) — Denetim: Bölüm 35 (tur 173) ve 23 (tur 174) — temiz, yeni iş yok — otomasyon durdu
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Öncelik d):
+tur 193'ün önerdiği en eski iki aday; ağır çekim (182), kamera (187) ve çizim sırası (189) düzeltmelerinden sonra
+ölçülmemişlerdi.
+
+**Ölçüm (tek başsız koşu, `--fixed-fps 60`):**
+- Bölüm 35: CLEARED 117,2 sn, 2 ölüm. İlki kışla arenasında (x≈6700–6940; can 52 → 13 → ölüm, takılma 25 sn @6927),
+  ikincisi finalde (x≈9090; can 32 → 5 → ölüm). Tur 173 ilk koşusu da kışla arenasında ölmüştü (51 → 3, 22 sn @6910) —
+  aynı yer, üç koşunun ikisinde. Arenadan hemen önce HİSAR KİLERİ büfesi var, bot kullanmıyor; bot verisiyle denge
+  değiştirilmez kuralı gereği değişmedi, birikimdeki "düşük canla arena" ailesine kanıt olarak eklendi.
+- Bölüm 23: CLEARED 95,9 sn, 0 ölüm (tur 174: 107,8 sn, 1 ölüm); en düşük can 3/115 (x≈9800, kemer finali), takılma
+  9 sn @8239. İyileşme yönünde.
+
+**Görsel (pencereli `capture_level`, 2×3 nokta):** Bölüm 35 iç sur sırtı (bıçaklı + iki tüfekli, gözetleme kulesi),
+kışla avlusu (ahşap iskeleler, varil, Boğaz manzarası) ve kale kapısı finali (fenerli kemer, sarmaşıklı sur); Bölüm 23
+sarnıç köprüsü (boru galerisi, sütunlar) ve Bozdoğan Kemeri su kapakları ChatGPT arka planlarıyla aynı ışık ve tonda.
+Kahraman ve düşmanlar varil önünde doğru katmanda (tur 189). Bölüm kartı "ANADOLUHİSARI KALE İÇİ / İSTANBUL'UN SESİ"
+doğru (İ, apostrof); kartın sırt/kışla çekimlerinde görünmesi çekim aracının bölümü yeni yüklemesinden.
+
+**Testler:** kod değişikliği yok; bot Bölüm 35 ve 23 CLEARED; iki pencereli çekim çıkış 0. Geçici PNG'ler scratchpad'de.
+**Durum:** otonom tarafta açık iş yok. Otomasyon durdu.
+**Sonraki öneri:** insan/cihaz testi — öncelikle Bölüm 35 kışla arenası (büfe kullanımıyla giriş canı, ölüm 1'i geçerse
+arena girişine simit); denetim için sıradaki en eski aday Bölüm 27 (tur 174).
+
 ### 2026-11-15 (193) — Denetim: Bölüm 16 (tur 179) ve 18 (tur 172) — temiz, yeni iş yok — otomasyon durdu
 
 **Neden şimdi:** Stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Öncelik d):
