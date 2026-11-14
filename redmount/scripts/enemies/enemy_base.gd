@@ -98,6 +98,8 @@ func _ready() -> void:
 	if config == null:
 		config = EnemyConfig.new()
 		push_warning("%s: 'config' bağlı değil, varsayılan EnemyConfig." % name)
+	## Kırılabilir nesnelerin (z 1) önünde; su, cephe, kablo gibi ön katmanlar (z ≥ 3) yine üstte.
+	z_index = 2
 	_setup_rig()
 	_apply_dark_rim.call_deferred()
 	# Tek yön platformlar (katman 8 / değer 128) da zemin sayılır: çatıya, tenteye,

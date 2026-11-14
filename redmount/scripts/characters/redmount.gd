@@ -156,6 +156,8 @@ var _getup_timer: float = 0.0
 var _getting_up: bool = false
 
 func _ready() -> void:
+	## Kırılabilir nesnelerin (z 1) önünde; su, cephe, kablo gibi ön katmanlar (z ≥ 3) yine üstte.
+	z_index = 2
 	if movement == null:
 		movement = MovementConfig.new()
 		push_warning("Redmount: 'movement' ayarı bağlı değil, varsayılan MovementConfig kullanılıyor.")

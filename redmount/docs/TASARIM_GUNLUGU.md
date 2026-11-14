@@ -260,6 +260,37 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-15 (189) — Denetim: Bölüm 5 ve 34 → kırılabilir varil/kasa kahramanı ve düşmanı örtüyordu
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Öncelik d):
+tur 173'ten beri başlıklı denetimi en eski kalan iki bölüm, Bölüm 5 (tur 156) ve 34 (tur 164); ikisi de tur 182 ağır
+çekim ve tur 187 kamera düzeltmelerinden sonra ölçülmemişti.
+
+**Ölçüm (tek başsız koşu, `--fixed-fps 60`):** Bölüm 5 CLEARED 92,8 sn, 1 ölüm (son arena x≈8700–8900, can 53 → 8 →
+ölüm; birikimdeki "son arenaya düşük canla varış" eğrisiyle aynı, eşikte). Bölüm 34 CLEARED 68,5 sn, 0 ölüm.
+
+**Bulgu (pencereli `capture_level`, Bölüm 5 x≈8700):** kahraman, durduğu yerdeki tahta varilin ARKASINDA çiziliyordu
+(belden aşağısı görünmüyordu). `BreakableProp` ilk günden beri `z_index = 2`, kahraman ve tüm düşmanlar 0 → içinden
+yürünen her varil/kasa/sandık/vazo hem kahramanı hem düşmanı örtüyordu. Dövüşte kasanın yanındaki düşmanın gövdesi ve
+saldırı duruşu gizleniyordu (okunurluk; DTM'de karakterler kırılabilir kapların önünde). Önde durması gereken her şey
+(su z 4, gizli oda cephesi z 3, canlı kablo z 3, tavan z 5, ön plan z 30) zaten z ≥ 3'te.
+
+**Yapılanlar:**
+- `breakable_prop.gd`: z 2 → 1 (zemin süslerinin üstünde kalır; z 1–2 aralığında başka dünya nesnesi yok).
+- `redmount.gd` ve `enemy_base.gd` `_ready`: `z_index = 2` (tüm düşman/boss alt sınıfları `EnemyBase`'ten geçer).
+- `dtm_level.gd` `_deco(behind = false)`: "önde" süs 2 → 3, karakterlerin önünde kalsın (yoksa aynı z'de kahraman
+  ağaç sırasıyla öne geçerdi).
+- Yeni `tests/draw_order.tscn`: kahraman ve düşman > varil ≥ 1, kahraman = düşman, önde süs > kahraman. Değişiklik
+  öncesi kodda FAIL ("kahraman z 0 ≤ varil z 2"), sonra PASS.
+
+**Görsel kontrol:** Bölüm 5 x≈4990 kahraman kasanın önünde çömelmiş, tam görünür; Bölüm 5 finali sinematiğinde iki
+düşman ve kahraman doğru katmanda; Bölüm 1 çatısında bıçaklı düşman saksı ve sandığın önünde. Bölüm 34 yokuş, jeneratör
+salonu ve iskele finali ChatGPT arka planıyla aynı ışıkta; bölüm kartı "KANDİLLİ VERİCİ SIRTI / İSTANBUL'UN SESİ" doğru.
+
+**Testler:** `--import` hatasız; `campaign_smoke` çıkış 0; `dtm_gaps` PASS; `draw_order` PASS; `sky_follow` PASS; bot
+Bölüm 1 (87,8 sn), 13 (85,0 sn), 25 (78,7 sn), 5 (100,2 sn, 1 ölüm — son arena, değişiklik öncesiyle aynı) CLEARED.
+**Sonraki öneri:** insan/cihaz testi (birikim); denetim için sıradaki en eski adaylar Bölüm 8 ve 14 (tur 168).
+
 ### 2026-11-15 (188) — Denetim: Bölüm 21 ve 22 (tur 166) — temiz, yeni iş yok — otomasyon durdu
 
 **Neden şimdi:** Tur 187'nin önerdiği en eski iki aday; tur 182 ağır çekim ve tur 187 kamera düzeltmelerinden sonra

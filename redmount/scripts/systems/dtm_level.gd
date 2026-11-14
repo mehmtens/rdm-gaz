@@ -340,7 +340,7 @@ func _deco(tex: Texture2D, cx: float, ground: float, scale_f: float, behind := t
 	s.scale = Vector2(scale_f, scale_f)
 	s.centered = true
 	s.position = Vector2(cx, ground - tex.get_height() * scale_f * 0.5)
-	s.z_index = z if behind else 2
+	s.z_index = z if behind else 3  # önde: karakterlerin (z 2) üstü
 	add_child(s)
 
 

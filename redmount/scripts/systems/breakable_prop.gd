@@ -112,7 +112,9 @@ func _ready() -> void:
 	_seed = randf() * 10.0
 	if kind == "patlayici":
 		add_to_group(&"explosive")
-	z_index = 2
+	## Karakterlerin (z 2) arkasında, zemin süslerinin (z 0) önünde: içinden yürünen
+	## varil/kasa kahramanı ya da dövüşteki düşmanı örtmesin.
+	z_index = 1
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 
 	var hurtbox := Area2D.new()
