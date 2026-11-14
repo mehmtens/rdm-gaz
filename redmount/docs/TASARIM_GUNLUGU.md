@@ -259,6 +259,28 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-14 (174) — Denetim: Bölüm 23 (Bozdoğan Kemeri) ve 27 — temiz, yeni iş yok — otomasyon durdu
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin kalanı insan/cihaz testine bağlı.
+Bölüm 23 (son ayrı denetimi çok eski) ve 27 (yaklaşık tur 120'den beri) adıyla en uzun süredir
+denetlenmemiş iki bölümdü. Oyuncu açısından soru: orta-geç kampanyada ritim ve can eğrisi adil mi, görsel
+dil ChatGPT temeline ait mi?
+
+**Bulgular:** Pencereli bot Bölüm 23 CLEARED (107,8 sn, 1 ölüm), başsız bot Bölüm 27 CLEARED (87,8 sn, 1 ölüm).
+Bölüm 23 can eğrisi: 115 → 59 (t=60, sarnıç köprüsü arenası, DALGA 1/2) → 2 (t=76) → simitle 32 → final
+Bozdoğan Kemeri arenasında (x≈9500–9800, DALGA 2/3) 17 sn takılma ve ölüm. Arenadan hemen önce SARAÇHANE
+ERZAKI büfesi var (bot kullanmıyor) — birikimdeki "son arenaya düşük canla varış" ailesi, insan testi bekler.
+Bölüm 27'de de tek ölüm final arenasında (x≈9650, 9 sn takılma), aynı aile. Dört ekran görüntüsünde (açılış
+avlusu, vana dairesi büfesi, sarnıç köprüsü, kemer finali) kenar ışığı, mor/lacivert gölge rampaları ve
+prop/büfe/kapı çizimi ChatGPT arka planıyla tutarlı; HUD, dalga şeridi, combo/HARİKA rozeti ve telsiz kutusu
+okunur, çakışma yok (telsiz kutusu dalga şeridinin hemen üstünde ama ayrı). SCRIPT ERROR yok.
+
+**Testler:** Kod değişikliği yok; yalnız günlük. Bot: Bölüm 23 (pencereli) ve 27 (başsız) CLEARED.
+
+**Durum:** Otonom denetim döngüsü yine getirisiz. **Sonraki öneri:** telefonda insan testi (final arenalara
+giriş canı ve büfe kullanımı, coin toplama oranı, KAY erişimi); İ-kerning ve düşman tipi renk ayrışması
+insan gözetiminde.
+
 ### 2026-11-13 (173) — Denetim: Bölüm 35 (Rumeli Hisarı) + nişancı yığılması ölçümü — temiz, yeni iş yok — otomasyon durdu
 
 **Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin kalanı insan/cihaz testine bağlı.
