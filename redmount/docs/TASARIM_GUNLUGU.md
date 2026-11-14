@@ -259,6 +259,34 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-14 (177) — Denetim: Bölüm 9 (Zırhlı Üs) — temiz, yeni iş yok — otomasyon durdu
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin kalanı insan/cihaz testine ya da insan
+gözetimli font/atlas işine bağlı. Bölüm 9'un son başlıklı denetimi tur 81'deydi (en eski); Kitap 1'in zırhlı düşman
+ve güçlendirici öğreten bölümü, ayrıca Binbaşı Kaya adlı rakibi Kitap 1 finaline hazırlık.
+
+**Yöntem:** Başsız bot (`bolum_play`, Bölüm 9) + pencereli 1280×720 altı nokta çekim (`capture_level.tscn`: tünel
+köprüsü / nehir yatağı çöken ip köprü / cephanelik içi / zırhlı avlu / sur tırmanışı / Binbaşı kapısı); her kare Read
+ile incelendi, `bolum09.gd` düzeni baştan sona okundu.
+
+**Bulgular (temiz):** Bot CLEARED (124,1 sn, 0 ölüm). Can eğrisi: 115 → 109 (cephanelik) → zırhlı avlu üç dalgasında
+25 (tek takılma 21 sn @x≈5298 — üçüncü dalga çift Ağır Zırhlı, bölümün öğrettiği şey) → arena ödülüyle 55 → Binbaşı
+finalinde 3/115 ile çıkış. Final sıkı ama ölümsüz; bot arada ÜS KANTİNİ'ni (x 6100: can/zırh/cephane) kullanmıyor,
+insan oyuncu kullanacak — denge değiştirilmez. Ritim DTM kalıbında: tünel kavgası → çöken tahta + hareketli platform
+nehir geçişi (nefes, coin hattı) → cephanelik içi güçlendirici sandıkları → kilitli avlu arenası → kantin (nefes) →
+sur/kule tırmanışı (üst coin + zırh rotası, kulede tüfekli; projektör ışığıyla telegraf okunur) → Binbaşı kapısı.
+Altı karede taş köprü, sur, kule iskelesi, kum torbası, varil/sandık ChatGPT kale atlası (`level04_fortress_atlas`)
+ile aynı mor-lacivert gölge + sıcak meşale tonunda; yapıştırılmış duran öğe yok. Nehir karesinde suya düşen oyuncu ve
+Binbaşı karesindeki hikâye sahnesi çekim artefaktı (ışınlama/sahne tetiği).
+
+**Testler:** Kod değişikliği yok; yalnız günlük. Bot Bölüm 9 CLEARED; çekim ×6 (çıkış 0, SCRIPT ERROR yok). Geçici
+PNG'ler scratchpad'de, commit'e girmedi.
+
+**Durum:** Tur 163'ten bu yana 12. temiz denetim; otonom döngü getirisiz. Otomasyon durdu.
+**Sonraki öneri:** ilerleme insan/cihaz testine bağlı — telefonda final can eğrileri ve büfe kullanımı (Bölüm 9 finali
+botta 3/115), coin toplama oranı, KAY erişimi; insan gözetiminde İ-kerning/apostrof font metriği ve düşman tipi
+imza-renk atlası. Zamanlanmış görevin aralığını seyreltmek (her 5 dk yerine günlük) boş denetim turlarını azaltır.
+
 ### 2026-11-14 (176) — Denetim: Bölüm 2 (Arka Sokak İzi) — temiz, yeni iş yok — otomasyon durdu
 
 **Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin kalanı insan/cihaz testine ya da
