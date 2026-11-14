@@ -260,6 +260,25 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-14 (185) — Denetim: Bölüm 10 ve 33 (tur 154 / 152 adayları) — temiz, yeni iş yok — otomasyon durdu
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Öncelik d):
+tur 184'ün önerdiği en eski iki aday, tur 182 ağır çekim düzeltmesinden sonra ölçülmemişti.
+
+**Ölçüm (tek başsız koşu, `--fixed-fps 60`):**
+- Bölüm 10: CLEARED 112,7 sn, 1 ölüm (x≈8669, son arena; can 11 → 4 → ölüm), en uzun takılma 22 sn @8352. Birikimdeki
+  "son arena koşu başına 1 ölüm" ölçümüyle aynı; düzeltmeden sonra da değişmedi → denge insan testine bağlı kaldı.
+- Bölüm 33: CLEARED 85,2 sn, 0 ölüm, en düşük can 35 (x≈8081), takılma 9 sn @8059. Temiz.
+
+**Görsel (pencereli `capture_level`):** Bölüm 33 açılış kartı "VANİKÖY GECE SEVKİYATI / İSTANBUL'UN SESİ" artık kırıksız
+(tur 152'deki "VANI KÖY" sorunu tur 153 İ glifiyle kapanmış, doğrulandı); iskele/yalı ChatGPT arka planıyla aynı ışıkta.
+Bölüm 10 sur önü taş duvar ve kaldırım aynı tonda, "GAZELLE'İN İZİ" kesme işareti doğru. Yeni stil işi yok.
+
+**Testler:** kod değişikliği yok; bot Bölüm 10 ve 33 CLEARED; iki pencereli çekim çıkış 0. Geçici PNG'ler scratchpad'de.
+**Durum:** otonom tarafta açık iş yok. Otomasyon durdu.
+**Sonraki öneri:** insan/cihaz testi (birikim: Bölüm 10 son arena ölümü, coin oranı, KAY düğmesi yeri); sıradaki denetim
+adayı Bölüm 7 (tur 158).
+
 ### 2026-11-14 (184) — Denetim: Bölüm 3 ve 15 (en eski başlıklı denetimler, tur 156) — temiz, yeni iş yok — otomasyon durdu
 
 **Neden şimdi:** Stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Öncelik d):
