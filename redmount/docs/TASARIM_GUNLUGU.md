@@ -260,6 +260,35 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-14 (179) — Denetim: Bölüm 16 (Süleymaniye Arşivi) ve 20 (Samatya Taş Depoları) — temiz, yeni iş yok — otomasyon durdu
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin kalanı insan/cihaz testine bağlı. Başlıklı son
+denetimi en eski kalan iki bölüm seçildi: Bölüm 20 (tur 122) ve Bölüm 16 (tur 130). İkisinin birikim maddeleri ("16 son
+üçlü: iki yeniden doğma", "20 finali 27 → 13 can") tur 154'teki çift sayım düzeltmesinden önce ölçülmüştü.
+
+**Yöntem:** Başsız bot (`bolum_play`, iki bölüm paralel) + pencereli 1280×720 çekim (`capture_level.tscn`; 16: açılış
+sokağı, 5000 üst rota, 6100 ciltçi iskeleleri, belge odası, mahzen, teras; 20: açılış, iskele, büfe, gece kapısı, final).
+
+**Bulgular:**
+- Bölüm 16: CLEARED 77,8 sn, **0 ölüm** (eski "iki yeniden doğma" çift sayımdı). Can eğrisi 115 → 81 (açılış/iskele) →
+  30 (belge odası arenası, takılma 9 sn @x≈8304) → mahzen simidiyle 60 → teras 36. Birikimdeki "mahzene simit" koşulu
+  oluşmadı; madde insan testine bağlı kaldı.
+- Bölüm 20: CLEARED 90,5 sn, **0 ölüm**. Final eğrisi tur 90 ile aynı (27 → 13, takılma 10 sn @x≈9883) — kararlı, eşik altı.
+- Görsel: ciltçi iskeleleri, arşiv rafları, mahzen fırını, gece su kapısı, YENİKAPI tabelası ChatGPT atlasıyla aynı
+  mor-lacivert gölge + sıcak fener tonunda; yapıştırılmış duran öğe yok. Açılış kartında "SÜLEYMANİYE ARŞIVI" kırığı
+  bilinen İ-kerning maddesi (insan gözetimli font işi). Film rulosu bildirimi geçici olarak arkadaki coin sırasının
+  üstüne biniyor; 2 sn'lik HUD bildirimi, iş değil.
+- Çekim aracı notu: Bölüm 20'de oyuncu doğrudan tüfek alma noktasına (5100, −225) ışınlanınca `capture_level` askıda
+  kalıyor (bot aynı yeri normal akışla geçiyor). Çekim noktası 5150 yerine 5250 seçilmeli; oyun hatası değil.
+
+**Testler:** Kod değişikliği yok; yalnız günlük. Bot Bölüm 16 ve 20 CLEARED; çekim 10 kare (çıkış 0, SCRIPT ERROR yok).
+Geçici PNG'ler scratchpad'de, commit'e girmedi.
+
+**Durum:** Tur 163'ten bu yana 14. temiz denetim; otonom döngü getirisiz. Otomasyon durdu.
+**Sonraki öneri:** ilerleme insan/cihaz testine bağlı (telefonda Bölüm 30 evrak salonu, Bölüm 9 finali, coin toplama
+oranı, KAY erişimi); insan gözetiminde İ-kerning/apostrof font metriği ve düşman tipi imza-renk atlası. Zamanlanmış
+görevin her 5 dk yerine günlük çalışması boş denetim turlarını azaltır.
+
 ### 2026-11-14 (178) — Denetim: Bölüm 30 (Beylerbeyi İskele Arşivi) — temiz, birikim maddesi yeniden ölçüldü — otomasyon durdu
 
 **Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin kalanı insan/cihaz testine ya da insan
