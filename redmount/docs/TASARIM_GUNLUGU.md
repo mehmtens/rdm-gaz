@@ -110,6 +110,7 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   giriyor, 1–2 yeniden doğma. Can, mangallı sekiler (x≈4250–5050, üç alev) ve yanan arşivde (5250–6250, dört
   alev + 3 düşman) 115 → ~20'ye eriyor; tek can kaynağı arşiv üst katındaki sandık (6150, −230; bot almıyor),
   arada İSKELE ERZAKI büfesi var. İnsan testinde arena ölümü 1'i geçerse arşiv zemin katına (x≈6200) kırılabilir simit.
+  **(Tur 178 yeniden ölçüm, düzeltilmiş sayım):** 18/115 giriş, arena ölümü tam 1 — eşikte, değiştirilmedi.
 
 - (Tur 169) Bölüm 36 galerili ambar arenası (x≈6200–7100, Seçkin+Bıçakçı+Suikastçı → Yüzbaşı+Tüfekli): pres
   hattı düzeltildikten sonra iki koşuda da ilk ölüm burada — bot 5000'deki Seçkin + 1–2 pres vuruşuyla arenaya
@@ -258,6 +259,38 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-14 (178) — Denetim: Bölüm 30 (Beylerbeyi İskele Arşivi) — temiz, birikim maddesi yeniden ölçüldü — otomasyon durdu
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1'ler kapalı; birikimin kalanı insan/cihaz testine ya da insan
+gözetimli font/atlas işine bağlı. Bölüm 30'un son başlıklı denetimi tur 136'daydı (kampanyadaki en eski) ve o turun
+"evrak salonu arenası 1–2 yeniden doğma" verisi tur 154'te düzeltilen çift sayım hatasından önce toplanmıştı —
+birikim maddesinin eşiği ("arena ölümü 1'i geçerse simit") doğru sayımla yeniden ölçülmeliydi.
+
+**Yöntem:** Başsız bot (`bolum_play`, Bölüm 30) + pencereli 1280×720 altı nokta çekim (`capture_level.tscn`: yalı
+sokağı balkonları / iskele kanalı / mangallı sekiler / yanan arşiv üç katı / evrak salonu / kasa koridoru); kareler
+Read ile incelendi, `bolum30.gd` düzeni baştan sona okundu.
+
+**Bulgular:** Bot CLEARED (77,4 sn, **1 ölüm** — düzeltilmiş sayımla). Can eğrisi tur 136 ile aynı biçimde: 115 →
+97 (iskele kalkanlı+bombacı) → 73 (sekiler, üç mangal) → 42 (yanan arşiv, dört alev + Seçkin/Bıçakçı/Tüfekli) →
+evrak salonu arenasına 18/115 ile giriş, ilk dalgada tek ölüm (x≈7190), sonra kasa koridoru ve son arena (takılma
+9 sn @x≈9599) ölümsüz. Eski "1–2 yeniden doğma" çift sayımın ürünüymüş; gerçek değer eşikte (1), aşmıyor →
+birikim maddesi açık bırakıldı, denge değiştirilmedi (arada İSKELE ERZAKI büfesi ve arşiv üst katında can sandığı
+var; bot ikisini de kullanmıyor, insan kullanacak — Bölüm 9 kantini ile aynı karar). Ritim DTM kalıbında: sahil
+kavgası → balkon basamaklı üst rota (zırh + coin) → kanal paleti (nefes) → mangal sekileri (zamanlama tehlikesi,
+tabanca rotası) → üç katlı yanan arşiv (katmanlı dövüş) → büfe (nefes) → galerili arena → kırılan kasa → son arena.
+Karelerde saray bahçesi, raflı arşiv, galeri iskeleleri, mangal alevleri ve sandıklar ChatGPT gece atlasıyla aynı
+mor-lacivert gölge + sıcak fener tonunda; yapıştırılmış duran öğe yok. İç karelerde kalan açılış telsizi ve ışınlanan
+oyuncunun alev üstünde durması çekim artefaktı.
+
+**Testler:** Kod değişikliği yok; yalnız günlük. Bot Bölüm 30 CLEARED; çekim ×6 (çıkış 0, SCRIPT ERROR yok). Geçici
+PNG'ler scratchpad'de, commit'e girmedi.
+
+**Durum:** Tur 163'ten bu yana 13. temiz denetim; otonom döngü getirisiz. Otomasyon durdu.
+**Sonraki öneri:** ilerleme insan/cihaz testine bağlı — telefonda Bölüm 30 evrak salonu (18/115 giriş, büfe
+kullanılıyor mu?), Bölüm 9 finali, coin toplama oranı, KAY erişimi; insan gözetiminde İ-kerning/apostrof font metriği
+ve düşman tipi imza-renk atlası. Zamanlanmış görevin aralığını seyreltmek (her 5 dk yerine günlük) boş denetim
+turlarını azaltır.
 
 ### 2026-11-14 (177) — Denetim: Bölüm 9 (Zırhlı Üs) — temiz, yeni iş yok — otomasyon durdu
 
