@@ -260,6 +260,27 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-15 (186) — Denetim: Bölüm 7 (tur 158) ve 28 (tur 150) — temiz, yeni iş yok — otomasyon durdu
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Öncelik d):
+tur 185'in önerdiği aday Bölüm 7 ve son ölçümü en eski kalan Bölüm 28; ikisi de tur 182 ağır çekim düzeltmesinden
+sonra ölçülmemişti.
+
+**Ölçüm (tek başsız koşu, `--fixed-fps 60`):**
+- Bölüm 7: CLEARED 102,2 sn, 1 ölüm (x≈6000, dökümhane arenası çıkışı; can 9 → ölüm), en uzun takılma 20 sn @5820.
+  Birikimdeki "dökümhane arenası 2 yeniden doğma" çift sayımlı eski veriydi; düzeltilmiş sayaçla 1 — eşikte, değişmedi.
+- Bölüm 28: CLEARED 97,9 sn, 0 ölüm, takılma 13 sn @9725; final arenasında 46 → 1 can (birikimdeki "son arenaya düşük
+  canla varış" eğrisiyle aynı yön). Ölüm yok → denge insan testine bağlı kaldı.
+
+**Görsel (pencereli `capture_level`, Bölüm 28, 3 nokta):** iskele kasaları, kiremitli ev, çizgili tente ve şerit makinesi
+salonunun arena kafesi ChatGPT arka planıyla aynı ışık ve tonda; bölüm kartı "KİTAP 3 · BÖLÜM 4 / ÜSKÜDAR YEDEK HATTI /
+İSTANBUL'UN SESİ" doğru büyük harf ve kesme işaretiyle. Yeni stil işi yok.
+
+**Testler:** kod değişikliği yok; bot Bölüm 7 ve 28 CLEARED; pencereli çekim çıkış 0. Geçici PNG'ler scratchpad'de.
+**Durum:** otonom tarafta açık iş yok. Otomasyon durdu.
+**Sonraki öneri:** insan/cihaz testi (birikim: Bölüm 7 dökümhane ve Bölüm 10 son arena ölümü, Bölüm 28 final can eğrisi,
+coin oranı, KAY düğmesi yeri).
+
 ### 2026-11-14 (185) — Denetim: Bölüm 10 ve 33 (tur 154 / 152 adayları) — temiz, yeni iş yok — otomasyon durdu
 
 **Neden şimdi:** Stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Öncelik d):
