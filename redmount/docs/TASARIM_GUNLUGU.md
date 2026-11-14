@@ -260,6 +260,37 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-15 (187) — Denetim: Bölüm 17 ve 32 → uzak katman kameradan geri kalıyordu, yeniden doğmada kamera kayıyordu
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Öncelik d):
+son başlıklı denetimi en eski (tur 165) iki bölüm.
+
+**Ölçüm (tek başsız koşu, `--fixed-fps 60`):** Bölüm 17 CLEARED 85,3 sn, 0 ölüm, takılma 13 sn @2853. Bölüm 32 CLEARED
+73,6 sn, 0 ölüm, takılma 7 sn @4037. İkisi de temiz.
+
+**Bulgu (pencereli `capture_level`, Bölüm 32 x≈9200):** sinematik sırasında ekranın sol ~%35'i ChatGPT resmi yerine düz
+koyu gri vinyetti. Neden ikiliydi: (1) `_Sky` uzak katmanı `_process`'te kameranın ekran merkezine oturuyor ama kameradan
+ÖNCE işleniyordu → kamera hızlı kayınca resim bir kare geride, ±760 px'lik şerit ekranı örtmüyor; (2) yeniden doğmada
+(`main._respawn_player`) kamera yumuşatması sıfırlanmıyordu → kamera ölüm noktasından kontrol noktasına binlerce piksel
+kayarak dönüyordu (test: 5200 px geri dönüşte 2 kare sonra 3720 px uzakta). Oyuncu hissi: ölünce bölüm ekranda hızla geri
+sarıyor, kenarda bir an gri boşluk; DTM'de kamera kontrol noktasına keser.
+
+**Yapılanlar:**
+- `dtm_level.gd`: `CAMERA_FOLLOW_PRIORITY = 1000`; `_Sky` ve `_BackRow` kameradan sonra işlenir. `_Sky` ayrıca
+  `RenderingServer.frame_pre_draw`'da kameraya yeniden oturur (sinematik kamerası tween ile kayıyor, tween'ler düğümlerden
+  sonra işlenir; atlanan pan tek karede sıçrıyordu).
+- `main.gd` `_respawn_player`: kamera ofseti sıfır + `reset_smoothing()` → kontrol noktasına kesme.
+- Yeni `tests/sky_follow.tscn`: kare başına 300 px kayan kamerada uzak katman farkı < 1 px (başsızda sinematik kareleri
+  hariç, pencerelide hepsi) ve yeniden doğmada kamera-oyuncu farkı < 200 px. Düzeltme öncesi 100 px / 3720 px → FAIL;
+  sonrası 0 px / 0,5 px → PASS (başsız 2 kez + pencereli 1 kez). Hikâye sahneleri test içinde atlatılır (yoksa sahne
+  kamerası devralıp sonucu kararsız yapıyordu).
+
+**Testler:** `--import` hatasız; `campaign_smoke` çıkış 0; `dtm_gaps` PASS; `sky_follow` PASS; bot Bölüm 1 (86,1 sn),
+13 (78,9 sn), 25 (91,2 sn), 32 (75,0 sn) CLEARED; Bölüm 10 (1 yeniden doğma, kesmeyle) CLEARED 119,2 sn. Pencereli yeniden
+çekimde Bölüm 32 x≈9200 sinematiği baştan sona resimle dolu.
+
+**Sonraki öneri:** insan/cihaz testi (birikim); denetim için sıradaki en eski adaylar Bölüm 21 ve 22 (tur 166).
+
 ### 2026-11-15 (186) — Denetim: Bölüm 7 (tur 158) ve 28 (tur 150) — temiz, yeni iş yok — otomasyon durdu
 
 **Neden şimdi:** Stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Öncelik d):

@@ -118,6 +118,10 @@ const CRUSHER := preload("res://scenes/systems/Crusher.tscn")
 const FLAME := preload("res://scenes/systems/FlameVent.tscn")
 
 
+## Kamerayı izleyen katmanların işlem önceliği: kamera (ve onu taşıyan oyuncu) güncellendikten
+## sonra çalışsınlar ki aynı karenin kamera merkezini okusunlar.
+const CAMERA_FOLLOW_PRIORITY := 1000
+
 ## Uzak katman: atlas + [hücre, başlangıç x] listesi; ton ve alt gölge rengi.
 var sky_atlas: Texture2D = preload("res://assets/backgrounds/book02_suleymaniye_streets_atlas.png")
 var sky_cells: Array = [[0, -100000.0]]
@@ -1742,6 +1746,13 @@ class _Sky extends Node2D:
 		z_as_relative = false
 		process_mode = Node.PROCESS_MODE_ALWAYS
 		texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		# Kameradan SONRA işlensin: önce işlenince kameranın bir önceki karesindeki
+		# merkezine oturuyordu; hızlı kaymada (yeniden doğma, sinematik) ekranın kenarı
+		# resimsiz gri bant kalıyordu (tur 187, Bölüm 32).
+		process_priority = CAMERA_FOLLOW_PRIORITY
+		# Hikâye sahnesi kamerası tween ile kayar; tween'ler düğümlerden sonra işlenir.
+		# Çizimden hemen önce bir kez daha kameraya otur (atlanan pan tek karede sıçrar).
+		RenderingServer.frame_pre_draw.connect(_snap_to_camera)
 
 	func _process(_delta: float) -> void:
 		# Her kare güncel kamerayı izle (hikâye sahnesi kendi kamerasıyla oynar).
@@ -1751,6 +1762,17 @@ class _Sky extends Node2D:
 		global_position = _camera.get_screen_center_position()
 		_advance(_delta)
 		queue_redraw()
+
+	func _snap_to_camera() -> void:
+		if not is_inside_tree():
+			return
+		var cam := get_viewport().get_camera_2d()
+		if cam != null:
+			global_position = cam.get_screen_center_position()
+
+	func _exit_tree() -> void:
+		if RenderingServer.frame_pre_draw.is_connected(_snap_to_camera):
+			RenderingServer.frame_pre_draw.disconnect(_snap_to_camera)
 
 	## Kameranın bulunduğu hücre: sınırın SKY_BLEND/2 öncesinden itibaren sonraki hücre;
 	## geriye ise SKY_HYST kadar daha geride.
@@ -1846,6 +1868,7 @@ class _BackRow extends Node2D:
 		process_mode = Node.PROCESS_MODE_ALWAYS
 		texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 		modulate = level.back_tint
+		process_priority = CAMERA_FOLLOW_PRIORITY
 
 	func _process(_delta: float) -> void:
 		# Her kare güncel kamerayı izle (hikâye sahnesi kendi kamerasıyla oynar).

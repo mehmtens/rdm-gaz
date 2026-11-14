@@ -537,6 +537,13 @@ func _respawn_player() -> void:
 			_player.global_position = Vector2(arena.gate_left_x + 100.0, arena.floor_y - 40.0)
 			break
 	_player.revive()
+	# Kamera kontrol noktasına KESER (Dan the Man gibi): yumuşatma açıkken ölüm noktasından
+	# binlerce piksel kayarak dönüyor, yol boyu bölümü hızla geçirip uzak katmanı
+	# zorluyordu (tur 187, Bölüm 32: 5200 px geri kayış).
+	var cam := _player.get_node_or_null(^"Camera2D") as Camera2D
+	if cam != null:
+		cam.offset = Vector2.ZERO
+		cam.reset_smoothing()
 	_hud.hide_death()
 
 
