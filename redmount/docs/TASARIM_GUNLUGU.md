@@ -260,6 +260,29 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-14 (184) — Denetim: Bölüm 3 ve 15 (en eski başlıklı denetimler, tur 156) — temiz, yeni iş yok — otomasyon durdu
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Öncelik d):
+başlıklı son denetimi en eski kalan iki bölüm (tur 156) seçildi; tur 182 ağır çekim düzeltmesinden sonra ölçülmemişlerdi.
+
+**Ölçüm (tek koşu, `--fixed-fps 60`):**
+- Bölüm 3: CLEARED 72,0 sn (başsız), 0 ölüm, en uzun takılma 9 sn @5139 (tur 156: 67,9 sn, 8 sn @5145 — tutarlı).
+- Bölüm 15: CLEARED 91,5 sn (pencereli), 0 ölüm, en uzun takılma 12 sn @4704 (tur 156: 93,6 sn, 12 sn @4701). Can eğrisi
+  115 → 78 (x≈8340) → 23 (son arena) — zirve finalde, doğru yön.
+
+**Görsel (pencereli `capture_level`, 6 nokta):** Zeyrek erzak büfesi, çeşme/su kemeri, kanal sandıkları, sarnıç sütunları,
+coinli kuyu ve "SÜLEYMANİYE YOLU" kapısı ChatGPT arka planıyla aynı ton ve ışıkta; bölüm kartı "KİTAP 2 · BÖLÜM 3 / ZEYREK SU
+HATTI / HALİÇ'İN İZİ" doğru Türkçe büyük harf ve kesme işaretiyle. Gazelle telsiz şeridinin noktalar arasında kalması ışınlanan
+çekimden. Yeni stil işi yok.
+
+**Ölçüm aracı notu:** pencereli `bolum_play` koşusunda `REDMOUNT_SNAP_DIR` kareleri ilk kareden sonra donuk kaldı (HUD 105
+canda sabit, günlükte can 23'e iniyor) — pencere arka planda/örtülüyken görüntü dokusu yenilenmiyor; oyun değil araç davranışı.
+Görsel denetimde `capture_level` kullanılsın.
+
+**Testler:** kod değişikliği yok; bot Bölüm 3 ve 15 CLEARED; pencereli çekim çıkış 0. Geçici PNG'ler scratchpad'de.
+**Durum:** otonom tarafta açık iş yok; birikim insan/cihaz testine ya da insan yargısına bağlı. Otomasyon durdu.
+**Sonraki öneri:** insan/cihaz testi (birikim); sıradaki denetim adayları Bölüm 10 (tur 154), 33 (tur 152), 7 (tur 158).
+
 ### 2026-11-14 (183) — Ölçüm: ağır çekim düzeltmesinden sonra ölümlü bölümler (6, 11, 30, 31) — eşik altı, otomasyon durdu
 
 **Neden şimdi:** Tur 182'deki `slowmo` hatası, botun ilk ölümünden sonraki her şeyi ×0,45 hızda oynatıyordu; birikimdeki
