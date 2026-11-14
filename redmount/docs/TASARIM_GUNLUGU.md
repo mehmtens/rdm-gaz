@@ -260,6 +260,34 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-14 (182) — Denetim: Bölüm 36 ve 26 → ölümden sonra oyun ağır çekimde kalıyordu (`Combat.slowmo` bitişi)
+
+**Neden şimdi:** Yol haritası, stil listesi ve OYNANIS-KALITE P1 kapalı; birikimin kalanı insan testine bağlı. Başlıklı son
+denetimi en eski iki bölüm seçildi: Bölüm 36 (tur 134/169) ve Bölüm 26 (tur 149).
+
+**Bulgu (gerçek hata):** Bölüm 36 bot koşusu TIMEOUT verdi — x≈10976'daki kule tüfekçisine ölüp 9850 kontrol noktasında
+doğduktan sonra 780 sn boyunca 500 kez dikenli çukura (x 10300–10460) düştü. Kare-kare izle yeniden üretildi: gerçek ölüm
+yolundan (`apply_hit` → teatral ölüm `Combat.slowmo(0.45, 0.55)`) sonra `Engine.time_scale` kalıcı olarak 0,45'te kalıyor.
+Kök neden: `slowmo()` bitişi oyun zamanlayıcısıyla bekliyor ama sonra `Time.get_ticks_msec() >= _slow_until_ms` diye duvar
+saatine bakıyordu. Zamanlayıcı kare deltalarının toplamıyla dolar; duvar saati birkaç ms bile geride kalırsa (headless hızlı
+koşuda her zaman; telefonda delta yumuşatma / kare takılmasında ara sıra) koşul tutmuyor, ölçek bir sonraki hitstop'a kadar
+geri gelmiyordu. Oyuncu açısından: ölümden sonra her şey yarı hızda, zıplama/atılma "ağır" — çukur ve dövüş tutarsız.
+
+**Düzeltme (`scripts/systems/combat.gd`):** bitiş nesil sayacıyla (`_slow_gen`) belirleniyor; yalnız en son `slowmo()`
+çağrısının zamanlayıcısı ağır çekimi bitirir (`_slow_active`), hitstop dönüşü de duvar saatine değil `_slow_active`'e
+bakıyor. Süreler değişmedi (0,45 × 0,55 sn).
+
+**Bölüm 26:** CLEARED 82,0 sn, 0 ölüm, en düşük can 10 (x≈8568, kısa takılma 11 sn). Temiz.
+
+**Testler:** derleme (SCRIPT ERROR 0); yeni `tests/slowmo_bitis.tscn` (`--fixed-fps 60`) PASS — eski kodda 4 denetimden
+4'ü düşüyordu; campaign_smoke çıkış 0; DTM GAPS: PASS; bot Bölüm 1 (81,3 sn), 13 (76,5), 25 (80,8), 36 (169,5) CLEARED;
+zorlanmış ölüm senaryosunda (x>10700'de öldür, 9850'de doğ) ölçek 1,00 ve çukur geçiliyor. Kod/görsel değişiklik olmadığı
+için ekran görüntüsü alınmadı.
+
+**Not:** Tur 154 öncesi ve bu tura kadar ölüm sonrası bot verileri (ölümden sonraki süre, ikinci ölüm yerleri) ağır
+çekimle bozulmuş olabilir — birikimdeki "N ölüm" ölçümleri ölümden sonraki bölümler için iyimser değil kötümser.
+**Sonraki öneri:** bir sonraki denetimde ölümlü koşusu olan bölümler (6, 11, 30, 31, 36) yeniden ölçülsün.
+
 ### 2026-11-14 (181) — Denetim: Bölüm 4 (Silah Deposu) ve 12 (İç Kale / Karahanlı) — temiz, yeni iş yok — otomasyon durdu
 
 **Neden şimdi:** Tur 180'den sonra başlıklı son denetimi en eski kalan iki bölüm (tur 147). Tur 148 düzeltmesinden sonra

@@ -53,22 +53,34 @@ func _run_hitstop() -> void:
 		await get_tree().create_timer(0.02, true, false, true).timeout
 	# Önceki ölçeğe değil, şu anki hedefe dön: ağır çekim bittiyse 1.0. (Eskiden
 	# ağır çekim sırasında başlayan donma 0.45'i geri yükleyip oyunu yavaş bırakıyordu.)
-	Engine.time_scale = _slow_scale if Time.get_ticks_msec() < _slow_until_ms else 1.0
+	Engine.time_scale = _slow_scale if _slow_active else 1.0
 	_hitstop_running = false
 
 
-var _slow_until_ms := 0
+var _slow_active := false
 var _slow_scale := 1.0
+## Her slowmo() çağrısı artırır; yalnız en son çağrının zamanlayıcısı ağır çekimi bitirir.
+var _slow_gen := 0
 
 
 ## Kısa ağır çekim (ölüm gibi teatral anlar). Gerçek zamanla biter.
+## Bitiş, zamanlayıcının kendisiyle (nesil sayacı) belirlenir; duvar saatiyle
+## (Time.get_ticks_msec) karşılaştırılmaz. Eskiden zamanlayıcı delta toplamıyla
+## dolup duvar saati birkaç ms geride kalınca (delta yumuşatma, kare takılması,
+## headless hızlı koşu) bitiş koşulu tutmuyor, oyun bir sonraki vuruşa kadar
+## ×0,45 ağır çekimde kalıyordu (tur 182, Bölüm 36 bot takılması).
 func slowmo(scale: float, seconds: float) -> void:
-	_slow_until_ms = Time.get_ticks_msec() + int(seconds * 1000.0)
+	_slow_gen += 1
+	var gen := _slow_gen
+	_slow_active = true
 	_slow_scale = scale
 	if not _hitstop_running:
 		Engine.time_scale = scale
 	await get_tree().create_timer(seconds, true, false, true).timeout
-	if Time.get_ticks_msec() >= _slow_until_ms and not _hitstop_running:
+	if gen != _slow_gen:
+		return
+	_slow_active = false
+	if not _hitstop_running:
 		Engine.time_scale = 1.0
 
 
