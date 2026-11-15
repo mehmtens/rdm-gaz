@@ -1922,9 +1922,11 @@ def make_kule_ayak(rnd):
     for i in range(h):
         t = i / (h - 1)
         for xx in (int(4 + t * 31), int(35 - t * 31)):
-            for d in (0, 1):
+            # 4 px çizilir: dış iki piksel outline_sides ile kontura döner, iç ikisi
+            # (ışıklı üst yüz + gölge) renkli kalır; aksi hâlde kuşak düz siyah çizgi olur.
+            for d in (-1, 0, 1, 2):
                 if 4 <= xx + d <= 35:
-                    px[xx + d, i] = pick(STEEL, 0.4 if d == 0 else 0.15, rnd, 0.2) + (255,)
+                    px[xx + d, i] = pick(STEEL, 0.62 if d == 0 else 0.32, rnd, 0.2) + (255,)
     for x in range(4, 36):
         px[x, 0] = pick(STEEL, 0.55, rnd, 0.2) + (255,)
         px[x, 1] = STEEL[1] + (255,)

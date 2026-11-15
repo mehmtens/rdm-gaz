@@ -262,6 +262,26 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-15 (196) — Kontur-yeme taraması: gözetleme kulesi ayağının X kuşağı düz siyah çizgiydi
+
+**Neden şimdi:** tur 195'in önerisi — anten sorunu (1 px çubuğu kontur yutuyor) aynı üreticideki başka kafes
+prop'larda var mı, piksel sayımıyla bakıldı (`assets/environment/pixel/*.png`, opak piksellerde (12,7,18) oranı).
+
+**Tarama:** en yüksek oranlar `baca_tas` 0,67 (kasıtlı karanlık baca içi — dokunulmadı), `kiymik`/`catlak` (doğası
+gereği koyu çizgi), `pres_kirisi`/`pres_ayak` 0,57–0,58 (gövde renkli, kontur kalın değil — görselde sorun yok),
+`kule_ayak` 0,55: X kuşağı 2 px çiziliyor, `outline_sides` yatayda boşluğa komşu her pikseli konturladığı için iki
+pikseli de kontura dönüyordu → kuşak düz siyah çizgi.
+
+**Yapılan:** `make_kule_ayak` kuşağı 4 px çiziyor; dış iki piksel konturlanıyor, iç iki piksel ışıklı üst yüz (STEEL
+0,62) + gölge (0,32) olarak kalıyor. Doku boyutu ve yerleşim aynı (`_tower()` 15 yerde).
+
+**Görsel kontrol (1280×720):** Bölüm 4 gözetleme kulesi (x≈2450) — ayak kafesi arka plandaki ChatGPT kulesiyle aynı
+çelik tonunda, kuşak hacimli okunuyor; "ait".
+
+**Testler:** `--import` SCRIPT ERROR yok; `campaign_smoke` çıkış 0; `dtm_gaps` PASS; bot Bölüm 4 CLEARED (112,3 sn,
+1 ölüm — tur 181 ile aynı aralık).
+**Sonraki öneri:** denetim için sıradaki en eski adaylar Bölüm 2 (tur 176) ve 9 (tur 177).
+
 ### 2026-11-15 (195) — Denetim: Bölüm 27 ve 29 → telgraf/radyo anteni düz siyah kafesti, ChatGPT tarzında yeniden çizildi
 
 **Neden şimdi:** Stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Öncelik d):
