@@ -269,6 +269,20 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-15 (203) — Geniş ekran denetimi devamı: bölüm kenarları (21:9) ve tablet (4:3) — temiz, otomasyon durdu
+
+**Neden şimdi:** tur 202'nin önerisi. Gökyüzü düzeltildikten sonra geniş ekranda kalan iki risk: kamera sınırında
+(sol −640, sağ `camera_limit_right`) 1680 px görüşte dünya dışı boşluk ve 1280×960 tablette dikey kapsama.
+
+**Ölçüm:** geçici çekim sahnesiyle Bölüm 1, 6, 13, 21, 25 ve 36'nın sol ve sağ kamera sınırında 1680×720 (12 kare;
+sağda bölüm sonu sinematiği dahil) ve Bölüm 1 / 21 ortası + üst rota 1280×960 (4 kare). Sonuç: hiçbir karede resimsiz
+şerit ya da zeminsiz alan yok; sağ sınırda han kapısı ve zemin ekranın sağ kenarına kadar sürüyor, tablette gökyüzü
+üstü ve zemin altı dolgu ekranı örtüyor. HUD, başlık kartı, telsiz paneli ve sinematik düğmeleri (ATLA / ESC) her iki
+oranda kenarlara oturuyor. Kod değişmedi; geçici çekim dosyaları silindi.
+
+**Sonraki öneri:** otonom yapılabilecek açık iş yok — stil listesi, iki yol haritası ve P1 kapalı, birikim insan/cihaz
+testine bağlı. Telefon APK'sıyla insan testi (20:9 ekranda gökyüzü kenarı, ölüm sayıları, dokunma CSV'si).
+
 ### 2026-11-15 (202) — Geniş ekran denetimi: 20:9/21:9 telefonda gökyüzü resminin iki yanında koyu şerit
 
 **Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikim insan/cihaz testine bağlı; bölüm, menü (tur 200) ve
