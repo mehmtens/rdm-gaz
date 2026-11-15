@@ -269,6 +269,33 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-15 (202) — Geniş ekran denetimi: 20:9/21:9 telefonda gökyüzü resminin iki yanında koyu şerit
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikim insan/cihaz testine bağlı; bölüm, menü (tur 200) ve
+sinematik (tur 201) denetimleri yapıldı. Denetlenmemiş açı: OYUN DÜNYASININ geniş oranlı telefonda görünümü (tur 101/125
+yalnız menü ve HUD'u 1600×720'de taramıştı). `stretch/aspect=expand` olduğu için bugünkü Android telefonların çoğu (20:9,
+2400×1080) 1600×720, 21:9 telefonlar 1680×720 sanal ekran görür. DTM'de arka plan her oranda kenardan kenaradır; bizde
+değilse oyuncu ilk karede "yarım kalmış" bir ekran görür.
+
+**Ölçüm:** `tests/capture_level.tscn` ile Bölüm 1, 13 ve 25 (giriş / x 5000 / x 9000) 1680×720 pencereli çekim. Dokuz
+karenin dokuzunda da ChatGPT mekân resmi (bölüm gökyüzü atlası) ekranın ortasındaki 1520 px'te bitiyor, iki yanda düz
+koyu (27,27,38) şerit — 21:9'da her yanda 80 px, 20:9'da 40 px. Kök neden: `DtmLevel._Sky` resmi kamera merkezine göre
+sabit ±760 px çiziyordu (16:9'da 640 + 120 sarsıntı/öne bakış payı). HUD, arka sıra evler, Backdrop panoraması (±1600)
+ve zemin karartma bantları (±1100) geniş ekranda zaten yeterliydi.
+
+**Yapılan:** `_Sky.half_width()` / `half_for(view_w)`: yarı genişlik = max(760, görünen dünya genişliği/2 + 40). Kaynak
+piksel/ekran pikseli oranı 16:9'dakiyle aynı tutuldu (resim büyümez, yalnız yanlardan daha çok görünür; hücreye sığmazsa
+sıkıştırılır), kaydırma aralığı kalan kaynak payından hesaplanıyor. 16:9'da (yarı genişlik 760) formül eskisiyle birebir
+aynı (k, kayma modülü, perde kenarı). Süpürme perdesi (`_draw_wipe`) de aynı yarı genişliği kullanıyor. Yeni çizim yok.
+
+**Testler:** `--import` hatasız; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn` PASS; yeni `tests/sky_wide.tscn`
+PASS (1280 → ±760, 1560 → ±820, 1600 → ±840, 1680 → ±880, 1920 → ±1000; yakınlaşmada büyümüyor); bot Bölüm 1 (83,5 sn),
+13 (82,3 sn), 25 (84,6 sn) CLEARED. Pencereli çekim: 1680×720'de dokuz karede de şerit yok, resim kenardan kenara; 1280×720
+Bölüm 1 girişi önceki görünümle aynı. Telefonda görülmedi.
+
+**Sonraki öneri:** geniş ekranda dünya kenarı taraması — bölüm başı/sonu kamera sınırında (camera_limit) 1680 px'te
+dünya dışı boşluk görünüyor mu; dar tablet (1280×960) dikey kapsama.
+
 ### 2026-11-15 (201) — Sinematik denetimi: konuşma balonları sinema şeridinin altına / ekran dışına taşıyordu
 
 **Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikim insan/cihaz testine bağlı; iki bot döngüsü ve menü

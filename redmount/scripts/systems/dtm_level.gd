@@ -1730,6 +1730,8 @@ class _Sky extends Node2D:
 	## Süpürme perdesinin yumuşak kenarı (ekran px) ve şerit genişliği.
 	const WIPE_FEATHER := 520.0
 	const WIPE_STRIP := 16.0
+	## 16:9'da resmin ekrandaki yarı genişliği (ekran 640 + 120 pay).
+	const SKY_HALF := 760.0
 	## Geri dönüş payı: arenada kamera sınırın iki yanında gidip gelince resim dövüş
 	## boyunca ileri geri değişmesin; önceki hücreye ancak bu kadar daha geride dönülür.
 	const SKY_HYST := 360.0
@@ -1742,6 +1744,8 @@ class _Sky extends Node2D:
 	var _t := 1.0
 	## Süpürme yönü: +1 ileri (yeni resim sağdan gelir), -1 geri.
 	var _dir := 1
+	## Bu karede resmin yarı genişliği (`half_width`).
+	var _half := SKY_HALF
 
 	func _ready() -> void:
 		z_index = -90
@@ -1818,6 +1822,7 @@ class _Sky extends Node2D:
 			return
 		var cells: Array = level.sky_cells
 		var x := global_position.x
+		_half = half_width()
 		_draw_entry(cells[_from], x, 1.0)
 		if _to != _from:
 			var t := _t * _t * (3.0 - 2.0 * _t)
@@ -1837,25 +1842,49 @@ class _Sky extends Node2D:
 	## ekranın gelinen kenarında, t=1'de öbür kenarın da ötesinde (tamamen örtülü).
 	func _draw_wipe(e: Array, x: float, t: float) -> void:
 		var atlas: Texture2D = e[2] if e.size() > 2 else level.sky_atlas
-		var edge := lerpf(760.0, -760.0 - WIPE_FEATHER, t)
-		var sx := -760.0
-		while sx < 760.0:
+		var edge := lerpf(_half, -_half - WIPE_FEATHER, t)
+		var sx := -_half
+		while sx < _half:
 			var mid := (sx + WIPE_STRIP * 0.5) * float(_dir)
 			var a := clampf((mid - edge) / WIPE_FEATHER, 0.0, 1.0)
 			if a > 0.0:
 				_cell(atlas, int(e[0]), x, a * a * (3.0 - 2.0 * a), sx, sx + WIPE_STRIP)
 			sx += WIPE_STRIP
 
+	## Resmin ekrandaki yarı genişliği: 16:9'da (1280) 760 — eski sabit, kenarda 120 px
+	## sarsıntı/öne bakış payı. Geniş telefonda (20:9 = 1600, 21:9 = 1680 sanal piksel)
+	## görünen yarı genişlik + aynı tür payla büyür; yoksa iki kenarda resimsiz koyu
+	## şerit kalıyordu (tur 202).
+	func half_width() -> float:
+		var w := get_viewport_rect().size.x
+		var cam := get_viewport().get_camera_2d()
+		if cam != null and cam.zoom.x > 0.0:
+			w /= cam.zoom.x
+		return half_for(w)
+
+	## Görünen dünya genişliği `view_w` için yarı genişlik (testten de çağrılır).
+	static func half_for(view_w: float) -> float:
+		return maxf(SKY_HALF, ceilf(view_w * 0.5) + 40.0)
+
 	## [x0, x1]: hedef dikdörtgenin yalnız bu dikey şeridi (süpürme perdesi için).
-	func _cell(atlas: Texture2D, index: int, x: float, alpha: float, x0 := -760.0, x1 := 760.0) -> void:
+	func _cell(atlas: Texture2D, index: int, x: float, alpha: float, x0 := NAN, x1 := NAN) -> void:
+		if is_nan(x0):
+			x0 = -_half
+			x1 = _half
 		var half := atlas.get_size() / float(level.sky_grid)
 		var cell := Vector2(index % 2, index / 2) * half
 		var src_w := half.x * 0.8
-		var scroll := fposmod(x * 0.04, half.x - src_w)
 		var tint: Color = level.sky_tint
-		var k := (src_w - 4.0) / 1520.0
+		## Ekran pikseli başına kaynak pikseli 16:9'daki gibi sabit (resim büyümez,
+		## yalnız yanlardan daha çok görünür); hücreye sığmazsa sıkıştır.
+		var k := (src_w - 4.0) / (SKY_HALF * 2.0)
+		var span := _half * 2.0 * k
+		if span > half.x - 6.0:
+			span = half.x - 6.0
+			k = span / (_half * 2.0)
+		var scroll := fposmod(x * 0.04, maxf(half.x - 4.0 - span, 1.0))
 		draw_texture_rect_region(atlas, Rect2(x0, -560, x1 - x0, 860),
-			Rect2(cell + Vector2(2.0 + scroll + (x0 + 760.0) * k, 2.0), Vector2((x1 - x0) * k, half.y * 0.86)),
+			Rect2(cell + Vector2(2.0 + scroll + (x0 + _half) * k, 2.0), Vector2((x1 - x0) * k, half.y * 0.86)),
 			Color(tint.r, tint.g, tint.b, alpha))
 
 
