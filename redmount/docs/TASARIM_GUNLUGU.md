@@ -262,6 +262,28 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-15 (198) — Denetim: Bölüm 6 (tur 170) ve 31 (tur 175) — eşikte, yeni iş yok — otomasyon durdu
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikim insan/cihaz testine bağlı. Öncelik d): tur 197'nin
+önerdiği en eski iki aday.
+
+**Ölçüm (başsız bot, `--fixed-fps 60`):**
+- Bölüm 6: CLEARED 130,2 sn, 1 ölüm. Can alev koridorunda (x≈1900–2500) 115 → 31, pres salonundan sonra 15; döküm
+  avlusu arenasında (x≈5000–5400, 20 sn takılma) 11'e indi ama ölmedi; ölüm arena sonrası çatı rotasında (x≈6720,
+  y≈−280; 11 → 1 → ölüm). Birikimdeki "avlu arenası ölümü 1'i geçerse simit" maddesiyle aynı erime eğrisi; tek ölüm,
+  eşikte, değiştirilmedi.
+- Bölüm 31: CLEARED 76,5 sn, 1 ölüm — deniz köşkü finali (x≈8840; finale 19 → 9 canla girildi). Tur 164 ile aynı (1 ölüm).
+
+**Görsel (pencereli `capture_level`, 2×3 nokta):** Bölüm 6 haddehane cephesi (alev ızgaraları, kasa yığını, kalkanlı) ve
+avlu sonrası tuğla dam (sandık, coin dizisi, pres bloğu); Bölüm 31 kütüphane rafları/merdiven ve köşk salonu (deniz,
+kayık, patlayıcı varil). Prop'lar ChatGPT arka planıyla aynı ışık ve tonda; bölüm kartı "İSTANBUL'UN SESİ" apostrofu
+düzgün.
+
+**Testler:** kod değişikliği yok; bot Bölüm 6 ve 31 CLEARED; iki pencereli çekim çıkış 0.
+**Durum:** otonom tarafta açık iş yok. Otomasyon durdu.
+**Sonraki öneri:** insan/cihaz testi (birikim: arena giriş canları — özellikle Bölüm 6 avlu sonrası ve Bölüm 31 finali);
+denetim için sıradaki en eski adaylar Bölüm 11 (tur 169) ve 36 (tur 169).
+
 ### 2026-11-15 (197) — Denetim: Bölüm 2 (tur 176) ve 9 (tur 177) — temiz, yeni iş yok — otomasyon durdu
 
 **Neden şimdi:** tur 196'nın önerdiği en eski iki aday; anten/kule düzeltmelerinden sonra sıradaki denetim.
