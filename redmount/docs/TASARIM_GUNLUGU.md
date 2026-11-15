@@ -262,6 +262,32 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-15 (200) — Menü denetimi: mağaza açıklamasında etki sayısı satır sonunda kopuyordu ("+" / "%8")
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikim insan/cihaz testine bağlı; iki bot denetim
+döngüsü yeni iş çıkarmadı (tur 199). Üçüncü bot döngüsü yerine farklı açı: menü/HUD ekranları tur 101'den beri ekran
+görüntüsüyle denetlenmemişti (tur 180'deki "SESSIZ" hatası menü metninden çıkmıştı).
+
+**Ölçüm (pencereli `capture_ui` + `capture_game_ui`, 1280×720, 9 ekran):** ana menü, bölüm seç, ayarlar, mağazanın üç
+sekmesi, oynanış HUD'u + bölüm kartı, duraklat/cep cephaneliği, sonuç kartı. Hata: mağaza kart açıklaması
+(`AUTOWRAP_WORD_SMART`) etki sayısını ortadan bölüyordu — KIZIL DAĞ "Yumruk hasarı +" / "%8", VAPURCU "Azami can" /
+"+10". Oyuncu kostüm seçerken bonusu yanlış okur (satır başında yalnız "%8" kalıyor). Diğer ekranlar temiz: Türkçe büyük
+harf (İ/Ş/Ğ) doğru, apostroflar dar, taşma/çakışma yok.
+
+**Yapılan:** `shop_menu.gd` `_glue_stat()` — açıklamada " +" → bölünmez boşluk (U+00A0, `redmount_pixel.ttf`'de glifi
+var) + "+%" arasına kelime birleştirici (U+2060, sıfır genişlik). Etki sayısı bütün olarak alt satıra iner ("can +10",
+"hasarı +%8"). Veri (`shop.gd`) değişmedi; yalnız gösterim.
+
+**Testler:** `--import` hatasız; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn` PASS; `costumes` ve
+`costume_accessory` PASS; yeni `tests/shop_stat_wrap.tscn` PASS (120–418 px her genişlikte `TextParagraph` satır
+kırması: hiçbir satır "+"/"%" ile başlamıyor; düzeltmesiz metinle 156–164 px'te "kopuk satır" verip düştüğü
+doğrulandı). Mağaza sekmeleri yeniden çekildi: glif kutusu yok, sayı kopmuyor. Bölüm/oynanış kodu değişmediği için bot
+koşusu gerekmedi.
+**Not (değişmedi):** mağazada sekme değişince önceki sekmede altın odak çerçevesi kalıyor (çekim `_select` ile odağı
+taşımıyor; fare/gamepad ile odak zaten seçilen sekmeye gidiyor — insan testinde kontrol). "Kombo hızı … +%6 / hızlı"
+tek kelime yetim satır; okunur, dokunulmadı.
+**Sonraki öneri:** insan/cihaz testi; otonom tarafta açık iş yok.
+
 ### 2026-11-15 (199) — Denetim: Bölüm 20 (tur 179) ve 30 (tur 178) — eşikte, yeni iş yok — ikinci denetim döngüsü tamam — otomasyon durdu
 
 **Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikim insan/cihaz testine bağlı. Öncelik d): tur 180'de

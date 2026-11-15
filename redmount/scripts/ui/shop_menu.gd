@@ -231,7 +231,7 @@ func _card(title: String, desc: String) -> PanelContainer:
 	text.add_theme_constant_override(&"separation", 2)
 	row.add_child(text)
 	text.add_child(_label(PixelText.upper(title), GOLD))
-	var d := _label(desc, CREAM)
+	var d := _label(_glue_stat(desc), CREAM)
 	d.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	text.add_child(d)
 	var right := HBoxContainer.new()
@@ -260,6 +260,13 @@ func _icon(tex: Texture2D) -> TextureRect:
 	r.stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
 	r.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	return r
+
+
+## Etki sayısı ("+%8", "+10") satır sonunda bölünmesin: sayıdan önceki boşluk
+## bölünmez boşluk (fontta var), "+" ile "%" arası kelime birleştirici (sıfır genişlik).
+## Böylece "hasarı +%8" bütün olarak alt satıra iner, "+" / "%8" diye kopmaz.
+static func _glue_stat(desc: String) -> String:
+	return desc.replace(" +", "\u00A0+").replace("+%", "+\u2060%")
 
 
 func _label(text: String, color: Color) -> Label:
