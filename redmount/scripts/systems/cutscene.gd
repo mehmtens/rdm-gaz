@@ -26,6 +26,8 @@ const ELITE_FRAMES := preload("res://resources/anim/elite_guard_frames.tres")
 const BUS := preload("res://assets/environment/mahalle/bus.png")
 const WAGON := preload("res://assets/environment/mahalle/freight_wagon.png")
 
+## Sinema şeridi kalınlığı (sanal ekran pikseli); balonlar bu şeritlerin arasında kalır.
+const LETTERBOX := 78.0
 const SPEAKER_COLORS := {
 	"REDMOUNT": Color(1.0, 0.72, 0.42),
 	"GAZELLE": Color(0.42, 0.9, 0.82),
@@ -499,8 +501,8 @@ func _letterbox(show: bool) -> void:
 		_hint.offset_top = -34.0
 		_bars.add_child(_hint)
 		var t := create_tween().set_parallel(true)
-		t.tween_property(_top, ^"offset_bottom", 78.0, 0.35)
-		t.tween_property(_bottom, ^"offset_top", -78.0, 0.35)
+		t.tween_property(_top, ^"offset_bottom", LETTERBOX, 0.35)
+		t.tween_property(_bottom, ^"offset_top", -LETTERBOX, 0.35)
 		t.tween_property(_skip_btn, ^"modulate:a", 1.0, 0.35)
 	elif _bars != null:
 		_skip_btn.visible = false
@@ -528,6 +530,26 @@ class _Bubble extends Node2D:
 		z_index = 20
 		texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 
+	## Balon (isim şeridi dahil) sinema şeritlerinin arasında ve ekranın içinde kalsın:
+	## çatıda/yüksekte konuşanın balonu üst şeridin altına girip adı kesiliyordu (tur 201).
+	## Ekrandaki taşmayı yerel kaydırmaya çevirir; 3 px'lik piksel ızgarasına oturtur.
+	func _keep_on_screen(local: Rect2) -> Vector2:
+		var xf := get_global_transform_with_canvas()
+		var scr := Rect2(xf * local.position, local.size * xf.get_scale())
+		var vs := get_viewport_rect().size
+		var pad := 8.0
+		var d := Vector2.ZERO
+		if scr.position.x < pad:
+			d.x = pad - scr.position.x
+		elif scr.end.x > vs.x - pad:
+			d.x = vs.x - pad - scr.end.x
+		var top := Cutscene.LETTERBOX + pad
+		var bottom := vs.y - Cutscene.LETTERBOX - pad
+		if scr.position.y < top:
+			d.y = minf(top - scr.position.y, maxf(bottom - scr.end.y, 0.0))
+		var s := xf.get_scale()
+		return Vector2(roundf(d.x / s.x / 3.0) * 3.0, roundf(d.y / s.y / 3.0) * 3.0)
+
 	func reveal(d: float) -> void:
 		_shown = minf(_shown + CPS * d, float(text.length()))
 		queue_redraw()
@@ -546,8 +568,13 @@ class _Bubble extends Node2D:
 		var full_size := font.get_multiline_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, inner, FS)
 		var h := roundf((full_size.y + 66.0) / 3.0) * 3.0
 		var r := Rect2(-W * 0.5, -h - 15.0, W, h)
+		var shift := _keep_on_screen(Rect2(r.position.x, r.position.y - 12.0, W, h + 12.0))
+		r.position += shift
 		draw_style_box(PixelUI.box("balon"), r)
-		draw_texture(TAIL, Vector2(-TAIL.get_width() * 0.5, -18.0))
+		# Kuyruk konuşana bakar: balon yana kaysa da kuyruk balonun içinde kalır, aşağı kayınca onunla iner.
+		var tw := float(TAIL.get_width())
+		var tail_x := clampf(0.0, r.position.x + 24.0 + tw * 0.5, r.end.x - 24.0 - tw * 0.5)
+		draw_texture(TAIL, Vector2(roundf((tail_x - tw * 0.5) / 3.0) * 3.0, -18.0 + shift.y))
 		# İsim şeridi: konuşanın rengiyle boyanmış piksel şerit.
 		var name_w := roundf((font.get_string_size(speaker, HORIZONTAL_ALIGNMENT_LEFT, -1, FS).x + 24.0) / 3.0) * 3.0
 		draw_texture_rect(NAME_STRIP, Rect2(r.position.x + 9.0, r.position.y - 12.0, name_w, 30.0), false, color)

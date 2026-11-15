@@ -257,10 +257,45 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   ortalı olduğu için dışarıda bırakıldı.
 - ~~Sonuç kartı (tur 125 denetimi) dokunmatik düğmeleri~~ **(Tur 160'ta kapandı):** kart zaten "results"
   kipindeydi (oynanış düğmeleri gizli); asıl sorun MENÜ düğmesinin kartı örtmesiydi, düğmeler kartın sağına taşındı.
+- (Tur 201 sinematik denetimi) Kamera dışında konuşanlar: Bölüm 4 kum torbası telsizi (x 3230, TELSİZ), Bölüm 5 makas
+  kulesi (x 3830, DEMİRYOLCU), Bölüm 2 x 6483 (BIÇAKÇI) gibi sahnelerde konuşan aktör kadrajın sağında, ekran dışında
+  kalıyor; tur 201'den beri balon ekrana itiliyor ve kuyruk kenara kenetleniyor (okunur) ama kimin konuştuğu görünmüyor.
+  Sonda verisi: 511 balonun ~80'i yana itiliyor. Çözüm sahne başına `cs.pan()` hedefi ya da aktör konumu — her sahneyi
+  elle izleyip karar vermek gerekir (telsiz/hoparlör gibi "ses" kaynakları için ekran dışı kasıtlı olabilir). Ayrıca
+  pencereli çekimde Bölüm 1 çatı sahnesinde başlık kartı balonla üst üste — çekim ışınlanma artefaktı (gerçek oyunda kart
+  3,6 sn'de kalkar, oyuncu çatıya ~5 sn'de varır); insan testinde hızlı koşucu kartı sahnede görürse kart sahne başında kapansın.
 - KAY düğmesinin yeri gerçek cihazda başparmak erişimiyle doğrulanacak; gerekirse
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-15 (201) — Sinematik denetimi: konuşma balonları sinema şeridinin altına / ekran dışına taşıyordu
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikim insan/cihaz testine bağlı; iki bot döngüsü ve menü
+denetimi (tur 200) bitti. Denetlenmemiş kalan açı: hikâye metni. Diyalog kutusu ve sinematik balonları hiç sistematik
+ölçülmemişti; oyuncunun hikâyeyi okuyamadığı her kare DTM'nin bölüm arası sahnelerindeki netliğin gerisinde kalır.
+
+**Ölçüm:** (1) yeni `tests/dialogue_fit.tscn` — 76 replik (36 bölüm tetiği, bölüm sonu konuşmaları, betik içi sabit
+konuşmalar) tam metinle DialogueBox'a basıldı, masaüstü ve dokunmatik (DEVAM için 100 px dar) genişlikte: taşma yok, kutu
+hep 196 px tasarım boyunda (alt kenar 696/720). (2) Geçici sonda: 36 bölümün bütün sinematikleri atlamalı oynatıldı, 511
+balonun ekran dikdörtgeni ölçüldü → 103'ü sinema şeritlerinin (78 px) arasından taşıyor (48 sağ, 32 sol, 22 üst; 7'si tamamen
+ekran dışı). Atlamalı oynatma konumları kaydırabildiği için gerçek zamanlı pencereli çekimle doğrulandı: Bölüm 1 çatı sahnesi
+(x 1380) REDMOUNT balonu üst şeridin altına girip ad şeridi ve ilk satırın üstü kesiliyor; Gazelle'in minibüs balonu sağ
+kenara yapışık; Bölüm 4 telsiz/Bölüm 5 demiryolcu balonları sağdan ekran dışında (konuşan kameranın dışında duruyor).
+
+**Yapılan:** `cutscene.gd` `_Bubble._keep_on_screen()` — balonun (ad şeridi dahil) ekran dikdörtgeni
+`get_global_transform_with_canvas()` ile hesaplanır, 8 px payla şeritlerin arasına ve ekranın içine itilir, kayma 3 px
+piksel ızgarasına oturtulur. Kuyruk konuşana bakmaya devam eder: yana kayan balonda kuyruk balon kenarına kenetlenir, aşağı
+kayan balonla birlikte iner. Şerit kalınlığı `Cutscene.LETTERBOX` sabitine alındı (tween'ler de onu kullanıyor). Çizim/
+dokular değişmedi; yalnız konum.
+
+**Testler:** `--import` hatasız; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn` PASS; yeni
+`tests/bubble_clamp.tscn` PASS (orta balon kaymıyor; çatı/sol/sağ/köşe balonu şeritlerin arasında, kayma 3'ün katı;
+düzeltme kapatılınca 4 hata verip düştüğü doğrulandı); yeni `tests/dialogue_fit.tscn` PASS; `archive_comic`, `book_comic`
+PASS; bot Bölüm 1 (78,0 sn), 13 (78,5 sn), 25 (78,1 sn) CLEARED. Pencereli gerçek zamanlı çekim (Bölüm 1 çatı/pazar/han,
+Bölüm 2 x9100, Bölüm 4 x3230, Bölüm 5 x3830; 218 + 216 kare): kenar dedektörü (ekran kenarı ve şerit sınırındaki parşömen
+pikseli) önce 14 karede taşma, sonra 0; çatı balonu görüntüde ad şeridiyle tam okunuyor.
+**Sonraki öneri:** birikime yazılan "kamera dışında konuşan" maddesi (insan yargısı: kadraj mı, ses-balonu mu).
 
 ### 2026-11-15 (200) — Menü denetimi: mağaza açıklamasında etki sayısı satır sonunda kopuyordu ("+" / "%8")
 
