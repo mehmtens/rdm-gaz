@@ -262,6 +262,24 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-15 (197) — Denetim: Bölüm 2 (tur 176) ve 9 (tur 177) — temiz, yeni iş yok — otomasyon durdu
+
+**Neden şimdi:** tur 196'nın önerdiği en eski iki aday; anten/kule düzeltmelerinden sonra sıradaki denetim.
+
+**Ölçüm (başsız bot, `--fixed-fps 60`):**
+- Bölüm 2: CLEARED 77,9 sn, 0 ölüm; en düşük can 85 (Kasap Rıza arenası x≈8100–8260, 13 sn takılma — birikimdeki
+  "Rıza arenası 16–17 sn" maddesinin altında).
+- Bölüm 9: CLEARED 117,1 sn, 0 ölüm; can x≈5000–5600 arenasında 109 → 25, finalde (x≈8700–9000) 3'e indi ama ölüm yok.
+
+**Görsel (pencereli `capture_level`, 2×2 nokta):** Bölüm 2 çarşı tenteleri/kasa-çuval yığınları ve iskele finali (kalyon,
+araba tekerleği); Bölüm 9 sur kulesi önü (ahşap platform, kasa) ve kuzey kapısı (parmaklıklı kemer, sancaklar, mangal)
+— prop'lar ChatGPT arka planıyla aynı ışık ve tonda; telsiz metni "Binbaşı'nın" apostrofu düzgün.
+
+**Testler:** kod değişikliği yok; bot Bölüm 2 ve 9 CLEARED; iki pencereli çekim çıkış 0.
+**Durum:** otonom tarafta açık iş yok. Otomasyon durdu.
+**Sonraki öneri:** insan/cihaz testi (birikim: arena giriş canları, Bölüm 27 kablo koridoru/final, Bölüm 35 kışla);
+denetim için sıradaki en eski adaylar Bölüm 6 (tur 170) ve 31 (tur 175).
+
 ### 2026-11-15 (196) — Kontur-yeme taraması: gözetleme kulesi ayağının X kuşağı düz siyah çizgiydi
 
 **Neden şimdi:** tur 195'in önerisi — anten sorunu (1 px çubuğu kontur yutuyor) aynı üreticideki başka kafes
