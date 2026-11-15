@@ -262,6 +262,37 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-15 (195) — Denetim: Bölüm 27 ve 29 → telgraf/radyo anteni düz siyah kafesti, ChatGPT tarzında yeniden çizildi
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Öncelik d):
+tur 194'ün önerdiği en eski adaylar Bölüm 27 (tur 174) ve 29 (tur 175).
+
+**Ölçüm (başsız bot, `--fixed-fps 60`):**
+- Bölüm 27: CLEARED 103,6 sn, 1 ölüm — kablo koridoru arenası (x≈7300; can 37 → 7 → ölüm). Değişiklikten sonraki koşu:
+  CLEARED 91,0 sn, 1 ölüm — bu kez çatı direkleri finalinde (x≈9480; 53 → 4). Birikimdeki "kablo koridoru ve final"
+  maddesiyle aynı iki yer; koşu başına tek ölüm, eşikte, değiştirilmedi.
+- Bölüm 29: CLEARED 91,6 sn, 0 ölüm; en düşük can 47 (x≈8400 depo arenası, 18 sn takılma). Temiz.
+
+**Bulgu (görsel):** Bölüm 27 "TELGRAF HATTI" finalinde iki kafes direk Galata manzarasının önünde düz siyah ızgara gibi
+duruyordu. Ölçüm: `anten.png` (24×96) 500 opak pikselin 465'i kontur rengi (12,7,18) — 1 px'lik çubuklara `outline()`
+uygulanınca her üye kontura dönüşmüş, tur c698388f'deki rampa hiç görünmüyordu; üstüne 4x ölçek ve (0.8,0.8,0.9)
+karartma. Aynı doku Bölüm 28, 33, 34, 36'da da (11 yer).
+
+**Yapılan:** `make_anten` 48×192 (oyunda 2x) olarak yeniden yazıldı: 3 px köşebent bacaklar (sol bacak fener ışığında açık
+yüz, sağ bacak ay kenarı), 2 px çapraz örgü (üst kenar ışıklı), perçinli kuşaklar ve perçin altı pas akıntısı, iki ızgara
+platform + korkuluk, porselen izolatörlü travers (telgraf teli bağlantısı), kırmızı ikaz lambası. Kontur artık üyeyi
+yemiyor, dışa doğru tek piksel. `_antenna()` ölçeği doku genişliğine göre (`scale_f * 24 / genişlik`) — dünya boyu
+aynı; karartma kaldırıldı. 3.0 ölçekli üç yer (Bölüm 27 telgraf binası damı ×2, Bölüm 34 verici sırtı) 1,5x düzensiz
+piksel vermesin diye 4.0'a (2x) çekildi; Bölüm 34 direk tepesindeki 2.0'lık küçük anten 1x kaldı (kuleyi aşmasın).
+
+**Görsel kontrol (1280×720):** Bölüm 27 finali ve damı, Bölüm 34 verici direği, Bölüm 36 — kafes artık ChatGPT
+arka planındaki demir iskelelerle aynı mor-gölge / sıcak-ışık tonunda, hacmi okunuyor; "ait".
+
+**Testler:** `--import` SCRIPT ERROR yok; `campaign_smoke` çıkış 0; `dtm_gaps` PASS; bot Bölüm 27 CLEARED (91,0 sn),
+Bölüm 34 CLEARED (61,7 sn, 0 ölüm). Geçici PNG'ler scratchpad'de.
+**Sonraki öneri:** denetim için sıradaki en eski adaylar Bölüm 2 (tur 176) ve 9 (tur 177); başka 1 px kafes/çubuklu
+prop'ta (`kule_ayak`, `parmaklik`) aynı kontur-yeme sorunu var mı, piksel sayımıyla bakılsın.
+
 ### 2026-11-15 (194) — Denetim: Bölüm 35 (tur 173) ve 23 (tur 174) — temiz, yeni iş yok — otomasyon durdu
 
 **Neden şimdi:** Stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Öncelik d):

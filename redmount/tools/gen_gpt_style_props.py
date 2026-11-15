@@ -1769,46 +1769,138 @@ def make_su_yuzey(rnd):
 
 
 def make_anten(rnd):
-    """Radyo anteni (24×96): incelen çelik kafes direk, çapraz örgü, iki ara platform,
-    tepede kırmızı ikaz lambası. Sol bacak ışıkta, sağ bacak ay kenarında."""
-    w, h = 24, 96
+    """Telgraf/radyo kafes direği (48×192; oyunda 2x): incelen çelik köşebent bacaklar,
+    perçinli kuşaklar, iki kat çapraz örgü, iki ızgara platform + korkuluk, porselen
+    izolatörlü travers, tepede kırmızı ikaz lambası. Sol bacak fener ışığında, sağ bacak
+    ay kenarında; perçin altlarında pas akıntısı. Kontur dışa tek piksel (iç örgü boğulmaz)."""
+    w, h = 48, 192
     img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     px = img.load()
-    cx = 11.5
-    top = 6
+    cx = 23.5
+    top = 14
 
     def half_at(y):
-        return 1.5 + (y - top) / (h - top) * 9.0
+        return 2.5 + (y - top) / (h - 1 - top) * 18.5
 
     def put(x, y, c):
         if 0 <= x < w and 0 <= y < h:
             px[x, y] = c + (255,)
-    for y in range(top, h):
+
+    def legs(y):
         hw_ = half_at(y)
-        lx, rx = int(round(cx - hw_)), int(round(cx + hw_))
-        put(lx, y, pick(STEEL, 0.7, rnd, 0.2))
-        put(rx, y, mix(pick(STEEL, 0.35, rnd, 0.2), MOON, 0.35))
-        # Çapraz örgü: her bölmede X.
-        seg = 8
+        return int(round(cx - hw_)), int(round(cx + hw_))
+
+    # 1) Çapraz örgü (bacakların arkasında kalır): 2 px kalın, üst kenar ışıklı.
+    seg = 18
+    for y in range(top, h - 1):
+        lx, rx = legs(y)
+        k = (y - top) // seg
         t = (y - top) % seg / seg
-        for xx in (int(round(lx + (rx - lx) * t)), int(round(rx - (rx - lx) * t))):
-            put(xx, y, pick(STEEL, 0.3, rnd, 0.3))
-        if (y - top) % seg == 0:
-            for xx in range(lx, rx + 1):
-                put(xx, y, pick(STEEL, 0.45, rnd, 0.2))
-    for py in (34, 62):
-        hw_ = half_at(py) + 2
-        for xx in range(int(cx - hw_), int(cx + hw_) + 1):
-            put(xx, py, pick(STEEL, 0.6, rnd, 0.2))
-            put(xx, py + 1, STEEL[1])
-    # Tepe direği ve ikaz lambası (hâle).
-    for y in range(1, top + 1):
-        put(11, y, STEEL[5])
-        put(12, y, STEEL[3])
-    for dx, dy, c in ((0, 0, RED[7]), (1, 0, RED[5]), (0, 1, RED[4]), (1, 1, RED[3])):
-        put(11 + dx, dy, c)
-    outline(img)
-    px[11, 0] = (255, 190, 150, 255)
+        y0 = top + k * seg
+        y1 = min(h - 1, y0 + seg)
+        a0, b0 = legs(y0)
+        a1, b1 = legs(y1)
+        # sol-üst → sağ-alt ve sağ-üst → sol-alt
+        for x0, x1, warm in ((a0 + 2, b1 - 2, True), (b0 - 2, a1 + 2, False)):
+            xx = int(round(x0 + (x1 - x0) * t))
+            if lx + 2 < xx < rx - 2:
+                base = 0.56 if warm else 0.32
+                put(xx, y, pick(STEEL, base + 0.12, rnd, 0.25))
+                put(xx + (1 if x1 > x0 else -1), y, pick(STEEL, base - 0.14, rnd, 0.25))
+
+    # 2) Kuşaklar: her bölme sınırında iki sıra (üst ışıklı, alt gölgeli).
+    for k in range((h - top) // seg + 1):
+        y = top + k * seg
+        if y >= h - 2:
+            continue
+        lx, rx = legs(y)
+        for xx in range(lx + 1, rx):
+            u = (xx - cx) / max(1.0, rx - lx) * 2.0
+            put(xx, y, pick(STEEL, light(u) * 0.8 + 0.24, rnd, 0.3))
+            put(xx, y + 1, pick(STEEL, 0.12, rnd, 0.2))
+
+    # 3) Köşebent bacaklar: 3 px; dış yüz, sırt, iç yüz.
+    for y in range(top, h):
+        lx, rx = legs(y)
+        g = 1.0 - (y - top) / (h - top) * 0.25  # aşağı indikçe ışık söner
+        put(lx - 1, y, pick(STEEL, 0.94 * g, rnd, 0.3))
+        put(lx, y, pick(STEEL, 0.70 * g, rnd, 0.3))
+        put(lx + 1, y, pick(STEEL, 0.34, rnd, 0.3))
+        put(rx - 1, y, pick(STEEL, 0.16, rnd, 0.2))
+        put(rx, y, pick(STEEL, 0.38, rnd, 0.2))
+        put(rx + 1, y, mix(pick(STEEL, 0.5, rnd, 0.2), MOON, 0.55))
+
+    # 4) Perçinler ve pas akıntısı (bacak-kuşak birleşimleri).
+    for k in range((h - top) // seg + 1):
+        y = top + k * seg
+        if y >= h - 3:
+            continue
+        lx, rx = legs(y)
+        for rxp, lit in ((lx, True), (rx, False)):
+            put(rxp, y, STEEL[7] if lit else STEEL[5])
+            put(rxp, y + 1, STEEL[2])
+            if rnd.random() < 0.6:
+                n = rnd.randint(3, 7)
+                for d in range(2, 2 + n):
+                    if y + d < h:
+                        c = RUST[min(3, max(0, 2 - d // 3))] if lit else RUST[min(1, d // 4)]
+                        put(rxp, y + d, mix(c, STEEL[3], d / (n + 3)))
+
+    # 5) Izgara platformlar + korkuluk.
+    for py in (70, 124):
+        lx, rx = legs(py)
+        x0, x1 = lx - 5, rx + 5
+        for xx in range(x0, x1 + 1):
+            u = (xx - cx) / (x1 - x0) * 2.0
+            put(xx, py, pick(STEEL, light(u) * 0.8 + 0.32, rnd, 0.25))
+            put(xx, py + 1, STEEL[2] if xx % 2 else pick(STEEL, 0.35, rnd, 0.2))
+            put(xx, py + 2, STEEL[1])
+        for xx in (x0, x1, (x0 + x1) // 2):
+            for d in range(1, 7):
+                put(xx, py - d, pick(STEEL, 0.74 if xx < cx else 0.36, rnd, 0.2))
+        for xx in range(x0, x1 + 1):
+            put(xx, py - 6, pick(STEEL, 0.7 if xx < cx else 0.34, rnd, 0.2))
+        put(x1, py - 6, mix(STEEL[4], MOON, 0.5))
+
+    # 6) Travers + porselen izolatörler (tel hattı burada bağlanır).
+    ty = 30
+    lx, rx = legs(ty)
+    for xx in range(lx - 9, rx + 10):
+        u = (xx - cx) / 24.0
+        put(xx, ty, pick(STEEL, light(u) * 0.75 + 0.22, rnd, 0.25))
+        put(xx, ty + 1, STEEL[1])
+    for ix in (lx - 8, lx - 4, rx + 4, rx + 8):
+        for d, v in ((2, 0.9), (3, 0.7), (4, 0.5), (5, 0.3)):
+            c = CREAM[min(4, int(v * 5))]
+            put(ix, ty + d, c if ix < cx else mix(c, MOON, 0.3))
+        put(ix + 1, ty + 3, CREAM[1])
+
+    # 7) Tepe direği ve ikaz lambası.
+    for y in range(4, top + 1):
+        put(23, y, STEEL[6])
+        put(24, y, STEEL[3])
+    for dx in (-1, 0, 1, 2):
+        put(23 + dx, top, STEEL[4])
+    lamp = ((22, 1, RED[2]), (23, 1, RED[6]), (24, 1, RED[4]), (25, 1, RED[2]),
+            (22, 2, RED[3]), (23, 2, RED[7]), (24, 2, RED[5]), (25, 2, RED[2]),
+            (23, 0, RED[3]), (24, 0, RED[2]), (23, 3, STEEL[2]), (24, 3, STEEL[1]))
+    for x, y, c in lamp:
+        put(x, y, c)
+
+    # 8) Dışa doğru tek piksel kontur (iç boşluklara da; örgü çubukları korunur).
+    edge = []
+    for y in range(h):
+        for x in range(w):
+            if px[x, y][3]:
+                continue
+            for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                nx, ny = x + dx, y + dy
+                if 0 <= nx < w and 0 <= ny < h and px[nx, ny][3]:
+                    edge.append((x, y))
+                    break
+    for x, y in edge:
+        px[x, y] = OUTLINE
+    px[23, 1] = (255, 190, 150, 255)
     return img
 
 

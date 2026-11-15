@@ -79,8 +79,8 @@ func _build() -> void:
 	_coin_line(5450, 6, 60, -160)
 	_pickup(HEALTH, 6050, -275)
 	_coin_line(5700, 4, 50, -275)
-	_antenna(5500, -345, 3.0)
-	_antenna(5950, -345, 3.0)
+	_antenna(5500, -345, 4.0)
+	_antenna(5950, -345, 4.0)
 	_coin_line(5600, 5, 60, -395)
 	_story(6200, _sahne_mors)
 

@@ -883,10 +883,12 @@ func _antenna(cx: float, ground := 0.0, scale_f := 4.0) -> void:
 	var s := Sprite2D.new()
 	s.texture = PIX_ANTENNA
 	s.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	s.scale = Vector2(scale_f, scale_f)
-	s.position = Vector2(cx, ground - PIX_ANTENNA.get_height() * scale_f * 0.5)
+	## scale_f eski 24 px'lik dokuya göre dünya boyutudur; doku artık 2 kat çözünürlükte
+	## (48×192, kendi ışık/ton rampasıyla), bu yüzden ölçek yarıya iner ve karartma yok.
+	var k := scale_f * 24.0 / PIX_ANTENNA.get_width()
+	s.scale = Vector2(k, k)
+	s.position = Vector2(cx, ground - PIX_ANTENNA.get_height() * k * 0.5)
 	s.z_index = -9
-	s.modulate = Color(0.8, 0.8, 0.9)
 	add_child(s)
 
 

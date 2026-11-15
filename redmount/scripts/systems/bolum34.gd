@@ -67,7 +67,7 @@ func _build() -> void:
 	# --- 4. Sırt yolu: kuleler, projektörler, antenler ------------------------------
 	var sx := bx + 1150.0
 	_checkpoint(sx, 0)
-	_antenna(sx + 350, 0, 3.0)
+	_antenna(sx + 350, 0, 4.0)
 	_sandbags(sx + 250, 110)
 	_scaffold(sx + 500, -110, 120)
 	_scaffold(sx + 500, -220, 120)
