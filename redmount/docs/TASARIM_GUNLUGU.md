@@ -262,6 +262,32 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-15 (199) — Denetim: Bölüm 20 (tur 179) ve 30 (tur 178) — eşikte, yeni iş yok — ikinci denetim döngüsü tamam — otomasyon durdu
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikim insan/cihaz testine bağlı. Öncelik d): tur 180'de
+başlayan ikinci denetim döngüsünde (1/11, 4/12, 36/26, 3/15, 10/33, 7/28, 17/32, 21/22, 5/34, 8/14, 19/24, 13/25,
+16/18, 35/23, 27/29, 2/9, 6/31) denetlenmemiş kalan son iki bölüm.
+
+**Ölçüm (başsız bot, `--fixed-fps 60`):**
+- Bölüm 20: CLEARED 95,8 sn, 0 ölüm; en düşük can 25 (x≈8180–8420 arenası), final takılması 11 sn @x≈9872 (tur 179:
+  10 sn @9883) — kararlı.
+- Bölüm 30: CLEARED 78,3 sn, 1 ölüm. Evrak salonu arenasına 17/115 ile girildi, ölmeden 11'le çıkıldı; ölüm bu kez
+  son arenada (x≈9600, 1 → ölüm; takılma 9 sn @9608). Tur 178'de ölüm salonun ilk dalgasındaydı — aynı can eğrisi,
+  ölüm yeri bir arena kaymış; toplam 1, birikimdeki "arena ölümü 1'i geçerse simit" eşiğinde. Değiştirilmedi.
+
+**Görsel (pencereli `capture_level`, 2×3 nokta):** Bölüm 20 taş deposu (SAMATYA ERZAKI büfesi, vinç kancası, asılı taş
+blok, sandık/zırh rotası) ve gece su kapısı finali (YENİKAPI çıkışı, ilk yardım çantası rafı); Bölüm 30 iskele
+erzakı/arşiv galerisi (fenerler, kitap rafları, iskele palet platformları) ve deniz köşkü önü final (ÇENGELKÖY çıkışı,
+devrik sandık, patlayıcı varil). Prop'lar ChatGPT arka planıyla aynı mor-lacivert gölge + sıcak fener tonunda;
+yapıştırılmış duran öğe yok. Salon karesindeki yarı saydam ikinci arka plan biome geçiş çapraz solması (tasarım gereği).
+
+**Testler:** kod değişikliği yok; bot Bölüm 20 ve 30 CLEARED; iki pencereli çekim çıkış 0, SCRIPT ERROR yok.
+**Durum:** 36 bölümün ikinci denetim döngüsü tamamlandı; yalnız Bölüm 30'da ölüm yeri değişti, sayı aynı. Otonom tarafta
+açık iş yok. Otomasyon durdu.
+**Sonraki öneri:** insan/cihaz testi (birikim: arena giriş canları — Bölüm 30 son arenası/evrak salonu, Bölüm 6 avlu
+sonrası, Bölüm 31 finali; coin toplama oranı); insan gözetiminde İ-kerning ve düşman imza-renk atlası. Yeni oyuncu verisi
+gelmeden üçüncü bir bot denetim döngüsü getirisiz; zamanlanmış görevin aralığını seyreltmek önerilir.
+
 ### 2026-11-15 (198) — Denetim: Bölüm 6 (tur 170) ve 31 (tur 175) — eşikte, yeni iş yok — otomasyon durdu
 
 **Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikim insan/cihaz testine bağlı. Öncelik d): tur 197'nin
