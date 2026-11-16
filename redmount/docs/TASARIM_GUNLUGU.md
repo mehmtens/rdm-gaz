@@ -8,9 +8,8 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
 - ~~(Tur 205, Bölüm 20 x≈6510) Duyuru alt satırı plakasız~~ **(Tur 206'da yapıldı):** `panel_hud` piksel plaka, metne oturan genişlik.
-- (Tur 205, Bölüm 30 x≈2070) Sıcak ışıklı cephe önündeki dam sırrında altın rulo + coinler yanan pencerelerle aynı tonda;
-  uzaktan zor seçiliyor. Rulonun arkasına ay ışığı tonunda (soğuk) 1 piksellik kenar parlaması / hale — ölçü: rulo
-  çevresi 40 px'te ortalama ton farkı, 108 rulonun kaçı sıcak zemin üstünde.
+- ~~(Tur 205, Bölüm 30 x≈2070) Rulo kontrastı~~ **(Tur 207'de yeniden teşhis edildi ve yapıldı):** yakın bakışta sorun ton değil
+  yığılmaydı — coin dizisinin ortadaki coin'i rulonun altına giriyordu (108'in 84'ü); rulo artık coin'lerin üstünde.
 - (Tur 205) Dam sırlarının hepsi aynı kalıp (sandık + üstte rulo + iki yanda coin); Bölüm 3, 20, 30 karelerinde birebir
   aynı dizilim — DTM'de sırlar mekâna özgü. Orta maliyet: bölüm temasına göre 2–3 dizilim (çamaşır ipi, kuş evi, tente üstü).
 - (Tur 205, Bölüm 11 x≈5560 y≈−210) Gizli hanın damında kaynağı belirsiz koyu yeşil leke (yaprak/düşmüş nesne?) —
@@ -278,6 +277,31 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-17 (207) — Gizli alan rulosu coin'lerin üstüne binmiyor (108 rulonun 84'ü)
+
+**Neden şimdi:** birikimin sıradaki maddesi "Bölüm 30 x≈2070 sıcak cephe önünde rulo kontrastı" idi. Kareyi 3x büyütünce
+teşhis değişti: rulo koyu metal, arka plan koyu mavi/kahve — asıl okunmazlık yığılmadan geliyordu. Sır dizilimindeki
+(`_roof_secrets`, `_secret_han`, mahzen) coin dizisinin ortadaki coin'i rulonun alt yarısına giriyor, rulo + coin + zırh tek
+bir karışık leke gibi okunuyordu. `_SecretZone._clear_rewards` kırılır kap ve pikapları zaten engel sayıyordu ama
+coin'leri bilerek dışarıda bırakmıştı ("dizi rulonun yanında kalabilir").
+
+**Ölçüm:** geçici sonda 36 bölümde 108 rulonun **84'ünün** bir coin'le kesiştiğini buldu (her bölümün mahzeni, han ve dam
+sırlarının çoğu). Coin dışı çakışma yok.
+
+**Oyuncu ne hissedecek:** film rulosu sırrın üstünde tek başına süzülür, coin dizisi altında düz bir sıra — "en değerli şey
+bu" hiyerarşisi okunur; toplarken coin ile rulo aynı anda patlamaz.
+
+**Yapılan:** `DtmLevel._SecretZone.reward_rect` coin için 32×32 kutu döndürüyor (60 px aralıklı yan coin'ler rulo kutusuna
+değmez, yalnız alttaki/ortadaki itilir); rulo mevcut 3 geçişli itme ile coin'in 10 px üstüne çıkıyor. Han içinde rulo en çok
+~20 px yükseliyor (iç mekân tavanı −170, rulo üstü ≈ −148). `tests/secret_roll_clear.gd` başlığı coin'leri de kapsıyor.
+
+**Testler:** `--import` hatasız; `tests/campaign_smoke.gd` çıkış 0 (36); `tests/dtm_gaps.tscn` PASS; `tests/secret_roll_clear.tscn`
+PASS (108 rulo; düzeltmeden önce sonda 84 kesişme); `tests/secret_roll_visible.tscn` PASS; bot Bölüm 1 (80,8 sn), 13 (83,5 sn),
+25 (94,6 sn), 30 (80,9 sn) CLEARED. Pencereli çekim Bölüm 11 hanı (rulo pencerenin önünde, coin'ler cephe arkasında) ve
+Bölüm 30 balkon sırrı (rulo / zırh / sandık dikey sıra, coin'ler rulonun iki yanında ve altında) — ayrık, okunur.
+
+**Sonraki öneri:** birikimin sıradaki maddesi — dam sırlarının tek kalıbı (sandık + rulo + coin her bölümde aynı dizilim).
 
 ### 2026-11-17 (206) — Film rulosu / yer duyurusunun alt satırı piksel plakada; duyurudaki boş satır giderildi
 

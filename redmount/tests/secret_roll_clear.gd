@@ -1,6 +1,6 @@
 ## Gizli alan film rulosu ödülü örtmemeli (3 Kasım oyun testi: ödül görünür olmalı).
-## 36 bölümde her rulonun dikdörtgeni, aynı bölümdeki kırılır kap ve coin dışı pikaplarla
-## kesişmez.
+## 36 bölümde her rulonun dikdörtgeni, aynı bölümdeki kırılır kap, pikap ve coin'lerle
+## kesişmez (tur 207: coin dizisinin ortadaki coin'i 108 rulonun 84'ünün altına giriyordu).
 ##
 ##  godot --headless --path . res://tests/secret_roll_clear.tscn
 extends Node

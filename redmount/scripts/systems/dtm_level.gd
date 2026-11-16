@@ -2181,12 +2181,16 @@ class _SecretZone extends Area2D:
 		if _roll != null:
 			_roll.position = roll_at
 
-	## Ödül nesnesinin (kırılır kap ya da coin dışı pikap) kaba görsel dikdörtgeni; değilse boş.
+	## Ödül nesnesinin (kırılır kap, pikap ya da coin) kaba görsel dikdörtgeni; değilse boş.
 	static func reward_rect(n: Node) -> Rect2:
 		if n is BreakableProp:
 			var sz: Vector2 = n._size()
 			return Rect2(n.global_position - Vector2(sz.x * 0.5, sz.y), sz)
-		if n is PickupBase and n.kind != "coin":  # coin dizisi rulonun yanında kalabilir
+		## Coin dizisi rulonun yanında kalabilir (60 px aralık rulo kutusuna değmez) ama dizinin
+		## ortadaki coin'i rulonun altına giriyordu (tur 207: 108 rulonun 84'ü); o da engel.
+		if n is PickupBase and n.kind == "coin":
+			return Rect2(n.global_position - Vector2(16, 16), Vector2(32, 32))
+		if n is PickupBase:
 			return Rect2(n.global_position - Vector2(24, 30), Vector2(48, 48))
 		return Rect2()
 
