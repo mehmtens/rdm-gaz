@@ -11,9 +11,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 - ~~(Tur 205, Bölüm 30 x≈2070) Rulo kontrastı~~ **(Tur 207'de yeniden teşhis edildi ve yapıldı):** yakın bakışta sorun ton değil
   yığılmaydı — coin dizisinin ortadaki coin'i rulonun altına giriyordu (108'in 84'ü); rulo artık coin'lerin üstünde.
 - ~~(Tur 205) Dam sırlarının tek kalıbı~~ **(Tur 208'de yapıldı):** üç dizilim (sandık / çarşı yığını / hurda köşesi), mevcut süslerle.
-- (Tur 205, Bölüm 11 x≈5560 y≈−210) Gizli hanın damında kaynağı belirsiz koyu yeşil leke (yaprak/düşmüş nesne?) —
-  ne olduğu bulunup ya kaldırılmalı ya da okunur bir süse çevrilmeli.
-
+- ~~(Tur 205, Bölüm 11 dam lekesi)~~ **(Tur 209'da kapandı):** kalıcı değil — aynı konumdan yeniden çekimde dam boş,
+  statik ve çalışma anı düğüm taramasında o noktada nesne yok; geçici (fırlatılan/düşen) bir nesneydi.
 - **(Tur 154) Ölçüm uyarısı:** Tur 154 öncesi bot koşularındaki "N yeniden doğma" verisinde dövüş ölümleri iki kez
   sayılıyordu (`_autoplay.gd` geri ışınlanmayı düşme sanıyordu). Aşağıdaki bölüm maddelerinde ölüm sayılarını
   yaklaşık ikiye bölün; Bölüm 10 son arenası gerçekte koşu başına 1 ölüm.
@@ -276,6 +275,27 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-17 (209) — Ritim denetimi: arena sonrası nefes, boş şeritler, can kaynakları — temiz, otomasyon durdu
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; tur 205–208 birikim maddelerini bitirdi. Tur 204'ün önerdiği
+denetlenmemiş ikinci açı: bölüm ortası nefes noktaları (DTM ritmi: geçiş → dövüş → nefes → meydan okuma).
+
+**Ölçüm (geçici sonda, 36 bölüm, silindi):** arenalar (81), arena dışı düşmanlar ve tehlikeler x ekseninde dizildi.
+- Arena çıkışından sonraki ilk dövüşe mesafe: hiçbir arenada 343 px'in altında değil (tek sınır vaka Bölüm 26 final
+  arenası → 343 px'te kalkanlı; arena temizlenince can bırakıyor). Nefessiz arka arkaya dövüş yok.
+- En uzun dövüşsüz şerit: Bölüm 13 (893–4294), 34 (4771–7590), 8 (972–3200). Üçü de tasarlanmış geçiş set-piece'i:
+  minibüs kovalamacası + kanal atlayışları, kantin + pres hattı, çöken tahtalar + hareketli paletler. Boş değil.
+- Arena sonrası can kaynağı (can pikabı, can ödüllü kap ya da arenanın `reward`'u) sonraki dövüşten önce: 81 arenanın
+  66'sında var; kalan 15'i bölüm koduyla bilerek AMMO / ARMOR ödüllü (Kitap 2–3 açılış arenaları, Bölüm 24 a1/a9) —
+  ödül çeşitliliği, kusur değil. Düşük canla varış dengesi zaten birikimde insan testine bağlı.
+- Bölüm 11 dam lekesi birikim maddesi de kapandı (yukarıda).
+
+**Kod değişmedi.** Bu tur yalnız denetim kaydı.
+
+**Sonraki öneri:** otonom yapılabilecek açık iş yok — stil listesi, iki yol haritası ve P1 kapalı, birikimin kalanı
+insan/cihaz testine bağlı (ölüm sayıları, coin toplama oranı, dokunma CSV'si, düşman renk ayrışması). Telefon APK'sıyla
+insan testi; özellikle tur 205–208 sır değişiklikleri (rulo görünürlüğü, duyuru plakası, zula dizilimleri) oyuncu gözüyle.
 
 ### 2026-11-17 (208) — Dam sırlarında üç zula dizilimi (48 dam sırrının hepsi aynı kalıptı)
 
