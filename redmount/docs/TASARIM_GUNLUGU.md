@@ -257,7 +257,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   ortalı olduğu için dışarıda bırakıldı.
 - ~~Sonuç kartı (tur 125 denetimi) dokunmatik düğmeleri~~ **(Tur 160'ta kapandı):** kart zaten "results"
   kipindeydi (oynanış düğmeleri gizli); asıl sorun MENÜ düğmesinin kartı örtmesiydi, düğmeler kartın sağına taşındı.
-- (Tur 201 sinematik denetimi) Kamera dışında konuşanlar: Bölüm 4 kum torbası telsizi (x 3230, TELSİZ), Bölüm 5 makas
+- ~~(Tur 201 sinematik denetimi) Kamera dışında konuşanlar~~ **(Tur 204'te yapıldı):** `Cutscene._frame_speaker` konuşanı
+  balondan önce kadraja alıyor, `_follow_speaker` konuşurken izliyor; ölçüm `tests/speaker_frame.tscn`. Arşiv metni: Bölüm 4 kum torbası telsizi (x 3230, TELSİZ), Bölüm 5 makas
   kulesi (x 3830, DEMİRYOLCU), Bölüm 2 x 6483 (BIÇAKÇI) gibi sahnelerde konuşan aktör kadrajın sağında, ekran dışında
   kalıyor; tur 201'den beri balon ekrana itiliyor ve kuyruk kenara kenetleniyor (okunur) ama kimin konuştuğu görünmüyor.
   Sonda verisi: 511 balonun ~80'i yana itiliyor. Çözüm sahne başına `cs.pan()` hedefi ya da aktör konumu — her sahneyi
@@ -268,6 +269,38 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-17 (204) — Sinematikte konuşan her zaman kadrajda
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin uygulanabilir ilk maddesi tur 201 denetiminin
+"kamera dışında konuşanlar" bulgusuydu (öteki maddeler insan/cihaz testine bağlı). Balon ekrana itiliyordu ama oyuncu
+kimin konuştuğunu göremiyordu — DTM sinematiklerinde konuşan her zaman görünür.
+
+**Oyuncu ne hissedecek:** Repliği söyleyen karakter, telsiz veya araç balon açılmadan önce kısa bir kaydırmayla
+(0,25–0,6 sn) kadraja girer; zaten görünen aktörler mümkün olduğunca kadrajda kalır (yalnız gereken kadar kayar).
+Bölüm 4'te Gazelle'yi kaçıran otobüs "İmdat!" diye bağırırken kamera onu kovalar.
+
+**Yapılanlar (`scripts/systems/cutscene.gd`):**
+- `_frame_speaker(a, head)`: `say()` balonu eklemeden önce konuşanın kenara uzaklığını ölçer; yatay pay 170 px
+  (456 px balonun yarısı ≈ 228; 170 px'te kuyruk ve kafa birlikte görünür, kamera az kayar), dikeyde kafa şeridin
+  60 px altında. Hareketli konuşan kaydırma sırasında yine kaçabildiği için en çok 3 kez yeniden ölçer.
+- `_follow_speaker`: konuşma sürerken kenara kayan konuşanı yatayda yumuşak izler (δ·10 lerp); atlama (skip) sırasında kapalı.
+- `speaking_id` (sonda için) ve `auto_frame` (test karşılaştırması) eklendi.
+- Yeni test `tests/speaker_frame.tscn`: 36 bölümün tüm hikâye sahnelerini ×16 hızda oynatır, her balon açıldığında
+  konuşanın görünür alanda olup olmadığını ölçer. `REDMOUNT_FRAME_RANGE=a-b` ile paralel parça, `REDMOUNT_FRAME_OFF=1` taban.
+
+**Ölçüm:** taban (düzeltme kapalı) 36 bölümde 7 replik kadraj dışı (Bölüm 1–9: 4, Bölüm 28–36: 3); düzeltmeyle 0.
+İlk sürüm Bölüm 4 otobüsünü kaçırıyordu (kaydırma bitene kadar araç ~375 px daha gidiyor) → yeniden ölçme döngüsü.
+Not: tur 201'deki "~80 balon yana itiliyor" ölçüsü balonun kenara itilmesiydi; bu test konuşanın gövdesini ölçer
+(kenardan 40 px pay), o yüzden sayı daha küçük.
+
+**Testler:** `--import` hatasız; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn` PASS;
+`tests/speaker_frame.tscn` 4 parça PASS (0 kadraj dışı); bot Bölüm 1 (82,8 sn), 4 (117,8 sn), 13 (77,7 sn),
+25 (89,1 sn) CLEARED. Değişiklik yalnız kamera hareketi (yeni görsel yok); pencereli çekim alınmadı, insan testinde
+kaydırmaların sahne ritmini bozup bozmadığı izlenmeli.
+
+**Sonraki öneri:** birikimde otonom yapılabilecek madde kalmadı; sonraki tur tasarım denetimi (d) — denetlenmemiş açı
+olarak bölüm ortası nefes noktaları ve gizli alan ödüllerinin okunurluğu.
 
 ### 2026-11-15 (203) — Geniş ekran denetimi devamı: bölüm kenarları (21:9) ve tablet (4:3) — temiz, otomasyon durdu
 

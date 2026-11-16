@@ -28,6 +28,8 @@ const WAGON := preload("res://assets/environment/mahalle/freight_wagon.png")
 
 ## Sinema şeridi kalınlığı (sanal ekran pikseli); balonlar bu şeritlerin arasında kalır.
 const LETTERBOX := 78.0
+## Konuşanın ekran kenarına en az uzaklığı (dünya px); bkz. _frame_speaker.
+const SPEAKER_MARGIN_X := 170.0
 const SPEAKER_COLORS := {
 	"REDMOUNT": Color(1.0, 0.72, 0.42),
 	"GAZELLE": Color(0.42, 0.9, 0.82),
@@ -59,6 +61,10 @@ var _advance := false
 var _player: Node2D
 var _hidden: Array = []
 var _ui: CanvasLayer
+## Şu an konuşan aktörün kimliği (test/sonda okur; konuşma yokken boş).
+var speaking_id := ""
+## Konuşanı kadraja alma açık mı (test karşılaştırması için kapatılabilir).
+static var auto_frame := true
 
 
 func _ready() -> void:
@@ -313,6 +319,8 @@ func say(id: String, speaker: String, text: String, hold := -1.0) -> void:
 		head = 210.0
 	elif a != null and a.get_meta(&"kind") == "voice":
 		head = 0.0
+	speaking_id = id
+	await _frame_speaker(a, head)
 	b.position = (a.position if a != null else _cam.global_position) + Vector2(0, -head)
 	_bubble_layer().add_child(b)
 	_advance = false
@@ -325,12 +333,14 @@ func say(id: String, speaker: String, text: String, hold := -1.0) -> void:
 		b.reveal(d)
 		if a != null and is_instance_valid(a):
 			b.position = a.position + Vector2(0, -head)
+			_follow_speaker(a, d)
 		if _advance:
 			_advance = false
 			if b.done():
 				break
 			b.finish()
 	b.queue_free()
+	speaking_id = ""
 
 
 ## Yere yıkıl: yay çizip sırt üstü yat (gövde 85° döner).
@@ -414,6 +424,54 @@ func wait(seconds: float) -> void:
 	if _skip:
 		return
 	await get_tree().create_timer(seconds, true, false, true).timeout
+
+
+## Konuşan kadraj dışındaysa kamerayı onu içeri alacak kadar kaydır (tur 204).
+## Yalnız gereken miktar: zaten görünen diğer aktörler mümkün olduğunca kadrajda kalır.
+## Kenar payı yatayda 170 px (balon 456 px genişliğinde, konuşanın kafası balon ortasında),
+## dikeyde konuşma noktası şeridin 60 px altında. Konumu olmayan ses (aktörsüz) kaydırmaz.
+## Hareketli konuşan (Bölüm 4'te kaçırılan otobüs) kaydırma sürerken yine kadrajdan
+## çıkabilir; bu yüzden en çok 3 kez yeniden ölçülür.
+func _frame_speaker(a: Node2D, head: float, tries := 3) -> void:
+	if tries <= 0 or not auto_frame or a == null or _cam == null or not is_instance_valid(a):
+		return
+	var half := get_viewport().get_visible_rect().size * 0.5 / _cam.zoom
+	var c := _cam.global_position
+	var mx := minf(SPEAKER_MARGIN_X, half.x * 0.3)
+	var top := c.y - half.y + (LETTERBOX + 60.0) / _cam.zoom.y
+	var bottom := c.y + half.y - LETTERBOX / _cam.zoom.y
+	var d := Vector2.ZERO
+	var ax := a.position.x
+	if ax > c.x + half.x - mx:
+		d.x = ax - (c.x + half.x - mx)
+	elif ax < c.x - half.x + mx:
+		d.x = ax - (c.x - half.x + mx)
+	var ay := a.position.y - head
+	if ay < top:
+		d.y = ay - top
+	elif a.position.y > bottom:
+		d.y = a.position.y - bottom
+	if d.length() < 1.0:
+		return
+	# Kısa kaydırma: uzak mesafede biraz daha uzun, ama konuşmayı bekletmeyecek kadar.
+	await pan(c + d, clampf(d.length() / 900.0, 0.25, 0.6))
+	await _frame_speaker(a, head, tries - 1)
+
+
+## Konuşurken kadraj kenarına kayan konuşanı (yürüyen, uzaklaşan araç) yatayda yumuşakça izle.
+func _follow_speaker(a: Node2D, delta: float) -> void:
+	if not auto_frame or _cam == null or _skip:
+		return
+	var half := get_viewport().get_visible_rect().size.x * 0.5 / _cam.zoom.x
+	var mx := minf(SPEAKER_MARGIN_X, half * 0.3)
+	var over := 0.0
+	var ax := a.position.x
+	if ax > _cam.global_position.x + half - mx:
+		over = ax - (_cam.global_position.x + half - mx)
+	elif ax < _cam.global_position.x - half + mx:
+		over = ax - (_cam.global_position.x - half + mx)
+	if absf(over) > 0.5:
+		_cam.global_position.x += over * minf(1.0, delta * 10.0)
 
 
 ## Kamerayı bir noktaya kaydır.
