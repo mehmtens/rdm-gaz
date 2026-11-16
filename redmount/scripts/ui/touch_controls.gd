@@ -18,7 +18,9 @@ const BUTTONS := [
 	["heavy_attack", "AĞIR", 46, Vector2(-104, 253), "kucuk", ""],
 	["fire", "ATEŞ", 46, Vector2(-232, 253), "kucuk", ""],
 	## Kayma tekmesi kısayolu: telefonda koşarken ▼'a aynı başparmakla basmak zor.
-	["slide", "KAY", 46, Vector2(-372, 214), "kucuk", ""],
+	## Sağ sütunun üst sırasında (ATEŞ'in üstü): eski yeri (-372, 214) 16:9'da kahramanın
+	## ~300 px önünde, yerdeki düşmanların gövde hizasındaydı — dövüşülen düşmanı örtüyordu.
+	["slide", "KAY", 46, Vector2(-232, 372), "kucuk", ""],
 	## Yedek silahla yer değiştir: yalnız yedek varken görünür (AĞIR'ın üstünde).
 	["swap_weapon", "DEĞİŞ", 46, Vector2(-104, 372), "kucuk", ""],
 	["pause", "", 36, Vector2(0, -52), "mini", "durdur"],  # x = 0: yatayda ortalı

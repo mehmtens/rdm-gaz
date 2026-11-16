@@ -7,6 +7,9 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 213, insan testi) Dokunmatik ATIL düğmesi (sol küme, x≈320 / 16:9) zemin gövde hizasında, kahramanın ~230 px
+  arkasında; arena dalgasında arkadan gelen düşmanı örtebilir. KAY taşındıktan sonra telefonda KAY erişimi ve ATIL
+  örtmesi birlikte denensin; gerekirse ATIL sol kenar sütununa (x ≤ %25) alınır.
 - ~~(Tur 205, Bölüm 20 x≈6510) Duyuru alt satırı plakasız~~ **(Tur 206'da yapıldı):** `panel_hud` piksel plaka, metne oturan genişlik.
 - ~~(Tur 205, Bölüm 30 x≈2070) Rulo kontrastı~~ **(Tur 207'de yeniden teşhis edildi ve yapıldı):** yakın bakışta sorun ton değil
   yığılmaydı — coin dizisinin ortadaki coin'i rulonun altına giriyordu (108'in 84'ü); rulo artık coin'lerin üstünde.
@@ -279,6 +282,36 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-17 (213) — Dokunmatik düğme örtüşmesi denetimi: KAY düğmesi 16:9'da dövüşülen düşmanı örtüyordu
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Denetlenmemiş
+açı: telefonda dokunmatik düğmeler oyun alanını (kahraman, düşman, tehlike) örtüyor mu? Önceki denetimlerin tamamı
+dokunmatik katman kapalıyken çekilmişti.
+
+**Ölçüm:** Bölüm 13 pencereli bot koşusu `REDMOUNT_TOUCH_CONTROLS=1` ile, 20:9 (1280×576) ve 16:9 (1280×720), 2–3 sn'de
+bir kare (`scratchpad/dokun12*/`). 20:9'da (`expand` → 1600 geniş görüntü) düğmeler kenarlarda kalıyor. 16:9'da ise küçük
+KAY düğmesi (eski ofset −372, 214 → merkez x≈908, y≈506) koşan kahramanın (x≈552, ileri bakış 88) ~300 px önünde, yerdeki
+düşmanların gövde hizasında (zemin y≈590, baş y≈470) duruyordu: kare `t0068` gümrük avlusunda yaklaşan düşman, `t0024`
+sandık yığınının önü düğmenin altında. Tur 8'in "oyun alanını kapatmayacak yükseklik" varsayımı 16:9'da tutmuyordu.
+
+**Yapılan:** `touch_controls.gd` KAY → `Vector2(-232, 372)`: sağ sütunun üst sırası (ATEŞ'in üstü, DEĞİŞ'in solu).
+Merkez 16:9'da x≈1048 (%82), y≈348; ATEŞ'e 119 px, DEĞİŞ'e 128 px (yarıçap toplamı 92) — çakışma yok. ZIPLA'dan
+uzaklık ~170 → ~265 px (≈2,5 cm telefonda; sağ başparmak yayında, DEĞİŞ zaten aynı yükseklikte).
+`tests/touch_polish.gd`: sağ yarıdaki oyun düğmeleri (VUR/ZIPLA/duraklat hariç, tüm bağlam düğmeleri açıkken)
+x ≥ %75 olmalı — eski yerleşimde FAIL (x=834/1280), yenide PASS.
+
+**Ödünleşim (insan testi):** yeni yer sağ kenardaki yükseltide duran uzak düşmanı ara sıra örtüyor (`dokun12_yeni/t0024`,
+sandık üstündeki tüfekli); kamera ilerledikçe düşman sütundan çıkıyor. Ön dövüş şeridi her karede açık. Sol küme ATIL
+(x≈320) da zemin gövde hizasında ama kahramanın arkasında — arkadan gelen düşmanı örtebilir; telefonla oynanınca bakılmalı
+(birikime eklendi).
+
+**Testler:** `--import` hatasız; `touch_polish.tscn` PASS; `touch_hints.tscn` PASS; `campaign_smoke.gd` çıkış 0; `dtm_gaps.tscn` PASS;
+bot Bölüm 1 (81,9 sn) ve 25 (84,6 sn) CLEARED;
+pencereli Bölüm 13 dokunmatik açık CLEARED (78,7 sn), ekran görüntüsünde ön şerit temiz.
+
+**Sonraki öneri:** otonom yapılabilecek açık iş yine yok; telefon APK'sıyla insan testi (KAY'ın yeni yerine erişim,
+ATIL'ın arka şeridi örtmesi, ölüm sayıları, coin oranı, dokunma CSV'si).
 
 ### 2026-11-17 (212) — Kalabalık sahnede düşman tipi ayrışması denetimi (Bölüm 27) — temiz, otomasyon durdu
 

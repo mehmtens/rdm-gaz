@@ -61,6 +61,16 @@ func _controls() -> void:
 	# Ekrandaki boyut: yarıçap 46 → ~92 px (0.85–1.2 ölçek aralığında).
 	var shown := slide.texture_normal.get_width() * slide.scale.x
 	_check(shown > 70.0 and shown < 115.0, "KAY düğmesi beklenen boyutta (%.0f px)" % shown)
+	# Dövüş şeridi: kahraman koşarken ekranın ~%43'ünde, dövüştüğü düşman önünde ~100–400 px.
+	# Sağ yarıdaki düğmeler ya sağ kenar sütununda (x ≥ %75) ya da alt sırada (zemin altı) olmalı.
+	var vw := get_viewport().get_visible_rect().size.x
+	touch.set_context(true, true, true)
+	for circle in touch.touch_circles():
+		var center: Vector2 = circle[1]
+		if circle[0] in ["attack", "jump", "pause"] or center.x < vw * 0.5:
+			continue
+		_check(center.x >= vw * 0.75, "%s dövüş şeridini örtmemeli (x=%.0f / %.0f)" % [circle[0], center.x, vw])
+	touch.set_context(false, false, false)
 	touch.set_mode("results")
 	_check(not slide.visible, "sonuç ekranında KAY gizlenmeli")
 	touch.set_mode("play")
