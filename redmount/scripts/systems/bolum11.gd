@@ -185,7 +185,7 @@ func _sahne_hucre(cs: Cutscene) -> void:
 func _sahne_muhafiz_basi(cs: Cutscene) -> void:
 	var p := cs.player_pos()
 	cs.actor("rm", "redmount", p)
-	cs.actor("mb", "elite", Vector2(7800, 0), -1)
+	cs.actor("mb", "miniboss", Vector2(7800, 0), -1)
 	cs.actor("e1", "elite", Vector2(7940, 0), -1)
 	await cs.pan(Vector2(7550, -200), 0.7)
 	await cs.say("mb", "MUHAFIZ BAŞI", "Bu koridorda yirmi yıldır tek bir ayak sesi duyulmadı. Seninki fazla gürültülü.")

@@ -199,7 +199,7 @@ func _sahne_surlar(cs: Cutscene) -> void:
 func _sahne_binbasi(cs: Cutscene) -> void:
 	var p := cs.player_pos()
 	cs.actor("rm", "redmount", p)
-	cs.actor("bk", "elite", Vector2(8600, 0), -1)
+	cs.actor("bk", "miniboss", Vector2(8600, 0), -1)
 	cs.actor("b1", "bruiser", Vector2(8740, 0), -1)
 	await cs.pan(Vector2(8380, -200), 0.7)
 	await cs.say("bk", "BİNBAŞI KAYA", "Tüneli geçtin, köprüyü geçtin, cephaneliğimi soydun. Takdir ederim.")

@@ -162,7 +162,7 @@ func _sahne_ayna(cs: Cutscene) -> void:
 func _sahne_sur_agasi(cs: Cutscene) -> void:
 	var p := cs.player_pos()
 	cs.actor("rm", "redmount", p)
-	cs.actor("sa", "elite", Vector2(8300, -460), -1)
+	cs.actor("sa", "miniboss", Vector2(8300, -460), -1)
 	cs.actor("e1", "elite", Vector2(8440, -460), -1)
 	await cs.pan(Vector2(8150, -660), 0.7)
 	await cs.say("sa", "SUR AĞASI", "Burçları tek tek aştın. Sonuncusu benim. Bu surlarda kırk yıl nöbet tuttum.")

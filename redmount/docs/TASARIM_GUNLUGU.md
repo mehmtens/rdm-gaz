@@ -178,10 +178,14 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 - Son arenaya düşük canla varış (Bölüm 4: 16–25 can, Bölüm 5: 29 can [tur 156: 33–43 can, iki koşuda da 1 ölüm], Bölüm 6: 12 can [tur 156, 1 ölüm], Bölüm 28: 21 can [tur 150: 39→8 can]; bot). Dört bölümde de
   orta arenadan son arenaya kadar can kaynağı yok (yalnız büfe). İnsan testinde son arenaya
   giriş canı ölçülsün; ortanca %40'ın altındaysa son kontrol noktası önüne kırılabilir simit.
-- Adlı rakiplerin görünümü: Binbaşı Kaya, Sur Ağası ve Muhafız Başı ara sahnede Seçkin
-  Muhafız (`elite`) görünümüyle konuşuyor, dövüşte Ağır Zırhlı (`miniboss`) olarak çıkıyor; Pusucu
-  Kemal ve Yüzbaşı Demir sıradan düşmanla aynı. İnsan testinde karışıklık görülürse ara sahne
-  aktörü dövüşteki görünüme eşitlensin, gerekirse ChatGPT tarzında kişiye özgü aksesuar.
+- ~~Adlı rakiplerin görünümü: Binbaşı Kaya, Sur Ağası ve Muhafız Başı ara sahnede Seçkin
+  Muhafız (`elite`) görünümüyle konuşuyor, dövüşte Ağır Zırhlı (`miniboss`) olarak çıkıyor~~
+  **(Tur 211'de yapıldı):** cutscene'e `miniboss` türü (MINIBOSS_FRAMES, ölçek 0,71) eklendi;
+  `bk`/`sa`/`mb` aktörleri `elite`→`miniboss`. Artık ara sahnede de tepeli miğfer + plaka zırh +
+  çekiç + pelerinle, sıradan seçkinden iri görünüyorlar (diyaloglar da destekliyor: Kaya "zırhım",
+  Muhafız Başı "kalkanlar"). Pusucu Kemal ve Yüzbaşı Demir **zaten tutarlı** — dövüşte de `elite`
+  (named_wave `_wave(ELITE,…)`), görünümleri değişmedi. Kişiye özgü aksesuar (yüz/palto farkı)
+  hâlâ insan testine bağlı: karışıklık görülürse ChatGPT tarzında per-boss sprite.
 - Bot, Bölüm 4 kule köprüsünde (x≈6926, y≈−290) pencereli koşuda bir kez 54 sn takıldı (başsız
   üç koşuda yok; tur 147 taramasında 6 paralel başsız koşuda 59 sn, bir düşüşle). Botun kuleden tüfekliye tırmanma mantığı; oyun hatası değil, bot güncellenebilir.
 - Bölüm 9 ilk arena (x≈5000–5700; bot 109 → 25 can, 20 sn takılma) ve Bölüm 12 yalı kesimi
@@ -275,6 +279,39 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-17 (211) — Adlı ara patronlar ara sahnede dövüş görünümüyle çıksın (Kaya / Sur Ağası / Muhafız Başı)
+
+**Neden şimdi:** Yol haritaları ve P1 kapalı; birikimde otonom yapılabilecek, insan testine bağlı
+*olmayan* tek somut madde buydu. Binbaşı Kaya (Bölüm 9), Sur Ağası (Bölüm 10) ve Muhafız Başı
+(Bölüm 11) ara sahnede ince, tüfekli Seçkin Muhafız (`elite`) olarak konuşuyordu ama dövüşte iri,
+zırhlı Ağır Zırhlı (`MINIBOSS.tscn`, rig_style `miniboss`) olarak çıkıyordu. DTM'de adlı patron
+ara sahnede nasıl görünürse öyle dövüşür; bu tutarsızlık okunurluk boşluğuydu ve diyaloglarla da
+çelişiyordu (Kaya "benim zırhım da öyle", Muhafız Başı "kalkanlar kalksın" diyor ama elite'te zırh/kalkan yok).
+
+**Oyuncu ne hissedecek:** Ara sahnede tanıştığı tepeli miğferli, plaka zırhlı, çekiçli patron,
+kilit arena dalgasında birebir aynı silüetle karşısına çıkıyor — "bu o" bağı kuruluyor, sıradan
+seçkin kalabalığından ilk bakışta ayrışıyor (miniboss ara sahnede de ~%14 daha iri).
+
+**Yapılanlar:**
+- `cutscene.gd`: yeni `miniboss` aktör türü — `MINIBOSS_FRAMES` (res://resources/anim/mini_boss_frames.tres,
+  oyun içi dövüş atlası ile aynı PNG), ölçek 0,71 (cutscene elite 0,62 × enemy_base 1,35/1,18 oranı),
+  offset −114 (hücre yüksekliği diğerleriyle aynı, 240 px). Mevcut atlas yeniden kullanıldı, yeni sanat yok.
+- `bolum09/10/11.gd`: `bk`/`sa`/`mb` aktörleri `"elite"`→`"miniboss"`. Yanlarındaki muhafız refakatçileri
+  (`e1`, `b1`) dokunulmadı — patron onların yanında iri duruyor, hiyerarşi okunuyor.
+- Pusucu Kemal (B20/21) ve Yüzbaşı Demir (B4) zaten tutarlı (dövüşte de `elite`); değiştirilmedi.
+
+**Doğrulama:** 1280×720 pencereli karşılaştırma çekimi (REDMOUNT / SEÇKİN / MINIBOSS yan yana) Read ile
+incelendi: miniboss belirgin biçimde iri ve ayrı silüet (sorguç + çekiç + pelerin), aynı ChatGPT tarzı
+(mor/lacivert gölge, altın kenar), yapıştırma değil — oyun içi gerçek dövüş sprite'ı. Geçici çekim silindi.
+
+**Testler:** `--import` hatasız (SCRIPT ERROR yok); `campaign_smoke.gd` çıkış 0; `dtm_gaps.tscn` PASS;
+bot Bölüm 9 (124,7 sn), 10 (121,9 sn), 11 (94,3 sn), 1 (76,4 sn, ortak sistem taban çizgisi) hepsi CLEARED.
+
+**Sonraki öneri:** Otonom, insan testine bağlı olmayan iş yine tükendi. Kalan maddeler (kişiye özgü
+patron aksesuarı, coin oranı, ölüm sayıları, dokunma CSV'si, cihaz okunurluğu) telefon APK'sıyla
+insan testi gerektiriyor. Sonraki tur denetim yaparsa yeni bir okunurluk açısı (ör. düşman tipi
+renk ayrışması kalabalık sahnede) ölçülebilir.
 
 ### 2026-11-17 (210) — Boss çubuğu ve boss dövüşü okunurluğu denetimi — temiz, otomasyon durdu
 
