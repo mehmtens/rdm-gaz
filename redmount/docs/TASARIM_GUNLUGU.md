@@ -293,7 +293,7 @@ kompakt bir plaka; yazı arka plandan ayrışır. Kısa duyuruda plaka metne otu
   (sol HUD sütunu ile kombo yazısı arası, tur 34 sınırı). Sığmayan uzun metin (Günün Dalgası kuralı) sarar, yükseklik kendini büyütür.
 - Ölçü bir kare ertelenerek de yapılıyor: `PixelUIBoot` piksel yazı tipini deferred uyguluyor, ilk duyuruda varsayılan yazı
   tipiyle ölçülen genişlik ~%14 dar çıkıp "+10 coin"i alt satıra itiyordu.
-- **Kök hata (`main.gd`):** duyuru dizgisi kaynakta çok satırlı literal yazılmıştı; dosya CRLF olduğu için dizgi `
+- **Kök hata (`main.gd`):** duyuru dizgisi kaynakta çok satırlı literal yazılmıştı; dosya CRLF olduğu için dizgi `
 `
   taşıyor, oyunda iki satırın arasına boş satır giriyordu (tur 205 karelerinde görünen 54 px boşluk). `
 ` kaçışına çevrildi.
