@@ -276,6 +276,24 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-17 (210) — Boss çubuğu ve boss dövüşü okunurluğu denetimi — temiz, otomasyon durdu
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Denetlenmemiş açı:
+boss çubuğunun ne zaman göründüğü ve boss dövüşünün kalabalık sahnede okunurluğu (DTM: çubuk yalnız karşılaşmada, adıyla).
+
+**Ölçüm:**
+- Geçici sonda (36 bölüm, silindi): hiçbir bölümde sahneye önceden yerleşmiş `is_boss` düşman yok; bosslar arena
+  spawn'ıyla geliyor (`main.gd::_register_arena_enemy`), yani çubuk bölüm başından görünmüyor, karşılaşmada açılıyor.
+- Çubuk düz `ColorRect` değil: `PixelUIBoot._pixel_rect` zemin/dolguyu `cubuk_zemin` / `cubuk_dolgu` piksel kutusuna çeviriyor.
+- Bölüm 12 pencereli bot koşusu (CLEARED 69,9 sn, 2 sn'de bir kare, `scratchpad/boss12/`): KARAHANLI adı çubukta okunuyor,
+  dalga sayacı + combo + çubuk üst üste binmiyor; boss ve iki yardakçı kalabalığında kahraman seçilebiliyor.
+  Film rulosu duyurusu (x≈5316) üç düşmanlı dövüşle aynı anda çıkıyor ama dövüş çizgisinin üstünde kalıyor — örtme yok.
+
+**Kod değişmedi.** Bu tur yalnız denetim kaydı.
+
+**Sonraki öneri:** otonom yapılabilecek açık iş yok; telefon APK'sıyla insan testi (birikim: ölüm sayıları, coin oranı,
+dokunma CSV'si, düşman renk ayrışması, tur 205–208 sır değişiklikleri).
+
 ### 2026-11-17 (209) — Ritim denetimi: arena sonrası nefes, boş şeritler, can kaynakları — temiz, otomasyon durdu
 
 **Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; tur 205–208 birikim maddelerini bitirdi. Tur 204'ün önerdiği
