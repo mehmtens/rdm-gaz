@@ -10,8 +10,7 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 - ~~(Tur 205, Bölüm 20 x≈6510) Duyuru alt satırı plakasız~~ **(Tur 206'da yapıldı):** `panel_hud` piksel plaka, metne oturan genişlik.
 - ~~(Tur 205, Bölüm 30 x≈2070) Rulo kontrastı~~ **(Tur 207'de yeniden teşhis edildi ve yapıldı):** yakın bakışta sorun ton değil
   yığılmaydı — coin dizisinin ortadaki coin'i rulonun altına giriyordu (108'in 84'ü); rulo artık coin'lerin üstünde.
-- (Tur 205) Dam sırlarının hepsi aynı kalıp (sandık + üstte rulo + iki yanda coin); Bölüm 3, 20, 30 karelerinde birebir
-  aynı dizilim — DTM'de sırlar mekâna özgü. Orta maliyet: bölüm temasına göre 2–3 dizilim (çamaşır ipi, kuş evi, tente üstü).
+- ~~(Tur 205) Dam sırlarının tek kalıbı~~ **(Tur 208'de yapıldı):** üç dizilim (sandık / çarşı yığını / hurda köşesi), mevcut süslerle.
 - (Tur 205, Bölüm 11 x≈5560 y≈−210) Gizli hanın damında kaynağı belirsiz koyu yeşil leke (yaprak/düşmüş nesne?) —
   ne olduğu bulunup ya kaldırılmalı ya da okunur bir süse çevrilmeli.
 
@@ -277,6 +276,30 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-17 (208) — Dam sırlarında üç zula dizilimi (48 dam sırrının hepsi aynı kalıptı)
+
+**Neden şimdi:** tur 205 denetiminin birikim maddesi. 48 dam/iskele sırrının 48'i de "sandık + üstte rulo + üç coin"
+(`_roof_secrets`); Bölüm 3, 20 ve 30 karelerinde birebir aynı. DTM'de sır mekâna aittir; aynı dizilim üçüncüde formül
+olarak sezilir ve "yine sandık" merakı öldürür. Kural gereği yeni görsel icat edilmedi: mevcut kırılır süsler kullanıldı.
+
+**Oyuncu ne hissedecek:** dama çıkınca bazen Osmanlı sandığı, bazen çarşı yığını (ortada kasa, yanında vazo ve saksı),
+bazen hurda köşesi (varil + tüp) — her biri kırılınca coin saçar, rulo hep üstte. Balat damında saksılı yığın, demiryolu
+iskelesinde varil ve tüp sahnenin parçası gibi duruyor.
+
+**Yapılan (`DtmLevel._roof_cache`):** dizilim bölüm sahne yolu + x'in karmasıyla sabit seçilir (her koşuda aynı, bölümler
+arası karışık). Yüzey ≥180 px: üç dizilim; 120–180 px: sandık ya da hurda (çarşı yığını ~155 px ister); <120 px: sandık.
+Ödül pikabı (COIN) kasada/varilde korunur. Coin toplamı sandığa yakın tutuldu (sayı: sandık 15 + 3 = 18, çarşı 10 + 5 = 15,
+hurda 12 + 5 = 17 — insan testine kadar hipotez); `tests/coin_economy` katalog eğrisi değişmedi (PASS, katalog 4935).
+**Dağılım (36 bölüm, 48 dam sırrı):** 22 sandık, 6 çarşı yığını, 20 hurda köşesi.
+
+**Testler:** `--import` hatasız; `tests/campaign_smoke.gd` çıkış 0 (36); `tests/dtm_gaps.tscn` PASS; `tests/coin_economy.tscn`
+PASS; `tests/secret_roll_clear.tscn` PASS (108 rulo; rulo yeni süslerin de üstünde); `tests/secret_roll_visible.tscn` PASS;
+bot Bölüm 1 (77,1 sn), 4 (106,4 sn), 13 (77,8 sn), 20 (101,9 sn), 25 (79,6 sn) CLEARED. Pencereli çekim: Bölüm 1 pembe ev
+damı (çarşı yığını), Bölüm 4 demiryolu iskelesi ve Bölüm 20 Samatya iskelesi (hurda köşesi) — süsler ChatGPT sahne
+resmiyle aynı piksel tarzında, yapıştırılmış durmuyor.
+
+**Sonraki öneri:** birikimin sıradaki otonom maddesi — Bölüm 11 x≈5560 gizli han damındaki kaynağı belirsiz koyu yeşil leke.
 
 ### 2026-11-17 (207) — Gizli alan rulosu coin'lerin üstüne binmiyor (108 rulonun 84'ü)
 

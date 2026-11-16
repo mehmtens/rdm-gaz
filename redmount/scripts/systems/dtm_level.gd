@@ -909,6 +909,34 @@ func _secret_zone(r: Rect2) -> void:
 	_secret_count += 1
 
 
+## Dam sırrının zulası. Hepsi aynı "sandık + üç coin" kalıbıydı (tur 205 denetimi: Bölüm 3, 20,
+## 30 birebir aynı); bölüm ve yere göre sabit seçilen üç dizilimden biri. Coin toplamı sandığa yakın
+## (sandık 15 + 3 = 18; çarşı yığını 10 + 5 = 15; hurda köşesi 12 + 5 = 17), ödül pikabı korunur.
+func _roof_cache(cx: float, top: float, surface_w: float) -> void:
+	var style := 0
+	var h := absi(hash("%s:%d" % [scene_file_path, int(cx)]))
+	# Çarşı yığını ~155 px, hurda köşesi ~100 px, sandık 76 px ister (iki yanda 10 px pay).
+	if surface_w >= 180.0:
+		style = h % 3
+	elif surface_w >= 120.0:
+		style = 2 if h % 2 == 1 else 0
+	match style:
+		1:
+			# Çarşı yığını: kasa ortada (ödül), iki yanında vazo ve saksı; coin kavisi üstte.
+			_prop("vazo", cx - 58.0, top)
+			_prop("kasa", cx, top, COIN)
+			_prop("saksi", cx + 54.0, top)
+			_coin_line(cx - 80.0, 5, 40, top - 70.0)
+		2:
+			# Hurda köşesi: varil (ödül) ve yanında tüp; coin'ler varilin üstünden.
+			_prop("varil", cx - 22.0, top, COIN)
+			_prop("tup", cx + 34.0, top)
+			_coin_line(cx - 80.0, 5, 40, top - 90.0)
+		_:
+			_prop("sandik", cx, top, COIN)
+			_coin_line(cx - 60.0, 3, 60, top - 60.0)
+
+
 ## Sol başlangıçtaki mahzen: oyun sağa akar, meraklı oyuncu sola döner. Çatlak
 ## duvar kırılır; içeride zırh sandığı ve coin. Kapının üstünde tebeşir işareti.
 func _secret_cellar() -> void:
@@ -1012,8 +1040,7 @@ func _roof_secrets(min_h := 240.0, spacing := 1200.0) -> void:
 			continue
 		var top: float = c[0]
 		var w: float = minf(float(c[2]), 260.0)
-		_prop("sandik", cx, top, COIN)
-		_coin_line(cx - 60.0, 3, 60, top - 60.0)
+		_roof_cache(cx, top, float(c[2]))
 		_secret_zone(Rect2(cx - w * 0.5, top - 110.0, w, 100.0))
 		taken.append(cx)
 
