@@ -7,10 +7,7 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- (Tur 205 gizli alan denetimi, Bölüm 20 x≈6510) Film rulosu duyurusunun alt satırları ("Gazelle'in kanıt fotoğrafı
-  bulundu · +10 coin" / "Kanıt Arşivi'ne eklendi") plakasız; depo tabelası gibi dünya yazısının üstüne binince
-  okunmuyor. Başlık tabelasının (`PixelText.sign_board`) altına aynı tarzda yarı saydam piksel plaka — düşük maliyet;
-  ölçü: alt satır kutusunun arkasındaki parlaklık farkı.
+- ~~(Tur 205, Bölüm 20 x≈6510) Duyuru alt satırı plakasız~~ **(Tur 206'da yapıldı):** `panel_hud` piksel plaka, metne oturan genişlik.
 - (Tur 205, Bölüm 30 x≈2070) Sıcak ışıklı cephe önündeki dam sırrında altın rulo + coinler yanan pencerelerle aynı tonda;
   uzaktan zor seçiliyor. Rulonun arkasına ay ışığı tonunda (soğuk) 1 piksellik kenar parlaması / hale — ölçü: rulo
   çevresi 40 px'te ortalama ton farkı, 108 rulonun kaçı sıcak zemin üstünde.
@@ -281,6 +278,34 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-17 (206) — Film rulosu / yer duyurusunun alt satırı piksel plakada; duyurudaki boş satır giderildi
+
+**Neden şimdi:** tur 205 denetiminin birikime yazdığı ilk madde. Bölüm 20 depo sırrında duyurunun alt satırları
+("Gazelle'in kanıt fotoğrafı bulundu · +10 coin" / "Kanıt Arşivi'ne eklendi") plakasızdı; "SAMATYA ERZAKI" gibi dünya
+tabelasının ve sıcak ışıklı cephelerin üstüne binince okunmuyordu. DTM'de ödül duyurusu her zemin üstünde tek bakışta okunur.
+
+**Oyuncu ne hissedecek:** sır bulununca ahşap başlık tabelasının altında, ipucu balonlarıyla aynı piksel çerçevede (`panel_hud`)
+kompakt bir plaka; yazı arka plandan ayrışır. Kısa duyuruda plaka metne oturur (ekranı kesen şerit değil).
+
+**Yapılan (`scripts/ui/hud.gd` `_PlaceBanner`):**
+- Alt satır Label'ına `PixelUI.box("panel_hud", 18)`; `_fit_story()` sarmasız en küçük genişlik + 16 px pay, en çok 580 px
+  (sol HUD sütunu ile kombo yazısı arası, tur 34 sınırı). Sığmayan uzun metin (Günün Dalgası kuralı) sarar, yükseklik kendini büyütür.
+- Ölçü bir kare ertelenerek de yapılıyor: `PixelUIBoot` piksel yazı tipini deferred uyguluyor, ilk duyuruda varsayılan yazı
+  tipiyle ölçülen genişlik ~%14 dar çıkıp "+10 coin"i alt satıra itiyordu.
+- **Kök hata (`main.gd`):** duyuru dizgisi kaynakta çok satırlı literal yazılmıştı; dosya CRLF olduğu için dizgi `
+`
+  taşıyor, oyunda iki satırın arasına boş satır giriyordu (tur 205 karelerinde görünen 54 px boşluk). `
+` kaçışına çevrildi.
+- Yeni test `tests/place_banner_fit.tscn`: kısa duyuruda plaka < 580 px ve tam 2 satır, uzun metin 580'de sarar, plaka
+  StyleBoxTexture, kaynak dizgide CR yok.
+
+**Testler:** `--import` hatasız; `tests/campaign_smoke.gd` çıkış 0 (36); `tests/dtm_gaps.tscn` PASS; `tests/place_banner_fit.tscn`
+PASS; `tests/secret_roll_visible.tscn` PASS; bot Bölüm 1 (76,8 sn), 13 (82,7 sn), 20 (90,6 sn), 25 (91,5 sn) CLEARED. Pencereli
+çekim Bölüm 20 depo ve Bölüm 3 bahçe damı: plaka tabelanın ve yaprakların önünde okunuyor, çerçeve başlık tabelasıyla uyumlu.
+(Bölüm 3 karesinde arkada solan bölüm kartı ışınlanma çekiminin yapaylığı — gerçek oyunda kart 3,6 sn'de kalkar.)
+
+**Sonraki öneri:** birikimin sıradaki maddesi — sıcak ışıklı cephe önündeki dam sırrında rulo/coin kontrastı (Bölüm 30 x≈2070).
 
 ### 2026-11-17 (205) — Gizli alan denetimi: han ve bina sırlarında film rulosu cephenin arkasında kalıyordu
 

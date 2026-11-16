@@ -901,15 +901,41 @@ class _PlaceBanner extends Control:
 		_story.add_theme_font_size_override(&"font_size", 20)
 		_story.add_theme_color_override(&"font_color", Color(1.0, 0.95, 0.84))
 		_story.add_theme_constant_override(&"outline_size", 7)
+		## Plakasız alt satır dünya tabelalarının üstüne binince okunmuyordu (tur 205 denetimi,
+		## Bölüm 20 depo tabelası); ipucu balonlarıyla aynı piksel çerçeve.
+		_story.add_theme_stylebox_override(&"normal", PixelUI.box("panel_hud", 18))
 		add_child(_story)
 
 	func present(title: String, story: String, accent: Color) -> void:
 		_title = title
 		_accent = accent
 		_story.text = story
+		_fit_story()
+		# PixelUIBoot piksel yazı tipini bir kare sonra (deferred) uygular: ilk duyuruda
+		# ölçü varsayılan yazı tipiyle dar çıkıp satırı sarıyordu.
+		_fit_story.call_deferred()
 		_t = 0.0
 		visible = true
 		queue_redraw()
+
+	## Plaka metni sarar: en uzun satır + çerçeve payı, en çok banner genişliği (580) —
+	## kısa duyuruda ekranı boydan boya kesen şerit olmasın.
+	func _fit_story() -> void:
+		# Sarmasız en küçük genişlik = en uzun satır + plaka payı (yazı tipi ve çerçeve dahil).
+		_story.autowrap_mode = TextServer.AUTOWRAP_OFF
+		var fit := _story.get_minimum_size()
+		# Sığıyorsa sarmasız (yükseklik birebir satır sayısı); sığmayan uzun kural metni sarar.
+		# Sarma kipi genişlikten ÖNCE seçilir: sarmasız Label dar ofsette kendini genişletiyordu.
+		# Sarmalı Label yüksekliğini kendisi büyütür (en küçük boyuta), o yüzden 0'dan başlar.
+		if fit.x + 16.0 > 580.0:
+			_story.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			fit.y = 0.0
+		var w := minf(580.0, ceilf(fit.x) + 16.0)
+		_story.anchor_left = 0.5
+		_story.anchor_right = 0.5
+		_story.offset_left = -roundf(w * 0.5)
+		_story.offset_right = roundf(w * 0.5)
+		_story.offset_bottom = _story.offset_top + ceilf(fit.y)
 
 	func _process(delta: float) -> void:
 		if not visible:
