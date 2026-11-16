@@ -7,6 +7,18 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 205 gizli alan denetimi, Bölüm 20 x≈6510) Film rulosu duyurusunun alt satırları ("Gazelle'in kanıt fotoğrafı
+  bulundu · +10 coin" / "Kanıt Arşivi'ne eklendi") plakasız; depo tabelası gibi dünya yazısının üstüne binince
+  okunmuyor. Başlık tabelasının (`PixelText.sign_board`) altına aynı tarzda yarı saydam piksel plaka — düşük maliyet;
+  ölçü: alt satır kutusunun arkasındaki parlaklık farkı.
+- (Tur 205, Bölüm 30 x≈2070) Sıcak ışıklı cephe önündeki dam sırrında altın rulo + coinler yanan pencerelerle aynı tonda;
+  uzaktan zor seçiliyor. Rulonun arkasına ay ışığı tonunda (soğuk) 1 piksellik kenar parlaması / hale — ölçü: rulo
+  çevresi 40 px'te ortalama ton farkı, 108 rulonun kaçı sıcak zemin üstünde.
+- (Tur 205) Dam sırlarının hepsi aynı kalıp (sandık + üstte rulo + iki yanda coin); Bölüm 3, 20, 30 karelerinde birebir
+  aynı dizilim — DTM'de sırlar mekâna özgü. Orta maliyet: bölüm temasına göre 2–3 dizilim (çamaşır ipi, kuş evi, tente üstü).
+- (Tur 205, Bölüm 11 x≈5560 y≈−210) Gizli hanın damında kaynağı belirsiz koyu yeşil leke (yaprak/düşmüş nesne?) —
+  ne olduğu bulunup ya kaldırılmalı ya da okunur bir süse çevrilmeli.
+
 - **(Tur 154) Ölçüm uyarısı:** Tur 154 öncesi bot koşularındaki "N yeniden doğma" verisinde dövüş ölümleri iki kez
   sayılıyordu (`_autoplay.gd` geri ışınlanmayı düşme sanıyordu). Aşağıdaki bölüm maddelerinde ölüm sayılarını
   yaklaşık ikiye bölün; Bölüm 10 son arenası gerçekte koşu başına 1 ölüm.
@@ -269,6 +281,33 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-17 (205) — Gizli alan denetimi: han ve bina sırlarında film rulosu cephenin arkasında kalıyordu
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikim insan/cihaz testine bağlı; tur 204'ün önerisi
+gizli alan ödüllerinin okunurluğunu denetlemekti. 3 Kasım oyun testinin kuralı "ipucu görünür": DTM'de sır yoldan sezilir.
+
+**Ölçüm:** geçici çekim sahnesiyle Bölüm 3, 11, 20 ve 30'un üçer sırrı ana yoldan (sırrın 320 px solu) ve içeriden
+çekildi (24 kare). Dam ve iskele sırlarında rulo + sandık + coin yoldan okunuyor; mahzen sırrında rulo cephenin önünde
+süzülüyor. Ama Bölüm 11 x 5590 hanında rulo hiç görünmüyordu: `_SecretZone` rulosu z 3, `_Facade` de z 3 ve hanın
+cephesi bölgeden SONRA eklendiği için üstte çiziliyordu (mahzende sıra tersti — tutarsızlık). Yeni
+`tests/secret_roll_visible.tscn` 36 bölümde ölçtü: **108 rulonun 13'ü cephe arkasında** (Bölüm 1, 7×2, 11, 16, 17, 19,
+24, 25, 28, 31, 33, 34).
+
+**Oyuncu ne hissedecek:** çatlak kapılı hanın penceresinin önünde süzülen, ara ara parlayan rulo — "orada bir şey var"
+uzaktan okunur; içeri girince cephe şeffaflaşır, sandık görünür.
+
+**Yapılan:** `DtmLevel._SecretZone` rulosu z 4 (cephenin önünde; karakterler z 2, önde süs z 3). Tek satır, yeni görsel yok.
+
+**Testler:** `--import` hatasız; `tests/campaign_smoke.gd` çıkış 0 (36 SMOKE OK); `tests/dtm_gaps.tscn` PASS;
+`tests/secret_roll_visible.tscn` taban (`REDMOUNT_ROLL_OFF=1`) 13/108 FAIL → düzeltmeyle 0/108 PASS; bot Bölüm 1 (82,6 sn),
+11 (86,8 sn), 13 (77,4 sn), 25 (89,1 sn) CLEARED. Pencereli çekim: Bölüm 11 hanında rulo pencerenin önünde, mahzen
+sırrıyla aynı görünüm — sahneye ait.
+
+**Denetimin öteki bulguları** birikimin başına yazıldı (duyuru alt satırı plakası, sıcak zeminde rulo kontrastı, tek
+kalıplı dam sırları, Bölüm 11 dam lekesi).
+
+**Sonraki öneri:** birikimin ilk maddesi — film rulosu duyurusunun alt satırlarına piksel plaka.
 
 ### 2026-11-17 (204) — Sinematikte konuşan her zaman kadrajda
 

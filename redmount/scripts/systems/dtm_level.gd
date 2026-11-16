@@ -2145,7 +2145,9 @@ class _SecretZone extends Area2D:
 		_roll.scale = Vector2(2, 2)
 		_roll.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 		_roll.position = roll_at
-		_roll.z_index = 3
+		## Cephenin (`_Facade`, z 3) önünde: han / bina sırlarında rulo cephe arkasında
+		## kalıp ana yoldan görünmüyordu (tur 205: 108 rulonun 13'ü). Rulo sırrın ipucudur.
+		_roll.z_index = 4
 		add_child(_roll)
 		_t = randf() * TAU
 		_clear_rewards.call_deferred()
