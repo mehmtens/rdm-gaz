@@ -280,6 +280,25 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-17 (212) — Kalabalık sahnede düşman tipi ayrışması denetimi (Bölüm 27) — temiz, otomasyon durdu
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Tur 211'in
+önerdiği denetlenmemiş açı: koyu kıyafetli kahraman ve koyu düşmanlar kalabalık dövüşte birbirinden ayrılıyor mu?
+
+**Ölçüm:** Bölüm 27 (Galata Telgrafı) pencereli bot koşusu, 1280×720, 3 sn'de bir kare (CLEARED 85,5 sn, 29 kare,
+`scratchpad/renk27/`); en kalabalık iki kare 3× NEAREST büyütmeyle incelendi.
+- Kahraman: beyaz ayakkabı + kıvırcık saç + açık kenar ışığı — üç ayrı okunur işaret.
+- Serseri: kot pantolon + kasket (mavi alt gövde); kukuletalı bıçakçı: tam siyah, açık bıçak; tüfekli: miğfer + yeşil
+  ton; Ağır Zırhlı: plaka miğfer, iri silüet. Üçlü yakın dövüşte (kahraman + iki düşman yan yana) karışma yok.
+- HUD (dalga sayacı, combo, can) dövüş çizgisinin üstünde kalıyor; düşük can kızıl vinyeti okunur.
+
+**Kod değişmedi.** Bu tur yalnız denetim kaydı. Not (insan yargısı, birikime eklenmedi): kahraman ve serseri ikisi de
+siyah ceketli; ayrım alt gövde/ayakkabıdan geliyor. Telefon ekranında yetersiz kalırsa kahraman paletine tek bir
+imza renk (ör. kızıl atkı) eklemek bir sanat kararıdır, otonom yapılmadı.
+
+**Sonraki öneri:** otonom yapılabilecek açık iş yok; telefon APK'sıyla insan testi (ölüm sayıları, coin oranı,
+dokunma CSV'si, kahraman/serseri telefonda ayrışması).
+
 ### 2026-11-17 (211) — Adlı ara patronlar ara sahnede dövüş görünümüyle çıksın (Kaya / Sur Ağası / Muhafız Başı)
 
 **Neden şimdi:** Yol haritaları ve P1 kapalı; birikimde otonom yapılabilecek, insan testine bağlı
