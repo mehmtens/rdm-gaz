@@ -140,17 +140,15 @@ func _style() -> void:
 
 func _style_neighborhood() -> void:
 	var mobile := TouchControls.active_on_device()
+	## Durum plakası: her bölümde görünen sol üst sütunu (can, coin, silah, mermi, zırh, güç)
+	## saran piksel `panel_hud`; boyutu `_fit_status_panel` ile görünür satırlara oturur.
 	var panel := Panel.new()
+	panel.name = "StatusPanel"
+	panel.set_meta(&"pixel_done", true)
 	panel.position = Vector2(16, 16) if mobile else Vector2(20, 20)
 	panel.size = Vector2(320, 112) if mobile else Vector2(378, 118)
 	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var box := StyleBoxFlat.new()
-	box.bg_color = Color("242339ed")
-	box.border_color = Color("b88a60")
-	box.set_border_width_all(2)
-	box.shadow_color = Color(0, 0, 0, 0.3)
-	box.shadow_size = 5
-	panel.add_theme_stylebox_override("panel", box)
+	panel.add_theme_stylebox_override(&"panel", PixelUI.box("panel_hud", 14))
 	add_child(panel)
 	move_child(panel, 0)
 	_neighborhood_panel = panel
@@ -162,23 +160,23 @@ func _style_neighborhood() -> void:
 	portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(portrait)
-	portrait.scale = Vector2(0.48, 0.48) if mobile else Vector2(0.42, 0.42)
+	portrait.scale = Vector2(0.42, 0.42)
 	_neighborhood_portrait = portrait
 	var name_label := Label.new()
 	name_label.text = "REDMOUNT"
-	name_label.position = Vector2(82, 27) if mobile else Vector2(108, 25)
+	name_label.position = Vector2(94, 27) if mobile else Vector2(108, 25)
 	name_label.add_theme_font_size_override("font_size", 15)
 	name_label.add_theme_color_override("font_color", Color("ffd584"))
 	add_child(name_label)
 	_neighborhood_name = name_label
-	$HealthBg.position = Vector2(82, 52) if mobile else Vector2(108, 49)
-	_coins.position = Vector2(82, 86) if mobile else Vector2(108, 84)
+	$HealthBg.position = Vector2(94, 52) if mobile else Vector2(108, 49)
+	_coins.position = Vector2(94, 86) if mobile else Vector2(108, 84)
 	_coins.add_theme_font_size_override("font_size", 16)
-	_weapon.position = Vector2(20, 130) if mobile else Vector2(108, 108)
+	_weapon.position = Vector2(30, 130) if mobile else Vector2(108, 108)
 	_weapon.add_theme_font_size_override("font_size", 14)
-	_ammo.position = Vector2(16, 158 if mobile else 143)
-	_armor.position = Vector2(16, 186 if mobile else 165)
-	_powerups.position = Vector2(16, 214 if mobile else 187)
+	_ammo.position = Vector2(30, 158) if mobile else Vector2(40, 143)
+	_armor.position = Vector2(30, 186) if mobile else Vector2(40, 165)
+	_powerups.position = Vector2(30, 214) if mobile else Vector2(40, 187)
 	_save_column_slots()
 	_stage.add_theme_color_override("font_color", Color("ffd584"))
 
@@ -199,23 +197,25 @@ func _style_mobile() -> void:
 func set_level_context(index: int) -> void:
 	var neighborhood := index == 0
 	var mobile := TouchControls.active_on_device()
-	_neighborhood_panel.visible = neighborhood
+	## Plaka her bölümde görünür (Tur 215 denetimi: mahalle dışındaki 35 bölümde sütun plakasız
+	## yazıydı, mahallede de mermi/zırh satırları plakanın altına taşıyordu); portre yalnız mahallede.
+	_neighborhood_panel.visible = true
 	_neighborhood_portrait.visible = neighborhood
 	_neighborhood_name.visible = neighborhood
 	if not neighborhood:
-		$HealthBg.position = Vector2(16, 20 if mobile else 44)
-		_coins.position = Vector2(16, 62 if mobile else 80)
-		_weapon.position = Vector2(16, 90 if mobile else 104)
-		_ammo.position = Vector2(16, 118 if mobile else 128)
-		_armor.position = Vector2(16, 146 if mobile else 152)
-		_powerups.position = Vector2(16, 174 if mobile else 176)
+		$HealthBg.position = Vector2(24, 26 if mobile else 44)
+		_coins.position = Vector2(26, 66 if mobile else 80)
+		_weapon.position = Vector2(26, 92 if mobile else 104)
+		_ammo.position = Vector2(26, 118 if mobile else 128)
+		_armor.position = Vector2(26, 144 if mobile else 152)
+		_powerups.position = Vector2(26, 170 if mobile else 176)
 	else:
-		$HealthBg.position = Vector2(82, 52) if mobile else Vector2(108, 49)
-		_coins.position = Vector2(82, 86) if mobile else Vector2(108, 84)
-		_weapon.position = Vector2(20, 130) if mobile else Vector2(108, 108)
-		_ammo.position = Vector2(16, 158 if mobile else 143)
-		_armor.position = Vector2(16, 186 if mobile else 165)
-		_powerups.position = Vector2(16, 214 if mobile else 187)
+		$HealthBg.position = Vector2(94, 52) if mobile else Vector2(108, 49)
+		_coins.position = Vector2(94, 86) if mobile else Vector2(108, 84)
+		_weapon.position = Vector2(30, 130) if mobile else Vector2(108, 108)
+		_ammo.position = Vector2(30, 158) if mobile else Vector2(40, 143)
+		_armor.position = Vector2(30, 186) if mobile else Vector2(40, 165)
+		_powerups.position = Vector2(30, 214) if mobile else Vector2(40, 187)
 	_save_column_slots()
 	if mobile:
 		_layout_mobile_boss_bar()
@@ -223,7 +223,7 @@ func set_level_context(index: int) -> void:
 
 
 func _layout_mobile_boss_bar() -> void:
-	var hud_edge := 340.0 if GameState.level_index == 0 else 260.0
+	var hud_edge := 356.0 if GameState.level_index == 0 else 260.0
 	var width := minf(560.0, maxf(220.0, size.x - hud_edge - 16.0))
 	_boss_bar.offset_right = size.x - 16.0
 	_boss_bar.offset_left = _boss_bar.offset_right - width
@@ -408,6 +408,33 @@ func _restack_column() -> void:
 		l.position = _column_slots[row]
 		if not l.text.is_empty():
 			row += 1
+	_fit_status_panel()
+
+
+## Plaka görünür içeriği (portre, ad, can çubuğu, coin ve dolu satırlar) çerçeve payıyla sarar.
+## Genişlik 24 px adımlara yuvarlanır: güç sayacı her karede değişirken plaka titremesin.
+const _PANEL_PAD := Vector2(14, 12)
+
+
+func _fit_status_panel() -> void:
+	if _neighborhood_panel == null:
+		return
+	var items: Array[Control] = [$HealthBg, _coins]
+	if _neighborhood_name.visible:
+		items.append(_neighborhood_name)
+	for l: Label in _column_labels():
+		if not l.text.is_empty():
+			items.append(l)
+	var r := Rect2($HealthBg.position, $HealthBg.size)
+	for c: Control in items:
+		r = r.merge(Rect2(c.position, c.get_combined_minimum_size().max(Vector2(0, 1))))
+	if _neighborhood_portrait.visible:
+		r = r.merge(Rect2(_neighborhood_portrait.position, _neighborhood_portrait.size * _neighborhood_portrait.scale))
+	var left := r.position.x - _PANEL_PAD.x - 2.0
+	var top := r.position.y - _PANEL_PAD.y - 2.0
+	var w := ceilf((r.end.x + _PANEL_PAD.x - left) / 24.0) * 24.0
+	_neighborhood_panel.position = Vector2(left, top)
+	_neighborhood_panel.size = Vector2(w, r.end.y + _PANEL_PAD.y - top)
 
 
 ## `label` boşsa "MERMİ". Tek atımlık fırlatılan silah (TAŞ) toplam adet gösterir.
@@ -415,10 +442,10 @@ func set_ammo(mag: int, reserve: int, has_gun: bool, label := "") -> void:
 	if not has_gun:
 		_ammo.text = ""
 	elif label != "" and label != "MERMİ":
-		_ammo.text = ("%s %d" if TouchControls.active_on_device() else "%s: %d") % [
+		_ammo.text = "%s %d" % [
 			label if TouchControls.active_on_device() else label.capitalize(), mag + reserve]
 	else:
-		_ammo.text = ("MERMİ %d/%d" if TouchControls.active_on_device() else "Mermi: %d/%d") % [mag, reserve]
+		_ammo.text = ("MERMİ %d/%d" if TouchControls.active_on_device() else "Mermi %d/%d") % [mag, reserve]
 	_restack_column()
 
 

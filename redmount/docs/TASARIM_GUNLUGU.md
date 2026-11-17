@@ -289,6 +289,38 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-17 (215) — HUD durum plakası her bölümde: mermi/zırh satırları plakadan taşıyordu, 35 bölümde plaka yoktu
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı → denetim turu.
+Tur 214'ün önerdiği Bölüm 1 ve 30 gerçek karelerle (pencereli bot, `REDMOUNT_SNAP_DIR`) oynatıldı. HUD/menü okunurluğu
+sütununda iki somut kusur: (1) Bölüm 1'de portreli plaka yalnız can/coin/silahı sarıyor, "Mermi: 18/54" ve "Zırh 5/6"
+satırları plakanın ALTINDA, arka plan üstünde çıplak yazı; (2) mahalle dışındaki 35 bölümde sol üst sütunun hiç plakası
+yok — can çubuğu, coin, silah, mermi satırları dünya resminin üstünde çıplak (Bölüm 30 kütüphanede kalabalık dokuda zor
+okunuyor). DTM'de durum bloğu her bölümde aynı plakada. Ayrıca mobilde mahalle portresi (152 px doku × 0,48) can
+çubuğunun soluna biniyordu, ve masaüstünde yalnız mermi satırı "Mermi:" iki noktalıydı (diğerleri "Bıçak 13/20").
+
+**Oyuncu ne hissedecek:** sol üst köşe her bölümde aynı piksel plaka; plaka yalnız dolu satırları sarar (mermi yoksa
+kısalır, zırh alınca uzar), yazı hiçbir bölümde arka plana karışmaz.
+
+**Yapılan (`scripts/ui/hud.gd`):** mahalle plakası `PixelUI.box("panel_hud", 14)` (önceden StyleBoxFlat, PixelUIBoot
+çeviriyordu) ve her bölümde görünür; portre/ad yalnız mahallede. Yeni `_fit_status_panel()` her `_restack_column`
+sonunda görünür öğelerin (can, coin, ad, portre, dolu satırlar) birleşim dikdörtgenini 14×12 px çerçeve payıyla sarar;
+genişlik 24 px adıma yuvarlanır (güç sayacı her karede değişirken plaka titremesin). Satırlar plakanın içine kaydırıldı
+(mahalle masaüstü x 16→40, mobil 16→30; diğer bölümler x 16→26). Mobil mahalle: portre ölçeği 0,42, can/coin/ad x 82→94,
+mobil boss çubuğu kenarı 340→356. "Mermi:"/"Taş:" iki noktası kaldırıldı.
+
+**Not:** Bölüm 1'in ilk koşusunda kareler 12. saniyede, Bölüm 30'da 48. saniyede kesildi; aynı komutun tekrarı 16 kare
+verdi → pencere çizilmeyince (simge durumu/odak) `frame_post_draw` gelmiyor, araç kusuru değil.
+
+**Testler:** `--import` hatasız; `campaign_smoke.gd` çıkış 0; `dtm_gaps.tscn` PASS; `touch_polish.tscn` ve
+`level_stars.tscn` çıkış 0; yeni `tests/hud_status_panel.tscn` PASS (Bölüm 1/6/30'da plaka görünür, can/coin/mermi/zırh
+plakanın içinde, mahallede portre çubuğa binmiyor, boş satırlar plakayı kısaltıyor); bot Bölüm 1 (77,5 sn), 13 (79,9 sn),
+25 (79,9 sn) CLEARED. 1280×720 ve dokunmatik 1280×576 tam çözünürlüklü karelerde Bölüm 1 ve 30 HUD'u Read ile
+kontrol edildi: plaka diğer piksel HUD panelleriyle (dalga şeridi, ipucu) aynı aileden, satırlar içeride.
+
+**Sonraki öneri:** denetim döngüsü sürsün — Bölüm 6 (indeks 5) gerçek karelerle; HUD'un telefonda insan testi (plaka
+boyu kalabalık arenada oyun alanını kapatıyor mu).
+
 ### 2026-11-17 (214) — Oyun testi ekran görüntüsü düzeltmesi: `bolum_play` snapshot'ları bembeyaz çıkıyordu
 
 **Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı → denetim turu.
