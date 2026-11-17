@@ -18,6 +18,16 @@ const DAILY_SCENES := {
 	"elite": ELITE, "miniboss": MINIBOSS,
 }
 const SPOTS: Array[float] = [-650.0, -480.0, -310.0, -140.0, 140.0, 310.0, 480.0, 650.0]
+## Sonsuz Survival'ın "semtleri": her STAGE_WAVES dalgada arka plan aynı ChatGPT atlasının
+## sıradaki hücresine süpürmeyle geçer ve mekân pankartı çıkar (DTM'deki aşama hissi; yeni
+## çizim yok). [atlas hücresi, pankart adı]. Sıra döner: 20. dalgadan sonra başa.
+const STAGES := [
+	[0, "BALAT ARKA SOKAĞI"],
+	[2, "DOLMUŞ GARAJI"],
+	[3, "KANAL KÖPRÜSÜ"],
+	[1, "ÇARŞI ARKASI"],
+]
+const STAGE_WAVES := 5
 
 @onready var _player: CharacterBody2D = $Redmount
 @onready var _hud = $UI/HUD
@@ -224,6 +234,7 @@ func _start_next_wave() -> void:
 	_living = enemy_count_for_wave(_wave)
 	_hud.get_node(^"StageLabel").text = "SURVIVAL · DALGA %d · REKOR %d" % [_wave, Save.survival_best_wave]
 	_hud.set_arena_wave(_wave, -1, _living)
+	_enter_stage_for(_wave)
 	var boss_wave := _wave % 10 == 0
 	Fx.popup(Vector2(0, -170), "BOSS DALGASI" if boss_wave else "DALGA %d" % _wave,
 		Color(1.0, 0.35, 0.2) if boss_wave else Color(1.0, 0.72, 0.25), 30)
@@ -235,6 +246,22 @@ func _start_next_wave() -> void:
 	if not boss_wave and _wave >= 7: pool.append(ELITE)
 	for i in _living:
 		_spawn(pool[(i + _wave) % pool.size()], SPOTS[i])
+
+
+## Dalgaya göre semt: ilk dalgada değil, her yeni semtin ilk dalgasında arka plan süpürülür
+## (`sky_cells`'e yeni giriş eklenir; _Sky son girişe geçer) + mekân pankartı.
+static func stage_for_wave(wave: int) -> int:
+	return (maxi(wave, 1) - 1) / STAGE_WAVES % STAGES.size()
+
+
+func _enter_stage_for(wave: int) -> void:
+	if wave <= 1 or (wave - 1) % STAGE_WAVES != 0:
+		return
+	var stage: Array = STAGES[stage_for_wave(wave)]
+	sky_cells.append([stage[0], float(sky_cells.back()[1]) + 1.0])
+	var last := wave + STAGE_WAVES - 1
+	var boss := " · %d. dalgada boss" % (last / 10 * 10) if last / 10 > (wave - 1) / 10 else ""
+	_hud.show_place(stage[1], "Survival · dalga %d–%d%s" % [wave, last, boss])
 
 
 ## Günün planındaki dalga: düşmanlar iki kenardan dönüşümlü doğar (oyuncu ortada).

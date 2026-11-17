@@ -9,9 +9,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 - (Tur 237 Survival denetimi, etki/maliyet sırasıyla) **1–3 aynı turda yapıldı:** (1) ölümde sonuç kartı
   (dalga, rekor, coin, R/M) · (2) sonsuz modda HUD dalga/düşman sayacı · (3) rekor geçilince "YENİ REKOR!" duyurusu.
-  **Açık kalanlar:** (4) Survival hep aynı tek arka plan (`level06_backstreets_atlas`, Günün Dalgası da çarşı) —
-  10 dalgada bir mevcut ChatGPT atlaslarından biome değişimi DTM'deki "aşama" hissini verir; yeni çizim gerekmez,
-  `sky_atlas`/`sky_cells` dalga numarasıyla seçilebilir. (5) Günün Dalgası çarşı kemerinin koyu taşında siyah
+  ~~(4) Survival hep aynı arka plan~~ **(Tur 238'de yapıldı):** 5 dalgada bir semt geçişi.
+  **Açık kalanlar:** (5) Günün Dalgası çarşı kemerinin koyu taşında siyah
   kıyafetli Bıçaklı Ajan zor seçiliyor (`denetim surv/daily-14`) — düşman kenar ışığı yalnız belirmede; insan
   testinde okunurluk sorunu doğrulanırsa Survival'a özel zayıf kalıcı rim. (6) Survival 10. dalga boss'u tek
   MiniBoss — rekor kovalayan oyuncu için 20/30. dalgada bölüm boss'larından (Karahanlı vb.) dönüşüm değerlendirilsin.
@@ -313,6 +312,25 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-17 (238) — Survival semtleri: 5 dalgada bir arka plan süpürmesi + mekân pankartı (birikim 4)
+
+**Neden şimdi:** tur 237 denetiminin birikime yazdığı en üst açık madde. Sonsuz Survival 20+ dalga boyunca tek
+kare arka planda geçiyordu; DTM'nin hayatta kalma modundaki "aşama atladım" hissi yoktu.
+**Oyuncu ne hissedecek:** 6., 11., 16. dalgada arka plan kenardan süpürülerek yeni semte geçer (Balat arka sokağı →
+Dolmuş garajı → Kanal köprüsü → Çarşı arkası, sonra başa) ve mekân pankartı çıkar: "DOLMUŞ GARAJI · Survival · dalga
+6–10 · 10. dalgada boss". Uzun koşu ara hedeflere bölünür; boss dalgası önceden haber verilir.
+**Yapılan:** yeni çizim yok — `level06_backstreets_atlas`'ın (ChatGPT) dört hücresi; `survival.gd` `STAGES`,
+`stage_for_wave`, `_enter_stage_for` — `sky_cells`'e yeni giriş eklenir, mevcut `DtmLevel._Sky` süpürme perdesi
+(SKY_FADE 1,5 sn) geçişi yapar; pankart mevcut `show_place`. Günün Dalgası (5 dalga, çarşı) değişmedi.
+**Sayılar (hipotez):** 5 dalga ≈ 2–3 dk (tur 237 botu 4 dalgayı 37 sn'de, insan daha yavaş) — mobil oturumda
+birkaç dakikada bir yeni görüntü; boss (10'un katı) her ikinci semtin sonunda.
+**Testler:** `--import` hatasız; `tests/survival_card.tscn` OK (semt formülü + ilk dalgada değişmeme + geçişte yeni
+hücre ve pankart); `survival_mode` OK; `daily_wave` PASS; `dtm_gaps` PASS; `campaign_smoke` çıkış 0 (36 OK). Pencereli
+kareler: süpürme ortası (yumuşak kenar, iki ChatGPT hücresi), oturmuş garaj ve kanal köprüsü — pankart dalga
+plakasıyla çakışmıyor, arka plan ChatGPT'nin kendisi olduğu için stil birliği korunuyor.
+**Sonraki öneri:** birikim (5) insan testine bağlı (koyu düşman okunurluğu); (6) Survival 20/30. dalgada bölüm
+boss'ları — tasarım işi, mevcut boss sahnelerinin Survival arenasına uyumu ölçülmeli.
 
 ### 2026-11-17 (237) — Denetim: Survival / Günün Dalgası gerçek karelerle; ölüm sonuç kartı + sonsuz dalga sayacı
 
