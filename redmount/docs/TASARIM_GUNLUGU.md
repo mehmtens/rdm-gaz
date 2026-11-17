@@ -312,8 +312,14 @@ silüet olarak çizilmiş — belirme telegrafı olmalı; doğrula.
 **Testler:** `--import` hatasız (SCRIPT ERROR yok); bot Bölüm 15 iki kez CLEARED (92,0 sn ve 97,5 sn, 20 geçerli PNG);
 `dtm_gaps.tscn` PASS. Değişiklik test aracına özel, oyun kodunu etkilemez.
 
-**Sonraki adım:** snapshot aracı artık çalıştığına göre, sıradaki denetim turunda gerçek karelerle DTM sütun
-karşılaştırması (hareket hissi, dövüş okunurluğu, ritim) yapılabilir; önce açılış-karesi karanlığı doğrulansın.
+**İki bölüm denetim süpürmesi (aynı tur, çalışan araçla):** Bölüm 15 (Zeyrek çeşme avlusu + sarnıç su değirmeni
+set-piece) ve Bölüm 24 (Kemeraltı erzak çarşısı + gün batımı sur arenası, Haliç/Süleymaniye silüeti) gerçek karelerle
+incelendi. İkisi de DTM kalitesinde: sanat ChatGPT arka planıyla bütünleşik (yapıştırma izi yok), set-piece'ler güçlü,
+HUD okunur (CAN/COIN/Bıçak/Mermi/Zırh), dövüş geri bildirimi net (COMBO ×3 +45), dalga göstergesi açık (DALGA 2/3).
+Her iki bölüm de CLEARED (92 sn / 183 sn). Autonom düzeltilebilir yeni iş çıkmadı; kalan birikim insan/cihaz testine bağlı.
+
+**Sonraki adım:** sıradaki turlarda farklı bölümleri (örn. 0, 6, 30) aynı gerçek-kare yöntemiyle denetleyip DTM sütun
+karşılaştırması sürdürülebilir; şu an aktif autonom iş yok, insan testi beklemede (dokunmatik örtme, coin ekonomisi, ses mix).
 
 ### 2026-11-17 (213) — Dokunmatik düğme örtüşmesi denetimi: KAY düğmesi 16:9'da dövüşülen düşmanı örtüyordu
 
