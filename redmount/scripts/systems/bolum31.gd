@@ -90,7 +90,11 @@ func _build() -> void:
 	_checkpoint(6800, 0)
 	_interior(6900, 7650, -230, [-115.0], 1)
 	_story(7250, _sahne_muhur_odasi)
-	_pickup(HEALTH, 7550, -160)
+	## İlk yardım ana yol zemininde: son arenadan önceki tek can kaynağı. Eskiden
+	## -160'ta ara katın (-115) üstünde yüzüyordu; oyuncu/bot ara kata tırmanmadan
+	## alamıyor, son arenaya yarı canla giriliyordu (tur 273 bot: 20/115). Coin
+	## dizisi ara katta keşif ödülü olarak kalır.
+	_pickup(HEALTH, 7550, -40)
 	_coin_line(6950, 6, 50, -160)
 	chimney_rack = true   # konak salonu: ahşap raf kule
 	_chimney(7980, -480, 140, 150, AMMO)

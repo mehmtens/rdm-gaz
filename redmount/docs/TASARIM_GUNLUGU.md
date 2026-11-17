@@ -13,8 +13,9 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   4–13. Kitap başlarında rahatlayan testere dişi DTM'ye uygun; ani sıçrama yok. 36/36 CLEARED, toplam 5 yeniden doğma
   (Bölüm 10, 27, 35 birer; 36 iki). İnsan testinde Kitap 3 son arenalarında ölüm sayısı ölçülsün · (2) Bölüm 31: pencereli
   koşuda bot deniz köşkü arenasına (3 dalga, 7 düşman) 20/115 canla girip bir kez öldü (headless koşuda ölmedi, en düşük 9).
-  Kütüphane arenası ile son arena arasındaki tek ilk yardım mühür odası üst katında (7550, −160), ana yolun üstünde
-  görünür; bot tırmanmadığı için almadı. İnsan "son arenaya yarı ölü giriyorum" derse ilk yardım zemin katına indirilsin ·
+  ~~Kütüphane arenası ile son arena arasındaki tek ilk yardım mühür odası üst katında (7550, −160), ana yolun üstünde
+  görünür; bot tırmanmadığı için almadı~~ **(tur 274: `HEALTH 7550,−40` ana yol zemini; bot son arenaya 78/115 canla
+  girdi, 0 respawn — ara kattaki coin dizisi keşif ödülü olarak kaldı)** ·
   (3) Bölüm 22 son arenası açılırken gökyüzü süpürme geçişi (9800) dövüşün ilk 1,5 sn'sinde görülüyor; tasarlanmış perde,
   kalıcı dikiş değil — insan testi "arka plan dövüşte değişiyor" derse hücre sınırı 9450'ye çekilsin · (4) Bölüm 31
   Nüzhet telsizi (5362) kütüphane arenası kilitlenirken hâlâ ekranda; dalga sayacıyla üst üste binmiyor, tur 249
@@ -411,6 +412,28 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-18 (274) — Bölüm 31 ilk yardımı ana yol zeminine indi (birikim tur 273/2)
+
+**Neden şimdi:** Stil listesi, YOL_HARITASI ve P1 maddeleri tükendi; birikimdeki koşulsuz-uygulanabilir tek somut iş
+tur 273/2 idi. Kütüphane arenası ile son arena arasındaki TEK can kaynağı (`HEALTH 7550,-160`) mühür odasının ara katı
+(-115) üstünde yüzüyordu; oyuncu/bot ana yoldan (y=0) alamak için ara kata tırmanmak zorundaydı. Tur 273 bot koşusunda
+bot tırmanmadı ve son arenaya 20/115 canla girip bir kez öldü. Erişilemeyen can = tasarlanmamış zorluk sıçraması.
+
+**Oyuncu ne hissedecek:** Son dalga setinden (deniz köşkü, 3 dalga/7 düşman) önce koşarken garanti +50 can toplar;
+"kütüphaneden çıktım, boss'a yarı ölü giriyorum" hissi kalkar. Ara kattaki coin dizisi (6950,-160) keşif ödülü olarak
+yerinde; tırmanan oyuncu coinleri, tırmanmayan canı alır.
+
+**Ne yapıldı:** `bolum31.gd` — `_pickup(HEALTH, 7550, -160)` → `_pickup(HEALTH, 7550, -40)`. −40 ara katın (−115)
+altında, ana zeminin (0) üstünde; oyuncu merkezi hizasında, koşarken doğrudan alınır. Başka içerik taşınmadı.
+
+**Test:** import temiz (SCRIPT ERROR yok) · DTM GAPS: PASS · bot Bölüm 31 (index 30): CLEARED, 0 respawn — kütüphane
+sonrası t=48 hp=28, mühür odası ana yolundan geçerken t=56 **hp=78** (+50 toplandı), son arena 78 canla girildi (eski:
+~20) · smoke 36 sahne: OK, çıkış 0.
+
+**Sonraki öneri:** Birikimde koşulsuz somut iş kalmadı (kalanlar insan testine bağlı). Sıradaki tur TASARIM DENETİMİ:
+hiç denetlenmemiş Bölüm 8 (Kitap 1 sonu) veya 24 (Kitap 2 sonu) pencereli bot koşusu + 4-6 ekran görüntüsü, DTM ile
+karşılaştırma.
 
 ### 2026-11-17 (262) — Han sırrının iç odası bölüme göre çeşitlendi (formül kırma, birikim üst madde ilk dilim)
 
