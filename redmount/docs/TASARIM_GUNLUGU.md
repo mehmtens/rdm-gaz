@@ -289,6 +289,18 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-17 (223) — Denetim: Bölüm 24 gerçek karelerle — temiz, otomasyon durdu
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. "Gerçek kare"
+serisinde henüz bakılmamış ve günlükte en az anılan Bölüm 24 (19 anma) pencereli botla (`REDMOUNT_SNAP_DIR`, 1280×720,
+8 sn arayla, 26 kare) oynatıldı. **Sonuç:** CLEARED 203,0 sn (1 ölüm x≈13100 sarnıç bendi arenası — Ağır Zırhlı'ya
+5/115 canla giriş; 26 sn duraklama x≈18090 Ana Vana Muhafızı finali).
+- Su kemeri altı arenası (DALGA 2/2, Süleymaniye silueti), çinili manometreli vana galerisi, sarnıç bendi/savak
+  arenası ve gün batımlı sur terasında Ana Vana Muhafızı ChatGPT arka planlarıyla bütünleşik; yapıştırma izi yok.
+- HUD plakası (tur 215) can/coin/silah/mermi satırlarını sarıyor; dalga şeridi, kombo (EFSANE ×24), boss çubuğu okunur.
+- Uzun süre (203 sn) ve sarnıç arenasına düşük canla giriş bot davranışı (can ödüllerini atlıyor); denge insan testine bağlı.
+Kod değişmedi; otonom düzeltilebilir yeni iş yok. Kalan birikim insan/cihaz testine bağlı. Otomasyon durdu.
+
 ### 2026-11-17 (222) — Denetim: Bölüm 28 ve final Bölüm 36 gerçek karelerle — temiz, otomasyon durdu
 
 **Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. "Gerçek kare"
