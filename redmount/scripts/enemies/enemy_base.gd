@@ -863,7 +863,7 @@ func apply_hit(damage: int, dir: Vector2, knockback: float) -> void:
 		_emit_boss_health()
 		_set_state(State.DEAD)
 		_play(&"death")
-		Sfx.play(&"enemy_down")
+		Sfx.play(&"enemy_down", voice_pitch())
 		Fx.spark(global_position + Vector2(0, -56), Vector2.ZERO, 12, Color(1, 0.7, 0.4), 1.3)
 		Fx.dust(global_position, 0.0, 6)
 		_hurtbox.set_deferred(&"monitorable", false)
@@ -888,7 +888,7 @@ func apply_hit(damage: int, dir: Vector2, knockback: float) -> void:
 	if in_break:
 		return
 
-	Sfx.play(&"enemy_hurt")
+	Sfx.play(&"enemy_hurt", voice_pitch())
 
 	# Mini-boss: yeterli isabet -> zırh kırıl, kısa süre savunmasız.
 	if config.armor_break_hits > 0:
@@ -1165,6 +1165,15 @@ func _emit_boss_health() -> void:
 
 func get_state_name() -> String:
 	return State.keys()[_state]
+
+
+## Vuruş/yıkılış sesinin perdesi (tur 269, ses denetimi): iri düşman kalın, çevik düşman ince
+## ses verir — oyuncu kalabalıkta kime vurduğunu kulağıyla da ayırır. Can 30 (Sokak Eşkıyası)
+## = 1,0; dördüncü kök eğrisi: Çevik Suikastçı (18) ≈1,14, Zırhlı Vurucu (60) ≈0,84; boss ve
+## adlı rakipler 0,72 tabanında. Eskiden 12 türün hepsi aynı perdede (yalnız ±%6 rastgele).
+func voice_pitch() -> float:
+	var hp := maxf(1.0, float(config.max_health) if config != null else 30.0)
+	return clampf(pow(30.0 / hp, 0.25), 0.72, 1.15)
 
 
 func get_health() -> int:

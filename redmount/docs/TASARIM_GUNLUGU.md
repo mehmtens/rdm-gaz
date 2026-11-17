@@ -12,9 +12,9 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   düşman yıkılışı, zırh/silah kırılması dahil); çoklu vuruşta aynı ses aynı karede 2–3 kez üst üste biniyordu~~
   **(tur 265: `Sfx` öncelik + aynı kare birleştirme)** · ~~(2) coin zinciri: art arda toplanan coinler hep aynı perdede~~
   **(tur 266: 0,4 sn penceresinde majör gamda basamak basamak, tepe bir oktav)** · ~~(3) düşman saldırı uyarısının (`_telegraph` ünlemi) sesi yok~~
-  **(tur 267: `warn.wav` "çın", ağırda kalın perde, 90 ms aralık sınırı)** · ~~(4) müzik ölüm/hedef anında kısılmıyor~~ **(tur 268: `Music.duck`, `Sfx.DUCK` tablosu)** · (5) 25 klip tümüyle prosedürel placeholder
-  (`sfx.gd` başlığı); düşman türleri aynı vuruş/yıkılış sesini paylaşıyor — tür başına perde farkı (kalkanlı/zırhlı
-  daha kalın) ucuz ilk adım, gerçek ses tasarımı insan kulağına bağlı.
+  **(tur 267: `warn.wav` "çın", ağırda kalın perde, 90 ms aralık sınırı)** · ~~(4) müzik ölüm/hedef anında kısılmıyor~~ **(tur 268: `Music.duck`, `Sfx.DUCK` tablosu)** · ~~(5) düşman türleri aynı vuruş/yıkılış perdesini paylaşıyor~~
+  **(tur 269: `EnemyBase.voice_pitch`, cana göre)**. Kalan: 25 klip tümüyle prosedürel placeholder (`sfx.gd` başlığı);
+  gerçek ses tasarımı ve mix insan kulağına bağlı.
 
 - (Tur 259 denetimi, gizli alan / katmanlı rota sütunu, `tests/secret_count` ölçümü; etki/maliyet sırasıyla, 1 aynı turda
   yapıldı) ~~(1) açılış mahzeni 36/36 bölümde birebir aynı (x=-430, sandık + zırh + 4 coin); 108 sırrın üçte biri tek
@@ -8147,4 +8147,18 @@ klip boyunca aşağıda, sonra yumuşak dönüş). Sayılar hipotez; insan kula�
 (ölümde −10 dB, 1,6 sn sonra taban, duck sırasında parça değişimi tabana oturur, eski parça durur); `sfx_voices` PASS;
 `ui_sfx` OK; `telegraph_mark` PASS; bot Bölüm 1 (78,9 sn), 13 (66,8 sn), 25 (89,3 sn) CLEARED.
 **Sonraki öneri:** birikim Tur 265/(5) düşman türü başına vuruş/yıkılış perde farkı (kalkanlı/zırhlı daha kalın).
+
+### 2026-11-17 — Düşman türüne göre vuruş/yıkılış perdesi (tur 269, birikim Tur 265/5)
+
+**Neden:** 12 düşman türünün hepsi aynı `enemy_hurt`/`enemy_down` sesini aynı perdede (yalnız ±%6 rastgele) çalıyordu;
+kalabalık arenada oyuncu kime vurduğunu, hangisinin yıkıldığını kulağıyla ayıramıyordu. İri düşman kalın, çevik düşman
+ince ses verince Zırhlı Vurucu'nun yıkılışı "büyük" duyulur.
+**Değişiklik:** `enemy_base.gd` `voice_pitch()` = clamp((30 / can)^0,25; 0,72; 1,15) — Sokak Eşkıyası (30) 1,0; Çevik
+Suikastçı (18) 1,14; Elit Muhafız (40) 0,93; Zırhlı Vurucu (60) 0,84; boss'lar ve adlı rakipler (`make_named` canı
+katlar) 0,72 tabanında. Uçlar arası ≈ 5 yarım ton, rastgele kaymadan (±1 yarım ton) belirgin büyük. Yalnız vuruş ve
+yıkılış seslerine uygulandı; savuruş/kalkan sesleri zaten saldırı türüne göre perdeli. Sayılar hipotez.
+**Testler:** `--import` SCRIPT ERROR yok; `campaign_smoke` çıkış 0; `dtm_gaps` PASS; yeni `tests/enemy_voice.tscn` PASS
+(çevik > eşkıya = 1,0 > zırhlı, uç oranı > 1,25, boss tabanı); `telegraph_mark` PASS; bot Bölüm 1 (78,7 sn),
+13 (59,9 sn), 25 (88,4 sn) CLEARED.
+**Sonuç:** Tur 265 ses denetiminin beş maddesinin hepsi uygulandı; kalan yalnız insan kulağına bağlı placeholder klip/mix.
 
