@@ -12,8 +12,11 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   ~~(4) Survival hep aynı arka plan~~ **(Tur 238'de yapıldı):** 5 dalgada bir semt geçişi.
   **Açık kalanlar:** (5) Günün Dalgası çarşı kemerinin koyu taşında siyah
   kıyafetli Bıçaklı Ajan zor seçiliyor (`denetim surv/daily-14`) — düşman kenar ışığı yalnız belirmede; insan
-  testinde okunurluk sorunu doğrulanırsa Survival'a özel zayıf kalıcı rim. (6) Survival 10. dalga boss'u tek
-  MiniBoss — rekor kovalayan oyuncu için 20/30. dalgada bölüm boss'larından (Karahanlı vb.) dönüşüm değerlendirilsin.
+  testinde okunurluk sorunu doğrulanırsa Survival'a özel zayıf kalıcı rim. ~~(6) Survival boss'u hep MiniBoss~~
+  **(Tur 239'da yapıldı):** boss sırası + eksik üç düşman türü havuza girdi.
+  (7) (Tur 239) Ana Vana Muhafızı ve Yayın Şefi kampanyada da `mini_boss_frames` kullanıyor — Survival boss sırasında
+  10/20/40. dalga boss'ları aynı zırhlı silüet (renk tonu ve davranış farklı). Kendi sprite'ları ChatGPT tarzında
+  çizilirse hem kampanya hem Survival kazanır; büyük sanat işi, stil kuralına göre ayrı tur.
 
 - ~~(Tur 235 denetimi, Bölüm 17 & 29) Combo sayacı konturu~~ **(aynı turda yapıldı, `commit` aşağıda):**
   `ComboLabel` çıplak altın metindi, HUD paneli (tur 206) ve duyuru plakasıyla aynı okunurluk katmanına
@@ -312,6 +315,26 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-17 (239) — Survival düşman çeşitliliği + 10 dalgada bir dönen boss (birikim 6)
+
+**Neden şimdi:** birikimin otonom yapılabilir tek kalan maddesi. Kod okununca ikinci bir boşluk da çıktı: sonsuz
+Survival havuzunda Kalkanlı Muhafız, Bombacı ve Çevik Suikastçı **hiç** yoktu (yalnız 5 tür), boss her 10 dalgada
+aynı Ağır Zırhlı'ydı.
+**Oyuncu ne hissedecek:** dalgalar ilerledikçe kampanyanın tüm düşman dili gelir (kalkan → blok delen silah ihtiyacı,
+bombacı → hareket, suikastçı → havadan iniş); 10/20/30/40. dalgada Ağır Zırhlı → Ana Vana Muhafızı (öfke + yardımcı +
+şok dalgası) → Karahanlı → Yayın Şefi (üç evre), sonra başa. Rekor kovalamanın her on dalgası yeni bir boss deseni.
+**Yapılan:** `survival.gd` `enemy_pool_for_wave` (kademeli giriş: kalkanlı 4, bombacı 6, suikastçı 8. dalga —
+kampanyadaki tanışma sırası) + `BOSS_ROTATION`. StoryBoss öfkede yardımcı çağırınca bunlar `_spawn` dışından
+geldiği için sayılmıyordu → boss ölünce yardımcılar sahnedeyken sonraki dalga başlardı; `child_entered_tree` ile
+dışarıdan gelen her `EnemyBase` dalga sayacına ve HUD'a eklenir. Günün Dalgası planı değişmedi.
+**Sayılar (hipotez):** dalga başına düşman sayısı ve ödül aynı; yalnız tür çeşitliliği arttı. Kalkanlı/bombacı
+erken (4/6) çünkü Survival cephaneliği blok delen/menzilli silah sunuyor; suikastçı en çevik tür olduğu için 8.
+**Testler:** `--import` hatasız; `tests/survival_card.tscn` OK (havuz boyutları, boss sırası ve döngüsü, tüm
+sahnelerin örneklenebilmesi, boss öfkesindeki 2 yardımcının sayaca girmesi); `survival_mode` OK; `daily_wave` PASS;
+`dtm_gaps` PASS; `campaign_smoke` çıkış 0 (36 OK). Pencereli kareler: dalga 20 (Ana Vana, boss çubuğu adıyla),
+40 (Yayın Şefi), 8 (8 tür birlikte: kalkan, bombacı, suikastçı görünür) — arenaya sığıyor, çakışma yok.
+**Sonraki öneri:** birikim (7) — Ana Vana / Yayın Şefi'ne kendi ChatGPT tarzı sprite'ı (büyük sanat işi).
 
 ### 2026-11-17 (238) — Survival semtleri: 5 dalgada bir arka plan süpürmesi + mekân pankartı (birikim 4)
 

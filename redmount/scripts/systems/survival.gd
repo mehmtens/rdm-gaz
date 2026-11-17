@@ -8,6 +8,17 @@ const RIFLE := preload("res://scenes/enemies/RifleGuard.tscn")
 const BRUISER := preload("res://scenes/enemies/ArmoredBruiser.tscn")
 const ELITE := preload("res://scenes/enemies/EliteGuard.tscn")
 const MINIBOSS := preload("res://scenes/enemies/MiniBoss.tscn")
+const SHIELD := preload("res://scenes/enemies/ShieldGuard.tscn")
+const BOMBER := preload("res://scenes/enemies/Bomber.tscn")
+const AGILE := preload("res://scenes/enemies/AgileAssassin.tscn")
+## Sonsuz modun boss sırası (10, 20, 30, 40. dalga; sonra başa): kampanyanın boss'ları,
+## rekor kovalayan oyuncuya her on dalgada yeni bir desen (yalnız Ağır Zırhlı tekrar ediyordu).
+const BOSS_ROTATION: Array[PackedScene] = [
+	MINIBOSS,
+	preload("res://scenes/enemies/WaterworksChief.tscn"),
+	preload("res://scenes/enemies/Karahanli.tscn"),
+	preload("res://scenes/enemies/BroadcastDirector.tscn"),
+]
 const BAT := preload("res://resources/weapons/bat.tres")
 const KNIFE_WEAPON := preload("res://resources/weapons/knife.tres")
 const PISTOL := preload("res://resources/weapons/pistol.tres")
@@ -103,6 +114,7 @@ func _ready() -> void:
 	_touch.menu_requested.connect(_menu)
 	_touch.next_requested.connect(_restart)
 	get_viewport().size_changed.connect(_apply_safe_area)
+	child_entered_tree.connect(_on_child_entered)
 	_apply_safe_area()
 	GameState.start_run()
 	_hud.set_level_context(-1)
@@ -238,14 +250,32 @@ func _start_next_wave() -> void:
 	var boss_wave := _wave % 10 == 0
 	Fx.popup(Vector2(0, -170), "BOSS DALGASI" if boss_wave else "DALGA %d" % _wave,
 		Color(1.0, 0.35, 0.2) if boss_wave else Color(1.0, 0.72, 0.25), 30)
-	var pool: Array[PackedScene] = []
-	pool.append(MINIBOSS if boss_wave else THUG)
-	if not boss_wave and _wave >= 2: pool.append(KNIFE)
-	if not boss_wave and _wave >= 3: pool.append(RIFLE)
-	if not boss_wave and _wave >= 5: pool.append(BRUISER)
-	if not boss_wave and _wave >= 7: pool.append(ELITE)
+	var pool := enemy_pool_for_wave(_wave)
 	for i in _living:
 		_spawn(pool[(i + _wave) % pool.size()], SPOTS[i])
+
+
+## Sonsuz dalganın düşman havuzu; doğanlar sırayla havuzdan seçilir. Yeni türler kademeli
+## girer (kampanyadaki sırayla): kalkanlı 4, bombacı 6, çevik suikastçı 8. dalgadan.
+static func enemy_pool_for_wave(wave: int) -> Array[PackedScene]:
+	if wave > 0 and wave % 10 == 0:
+		return [BOSS_ROTATION[(wave / 10 - 1) % BOSS_ROTATION.size()]]
+	var pool: Array[PackedScene] = [THUG]
+	for gate in [[2, KNIFE], [3, RIFLE], [4, SHIELD], [5, BRUISER], [6, BOMBER], [7, ELITE], [8, AGILE]]:
+		if wave >= int(gate[0]):
+			pool.append(gate[1])
+	return pool
+
+
+## Boss öfkesinde çağırdığı yardımcılar gibi `_spawn` dışından gelen düşmanlar da dalga
+## sayacına girsin: yoksa boss ölünce yardımcılar sahnedeyken sonraki dalga başlıyordu.
+func _on_child_entered(node: Node) -> void:
+	if node is EnemyBase and not node.has_meta(&"survival_counted"):
+		node.set_meta(&"survival_counted", true)
+		node.defeated.connect(_on_enemy_defeated)
+		_living += 1
+		if not _dead:
+			_hud.set_arena_wave(_wave, DailyWave.WAVES if _daily else -1, _living)
 
 
 ## Dalgaya göre semt: ilk dalgada değil, her yeni semtin ilk dalgasında arka plan süpürülür
@@ -292,6 +322,7 @@ func _spawn(scene: PackedScene, x: float) -> void:
 		enemy.config.move_speed *= speed
 		enemy.config.patrol_speed *= speed
 	enemy.defeated.connect(_on_enemy_defeated)
+	enemy.set_meta(&"survival_counted", true)
 	add_child(enemy)
 	if enemy.config.is_boss:
 		enemy.boss_health_changed.connect(_hud.set_boss_health)

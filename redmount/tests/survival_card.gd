@@ -36,6 +36,24 @@ func _ready() -> void:
 	mode._enter_stage_for(6)
 	assert(mode.sky_cells.size() == before + 1 and int(mode.sky_cells.back()[0]) == 2)
 	assert(hud._place != null and hud._place.visible)
+	## Havuz: yeni türler kademeli, boss'lar 10 dalgada bir döner.
+	assert(SurvivalMode.enemy_pool_for_wave(1).size() == 1)
+	assert(SurvivalMode.enemy_pool_for_wave(8).size() == 8)
+	assert(SurvivalMode.enemy_pool_for_wave(10)[0] == SurvivalMode.MINIBOSS)
+	assert(SurvivalMode.enemy_pool_for_wave(20)[0] != SurvivalMode.MINIBOSS)
+	assert(SurvivalMode.enemy_pool_for_wave(50)[0] == SurvivalMode.MINIBOSS)
+	for w in [4, 6, 8, 20, 30, 40]:
+		for scene in SurvivalMode.enemy_pool_for_wave(w):
+			assert(scene.can_instantiate())
+	## Boss öfkesinde çağrılan yardımcılar dalga sayacına girer.
+	var living: int = mode._living
+	mode._spawn(SurvivalMode.enemy_pool_for_wave(20)[0], 300.0)
+	var boss: EnemyBase = mode.get_children().back()
+	assert(mode._living == living)
+	boss._enter_rage()  # hasar zırh/blok zarına bağlı; öfkeyi doğrudan tetikle
+	await get_tree().process_frame
+	await get_tree().process_frame
+	assert(mode._living == living + 2)
 	print("SURVIVAL CARD OK")
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(Save._path))
 	get_tree().quit(0)
