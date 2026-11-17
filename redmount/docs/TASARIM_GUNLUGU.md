@@ -7919,3 +7919,19 @@ ayrışıyor; dövüş sırasında telsiz paneli yok. **Otonom iş çıkmadı.**
 yazısının piksel ayrıntısını yargılamak için 1280×720 kayıt gerekir (combo yazısı tur 235'te ele alındı).
 **Sonuç:** stil listesi, yol haritaları ve birikimin otonom maddeleri kapalı; bu denetim yeni iş çıkarmadı → otomasyon
 durdu. Kalan denetim adayları: Bölüm 10, 16, 29, 36. Açık birikim maddeleri insan/telefon testine bağlı.
+
+### 2026-11-17 — Denetim: Bölüm 10, 16, 29, 36 temiz (tur 257)
+
+**Neden:** tur 256'nın önerisi — ayrı denetimi olmayan son dört bölüm. Hepsi pencereli botla (1280×720, 15 sn arayla kare)
+oynatıldı: Bölüm 10 CLEARED 103,0 sn (7 kare), 16 CLEARED 74,9 sn (5), 29 CLEARED 71,5 sn (5), 36 CLEARED 172,8 sn (12).
+**Bulgular:** Bölüm 10 sur/kale avlusu ve "SUR AĞASI" boss arenası, 16 çarşı/ciltçi deposu, 29 Kuzguncuk sokakları + bostan
+duvarı + çok katlı iskele, 36 gemi ambarı → makine dairesi → "YAYIN ŞEFİ" kaptan köşkü DTM kalitesinde; dalga rozeti, combo,
+boss çubuğu, film rulosu duyurusu okunur. Tur 255 kuralı sahada doğrulandı: B10'da arenadan hemen önce açılan "Ayna sinyali"
+satırı dövüşte çekilip arena bitince baştan okundu. Arenada açılan düşman telsizi (Sur Ağası) bilinçli olarak kesilmiyor.
+**Yanlış alarm olarak elenenler:** B29 t0030'da oyuncunun bostan yaprakları önünde soluk görünmesi hasar sonrası
+dokunulmazlık yanıp sönmesi (yakın plan kontrol edildi); B10/B36 son karelerde boş boss çubuğu = boss ölmek üzere;
+bot "stall" süreleri (23 sn, 28 sn) arena dalgalarıyla örtüşüyor, takılma değil.
+**Sonuç:** 36 bölümün tamamı en az bir kez ayrı denetlendi. Stil listesi, yol haritaları ve birikimin otonom maddeleri
+kapalı; bu denetim yeni iş çıkarmadı → otomasyon durdu. Açık birikim maddeleri insan/telefon testine bağlı (tüfek
+telegrafı ölçümü, kitap doruğu yorgunluğu, Survival rim, düşman tip rengi, ses/mix, font metriği).
+**Sonraki öneri:** telefonda insan oyun testi; bulgular birikime yazılınca otomasyon yeniden iş alır.
