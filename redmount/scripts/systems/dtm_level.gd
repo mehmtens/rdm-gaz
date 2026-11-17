@@ -2131,6 +2131,9 @@ class _Searchlight extends Node2D:
 ## Ön plan siluetleri: oyuncunun önünde, kameraya göre %25 fazla kayar (derinlik).
 class _Foreground extends Node2D:
 	var items: Array = []
+	## Ön plan oyuncunun önünde kalıyor; oyuncu geniş kolonun arkasına geçince silüet
+	## örtülmesin diye eleman oyuncunun yatay hizasına gelince saydamlaşır (tur 275).
+	var _player: Node2D = null
 
 	func _ready() -> void:
 		z_index = 30
@@ -2141,10 +2144,25 @@ class _Foreground extends Node2D:
 	func _process(_delta: float) -> void:
 		queue_redraw()
 
+	## Elemanın yatay yarı genişliğine göre oyuncuyu örtme alfası: oyuncu tam arkasında
+	## 0.4, dışında 1.0, arada yumuşak geçiş (titremesin).
+	func _occ(px: float, half: float) -> float:
+		if _player == null or not is_instance_valid(_player):
+			return 1.0
+		var d := absf(px - _player.global_position.x)
+		var r := half + 22.0
+		if d >= r + 60.0:
+			return 1.0
+		if d <= r:
+			return 0.4
+		return lerpf(0.4, 1.0, (d - r) / 60.0)
+
 	func _draw() -> void:
 		var cam := get_viewport().get_camera_2d()
 		if cam == null:
 			return
+		if _player == null or not is_instance_valid(_player):
+			_player = get_tree().get_first_node_in_group(&"player") as Node2D
 		var c := cam.get_screen_center_position()
 		for it in items:
 			var px: float = float(it[1]) + (float(it[1]) - c.x) * 0.25
@@ -2157,6 +2175,8 @@ class _Foreground extends Node2D:
 					# Başlık + döşenen gövde + kaide (4x ölçek, gerilmeden).
 					var sc := 4.0
 					var cw := PIX_FG_COLUMN.get_width() * sc
+					var occ := _occ(px, cw * 0.5)
+					var tint := Color(1.0, 1.0, 1.0, occ)
 					if ln <= 0.0:
 						ln = 420.0
 					var top := y - ln
@@ -2167,20 +2187,22 @@ class _Foreground extends Node2D:
 					while by < y - bh - 0.5:
 						var hh2 := minf(seg, y - bh - by)
 						draw_texture_rect_region(PIX_FG_COLUMN, Rect2(px - cw * 0.5, by, cw, hh2),
-							Rect2(0, 0, PIX_FG_COLUMN.get_width(), hh2 / sc))
+							Rect2(0, 0, PIX_FG_COLUMN.get_width(), hh2 / sc), tint)
 						by += seg
-					draw_texture_rect(PIX_FG_CAP, Rect2(px - cw * 0.5, top, cw, ch), false)
-					draw_texture_rect(PIX_FG_BASE, Rect2(px - cw * 0.5, y - bh, cw, bh), false)
+					draw_texture_rect(PIX_FG_CAP, Rect2(px - cw * 0.5, top, cw, ch), false, tint)
+					draw_texture_rect(PIX_FG_BASE, Rect2(px - cw * 0.5, y - bh, cw, bh), false, tint)
 				"sarmasik":
 					var s2 := PIX_FG_VINE.get_size() * 4.0
-					draw_texture_rect(PIX_FG_VINE, Rect2(px - s2.x * 0.5, y, s2.x, s2.y), false)
+					draw_texture_rect(PIX_FG_VINE, Rect2(px - s2.x * 0.5, y, s2.x, s2.y), false,
+						Color(1.0, 1.0, 1.0, _occ(px, s2.x * 0.5)))
 				"zincir":
 					var s3 := PIX_CHAIN.get_size() * 4.0
+					var zocc := _occ(px, s3.x * 0.5)
 					if ln <= 0.0:
 						ln = 200.0
 					var yy := 0.0
 					while yy < ln:
-						draw_texture_rect(PIX_CHAIN, Rect2(px - s3.x * 0.5, y + yy, s3.x, s3.y), false, Color(0.45, 0.42, 0.5))
+						draw_texture_rect(PIX_CHAIN, Rect2(px - s3.x * 0.5, y + yy, s3.x, s3.y), false, Color(0.45, 0.42, 0.5, zocc))
 						yy += s3.y
 
 

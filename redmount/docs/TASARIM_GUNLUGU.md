@@ -7,6 +7,21 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 275 denetimi, hiç denetlenmemiş Bölüm 24 — Kitap 2 finali, Bozdoğan Kemeri — pencereli bot koşusu (181 sn,
+  CLEARED, 0 respawn, en düşük hp ~39) + 6 mekân ekran görüntüsü; DTM sütunlarıyla karşılaştırıldı. Görsel kalite
+  DTM düzeyinde: zengin arka plan, net silüet, okunur düşmanlar, 12 mekânlı ritim, katmanlı rota (üst bakım yolu),
+  chimney sırrı, set-piece'ler. Etki/maliyet sırasıyla, 1 aynı turda yapıldı) ~~(1) ön plan `_fg` elemanları (kolon,
+  16 bölümde) z_index=30 ile her zaman tam opak; oyuncu ön plan kolonunun arkasına geçince silüet örtülüyordu
+  (b24_4 su galerisinde üç geniş kolon)~~ **(tur 275: `_Foreground._occ` — eleman oyuncu hizasına gelince 0.4 alfaya
+  yumuşak geçiş; ekran görüntüsüyle doğrulandı — kolon/sarmaşık/zincir)** · (2) Bölüm
+  24 su çarkı (kule revirinde, 16000 civarı) ve Bölüm 15 su çarkı yalnız dekor; dönen çark platformu yeni sanat +
+  mekanik ister — insan testi "set-piece eksik" derse · (3) b24_4 canal su hattına düşen oyuncu silüeti koyu su
+  tonunda zayıf okunur (yalnız collapse tahtası kaçarsa olur); insan testi "suya düştüm göremedim" derse su yüzeyi
+  altına oyuncu kenar parlaması · (4) Bölüm 24 arşiv iç mekânında (14150 story) knife düşmanı story tetiklenince çok
+  yakın; cutscene donduruyor ama insan testi "sahne bitince anında vuruldum" derse düşman x'i 60 px geri · (5) 12
+  mekânın üçünde dükkân (kemer erzakı/kule reviri) — ekonomi yoğun; Kitap 2 finali olarak uygun, insan testi "fazla
+  dükkân" derse ortadaki kaldırılsın.
+
 - (Tur 273 denetimi, az denetlenen Bölüm 22 ve 31 pencereli bot koşusu (6 sn, 25 kare) + 36 bölümün tamamında
   headless bot zorluk eğrisi; hiçbiri otonom değil) (1) zorluk eğrisi (bot en düşük can / 115): Kitap 1'de 64–85'ten
   Bölüm 5–12'de 10–22'ye iniyor, Kitap 2 başında 83–84'e dönüp sonunda 14–16'ya, Kitap 3'te 26/27/30/31/33/35/36'da
@@ -412,6 +427,29 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-18 (275) — Ön plan kolonu oyuncunun arkasına geçince saydamlaşıyor (Bölüm 24 denetimi + düzeltme)
+
+**Neden şimdi:** Birikimde koşulsuz somut iş kalmadı; TASARIM DENETİMİ (hiç denetlenmemiş Bölüm 24, Kitap 2 finali
+Bozdoğan Kemeri). Bot CLEARED 0 respawn (en düşük hp ~39, sağlıklı eğri) + 6 mekân ekran görüntüsü. Görsel kalite DTM
+düzeyinde. Tek somut okunurluk boşluğu: ön plan `_fg` kolonları (16 bölümde) z_index=30, her zaman tam opak; oyuncu
+geniş kolonun (su galerisi) arkasına geçince silüet örtülüyordu. DTM'de ön plan geçişte saydamlaşır.
+
+**Oyuncu ne hissedecek:** Kemer ayağı / su galerisi kolonlarının önünden geçerken karakterini kaybetmez; kolon oyuncu
+hizasına gelince şeffaflaşıp arkadan görünür kılar, oyuncu uzaklaşınca tekrar katı dekor olur. Dövüş bir ön plan
+elemanının arkasında olunca "nereye vurdum" belirsizliği kalkar.
+
+**Ne yapıldı:** `dtm_level.gd` `_Foreground` — oyuncu referansı (`&"player"` grubu, Main.tscn'de zaten tanımlı) +
+`_occ(px, half)`: elemanın ekran-x'i oyuncunun yatay hizasına (yarı genişlik + 22 px) girince alfa 0.4'e, 60 px'lik
+bantta yumuşak geçişle (titremesin) iner. Kolon/sarmaşık/zincir çizimleri bu alfayı `draw_texture_rect(...)` modulate
+olarak alır; node gündüz/gece tonu (`FG_DAY`) ile çarpılır, ton korunur. Oynanış ve çarpışma değişmedi (yalnız çizim).
+
+**Test:** import temiz · görsel: oyuncu kolon x'inde (8000) → önündeki kolon saydam, yanlardaki (7600/8350) opak;
+oyuncu ara konumda → hepsi opak (iki ekran görüntüsü) · DTM GAPS: PASS · bot Bölüm 1/13/24: CLEARED (ortak sistem,
+oynanış aynı) · smoke 36 sahne: OK çıkış 0.
+
+**Sonraki öneri:** Birikim tur 275/2-5 insan testine bağlı (su çarkı mekaniği, su silüeti, arşiv düşman mesafesi,
+dükkân yoğunluğu). Sıradaki tur denetim: hiç denetlenmemiş Bölüm 8 (Kitap 1 sonu) veya 4/6/18/32.
 
 ### 2026-11-18 (274) — Bölüm 31 ilk yardımı ana yol zeminine indi (birikim tur 273/2)
 
