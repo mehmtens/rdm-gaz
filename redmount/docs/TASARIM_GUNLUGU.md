@@ -289,6 +289,19 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-17 (220) — Denetim: Bölüm 22 gerçek karelerle — temiz, otomasyon durdu
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Son turlarda
+denetlenmeyen ve günlükte en az anılanlardan Bölüm 22 (17 anma) pencereli botla (`REDMOUNT_SNAP_DIR`, 1280×720, 8 sn
+arayla, 11 kare) oynatıldı. **Sonuç:** CLEARED 83,7 sn (7 sn duraklama x≈9968 Saraçhane vana arenası).
+- Aksaray pompa istasyonu cephesi, çinili vana galerisi, "SU ERZAKÇISI" büfesi, pistonlu pompa salonu, harita odası ve
+  Saraçhane bent/vana finali (DALGA 3/3) ChatGPT arka planlarıyla bütünleşik; telsiz, dalga şeridi, kombo okunur.
+- Büfenin sağ ucunu örten koyu sütun pres değil, kasıtlı ön plan kolonu (`bolum22.gd` `_fg("kolon", 6330)`); presler
+  6450'den başlıyor, büfe (6000) pres alanının dışında — sorun yok.
+- Kombo etiketindeki "İYİ" küçük ölçekte "|Y|" gibi duruyor; `redmount_pixel.ttf` ile 34 pt render edilip bakıldı: İ
+  noktası var, glif doğru — bilinen PixelText/TTF İ/I kerning maddesi (insan gözetimine bağlı).
+Kod değişmedi; otonom düzeltilebilir yeni iş yok. Kalan birikim insan/cihaz testine bağlı. Otomasyon durdu.
+
 ### 2026-11-17 (219) — Denetim: en az denetlenen Bölüm 33 ve 34 gerçek karelerle — temiz, otomasyon durdu
 
 **Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Günlükte en
