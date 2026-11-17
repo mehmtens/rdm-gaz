@@ -289,6 +289,18 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-17 (217) — Denetim: en az denetlenen Bölüm 26 ve 32 gerçek karelerle — temiz, otomasyon durdu
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Günlükte en
+az anılan bölümler (26 ve 32, 14'er kez) pencereli botla 8 sn arayla oynatıldı. **Sonuç:** Bölüm 26 CLEARED 80,7 sn
+(1 ölüm, x≈8250 telgraf avlusu arenası, 37/115 canla giriş), Bölüm 32 CLEARED 76,2 sn (0 ölüm).
+- Bölüm 26: gar cephesi, buharlı lokomotifli peron, vagon üstü geçiş, rıhtım vinci arenası ve Galata kapılı arşiv
+  salonu ChatGPT arka planlarıyla bütünleşik; dalga şeridi, kombo, Gazelle telsizi okunur. "Bıçak 15/20 · Q: Bıçak"
+  satırı hata değil (elde bir bıçak, yedekte ikinci bıçak).
+- Bölüm 32: gece rıhtımı iskele platformları, fenerli konak bahçesi, Vaniköy iskelesi arenası okunur; düşmanların
+  nişan ışığı karanlıkta net. Bir karede yarı saydam kahraman = hasar sonrası dokunulmazlık yanıp sönmesi.
+Kod değişmedi; otonom yapılabilecek yeni iş yok, kalan birikim insan/cihaz testine bağlı.
+
 ### 2026-11-17 (216) — Denetim: Bölüm 6 gerçek karelerle — temiz, otomasyon durdu
 
 **Neden şimdi:** tur 215'in önerisi. Bölüm 6 (indeks 5) pencereli botla 16 kare (8 sn arayla) oynatıldı; CLEARED 124,9 sn.
