@@ -41,6 +41,9 @@ extends Resource
 ## Tavan köşesi düzeltmesi (px): yükselirken kafa bir köşeye en fazla bu kadar
 ## değiyorsa gövde yana kaydırılır, zıplama ölmez. 0 = kapalı.
 @export_range(0, 24) var corner_correction: int = 10
+## Kenar tırmanma yardımı (px): havada kenara doğru basarken ayaklar kenarın en
+## fazla bu kadar altındaysa gövde kenarın üstüne itilir. 0 = kapalı.
+@export_range(0, 24) var ledge_assist: int = 8
 ## "land" durumunun ekranda kalma süresi (sn).
 @export var land_duration: float = 0.12
 ## Bu hızın altında yatay hareket "duruyor" sayılır (px/sn).

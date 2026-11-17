@@ -8,8 +8,7 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
 - (Tur 244 hareket hissi denetimi, etki/maliyet sırasıyla; 1 aynı turda yapıldı) ~~(1) tavan köşesi düzeltmesi~~ ·
-  (2) **kenar tırmanma yardımı**: yükselişin sonunda ayaklar bir platform kenarının 1–8 px altında kalıyorsa gövde
-  kenarın üstüne itilsin (DTM'de dam kenarına "değip düşme" yok); ölçüm: yeni test + bot süresi. · (3) **zıplama
+  ~~(2) kenar tırmanma yardımı~~ **(tur 245)** · (3) **zıplama
   tepesinde yarı yerçekimi**: |vy| < ~60 iken tuş basılıysa yerçekimi ×0,5 — havada hedef seçme ve hava dizi için
   ~3 kare daha; zıplama yüksekliği ~+6 px artar, dam aralıkları yeniden ölçülmeli (bot testi). · (4) **dash köşe
   düzeltmesi**: yatay dash 1–6 px'lik zemin basamağına takılıp duruyor mu — test sahnesiyle ölç, varsa yukarı kaydır.
@@ -328,6 +327,26 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-17 (245) — Kenar tırmanma yardımı: dam kenarına "değip düşme" yok (birikim 2)
+
+**Neden şimdi:** tur 244 hareket hissi denetiminin sıradaki maddesi; aynı sistemin ikinci yarısı. Zıplamanın sonunda
+ayaklar bir dam/iskele kenarının birkaç piksel altında kalınca oyuncu duvara yapışıp aşağı kayıyordu — ekranda kenara
+"yetişmiş" görünüp kaybetmek mobilde en sinir bozucu ıska. DTM'de kıl payı ıska kenara çıkar.
+**Oyuncu ne hissedecek:** kenara doğru basarken ayaklar kenarın en fazla 8 px (4 sanat pikseli) altındaysa gövde kenarın
+üstüne itilir, koşu kesilmeden devam eder. Gerçekten alçak kalan zıplama (daha derin) eskisi gibi duvar kaymasına düşer;
+duvar zıplaması değişmedi.
+**Yapılan:** `MovementConfig.ledge_assist` (px, varsayılan 8, 0 = kapalı; eski `.tres` varsayılanla okunur).
+`redmount.gd` `_ledge_assist()`: havada, yön tuşu basılı ve bu karenin yatay hareketi (en az 2 px) çarpacaksa 1..8 px
+yukarı `test_move` ile boşluk arar; yukarısı kapalıysa (alçak tavan) vazgeçer; bulursa gövdeyi kaldırır, düşüş hızını
+sıfırlar. `_corner_correct`'in hemen ardından, yalnız ana hareket yolunda. Yalnız dünya katmanı (düşman gövdesi yok).
+**Sayılar (hipotez):** 8 px — oyuncu gövdesi 112 px, ~%7; zıplama tepesi ~125 px, dolayısıyla erişilemeyen kenarı
+erişilebilir yapmaz, yalnız kıl payını affeder (dam aralıkları yeniden ölçülmedi çünkü tepe yüksekliği değişmedi).
+**Testler:** `--import` hatasız; yeni `tests/ledge_assist.tscn` LEDGE ASSIST OK (5 px altta kenara çıkıyor; 20 px altta
+ve ayar 0'da düşüyor — ayırt ediyor); `corner_correction` OK; `campaign_smoke` çıkış 0; `dtm_gaps` PASS; bot Bölüm 1
+(85,1 sn), 13 (68,2 sn — önceki 84,5; botun kıl payı kenarları artık ilk denemede tutuyor), 25 (85,7 sn), 31 (82,4 sn)
+CLEARED. Görsel değişiklik yok. Elle oynanmadı.
+**Sonraki öneri:** birikim (3) zıplama tepesinde yarı yerçekimi — tepe yüksekliğini değiştirdiği için bot ölçümüyle.
 
 ### 2026-11-17 (244) — Denetim (hareket hissi): tavan köşesine sürtünen zıplama ölüyordu → köşe düzeltmesi
 

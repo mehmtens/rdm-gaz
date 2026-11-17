@@ -403,6 +403,7 @@ func _process_normal(delta: float) -> void:
 	if not _was_on_floor:
 		_land_impact = velocity.y
 	_corner_correct(delta)
+	_ledge_assist(delta, input_dir)
 	move_and_slide()
 
 	if not sliding:
@@ -785,6 +786,29 @@ func _corner_correct(delta: float) -> void:
 			if test_move(global_transform.translated(shift), up):
 				continue
 			global_position += shift
+			return
+
+
+## Kenar tırmanma yardımı: havada bir kenara doğru giderken ayaklar kenarın
+## yalnız birkaç piksel altında kalıyorsa gövde kenarın üstüne itilir — zıplama
+## "dam kenarına değip düşme" ile bitmesin. Yalnız oyuncu kenara doğru basıyorsa;
+## yüksek duvarda (kenar erişim dışı) duvar kayması/zıplaması aynen çalışır.
+func _ledge_assist(delta: float, input_dir: float) -> void:
+	var reach := movement.ledge_assist
+	if reach <= 0 or is_on_floor() or is_zero_approx(input_dir):
+		return
+	var dir := signf(input_dir)
+	var dx := dir * maxf(absf(velocity.x) * delta, 2.0)
+	var side := Vector2(dx, 0.0)
+	if not test_move(global_transform, side):
+		return
+	for k in range(1, reach + 1):
+		var lift := Vector2(0.0, -float(k))
+		if test_move(global_transform, lift):
+			return
+		if not test_move(global_transform.translated(lift), side):
+			global_position += lift
+			velocity.y = minf(velocity.y, 0.0)
 			return
 
 
