@@ -289,6 +289,23 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-17 (222) — Denetim: Bölüm 28 ve final Bölüm 36 gerçek karelerle — temiz, otomasyon durdu
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. "Gerçek kare"
+serisinde (tur 214 sonrası) henüz bakılmamış Bölüm 28 ve kampanyanın finali Bölüm 36 pencereli botla
+(`REDMOUNT_SNAP_DIR`, 1280×720; 28 → 8 sn, 36 → 12 sn arayla) oynatıldı.
+**Sonuç:** Bölüm 28 CLEARED 99,2 sn (1 ölüm, x≈9770 Kız Kulesi rıhtımı son arenası, 17/115 canla giriş); Bölüm 36
+CLEARED 170,8 sn (2 ölüm: x≈6694 galerili ambar arenası — 29 sn duraklama — ve x≈13000 radyo odası arenası, 8/115
+canla giriş; Yayın Şefi'nde 0).
+- Bölüm 28: Üsküdar çeşme meydanı/cami avlusu arenası, ahşap cumbalı yokuş, Haliç manzaralı iskele avlusu, röle
+  salonu (kemerli pencereler, şerit makinesi), arşiv kemeraltı ve Kız Kulesi manzaralı rıhtım finali ChatGPT arka
+  planlarıyla bütünleşik; telsiz (Gazelle / Komiser Rıfat), dalga şeridi, kombo, yangın varili okunur.
+- Bölüm 36: gece rıhtımı pres hattı, gemi ambarı arenası (lomboz, can simidi, Ağır Zırhlı can çubuğu), radyo odası
+  kumanda masası arenası ve dümen köşkünde Yayın Şefi; boss çubuğu ve dalga şeridi okunur, yapıştırma izi yok.
+- Ölümler bilinen birikim maddelerinde (Bölüm 36 ambar arenası ve x≈13000; ikisi de "1'i geçerse" eşiğinde, bot üst
+  kattaki can ödüllerini — 9450/10650 — almıyor). Bot verisiyle denge değiştirilmedi.
+Kod değişmedi; otonom düzeltilebilir yeni iş yok. Kalan birikim insan/cihaz testine bağlı. Otomasyon durdu.
+
 ### 2026-11-17 (221) — Denetim: Bölüm 31 gerçek karelerle — temiz, otomasyon durdu
 
 **Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. "Gerçek
