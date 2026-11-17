@@ -211,8 +211,9 @@ func _physics_process(delta: float) -> void:
 			_tap(&"attack")
 			_stuck_t = 0.0
 			return
-	# tıkandıysa dash + zıpla
-	if _stuck_t > 0.3:
+	# tıkandıysa dash + zıpla — yükselen zıplamanın ortasında değil: havadaki
+	# dash dikey hızı sıfırlar, zıplamayı duvarın dibinde öldürürdü.
+	if _stuck_t > 0.3 and not (not on_floor and _player.velocity.y < 0.0):
 		_tap(&"dash")
 		_tap(&"jump")
 		_stuck_t = 0.0

@@ -44,6 +44,11 @@ extends Resource
 ## Kenar tırmanma yardımı (px): havada kenara doğru basarken ayaklar kenarın en
 ## fazla bu kadar altındaysa gövde kenarın üstüne itilir. 0 = kapalı.
 @export_range(0, 24) var ledge_assist: int = 8
+## Tepe asılması: |dikey hız| bu değerin altındayken ve zıplama tuşu basılıyken
+## yerçekimi `apex_gravity_multiplier` ile çarpılır (px/sn). 0 = kapalı.
+@export var apex_threshold: float = 60.0
+## Tepe asılmasında yerçekimi çarpanı (1.0 = etkisiz).
+@export_range(0.2, 1.0) var apex_gravity_multiplier: float = 0.5
 ## "land" durumunun ekranda kalma süresi (sn).
 @export var land_duration: float = 0.12
 ## Bu hızın altında yatay hareket "duruyor" sayılır (px/sn).

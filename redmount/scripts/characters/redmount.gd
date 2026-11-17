@@ -731,6 +731,10 @@ func _apply_gravity(delta: float) -> void:
 	var g := movement.gravity
 	if velocity.y > 0.0:
 		g *= movement.fall_gravity_multiplier
+	# Tepe asılması: tuş basılıyken zıplamanın tepesinde yerçekimi azalır —
+	# havada hedef seçmeye ve hava vuruşuna birkaç kare kazandırır.
+	if absf(velocity.y) < movement.apex_threshold and Input.is_action_pressed(&"jump"):
+		g *= movement.apex_gravity_multiplier
 	velocity.y = minf(velocity.y + g * delta, movement.max_fall_speed)
 
 
@@ -798,6 +802,10 @@ func _ledge_assist(delta: float, input_dir: float) -> void:
 	if reach <= 0 or is_on_floor() or is_zero_approx(input_dir):
 		return
 	var dir := signf(input_dir)
+	# Geri savrulurken (vuruş, duvar zıplaması) yön tuşu kenara baksa da gövde
+	# kenara gitmiyor; kaldırmak yalnız düşüşü durdurup havada asardı.
+	if velocity.x * dir <= 0.0:
+		return
 	var dx := dir * maxf(absf(velocity.x) * delta, 2.0)
 	var side := Vector2(dx, 0.0)
 	if not test_move(global_transform, side):

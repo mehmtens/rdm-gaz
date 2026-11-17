@@ -8,9 +8,7 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
 - (Tur 244 hareket hissi denetimi, etki/maliyet sırasıyla; 1 aynı turda yapıldı) ~~(1) tavan köşesi düzeltmesi~~ ·
-  ~~(2) kenar tırmanma yardımı~~ **(tur 245)** · (3) **zıplama
-  tepesinde yarı yerçekimi**: |vy| < ~60 iken tuş basılıysa yerçekimi ×0,5 — havada hedef seçme ve hava dizi için
-  ~3 kare daha; zıplama yüksekliği ~+6 px artar, dam aralıkları yeniden ölçülmeli (bot testi). · (4) **dash köşe
+  ~~(2) kenar tırmanma yardımı~~ **(tur 245)** · ~~(3) tepe yarı yerçekimi~~ **(tur 246)** · (4) **dash köşe
   düzeltmesi**: yatay dash 1–6 px'lik zemin basamağına takılıp duruyor mu — test sahnesiyle ölç, varsa yukarı kaydır.
   · (5) **iniş tozunun düşme hızına göre ölçeği** (şu an sabit) — küçük, yalnız his; insan testiyle birlikte.
 
@@ -327,6 +325,29 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-17 (246) — Zıplama tepesinde asılma + kenar yardımı geri savrulmada hata düzeltmesi (birikim 3)
+
+**Neden şimdi:** hareket hissi denetiminin (tur 244) üçüncü maddesi. Zıplamanın tepesi keskin bir "V" idi; DTM tarzı
+dövüş-platformcularda tepe kısa bir asılma anıdır — oyuncu havada düşmanı seçer, hava dizini (AIR_KNEE) zamanlar.
+**Oyuncu ne hissedecek:** zıplama tuşu basılıyken tepede yaklaşık 4 kare (~0,07 sn) daha asılı kalır; yükseklik
+neredeyse aynı (+0,7 px), dolayısıyla hiçbir dam aralığı değişmez. Kısa dokunuşlu zıplamada (tuş bırakılmış) etki yok.
+**Yapılan:** `MovementConfig.apex_threshold` (60 px/sn) + `apex_gravity_multiplier` (0,5); `_apply_gravity` |vy| eşik
+altında ve tuş basılıyken yerçekimini çarpar (eski `.tres` varsayılanla okunur, 1,0 = kapalı).
+**Bulunan ve düzeltilen hata (tur 245):** bot Bölüm 13'te 72 sn takıldı; kare kare izde (geçici `DBG` izleme, silindi)
+iki şey çıktı. (a) `_ledge_assist` oyuncu tüfek vuruşuyla **geri savrulurken** (sağ basılı, hız sola) tetiklenip
+düşüş hızını sıfırlıyordu — gövde kenara gitmediği için havada bir kare asılıyordu. Artık yalnız yatay hız kenara
+doğruysa çalışır. (b) Botun "tıkandıysan dash + zıpla" kuralı yükselen zıplamanın ortasında dash atıp dikey hızı
+sıfırlıyor, sandığın dibinde duvar-zıplaması döngüsüne giriyordu — insan oyuncunun yapmayacağı hareket; bot kuralı
+yükselirken dash atmayacak şekilde düzeltildi (`_autoplay.gd`). A/B: tepe asılması kapalıyken eski bot 69,9 sn'de
+geçiyordu; kaotik yol farkı, oyunda geçilemez bir engel değil.
+**Sayılar (hipotez):** eşik 60 px/sn ve ×0,5 → ölçülen havada kalış 47→51 kare. İnsan testinde "yüzüyor" hissi olursa
+çarpan 0,65'e çekilsin.
+**Testler:** `--import` hatasız; yeni `tests/apex_hang.tscn` APEX HANG OK (kapalı 47 kare / 125,07 px, açık 51 kare /
+125,74 px); `corner_correction`, `ledge_assist` OK; `campaign_smoke` çıkış 0; `dtm_gaps` PASS; bot (bot kuralı değiştiği
+için 8 bölüm) Bölüm 1 (92,4 sn), 5 (101,2), 13 (70,3), 17 (74,3), 24 (182,5, boss), 25 (90,7), 31 (78,8), 36 (171,5,
+final boss) CLEARED. Görsel değişiklik yok. Elle oynanmadı.
+**Sonraki öneri:** birikim (4) dash basamak düzeltmesi — önce test sahnesiyle var mı ölç.
 
 ### 2026-11-17 (245) — Kenar tırmanma yardımı: dam kenarına "değip düşme" yok (birikim 2)
 
