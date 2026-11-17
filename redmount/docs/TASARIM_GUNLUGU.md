@@ -319,6 +319,21 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-17 (242) — Android ön ayarında titreşim izni yoktu: dokunmatik/isabet titreşimi telefonda hiç çalışmıyordu
+
+**Neden şimdi:** tur 241'in mobil sütun taramasının devamı (telefona özgü ayarlar). `export_presets.cfg`'de
+`permissions/vibrate` yoktu; Godot Android'de `Input.vibrate_handheld` izni manifestte bulamazsa sessizce hiçbir şey
+yapmaz. Yani tur 213'ün dokunmatik tık titreşimi, `Combat.rumble` isabet titreşimi ve duraklat menüsündeki
+`TİTREŞİM: AÇIK` ayarı telefonda hiç etkili değildi — masaüstü testleri bunu göremezdi.
+**Oyuncu ne hissedecek:** telefonda eylem düğmelerinde kısa tık, isabet ve ağır vuruşta güçle orantılı titreşim
+(DTM'nin dokunmatik dövüşündeki "vuruş elde hissediliyor" katmanı).
+**Yapılan:** `export_presets.cfg` → `permissions/vibrate=true`. Yeni `tests/android_preset.tscn` (Android ön ayarında
+titreşim izni + `quit_on_go_back` kapalı) — ileride ön ayar editörde yeniden kaydedilirse kaybolmasın.
+**Testler:** `tests/android_preset.tscn` ANDROID PRESET OK; scratchpad'e gerçek `--export-debug "Android Debug"` (çıkış 0,
+263 MB) → APK'nın `AndroidManifest.xml`'inde `VIBRATE` var (`INTERNET` yok — kontrol ayırt ediyor); APK silindi.
+`--import` hatasız. Oyun kodu değişmedi. Telefonda hissedilmedi.
+**Sonraki öneri:** insan/telefon testi; otonom iş kalmadıysa otomasyon durmalı.
+
 ### 2026-11-17 (241) — Denetim (mobil sütun, kod): Android geri tuşu oyunu anında kapatıyordu
 
 **Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin açık maddeleri insan/cihaz testine bağlı; 36
