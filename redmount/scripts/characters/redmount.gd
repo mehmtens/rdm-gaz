@@ -402,6 +402,7 @@ func _process_normal(delta: float) -> void:
 	_was_on_floor = is_on_floor()
 	if not _was_on_floor:
 		_land_impact = velocity.y
+	_corner_correct(delta)
 	move_and_slide()
 
 	if not sliding:
@@ -758,6 +759,33 @@ func _try_jump() -> void:
 		rig.squash(Vector2(0.9, 1.1))
 		if grounded:
 			Fx.dust(global_position + Vector2(0, -2), 0, 4)
+
+
+## Tavan köşesi düzeltmesi: yükselirken kafa bir çıkıntının köşesine yalnız
+## birkaç piksel değiyorsa zıplama ölmesin; gövde yana kaydırılıp yükseliş
+## korunur. Önce hareket yönü denenir (oyuncu oraya gitmek istiyor), sonra
+## karşı yön. Yalnız yükselirken; tam tavan altında (iki yön de kapalı) dokunmaz.
+func _corner_correct(delta: float) -> void:
+	var reach := movement.corner_correction
+	if reach <= 0 or velocity.y >= 0.0 or is_on_floor():
+		return
+	var up := Vector2(0.0, velocity.y * delta)
+	if not test_move(global_transform, up):
+		return
+	var first := 1
+	if velocity.x < -1.0:
+		first = -1
+	elif is_zero_approx(velocity.x) and _facing < 0:
+		first = -1
+	for d in range(1, reach + 1):
+		for s in [first, -first]:
+			var shift := Vector2(float(s * d), 0.0)
+			if test_move(global_transform, shift):
+				continue
+			if test_move(global_transform.translated(shift), up):
+				continue
+			global_position += shift
+			return
 
 
 func _floor_awning() -> AwningBounce:

@@ -7,6 +7,14 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 244 hareket hissi denetimi, etki/maliyet sırasıyla; 1 aynı turda yapıldı) ~~(1) tavan köşesi düzeltmesi~~ ·
+  (2) **kenar tırmanma yardımı**: yükselişin sonunda ayaklar bir platform kenarının 1–8 px altında kalıyorsa gövde
+  kenarın üstüne itilsin (DTM'de dam kenarına "değip düşme" yok); ölçüm: yeni test + bot süresi. · (3) **zıplama
+  tepesinde yarı yerçekimi**: |vy| < ~60 iken tuş basılıysa yerçekimi ×0,5 — havada hedef seçme ve hava dizi için
+  ~3 kare daha; zıplama yüksekliği ~+6 px artar, dam aralıkları yeniden ölçülmeli (bot testi). · (4) **dash köşe
+  düzeltmesi**: yatay dash 1–6 px'lik zemin basamağına takılıp duruyor mu — test sahnesiyle ölç, varsa yukarı kaydır.
+  · (5) **iniş tozunun düşme hızına göre ölçeği** (şu an sabit) — küçük, yalnız his; insan testiyle birlikte.
+
 - (Tur 243, insan testine bağlı) Ana mağazada coin yetmeyen satın alma düğmesi `disabled` — basınca tepki yok. Rahatsız
   ederse düğme etkin bırakılıp `shop_menu.gd` ret yolu (`ui_deny`) kullanılsın; menü seslerinin düzeyi kulakla ayarlansın.
 - (Tur 241, telefon testine bağlı) Android geri tuşu diyalog kutusu / hikâye kartında yok sayılıyor (ESC orada
@@ -320,6 +328,31 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-17 (244) — Denetim (hareket hissi): tavan köşesine sürtünen zıplama ölüyordu → köşe düzeltmesi
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin açık maddeleri insan/telefon testine bağlı.
+Denetim bu kez "hareket hissi" sütununu kodla taradı: coyote (0,10 sn), zıplama tamponu, değişken yükseklik, duvar
+kayması, dash hepsi var; **tavan köşesi düzeltmesi yoktu.** Oyuncunun kafası bir saçak/balkon/kemer altının köşesine
+yalnız 1–2 sanat pikseli değince dikey hız sıfırlanıyor, zıplama "görünmez bir şeye çarpmış" gibi ölüyordu. DTM ve
+modern platformcuların hepsi bunu birkaç piksel yana kaydırarak affeder; 36 bölümün dam/kemer/iskele katlarında bu
+sürtünme sık.
+**Oyuncu ne hissedecek:** köşeye sıyırarak atılan zıplama kesilmez, gövde fark edilmeden yana kayıp yükselmeye devam
+eder; gerçekten tavan altındaysa (derin örtüşme) eskisi gibi kafa çarpar.
+**Yapılan:** `MovementConfig.corner_correction` (px, varsayılan 10, 0 = kapalı; eski `.tres` varsayılanla okunur).
+`redmount.gd` `_corner_correct()`: yükselirken, bu karenin dikey hareketi çarpacaksa 1..10 px yana `test_move` ile
+boş yer arar — önce hareket/bakış yönü, sonra karşı yön; hem yana kayma hem yükseliş boşsa gövdeyi kaydırır.
+Yalnız ana hareket yolunda (saldırı/dash/kayma yolları değişmedi). Çarpışma maskesi yalnız dünya (katman 1) —
+düşman gövdesi kaydırmaz; tek yönlü platformlar alttan geçildiği için tetiklemez.
+**Sayılar (hipotez):** 10 px = 5 sanat pikseli, gövde genişliğinin (38 px) ~%26'sı — Celeste'nin yarım genişlik
+affından muhafazakâr; insan testinde "duvardan içeri kaydı" hissi olursa 6'ya inilsin.
+**Testler:** `--import` hatasız; yeni `tests/corner_correction.tscn` CORNER CORRECTION OK (soldan/sağdan 6 px köşe
+geçiyor ve doğru yöne kayıyor; 26 px derin örtüşmede tavan durduruyor, kayma yok; ayar 0'da 6 px köşe de durduruyor —
+test özelliği ayırt ediyor); `campaign_smoke` çıkış 0 (36 OK); `dtm_gaps` PASS; bot Bölüm 1 (78,9 sn), 13 (84,5 sn),
+25 (78,8 sn) CLEARED. Görsel değişiklik yok. Elle oynanmadı.
+**Birikime:** hareket hissi denetiminin kalan 4 maddesi (kenar tırmanma yardımı, tepe yarı yerçekimi, dash basamak
+düzeltmesi, iniş tozu ölçeği).
+**Sonraki öneri:** birikim (2) kenar tırmanma yardımı.
 
 ### 2026-11-17 (243) — Denetim (ses sütunu): menülerde hiçbir düğme ses çıkarmıyordu
 

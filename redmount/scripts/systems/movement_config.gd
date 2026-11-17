@@ -38,6 +38,9 @@ extends Resource
 @export var coyote_time: float = 0.10
 ## Zıplama tuşu yere değmeden kaç saniye önce hafızada tutulur (buffer).
 @export var jump_buffer_time: float = 0.10
+## Tavan köşesi düzeltmesi (px): yükselirken kafa bir köşeye en fazla bu kadar
+## değiyorsa gövde yana kaydırılır, zıplama ölmez. 0 = kapalı.
+@export_range(0, 24) var corner_correction: int = 10
 ## "land" durumunun ekranda kalma süresi (sn).
 @export var land_duration: float = 0.12
 ## Bu hızın altında yatay hareket "duruyor" sayılır (px/sn).
