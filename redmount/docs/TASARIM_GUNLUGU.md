@@ -7,8 +7,9 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- (Tur 214 denetimi, Bölüm 15 açılış x≈80) Açılış karesi çok karanlık; siyahtan fade-in olmalı ama ilk girdiden önce
-  oyuncu ve zemin okunaklı mı insan testinde bakılsın — gerekirse spawn'da taban ışık biraz yükseltilir.
+- ~~(Tur 214 denetimi, Bölüm 15 açılış x≈80) Açılış karesi çok karanlık~~ **(aynı turda doğrulandı):** siyahtan
+  fade-in; `t0000` kareyi fade ortasında yakalıyor. `t0005`'te sahne tam aydınlık (Zeyrek yamacı, sıcak altın ışık),
+  oyuncu/zemin net. Fade kısa, sorun yok.
 - ~~(Tur 214 denetimi, Bölüm 15 x≈4690) Yaklaşan düşman kenar-ışıklı tam siyah silüet~~ **(aynı turda doğrulandı):**
   kasıtlı belirme telegrafı — `enemy_base.gd:264-265` belirme penceresinde düşmana beyaz kenar ışığı
   (`Color(1,1,1,0.95)`) çakar + uyarı sprite'ı (`_WARN_TEX`); 4,5→3,0 ölçekle oturur. Okunur, sorun yok.
