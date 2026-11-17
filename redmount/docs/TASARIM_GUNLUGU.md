@@ -7857,3 +7857,30 @@ ayak dibinde sıcak okunur parlama olarak doğrulandı.
 ölçümü, 1. kitap doruğu yorgunluğu) insan testine bağlı. Sıradaki otonom aday:
 Tur 237 Survival denetimi (5) — Günün Dalgası koyu düşman okunurluğu için Survival'a
 özel zayıf kalıcı rim (insan testi bağımlı) ya da yeni bir tam bölüm denetimi.
+
+### 2026-11-17 — Denetim: Bölüm 22 temiz (tur 254)
+
+**Neden:** Birikimin üst grubundaki otonom-uygulanabilir maddeler (tur 250 grubu
+1-3) kapandı; kalanlar insan testine bağlı. Loop priority (d): taze iş için son
+zamanlarda bakılmayan bir bölüm denetlendi. Bölüm 22 (Aksaray Pompa İstasyonu),
+botla oynatılıp 7 kare alındı (1280×720 pencereli).
+
+**Bulgular:** Seviye DTM kalitesinde — zengin endüstriyel arka plan (borular,
+kadranlar, volanlar, çini), katmanlı pompa/filtre/kontrol odası iç mekânları,
+yerinde ışık (banker lambası parıltısı, pencere gün ışığı). Okunurluk katmanları
+çalışıyor: arena "DALGA 2/2 · 1 DÜŞMAN" sayacı net; combo "İYİ ×4" koyu konturla
+parlak pencere üstünde ayrışıyor (tur 235); bombacı patlaması + hasar sayısı okunur;
+düşman belirme kenar-ışığı telegrafı görünür. **Ucuz otonom kusur çıkmadı.**
+
+**Notlar (insan yargısı, değişiklik yok):** (1) bakım şaftı arenasında oyuncu iki
+koyu düşman arasında sıkışıp namlu patlamasıyla üst üste binince kısa an okunurluğu
+düşüyor — kalabalık dövüşte normal, insan testinde "ilk hasar nedeni" ile ölçülsün.
+(2) t0000 karesi neredeyse siyah: bilinen fade-in artefaktı (Bölüm 15 t0000 ile
+aynı; snap kareyi fade ortasında yakalıyor), gerçek sorun değil.
+
+**Sonuç:** Bölüm 22 için otonom iş yok. Oturum özeti: tur 252 (kule hüzmesi gündüz
+okunurluğu) ve tur 253 (arena ödül düşüş vurgusu) uygulandı + push'landı. Kalan
+birikim maddeleri (tüfek telegrafı nicel ölçümü, kitap doruğu yorgunluğu, Survival
+rim, düşman tip rengi, ses/mix, font metriği) insan/ses yargısına veya büyük sanat
+turuna bağlı — otonom körlemesine yapılmamalı. Sonraki tur: başka bir bölüm denetimi
+ya da insan geri bildirimi.
