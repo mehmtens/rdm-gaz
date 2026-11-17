@@ -7,6 +7,18 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 259 denetimi, gizli alan / katmanlı rota sütunu, `tests/secret_count` ölçümü; etki/maliyet sırasıyla, 1 aynı turda
+  yapıldı) ~~(1) açılış mahzeni 36/36 bölümde birebir aynı (x=-430, sandık + zırh + 4 coin); 108 sırrın üçte biri tek
+  kalıp~~ **(tur 259: dam sırlarının üç zula dizilimi mahzene bağlandı, ödül zırh kaldı; 14 hurda / 11 çarşı / 11 sandık)** ·
+  (2) mahzen her bölümde aynı yerde ve hep zırh veriyor: oyuncu ikinci bölümde "başta sola dön, duvarı kır" formülünü öğrenir;
+  insan testinde açılış zırhının zorluğu düşürüp düşürmediği ölçülsün, düşürüyorsa ödül kitap/bölüm başına değişsin
+  (zırh / can / coin) · (3) 36 bölüm betiğinin yalnız 11'inde elle konmuş sır var (`_chimney`/`_secret_han`); kalan 25
+  bölümün üç sırrı otomatik (mahzen + han + dam). DTM'de sır mekâna aittir — bölüm başına bir elle sır (mevcut iç mekân/
+  süslerle, yeni sanat yok) büyük ama değerli iş; insan testi "sırlar sıradan" derse bölüm bölüm yapılsın · (4) otomatik
+  han hedefleri bölüm genişliğinin %45/%75'i: birçok bölümde ikinci sır aynı göreli konumda; (3) yapılırsa kendiliğinden
+  çözülür · (5) mahzen dış cephesi (çatlak duvar + kiremit çatı) her biyomda aynı; Kitap 2/3 sur/tersane biyomlarında
+  yapıştırılmış durup durmadığı insan testinde sorulsun (yeni sanat gerektirir, ChatGPT tarzı kuralına tabi).
+
 - (Tur 250 denetimi, Bölüm 9 — ödül/ritim; 1 aynı turda yapıldı) ~~(1) çok dalgalı arenada dalga arası nefes yok~~
   **(tur 250: düşük canlıya bir kez merhamet yemeği, `battle_arena.gd`)** · ~~(2) arena bitiş ödülü (TEMİZ! + tek pickup)
   parlak sur arka planında az fark ediliyor~~ **(tur 253: ödül düşerken sıcak altın genişleyen halka + yukarı kıvılcım
@@ -7957,3 +7969,23 @@ olan arenalar" ile daraltılsın.
 `tests/arena_mercy.tscn` geçti; yeni `tests/arena_weapon_drop.tscn` PASS (eli boş → 1 silah; elde/yedekte silah veya kapalı
 arena → düşmez); bot Bölüm 1 (82,8 sn), 9 (131,2), 13 (60,9), 25 (89,7) CLEARED.
 **Sonraki öneri:** birikimin kalan açık maddeleri insan/telefon testine bağlı; otomasyon yeni otonom iş bulamadı → durdu.
+
+### 2026-11-17 — Açılış mahzeni artık her bölümde aynı değil: üç zula dizilimi (tur 259, denetim)
+
+**Neden şimdi:** stil listesi, iki yol haritası, P1 ve birikimin otonom maddeleri kapalı → kural (d) tasarım denetimi.
+Daha önce ayrı ele alınmamış "gizli alan / katmanlı rota" sütunu ölçüldü (`tests/secret_count`): 36 bölümün 36'sında
+sırlardan biri x=-430'daki açılış mahzeni ve içi birebir aynıydı (sandık + zırh + dört coin). 108 sırrın üçte biri tek
+kalıp; tur 208'de dam sırları için aynı sorun "üçüncüde formül olarak sezilir" diye çözülmüştü, mahzen dışarıda kalmıştı.
+**Oyuncu ne hissedecek:** ikinci bölümde mahzen duvarını kırınca bazen hurda köşesi (varil + tüp), bazen çarşı yığını
+(vazo + kasa + saksı), bazen Osmanlı sandığı bulur; "yine aynı oda" yerine kırınca ne çıkacağı merakı kalır.
+**Yapılan:** `DtmLevel._roof_cache` ödül parametresi aldı (varsayılan COIN, dam sırları değişmedi); `_secret_cellar` sabit
+sandık + coin satırı yerine bunu `ARMOR` ödülüyle çağırıyor. Dizilim bölüm yolu + x karmasıyla sabit seçilir (her koşuda
+aynı). Dağılım 36 bölümde: 14 hurda köşesi, 11 çarşı yığını, 11 sandık. Çatı üstündeki 6 coin satırı korundu.
+**Sayılar (hipotez):** ödül hep zırh — açılış dengesi değişmedi; mahzen coin'i dizilime göre ±birkaç coin oynar (sandık 3,
+çarşı/hurda 5 serbest coin + süs coin'i); `coin_economy` katalog eğrisi değişmedi (4935).
+**Görsel:** yeni görsel yok; mevcut piksel art süsler. Pencereli 1280×720 çekim (B1, 2, 13, 25 hurda; B3 çarşı yığını):
+süsler mahzen içine sığıyor, kapı/duvara binmiyor, sahneye ait.
+**Testler:** `--import` SCRIPT ERROR yok; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn` PASS; yeni
+`tests/cellar_variety.tscn` PASS (her mahzende tek zırh ödülü, ≥2 dizilim); `secret_reach` PASS (108), `secret_roll_clear`
+PASS (108 rulo), `secret_roll_visible` PASS, `coin_economy` PASS; bot Bölüm 1 (78,1 sn), 13 (67,8 sn), 25 (85,2 sn) CLEARED.
+**Sonraki öneri:** denetimin kalan maddeleri (2–5) insan testine bağlı ya da büyük elle tasarım işi; otonom iş kalmadı → durdu.

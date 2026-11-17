@@ -913,7 +913,7 @@ func _secret_zone(r: Rect2) -> void:
 ## Dam sırrının zulası. Hepsi aynı "sandık + üç coin" kalıbıydı (tur 205 denetimi: Bölüm 3, 20,
 ## 30 birebir aynı); bölüm ve yere göre sabit seçilen üç dizilimden biri. Coin toplamı sandığa yakın
 ## (sandık 15 + 3 = 18; çarşı yığını 10 + 5 = 15; hurda köşesi 12 + 5 = 17), ödül pikabı korunur.
-func _roof_cache(cx: float, top: float, surface_w: float) -> void:
+func _roof_cache(cx: float, top: float, surface_w: float, reward: PackedScene = COIN) -> void:
 	var style := 0
 	var h := absi(hash("%s:%d" % [scene_file_path, int(cx)]))
 	# Çarşı yığını ~155 px, hurda köşesi ~100 px, sandık 76 px ister (iki yanda 10 px pay).
@@ -925,21 +925,21 @@ func _roof_cache(cx: float, top: float, surface_w: float) -> void:
 		1:
 			# Çarşı yığını: kasa ortada (ödül), iki yanında vazo ve saksı; coin kavisi üstte.
 			_prop("vazo", cx - 58.0, top)
-			_prop("kasa", cx, top, COIN)
+			_prop("kasa", cx, top, reward)
 			_prop("saksi", cx + 54.0, top)
 			_coin_line(cx - 80.0, 5, 40, top - 70.0)
 		2:
 			# Hurda köşesi: varil (ödül) ve yanında tüp; coin'ler varilin üstünden.
-			_prop("varil", cx - 22.0, top, COIN)
+			_prop("varil", cx - 22.0, top, reward)
 			_prop("tup", cx + 34.0, top)
 			_coin_line(cx - 80.0, 5, 40, top - 90.0)
 		_:
-			_prop("sandik", cx, top, COIN)
+			_prop("sandik", cx, top, reward)
 			_coin_line(cx - 60.0, 3, 60, top - 60.0)
 
 
 ## Sol başlangıçtaki mahzen: oyun sağa akar, meraklı oyuncu sola döner. Çatlak
-## duvar kırılır; içeride zırh sandığı ve coin. Kapının üstünde tebeşir işareti.
+## duvar kırılır; içeride zırhlı zula ve coin. Kapının üstünde tebeşir işareti.
 func _secret_cellar() -> void:
 	var x0 := -600.0
 	var x1 := -230.0
@@ -959,8 +959,10 @@ func _secret_cellar() -> void:
 	var facade := _Facade.new()
 	facade.rect = Rect2(x0 + 30.0, top + 30.0, x1 - x0 - 50.0, -top - 30.0)
 	add_child(facade)
-	_prop("sandik", x0 + 110.0, 0, ARMOR)
-	_coin_line(x0 + 170.0, 4, 40, -60)
+	# 36 bölümün hepsinde aynı "sandık + dört coin" dizilimi formül gibi okunuyordu: dam
+	# sırlarının üç zula dizilimi (sandık / çarşı yığını / hurda köşesi) burada da bölüm
+	# yoluna göre seçilir. Ödül hep zırh kalır (açılış dengesi değişmez).
+	_roof_cache((x0 + 30.0 + x1 - 20.0) * 0.5, 0.0, x1 - x0 - 50.0, ARMOR)
 	_coin_line(x0 + 60.0, 6, 45, top - 40.0)
 	_secret_zone(Rect2(x0 + 30.0, top + 40.0, x1 - x0 - 90.0, -top - 40.0))
 
