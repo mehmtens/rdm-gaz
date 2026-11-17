@@ -7909,3 +7909,13 @@ ederse eşik düşürülsün.
 satır kesilmez); bot Bölüm 1 (78,1 sn), 13 (64,0), 25 (94,7), 30 (81,6), 31 (86,9), 32 (78,1), 34 (79,0) CLEARED.
 **Sonraki öneri:** birikimin açık maddeleri insan/telefon testine bağlı. Ayrı denetimi olmayan Bölüm 10, 16, 27, 29,
 36 sıradaki otonom denetim adayları.
+
+### 2026-11-17 — Denetim: Bölüm 27 temiz (tur 256)
+
+**Neden:** tur 255'in önerisi — ayrı denetimi olmayan bölümler. Bölüm 27 pencereli botla 15 sn arayla oynatıldı
+(6 kare, CLEARED 84,9 sn). Taş teras/sokak, kemerli kablo deposu (Ayasofya manzaralı açıklık), "TELGRAF HATTI" arenası
+(Galata Kulesi arka planı, `DALGA 2/2 · 2 DÜŞMAN` rozeti) DTM kalitesinde; düşman, oyuncu, pickup ve patlayıcı varil
+ayrışıyor; dövüş sırasında telsiz paneli yok. **Otonom iş çıkmadı.** Not: snap kareleri 640×360 kaydediliyor; HUD
+yazısının piksel ayrıntısını yargılamak için 1280×720 kayıt gerekir (combo yazısı tur 235'te ele alındı).
+**Sonuç:** stil listesi, yol haritaları ve birikimin otonom maddeleri kapalı; bu denetim yeni iş çıkarmadı → otomasyon
+durdu. Kalan denetim adayları: Bölüm 10, 16, 29, 36. Açık birikim maddeleri insan/telefon testine bağlı.
