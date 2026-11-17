@@ -289,6 +289,20 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-17 (231) — Denetim: Bölüm 2 ve 8 gerçek karelerle — temiz
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Tur 230'un
+listesinden Bölüm 2 ve 8 pencereli botla (`REDMOUNT_SNAP_DIR`, 1280×720, 8 sn arayla; 11 ve 12 kare) oynatıldı.
+**Sonuç:** Bölüm 2 CLEARED 82,8 sn (0 ölüm; 17 sn duraklama x≈8249, Kasap Rıza arenası — birikimdeki 16–17 sn ile
+aynı); Bölüm 8 CLEARED 90,3 sn (0 ölüm; 25 sn duraklama x≈9039, Tünel Bekçisi arenası).
+- Bölüm 2: Ayasofya kemerli giriş, minibüs ara sahnesi, Haliç çarşısı (tenteler, çuval, kayıklar), çarşı arenası
+  (DALGA 1/3–3/3), "ARKA SOKAK BAKKALI" ve Kasap Rıza boss çubuğu; ChatGPT arka planlarıyla bütünleşik.
+- Bölüm 8: tünel girişi, su basmış sarnıç (sütunlar, meşaleler), "1. KAPI" / "2. KAPI", sarnıç arenası, film rulosu ve
+  su çarklı Tünel Bekçisi arenası; yapıştırma izi yok. x≈3284'teki açık renkli sıva/tuğla sütun koyu sarnıçta
+  belirgin, ama kırılabilir duvarın kasıtlı ipucu (arkasında rulo görünüyor) — "sır ipucu görünür" kuralına uygun.
+Kod değişmedi; otonom düzeltilebilir yeni iş yok.
+**Sonraki öneri:** gerçek kare serisinde kalanlar Bölüm 13, 16, 20, 25, 35.
+
 ### 2026-11-17 (230) — Denetim: Bölüm 11 ve 14 gerçek karelerle — temiz
 
 **Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Tur 229'un
