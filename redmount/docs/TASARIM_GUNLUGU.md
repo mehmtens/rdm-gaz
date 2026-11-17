@@ -7,6 +7,18 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 284 denetimi, hiç bireysel denetlenmemiş Bölüm 29 — Kuzguncuk kıyı deposu, Kitap 3, gece — pencereli bot koşusu
+  (75,1 sn CLEARED, 0 respawn; indeks 28) + 7 mekân ekran görüntüsü; DTM sütunlarıyla karşılaştırıldı. Görsel kalite DTM
+  düzeyinde: alacakaranlık/gece Boğaz manzarası, yelkenli + Beylerbeyi iskele silüeti, dolmuş, net düşman rim ışığı, dalga
+  sayacı "DALGA 1/2 · 2 DÜŞMAN", kombo "HARİKA ×5", "POLİS! KOŞ!" kovalamaca ipucu balonu. Hiçbiri koşulsuz değil)
+  (1) açılış karesi (x≈80) gecenin en karanlık noktası; `bolum29.gd:21 _night(0.76,0.78,0.94)` + ilk fenerden önceki köşe.
+  Polis kovalaması (`_chase` x=420) oyuncuyu ~1–2 sn'de aydınlık rıhtıma ittiği için bloklamıyor; bot hasarsız geçti.
+  İnsan testi "başta nereye gittiğimi göremedim" derse spawn'a tek fener (8572 civarı değil, x≈120) · (2) evrak/depo arenası
+  (x≈8578, iç mekân) koyu ceketli düşmanlar koyu ahşap raf önünde — gece/altın rim ile okunuyor, ama Bölüm 30/22/31 ile aynı
+  düşük-kontrast kalıbı; iç mekâna özel kontur alfası yapılırsa bu bölüm de kapsanır (insan testi "seçemedim" derse) ·
+  (3) son arenaya 110/115 canla girildi, Kitap 3 eğrisine göre rahat; açık yok. Ekran görüntülerinde taşma, kalıcı dikiş,
+  okunmayan HUD yok.
+
 - (Tur 283 denetimi, Bölüm 21/25/32 pencereli bot koşusu + 36 bölümde "son iki arena arası can yerleşimi" taraması;
   hiçbiri koşulsuz değil) (1) Son arenadan önceki aralıkta yemeği yalnız ara katta (y ≤ −160) olan bölümler: 2, 12, 19,
   20, 21, 22, 23, 25 (18 tur 282'de düzeltildi). Bunların 7'sinde önceki arena ödülü can ve/veya yolda dükkân var — açık
