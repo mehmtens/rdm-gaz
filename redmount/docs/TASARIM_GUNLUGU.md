@@ -12,9 +12,11 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   sahip değildi; parlak kubbe/ışıklı pencere üzerinde "İYİ" solunun açık arka plana karıştığı görüldü.
   book_comic başlığının `outline_size` yöntemiyle koyu mor kontur (0.07,0.04,0.09, boyut 6) eklendi —
   gece bölümünde zararsız, gündüz parlak arka planda ayrışma netleşti. Pulse ölçekleme bozulmadı.
-- (Tur 235 denetimi, Bölüm 29 dam x≈920–1020, kare t900) Çatı-çatı arası boşlukta havada asılı 3 coin dizisi;
-  altında platform yok. Zıplama yayının gerçekten bu yükseklikten (y≈300) geçtiği telemetriyle doğrulanmalı;
-  geçmiyorsa diziyi erişilebilir yaya indir. Ölçüm: oyuncu zıplama apeksi y vs coin y. Küçük, bölüm-veri işi.
+- ~~(Tur 235 denetimi, Bölüm 29 dam, kare t900) Havada asılı 3 coin dizisi "platformsuz" görünüyor~~
+  **(aynı turda doğrulandı, kod değişmedi):** `_house` gövdesi `_solid_box` — çatı üstü yürünebilir yüzey.
+  `_coin_line(1740,4,·,-270)` ve `(h2-160,3,·,-310)` çatılardan (h1 -220, h2 -260) **50px yukarıda**, zıplama
+  menzilinde (~125px). Kanıt: bot 2. bölümde (renkli evler→çatılar) COIN 14→26 topladı — çatı coinleri fiilen
+  erişiliyor. Ekrandaki "boşlukta" izlenimi kamera çerçevesinden; çatı sağ-altta kalıyor. Sorun yok.
 - (Tur 235 denetimi) `hud.gd:269` combo metni küçük 'x' kullanıyor (`"%s  x%d"`); ekranda çarpma glifi gibi
   okunuyor ama kaynak ASCII x. DTM tutarlılığı için "×" (U+00D7) düşünülebilir — kozmetik, önemsiz.
 - (Tur 235 denetimi) Bölüm 29 HUD'unda yalnız CAN/COIN satırı var, Bölüm 17'de CAN/COIN/Zırh 6/6 var. Zırh
