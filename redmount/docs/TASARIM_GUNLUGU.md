@@ -7,6 +7,19 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 273 denetimi, az denetlenen Bölüm 22 ve 31 pencereli bot koşusu (6 sn, 25 kare) + 36 bölümün tamamında
+  headless bot zorluk eğrisi; hiçbiri otonom değil) (1) zorluk eğrisi (bot en düşük can / 115): Kitap 1'de 64–85'ten
+  Bölüm 5–12'de 10–22'ye iniyor, Kitap 2 başında 83–84'e dönüp sonunda 14–16'ya, Kitap 3'te 26/27/30/31/33/35/36'da
+  4–13. Kitap başlarında rahatlayan testere dişi DTM'ye uygun; ani sıçrama yok. 36/36 CLEARED, toplam 5 yeniden doğma
+  (Bölüm 10, 27, 35 birer; 36 iki). İnsan testinde Kitap 3 son arenalarında ölüm sayısı ölçülsün · (2) Bölüm 31: pencereli
+  koşuda bot deniz köşkü arenasına (3 dalga, 7 düşman) 20/115 canla girip bir kez öldü (headless koşuda ölmedi, en düşük 9).
+  Kütüphane arenası ile son arena arasındaki tek ilk yardım mühür odası üst katında (7550, −160), ana yolun üstünde
+  görünür; bot tırmanmadığı için almadı. İnsan "son arenaya yarı ölü giriyorum" derse ilk yardım zemin katına indirilsin ·
+  (3) Bölüm 22 son arenası açılırken gökyüzü süpürme geçişi (9800) dövüşün ilk 1,5 sn'sinde görülüyor; tasarlanmış perde,
+  kalıcı dikiş değil — insan testi "arka plan dövüşte değişiyor" derse hücre sınırı 9450'ye çekilsin · (4) Bölüm 31
+  Nüzhet telsizi (5362) kütüphane arenası kilitlenirken hâlâ ekranda; dalga sayacıyla üst üste binmiyor, tur 249
+  eşiğinin altında · (5) Bölüm 22/31 iç mekânlarında koyu ceketli düşmanlar okunuyor (gece konturu yeterli).
+
 - (Tur 272 denetimi, hiç denetlenmemiş Bölüm 15 ve 30 pencereli bot koşusu, 6 sn aralıklı 27 kare; etki/maliyet
   sırasıyla, 1 aynı turda yapıldı) ~~(1) aynı taraftan gelen yakın dövüşçüler oyuncunun önünde tek noktaya yığılıyor
   (ayırma 40 px, kovalama hızı onu yeniyor; ölçüm 38/33 px merkez aralığı — iki gövde tek kara leke)~~ **(tur 272:
@@ -8239,3 +8252,16 @@ yürüyerek yaklaşma dalı). 58 px: gövde 34 px + iki sprite'ın görünür ya
 `ranged_spacing`, `arena_mercy`, `telegraph_mark`, `arena_pursuer`, `lie_lift` PASS; bot Bölüm 1 (82,1 sn), 13 (65,9 sn), 25 (78,5 sn), 15 (78,3 sn), 30 (84,1 sn) CLEARED.
 **Sonraki öneri:** birikim Tur 272/2–5 insan testine bağlı; otonom iş kalmadı.
 
+### 2026-11-18 — Denetim (Bölüm 22, 31 + 36 bölüm zorluk eğrisi): temiz; otonom iş çıkmadı, otomasyon durdu (tur 273)
+
+**Neden:** stil listesi, iki yol haritası ve birikimin otonom maddeleri bitti → kural (d). Günlükte başlıklı denetimi
+olmayan Bölüm 22 (Aksaray Pompa İstasyonu) ve 31 (Çengelköy Sahil Konağı) pencereli bot koşusuyla (6 sn aralık) oynandı;
+ardından ilk kez 36 bölümün tamamı aynı bot sürümüyle headless koşturulup bölüm başına en düşük can ve yeniden doğma
+sayıldı (zorluk eğrisi sütunu; daha önce tek tek bölüm ölçülmüştü).
+**Bulgular:** 36/36 CLEARED (63,8–174,9 sn), 5 yeniden doğma. Eğri kitap başlarında rahatlıyor, kitap sonlarında
+sıkılaşıyor; ani zorluk sıçraması yok. Bölüm 31 pencereli koşuda bir ölüm (son arenaya 20 canla giriş; tek ilk yardım üst
+katta, görünür ama bot tırmanmıyor). Ekran görüntülerinde taşma, okunmayan düşman, kalıcı arka plan dikişi bulunmadı.
+Beş bulgu birikime yazıldı; hepsi insan testi verisine bağlı, botun rota seçimi (yemek için tırmanmaz) insan oyuncuyu
+temsil etmediği için bot ölümüyle tasarım değiştirilmedi.
+**Testler:** kod değişikliği yok; bot 36 bölüm CLEARED (yukarıda), Bölüm 22 (73,5 sn) ve 31 (70,7 sn) pencereli CLEARED.
+**Sonraki öneri:** otonom iş kalmadı; Kitap 3 son arenalarında insan ölüm sayısı ve arena giriş canı ölçülsün.
