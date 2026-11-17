@@ -7,6 +7,19 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 265 ses/müzik denetimi, Bölüm 1/13 bot koşusunda Sfx çalışları sayıldı; etki/maliyet sırasıyla, 1 aynı turda
+  yapıldı) ~~(1) 12'lik ses havuzu körlemesine sırayla çalınıyordu: çalışların %14'ü çalan bir sesi kesiyordu (sancak,
+  düşman yıkılışı, zırh/silah kırılması dahil); çoklu vuruşta aynı ses aynı karede 2–3 kez üst üste biniyordu~~
+  **(tur 265: `Sfx` öncelik + aynı kare birleştirme)** · (2) coin zinciri: art arda toplanan coinler hep aynı perdede;
+  0,4 sn içindeki her coin bir yarım ton yükselsin (8'de sıfırla) — mıknatıslı coin dizisi "dolan" bir ses verir, ucuz
+  (`coin_pickup.gd` + `Sfx.play` perde parametresi) · (3) düşman saldırı uyarısının (`_telegraph` ünlemi) sesi yok;
+  ekran dışından/arkadan gelen saldırıda mobil oyuncu yalnız görsele bağlı — ağırda kısa, kalın bir "nefes/çelik"
+  uyarı sesi (yeni klip `tools/` ses üreticisiyle; ağır ve normal ayrı perde), çok düşmanlı arenada aynı kare
+  birleştirmesi zaten taşmayı önler · (4) müzik ölüm/boss vuruşunda kısılmıyor (`music.gd` ducking yok): `player_death`
+  ve `goal` sırasında müziği 0,4 sn −8 dB indirmek olayı öne çıkarır · (5) 25 klip tümüyle prosedürel placeholder
+  (`sfx.gd` başlığı); düşman türleri aynı vuruş/yıkılış sesini paylaşıyor — tür başına perde farkı (kalkanlı/zırhlı
+  daha kalın) ucuz ilk adım, gerçek ses tasarımı insan kulağına bağlı.
+
 - (Tur 259 denetimi, gizli alan / katmanlı rota sütunu, `tests/secret_count` ölçümü; etki/maliyet sırasıyla, 1 aynı turda
   yapıldı) ~~(1) açılış mahzeni 36/36 bölümde birebir aynı (x=-430, sandık + zırh + 4 coin); 108 sırrın üçte biri tek
   kalıp~~ **(tur 259: dam sırlarının üç zula dizilimi mahzene bağlandı, ödül zırh kaldı; 14 hurda / 11 çarşı / 11 sandık)** ·
@@ -8074,3 +8087,23 @@ yapılmadı.**
 **Sonuç:** denetim yeni otonom iş çıkarmadı; açık birikim maddeleri insan/telefon testine bağlı → otomasyon durdu.
 **Sonraki öneri:** telefonda insan oyun testi; B24 açılışında (ilk sancak 3200) arena sonrası ölümün başa döndürmesi
 "cezalı" hissettirirse a1 kapısının hemen sağına (≈2950) bir sancak eklensin.
+
+### 2026-11-17 — Ses havuzu önceliği + aynı kare birleştirme (tur 265, denetim: ses/müzik)
+
+**Neden:** stil listesi, iki yol haritası, P1 ve birikimin otonom maddeleri kapalı → kural (d). Ses/müzik sütunu
+önceki denetimlerde hiç sayısal ölçülmemişti. Geçici sayaçla Bölüm 1 ve 13 bot koşusunda her `Sfx.play` kaydedildi.
+**Ölçüm (önce):** Bölüm 1'de 643 çalışın 90'ı (%14) hâlâ çalan bir sesi kesti — kesilenler arasında 12 düşman yıkılışı,
+2 sancak, 2 zırh kırılması, 2 silah kırılması, 1 can sesi; 12'lik havuz körlemesine sırayla dönüyordu. Aynı karede aynı
+ses 15 kez ikilendi (10'u çoklu hedef `heavy_hit`: özdeş iki ses üst üste = ani ses tepesi + faz). Bir karede en çok 10 ses.
+**Değişiklik (`scripts/systems/sfx.gd`):** (a) ses seçimi önce boş oyuncu; yoksa en düşük öncelikli, eşitlikte en eski
+çalan ses kesilir; çalan ses yeni sesten önemliyse yeni ses düşer (coin sancak sesini kesemez). Öncelik: 0 = adım/coin/
+iniş/zıplama/savuruş/menü tıkı, 1 = diğer, 2 = can kaybı/düşman yıkılışı/zırh-silah kırılması/güç/can, 3 = ölüm/hedef/
+sancak/boss vuruşu. (b) Aynı karede aynı ses ikinci kez istenirse yeni ses açılmaz, ilkinin düzeyi bir kez +2 dB artar
+(iki özdeş kaynağın +6 dB'lik tepesi yerine ölçülü "daha ağır" his). Sayılar hipotez; insan kulağıyla ayarlansın.
+**Ölçüm (sonra):** Bölüm 1'de kesilen ses 90 → 27 (artık yalnız en düşük öncelikli en eski ses), birleştirilen 15,
+düşen 0; Bölüm 13: 5 kesme / 4 birleştirme; Bölüm 25: 36 / 5.
+**Testler:** `--import` SCRIPT ERROR yok; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn` PASS;
+`tests/ui_sfx.tscn` OK; yeni `tests/sfx_voices.tscn` PASS (birleştirme, dolu havuzda coin sancak sesini kesmiyor, eşit
+öncelikli ölüm sesi en eskiyi kesiyor); bot Bölüm 1 (85,5 sn), 13 (66,8 sn), 25 (91,0 sn) CLEARED.
+**Sonraki öneri:** birikim Tur 265/(2) coin zinciri perdesi — ucuz, otonom yapılabilir.
+
