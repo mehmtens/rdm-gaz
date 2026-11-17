@@ -37,6 +37,12 @@ const PRIORITY := {
 ## Aynı karede aynı ses ikinci kez istenirse yeni ses açılmaz; ilk sesin düzeyi bu kadar artar
 ## (bir kez). Çoklu hedef vuruşunda 2–3 özdeş "heavy_hit" üst üste binip faz/ani ses tepesi yapıyordu.
 const STACK_BOOST_DB := 2.0
+## Bu sesler çalınca müzik kısa süre kısılır (tur 268): [derinlik dB, tutma sn, bırakma sn].
+## Ölüm ve bölüm sonu müziğin altında kayboluyordu; olay anı öne çıksın.
+const DUCK := {
+	"player_death": [-10.0, 0.5, 0.8],
+	"goal": [-8.0, 0.35, 0.6],
+}
 ## Bir sesten bu kadar kısa süre sonra gelen odak tıkı yutulur (ms): sayfa açılışındaki
 ## programatik `grab_focus` seçim/açılış sesinin üstüne ikinci bir tık bindirmesin.
 const UI_MOVE_QUIET_MS := 140
@@ -130,6 +136,9 @@ func play(name: StringName, pitch: float = 1.0, volume_db: float = 0.0, jitter: 
 	last_played = name
 	if name != &"ui_select" and name != &"ui_move":
 		_feedback_frame = frame
+	var dk: Array = DUCK.get(String(name), [])
+	if not dk.is_empty():
+		Music.duck(dk[0], dk[1], dk[2])
 	var vol := volume_db + HEADROOM + float(TRIM.get(String(name), 0.0))
 	# Aynı karede aynı ses zaten başladıysa: yeni ses yok, ilkini biraz güçlendir.
 	for i in POOL_SIZE:

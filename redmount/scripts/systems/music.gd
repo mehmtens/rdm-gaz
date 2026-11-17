@@ -25,6 +25,16 @@ var _fade_dur: float = FADE
 var _cur_from: float = OFF_DB
 var _cur_to: float = BASE_DB
 var _idle_from: float = OFF_DB
+## Crossfade'in hesapladığı düzeyler; oyuncuya bunlara ducking eklenerek yazılır.
+var _cur_lvl: float = OFF_DB
+var _idle_lvl: float = OFF_DB
+## Ducking (tur 268, ses denetimi): ölüm/hedef gibi büyük anlarda müzik kısa süre kısılır,
+## olayın sesi öne çıkar. Gerçek zamanla çözülür (ölüm yavaşlatması süreyi uzatmasın).
+var duck_db: float = 0.0
+var _duck_depth: float = 0.0
+var _duck_hold_until: int = 0
+var _duck_release: float = 0.6
+var _duck_last_ms: int = 0
 
 
 func _ready() -> void:
@@ -83,7 +93,9 @@ func play(name: String, fade: float = FADE) -> void:
 	var swap := _idle
 	_idle = _cur
 	_cur = swap
+	_idle_lvl = _cur_lvl
 	_cur.stream = s
+	_cur_lvl = OFF_DB
 	_cur.volume_db = OFF_DB
 	_cur.play()
 	_begin_fade(OFF_DB, BASE_DB, fade)
@@ -112,13 +124,25 @@ func stop(fade: float = FADE) -> void:
 	if _current_name == "" and not _cur.playing and not _idle.playing:
 		return
 	_current_name = ""
-	_begin_fade(clampf(_cur.volume_db, OFF_DB, 0.0), OFF_DB, fade)
+	_begin_fade(clampf(_cur_lvl, OFF_DB, 0.0), OFF_DB, fade)
+
+
+## Müziği `depth_db` kadar indir, `hold` sn tut, `release` sn'de geri getir. Üst üste gelen
+## duck daha derinse onu alır; sığsa yalnız tutma süresini uzatır.
+func duck(depth_db: float = -8.0, hold: float = 0.4, release: float = 0.6) -> void:
+	var now := Time.get_ticks_msec()
+	if depth_db < duck_db:
+		duck_db = depth_db
+	_duck_depth = minf(duck_db, -0.01)
+	_duck_hold_until = maxi(_duck_hold_until, now + int(hold * 1000.0))
+	_duck_release = maxf(release, 0.05)
+	_duck_last_ms = now
 
 
 func _begin_fade(cur_from: float, cur_to: float, fade: float) -> void:
 	_cur_from = cur_from
 	_cur_to = cur_to
-	_idle_from = clampf(_idle.volume_db, OFF_DB, 0.0)
+	_idle_from = clampf(_idle_lvl, OFF_DB, 0.0)
 	_fade_t = 0.0
 	_fade_dur = maxf(fade, 0.05)
 	_fading = true
@@ -128,17 +152,30 @@ func _process(delta: float) -> void:
 	# Ses aygıtı yenilenmesi gibi bir nedenle akış durursa kaldığı parçayı başlat.
 	if _current_name != "" and _cur.stream != null and not _cur.playing:
 		_cur.play()
-	if not _fading:
+	_update_duck()
+	if _fading:
+		_fade_t += delta
+		var k := clampf(_fade_t / _fade_dur, 0.0, 1.0)
+		_cur_lvl = lerpf(_cur_from, _cur_to, k)
+		_idle_lvl = lerpf(_idle_from, OFF_DB, k)
+		if k >= 1.0:
+			_fading = false
+			_idle.stop()
+			if _cur_to <= OFF_DB:
+				_cur.stop()
+	_cur.volume_db = maxf(OFF_DB, _cur_lvl + duck_db)
+	_idle.volume_db = maxf(OFF_DB, _idle_lvl + duck_db)
+
+
+func _update_duck() -> void:
+	if duck_db >= 0.0:
 		return
-	_fade_t += delta
-	var k := clampf(_fade_t / _fade_dur, 0.0, 1.0)
-	_cur.volume_db = lerpf(_cur_from, _cur_to, k)
-	_idle.volume_db = lerpf(_idle_from, OFF_DB, k)
-	if k >= 1.0:
-		_fading = false
-		_idle.stop()
-		if _cur_to <= OFF_DB:
-			_cur.stop()
+	var now := Time.get_ticks_msec()
+	var dt := float(now - _duck_last_ms) / 1000.0
+	_duck_last_ms = now
+	if now < _duck_hold_until:
+		return
+	duck_db = minf(0.0, duck_db - _duck_depth * dt / _duck_release)
 
 
 func _exit_tree() -> void:

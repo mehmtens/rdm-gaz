@@ -12,8 +12,7 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   düşman yıkılışı, zırh/silah kırılması dahil); çoklu vuruşta aynı ses aynı karede 2–3 kez üst üste biniyordu~~
   **(tur 265: `Sfx` öncelik + aynı kare birleştirme)** · ~~(2) coin zinciri: art arda toplanan coinler hep aynı perdede~~
   **(tur 266: 0,4 sn penceresinde majör gamda basamak basamak, tepe bir oktav)** · ~~(3) düşman saldırı uyarısının (`_telegraph` ünlemi) sesi yok~~
-  **(tur 267: `warn.wav` "çın", ağırda kalın perde, 90 ms aralık sınırı)** · (4) müzik ölüm/boss vuruşunda kısılmıyor (`music.gd` ducking yok): `player_death`
-  ve `goal` sırasında müziği 0,4 sn −8 dB indirmek olayı öne çıkarır · (5) 25 klip tümüyle prosedürel placeholder
+  **(tur 267: `warn.wav` "çın", ağırda kalın perde, 90 ms aralık sınırı)** · ~~(4) müzik ölüm/hedef anında kısılmıyor~~ **(tur 268: `Music.duck`, `Sfx.DUCK` tablosu)** · (5) 25 klip tümüyle prosedürel placeholder
   (`sfx.gd` başlığı); düşman türleri aynı vuruş/yıkılış sesini paylaşıyor — tür başına perde farkı (kalkanlı/zırhlı
   daha kalın) ucuz ilk adım, gerçek ses tasarımı insan kulağına bağlı.
 
@@ -8134,4 +8133,18 @@ orta. Sayılar hipotez; klibin tınısı insan kulağıyla ayarlansın (üretici
 kontrol: uyarı sesi çalar, 90 ms içindeki ikincisi susar); `sfx_voices` PASS; `ui_sfx` OK; `coin_chain` PASS; bot Bölüm 1
 (79,4 sn), 13 (61,1 sn), 25 (83,3 sn) CLEARED.
 **Sonraki öneri:** birikim Tur 265/(4) müzik ducking (ölüm/hedef anında müzik kısa süre kısılır).
+
+### 2026-11-17 — Müzik ducking: ölüm ve bölüm sonunda müzik kısa süre kısılır (tur 268, birikim Tur 265/4)
+
+**Neden:** oyuncu ölümü ve bölüm hedefi oyunun en büyük iki ses anı; müzik tam düzeyde sürdüğü için ikisi de döngünün
+altında kalıyordu. DTM tarzı oyunlarda büyük an "nefes" alır: müzik bir an çekilir, olay sesi öne çıkar, sonra geri gelir.
+**Değişiklik:** `music.gd` — crossfade düzeyleri (`_cur_lvl`/`_idle_lvl`) oyuncu düzeyinden ayrıldı; oyunculara
+`düzey + duck_db` yazılır, böylece ducking crossfade'i bozmaz. `duck(derinlik, tutma, bırakma)` gerçek zamanla çözülür
+(ölüm yavaşlatması `time_scale` süreyi uzatmasın); üst üste gelen duck daha derinse onu alır. `sfx.gd` — `DUCK` tablosu:
+`player_death` −10 dB / 0,5 sn tut / 0,8 sn bırak; `goal` −8 dB / 0,35 / 0,6 (klip süreleri 0,6 ve 0,5 sn — müzik tam
+klip boyunca aşağıda, sonra yumuşak dönüş). Sayılar hipotez; insan kulağıyla ayarlansın.
+**Testler:** `--import` SCRIPT ERROR yok; `campaign_smoke` çıkış 0; `dtm_gaps` PASS; yeni `tests/music_duck.tscn` PASS
+(ölümde −10 dB, 1,6 sn sonra taban, duck sırasında parça değişimi tabana oturur, eski parça durur); `sfx_voices` PASS;
+`ui_sfx` OK; `telegraph_mark` PASS; bot Bölüm 1 (78,9 sn), 13 (66,8 sn), 25 (89,3 sn) CLEARED.
+**Sonraki öneri:** birikim Tur 265/(5) düşman türü başına vuruş/yıkılış perde farkı (kalkanlı/zırhlı daha kalın).
 
