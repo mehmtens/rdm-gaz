@@ -341,6 +341,22 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-17 (251) — Denetim (Bölüm 34, ödül/ekonomi + telegraf): temiz; yeni otonom iş çıkmadı, otomasyon durdu
+
+**Neden şimdi:** tur 250'nin önerisi az denetlenmiş Bölüm 33/34'e ödül/telegraf gözüyle bakmaktı. Bölüm 34 botla
+pencereli oynatıldı (7 sn'de bir kare, 9 kare), 63 sn'de ölümsüz CLEARED. **Bulgu: temiz.** Sanat zengin ve bütün —
+sarmaşıklı kemerli su kemeri + sıcak pencereler, petrol kulesi/iskele siluetleri, Haliç suyu fonu, "SIRT KANTİNİ"
+set-piece'i, Türk bayrağı, ledge'lerde coin dizileri. Düşman telegrafı: nişancı sandık üstünde ışıldak/namlu hüzmesiyle
+net (gece bölüm, okunur). HUD (can/coin/bıçak/mermi/zırh) ve combo sayacı açık. Ödül/ekonomi: coin yerleşimi ve kırılabilir
+ganimet görünür. Yapıştırılmış duran öğe yok.
+
+**Sonuç:** kampanya sanatı ve bölüm tasarımı kalite eşiğinde; STIL listesi, YOL_HARITASI ve kalite P1 özellik boşlukları
+kapalı; birikimin açık maddelerinin tamamı insan/telefon testine bağlı (mağaza ret sesi, Android geri tuşu, Survival rim,
+dokunmatik ATIL örtmesi) ve bu turun denetimi yeni otonom iş çıkarmadı. Döngü kuralı gereği otomasyon burada durdu.
+**Testler:** kod değişmedi (yalnız günlük); bot Bölüm 34 CLEARED (63,1 sn, 0 ölüm).
+**Sonraki öneri:** insan/telefon testi gelince birikim maddeleri açılır; o gelene kadar yeni otonom iş için Bölüm 33 ya da
+2. kitap ortası bölümler aynı sütunlarla denetlenebilir.
+
 ### 2026-11-17 (250) — Denetim (Bölüm 9, ödül/ritim): çok dalgalı arenada dalga arası nefes yok → düşük canlıya bir kez merhamet yemeği
 
 **Neden şimdi:** tur 249'un önerisi ödül/ekonomi ve ritim sütununda az denetlenmiş bölüme bakmaktı. Bölüm 9 "Zırhlı Üs"
