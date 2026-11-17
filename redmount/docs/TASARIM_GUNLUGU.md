@@ -14,9 +14,9 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   kıyafetli Bıçaklı Ajan zor seçiliyor (`denetim surv/daily-14`) — düşman kenar ışığı yalnız belirmede; insan
   testinde okunurluk sorunu doğrulanırsa Survival'a özel zayıf kalıcı rim. ~~(6) Survival boss'u hep MiniBoss~~
   **(Tur 239'da yapıldı):** boss sırası + eksik üç düşman türü havuza girdi.
-  (7) (Tur 239) Ana Vana Muhafızı ve Yayın Şefi kampanyada da `mini_boss_frames` kullanıyor — Survival boss sırasında
-  10/20/40. dalga boss'ları aynı zırhlı silüet (renk tonu ve davranış farklı). Kendi sprite'ları ChatGPT tarzında
-  çizilirse hem kampanya hem Survival kazanır; büyük sanat işi, stil kuralına göre ayrı tur.
+  ~~(7) Ana Vana / Yayın Şefi `mini_boss_frames` kullanıyor~~ **(Tur 240'ta yapıldı):** kendi zırh sayfaları
+  (bakır+yeşil pas / lacivert lake+antenli miğfer). Kalan: tamamen yeni silüet (ör. Ana Vana'ya vana çarklı çekiç)
+  istenirse kare kare elle çizim — ayrı büyük sanat turu, insan geri bildirimi beklensin.
 
 - ~~(Tur 235 denetimi, Bölüm 17 & 29) Combo sayacı konturu~~ **(aynı turda yapıldı, `commit` aşağıda):**
   `ComboLabel` çıplak altın metindi, HUD paneli (tur 206) ve duyuru plakasıyla aynı okunurluk katmanına
@@ -315,6 +315,29 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-17 (240) — Ana Vana Muhafızı ve Yayın Şefi'ne kendi zırh sayfaları (birikim 7)
+
+**Neden şimdi:** stil listesi ve iki yol haritası kapalı; birikimin otonom yapılabilir en üst maddesi. İki hikâye
+boss'u (Bölüm 24 ve 36 finalleri, Survival 20./40. dalga) Ağır Zırhlı'nın siyah-kırmızı karelerini kullanıyordu;
+Survival'da 10→20→40 aynı zırhlı silüet görünüyordu, Yayın Şefi yalnız mavimsi `self_modulate` ile ayrışıyordu.
+**Oyuncu ne hissedecek:** Ana Vana sarnıç/su işlerine ait paslı bakır zırhlı, yeşil pas lekeli, tüyü/gözü/çekiç
+mücevheri su mavisi; Yayın Şefi lacivert lake zırhlı, sinyal sarısı tüylü, mor pelerinli ve miğferinde sinyal lambalı
+yayın anteni (silüet tepeden de ayrışıyor). Üç boss artık ilk bakışta kim olduğunu söylüyor.
+**Yapılan:** `tools/gen_boss_variants.py` — ChatGPT temel çizimindeki gövde iskeleti korunur, malzeme piksel
+sınıflandırmasıyla (HLS: zırh / doygun kırmızı / korunan altın-toz-kontur) stil kuralının 8–10 tonluk rampalarına
+(gölge mor (12,7,18)→, ışık turuncu-altın) yeniden boyanır; anten 1x piksel art, koyu mor kontur, sol ışık/sağ ay
+kenarı. Çıktı `assets/anim/{waterworks_chief,broadcast_director}/*.png` (7 animasyon, 63 kare, aynı kesim) +
+`resources/anim/*_frames.tres`. Sahneler yeni kareleri kullanır; `broadcast_director.gd` eski `self_modulate`
+tonu kaldırıldı (laciverti soldururdu; öfke nabzı `story_boss.gd`'de aynen). Ara sahnede Ana Vana `bruiser` olarak
+çıkıyordu (Bölüm 24 teras) → yeni `waterworks` aktör türü, dövüştekiyle aynı görünüm.
+**Sayılar:** davranış/hasar değişmedi. Toz/kum (açık, l≥0.46) korunur ki çekiç darbesi tozu zırh rengine boyanmasın.
+**Testler:** `--import` hatasız; yeni `tests/boss_sheets.tscn` PASS (iki sahne kendi sayfası, animasyon adları ve
+kare sayıları Ağır Zırhlı ile bire bir, sinematik `waterworks` aktörü); `campaign_smoke` çıkış 0 (36 OK);
+`dtm_gaps` PASS; `survival_card` OK; bot Bölüm 24 (210,2 sn) ve Bölüm 36 (172,5 sn) CLEARED — iki boss da yeni karelerle yenildi. Pencereli Survival karesinde üç boss
+yan yana, ChatGPT mahalle arka planının önünde: bakır ve lacivert zırh sahneye ait, anten okunur, taşma yok.
+**Sonraki öneri:** birikimde kalanlar insan testine bağlı (koyu düşman okunurluğu, dokunmatik düzen, ekonomi oranı);
+sıradaki otonom tur tasarım denetimi (d).
 
 ### 2026-11-17 (239) — Survival düşman çeşitliliği + 10 dalgada bir dönen boss (birikim 6)
 

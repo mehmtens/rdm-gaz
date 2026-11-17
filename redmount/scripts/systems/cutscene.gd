@@ -26,6 +26,8 @@ const ELITE_FRAMES := preload("res://resources/anim/elite_guard_frames.tres")
 ## Adlı ara patronlar (Binbaşı Kaya, Sur Ağası, Muhafız Başı): dövüşte Ağır Zırhlı
 ## (MINIBOSS.tscn, rig_style "miniboss") olarak çıkıyorlar; ara sahnede de aynı görünsünler.
 const MINIBOSS_FRAMES := preload("res://resources/anim/mini_boss_frames.tres")
+## Ana Vana Muhafızı: dövüşteki kendi bakır zırh sayfası (tur 240), ara sahnede de aynısı.
+const WATERWORKS_FRAMES := preload("res://resources/anim/waterworks_chief_frames.tres")
 const BUS := preload("res://assets/environment/mahalle/bus.png")
 const WAGON := preload("res://assets/environment/mahalle/freight_wagon.png")
 
@@ -241,6 +243,10 @@ func actor(id: String, kind: String, pos: Vector2, facing := 1) -> Node2D:
 				## Dövüşteki MINIBOSS ölçeğiyle (enemy_base 1.35, seçkin 1.18'e karşı) orantılı:
 				## cutscene elite 0.62 × (1.35/1.18) ≈ 0.71; adlı patron sıradan seçkinden iri görünür.
 				a.sprite_frames = MINIBOSS_FRAMES
+				a.scale = Vector2(0.71, 0.71)
+				a.offset = Vector2(0, -114)
+			"waterworks":
+				a.sprite_frames = WATERWORKS_FRAMES
 				a.scale = Vector2(0.71, 0.71)
 				a.offset = Vector2(0, -114)
 			"rifle":

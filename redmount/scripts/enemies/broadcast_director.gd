@@ -9,7 +9,6 @@ var attack_phases: Array[int] = []
 func _ready() -> void:
 	config = config.duplicate()
 	super._ready()
-	sprite.self_modulate = Color("b7c8de")
 
 
 func apply_hit(damage: int, dir: Vector2, knockback: float) -> void:

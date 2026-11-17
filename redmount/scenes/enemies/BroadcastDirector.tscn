@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" path="res://scenes/enemies/EnemyBase.tscn" id="1"]
 [ext_resource type="Script" path="res://scripts/enemies/broadcast_director.gd" id="2"]
 [ext_resource type="Resource" path="res://resources/enemies/broadcast_director.tres" id="3"]
-[ext_resource type="SpriteFrames" path="res://resources/anim/mini_boss_frames.tres" id="4"]
+[ext_resource type="SpriteFrames" path="res://resources/anim/broadcast_director_frames.tres" id="4"]
 
 [node name="BroadcastDirector" instance=ExtResource("1")]
 script = ExtResource("2")

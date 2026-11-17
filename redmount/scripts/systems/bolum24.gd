@@ -244,7 +244,7 @@ func _sahne_teras(cs: Cutscene) -> void:
 	var p := cs.player_pos()
 	cs.actor("rm", "redmount", p)
 	cs.actor("gz", "gazelle", p + Vector2(-80, 0))
-	cs.actor("mh", "bruiser", Vector2(p.x + 700, 0), -1)
+	cs.actor("mh", "waterworks", Vector2(p.x + 700, 0), -1)
 	await cs.pan(Vector2(p.x + 350, -220), 0.7)
 	await cs.say("mh", "ANA VANA MUHAFIZI", "Anahtar boynumda. Şafak geçti; şehir susuzluğa uyandı mı, görmek istiyorum.")
 	await cs.say("rm", "REDMOUNT", "Şehir uyandı. Ama suyunu benden alacak.")

@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" path="res://scenes/enemies/EnemyBase.tscn" id="1"]
 [ext_resource type="Resource" path="res://resources/enemies/waterworks_chief.tres" id="2"]
-[ext_resource type="SpriteFrames" path="res://resources/anim/mini_boss_frames.tres" id="3"]
+[ext_resource type="SpriteFrames" path="res://resources/anim/waterworks_chief_frames.tres" id="3"]
 
 [ext_resource type="Script" path="res://scripts/enemies/story_boss.gd" id="9"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/Bomber.tscn" id="10"]
