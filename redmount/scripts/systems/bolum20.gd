@@ -195,7 +195,7 @@ func _on_kemal_wave(wave: int, _total: int, _left: int) -> void:
 	var t := _kemal.create_tween()
 	t.tween_property(_kemal, ^"position:x", _kemal.position.x + 520.0, 1.1)
 	t.tween_callback(_kemal.queue_free)
-	RadioPanel.say(get_tree(), "gazelle", "GAZELLE", "Kemal Bey kaçıyor! Çabuk, Redmount!")
+	RadioPanel.say(get_tree(), "gazelle", "GAZELLE", "Kemal Bey kaçıyor! Çabuk, Redmount!", true)
 
 
 func _on_kemal_cleared() -> void:

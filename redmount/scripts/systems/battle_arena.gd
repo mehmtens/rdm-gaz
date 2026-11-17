@@ -66,6 +66,19 @@ func _ready() -> void:
 			_waves.append(w)
 
 
+## Oyuncu şu an kapıları kapalı bir arenanın içinde dövüşüyor mu (dalga arası dahil)?
+## Kapısız arenada oyuncu çıkıp gidebildiği için konum da aranır.
+static func player_in_combat(tree: SceneTree) -> bool:
+	var p := tree.get_first_node_in_group(&"player") as Node2D
+	if p == null:
+		return false
+	var x := p.global_position.x
+	for a in tree.get_nodes_in_group(&"battle_arena"):
+		if a._active and not a._done and x >= a.gate_left_x - 40.0 and x <= a.gate_right_x + 40.0:
+			return true
+	return false
+
+
 func _on_body_entered(b: Node) -> void:
 	if _active or _done or not b.is_in_group(&"player"):
 		return

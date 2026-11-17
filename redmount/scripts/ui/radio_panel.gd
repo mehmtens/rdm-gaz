@@ -20,6 +20,12 @@ const CHARS_PER_SEC := 38.0
 const HOLD := 2.4
 ## Panel tam açıkken üst bandın aşağı kayma payı: panel altı (116) + 6 boşluk − DALGA rozeti (12).
 const BAND := 110.0
+## Dost konuşmacılar (hikâye satırları): kilitli arenada dövüş sürerken kuyrukta bekler,
+## arena temizlenince CALM saniye sonra çıkar ("TEMİZ!" önce okunsun). Düşman telsizi /
+## tehdidi dövüşün parçasıdır, beklemez. Tur 248 ölçümü: 108 satırın 27'si dost satırı
+## olarak arena içinde tetikleniyordu; oyuncu dövüşürken okuyamıyordu.
+const HOLD_IN_ARENA := ["gazelle", "redmount"]
+const CALM := 0.8
 
 static var _instance: RadioPanel
 
@@ -33,13 +39,25 @@ var _shown := 0.0
 var _hold := 0.0
 var _slide := 0.0
 var _active := false
+var _calm := 0.0
 
 
-static func say(tree: SceneTree, who: String, speaker: String, text: String) -> void:
+## `urgent`: senaryolu, dövüşün içindeki anı anlatan satır (ör. Bölüm 20 "Kemal kaçıyor!");
+## arena beklemesine takılmaz.
+static func say(tree: SceneTree, who: String, speaker: String, text: String, urgent := false) -> void:
 	if _instance == null or not is_instance_valid(_instance):
 		_instance = RadioPanel.new()
 		tree.current_scene.add_child(_instance)
-	_instance._queue.append([who, speaker, text])
+	_instance._queue.append([who, speaker, text, urgent])
+
+
+## Sıradaki satır arena dövüşü yüzünden bekletilmeli mi?
+func _held(it: Array) -> bool:
+	if it.size() > 3 and it[3]:
+		return false
+	if not HOLD_IN_ARENA.has(it[0]):
+		return false
+	return _calm > 0.0
 
 
 ## Telsiz şu an üst bantta ne kadar yer kaplıyor: HUD'un üst öğeleri (dalga rozeti, kombo,
@@ -93,7 +111,11 @@ func _process(delta: float) -> void:
 	if Cutscene.active != null or get_tree().paused:
 		_panel.modulate.a = 0.0
 		return
-	if not _active and not _queue.is_empty():
+	if BattleArena.player_in_combat(get_tree()):
+		_calm = CALM
+	else:
+		_calm = maxf(_calm - delta, 0.0)
+	if not _active and not _queue.is_empty() and not _held(_queue[0]):
 		var it: Array = _queue.pop_front()
 		_portrait.texture = PORTRAITS.get(it[0], PORTRAITS["telsiz"])
 		_name.text = String(it[1])

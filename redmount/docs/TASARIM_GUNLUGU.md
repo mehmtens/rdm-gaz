@@ -9,7 +9,18 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 - (Tur 244 hareket hissi denetimi, etki/maliyet sırasıyla; 1 aynı turda yapıldı) ~~(1) tavan köşesi düzeltmesi~~ ·
   ~~(2) kenar tırmanma yardımı~~ **(tur 245)** · ~~(3) tepe yarı yerçekimi~~ **(tur 246)** · ~~(4) dash/yürüyüş basamak düzeltmesi~~ **(tur 247: ölçüldü, gerek
-  yok — 36 bölümde 1–14 px basamak yok)** · (5) **iniş tozunun düşme hızına göre ölçeği** (şu an sabit) — küçük, yalnız his; insan testiyle birlikte.
+  yok — 36 bölümde 1–14 px basamak yok)** · ~~(5) iniş tozunun düşme hızına göre ölçeği~~ **(tur 248: zaten ölçekli —
+  `redmount.gd` iniş dalı `Fx.dust(..., int(5 + hard * 6))`, sarsıntı ve 0,6 üstünde halka/kamera dalışı; madde yanlış yazılmıştı)**.
+
+- (Tur 248 denetimi, Bölüm 26 & 32 — okunurluk/anlatı sütunu; 1 aynı turda yapıldı) ~~(1) dost telsiz satırları arena
+  dövüşünün ortasında çıkıyor~~ **(tur 248)** · (2) **arena dışı yakın dövüşte de aynı sorun:** v26 kare t0076'da satır,
+  arena bittikten sonra yandaki odada kalkanlıyla dövüşürken çıktı. Önce ölç: telsiz tetiği anında oyuncuya 600 px içinde
+  saldırgan düşman sayısı (36 bölüm, bot koşusu); satırların %20'sinden fazlası ≥2 düşmanla çakışıyorsa bekletme kuralı
+  "yakında ≥2 saldırgan düşman" ile genişletilsin (üst süre 6 sn, sonra yine çıksın). · (3) Bölüm 26 x≈1280 ön plandaki
+  koyu dikey direk (duvar zıplama sütunu) ChatGPT arka planı önünde düz koyu şerit gibi duruyor (`a26/t0008`) — yakın çekimle
+  kaynağı belirlenip stil kuralına göre değerlendirilsin. · (4) Bölüm 26 Gar Erzakçısı (x≈5300) üst coin dizisi HUD
+  panelinin hemen sağında; kamera dikey ofsetinde panelin altında kalıp kalmadığı ölçülsün (HUD dikdörtgeni ile coin
+  ekran konumlarının kesişimi, 36 bölüm).
 
 - (Tur 243, insan testine bağlı) Ana mağazada coin yetmeyen satın alma düğmesi `disabled` — basınca tepki yok. Rahatsız
   ederse düğme etkin bırakılıp `shop_menu.gd` ret yolu (`ui_deny`) kullanılsın; menü seslerinin düzeyi kulakla ayarlansın.
@@ -324,6 +335,32 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-17 (248) — Denetim (Bölüm 26/32): hikâye telsizi arena dövüşünün ortasında çıkıyordu → dövüş bitince
+
+**Neden şimdi:** birikimdeki tek otonom madde (iniş tozu ölçeği) kodda zaten vardı (kapatıldı); geri kalanlar insan
+testine bağlı, bu yüzden en az denetlenmiş iki bölüm (26 Sirkeci garı, 32 Kuleli/fener) pencereli botla 8 sn arayla
+oynatıldı (11 + 10 kare). En net bulgu: Bölüm 26'da Gazelle'in iki hikâye satırı ("Garda her hoparlör beni arıyor",
+"Makbuz: Galata telgraf binası") kilitli arenada `DALGA 2/2 · 3 DÜŞMAN` sürerken üst bantta yazılıyordu. Mobilde iki
+başparmak dövüşteyken metin okunmaz; satır kaçarsa bir sonraki bölümün hedefi (Galata telgrafı) havada kalır.
+**Ölçüm:** geçici prob 36 bölümdeki tüm `_radio` tetiklerini arena kapı aralıklarıyla karşılaştırdı: **108 satırın 33'ü
+arena içinde** tetikleniyor; 27'si dost (Gazelle 17, Redmount 10), 6'sı düşman telsizi/Karahanlı tehdidi. Örn. Bölüm 29
+"Defterde annemin adı... Leyla" — kitabın kilit sırrı dövüş ortasında geçiyordu.
+**Oyuncu ne hissedecek:** dövüş sırasında üst bant temiz; "TEMİZ!" + kombo özeti okunduktan 0,8 sn sonra telsiz
+konuşur — DTM'deki gibi nefes anında hikâye. Düşman tehditleri ("Kasap Rıza'yı geçersen...") dövüşün parçası olarak
+anında kalır; senaryolu anlık satır (Bölüm 20 "Kemal Bey kaçıyor!", 3. dalga başında) `urgent` ile beklemez.
+**Yapılan:** `BattleArena.player_in_combat(tree)` (aktif, bitmemiş arena + oyuncu kapı aralığında ±40 px; kapısız
+arenadan çıkan oyuncu bekletilmez). `RadioPanel`: `HOLD_IN_ARENA = gazelle, redmount`; kuyruğun başı dost satırsa
+dövüşte bekler, dövüş bitince `CALM = 0,8` sn sonra çıkar; `say(..., urgent := false)`. Zaten açık olan satır kesilmez
+(arenaya girmeden başlayan "dikkat et!" uyarıları yerinde kalır). `bolum20.gd` Kemal satırı `urgent`.
+**Sayılar (hipotez):** 0,8 sn — "TEMİZ!" açılır yazısı ~0,6 sn'de okunur, kombo özeti ile çakışmasın; uzun bekletme
+ritmi öldürür. ±40 px kapı payı: kapı gövdesine yaslanan oyuncu da dövüşte sayılır.
+**Testler:** `--import` hatasız; `tests/campaign_smoke.gd` çıkış 0 (36 SMOKE OK); `tests/dtm_gaps.tscn` PASS; yeni
+`tests/radio_arena_hold.tscn` PASS (düşman telsizi anında, dost satır bekler, arena dışındaki oyuncuya çıkar, acil satır
+anında, arena bitince CALM sonra); bot Bölüm 1 (79,8 sn), 13 (66,9), 20 (81,6), 25 (78,6), 26 (88,5) CLEARED.
+Pencereli Bölüm 26 (2 sn arayla): DALGA 1/2–2/2 boyunca 8 karede panel yok; "Makbuz" satırı arena bitiş karesinde
+(`COMBO x22 +570`) çıktı.
+**Sonraki öneri:** birikim (Tur 248 denetimi) madde 2 — arena dışı yakın dövüşte satır çakışmasını önce ölç.
 
 ### 2026-11-17 (247) — Ölçüm: küçük zemin basamağı yok, basamak düzeltmesi gereksiz (birikim 4 kapandı); otomasyon durdu
 
