@@ -8,9 +8,8 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
 - (Tur 244 hareket hissi denetimi, etki/maliyet sırasıyla; 1 aynı turda yapıldı) ~~(1) tavan köşesi düzeltmesi~~ ·
-  ~~(2) kenar tırmanma yardımı~~ **(tur 245)** · ~~(3) tepe yarı yerçekimi~~ **(tur 246)** · (4) **dash köşe
-  düzeltmesi**: yatay dash 1–6 px'lik zemin basamağına takılıp duruyor mu — test sahnesiyle ölç, varsa yukarı kaydır.
-  · (5) **iniş tozunun düşme hızına göre ölçeği** (şu an sabit) — küçük, yalnız his; insan testiyle birlikte.
+  ~~(2) kenar tırmanma yardımı~~ **(tur 245)** · ~~(3) tepe yarı yerçekimi~~ **(tur 246)** · ~~(4) dash/yürüyüş basamak düzeltmesi~~ **(tur 247: ölçüldü, gerek
+  yok — 36 bölümde 1–14 px basamak yok)** · (5) **iniş tozunun düşme hızına göre ölçeği** (şu an sabit) — küçük, yalnız his; insan testiyle birlikte.
 
 - (Tur 243, insan testine bağlı) Ana mağazada coin yetmeyen satın alma düğmesi `disabled` — basınca tepki yok. Rahatsız
   ederse düğme etkin bırakılıp `shop_menu.gd` ret yolu (`ui_deny`) kullanılsın; menü seslerinin düzeyi kulakla ayarlansın.
@@ -325,6 +324,20 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-17 (247) — Ölçüm: küçük zemin basamağı yok, basamak düzeltmesi gereksiz (birikim 4 kapandı); otomasyon durdu
+
+**Neden şimdi:** hareket hissi denetiminin dördüncü maddesi "önce ölç" diye yazılmıştı. Oyuncu gövdesi dikdörtgen;
+`move_and_slide` 1–8 px'lik bir zemin basamağını duvar sayar, koşu/dash orada kesilir. Düzeltmeden önce böyle bir
+geometrinin oyunda olup olmadığına bakıldı.
+**Yapılan:** geçici prob (36 bölümü yükler, dünya katmanındaki tüm dikdörtgen katı gövdelerin üst kenarlarını çiftler,
+bitişik ya da üstünde yükselen 1–14 px'lik basamakları sayar). Sonuç **0**. Sağlama: aralık 1–60 px'e açılınca her
+bölümde 3–15 basamak bulundu (en küçüğü 30 px, çoğu 40–60 px; ör. Bölüm 1 x=2480 dy=45) — prob geometriyi görüyor.
+Hepsi bilinçli zıplama basamağı; kod değişikliği gereksiz. Prob silindi (tek seferlik ölçüm). Bölüm 1'in özel
+rotası poligon/başka şekil de kullanıyor; orada bot 36 kez temiz geçtiği için ayrıca bakılmadı.
+**Kalan:** (5) iniş tozu ölçeği — yalnız his, insan testiyle birlikte. Hareket hissi denetiminden otonom iş kalmadı.
+**Sonraki öneri:** birikimin tüm açık maddeleri insan/telefon testine bağlı; otomasyon durdu. İnsan testinde özellikle
+tur 244–246'nın üç hareket ayarı (köşe 10 px, kenar 8 px, tepe ×0,5) "kaygan/yüzüyor" hissi açısından denensin.
 
 ### 2026-11-17 (246) — Zıplama tepesinde asılma + kenar yardımı geri savrulmada hata düzeltmesi (birikim 3)
 
