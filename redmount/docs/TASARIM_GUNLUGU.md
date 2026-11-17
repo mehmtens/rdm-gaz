@@ -10,9 +10,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 - (Tur 265 ses/müzik denetimi, Bölüm 1/13 bot koşusunda Sfx çalışları sayıldı; etki/maliyet sırasıyla, 1 aynı turda
   yapıldı) ~~(1) 12'lik ses havuzu körlemesine sırayla çalınıyordu: çalışların %14'ü çalan bir sesi kesiyordu (sancak,
   düşman yıkılışı, zırh/silah kırılması dahil); çoklu vuruşta aynı ses aynı karede 2–3 kez üst üste biniyordu~~
-  **(tur 265: `Sfx` öncelik + aynı kare birleştirme)** · (2) coin zinciri: art arda toplanan coinler hep aynı perdede;
-  0,4 sn içindeki her coin bir yarım ton yükselsin (8'de sıfırla) — mıknatıslı coin dizisi "dolan" bir ses verir, ucuz
-  (`coin_pickup.gd` + `Sfx.play` perde parametresi) · (3) düşman saldırı uyarısının (`_telegraph` ünlemi) sesi yok;
+  **(tur 265: `Sfx` öncelik + aynı kare birleştirme)** · ~~(2) coin zinciri: art arda toplanan coinler hep aynı perdede~~
+  **(tur 266: 0,4 sn penceresinde majör gamda basamak basamak, tepe bir oktav)** · (3) düşman saldırı uyarısının (`_telegraph` ünlemi) sesi yok;
   ekran dışından/arkadan gelen saldırıda mobil oyuncu yalnız görsele bağlı — ağırda kısa, kalın bir "nefes/çelik"
   uyarı sesi (yeni klip `tools/` ses üreticisiyle; ağır ve normal ayrı perde), çok düşmanlı arenada aynı kare
   birleştirmesi zaten taşmayı önler · (4) müzik ölüm/boss vuruşunda kısılmıyor (`music.gd` ducking yok): `player_death`
@@ -8106,4 +8105,19 @@ düşen 0; Bölüm 13: 5 kesme / 4 birleştirme; Bölüm 25: 36 / 5.
 `tests/ui_sfx.tscn` OK; yeni `tests/sfx_voices.tscn` PASS (birleştirme, dolu havuzda coin sancak sesini kesmiyor, eşit
 öncelikli ölüm sesi en eskiyi kesiyor); bot Bölüm 1 (85,5 sn), 13 (66,8 sn), 25 (91,0 sn) CLEARED.
 **Sonraki öneri:** birikim Tur 265/(2) coin zinciri perdesi — ucuz, otonom yapılabilir.
+
+### 2026-11-17 — Coin zinciri perdesi (tur 266, birikim Tur 265/2)
+
+**Neden:** birikimin en üstündeki otonom madde. Mıknatıslı coin dizisi toplanırken her coin aynı perdede (yalnız ±%6
+rastgele) "tık tık tık" çalıyordu; ödül anı tek düze. Oyuncu artık diziyi süpürürken dolan, yükselen bir ezgi duyar —
+dizinin sonuna kadar gitmeyi sesle ödüllendirir.
+**Değişiklik:** `coin_pickup.gd` — `chain_pitch()`: önceki coinden ≤400 ms sonra toplanan coin majör gamda bir basamak
+yukarı (0,2,4,5,7,9,11,12 yarım ton); tepede (bir oktav, perde 2,0 = `Sfx` üst sınırı) kalır; 400 ms ara verilince
+başa döner. 400 ms: coin dizileri 40–60 px aralıklı, koşu ~250 px/sn → ardışık coin ~0,2 sn; bir zıplamalık duraksamada
+zincir korunur, ayrı dizilerde sıfırlanır (hipotez). `Sfx.play`'e `jitter` parametresi (varsayılan açık; zincirde
+kapalı, yoksa ±%6 rastgele yarım ton adımlarını bulandırıyordu). Mağaza/HUD coin sesleri değişmedi.
+**Testler:** `--import` SCRIPT ERROR yok; `campaign_smoke` çıkış 0; `dtm_gaps` PASS; yeni `tests/coin_chain.tscn` PASS
+(yükselir, tepede kalır, aradan sonra sıfırlanır); `sfx_voices` PASS; `ui_sfx` OK; `coin_economy` PASS; bot Bölüm 1
+(79,6 sn), 13 (67,8 sn), 25 (91,9 sn) CLEARED.
+**Sonraki öneri:** birikim Tur 265/(3) düşman saldırı uyarısına ses (yeni klip) ya da (4) müzik ducking.
 

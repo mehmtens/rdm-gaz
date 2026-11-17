@@ -119,8 +119,9 @@ func _flush_select(press_frame: int) -> void:
 	play(&"ui_select")
 
 
-## `name` sesini çal. `pitch` temel perde; üstüne ±%6 rastgele eklenir.
-func play(name: StringName, pitch: float = 1.0, volume_db: float = 0.0) -> void:
+## `name` sesini çal. `pitch` temel perde; `jitter` açıkken üstüne ±%6 rastgele eklenir
+## (müzikal dizilerde — coin zinciri — kapatılır, yoksa yarım ton adımları bulanır).
+func play(name: StringName, pitch: float = 1.0, volume_db: float = 0.0, jitter: bool = true) -> void:
 	var stream: AudioStream = _streams.get(name)
 	if stream == null:
 		return
@@ -146,7 +147,7 @@ func play(name: StringName, pitch: float = 1.0, volume_db: float = 0.0) -> void:
 	if p.playing:
 		stolen_count += 1
 	p.stream = stream
-	p.pitch_scale = clampf(pitch * randf_range(0.94, 1.06), 0.5, 2.0)
+	p.pitch_scale = clampf(pitch * (randf_range(0.94, 1.06) if jitter else 1.0), 0.5, 2.0)
 	p.volume_db = vol
 	p.play()
 	_voice_name[idx] = name
