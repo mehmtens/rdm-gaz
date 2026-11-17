@@ -7,6 +7,19 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- ~~(Tur 235 denetimi, Bölüm 17 & 29) Combo sayacı konturu~~ **(aynı turda yapıldı, `commit` aşağıda):**
+  `ComboLabel` çıplak altın metindi, HUD paneli (tur 206) ve duyuru plakasıyla aynı okunurluk katmanına
+  sahip değildi; parlak kubbe/ışıklı pencere üzerinde "İYİ" solunun açık arka plana karıştığı görüldü.
+  book_comic başlığının `outline_size` yöntemiyle koyu mor kontur (0.07,0.04,0.09, boyut 6) eklendi —
+  gece bölümünde zararsız, gündüz parlak arka planda ayrışma netleşti. Pulse ölçekleme bozulmadı.
+- (Tur 235 denetimi, Bölüm 29 dam x≈920–1020, kare t900) Çatı-çatı arası boşlukta havada asılı 3 coin dizisi;
+  altında platform yok. Zıplama yayının gerçekten bu yükseklikten (y≈300) geçtiği telemetriyle doğrulanmalı;
+  geçmiyorsa diziyi erişilebilir yaya indir. Ölçüm: oyuncu zıplama apeksi y vs coin y. Küçük, bölüm-veri işi.
+- (Tur 235 denetimi) `hud.gd:269` combo metni küçük 'x' kullanıyor (`"%s  x%d"`); ekranda çarpma glifi gibi
+  okunuyor ama kaynak ASCII x. DTM tutarlılığı için "×" (U+00D7) düşünülebilir — kozmetik, önemsiz.
+- (Tur 235 denetimi) Bölüm 29 HUD'unda yalnız CAN/COIN satırı var, Bölüm 17'de CAN/COIN/Zırh 6/6 var. Zırh
+  satırı kayıt durumuna (zırh>0) bağlı görünüyor; hata değil ama farklı kayıtta tutarlılık insan testinde
+  doğrulansın. Düşük öncelik.
 - ~~(Tur 214 denetimi, Bölüm 15 açılış x≈80) Açılış karesi çok karanlık~~ **(aynı turda doğrulandı):** siyahtan
   fade-in; `t0000` kareyi fade ortasında yakalıyor. `t0005`'te sahne tam aydınlık (Zeyrek yamacı, sıcak altın ışık),
   oyuncu/zemin net. Fade kısa, sorun yok.
@@ -288,6 +301,29 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-17 (235) — Denetim: Bölüm 17 & 29 temiz; combo sayacına okunurluk konturu (gerçek otonom iş bulundu)
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; tur 232–234 "otomasyon durdu" dedi. Priority d)
+gereği yeni mercek: son turlarda denetlenmemiş iki bölüm (17 Beyazıt gündüz, 29 Kuzguncuk gece) pencereli botla
+(`capture_stage.tscn`, 1280×720, 4 kare/bölüm) oynatıldı ve DTM gözüyle HUD/okunurluk/pacing karşılaştırıldı.
+**Oyuncu ne hissedecek:** combo sayacı artık parlak kubbe/ışıklı arka plan üzerinde de net okunur — dövüş
+geribildirimi arka plana karışmaz.
+**Denetim sonucu:** Bölüm 17 CLEARED 84,8 sn, Bölüm 29 CLEARED 81,3 sn; ikisi de ChatGPT arka planlarıyla
+bütünleşik, yapıştırma izi yok, telsiz/duyuru plakaları ve arena geribildirimi okunur. x≈2802 "takılma" tasarlanmış
+bir dövüş (geri tepme 115→100→toparlanma), hata değil. **Bir gerçek otonom bulgu:** `ComboLabel` (sahne) tek
+plakasız/kontursuz HUD metniydi — HUD paneli ve duyuru bandı tur 206'da plakalandığı hâlde combo sayacı çıplak
+altın metin kalmıştı; parlak arka planda "İYİ" solu kubbeye karışıyordu.
+**Yapılan:** `scenes/ui/HUD.tscn` ComboLabel'a koyu mor kontur (`font_outline_color` 0.07,0.04,0.09 + `outline_size`
+6) — book_comic başlığının kullandığı ev yöntemi. Kontur modulate ile koyu kalır (altın/turuncu/kırmızı tier'lerin
+hepsinde), pulse ölçekleme etkilenmez, gece bölümünde zararsız. Eski/yeni kırpma yan yana doğrulandı (her glifte
+koyu halo, kubbeden ayrışma net).
+**Testler:** `--import` hatasız (çıkış 0); Bölüm 17 & 29 pencereli bot CLEARED ve HUD sahnesi tam bölüm boyunca
+sorunsuz yüklendi (sahne ayrıştırma + çalışma anı kanıtı). Değişiklik yalnız HUD metin konturu; seviye/sistem
+etkilenmez.
+**Sonraki öneri:** birikime 3 küçük aday eklendi (Bölüm 29 havada coin dizisi doğrulaması, combo '×' glifi, Zırh
+satırı tutarlılığı) — hepsi küçük/ölçüm işi. Bunların dışında kalan değer insan/cihaz testinden gelir (arena eşikleri,
+mobil düğme yerleri, coin oranı, ses mix'i). Sıradaki tur birikim tepesinden (coin dizisi doğrulaması) devam edebilir.
 
 ### 2026-11-17 (234) — Denetim: dövüş derinliği + Bölüm 21 telemetri; yeni otonom iş yok, otomasyon durdu
 
