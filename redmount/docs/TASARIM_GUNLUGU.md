@@ -8058,3 +8058,19 @@ duvar zulası + coin (4825–5160), ~670 px düz geçiş, sonra SIRT KANTİNİ +
 bölümleri dövüş içermez. **Değişiklik yapılmadı.**
 **Sonuç:** denetim yeni otonom iş çıkarmadı; açık birikim maddeleri insan/telefon testine bağlı → otomasyon durdu.
 **Sonraki öneri:** telefonda insan oyun testi; B13 kovalamacası ve B34 pres hattının "uzun/sıkıcı mı" hissi orada sorulsun.
+
+### 2026-11-17 — Denetim: kontrol noktası aralığı / ölüm sonrası geri dönüş ölçüldü, temiz (tur 264)
+
+**Neden:** stil listesi, iki yol haritası, P1 ve birikimin otonom maddeleri kapalı → kural (d). DTM'de ölüm cezası kısa
+geri dönüştür; bu sütun (sancaklar arası mesafe, arenaya göre konum) önceki denetimlerde sayısal ölçülmemişti.
+**Ölçüm:** geçici sayım testi — bölüm başına başlangıç + `checkpoint` grubu + `level_goal` sıralanıp en büyük ardışık
+fark; her `BattleArena` için son sancaktan kapıya ve kapıdan sonraki sancağa mesafe. En büyük aralık çoğu bölümde
+1550–2300 px (≈6–9 sn koşu); aykırılar B24 3200 (başlangıç→ilk sancak, arada a1 arenası), B34 2549 (başlangıç→ilk sancak).
+Dört arena son sancaktan ~1000 px+ uzakta (B11 4100, B13 5800, B24 2000, B36 6200 Yüzbaşı) — ama `main._respawn_player`
+etkin ve bitmemiş kapılı arenada ölen oyuncuyu zaten arena kapısının 100 px içine koyuyor (DTM'deki "arena başında
+dirilme"); bu mesafeler ölüm cezasına yansımıyor. Arenadan sonra sancak >500 px uzakta olan dört yer: B2 ve B36'da sonrası
+bölüm sonu; B3 (5620→6150) ve B16 (2900→3500) arasında yalnız dükkân (nefes alanı), tehlike/düşman yok. **Değişiklik
+yapılmadı.**
+**Sonuç:** denetim yeni otonom iş çıkarmadı; açık birikim maddeleri insan/telefon testine bağlı → otomasyon durdu.
+**Sonraki öneri:** telefonda insan oyun testi; B24 açılışında (ilk sancak 3200) arena sonrası ölümün başa döndürmesi
+"cezalı" hissettirirse a1 kapısının hemen sağına (≈2950) bir sancak eklensin.
