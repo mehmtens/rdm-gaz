@@ -41,6 +41,16 @@ signal wave_changed(wave: int, total: int, remaining: int)
 @export var named_title: String = ""
 @export var named_wave: int = 0
 @export var named_health_mult: float = 2.5
+## Dalga arası "nefes" ödülü: oyuncu düşük canla bir dalgayı kapatınca, bir
+## sonraki dalga gelmeden küçük bir can yemeği düşer (DTM arenalarındaki merhamet
+## düşüşü gibi). Arena başına bir kez, yalnız can %MERCY_HP_FRAC altındayken;
+## tam canlı oyuncuya hiç çıkmaz, farmlanamaz. İnce tasarıma zarar vermemesi için
+## bölüm bazında kapatılabilir.
+@export var mercy_between_waves: bool = true
+
+const MERCY_PICKUP := preload("res://scenes/pickups/HealthPickup.tscn")
+## Eşik ve iyileşme insan testi gelene kadar hipotez (bkz. tur günlüğü).
+const MERCY_HP_FRAC := 0.35
 
 var _active := false
 var _done := false
@@ -51,6 +61,7 @@ var _gates: Array = []
 var _accent := Color(1.0, 0.42, 0.32)
 var _saved_cam := Vector2.ZERO
 var _pull_t := 0.0
+var _mercy_dropped := false
 
 ## Kapı dışında kalan takipçi: bu kadar yakın (px) ve zemin bandındaysa içeri alınır.
 const PULL_RANGE := 640.0
@@ -239,11 +250,31 @@ func _on_enemy_down(e: Node) -> void:
 	if not _alive.is_empty():
 		return
 	if _wave_idx < _waves.size():
+		_maybe_mercy_drop()
 		await get_tree().create_timer(wave_delay, false).timeout
 		if is_instance_valid(self):
 			_spawn_wave()
 	else:
 		_finish()
+
+
+## Dalga kapandı, sıradaki geliyor: oyuncu düşük canlıysa bir kez can yemeği düşür.
+func _maybe_mercy_drop() -> void:
+	if not mercy_between_waves or _mercy_dropped:
+		return
+	var p := get_tree().get_first_node_in_group(&"player") as Node2D
+	if p == null or not p.has_method(&"get_health") or not p.has_method(&"get_max_health"):
+		return
+	var maxhp: int = p.get_max_health()
+	if maxhp <= 0 or float(p.get_health()) / float(maxhp) >= MERCY_HP_FRAC:
+		return
+	_mercy_dropped = true
+	var food: Node2D = MERCY_PICKUP.instantiate()
+	## Oyuncunun biraz önüne, arena içinde kalacak şekilde; kenara taşarsa ortala.
+	var fx: float = clampf(p.global_position.x + 60.0, gate_left_x + 40.0, gate_right_x - 40.0)
+	food.global_position = Vector2(fx, floor_y - 60.0)
+	get_parent().add_child.call_deferred(food)
+	Fx.popup(Vector2(fx, floor_y - 150.0), "NEFES AL!", Color(0.5, 0.95, 0.55), 22)
 
 
 func _finish() -> void:

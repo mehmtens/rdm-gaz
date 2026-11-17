@@ -7,6 +7,14 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 250 denetimi, Bölüm 9 — ödül/ritim; 1 aynı turda yapıldı) ~~(1) çok dalgalı arenada dalga arası nefes yok~~
+  **(tur 250: düşük canlıya bir kez merhamet yemeği, `battle_arena.gd`)** · (2) arena bitiş ödülü (TEMİZ! + tek pickup)
+  parlak sur arka planında az fark ediliyor olabilir — ödül düşerken kısa ışık halkası/parlama ölçülsün (insan testi).
+  (3) nişancı kule düşmanının ışıldak hüzmesi gündüz bölümlerde zayıf; gece net (Bölüm 9 t0072 gece, okunur). Gündüz
+  bölümde tüfek telegrafı kare kare bakılsın. (4) iki ağır dövüş (arena + kapı önü) arka arkaya, arada düz geçiş kısa;
+  1. kitap doruğu olduğu için kasıtlı olabilir — insan testinde yorgunluk ölçülsün. (5) Bölüm 9 arena bitiş ödülü sabit
+  (HEALTH); oyuncu silahsızsa yakın silah da düşmesi dövüş çeşitliliğini artırır (düşük öncelik, elle veri).
+
 - (Tur 244 hareket hissi denetimi, etki/maliyet sırasıyla; 1 aynı turda yapıldı) ~~(1) tavan köşesi düzeltmesi~~ ·
   ~~(2) kenar tırmanma yardımı~~ **(tur 245)** · ~~(3) tepe yarı yerçekimi~~ **(tur 246)** · ~~(4) dash/yürüyüş basamak düzeltmesi~~ **(tur 247: ölçüldü, gerek
   yok — 36 bölümde 1–14 px basamak yok)** · ~~(5) iniş tozunun düşme hızına göre ölçeği~~ **(tur 248: zaten ölçekli —
@@ -332,6 +340,30 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-17 (250) — Denetim (Bölüm 9, ödül/ritim): çok dalgalı arenada dalga arası nefes yok → düşük canlıya bir kez merhamet yemeği
+
+**Neden şimdi:** tur 249'un önerisi ödül/ekonomi ve ritim sütununda az denetlenmiş bölüme bakmaktı. Bölüm 9 "Zırhlı Üs"
+(1. kitap doruğu) botla pencereli oynatıldı (6 sn'de bir kare, 21 kare). Sanat ve okunurluk temiz: açılış fade sonrası
+Haliç körfezi gemileriyle, sur arenaları zengin ve "sahneye ait"; DALGA n/3 göstergesi, kenar ışıklı düşman telegrafı,
+coin mıknatısı, KANTİNİ set-piece'i + iskele/nişancı katmanlı rotası net. **Bulgu:** `battle_arena.gd` ödülü yalnız
+**son** dalga bitince düşürüyor; çok dalgalı arenada ilk dalgalarda ağır hasar alan oyuncunun ara toparlanması yok.
+Ölçüm: fix öncesi bot arenada can 109→12 düşüp **bir kez öldü** (respawns=1), sonra ikinci dövüşte 6'ya indi.
+
+**Oyuncu ne hissedecek:** zorlanan oyuncu bir dalgayı kapatınca kısa bir nefes alır; iyi oynayan hiçbir şey görmez.
+DTM arenalarındaki merhamet düşüşünün dengeli hâli.
+
+**Yapılan:** `battle_arena.gd` — `_maybe_mercy_drop()`: bir dalga kapanıp sıradaki gelmeden, oyuncu canı %35 altındaysa
+arena başına **bir kez** can yemeği (`HealthPickup`, +30) oyuncunun biraz önüne düşer + "NEFES AL!" plaketi. Tam canlıya
+hiç çıkmaz, farmlanamaz (`_mercy_dropped`). `mercy_between_waves` ile bölüm bazında kapatılabilir; varsayılan açık, 36
+arenanın hepsinde çalışır, kayıt formatı değişmez. Eşik/iyileşme insan testine kadar hipotez.
+
+**Testler:** import temiz (SCRIPT ERROR yok); `tests/arena_mercy.tscn` → ARENA MERCY: PASS (düşük canda bir düşüş, ikinci
+kez yok, tam canda yok, kapalıyken yok); 36 sahne smoke PASS; `dtm_gaps` PASS; bot Bölüm 9 CLEARED **ve artık ölmüyor
+(respawns 1→0, arena dip canı 6→25)**, Bölüm 1/13/25 CLEARED (regresyon yok).
+
+**Sonraki öneri:** aynı sütunda az denetlenmiş Bölüm 33/34 (ödül/ekonomi + düşman telegrafı) ya da birikimdeki Bölüm 9
+denetiminin kalan adayları (arena bitiş ödülünün görünürlüğü, nişancı kule telegrafı gündüz bölümlerde).
 
 ### 2026-11-17 (249) — Ölçüm: arena dışı telsiz çakışması eşiğin altında; tur 248 denetiminin kalan maddeleri kapandı
 
