@@ -289,6 +289,22 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-17 (224) — Denetim: Bölüm 19 ve 23 gerçek karelerle — temiz, otomasyon durdu
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. "Gerçek kare"
+serisinde henüz bakılmamış ve günlükte en az anılanlardan Bölüm 19 (20 anma) ve 23 (19 anma) pencereli botla
+(`REDMOUNT_SNAP_DIR`, 1280×720, 8 sn arayla; 12 ve 13 kare) oynatıldı.
+**Sonuç:** Bölüm 19 CLEARED 91,2 sn (1 ölüm, 16 sn duraklama x≈9784 Külhanbeyi finali, 21/115 canla giriş); Bölüm 23
+CLEARED 99,0 sn (12 sn duraklama x≈9950 Bozdoğan Kemeri finali, 11/115 canla bitiş, 0 ölüm).
+- Bölüm 19: gün batımlı Samatya sokağı, çınarlı meydan arenası, hamam avlusu ("HAMAM ERZAKÇISI", film rulosu 1/3
+  kartı), sarnıç-boru koridoru ve külhan ocağı arenasında Külhanbeyi; ChatGPT arka planlarıyla bütünleşik, yapıştırma
+  izi yok. Son karedeki yarı saydam oyuncu kasıtlı dokunulmazlık yanıp sönmesi (`redmount.gd:1477`).
+- Bölüm 23: Saraçhane avlusu, çinili vana galerisi, "SARAÇHANE ERZAKI" + Ana Vana çarkı, kemerli galeri arenası (3
+  düşman, nişan halkaları okunur), harita odası telsizi ve Bozdoğan Kemeri finali. Düşük can vinyeti ve dalga şeridi
+  okunur. Bot soldaki can ödülünü 11 canla almadı — bilinen bot davranışı.
+- Kombo "İYİ" küçük ölçekte "|Y|" — bilinen İ/I kerning maddesi (insan gözetimine bağlı).
+Kod değişmedi; otonom düzeltilebilir yeni iş yok. Kalan birikim insan/cihaz testine bağlı. Otomasyon durdu.
+
 ### 2026-11-17 (223) — Denetim: Bölüm 24 gerçek karelerle — temiz, otomasyon durdu
 
 **Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. "Gerçek kare"
