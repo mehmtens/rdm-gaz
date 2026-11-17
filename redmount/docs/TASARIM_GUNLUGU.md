@@ -8044,3 +8044,17 @@ Ana Vana B24, Yayın Şefi B36). B1 arenasındaki Seçkin Muhafız son dalganın
 kasıtlı doruk, değiştirilmedi. **Değişiklik yapılmadı.**
 **Sonuç:** denetim yeni otonom iş çıkarmadı; açık birikim maddeleri insan/telefon testine bağlı → otomasyon durdu.
 **Sonraki öneri:** telefonda insan oyun testi; bulgular birikime yazılınca otomasyon yeniden iş alır.
+
+### 2026-11-17 — Denetim: bölüm ritmi (düşmansız en uzun mesafe) ölçüldü, temiz (tur 263)
+
+**Neden:** stil listesi, iki yol haritası, P1 ve birikimin otonom maddeleri kapalı → kural (d). Önceki denetimler ritmi
+bot süresiyle ve gözle değerlendirmişti; "dövüşsüz en uzun koşu" sayısal olarak hiç ölçülmemişti.
+**Ölçüm:** geçici sayım testi — bölüm başına yerleşik düşman x'leri + arena kapı aralıkları + başlangıç/çıkış sıralanıp
+ardışık en büyük fark alındı. 36 bölümün çoğunda 1000–1900 px (≈4–8 sn koşu). Aykırılar: B13 3400 px (x 894→4294),
+B34 2820 px (4771→7591), B8 2226 px (974→3200). Bu aralıklardaki düğümler listelendi: B13 = minibüs kovalamacası
+(`_chase` 1560–3350) + kitabın ilk koşarak atlanan iskele açıklığı; B8 = sekiz çöken platform parkuru; B34 = kırılabilir
+duvar zulası + coin (4825–5160), ~670 px düz geçiş, sonra SIRT KANTİNİ + radyo hikâyesi (nefes) ve üç pres (meydan okuma).
+Üçü de "geçiş → meydan okuma → nefes" ritminin dövüşsüz ama boş olmayan parçaları; DTM'de de set-piece/parkur
+bölümleri dövüş içermez. **Değişiklik yapılmadı.**
+**Sonuç:** denetim yeni otonom iş çıkarmadı; açık birikim maddeleri insan/telefon testine bağlı → otomasyon durdu.
+**Sonraki öneri:** telefonda insan oyun testi; B13 kovalamacası ve B34 pres hattının "uzun/sıkıcı mı" hissi orada sorulsun.
