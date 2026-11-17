@@ -289,6 +289,21 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-17 (225) — Denetim: Bölüm 5 ve 27 gerçek karelerle — temiz, otomasyon durdu
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. "Gerçek kare"
+serisinde henüz bakılmamış ve günlükte en az anılanlardan Bölüm 5 (20 anma) ve 27 (23 anma) pencereli botla
+(`REDMOUNT_SNAP_DIR`, 1280×720, 8 sn arayla; 13'er kare) oynatıldı.
+**Sonuç:** Bölüm 5 CLEARED 98,1 sn (22 sn duraklama x≈8920 trafo sahası finali — Makinist Cemil); Bölüm 27 CLEARED
+99,5 sn (14 sn duraklama x≈7389 kemerli depo arenası, 9/115 canla).
+- Bölüm 5: Haydarpaşa yük vagonları ve gözetleme kulesi (Makinist telsizi), gar perondaki otobüslü arena (DALGA 2/3),
+  trafo/izolatör sahasında Makinist Cemil boss çubuğu; ChatGPT arka planlarıyla bütünleşik, yapıştırma izi yok.
+- Bölüm 27: Galata yokuşu taş set (cumbalar, fenerler), Haliç manzaralı kemerli depo arenası (kalkanlı düşman, kablo
+  makaraları, patlayıcı varil), Galata Kulesi önünde "TELGRAF HATTI" tabelalı final arenası; dalga şeridi okunur.
+- Kombo "İYİ" küçük ölçekte "|Y|" — bilinen İ/I kerning maddesi (insan gözetimine bağlı). Düşük canla arenaya giriş
+  bilinen bot davranışı (can ödüllerini atlıyor).
+Kod değişmedi; otonom düzeltilebilir yeni iş yok. Kalan birikim insan/cihaz testine bağlı. Otomasyon durdu.
+
 ### 2026-11-17 (224) — Denetim: Bölüm 19 ve 23 gerçek karelerle — temiz, otomasyon durdu
 
 **Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. "Gerçek kare"
