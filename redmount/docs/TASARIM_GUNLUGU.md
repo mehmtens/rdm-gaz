@@ -289,6 +289,25 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-17 (226) — Denetim: Bölüm 18 ve 21 gerçek karelerle — temiz, otomasyon durdu
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. "Gerçek kare"
+serisinde henüz bakılmamış ve günlükte en az anılanlardan Bölüm 18 (24 anma) ve 21 (24 anma) pencereli botla
+(`REDMOUNT_SNAP_DIR`, 1280×720, 8 sn arayla; 11 ve 14 kare) oynatıldı.
+**Sonuç:** Bölüm 18 CLEARED 87,7 sn (1 ölüm x≈9800 Çemberlitaş kapısı final arenası — iki Ağır Zırhlı, 6/115 canla;
+10 sn duraklama); Bölüm 21 CLEARED 109,6 sn (1 ölüm x≈9600–9800 Aksaray kapılı son arena; 19 sn duraklama x≈4934).
+- Bölüm 18: Kapalıçarşı bedesteni (kilimler, fenerler, tenteli tezgâhlar; DALGA 1/2), taş kemerli iç bedesten (vitrinler,
+  tüfekli balkon), "BAKIRCI ERZAKI" büfeli han avlusu ve Süleymaniye/Ayasofya manzaralı Çemberlitaş finali ChatGPT arka
+  planlarıyla bütünleşik; yapıştırma izi yok. Telsiz (Gazelle / REDMOUNT), dalga şeridi, kombo okunur.
+- Bölüm 21: Yenikapı gece rıhtımı (Süleymaniye silueti, tenteler), vinçli kasa yığını (tüfekli kasa üstünde), harita odası
+  (duvar haritası, saat, pnömatik tüp; DALGA 1/2) ve vapurlu Aksaray kapısı finali; yapıştırma izi yok.
+- x≈4934 duraklaması tur 188'deki "16 sn @4941" ile aynı yer: iki kat kasa basamağı (her biri tek zıplamayla aşılır)
+  üstte tüfekli + arkadan yakın dövüşçü; bot tırmanırken vurulup geri düşüyor — bot davranışı, insan için engel değil.
+  Son arena ölümü de tur 188'deki birikim maddesiyle aynı (eşikte, koşu başına 1) → insan testine bağlı.
+- Kombo "HARİKA" küçük ölçekte İ/I kerning — bilinen madde (insan gözetimine bağlı).
+Kod değişmedi; otonom düzeltilebilir yeni iş yok. Kalan birikim insan/cihaz testine bağlı. Otomasyon durdu.
+**Sonraki öneri:** gerçek kare serisinde kalanlar Bölüm 2, 3, 4, 7–16, 20, 25, 35 (en az anılan: 3, 12).
+
 ### 2026-11-17 (225) — Denetim: Bölüm 5 ve 27 gerçek karelerle — temiz, otomasyon durdu
 
 **Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. "Gerçek kare"
