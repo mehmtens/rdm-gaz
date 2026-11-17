@@ -17,11 +17,12 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   `_coin_line(1740,4,·,-270)` ve `(h2-160,3,·,-310)` çatılardan (h1 -220, h2 -260) **50px yukarıda**, zıplama
   menzilinde (~125px). Kanıt: bot 2. bölümde (renkli evler→çatılar) COIN 14→26 topladı — çatı coinleri fiilen
   erişiliyor. Ekrandaki "boşlukta" izlenimi kamera çerçevesinden; çatı sağ-altta kalıyor. Sorun yok.
-- (Tur 235 denetimi) `hud.gd:269` combo metni küçük 'x' kullanıyor (`"%s  x%d"`); ekranda çarpma glifi gibi
-  okunuyor ama kaynak ASCII x. DTM tutarlılığı için "×" (U+00D7) düşünülebilir — kozmetik, önemsiz.
-- (Tur 235 denetimi) Bölüm 29 HUD'unda yalnız CAN/COIN satırı var, Bölüm 17'de CAN/COIN/Zırh 6/6 var. Zırh
-  satırı kayıt durumuna (zırh>0) bağlı görünüyor; hata değil ama farklı kayıtta tutarlılık insan testinde
-  doğrulansın. Düşük öncelik.
+- ~~(Tur 235 denetimi) Combo '×' glifi~~ **(Tur 236'da kapandı, kod değişmedi):** `redmount_pixel.ttf`'de U+00D7
+  var ama glifi 'x' ile piksel piksel aynı çizilmiş (ikisi de 600 adım; yan yana render `scratchpad/combo_x.png`).
+  Değiştirmek ekranda fark yaratmaz.
+- ~~(Tur 235 denetimi) Bölüm 17/29 Zırh satırı farkı~~ **(Tur 236'da kodla doğrulandı, kasıtlı):** `hud.gd`
+  `set_armor` boş adla satırı boşaltır, `_restack_column` boş satırı sütundan çıkarır (tur 119 kuralı);
+  `redmount.gd` zırh yokken/kırılınca `armor_changed("",0,0)` yayar. Bölüm 17'de botun zırhı vardı, 29'da yoktu.
 - ~~(Tur 214 denetimi, Bölüm 15 açılış x≈80) Açılış karesi çok karanlık~~ **(aynı turda doğrulandı):** siyahtan
   fade-in; `t0000` kareyi fade ortasında yakalıyor. `t0005`'te sahne tam aydınlık (Zeyrek yamacı, sıcak altın ışık),
   oyuncu/zemin net. Fade kısa, sorun yok.
@@ -303,6 +304,16 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-17 (236) — Birikim: combo '×' glifi ve Zırh satırı maddeleri kapandı; otomasyon durdu
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin tepesinde tur 235'in bıraktığı iki küçük
+madde vardı. **Sonuç:** (1) Pikselfontta '×' glifi 'x' ile aynı çizim — değişiklik ekranda fark yaratmaz, kod
+değişmedi. (2) Zırh satırı yalnız zırh giyiliyken görünür (boş satır sütundan çıkar) — kasıtlı, hata değil.
+**Testler:** kod değişmedi; yalnız günlük güncellendi (font glif karşılaştırması fontTools + PIL render ile).
+**Sonraki öneri:** birikimin kalanı tamamen insan/cihaz testine bağlı (arena ölüm eşikleri, KAY/ATIL düğme yerleri,
+coin toplama oranı, ses mix'i, İ/I kerning, düşman tipi atlas renkleri, çentikli telefonda güvenli alan). Tur
+232–235 denetimleri de yeni otonom iş çıkarmadı; otomasyon bir insan oyun testi gelene kadar durmalı.
 
 ### 2026-11-17 (235) — Denetim: Bölüm 17 & 29 temiz; combo sayacına okunurluk konturu (gerçek otonom iş bulundu)
 
