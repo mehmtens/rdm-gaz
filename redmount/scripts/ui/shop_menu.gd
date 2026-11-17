@@ -281,6 +281,8 @@ func _buy(item_id: String, cost: int) -> void:
 		Sfx.play(&"coin")
 		_rebuild()
 		_back.grab_focus()
+	else:
+		Sfx.play(&"ui_deny")
 
 
 func _upgrade(item_id: String, cost: int, max_level: int) -> void:
@@ -288,6 +290,8 @@ func _upgrade(item_id: String, cost: int, max_level: int) -> void:
 		Sfx.play(&"coin")
 		_rebuild()
 		_back.grab_focus()
+	else:
+		Sfx.play(&"ui_deny")
 
 
 func _buy_costume(id: String, cost: int) -> void:
@@ -297,6 +301,8 @@ func _buy_costume(id: String, cost: int) -> void:
 		Save.set_costume(id)
 		_rebuild()
 		_back.grab_focus()
+	else:
+		Sfx.play(&"ui_deny")
 
 
 func _wear(id: String) -> void:

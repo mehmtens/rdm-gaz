@@ -7,6 +7,8 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 243, insan testine bağlı) Ana mağazada coin yetmeyen satın alma düğmesi `disabled` — basınca tepki yok. Rahatsız
+  ederse düğme etkin bırakılıp `shop_menu.gd` ret yolu (`ui_deny`) kullanılsın; menü seslerinin düzeyi kulakla ayarlansın.
 - (Tur 241, telefon testine bağlı) Android geri tuşu diyalog kutusu / hikâye kartında yok sayılıyor (ESC orada
   tepkisiz); ana menü anasayfasında onaysız çıkış. Telefonda yanlış basış görülürse: diyalogda geri = ilerlet,
   anasayfada "çıkmak için tekrar bas" plakası.
@@ -318,6 +320,35 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-17 (243) — Denetim (ses sütunu): menülerde hiçbir düğme ses çıkarmıyordu
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin açık maddeleri insan/telefon testine bağlı.
+Denetim şimdiye dek hiç bakılmamış "ses/müzik" sütununda kodla yapıldı: 22 efektin çağrı yerleri sayıldı. **Bulgu:**
+ana menü, bölüm seçimi, mağaza, duraklat menüsü, cephanelik ve sonuç kartında odak değişimi ve düğme basışı tamamen
+sessizdi (yalnız satın alma `coin` çalıyordu); ana mağazada coin yetmeyince hiç ses yoktu, bölüm içi dükkânda ise
+ret sesi olarak silah kırılma sesi kullanılıyordu. DTM'de her menü dokunuşu duyulur; telefonda sessiz düğme
+"basıldı mı?" şüphesi doğurur.
+**Oyuncu ne hissedecek:** gamepad/klavye ile menüde gezinirken yumuşak bir tık, seçimde hicaz 1→4 aralığında iki
+notalı parlak çıkış, parası yetmeyince alçak iki "bıt" (inen küçük ikili). Ses oyunun chiptune/saz ailesinden.
+**Yapılan:** yeni `tools/gen_ui_sfx.py` → `assets/audio/ui_move.wav` (45 ms), `ui_select.wav` (180 ms), `ui_deny.wav`
+(210 ms), 22050 Hz mono (mevcut efektlerle aynı). `Sfx` autoload'u `node_added` ile ağaca giren her `BaseButton`'a
+bağlanır (her menüyü tek tek elden geçirmeden; dokunmatik `TouchScreenButton` kapsam dışı, kendi tık titreşimi var).
+Kurallar: fareyle/dokunuşla tıklamada odak tıkı çalmaz (basış sesi yeter); başka bir sesten 140 ms içinde gelen
+programatik `grab_focus` yutulur; seçim sesi kare sonuna ertelenir ve düğme aynı karede kendi sesini (coin, ret,
+duraklat açılışı) çaldıysa susar — bağlantı sırası önemsiz; `sfx_quiet` meta'sı ile düğme bazında kapatılabilir;
+yeniden ebeveynlenen düğme çift bağlanmaz. `level_shop.gd` reddi `weapon_break` → `ui_deny`; `shop_menu.gd` başarısız
+alım/yükseltme/kostümde `ui_deny`.
+**Sayılar (hipotez):** mix: ui_move −9 dB (sık çalar, en kısık), ui_select −5, ui_deny −4. 140 ms yutma penceresi:
+sayfa açılışındaki `grab_focus` aynı karede olur; insanın ardışık iki ok basışı bundan yavaştır.
+**Testler:** `--import` hatasız; yeni `tests/ui_sfx.tscn` UI SFX OK (üç ses yüklü, odak tıkı, yutma penceresi, ertelenen
+seçim, kendi sesi olan düğmede susma, sessiz meta); `back_button`, `survival_card`, `touch_polish` OK; `level_stars`,
+`dtm_gaps` PASS; `campaign_smoke` çıkış 0 (36 OK); bot Bölüm 1 (79,9 sn), 13 (79,9 sn), 25 (78,4 sn) CLEARED.
+Görsel değişiklik yok. Sesler kulakla dinlenmedi (otomasyonda hoparlör yok) — insan testinde ton/ses düzeyi bakılsın.
+**Birikime:** ana mağazada parası yetmeyen satın alma düğmesi `disabled`; basılınca hiçbir tepki vermiyor. DTM'de
+kilitli ürüne basınca "yetmiyor" sesi + sallanma var — insan testinde rahatsız ederse düğme etkin bırakılıp ret yolu
+(artık `ui_deny` çalıyor) kullanılabilir.
+**Sonraki öneri:** otonom iş kalmadıysa otomasyon insan/telefon testi gelene kadar durmalı.
 
 ### 2026-11-17 (242) — Android ön ayarında titreşim izni yoktu: dokunmatik/isabet titreşimi telefonda hiç çalışmıyordu
 

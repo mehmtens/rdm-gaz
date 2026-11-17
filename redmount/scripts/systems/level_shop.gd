@@ -186,7 +186,7 @@ func close() -> void:
 func buy(id: String) -> bool:
 	var data: Dictionary = CATALOG[id]
 	if not GameState.spend_coins(int(data["price"])):
-		Sfx.play(&"weapon_break", 1.6, -8.0)
+		Sfx.play(&"ui_deny")
 		return false
 	Sfx.play(&"coin", 0.8)
 	var item: Node2D = data["scene"].instantiate()
