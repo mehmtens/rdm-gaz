@@ -113,6 +113,17 @@ func _draw() -> void:
 	draw_style_box(PixelUI.box("panel_hud", 6), Rect2(-12.0, vs.y - 40.0, vs.x + 24.0, 52.0))
 
 
+## Android geri tuşu (`BackButton`): anasayfada uygulamadan çıkar; alt
+## sayfada ve çizgi romanda false döner, ESC akışı geri götürür/kapatır.
+func handle_back() -> bool:
+	if _comic != null and _comic.is_active():
+		return false
+	if not _home.visible:
+		return false
+	get_tree().quit()
+	return true
+
+
 func _unhandled_input(event: InputEvent) -> void:
 	if _comic != null and _comic.is_active():
 		return

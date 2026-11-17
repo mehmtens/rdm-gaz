@@ -302,6 +302,16 @@ func _physics_process(delta: float) -> void:
 		]
 
 
+## Android geri tuşu (`BackButton`): sonuç kartı açıkken ana menüye döner
+## (kayıt kart açılmadan yazılır). Oyun sırasında false → ESC duraklatır;
+## final kurtarma anında kart henüz yoksa da false (yarıda menüye atlamasın).
+func handle_back() -> bool:
+	if _finished and not _ending_in_progress and _hud.get_node(^"ResultsPanel").visible:
+		_go_to_menu()
+		return true
+	return false
+
+
 func _unhandled_input(event: InputEvent) -> void:
 	if _ending_in_progress:
 		return

@@ -488,6 +488,15 @@ func _on_armory_requested(item_id: String) -> void:
 	_pause.show_armory_status(item.note, true)
 
 
+## Android geri tuşu (`BackButton`): ölüm/bitiş kartında coin'i kasaya yazıp
+## ana menüye döner. Dalga sırasında false → ESC duraklatır.
+func handle_back() -> bool:
+	if _dead or _finished:
+		_menu()
+		return true
+	return false
+
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"pause") and not _dead and not _finished:
 		_pause.toggle()

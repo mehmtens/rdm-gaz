@@ -7,6 +7,9 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 241, telefon testine bağlı) Android geri tuşu diyalog kutusu / hikâye kartında yok sayılıyor (ESC orada
+  tepkisiz); ana menü anasayfasında onaysız çıkış. Telefonda yanlış basış görülürse: diyalogda geri = ilerlet,
+  anasayfada "çıkmak için tekrar bas" plakası.
 - (Tur 237 Survival denetimi, etki/maliyet sırasıyla) **1–3 aynı turda yapıldı:** (1) ölümde sonuç kartı
   (dalga, rekor, coin, R/M) · (2) sonsuz modda HUD dalga/düşman sayacı · (3) rekor geçilince "YENİ REKOR!" duyurusu.
   ~~(4) Survival hep aynı arka plan~~ **(Tur 238'de yapıldı):** 5 dalgada bir semt geçişi.
@@ -315,6 +318,32 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-17 (241) — Denetim (mobil sütun, kod): Android geri tuşu oyunu anında kapatıyordu
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin açık maddeleri insan/cihaz testine bağlı; 36
+bölüm ve Survival gerçek karelerle defalarca denetlendi. Bu tur hiç bakılmamış bir açıdan, DTM'nin "mobil dokunmatik
+kullanım" sütununda telefonun kendi düğmeleri tarandı. **Bulgu:** projede `NOTIFICATION_WM_GO_BACK_REQUEST` hiçbir yerde
+ele alınmıyordu ve `application/config/quit_on_go_back` Godot varsayılanında (açık) — Android'de bölüm ortasında geri
+tuşuna/hareketine yanlışlıkla dokunmak uygulamayı uyarısız kapatıp koşuyu siliyordu. Mobil oyunlarda (DTM dahil) geri
+tuşu duraklatır; bu en sık rastlanan "oyunum kapandı" şikâyeti.
+**Oyuncu ne hissedecek:** geri tuşu masaüstündeki ESC gibi davranır: dövüşte duraklat menüsü açılır, bir daha basınca
+devam; sinematikte atlar; mağaza/bölüm seçimi/arşiv/büfe kapanıp bir önceki sayfaya döner; sonuç ve Survival ölüm
+kartında ana menüye döner (coin kasaya yazılır); yalnız ana menü anasayfasında uygulamadan çıkar.
+**Yapılan:** yeni autoload `scripts/systems/back_button.gd` (`BackButton`): önce etkin sahnenin `handle_back()`'ini sorar,
+üstlenmezse ESC tuş olayı üretir — ESC zaten hem `pause` hem `ui_cancel` olduğundan yeni bir akış yazılmadı, masaüstünde
+sınanan yol kullanılır. `handle_back`: `main_menu.gd` (anasayfa → çıkış), `main.gd` (yalnız sonuç kartı görünürken menü;
+final kurtarma anında kart açılmadan menüye atlamaz), `survival.gd` (ölüm/bitiş → `_menu()`). `project.godot`:
+`config/quit_on_go_back=false`.
+**Sayılar (hipotez):** 180 ms çift bildirim süzgeci — bazı cihazlar geri hareketini iki kez bildirebilir; insan çift
+basışı bundan yavaş.
+**Testler:** `--import` hatasız; yeni `tests/back_button.tscn` BACK BUTTON OK (ayar kapalı, gerçek bildirim yolu →
+menü alt sayfası anasayfaya döner, bölümde duraklat aç/kapa, kartsız bitişte üstlenmez, Survival duraklat aç/kapa, çift
+bildirim süzülür); `campaign_smoke` çıkış 0 (36 OK); `dtm_gaps` PASS; `survival_card`, `survival_mode`, `daily_wave`,
+`level_stars` geçti; bot Bölüm 1 (81,9 sn), 13 (84,0 sn), 25 (88,2 sn) CLEARED. Görsel değişiklik yok. Telefonda denenmedi.
+**Birikime:** diyalog/hikâye kartında geri tuşu yok sayılıyor (ESC orada tepkisiz) ve anasayfada onaysız çıkış —
+ikisi de telefonda insan testine bağlı.
+**Sonraki öneri:** otonom iş kalmadıysa otomasyon insan/telefon testi gelene kadar durmalı.
 
 ### 2026-11-17 (240) — Ana Vana Muhafızı ve Yayın Şefi'ne kendi zırh sayfaları (birikim 7)
 
