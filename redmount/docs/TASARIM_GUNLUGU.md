@@ -16,8 +16,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   yumuşak geçiş; ekran görüntüsüyle doğrulandı — kolon/sarmaşık/zincir)** · (2) Bölüm
   24 su çarkı (kule revirinde, 16000 civarı) ve Bölüm 15 su çarkı yalnız dekor; dönen çark platformu yeni sanat +
   mekanik ister — insan testi "set-piece eksik" derse · (3) b24_4 canal su hattına düşen oyuncu silüeti koyu su
-  tonunda zayıf okunur (yalnız collapse tahtası kaçarsa olur); insan testi "suya düştüm göremedim" derse su yüzeyi
-  altına oyuncu kenar parlaması · (4) Bölüm 24 arşiv iç mekânında (14150 story) knife düşmanı story tetiklenince çok
+  tonunda zayıf okunur (yalnız collapse tahtası kaçarsa olur; tur 276 Bölüm 8 kanallarında ikinci kez görüldü); insan
+  testi "suya düştüm göremedim" derse su yüzeyi altına oyuncu kenar parlaması · (4) Bölüm 24 arşiv iç mekânında (14150 story) knife düşmanı story tetiklenince çok
   yakın; cutscene donduruyor ama insan testi "sahne bitince anında vuruldum" derse düşman x'i 60 px geri · (5) 12
   mekânın üçünde dükkân (kemer erzakı/kule reviri) — ekonomi yoğun; Kitap 2 finali olarak uygun, insan testi "fazla
   dükkân" derse ortadaki kaldırılsın.
@@ -427,6 +427,29 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-18 (276) — Bölüm 8 denetimi: temiz, koşulsuz yeni iş çıkmadı
+
+**Neden şimdi:** Birikimde koşulsuz somut iş yok; TASARIM DENETİMİ sürüyor (hiç denetlenmemiş Bölüm 8, Kitap 1 sonu
+"Yeraltı Sevkiyatı"). Bot CLEARED, 0 respawn, en düşük hp 41 (tünel bekçisi finali) — Kitap 1 sonu için sağlıklı eğri.
+6 mekân ekran görüntüsü: asansör kuyusu (tebeşir izleri + net gece konturlu KNIFE/STREET), çöken tahta kanalı, mağara
+çukuru (hareketli paletler + zula sırrı), sarnıç arenası, ikinci kanal (ARMOR hareketli platformda), su çarkı + şelale
+finali. Hepsi DTM düzeyinde: zengin arka plan, okunur silüet, 12 mekânlı ritim, set-piece (su çarkı), katmanlı rota,
+üç otomatik + bir elle (zula) sır.
+
+**Değerlendirme:** Ekran görüntülerinde bölüm başlık levhası + "İPUCU BULUNDU" + sır bildirimi üst üste görünüyordu;
+`_PlaceBanner.HOLD = 5.5 sn` (sonra fade) olduğu doğrulandı — çakışma capture'ın ışınlama/zaman sıkıştırma artefaktı,
+gerçek oynanışta oyuncu sırra (3240) ulaştığında başlık çoktan gitmiş. Tek tekrarlanan gözlem kanal suyuna düşen oyuncu
+silüetinin zayıf okunması; bu zaten tur 275/3 birikiminde kayıtlı (Bölüm 8 ikinci kanıt). Koşulsuz, somut, yeni bir iş
+çıkmadı — zorlama cila commit'i kullanıcının "yeni içerik icat etmeyi azalt / tek satırlık cilalarla geçmişi doldurma"
+talebine aykırı olurdu.
+
+**Ne yapıldı:** Yalnız bu denetim kaydı; kod değişmedi. tur 275/3 (su silüeti) birikim maddesine Bölüm 8 ikinci kanıt
+olarak eklendi.
+
+**Sonraki öneri:** Kalan hiç denetlenmemiş bölümler: 2, 4, 6, 12, 14, 18, 21, 25, 32, 34. Sıradaki tur bunlardan
+birinin denetimi. Oyun olgunlaştığı için denetimler çoğunlukla insan testine bağlı hipotez üretiyor; insan oyun testi
+geldiğinde birikimdeki koşullu maddeler (tur 271–275) önceliklendirilmeli.
 
 ### 2026-11-18 (275) — Ön plan kolonu oyuncunun arkasına geçince saydamlaşıyor (Bölüm 24 denetimi + düzeltme)
 
