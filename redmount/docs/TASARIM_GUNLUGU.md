@@ -11,10 +11,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   yapıldı) ~~(1) 12'lik ses havuzu körlemesine sırayla çalınıyordu: çalışların %14'ü çalan bir sesi kesiyordu (sancak,
   düşman yıkılışı, zırh/silah kırılması dahil); çoklu vuruşta aynı ses aynı karede 2–3 kez üst üste biniyordu~~
   **(tur 265: `Sfx` öncelik + aynı kare birleştirme)** · ~~(2) coin zinciri: art arda toplanan coinler hep aynı perdede~~
-  **(tur 266: 0,4 sn penceresinde majör gamda basamak basamak, tepe bir oktav)** · (3) düşman saldırı uyarısının (`_telegraph` ünlemi) sesi yok;
-  ekran dışından/arkadan gelen saldırıda mobil oyuncu yalnız görsele bağlı — ağırda kısa, kalın bir "nefes/çelik"
-  uyarı sesi (yeni klip `tools/` ses üreticisiyle; ağır ve normal ayrı perde), çok düşmanlı arenada aynı kare
-  birleştirmesi zaten taşmayı önler · (4) müzik ölüm/boss vuruşunda kısılmıyor (`music.gd` ducking yok): `player_death`
+  **(tur 266: 0,4 sn penceresinde majör gamda basamak basamak, tepe bir oktav)** · ~~(3) düşman saldırı uyarısının (`_telegraph` ünlemi) sesi yok~~
+  **(tur 267: `warn.wav` "çın", ağırda kalın perde, 90 ms aralık sınırı)** · (4) müzik ölüm/boss vuruşunda kısılmıyor (`music.gd` ducking yok): `player_death`
   ve `goal` sırasında müziği 0,4 sn −8 dB indirmek olayı öne çıkarır · (5) 25 klip tümüyle prosedürel placeholder
   (`sfx.gd` başlığı); düşman türleri aynı vuruş/yıkılış sesini paylaşıyor — tür başına perde farkı (kalkanlı/zırhlı
   daha kalın) ucuz ilk adım, gerçek ses tasarımı insan kulağına bağlı.
@@ -8120,4 +8118,20 @@ kapalı, yoksa ±%6 rastgele yarım ton adımlarını bulandırıyordu). Mağaza
 (yükselir, tepede kalır, aradan sonra sıfırlanır); `sfx_voices` PASS; `ui_sfx` OK; `coin_economy` PASS; bot Bölüm 1
 (79,6 sn), 13 (67,8 sn), 25 (91,9 sn) CLEARED.
 **Sonraki öneri:** birikim Tur 265/(3) düşman saldırı uyarısına ses (yeni klip) ya da (4) müzik ducking.
+
+### 2026-11-17 — Düşman saldırı uyarısına ses (tur 267, birikim Tur 265/3)
+
+**Neden:** düşmanın başında ünlem (telegraf) belirdiğinde ses yoktu; ekran dışından ya da arkadan gelen saldırıyı mobil
+oyuncu yalnız görselden okuyabiliyordu. DTM türü dövüşte okunurluğun yarısı kulaktır: oyuncu "çın"ı duyunca kaçma/
+bloklama kararını saldırıdan ~0,3 sn önce verir.
+**Değişiklik:** yeni `tools/gen_combat_cue_sfx.py` (menü sesleriyle aynı lowpass'li kare dalga paleti; `gen_ui_sfx.py`
+fonksiyonlarını kullanır) → `assets/audio/warn.wav` (170 ms: 60 ms yükselen hışırtı + E6 "çın" + metal hayaleti).
+`enemy_base._telegraph` ünlemle birlikte çalar: normalde perde 1,0 / −1 dB, ağır saldırıda 0,75 / +2 dB (kızıl ünlemle
+aynı "daha tehlikeli" dil). Kalabalık arenada `WARN_GAP_MS` = 90 ms içinde ikinci uyarı sesi çalmaz (görsel ünlem her
+düşmanda kalır); 90 ms ≈ beş kare, aynı dalgadaki eşzamanlı hazırlıkları tek uyarıda toplar. `Sfx` trim −4 dB, öncelik
+orta. Sayılar hipotez; klibin tınısı insan kulağıyla ayarlansın (üretici tekrar çalıştırılabilir).
+**Testler:** `--import` SCRIPT ERROR yok; `campaign_smoke` çıkış 0; `dtm_gaps` PASS; `telegraph_mark` PASS (yeni iki
+kontrol: uyarı sesi çalar, 90 ms içindeki ikincisi susar); `sfx_voices` PASS; `ui_sfx` OK; `coin_chain` PASS; bot Bölüm 1
+(79,4 sn), 13 (61,1 sn), 25 (83,3 sn) CLEARED.
+**Sonraki öneri:** birikim Tur 265/(4) müzik ducking (ölüm/hedef anında müzik kısa süre kısılır).
 

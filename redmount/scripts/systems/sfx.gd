@@ -13,7 +13,7 @@ const CLIP_NAMES: PackedStringArray = [
 	"shoot", "reload", "shield", "armor_break", "powerup", "boss_slam",
 	"coin", "heal", "enemy_hurt", "enemy_down",
 	"player_hurt", "player_death", "checkpoint", "goal",
-	"ui_move", "ui_select", "ui_deny",
+	"ui_move", "ui_select", "ui_deny", "warn",
 ]
 
 ## Kaba mix dengesi — sık/keskin sesler kısılır, önemli olaylar korunur (dB).
@@ -22,7 +22,7 @@ const TRIM := {
 	"jump": -3.0, "land": -2.0, "reload": -3.0, "hit": -1.0,
 	"heavy_hit": 1.0, "enemy_down": 0.0, "player_death": 2.0, "boss_slam": 2.0,
 	"goal": 1.0, "checkpoint": -1.0, "powerup": -1.0,
-	"ui_move": -9.0, "ui_select": -5.0, "ui_deny": -4.0,
+	"ui_move": -9.0, "ui_select": -5.0, "ui_deny": -4.0, "warn": -4.0,
 }
 ## Ses önceliği (tur 265, ses denetimi): havuz doluyken yeni ses yalnız kendinden düşük ya da
 ## eşit öncelikli çalan sesi keser. Eskiden körlemesine sıradaki oyuncu çalınıyordu; Bölüm 1 bot

@@ -211,7 +211,19 @@ var _warn_mark: Node
 ## Saldırı uyarısı: başın üstünde piksel ünlem (0 kehribar, ağırda kızıl) hazırlık
 ## boyunca durur, gövde konturu beyaz kırpışır. Eski yazı popup'ı yukarı kayıp 0,3 sn'de
 ## soluyordu ve 22 px idi; hızlı düşmanda (0,12 sn) hiç fark edilmiyordu.
+##
+## Uyarı sesi (tur 267, ses denetimi): ünlemle birlikte kısa "çın" — ekran dışından/arkadan
+## gelen saldırıyı kulak da haber alsın. Ağırda kalın perde ve daha yüksek. Kalabalık arenada
+## `WARN_GAP_MS` içinde ikinci uyarı sesi çalmaz (görsel ünlem her düşmanda kalır).
+const WARN_GAP_MS := 90
+static var _warn_sfx_ms: int = -100000
+
+
 func _telegraph(heavy: bool, windup: float, height := 134.0) -> void:
+	var now := Time.get_ticks_msec()
+	if now - _warn_sfx_ms >= WARN_GAP_MS:
+		_warn_sfx_ms = now
+		Sfx.play(&"warn", 0.75 if heavy else 1.0, 2.0 if heavy else -1.0)
 	if is_instance_valid(_warn_mark):
 		_warn_mark._end()  # konturu hemen eski rengine döndür (yeni uyarı onu taban alır)
 	var w := _Warn.new()

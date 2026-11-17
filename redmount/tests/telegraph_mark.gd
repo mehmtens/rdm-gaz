@@ -45,6 +45,15 @@ func _ready() -> void:
 	await _frames(2)
 	_check(not is_instance_valid(e._warn_mark), "vurulunca ünlem kalkar")
 	_check(mat.get_shader_parameter(&"rim_color") == base, "üst üste uyarı + vuruştan sonra taban kontur")
+	# Uyarı sesi (tur 267): ünlemle "warn" çalar; 90 ms içindeki ikinci uyarı susar.
+	e._state = EnemyBase.State.IDLE
+	EnemyBase._warn_sfx_ms = -100000
+	Sfx.last_played = &""
+	e._telegraph(false, 0.3)
+	_check(Sfx.last_played == &"warn", "uyarı sesi çaldı")
+	Sfx.last_played = &""
+	e._telegraph(true, 0.3)
+	_check(Sfx.last_played == &"", "90 ms içinde ikinci uyarı sesi susar")
 	print("TELEGRAPH MARK: %s" % ("PASS" if _fails == 0 else "FAIL (%d)" % _fails))
 	get_tree().quit(0 if _fails == 0 else 1)
 
