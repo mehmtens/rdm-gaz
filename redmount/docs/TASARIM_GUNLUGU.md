@@ -433,6 +433,19 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-18 (281) — Bölüm 6 denetimi (tersane/fabrika): temiz, koşulsuz yeni iş yok; otomasyon durdu
+
+**Neden şimdi:** Tur 280 sonrası birikimde koşulsuz iş yok → kural (d). Hiç denetlenmemiş Bölüm 6 pencereli bot
+koşusuyla (8 sn aralık, 15 kare) oynandı.
+**Bulgular:** CLEARED 114,6 sn, 0 yeniden doğma; can eğrisi 115 → 73 (fabrika iskeleleri) → 25 (vinç arenası, en
+düşük) → 47 → 33 (Zırhlı Ustabaşı düellosu) → 50. Kitap 1 ortası için tur 273 eğrisiyle (Bölüm 5–12: 10–22) uyumlu,
+rahat tarafta. Ekranlar: kemerli tuğla fabrika + ateş çukurları + asılı kasa vinci, kereste/vinç arenası (dalga sayacı
++ EFSANE x11 çakışmasız), demir kafes asansör + film rulosu duyurusu (ipucu yok, HUD'a binmiyor), kale kapısı önünde
+patron çubuğu — hepsi DTM düzeyinde, silüetler okunur. `stall=20s@5362` vinç arenasının dalga süresi.
+**Testler:** kod değişikliği yok; bot Bölüm 6 pencereli CLEARED.
+**Sonraki öneri:** Denetlenmemiş kalan bölümler 14, 18, 21, 25, 32. Son sekiz denetimden yalnız ikisi (275, 280)
+koşulsuz iş çıkardı; insan oyun testi verisi gelene kadar otomasyonun durması doğru.
+
 ### 2026-11-18 (280) — İpucu balonu sır/mekân duyurusunun altına iniyor (Bölüm 4 denetimi + düzeltme)
 
 **Neden şimdi:** Stil listesi, iki yol haritası ve birikimin koşulsuz maddeleri bitti → kural (d). Hiç denetlenmemiş
@@ -451,7 +464,7 @@ tetik 110 px, kalma 1,8 sn; 5,5 sn bekleyen balon oyuncu geçtikten sonra ekran 
 **Testler:** yeni `tests/hint_banner_dodge.tscn` (telsiz + duyuru + 4 satırlık ipucu, 1280×720 pencereli: plaka alt
 343, balon üst 343, PASS; görüntü Read ile bakıldı — üç kutu da okunur); import (SCRIPT ERROR 0), 36 sahne smoke çıkış 0, DTM GAPS PASS, bot Bölüm 1 CLEARED 75,5 sn, Bölüm 4
 CLEARED 110,6 sn, Bölüm 13 CLEARED 65,9 sn.
-**Sonraki öneri:** Denetlenmemiş kalan bölümler 6, 14, 18, 21, 25, 32.
+**Sonraki öneri:** Denetlenmemiş kalan bölümler 6, 14, 18, 21, 25, 32 (6 tur 281'de yapıldı).
 
 ### 2026-11-18 (279) — Bölüm 2 denetimi (Kitap 1, kasap düellosu): temiz, koşulsuz yeni iş yok; otomasyon durdu
 
