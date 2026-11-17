@@ -615,7 +615,24 @@ func _secret_han(left: float, reward: PackedScene = ARMOR) -> void:
 	inside.position = Vector2(left + w * 0.5, (roof_top + 30.0) * 0.5)
 	inside.z_index = -8
 	add_child(inside)
-	_prop("sandik", left + 180.0, 0, reward)
+	# 25 bölümde han sırrı otomatik yerleşiyor ve hepsi aynı "sandık + dört coin" odasıydı;
+	# dam zulası (_roof_cache) gibi burası da bölüm yoluna göre üç iç düzenden birini seçer.
+	# Ödül hep ana kapta (left+180) kalır: loot davranışı değişmez, yalnız oda bölümden
+	# bölüme farklı görünür (depo sandığı / çarşı kasası / hurda köşesi).
+	match absi(hash("%s:%d" % [scene_file_path, int(left)])) % 3:
+		1:
+			# Çarşı deposu: ödül kasada, iki yanında kırılabilir vazo/saksı.
+			_prop("vazo", left + 95.0, 0)
+			_prop("kasa", left + 180.0, 0, reward)
+			_prop("saksi", left + 245.0, 0)
+		2:
+			# Hurda köşesi: ödül varilde, yanında gaz tüpü.
+			_prop("tup", left + 100.0, 0)
+			_prop("varil", left + 185.0, 0, reward)
+		_:
+			# Kilitli sandık (klasik): tek sandık, yanında sessiz saksı.
+			_prop("sandik", left + 180.0, 0, reward)
+			_prop("saksi", left + 95.0, 0)
 	_coin_line(left + 80.0, 4, 45, -60)
 	_secret_zone(Rect2(left + 60.0, roof_top + 40.0, w - 100.0, -roof_top - 40.0))
 	# Ön cephe: oyuncu odaya girince kaybolur.

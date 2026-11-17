@@ -14,7 +14,11 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   insan testinde açılış zırhının zorluğu düşürüp düşürmediği ölçülsün, düşürüyorsa ödül kitap/bölüm başına değişsin
   (zırh / can / coin) · (3) 36 bölüm betiğinin yalnız 11'inde elle konmuş sır var (`_chimney`/`_secret_han`); kalan 25
   bölümün üç sırrı otomatik (mahzen + han + dam). DTM'de sır mekâna aittir — bölüm başına bir elle sır (mevcut iç mekân/
-  süslerle, yeni sanat yok) büyük ama değerli iş; insan testi "sırlar sıradan" derse bölüm bölüm yapılsın · ~~(4) otomatik
+  süslerle, yeni sanat yok) büyük ama değerli iş; insan testi "sırlar sıradan" derse bölüm bölüm yapılsın.
+  **(tur 262: ilk dilim — han sırrının iç odası artık hepsinde aynı "sandık + 4 coin" değil; `_secret_han` bölüm+konum
+  tohumuyla üç iç düzenden birini seçer (kilitli sandık+saksı / çarşı kasası+vazo+saksı / hurda varili+tüp), ödül hep ana
+  kapta. 25 otomatik-sır bölümünde han odası artık farklı görünüyor. Kalan: bölüm başına elle, mekâna özgü KONUM —
+  insan testi gelince bölüm bölüm.)** · ~~(4) otomatik
   han hedefleri bölüm genişliğinin %45/%75'i~~ **(tur 260: ölçüldü, gerek yok — hedef yalnız arama başlangıcı; sır en
   yakın boş düz zemine kayıyor ve bölüm genişlikleri farklı: 36 bölümde mahzen dışı sırlar x=1398…10830 arasında
   dağınık, iki bölümde aynı konum yok)** · (5) mahzen dış cephesi (çatlak duvar + kiremit çatı) her biyomda aynı; Kitap 2/3 sur/tersane biyomlarında
@@ -359,6 +363,31 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-17 (262) — Han sırrının iç odası bölüme göre çeşitlendi (formül kırma, birikim üst madde ilk dilim)
+
+**Neden şimdi:** Stil listesi, YOL_HARITASI ve P1 uygulama maddeleri tükendi; son turlar (260/261) denetimden iş
+çıkaramadı. Birikimin en üstteki açık işi (tur 259): sırlar formül gibi — 25 bölümde üç sır da otomatik ve han odası
+hepsinde aynı "karanlık oda + sandık + dört coin". Tur 259 mahzen zulasını (`_roof_cache`) üç dizilimle çeşitlendirmişti;
+han odası (otomatik sırların ikinci ayağı) hâlâ birebir aynıydı. Mekâna özel ELLE konum büyük/riskli ve insan testine
+bağlı; bu turda düşük riskli, merkezî ilk dilim: han odasının görünümünü bölümden bölüme ayırmak.
+
+**Oyuncu ne hissedecek:** İkinci bölümde "duvarı kır, hep aynı sandık odası" tekrarı yerine kimi han deposu çarşı
+kasası + vazo/saksı, kimi hurda köşesi varil + gaz tüpü, kimi klasik kilitli sandık. Ödül aynı yerden (ana kap) çıkar,
+yalnız oda farklı okunur.
+
+**Ne yapıldı:** `dtm_level.gd` `_secret_han` — tek `_prop("sandik", left+180, reward)` yerine `_roof_cache` ile aynı
+desende `hash(scene_file_path+left) % 3` tohumlu üç iç düzen: (0) sandık + saksı, (1) vazo + kasa(ödül) + saksı,
+(2) tüp + varil(ödül). Ödül hep left+180 ana kapta, loot davranışı değişmedi. Elle `_secret_han` çağıran bölümler
+(14/24/28/31/35/36 …) de tohumla çeşitleniyor.
+
+**Test:** `--import` SCRIPT ERROR yok · `campaign_smoke.gd` 36/36 SMOKE OK (çıkış 0) · `dtm_gaps.tscn` PASS ·
+bot Bölüm 1/13/25 (ortak sistem) üçü de CLEARED (91/60/78 s) · pencereli ekran görüntüsü: üç stil (sandık / çarşı /
+hurda) ChatGPT arka planı önünde piksel art, taşma/çakışma yok, "sahneye ait" — scratchpad `han_137/180/1250.png`.
+Geçici capture dosyaları silindi.
+
+**Sonraki adım:** Birikim üst maddenin kalanı — bölüm başına elle, mekâna özgü KONUM (yeni sanat yok). İnsan testi
+"sırlar sıradan/konumlar tahmin edilebilir" derse bölüm bölüm; o gelene kadar riskli kör yerleştirmeye girilmez.
 
 ### 2026-11-17 (251) — Denetim (Bölüm 34, ödül/ekonomi + telegraf): temiz; yeni otonom iş çıkmadı, otomasyon durdu
 
