@@ -8002,3 +8002,16 @@ dışındaki 72 sır x=1398…10830 arasında dağınık (ör. B1 1398/3510, B7 
 **Sonuç:** birikimin kalan maddeleri (Tur 259/2, 3, 5 ve önceki açıklar) insan/telefon testine bağlı ya da elle büyük
 tasarım işi; 36 bölüm tur 257'ye kadar ayrı ayrı denetlendi. Otonom iş kalmadı → otomasyon durdu.
 **Sonraki öneri:** telefonda insan oyun testi (özellikle açılış zırhının zorluğa etkisi ve "sırlar sıradan mı" sorusu).
+
+### 2026-11-17 — Denetim: düşman çeşitliliği / tanıtım eğrisi ölçüldü, temiz (tur 261)
+
+**Neden:** stil listesi, iki yol haritası, P1 ve birikimin otonom maddeleri kapalı → kural (d). Önceki denetimlerin
+ayrıca ölçmediği "düşman çeşitliliği" sütunu sayıldı (geçici sayım testi: bölüm başına yerleşik düşman + 75 arenanın
+dalga içerikleri, tür bazında).
+**Ölçüm:** 36 bölümün her birinde yerleşik + arena toplamı en az 6 farklı tür; tek türün baskın olduğu bölüm yok (en
+yoğun: B9 arenalarında 6 Zırhlı Kabadayı, B11'de 6 Seçkin Muhafız — ikisi de kitap/bölüm temalı ve aralarında 4–5 başka
+tür var). Tanıtım sırası: Kalkanlı B4, Bombacı B7, MiniBoss B6; kitap sonu boss'ları kendi bölümlerinde (Karahanlı B12,
+Ana Vana B24, Yayın Şefi B36). B1 arenasındaki Seçkin Muhafız son dalganın adlı rakibi (`bolum01.gd` `final.wave3`) —
+kasıtlı doruk, değiştirilmedi. **Değişiklik yapılmadı.**
+**Sonuç:** denetim yeni otonom iş çıkarmadı; açık birikim maddeleri insan/telefon testine bağlı → otomasyon durdu.
+**Sonraki öneri:** telefonda insan oyun testi; bulgular birikime yazılınca otomasyon yeniden iş alır.
