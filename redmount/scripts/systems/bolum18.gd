@@ -134,7 +134,8 @@ func _build() -> void:
 	_checkpoint(8600, 0)
 	_interior(8960, 9330, -230, [-115.0], 1)
 	_enemy(ELITE, 9050, 0)
-	_pickup(HEALTH, 9280, -160)
+	## Son servis: yemek ana yol zemininde (tur 282); ara kat coin dizisi keşif ödülü.
+	_pickup(HEALTH, 9280, -40)
 	_coin_line(9000, 5, 60, -160)
 	_story(9150, _sahne_defter)
 	for x in [8650, 9250]:

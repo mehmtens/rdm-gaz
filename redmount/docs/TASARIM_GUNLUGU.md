@@ -433,6 +433,22 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-18 (282) — Bölüm 14 ve 18 denetimi; Bölüm 18 son servis yemeği ana yol zeminine indi
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve birikimin koşulsuz maddeleri bitti → kural (d). Hiç denetlenmemiş
+Bölüm 14 (Unkapanı) ve 18 (Kapalıçarşı/han) pencereli bot koşusuyla (8 sn aralık, 23 kare) oynandı.
+**Bulgular:** Bölüm 14 CLEARED 83,8 sn, 0 yeniden doğma, en düşük can 87 — Kitap 2 başı için rahat, tur 273 eğrisiyle
+uyumlu; fırın/halat iskelesi arenası, tuğla depo, yokuş sokak, arşiv kapısı arenası okunur, çakışma yok. Bölüm 18
+CLEARED 88,4 sn, 0 yeniden doğma: çarşı kubbeleri, bakırcı erzakı, han avlusu, ambar ve Çemberlitaş çatısı DTM
+düzeyinde; ambar→avlu arka plan geçişi tasarlanmış süpürme. (1) **Koşulsuz (düzeltildi):** "son servis aralığı"
+olarak yazılmış gizli defter odasının tek ilk yardımı ara katta (9280, −160) duruyordu; önceki arena ödülü cephane,
+sonrası 3 dalga / 7 düşmanlı (iki ağır) son arena. Bot son arenaya 21–30/115 canla giriyordu. Tur 274'teki Bölüm 31
+durumunun aynısı: son arena öncesi garanti can ana çizgide olmalı, ara kat keşif ödülü (coin) olarak kalmalı.
+**Ne yapıldı:** `bolum18.gd` `HEALTH 9280,−40` (ana yol zemini); coin dizisi ara katta kaldı. Yeni sanat yok.
+**Testler:** import (SCRIPT ERROR 0), 36 sahne smoke çıkış 0, DTM GAPS PASS; bot Bölüm 18 headless CLEARED 88,7 sn —
+son arenaya giriş canı 30 → 60/115, 0 respawn; Bölüm 14 pencereli CLEARED.
+**Sonraki öneri:** Denetlenmemiş kalan bölümler 21, 25, 32.
+
 ### 2026-11-18 (281) — Bölüm 6 denetimi (tersane/fabrika): temiz, koşulsuz yeni iş yok; otomasyon durdu
 
 **Neden şimdi:** Tur 280 sonrası birikimde koşulsuz iş yok → kural (d). Hiç denetlenmemiş Bölüm 6 pencereli bot
