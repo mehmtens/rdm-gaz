@@ -289,6 +289,27 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-17 (227) — Denetim: Bölüm 3 ve 12 gerçek karelerle; sinematikte kombo flaşı kapanıyor
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Tur 226'nın
+önerisiyle "gerçek kare" serisinde en az anılan Bölüm 3 ve 12 pencereli botla (`REDMOUNT_SNAP_DIR`, 1280×720, 8 sn
+arayla; 9 ve 10 kare) oynatıldı.
+**Sonuç:** Bölüm 3 CLEARED 67,9 sn (7 sn duraklama x≈5156); Bölüm 12 CLEARED 74,9 sn (15 sn duraklama x≈2692, kalem
+arenası; can 2/115'e kadar indi, ölüm yok).
+- Bölüm 3: gece iskelesi (yelkenli, tenteler, fenerler), bostan duvarı arenası (DALGA 1/3–3/3, domates/sarmaşık), dam
+  sırrında film rulosu duyurusu ve bayraklı iskele binası finali ChatGPT arka planlarıyla bütünleşik; yapıştırma izi yok.
+- Bölüm 12: matbaa/kalem odası arenası (baskı presi, mühür, Karahanlı hoparlör telsizi), Boğaz manzaralı yalı salonu,
+  vitray kapılı Karahanlı koridoru; yapıştırma izi yok.
+- **Bulgu (düzeltildi):** x≈5154'te hikâye sahnesi son kombonun hemen ardından açılınca "COMBO x5 +135" flaşı sinema
+  şeridinde, ATLA düğmesinin dibinde tam parlaklıkta kalıyordu; sol üst durum sütunu sönerken dövüş sayacı sönmüyordu.
+  `hud.gd` `_tick_cutscene_fade`: `Cutscene.active` varken kombo etiketi kapanır; sahneden sonra yeni vuruşla yine açılır.
+  Düşük candaki kalp atışı kenarı da şüpheliydi ama sahne ağacı duraklattığı için zaten sönüyor (test doğruladı,
+  kod değişmedi).
+**Testler:** `--import` hatasız; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn` PASS; yeni
+`tests/hud_cutscene_quiet.tscn` PASS (düzeltmesiz kodda kombo kontrolü düşüyor); `tests/cutscene_overlays.tscn` PASS;
+bot Bölüm 1 (78,2 sn), 12 (71,3 sn), 13 (84,9 sn), 25 (78,9 sn) CLEARED.
+**Sonraki öneri:** gerçek kare serisinde kalanlar Bölüm 2, 4, 7–11, 13–16, 20, 25, 35.
+
 ### 2026-11-17 (226) — Denetim: Bölüm 18 ve 21 gerçek karelerle — temiz, otomasyon durdu
 
 **Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. "Gerçek kare"

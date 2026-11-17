@@ -326,6 +326,10 @@ func _tick_cutscene_fade(delta: float) -> void:
 			_costume_badge, _neighborhood_panel, _neighborhood_portrait, _neighborhood_name]:
 		if c != null:
 			c.modulate.a = move_toward(c.modulate.a, target, delta * 6.0)
+	## Kombo flaşı sinema şeridinde ATLA düğmesinin dibinde parlak kalıyordu (Bölüm 12):
+	## sahne başlayınca dövüş sayacı kapanır; sahneden sonra yeni vuruşta yeniden açılır.
+	if Cutscene.active != null and _combo.visible:
+		_combo.visible = false
 
 
 func _tick_danger(delta: float) -> void:
