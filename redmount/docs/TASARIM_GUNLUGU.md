@@ -289,6 +289,20 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-17 (230) — Denetim: Bölüm 11 ve 14 gerçek karelerle — temiz
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Tur 229'un
+listesinden Bölüm 11 ve 14 pencereli botla (`REDMOUNT_SNAP_DIR`, 1280×720, 8 sn arayla; 11 ve 12 kare) oynatıldı.
+**Sonuç:** Bölüm 11 CLEARED 86,4 sn (0 ölüm; 23 sn duraklama x≈7795, Muhafız Başı arenası); Bölüm 14 CLEARED 91,6 sn
+(0 ölüm; 7 sn duraklama x≈4944).
+- Bölüm 11: kale içi ziyafet salonu (hilal sancakları, mum fenerleri), "TUTUKEVİ" parmaklıklı film rulosu, avlu arenası
+  (kalkanlı + tüfekli), kanal üstü makine dairesi (kollar, çark, vinç) ve Muhafız Başı boss çubuğu; ChatGPT arka
+  planlarıyla bütünleşik, yapıştırma izi yok.
+- Bölüm 14: Ayasofya kemerli giriş, Haliç iskelesi, "UNKAPANI FIRINI", halat atölyesi arenası (çarklar, halat
+  yumakları), tuğla fabrika avlusu, Balat yokuşu (Gazelle sahnesi) ve "ARŞİV" kapılı son arena; yapıştırma izi yok.
+Kod değişmedi; otonom düzeltilebilir yeni iş yok.
+**Sonraki öneri:** gerçek kare serisinde kalanlar Bölüm 2, 8, 13, 16, 20, 25, 35.
+
 ### 2026-11-17 (229) — Denetim: Bölüm 9 ve 10 gerçek karelerle — temiz
 
 **Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Tur 228'in
