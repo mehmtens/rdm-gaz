@@ -289,6 +289,19 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-17 (221) — Denetim: Bölüm 31 gerçek karelerle — temiz, otomasyon durdu
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. "Gerçek
+kare" serisinde henüz bakılmamış ve günlükte en az anılanlardan Bölüm 31 (16 anma) pencereli botla
+(`REDMOUNT_SNAP_DIR`, 1280×720, 8 sn arayla, 10 kare) oynatıldı. **Sonuç:** CLEARED 77,5 sn (16 sn duraklama x≈9282
+iskele salonu final arenası, 16/115 canla bitiş).
+- Gece yalı sokağı (begonvilli cumbalar, fenerler, Boğaz ışıkları), taş set üstü tüfekli, korkuluklu bahçe terası,
+  "KONAK KİLERİ" büfesi, vitraylı konak kapısı arenası (DALGA 2/2), kâtip odası (pres, usturlap, tüy kalem) ve
+  denize açılan iskele salonu finali (DALGA 3/3) ChatGPT arka planlarıyla bütünleşik; yapıştırma izi yok.
+- Telsiz (Gazelle / Nüzhet Hanım hoparlörü), dalga şeridi, kombo (HARİKA ×9), düşman ünlem telegrafı okunur. Açılış
+  karesi siyah = bilinen kısa fade-in (tur 214).
+Kod değişmedi; otonom düzeltilebilir yeni iş yok. Kalan birikim insan/cihaz testine bağlı. Otomasyon durdu.
+
 ### 2026-11-17 (220) — Denetim: Bölüm 22 gerçek karelerle — temiz, otomasyon durdu
 
 **Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Son turlarda
