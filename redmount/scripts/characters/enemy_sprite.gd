@@ -105,6 +105,8 @@ func _process(delta: float) -> void:
 	var rate := 7.0 if _state == "DEAD" else 11.0
 	_rot = lerp_angle(_rot, tr, clampf(delta * rate, 0.0, 1.0))
 	rotation = _rot
+	## Yatışta gövde zemine gömülmesin: dönmüş silüetin taşan kısmı kadar yukarı al.
+	position.y = -LieLift.lift(self, _rot)
 
 
 func ghost(_color: Color) -> void:

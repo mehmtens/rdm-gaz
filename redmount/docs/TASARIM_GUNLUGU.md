@@ -7,6 +7,15 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 271 denetimi, Bölüm 19 bot koşusu + 36 bölüm can kaynağı ölçümü; 1 aynı turda yapıldı)
+  ~~(1) yenilen/yere düşen düşman ve ölen oyuncu ayak noktası çevresinde döndürülünce gövdenin yarısı zemine gömülüyordu
+  (38–59 px)~~ **(tur 271: `LieLift`)** · (2) son arenaya giden yolda can kaynağı: 33/36 bölümde garanti yemek var,
+  Bölüm 3/7/35'te yok ama üçünde de arena yanında can satan dükkân var — açık yok; insan testinde boss'a giriş canı
+  ölçülsün · (3) Kitap 2–3'te "kasa = yemek" kuralı neredeyse kayboluyor: 24 bölümün 19'unda zarlı kasa yok (Kitap 1'de
+  her bölümde 1–4); oyuncunun Kitap 1'de öğrendiği "kasayı kır, yemek çıkabilir" alışkanlığı karşılıksız kalıyor. İnsan
+  testi "Kitap 3'te can sıkıntısı" derse uygun mekânlara elle kasa konsun (yeni sanat yok, `_prop("kasa", ...)`) ·
+  (4) HUD durum kutusu yazı ağırlıklı ("Zırh 5/6", "Bıçak 18/20"); telefonda okunurluk insan testinde sorulsun.
+
 - (Tur 270 "sessiz olay" denetimi: görsel efekt üretip `Sfx` çağırmayan betikler tarandı; 1 aynı turda yapıldı)
   ~~(1) ezici presler (7 bölüm) inişte sessiz, toz/sarsıntı yalnız oyuncuya çarpınca~~ **(tur 270)** · Kalanlar
   sessiz kalmalı ya da tek seferlik: `backdrop.gd` (arka plan), `bolum08/11` açılış tozu, `bolum10` kıvılcım süsü,
@@ -8182,3 +8191,21 @@ aynı kare birleştirmesi (tur 265) tek, biraz daha güçlü gümleme verir. Oyu
 takılma @5803 önceki ölçümle aynı, dökümhane arenası), 22 (69,8 sn), 34 (79,0 sn) CLEARED.
 **Sonraki öneri:** otonom iş kalmadı; ses/müzik dengesi (25 placeholder klip, düzeyler) telefonda insan kulağıyla.
 
+### 2026-11-18 — Yatışta gövde zemine gömülmüyor (tur 271, denetim: görsel okunurluk / oyun hissi)
+
+**Neden:** birikimde otonom madde yok → kural (d). Bölüm 19 pencereli bot koşusunda (7 sn aralıklı ekran görüntüsü)
+yenilen düşmanların gövdesinin yarısı kaldırım taşlarının içinde görüldü. Kök neden: `enemy_sprite.gd` ölüm/yere düşme
+eğimini (80°) ayak noktası çevresinde uyguluyor; 200 px genişlikli hücrede çizim ortalı olduğu için yatan gövdenin yarısı
+zemin çizgisinin altına iniyordu. Oyuncunun ölüm pozu (`player_sprite.gd`, 90°) da aynı sorunu taşıyordu. DTM'de yenilen
+düşman zemine yaslanıp sönerek kaybolur; gömülü gövde "vuruşun sonu"nu bulanıklaştırıyor ve yapıştırılmış görünüyordu.
+**Değişiklik:** yeni `scripts/characters/lie_lift.gd` (`LieLift.lift`): o anki karenin opak silüetinden (satır başına en
+sol/en sağ piksel; dışbükey zarfın köşeleri bunların içinde) dönmüş hâldeki en alt pikselin dik duruşa göre ne kadar aşağı
+indiğini ölçer; sprite o kadar yukarı alınır. Silüet doku başına bir kez (~4 ms, ilk ölümde hitstop içinde), sonuç
+(doku, aynalama, ölçek, tam derece) başına önbellekte (~0,3 ms → 0). `enemy_sprite.gd` ve `player_sprite.gd` eğimden
+sonra kullanır. Eğimsizken 0 → dik duruş değişmez. Yeni sanat yok.
+**Ölçüm (ayrıca):** 36 bölümde son arenaya giden yoldaki can kaynakları sayıldı (birikim Tur 271/2–3).
+**Testler:** `--import` SCRIPT ERROR yok; `campaign_smoke` çıkış 0; `dtm_gaps` PASS; yeni `tests/lie_lift.tscn` PASS
+(3 düşman türü × 2 yön × 4 eğim: gömülme önce 38–59 px, sonra 0); `enemy_voice`, `telegraph_mark`, `arena_mercy` PASS;
+pencereli çekimde (Bölüm 1) oyuncu ölümü ve zırhlı/eşkıya yatışı zemin üstünde; bot Bölüm 1 (90,9 sn), 13 (66,2 sn),
+19 (82,5 sn, pencereli), 25 (77,9 sn) CLEARED.
+**Sonraki öneri:** otonom iş yok; birikim Tur 271/3 (Kitap 2–3 kasa) ve /4 (HUD) insan testine bağlı.

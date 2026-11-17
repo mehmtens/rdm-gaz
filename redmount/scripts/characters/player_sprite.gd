@@ -324,6 +324,8 @@ func _process(delta: float) -> void:
 				rot_k = 22.0
 	_rot = lerp_angle(_rot, target_rot, clampf(delta * rot_k, 0.0, 1.0))
 	rotation = _rot
+	## Yatışta (yere düşme / ölüm) gövde zemine gömülmesin (LieLift, tur 271).
+	target_pos.y -= LieLift.lift(self, _rot)
 	skew = lerp_angle(skew, target_skew, clampf(delta * 10.0, 0.0, 1.0))
 	position = position.lerp(target_pos, clampf(delta * 14.0, 0.0, 1.0))
 	_squash = _squash.lerp(Vector2.ONE, clampf(delta * 16.0, 0.0, 1.0))
