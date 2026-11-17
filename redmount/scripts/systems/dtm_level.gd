@@ -740,12 +740,13 @@ func _live_wire(x0: float, x1: float, phase := 0.0, ground := 0.0) -> void:
 ## Kovalamaca (Dan the Man set-piece'i): oyuncu `x0`'ı geçince arkasından minibüs
 ## sokağı süpürerek gelir; yerde kalanı ezer (hasar + savrulma). Kaçış yolu yukarı:
 ## iskeleler, damlar. `x1`'de araç sokaktan çıkar. Hız oyuncunun koşusundan az yavaş.
-func _chase(x0: float, x1: float, speed := 280.0, title := "KAÇ!") -> void:
+func _chase(x0: float, x1: float, speed := 280.0, title := "KAÇ!", story := "Arkandan geliyorlar — durma, koş!") -> void:
 	var c := _Chaser.new()
 	c.x0 = x0
 	c.x1 = x1
 	c.speed = speed
 	c.title = title
+	c.story = story
 	add_child(c)
 
 
@@ -2322,6 +2323,7 @@ class _Chaser extends Node2D:
 	var x1 := 0.0
 	var speed := 280.0
 	var title := "KAÇ!"
+	var story := ""
 	var _on := false
 	var _done := false
 	var _hit_cd := 0.0
@@ -2349,7 +2351,7 @@ class _Chaser extends Node2D:
 				global_position = Vector2(x0 - 620.0, 0.0)
 				Sfx.play(&"dash", 0.5, 2.0)
 				Combat.shake(4.0)
-				Fx.popup(p.global_position + Vector2(0, -150), title, Color(1.0, 0.4, 0.3), 34)
+				_announce(p)
 			return
 		# Oyuncu çok gerideyse (öldü / geri döndü) yeniden başla.
 		if p.global_position.x < global_position.x - 300.0:
@@ -2386,6 +2388,16 @@ class _Chaser extends Node2D:
 			var t := create_tween()
 			t.tween_property(self, ^"modulate:a", 0.0, 0.6)
 			t.tween_callback(queue_free)
+
+	## Kaç uyarısı HUD duyuru plakasında (tur 232): dünya yazısı 0,7 sn'de sönüyor,
+	## konturu yoktu; Bölüm 13'te kırmızı bayrağın üstüne binip okunmuyordu. Plaka
+	## kovalamaca boyunca (~6 sn) üst bantta kalır. Her yeniden başlamada tekrar çıkar.
+	func _announce(p: Node2D) -> void:
+		var hud := get_tree().get_first_node_in_group(&"hud")
+		if hud != null and hud.has_method(&"show_place"):
+			hud.show_place(title, story, Color(1.0, 0.42, 0.32))
+		else:
+			Fx.popup(p.global_position + Vector2(0, -150), title, Color(1.0, 0.4, 0.3), 34)
 
 
 class _FallingPot extends Node2D:

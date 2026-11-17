@@ -289,6 +289,28 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-17 (232) — Denetim: Bölüm 13 ve 16 gerçek karelerle; kovalamaca uyarısı HUD plakasında
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Tur 231'in
+listesinden Bölüm 13 ve 16 pencereli botla (`REDMOUNT_SNAP_DIR`, 1280×720, 8 sn arayla; 10'ar kare) oynatıldı.
+**Sonuç:** Bölüm 13 CLEARED 76,7 sn (0 ölüm; 13 sn duraklama x≈5023); Bölüm 16 CLEARED 75,8 sn (0 ölüm, 16/115 canla
+bitirdi; 10 sn duraklama x≈8274).
+- Bölüm 13: sur kapısı + minibüs kovalamacası, vapurlu Haliç iskelesi (kayıklar, kasa yığını), tuğla gümrük deposu
+  arenası (DALGA 1/2–2/2), film rulolu ambar ve şadırvanlı gümrük avlusu arenası; ChatGPT arka planlarıyla bütünleşik.
+- Bölüm 16: tenteli çarşı sokağı, "CİLTÇİ ERZAKI", kubbeli medrese avlusu, kâğıt kurutma atölyesi ve raflı arşiv
+  arenaları (Kemal Bey sahnesi); yapıştırma izi yok.
+- **Bulgu (düzeltildi):** kovalamaca başlarken "MİNİBÜS! KOŞ!" `Fx.popup` ile dünyada çıkıyordu — konturu/plakası
+  olmayan kırmızı yazı, 0,3 sn sonra sönmeye başlayıp 0,7 sn'de kayboluyor; Bölüm 13 x≈1711 karesinde kırmızı Türk
+  bayrağının üstüne binip kırmızı üstüne kırmızı okunmuyordu. Oyunun tek "durma, koş!" telegrafı bu olduğundan
+  `_Chaser._announce` uyarıyı HUD duyuru plakasına (`show_place`, kırmızı vurgu) taşıdı; plaka 5,5 sn kalır (minibüs
+  yolu ~6,4 sn) ve telsiz paneli açıkken üst bant onu aşağı iter. `_chase` artık alt satır alıyor: Bölüm 13
+  "Karahanlı'nın adamları yokuştan iniyor — durma!", Bölüm 29 "Ekip arabası arkanda — durma, koş!". HUD yoksa eski
+  popup'a düşer. 1280×720 karelerde (x 1739–3075) plaka okunur, telsiz paneliyle çakışmıyor.
+**Testler:** `--import` hatasız; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn` PASS; yeni
+`tests/chase_warning.tscn` PASS (düzeltmesiz kodda düşüyor); bot Bölüm 1 (81,7 sn), 13 (78,4 sn), 25 (93,8 sn),
+29 (90,0 sn) CLEARED.
+**Sonraki öneri:** gerçek kare serisinde kalanlar Bölüm 20, 25, 35.
+
 ### 2026-11-17 (231) — Denetim: Bölüm 2 ve 8 gerçek karelerle — temiz
 
 **Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Tur 230'un

@@ -49,7 +49,7 @@ func _build() -> void:
 	_coin_line(2360, 4, 50, -120)
 	# Kovalamaca: Karahanlı'nın kalan adamları minibüsle yokuştan iner. Durma, koş;
 	# balkonlar isteğe bağlı kaçış + ödül yolu.
-	_chase(1560, 3350, 280.0, "MİNİBÜS! KOŞ!")
+	_chase(1560, 3350, 280.0, "MİNİBÜS! KOŞ!", "Karahanlı'nın adamları yokuştan iniyor — durma!")
 	_balcony(2750, -60, 120)
 	_balcony(2950, -150, 120)
 	_coin_line(1750, 10, 70, -10)

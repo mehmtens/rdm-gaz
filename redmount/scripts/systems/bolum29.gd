@@ -28,7 +28,7 @@ func _build() -> void:
 	for vx in [520.0, 860.0, 1240.0]:
 		_fg("sarmasik", vx, -600.0)
 	# Kovalamaca: sahte manşet yüzünden aranan Gazelle için polis minibüsü sokağı tarar.
-	_chase(420, 1550, 285.0, "POLİS! KOŞ!")
+	_chase(420, 1550, 285.0, "POLİS! KOŞ!", "Ekip arabası arkanda — durma, koş!")
 	_coin_line(600, 10, 80, -10)
 	_balcony(1150, -70, 110)
 	_balcony(1300, -170, 110)
