@@ -7,6 +7,15 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 283 denetimi, Bölüm 21/25/32 pencereli bot koşusu + 36 bölümde "son iki arena arası can yerleşimi" taraması;
+  hiçbiri koşulsuz değil) (1) Son arenadan önceki aralıkta yemeği yalnız ara katta (y ≤ −160) olan bölümler: 2, 12, 19,
+  20, 21, 22, 23, 25 (18 tur 282'de düzeltildi). Bunların 7'sinde önceki arena ödülü can ve/veya yolda dükkân var — açık
+  yok. Tek benzer yapı Bölüm 21 (önceki ödül cephane, dükkân yok, yemek 9220,−160); bot orada hasar almadan geçti (son
+  arenaya 89/115). İnsan testi "Bölüm 21 sonunda can yok" derse aynı düzeltme (yemek 9220,−40) · (2) Bölüm 25: bot ciltçi
+  geçidi (4 düşman, iki katlı) + depo seçkini sonrası son arenaya 23/115 ile girdi; arada arena can ödülü + MATBAA ERZAKI
+  var, ara kat yemeği tek zıplama — insan testinde son arena giriş canı ölçülsün · (3) Bölüm 32 son arenaya 27/115 (Fenerci
+  Kileri yolda) — Kitap 3 eğrisiyle uyumlu.
+
 - (Tur 280 denetimi, Bölüm 4 pencereli bot koşusu; 1 aynı turda yapıldı) ~~(1) film rulosu duyurusu telsiz açıkken
   ipucu balonunu örtüyordu~~ **(tur 280: `HintTrigger._banner_push`)** · (2) bot kontrol kulübesi arenasından 23/115
   canla çıkıp hendek köprüsünde öldü (yalnız pencereli koşuda; headless koşu CLEARED 110,6 sn); arena ödülü can + hemen sağda kantin var — insan
@@ -432,6 +441,22 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-18 (283) — Bölüm 21, 25, 32 denetimi + son arena öncesi can taraması: temiz; 36/36 bölüm denetlendi, otomasyon durdu
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve birikimin koşulsuz maddeleri bitti → kural (d). Denetlenmemiş son üç
+bölüm pencereli bot koşusuyla (8 sn aralık, 33 kare) oynandı. Tur 274 ve 282'de aynı kalıp (son arena öncesi tek yemek
+ara katta) iki kez çıktığı için 36 bölümün betikleri de tarandı.
+**Bulgular:** Bölüm 21 (Yenikapı rıhtımı) CLEARED 90,5 sn, en düşük 39; Bölüm 25 (Cağaloğlu matbaası) CLEARED 87,9 sn,
+en düşük 9 (son arena dalga 1); Bölüm 32 (Kuleli/fener) CLEARED 75,7 sn, en düşük 27; üçünde 0 yeniden doğma. Ekranlar:
+gece rıhtımı + liman bürosu haritalı arena + vapur önü son arena; kitapçı yokuşu, baskı makinesi salonu, kurutma çatısı,
+kesitli ciltçi atölyesi, Sirkeci kapısı; projektörlü iskeleler, fener kulesi bacası, teleskoplu gözlem salonu — DTM
+düzeyinde, taşma/çakışma yok, düşmanlar okunur (telsiz kutuları sönerken arka plana biniyor, okunurluğu bozmuyor).
+Tarama: ara kat yemeği olan 8 bölümün 7'sinde önceki arena can ödülü ve/veya dükkân var; benzeri yalnız Bölüm 21 ve
+orada bot hasar almadı → koşulsuz iş yok, birikime yazıldı (Tur 283/1–3).
+**Testler:** kod değişikliği yok; bot Bölüm 21, 25, 32 pencereli CLEARED.
+**Sonraki öneri:** 36 bölümün tamamı en az bir kez denetlendi. Kalan birikim maddelerinin hepsi insan testi verisine
+bağlı (arena giriş canı, set-piece, ses). İnsan oyun testi gelene kadar otomasyonun durması doğru.
 
 ### 2026-11-18 (282) — Bölüm 14 ve 18 denetimi; Bölüm 18 son servis yemeği ana yol zeminine indi
 
