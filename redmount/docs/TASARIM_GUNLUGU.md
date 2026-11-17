@@ -289,6 +289,31 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-17 (234) — Denetim: dövüş derinliği + Bölüm 21 telemetri; yeni otonom iş yok, otomasyon durdu
+
+**Neden şimdi:** stil listesi, iki yol haritası ve OYNANIS-KALITE P1 kapalı; 36 bölümün "gerçek kare" görsel
+serisi tur 214–233'te tamamlandı; birikimin kalanı insan/cihaz testine bağlı. Tur 233 "otomasyon durdu" dedi.
+Priority d) gereği tek bir görsel denetim tekrarı yerine bu tur **farklı bir mercek** denendi: (1) dövüş sisteminin
+DTM'ye göre derinlik denetimi (kodu okuyarak), (2) bir bölümün ham telemetrisi (pacing/ölüm merceği).
+**Dövüş derinliği denetimi (DTM karşılaştırması):** sistem zaten DTM seviyesinde eksiksiz —
+`redmount.gd` Attack enum'u (COMBO zinciri + bitiriş kilidi, HEAVY özel hareketler: low_kick/slide_kick/uppercut/
+dash_strike/ground_slam, AIR_KNEE, WEAPON, fırlatma) ve tam **jonglör döngüsü**: yerde uppercut düşmanı 430 havaya
+kaldırır → zıpla → havada AIR_KNEE devrik düşmanı yeniden jonglör (340) + oyuncu hopla (−250) → tekrar; şemsiye silahı
+`launch_speed` ile kaldırır, slide_kick süpürür (240), finisher kaldırır (260). Jonglör anında ekranda "HAVA TAKİBİ!"
+geribildirimi (`redmount.gd:1247`) zaten var. Hitstop hasarla ölçekli, zoom-punch, sarsıntı, rumble mevcut. Boru
+anahtarı `guard_break` kalkanı deler. Aranan "gizli/eksik derinlik katmanı" bulunamadı — hepsi uygulanmış.
+**Bölüm 21 telemetri (`REDMOUNT_PROBE_LEVEL=20`, 60 fps):** CLEARED 101,9 sn, 1 yeniden doğma. Ölüm **son arenada**
+(x≈9500–9969): bot finale 29/115 canla girdi, 93→63→50→36→29→19→1→öldü; aradan can kaynağı yok. Bu **birikimdeki
+bilinen madde** ("gece iskelesi finali 0–2 respawn" + "son arenaya düşük canla varış → insan testinde simit") — eşik
+insan verisine bağlı. Ayrıca x≈4903 iskele kulesi tırmanışında 15 sn duraklama; telemetride y −44→−154 arası, bot
+dikey tırmanışı beceremiyor (birikimdeki "botun kuleden tüfekliye tırmanma mantığı; oyun hatası değil" kaydıyla aynı).
+**Sonuç:** fresh mercek de yeni otonom (kör, insan testsiz, cila olmayan) iş çıkarmadı. Kod değişmedi.
+**Testler:** `--import` hatasız (çıkış 0); `tests/campaign_smoke.gd` çıkış 0 (36 sahne SMOKE OK); `tests/dtm_gaps.tscn`
+PASS; bot Bölüm 21 CLEARED 101,9 sn.
+**Sonraki öneri:** otomasyon gerçekten tükendi — sıradaki değer insan/cihaz testinden gelir (eşikteki arena ölümleri
+Bölüm 4/10/18/21/35, KAY/ATIL mobil düğme yerleri, coin toplama oranı, ses mix'i, İ/I kerning, düşman tipi atlas
+renkleri). Bunların hepsi gerçek oyuncu/telefon verisi ister; kör otonom turda yapılmamalı.
+
 ### 2026-11-17 (233) — Denetim: Bölüm 20, 25 ve 35 gerçek karelerle — temiz; "gerçek kare" serisi tamam, otomasyon durdu
 
 **Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Serinin son
