@@ -289,6 +289,22 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-17 (229) — Denetim: Bölüm 9 ve 10 gerçek karelerle — temiz
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Tur 228'in
+listesinden Bölüm 9 ve 10 pencereli botla (`REDMOUNT_SNAP_DIR`, 1280×720, 8 sn arayla; 15'er kare) oynatıldı.
+**Sonuç:** Bölüm 9 CLEARED 115,9 sn (0 ölüm; 20 sn duraklama x≈5298, kale avlusu arenası); Bölüm 10 CLEARED 116,6 sn
+(1 ölüm son surlar arenası x≈8350, Sur Ağası'ndan sonra 3. dalgada; 22 sn duraklama x≈8352).
+- Bölüm 9: gece Boğaz köprüsü (fener, yelkenliler, kayalık kıyı, iskele kuleleri), taş han içi film rulosu, kale
+  avlusu arenası (DALGA 1/3–3/3, Güçlendirici kasalar telsizi), "ÜS KANTİNİ", portcullis'li sur arenası ve Binbaşı Kaya
+  boss çubuğu; ChatGPT arka planlarıyla bütünleşik, yapıştırma izi yok.
+- Bölüm 10: "ANA KAPI" tabelalı kale girişi, ayna sinyali telsizi, mazgallı sur rotası (iki film rulosu, projektörlü
+  iskele kuleleri), Sur Ağası'nın portcullis arenası; yapıştırma izi yok. Tur 228 düzeltmesinden sonra rulo alınırken
+  yalnız HUD duyurusu görünüyor (iki karede doğrulandı), sızan dünya yazısı yok.
+- Bölüm 10 son arena ölümü birikimdeki bilinen madde (tur 154: koşu başına 1) — eşikte, insan testine bağlı.
+Kod değişmedi; otonom düzeltilebilir yeni iş yok.
+**Sonraki öneri:** gerçek kare serisinde kalanlar Bölüm 2, 8, 11, 13, 14, 16, 20, 25, 35.
+
 ### 2026-11-17 (228) — Denetim: Bölüm 4 ve 7 gerçek karelerle; film rulosu yazısı duyurunun arasından sızıyordu
 
 **Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Tur 227'nin
