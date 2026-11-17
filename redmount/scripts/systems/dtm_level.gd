@@ -2236,7 +2236,8 @@ class _SecretZone extends Area2D:
 		var at := _roll.global_position
 		Fx.ring(at, Color(1.0, 0.85, 0.4), 8, 110, 0.4)
 		Fx.spark(at, Vector2(0, -1), 14, Color(1.0, 0.9, 0.55), 1.2)
-		Fx.popup(at + Vector2(0, -40), "FİLM RULOSU!", Color(1.0, 0.85, 0.4), 26)
+		## Dünya yazısı yok: HUD duyurusu ("FİLM RULOSU n / m") aynı anı söylüyor;
+		## yükselen yazı plakaların arasından sızıp ikinci kez okunuyordu (tur 228).
 		Combat.flash(Color(1.0, 0.9, 0.6, 0.25), 0.15)
 		var tw := _roll.create_tween().set_parallel(true)
 		tw.tween_property(_roll, ^"position:y", _roll.position.y - 90.0, 0.5).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)

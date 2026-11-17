@@ -289,6 +289,25 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-17 (228) — Denetim: Bölüm 4 ve 7 gerçek karelerle; film rulosu yazısı duyurunun arasından sızıyordu
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Tur 227'nin
+listesinden (kalan: 2, 4, 7–11, 13–16, 20, 25, 35) Bölüm 4 ve 7 pencereli botla (`REDMOUNT_SNAP_DIR`, 1280×720, 8 sn
+arayla; 13 ve 12 kare) oynatıldı.
+**Sonuç:** Bölüm 4 CLEARED 99,1 sn (1 ölüm x≈7800–8200 Yüzbaşı Demir final arenası, 15/115 canla girdi; 12 sn duraklama
+x≈4737); Bölüm 7 CLEARED 95,1 sn (0 ölüm, 1/115 canla bitirdi; 20 sn duraklama x≈5820, döküm arenası).
+- Bölüm 4: gece sınır kapısı (gözetleme kuleleri, dikenli tel, projektör), kum torbalı arena (DALGA 1/3–3/3), "KONTROL
+  BÜFESİ" ve "SINIR KANTİNİ", iskele kulesi üstünde tüfekli; ChatGPT arka planlarıyla bütünleşik, yapıştırma izi yok.
+- Bölüm 7: gün batımı haddehane (eriyik dökümü, Süleymaniye silueti), tuğla dam rotası, döküm arenası (Ağır Zırhlı boss
+  çubuğu), "DÖKÜMHANE ÇAYOCAĞI", pres/alev şeridi; yapıştırma izi yok.
+- **Bulgu (düzeltildi):** film rulosu alınınca `dtm_level.gd` `_collect` dünyada yükselen "FİLM RULOSU!" yazısı da
+  çıkarıyordu; aynı anda HUD "FİLM RULOSU 1 / 3" duyurusu açıldığı için yazı iki plakanın arasındaki boşluktan sızıp
+  yarım okunuyordu (Bölüm 4 x≈2404 karesi) ve olay iki kez söyleniyordu. Dünya yazısı kaldırıldı; halka, kıvılcım,
+  ekran flaşı ve rulonun büyüyerek yükselmesi kaldı — duyuru tek ses.
+**Testler:** `--import` hatasız; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn` PASS; bot Bölüm 1 (86,8 sn),
+4 (103,1 sn), 13 (77,8 sn) CLEARED.
+**Sonraki öneri:** gerçek kare serisinde kalanlar Bölüm 2, 8–11, 13, 14, 16, 20, 25, 35.
+
 ### 2026-11-17 (227) — Denetim: Bölüm 3 ve 12 gerçek karelerle; sinematikte kombo flaşı kapanıyor
 
 **Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Tur 226'nın
