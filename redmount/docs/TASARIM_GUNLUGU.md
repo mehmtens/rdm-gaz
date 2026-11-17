@@ -7,6 +7,15 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 237 Survival denetimi, etki/maliyet sırasıyla) **1–3 aynı turda yapıldı:** (1) ölümde sonuç kartı
+  (dalga, rekor, coin, R/M) · (2) sonsuz modda HUD dalga/düşman sayacı · (3) rekor geçilince "YENİ REKOR!" duyurusu.
+  **Açık kalanlar:** (4) Survival hep aynı tek arka plan (`level06_backstreets_atlas`, Günün Dalgası da çarşı) —
+  10 dalgada bir mevcut ChatGPT atlaslarından biome değişimi DTM'deki "aşama" hissini verir; yeni çizim gerekmez,
+  `sky_atlas`/`sky_cells` dalga numarasıyla seçilebilir. (5) Günün Dalgası çarşı kemerinin koyu taşında siyah
+  kıyafetli Bıçaklı Ajan zor seçiliyor (`denetim surv/daily-14`) — düşman kenar ışığı yalnız belirmede; insan
+  testinde okunurluk sorunu doğrulanırsa Survival'a özel zayıf kalıcı rim. (6) Survival 10. dalga boss'u tek
+  MiniBoss — rekor kovalayan oyuncu için 20/30. dalgada bölüm boss'larından (Karahanlı vb.) dönüşüm değerlendirilsin.
+
 - ~~(Tur 235 denetimi, Bölüm 17 & 29) Combo sayacı konturu~~ **(aynı turda yapıldı, `commit` aşağıda):**
   `ComboLabel` çıplak altın metindi, HUD paneli (tur 206) ve duyuru plakasıyla aynı okunurluk katmanına
   sahip değildi; parlak kubbe/ışıklı pencere üzerinde "İYİ" solunun açık arka plana karıştığı görüldü.
@@ -304,6 +313,30 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-17 (237) — Denetim: Survival / Günün Dalgası gerçek karelerle; ölüm sonuç kartı + sonsuz dalga sayacı
+
+**Neden şimdi:** stil listesi, iki yol haritası, P1 ve birikimin otonom kısmı kapalı; 36 bölüm "gerçek kare" serisi
+tamamdı. Priority d) için hiç gerçek kareyle denetlenmemiş mod seçildi: Survival (sonsuz) ve Günün Dalgası
+(pencereli, 1280×720, basit dövüş botuyla 75 sn, ölüme kadar; kareler `scratchpad/surv`, `surv2`).
+**Bulgular (DTM'nin hayatta kalma modu ölçüt):** (a) ölünce ekranda yalnız küçük, plakasız "SURVIVAL BİTTİ" kalıyordu —
+`survival.gd` DeathLabel metnini ezdiği için "R ile yeniden başla" ipucu da kayboluyordu; ulaşılan dalga, rekor ve kasaya
+giden coin hiç gösterilmiyordu (Günün Dalgası yalnız 5/5 kazanılınca kart açıyordu). (b) sonsuz modda HUD'da dalga /
+kalan düşman sayacı yoktu (kampanya arenaları ve Günün Dalgası'nda var); dalga numarası yalnız 1 sn'lik popup'taydı.
+(c) rekor geçmenin anı hiç kutlanmıyordu. Kalan 3 aday birikime yazıldı.
+**Oyuncu ne hissedecek:** ölüm "bitti, ne oldu?" boşluğu yerine 1,4 sn teatral ölümden sonra net bir karne: "4 dalga ·
+YENİ REKOR (eski 2) · 32 coin kasaya · R tekrar dene"; dövüş sırasında "DALGA 3 · 1 DÜŞMAN", arada "DALGA 4 GELİYOR!".
+**Yapılan:** `hud.gd` `set_arena_wave` — `total < 0` sonsuz biçim (kesirsiz); `survival.gd` sonsuz dalgada sayacı
+besliyor, ölümde sayaç/boss çubuğunu kapatıp mevcut `show_results` kartını açıyor (madalyada temizlenen dalga; Günün
+Dalgası'nda `n/5` + kural, "Seri için 5/5 gerekir"), `_finished` ile dokunmatikte DEVAM/MENÜ düğmeleri; rekoru ilk geçen
+dalgada "YENİ REKOR!" popup + powerup sesi. Yeni görsel yok — mevcut piksel kart/plaka yeniden kullanıldı.
+**Sayılar (hipotez):** kart gecikmesi 1,4 sn — kampanyadaki teatral ölüm süresine yakın; ölüm animasyonu görünsün ama
+oyuncu beklemekten sıkılmasın. İnsan testinde "kart çok geç" denirse 0,9'a.
+**Testler:** `--import` hatasız; yeni `tests/survival_card.tscn` SURVIVAL CARD OK (sonsuz/kesirli/gizli sayaç biçimleri +
+rekorlu kart); `survival_mode.tscn` OK; `daily_wave.tscn` PASS; `level_stars.tscn` PASS; `campaign_smoke.gd` çıkış 0
+(36 SMOKE OK); `dtm_gaps.tscn` PASS; bot Bölüm 1 CLEARED 78,3 sn; pencereli kareler (sayaç plakası, iki kart) Read ile
+incelendi — taşma yok, mevcut kart stiliyle tutarlı.
+**Sonraki öneri:** birikimdeki (4) Survival'da 10 dalgada bir mevcut atlaslarla arka plan/biome değişimi.
 
 ### 2026-11-17 (236) — Birikim: combo '×' glifi ve Zırh satırı maddeleri kapandı; otomasyon durdu
 

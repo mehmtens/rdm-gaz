@@ -43,6 +43,11 @@ var _started_ms := 0
 var _streak_reward := 0
 ## Bu koşuda Kanıt Arşivi'nin GÜNLÜK sekmesinde yeni kare açıldı mı.
 var _new_photo := false
+## Koşu başındaki Survival rekoru: sonuç kartında "YENİ REKOR" ve dalga arası duyurusu için
+## (banka kaydı rekoru güncellediğinden sonra okunamaz).
+var _prev_best := 0
+## Ölümden sonra sonuç kartının açılacağı süre (sn): teatral ölüm önce görünsün.
+const DEATH_CARD_DELAY := 1.4
 ## DtmLevel gökyüzü/arka sıra katmanlarının okuduğu alanlar (`level` = bu düğüm).
 var sky_atlas: Texture2D = preload("res://assets/backgrounds/level06_backstreets_atlas.png")
 var sky_cells: Array = [[0, -100000.0]]
@@ -94,8 +99,8 @@ func _ready() -> void:
 	GameState.coin_multiplier = 2 if Save.owns("double_coin") else 1
 	_hud.set_health(_player.get_health(), _player.get_max_health())
 	_hud.set_boss_health(0, 0)
-	_hud.get_node(^"DeathLabel").text = "SURVIVAL BİTTİ"
 	_started_ms = Time.get_ticks_msec()
+	_prev_best = Save.survival_best_wave
 	if GameState.daily_run:
 		_setup_daily()
 	Music.play_for_biome(0)
@@ -126,7 +131,6 @@ func _setup_daily() -> void:
 		"knife": _player.equip_weapon(KNIFE_WEAPON)
 	if rule.armor:
 		_player.equip_armor(BODY_ARMOR)
-	_hud.get_node(^"DeathLabel").text = "GÜNÜN DALGASI BİTTİ"
 	# Kural tabelası (mekân pankartı, 5,5 sn): oyuncu ilk dalga başlarken kuralı okur.
 	_hud.show_place(rule.name, "Günün dalgası · %s" % rule.desc if _scored
 		else "Antrenman · %s · ödül yarın" % rule.desc,
@@ -219,6 +223,7 @@ func _start_next_wave() -> void:
 		return
 	_living = enemy_count_for_wave(_wave)
 	_hud.get_node(^"StageLabel").text = "SURVIVAL · DALGA %d · REKOR %d" % [_wave, Save.survival_best_wave]
+	_hud.set_arena_wave(_wave, -1, _living)
 	var boss_wave := _wave % 10 == 0
 	Fx.popup(Vector2(0, -170), "BOSS DALGASI" if boss_wave else "DALGA %d" % _wave,
 		Color(1.0, 0.35, 0.2) if boss_wave else Color(1.0, 0.72, 0.25), 30)
@@ -273,8 +278,8 @@ func _on_enemy_defeated(enemy: Node) -> void:
 	Save.count_defeat()
 	if enemy.config != null:
 		GameState.add_score(enemy.config.score_value)
-	if _daily and not _dead:
-		_hud.set_arena_wave(_wave, DailyWave.WAVES, _living)
+	if not _dead:
+		_hud.set_arena_wave(_wave, DailyWave.WAVES if _daily else -1, _living)
 	if _living > 0 or _dead:
 		return
 	_cleared_wave = _wave
@@ -294,6 +299,10 @@ func _on_enemy_defeated(enemy: Node) -> void:
 		_player.heal(heal)
 	var shop := "" if _daily and not _plan.rule.armory else " · II: CEPHANELİK"
 	Fx.popup(Vector2(0, -130), "DALGA TEMİZ · +%d COIN%s" % [GameState.coins - before, shop], Color(0.45, 1.0, 0.6), 24)
+	# Rekoru geçen ilk dalgada bir kez: sonsuz modun tek uzun vadeli hedefi görünür olsun.
+	if not _daily and _prev_best > 0 and _cleared_wave == _prev_best + 1:
+		Fx.popup(Vector2(0, -205), "YENİ REKOR!", Color(1.0, 0.85, 0.3), 30)
+		Sfx.play(&"powerup")
 	await get_tree().create_timer(4.0, false).timeout
 	_start_next_wave()
 
@@ -335,7 +344,43 @@ func _finish_daily() -> void:
 func _on_death() -> void:
 	_dead = true
 	_bank_run()
-	_hud.show_death()
+	_hud.set_arena_wave(0, 0, 0)
+	_hud.set_boss_health(0, 0)
+	# Eskiden yalnız çıplak "SURVIVAL BİTTİ" yazısı kalıyordu (R/M ipucu da silinmişti):
+	# ulaşılan dalga, rekor ve bankaya giden coin hiç görünmüyordu. Önce ölüm görünsün,
+	# sonra sonuç kartı açılsın.
+	await get_tree().create_timer(DEATH_CARD_DELAY, true, false, true).timeout
+	if is_inside_tree():
+		_show_run_card()
+
+
+## Ölümle biten koşunun sonuç kartı (Survival ve Günün Dalgası); madalyada temizlenen dalga.
+func _show_run_card() -> void:
+	if _hud._place != null:
+		_hud._place.visible = false
+	var seconds := (Time.get_ticks_msec() - _started_ms) / 1000.0
+	_hud.secrets_line = ""
+	_hud.show_results(GameState.coins, _defeated, _defeated, seconds, GameState.score,
+		"GÜNÜN DALGASI BİTTİ" if _daily else "SURVIVAL BİTTİ")
+	var time_text := "%d:%02d" % [int(seconds) / 60, int(seconds) % 60]
+	if _daily:
+		_hud._results_rank.text = "%d/%d" % [_cleared_wave, DailyWave.WAVES]
+		_hud._results_stats.text = "%s  ·  Süre: %s  ·  Düşman: %d\n" % [
+			_plan.rule.name, time_text, _defeated]
+		if _scored:
+			_hud._results_stats.text += "Coin: %d yazıldı  ·  Seri için %d/%d gerekir\nYarın yeni dalga  ·  Skor: %d" % [
+				GameState.coins, DailyWave.WAVES, DailyWave.WAVES, GameState.score]
+		else:
+			_hud._results_stats.text += "Antrenman: coin yazılmadı\nYarın yeni dalga  ·  Skor: %d" % GameState.score
+	else:
+		_hud._results_rank.text = str(_cleared_wave)
+		var record := ("YENİ REKOR!  (eski: %d)" % _prev_best if _cleared_wave > _prev_best
+			else "Rekor: %d dalga" % Save.survival_best_wave)
+		_hud._results_stats.text = "Temizlenen dalga: %d  ·  %s\nSüre: %s  ·  Düşman: %d\nCoin: %d kasaya  ·  Skor: %d" % [
+			_cleared_wave, record, time_text, _defeated, GameState.coins, GameState.score]
+	_hud._results_rank.visible = true
+	_finished = true
+	_hud._results_hint.text = _hud.input_hint("R — tekrar dene     ·     M — ana menü", "")
 
 
 func _restart() -> void:

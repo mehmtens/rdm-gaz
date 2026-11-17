@@ -499,15 +499,18 @@ func _build_arena_counter() -> void:
 
 
 ## wave 0 → gösterge gizlenir (arena temizlendi / bölüm değişti).
+## `total` < 0: sonu olmayan dalga dizisi (Survival) — "DALGA 7 · 4 DÜŞMAN", kesirsiz.
 func set_arena_wave(wave: int, total: int, remaining: int) -> void:
-	if wave <= 0 or total <= 0:
+	if wave <= 0 or total == 0:
 		_arena_panel.visible = false
 		return
 	_arena_panel.visible = true
 	# Dalga arası (kalan 0, sırada dalga var): "0 DÜŞMAN" arena bitti sanılırdı → sıradakini duyur.
-	var between := remaining <= 0 and wave < total
-	_arena_label.text = ("DALGA %d/%d GELİYOR!" % [wave + 1, total] if between
-		else "DALGA %d/%d  ·  %d DÜŞMAN" % [wave, total, remaining])
+	var endless := total < 0
+	var between := remaining <= 0 and (endless or wave < total)
+	var of_total := "" if endless else "/%d" % total
+	_arena_label.text = ("DALGA %d%s GELİYOR!" % [wave + 1, of_total] if between
+		else "DALGA %d%s  ·  %d DÜŞMAN" % [wave, of_total, remaining])
 	_arena_label.add_theme_color_override(&"font_color",
 		Color(1.0, 0.9, 0.55) if between else Color(1.0, 0.72, 0.42))
 	# Ortalanmış kalsın: piksel yazı teması uygulandıktan sonra metne göre ölç.
