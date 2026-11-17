@@ -289,6 +289,14 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-17 (216) — Denetim: Bölüm 6 gerçek karelerle — temiz, otomasyon durdu
+
+**Neden şimdi:** tur 215'in önerisi. Bölüm 6 (indeks 5) pencereli botla 16 kare (8 sn arayla) oynatıldı; CLEARED 124,9 sn.
+Fabrika/vinç avlusu, kömür vagonlu arena, sur kapısı finali ChatGPT arka planıyla bütünleşik; tur 215 HUD plakası bu
+bölümde de satırları sarıyor (can/coin → bıçak → zırh eklendikçe uzuyor). Dalga şeridi, kombo ("EFSANE x25"), film
+rulosu duyurusu okunur. Arena (x≈5340) 19 sn duraklama ve 15/115 cana düşüş — bilinen denge, insan testine bağlı.
+Kod değişmedi; otonom yapılabilecek yeni iş yok, kalan birikim insan/cihaz testine bağlı.
+
 ### 2026-11-17 (215) — HUD durum plakası her bölümde: mermi/zırh satırları plakadan taşıyordu, 35 bölümde plaka yoktu
 
 **Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı → denetim turu.
