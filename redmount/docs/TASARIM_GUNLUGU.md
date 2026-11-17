@@ -428,6 +428,21 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-18 (279) — Bölüm 2 denetimi (Kitap 1, kasap düellosu): temiz, koşulsuz yeni iş yok; otomasyon durdu
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve birikimin koşulsuz maddeleri bitti → kural (d). Hiç denetlenmemiş
+Bölüm 2 pencereli bot koşusuyla (8 sn aralık, 10 kare) oynandı.
+**Bulgular:** CLEARED 79,9 sn, 0 yeniden doğma; can eğrisi 115 → 105/95 (pazar arenası, 3 dalga) → yemekle 115 →
+96 (Kasap Rıza düellosu) → 115. Kitap 1 başı için tur 273 eğrisiyle (64–85) uyumlu, rahat taraf. Ekranlar: kemerli
+iskele + Ayasofya silüetli açılış sahnesi (story sırasında HUD gizli, "sahneyi geç" ipucu okunur), tenteli pazar
+arenası (telsiz kutusu, dalga sayacı ve combo yazısı üst üste binmiyor), "ARKA SOKAK BAKKALI" dükkânı ve pembe konak
+damları (dam yolu katmanlı rota), Haliç kayıklı kasap arenası (patron çubuğu altta, vuruş kıvılcımı net) — hepsi DTM
+düzeyinde. `stall=16s@8237` patron düellosunun süresi, takılma değil. Koşulsuz, somut iş çıkmadı.
+**Testler:** kod değişikliği yok; bot Bölüm 2 pencereli CLEARED.
+**Sonraki öneri:** Denetlenmemiş kalan bölümler 4, 6, 14, 18, 21, 25, 32; altı ardışık denetim koşulsuz iş üretmedi.
+İnsan oyun testi verisi gelene kadar otomasyonun durması doğru; gelince birikim tur 271–275 koşullu maddeleri
+önceliklendirilsin.
+
 ### 2026-11-18 (278) — Bölüm 34 denetimi (Kandilli vericisi): temiz, koşulsuz yeni iş yok; otomasyon durdu
 
 **Neden şimdi:** Stil listesi, iki yol haritası ve birikimin koşulsuz maddeleri bitti → kural (d). Bölüm 34 en son
