@@ -289,6 +289,22 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-17 (218) — Denetim: en az denetlenen Bölüm 17 ve 29 gerçek karelerle — temiz, otomasyon durdu
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Günlükte en
+az anılan iki bölüm (17 → 13 anma, 29 → 14 anma) pencereli botla (`REDMOUNT_SNAP_DIR`, 1280×720, 3 sn arayla kare)
+oynatıldı. **Sonuç:** Bölüm 17 CLEARED 85,2 sn (0 ölüm, 12 sn duraklama x≈2853 avlu arenası), Bölüm 29 CLEARED
+85,3 sn (0 ölüm, 8 sn duraklama x≈3937 gece çarşı arenası).
+- Bölüm 17: üniversite taç kapısı (Beyazıt kemeri), "SAHAFLAR ERZAKI" sahaf dükkânı cephesi, avlu arenası ve
+  Kapalıçarşı kapılı finale (Gazelle telgrafı "Kapalıçarşı arka hanı. Gidelim.") ChatGPT arka planlarıyla
+  bütünleşik; dalga şeridi (DALGA 2/2), kombo, düşman nişan ışığı okunur. HUD plakası (tur 215) can/coin/sopa/bıçak/
+  zırh/mermi satırlarını sarıyor.
+- Bölüm 29: gece kapalı çarşı/manav sahnesi — fenerli yeşilci tezgâhı, meyve sepetleri, han içi şapka/kumaş rafları,
+  lamba aydınlatması; düşmanların nişan ışığı karanlıkta net, kombo (×4 +60), coin üçlüsü, yangın varili okunur.
+  Set-piece'ler güçlü, sanat yapıştırma izi yok.
+Kod değişmedi; iki bölüm de DTM kalitesinde, otonom düzeltilebilir yeni iş çıkmadı. Kalan birikim insan/cihaz testine
+bağlı (dokunmatik örtme gerçek telefonda, coin ekonomisi oranı, ses mix, PixelText İ/I kerning). Otomasyon durdu.
+
 ### 2026-11-17 (217) — Denetim: en az denetlenen Bölüm 26 ve 32 gerçek karelerle — temiz, otomasyon durdu
 
 **Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Günlükte en
