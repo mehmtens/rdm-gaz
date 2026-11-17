@@ -13,14 +13,11 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   `redmount.gd` iniş dalı `Fx.dust(..., int(5 + hard * 6))`, sarsıntı ve 0,6 üstünde halka/kamera dalışı; madde yanlış yazılmıştı)**.
 
 - (Tur 248 denetimi, Bölüm 26 & 32 — okunurluk/anlatı sütunu; 1 aynı turda yapıldı) ~~(1) dost telsiz satırları arena
-  dövüşünün ortasında çıkıyor~~ **(tur 248)** · (2) **arena dışı yakın dövüşte de aynı sorun:** v26 kare t0076'da satır,
-  arena bittikten sonra yandaki odada kalkanlıyla dövüşürken çıktı. Önce ölç: telsiz tetiği anında oyuncuya 600 px içinde
-  saldırgan düşman sayısı (36 bölüm, bot koşusu); satırların %20'sinden fazlası ≥2 düşmanla çakışıyorsa bekletme kuralı
-  "yakında ≥2 saldırgan düşman" ile genişletilsin (üst süre 6 sn, sonra yine çıksın). · (3) Bölüm 26 x≈1280 ön plandaki
-  koyu dikey direk (duvar zıplama sütunu) ChatGPT arka planı önünde düz koyu şerit gibi duruyor (`a26/t0008`) — yakın çekimle
-  kaynağı belirlenip stil kuralına göre değerlendirilsin. · (4) Bölüm 26 Gar Erzakçısı (x≈5300) üst coin dizisi HUD
-  panelinin hemen sağında; kamera dikey ofsetinde panelin altında kalıp kalmadığı ölçülsün (HUD dikdörtgeni ile coin
-  ekran konumlarının kesişimi, 36 bölüm).
+  dövüşünün ortasında çıkıyor~~ **(tur 248)** · ~~(2) arena dışı yakın dövüşte çakışma~~ **(tur 249: ölçüldü, gerek yok —
+  arena dışındaki 64 dost satırın 5'i (%8) ≥2 saldırgan düşmanla çakışıyor, eşik %20)** · ~~(3) Bölüm 26 ön plan direği~~
+  **(tur 249: kasıtlı ön plan silüeti `_fg("kolon")`, %25 paralaks; stil listesinde zaten çevrilmiş, `826b52d3`)** ·
+  ~~(4) coin dizisi HUD altında~~ **(tur 249: ölçülmeden kapatıldı — HUD sol üstte; oyuncu sağa ilerlediği için panelin
+  altına yalnız geçilmiş alan kayar; `a26/t0040` karesinde dizi panelin sağında, açıkta)**.
 
 - (Tur 243, insan testine bağlı) Ana mağazada coin yetmeyen satın alma düğmesi `disabled` — basınca tepki yok. Rahatsız
   ederse düğme etkin bırakılıp `shop_menu.gd` ret yolu (`ui_deny`) kullanılsın; menü seslerinin düzeyi kulakla ayarlansın.
@@ -335,6 +332,20 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-17 (249) — Ölçüm: arena dışı telsiz çakışması eşiğin altında; tur 248 denetiminin kalan maddeleri kapandı
+
+**Neden şimdi:** tur 248 denetiminin 2. maddesi "önce ölç" diye yazılmıştı. Bekletme kuralını yakın dövüşe genişletmek
+satırları geciktirip ritmi bozabilir; veri olmadan yapılmamalı.
+**Yapılan:** geçici prob (`bolum_play` türevi) 36 bölümü botla oynattı (36/36 CLEARED); her telsiz tetiği anında oyuncuya
+600×260 px içindeki canlı düşmanları ve IDLE/PATROL dışındaki (saldırgan) olanları saydı. 106 tetik: 84 dost satır, 20'si
+artık arena kuralıyla bekliyor; **arena dışındaki 64 dost satırın 20'si ≥1, yalnız 5'i (%8) ≥2 saldırgan düşmanla**
+çakışıyor (B7 x7905, B20 x5582, B24 x10285, B27 x5582, B36 x8965). Tek düşmanlı çatışma kısa ve okunur; eşik (%20)
+aşılmadığı için kural genişletilmedi. Bot insan oyuncudan hızlı ilerler — insan testinde bu beş noktada satır kaçıyorsa
+yalnız o tetikler elle birkaç yüz piksel kaydırılsın. Madde 3 ve 4 gerekçeyle kapandı (birikimde). Prob silindi.
+**Testler:** kod değişmedi (yalnız günlük); prob koşusunda 36 bölüm CLEARED.
+**Sonraki öneri:** birikimin açık maddelerinin tamamı insan/telefon testine bağlı. Sıradaki otonom iş yeni bir tasarım
+denetimi: henüz ayrı sütun olarak bakılmamış **ödül/ekonomi** ve **düşman telegrafı** — az denetlenmiş Bölüm 33 ve 34.
 
 ### 2026-11-17 (248) — Denetim (Bölüm 26/32): hikâye telsizi arena dövüşünün ortasında çıkıyordu → dövüş bitince
 
