@@ -7,6 +7,10 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 214 denetimi, Bölüm 15 açılış x≈80) Açılış karesi çok karanlık; siyahtan fade-in olmalı ama ilk girdiden önce
+  oyuncu ve zemin okunaklı mı insan testinde bakılsın — gerekirse spawn'da taban ışık biraz yükseltilir.
+- (Tur 214 denetimi, Bölüm 15 x≈4690) Yaklaşan düşman kenar-ışıklı tam siyah silüet çiziliyor; belirme telegrafı
+  olduğu doğrulansın, değilse aydınlatma/sprite ataması düzeltilsin.
 - (Tur 213, insan testi) Dokunmatik ATIL düğmesi (sol küme, x≈320 / 16:9) zemin gövde hizasında, kahramanın ~230 px
   arkasında; arena dalgasında arkadan gelen düşmanı örtebilir. KAY taşındıktan sonra telefonda KAY erişimi ve ATIL
   örtmesi birlikte denensin; gerekirse ATIL sol kenar sütununa (x ≤ %25) alınır.
@@ -282,6 +286,32 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-17 (214) — Oyun testi ekran görüntüsü düzeltmesi: `bolum_play` snapshot'ları bembeyaz çıkıyordu
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı → denetim turu.
+Bölüm 15'i (indeks 14) pencereli botla oynatıp (`REDMOUNT_SNAP_DIR`) 23 kare aldım; **hepsi bembeyazdı**. Denetim
+aracının kendisi kırıktı: `tests/bolum_play.gd` `_process` içinde `get_viewport().get_texture().get_image()` çağrısını
+`await RenderingServer.frame_post_draw` beklemeden yapıyordu, yani çizilmemiş/eski viewport dokusunu yakalıyordu. Çalışan
+`capture_*.gd` betikleri hep `frame_post_draw` bekliyor. Bu hata tüm gelecek oyun-testi denetimlerini görünmez yapıyordu.
+
+**Yapılan:** `bolum_play.gd` snapshot bloğu — kare zamanı ve oyuncu x'i await öncesi okunur, sonra
+`await RenderingServer.frame_post_draw`, sonra `get_image()`. Oyun kodu değişmedi (yalnız test koşum aracı).
+
+**Doğrulama:** düzeltme öncesi Bölüm 15 koşusunun 3 karesi (`denetim_b15/t0000,t0016,t0036`) Read ile bembeyaz; düzeltme
+sonrası (`denetim_b15b/`) gerçek sahne render oluyor — `t0040` sarnıç su tesisatı, `t0060` su değirmeni set-piece'i
+(çağlayan, dişliler, fenerle aydınlatılmış, kemerli coin dizisi), `t0020` Zeyrek çeşme avlusu. Sanat ChatGPT arka planıyla
+bütünleşik, yapıştırma izi yok. HUD okunur (CAN/COIN/Mermi/Zırh).
+
+**Denetim bulguları (birikime):** (1) Açılış karesi (`t0000`, x≈80) çok karanlık — büyük olasılıkla siyahtan fade-in,
+ama ilk girdiden önce oyuncu/zemin okunaklı mı insan testinde bakılmalı. (2) `t0040` sağdaki düşman kenar-ışıklı siyah
+silüet olarak çizilmiş — belirme telegrafı olmalı; doğrula.
+
+**Testler:** `--import` hatasız (SCRIPT ERROR yok); bot Bölüm 15 iki kez CLEARED (92,0 sn ve 97,5 sn, 20 geçerli PNG);
+`dtm_gaps.tscn` PASS. Değişiklik test aracına özel, oyun kodunu etkilemez.
+
+**Sonraki adım:** snapshot aracı artık çalıştığına göre, sıradaki denetim turunda gerçek karelerle DTM sütun
+karşılaştırması (hareket hissi, dövüş okunurluğu, ritim) yapılabilir; önce açılış-karesi karanlığı doğrulansın.
 
 ### 2026-11-17 (213) — Dokunmatik düğme örtüşmesi denetimi: KAY düğmesi 16:9'da dövüşülen düşmanı örtüyordu
 

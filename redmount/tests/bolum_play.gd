@@ -32,6 +32,11 @@ func _process(_delta: float) -> void:
 		return
 	var every := OS.get_environment("REDMOUNT_SNAP_EVERY").to_float()
 	_snap_next = _run_t + (every if every > 0.0 else 3.0)
+	## Çizilmiş kareyi bekle: frame_post_draw olmadan viewport dokusu boş/eski
+	## gelir ve ekran görüntüleri bembeyaz çıkar (capture_*.gd ile aynı yöntem).
+	var t := int(_run_t)
+	var px := int(_player.global_position.x)
+	await RenderingServer.frame_post_draw
 	var img := get_viewport().get_texture().get_image()
 	img.resize(640, 360, Image.INTERPOLATE_NEAREST)
-	img.save_png(folder.path_join("t%04d_x%d.png" % [int(_run_t), int(_player.global_position.x)]))
+	img.save_png(folder.path_join("t%04d_x%d.png" % [t, px]))
