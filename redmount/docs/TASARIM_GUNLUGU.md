@@ -428,6 +428,21 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-18 (277) — Bölüm 12 denetimi (Kitap 1 finali): temiz, koşulsuz yeni iş yok; otomasyon durdu
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve birikimin koşulsuz maddeleri bitti → kural (d). Hiç denetlenmemiş
+Bölüm 12 (Kitap 1 finali, Karahanlı düellosu) pencereli bot koşusuyla (8 sn aralık, 10 kare) oynandı.
+**Bulgular:** CLEARED 74,6 sn, 0 yeniden doğma; can eğrisi 115 → 84 (matbaa arenası, 3 dalga) → 75 (yalı iskelesi,
+sandık üstü nişancı) → 26 ile düelloya giriş, en düşük 12. Kitap 1 sonu için tur 273 eğrisiyle (Bölüm 5–12: 10–22)
+uyumlu; zorlayıcı ama adil. Ekranlarda matbaa (pres, mürekkep, kâğıt), yalı salonu + Boğaz gece silüeti, vitraylı kapı
+düello alanı DTM düzeyinde; düşman silüetleri gece konturuyla okunuyor; dalga sayacı / patron can çubuğu / combo yazısı
+çakışmıyor; story sırasında HUD sönük (tur 249). `stall=14s@2748` matbaa arenasının dalga süresi, takılma değil.
+Koşulsuz, somut bir iş çıkmadı; zorlama cila commit'i kullanıcı talebine aykırı olurdu.
+**Testler:** kod değişikliği yok; bot Bölüm 12 pencereli CLEARED.
+**Sonraki öneri:** Denetlenmemiş kalan bölümler 2, 4, 6, 14, 18, 21, 25, 32, 34; ancak son dört denetim (273, 275 hariç
+düzeltme, 276, 277) koşulsuz iş üretmedi — insan oyun testi verisi gelene kadar otomasyonun durması daha değerli.
+İnsan testi gelince birikim tur 271–275 koşullu maddeleri önceliklendirilsin.
+
 ### 2026-11-18 (276) — Bölüm 8 denetimi: temiz, koşulsuz yeni iş çıkmadı
 
 **Neden şimdi:** Birikimde koşulsuz somut iş yok; TASARIM DENETİMİ sürüyor (hiç denetlenmemiş Bölüm 8, Kitap 1 sonu
