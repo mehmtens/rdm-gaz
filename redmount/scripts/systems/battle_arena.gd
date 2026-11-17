@@ -48,7 +48,19 @@ signal wave_changed(wave: int, total: int, remaining: int)
 ## bölüm bazında kapatılabilir.
 @export var mercy_between_waves: bool = true
 
+## Arena bitişinde eli boş oyuncuya yakın silah: DTM arenaları dövüşü bitiren
+## oyuncuyu sıradaki kalabalığa silahla yollar. Yalnız elinde de yedekte de silah
+## yokken; silahlı oyuncuya ikinci silah düşmez (ekonomi şişmez). Bölüm bazında
+## kapatılabilir.
+@export var empty_hand_weapon: bool = true
+
 const MERCY_PICKUP := preload("res://scenes/pickups/HealthPickup.tscn")
+## Eli boş oyuncuya arena sonu silahı — kırılabilir yakın silahlar (atış/anahtar yok).
+const EMPTY_HAND_WEAPONS: Array[PackedScene] = [
+	preload("res://scenes/pickups/BatPickup.tscn"),
+	preload("res://scenes/pickups/KnifePickup.tscn"),
+	preload("res://scenes/pickups/SemsiyePickup.tscn"),
+]
 ## Eşik ve iyileşme insan testi gelene kadar hipotez (bkz. tur günlüğü).
 const MERCY_HP_FRAC := 0.35
 
@@ -298,7 +310,26 @@ func _finish() -> void:
 		# + kıvılcım ödülü düştüğü yeri duyurur ("TEMİZ!" vurgusuyla uyumlu ton,
 		# additive değil okunur). Gecikmeli: ödül bir frame sonra ekleniyor.
 		_announce_reward.call_deferred(rpos)
+	_maybe_weapon_drop()
 	cleared.emit()
+
+
+## Eli boş oyuncuya arena sonunda bir yakın silah (ödülün sağında, arena içinde).
+## Seçim arenanın konumundan türetilir: aynı arena her oynayışta aynı silahı verir.
+func _maybe_weapon_drop() -> void:
+	if not empty_hand_weapon:
+		return
+	var p := get_tree().get_first_node_in_group(&"player") as Node2D
+	if p == null or not p.has_method(&"has_weapon") or p.has_weapon():
+		return
+	if p.has_method(&"has_stash") and p.has_stash():
+		return
+	var idx := absi(int(gate_left_x / 64.0)) % EMPTY_HAND_WEAPONS.size()
+	var w: Node2D = EMPTY_HAND_WEAPONS[idx].instantiate()
+	var mid := (gate_left_x + gate_right_x) * 0.5
+	var wx := clampf(mid + 90.0, gate_left_x + 40.0, gate_right_x - 40.0)
+	w.global_position = Vector2(wx, floor_y - 60.0)
+	get_parent().add_child.call_deferred(w)
 
 
 ## Ödül düşüş vurgusu: genişleyen altın halka + yukarı kıvılcım patlaması.

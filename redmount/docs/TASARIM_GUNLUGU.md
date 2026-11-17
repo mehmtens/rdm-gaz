@@ -16,8 +16,10 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   gündüz Bölüm 28 kule hüzmesi parlak deniz üstünde görünmezdi; hüzmeye aynı dokudan normal-blend sıcak toz konisi
   alt katmanı eklendi, `_Searchlight` / `dtm_level.gd`; gündüz okunur, gece additive parlama korundu, kare kare
   doğrulandı).** Kalan: gündüz tüfek telegrafının kendisi (ünlem+kontur) ayrı; insan testinde ölçülsün. (4) iki ağır dövüş (arena + kapı önü) arka arkaya, arada düz geçiş kısa;
-  1. kitap doruğu olduğu için kasıtlı olabilir — insan testinde yorgunluk ölçülsün. (5) Bölüm 9 arena bitiş ödülü sabit
-  (HEALTH); oyuncu silahsızsa yakın silah da düşmesi dövüş çeşitliliğini artırır (düşük öncelik, elle veri).
+  1. kitap doruğu olduğu için kasıtlı olabilir — insan testinde yorgunluk ölçülsün. ~~(5) Bölüm 9 arena bitiş ödülü sabit
+  (HEALTH); oyuncu silahsızsa yakın silah da düşmesi dövüş çeşitliliğini artırır~~ **(tur 258: genel kural —
+  `BattleArena._maybe_weapon_drop`, eli ve yedeği boş oyuncuya arena sonunda sopa/bıçak/şemsiye; elle veri yerine 75
+  arenanın hepsine)**.
 
 - (Tur 244 hareket hissi denetimi, etki/maliyet sırasıyla; 1 aynı turda yapıldı) ~~(1) tavan köşesi düzeltmesi~~ ·
   ~~(2) kenar tırmanma yardımı~~ **(tur 245)** · ~~(3) tepe yarı yerçekimi~~ **(tur 246)** · ~~(4) dash/yürüyüş basamak düzeltmesi~~ **(tur 247: ölçüldü, gerek
@@ -7935,3 +7937,23 @@ bot "stall" süreleri (23 sn, 28 sn) arena dalgalarıyla örtüşüyor, takılma
 kapalı; bu denetim yeni iş çıkarmadı → otomasyon durdu. Açık birikim maddeleri insan/telefon testine bağlı (tüfek
 telegrafı ölçümü, kitap doruğu yorgunluğu, Survival rim, düşman tip rengi, ses/mix, font metriği).
 **Sonraki öneri:** telefonda insan oyun testi; bulgular birikime yazılınca otomasyon yeniden iş alır.
+
+### 2026-11-17 — Arena sonu silahı: eli boş oyuncuya yakın silah (tur 258, birikim Tur 250/5)
+
+**Neden şimdi:** stil listesi, yol haritaları ve P1 kapalı; tur 257'de 36 bölüm denetimi bitmişti ama birikimde tek
+otonom madde açık kalmıştı (Tur 250 denetimi, madde 5: Bölüm 9 arena ödülü sabit can; silahsız oyuncuya yakın silah).
+**Oyuncu ne hissedecek:** yumrukla kilitli bir arenayı kapatan oyuncu "TEMİZ!" sonrası ödülün sağında bir sopa / bıçak /
+şemsiye bulur ve sıradaki kalabalığa silahla girer (DTM'deki arena sonu silah düşüşü hissi). Silahı olan oyuncu hiçbir
+şey fark etmez — ekonomi şişmez, silah yığılmaz.
+**Yapılan:** elle 75 `reward` satırına dokunmak yerine genel kural: `BattleArena._maybe_weapon_drop()` `_finish()`'te
+çağrılır; oyuncunun ne elinde (`has_weapon`) ne yedeğinde (`has_stash`) silah varsa ödülün 90 px sağına (arena içine
+kenetli) bir yakın silah düşer. Seçim `gate_left_x / 64` modundan: aynı arena her oynayışta aynı silahı verir (rastgele
+değil, öğrenilebilir). Atış silahları ve anahtar havuzda yok. `empty_hand_weapon` ile bölüm bazında kapatılabilir.
+**Sayılar (hipotez):** yalnız tamamen eli boşken — yedeği doluysa zaten kırılınca ele gelir. Sopa/bıçak/şemsiye kırılabilir
+sınırlı kullanımlı olduğundan bedava ama kalıcı güç değil. İnsan testinde "çok sık silah" hissi çıkarsa koşul "can ödülü
+olan arenalar" ile daraltılsın.
+**Görsel:** yeni görsel yok; mevcut piksel art silah pickup sahneleri kullanılıyor.
+**Testler:** `--import` SCRIPT ERROR yok; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn` PASS;
+`tests/arena_mercy.tscn` geçti; yeni `tests/arena_weapon_drop.tscn` PASS (eli boş → 1 silah; elde/yedekte silah veya kapalı
+arena → düşmez); bot Bölüm 1 (82,8 sn), 9 (131,2), 13 (60,9), 25 (89,7) CLEARED.
+**Sonraki öneri:** birikimin kalan açık maddeleri insan/telefon testine bağlı; otomasyon yeni otonom iş bulamadı → durdu.
