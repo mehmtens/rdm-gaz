@@ -441,10 +441,13 @@ func _do_chase(delta: float) -> void:
 			_enter_dash_prepare()
 		return
 
-	# Saldırı menziline kadar yaklaş.
+	# Saldırı menziline kadar yaklaş; önde aynı taraftan bir yakın dövüşçü varsa sırada bekle.
 	if adx > config.attack_range * 0.85:
 		var chase_dir := signf(dx)
-		velocity.x = chase_dir * config.move_speed if _safe_to_step(chase_dir) else 0.0
+		if _melee_ahead(dx) != null:
+			velocity.x = move_toward(velocity.x, 0.0, 900.0 * delta)
+		else:
+			velocity.x = chase_dir * config.move_speed if _safe_to_step(chase_dir) else 0.0
 	else:
 		velocity.x = move_toward(velocity.x, 0.0, 900.0 * delta)
 
@@ -549,6 +552,33 @@ func _ranged_neighbor(dx: float, ahead: bool) -> EnemyBase:
 		var theirs := absf(odx)
 		var in_front := theirs < mine or (theirs == mine and o.get_instance_id() < get_instance_id())
 		if in_front == ahead and absf(mine - theirs) < _RANGED_GAP:
+			return o
+	return null
+
+
+## Yakın dövüşçü sırası (tur 272, Bölüm 15/30 denetimi): aynı taraftan gelen yakın dövüşçüler
+## oyuncunun önünde tek noktaya yığılıp tek kara leke gibi okunuyordu (ayırma itişi 40 px'te,
+## kovalama hızı onu yeniyordu). Oyuncuya benden yakın, aynı taraftaki yakın dövüşçü aramızda
+## `_MELEE_GAP`'ten azsa döner; arkadaki durup bekler → okunur sıra. Saldırı sırası zaten
+## `_has_melee_turn` ile tek kişide; bu yalnız görsel dizilim. Patron sıraya girmez.
+const _MELEE_GAP := 58.0
+
+func _melee_ahead(dx: float) -> EnemyBase:
+	if config.is_boss:
+		return null
+	var mine := absf(dx)
+	for other in get_tree().get_nodes_in_group(&"enemy_ai"):
+		if other == self or not (other is EnemyBase) or not is_instance_valid(other):
+			continue
+		var o: EnemyBase = other
+		if o.is_dead() or o.config == null or o.config.is_ranged:
+			continue
+		var odx: float = _player.global_position.x - o.global_position.x
+		if signf(odx) != signf(dx) or absf(o.global_position.y - global_position.y) >= _SEP_Y:
+			continue
+		var theirs := absf(odx)
+		var in_front := theirs < mine or (theirs == mine and o.get_instance_id() < get_instance_id())
+		if in_front and mine - theirs < _MELEE_GAP:
 			return o
 	return null
 

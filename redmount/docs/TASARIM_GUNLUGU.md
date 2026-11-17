@@ -7,6 +7,18 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 272 denetimi, hiç denetlenmemiş Bölüm 15 ve 30 pencereli bot koşusu, 6 sn aralıklı 27 kare; etki/maliyet
+  sırasıyla, 1 aynı turda yapıldı) ~~(1) aynı taraftan gelen yakın dövüşçüler oyuncunun önünde tek noktaya yığılıyor
+  (ayırma 40 px, kovalama hızı onu yeniyor; ölçüm 38/33 px merkez aralığı — iki gövde tek kara leke)~~ **(tur 272:
+  `_melee_ahead` sırası, 56/56 px)** · (2) Bölüm 30 yanan arşivden evrak salonu arenasına can 24–36/115 ile giriliyor
+  (bot); arada dükkân + sandık yemeği + dalga arası merhamet var — açık yok, insan testinde arena giriş canı ölçülsün ·
+  (3) Bölüm 30 iç mekân (evrak salonu) koyu ceketli düşmanlar koyu ahşap rafların önünde düşük kontrastlı; gece
+  konturu açık ama iç mekânın sıcak ışığında zayıf kalıyor — insan testi "seçemedim" derse iç mekâna özel kontur
+  alfası · (4) Bölüm 15 betik başlığı "su çarkı (üst dişli yolu)" diyor ama bölümde çark mekaniği yok; dört iskele +
+  coin. Çark arka plan resminde var; dönen çark platformu yeni sanat + mekanik ister — insan testi "set-piece eksik"
+  derse · (5) Bölüm 15 üç arenasının üçü de düz sokak zemininde (çeşme, çark, teras); ikinci arena çark iskelelerini
+  arena içine alırsa dikey dövüş katmanı kazanır — yeni sanat yok, yalnız yerleşim; insan testi "arenalar aynı" derse.
+
 - (Tur 271 denetimi, Bölüm 19 bot koşusu + 36 bölüm can kaynağı ölçümü; 1 aynı turda yapıldı)
   ~~(1) yenilen/yere düşen düşman ve ölen oyuncu ayak noktası çevresinde döndürülünce gövdenin yarısı zemine gömülüyordu
   (38–59 px)~~ **(tur 271: `LieLift`)** · (2) son arenaya giden yolda can kaynağı: 33/36 bölümde garanti yemek var,
@@ -8209,3 +8221,21 @@ sonra kullanır. Eğimsizken 0 → dik duruş değişmez. Yeni sanat yok.
 pencereli çekimde (Bölüm 1) oyuncu ölümü ve zırhlı/eşkıya yatışı zemin üstünde; bot Bölüm 1 (90,9 sn), 13 (66,2 sn),
 19 (82,5 sn, pencereli), 25 (77,9 sn) CLEARED.
 **Sonraki öneri:** otonom iş yok; birikim Tur 271/3 (Kitap 2–3 kasa) ve /4 (HUD) insan testine bağlı.
+
+### 2026-11-18 — Yakın dövüşçüler sıraya giriyor: kalabalık tek leke olmuyor (tur 272, denetim: Bölüm 15 ve 30)
+
+**Neden:** stil listesi, iki yol haritası ve birikimin otonom maddeleri bitti → kural (d). Günlükte hiç denetlenmemiş iki
+bölüm kalmıştı: 15 (Zeyrek Su Hattı) ve 30 (Beylerbeyi İskele Arşivi). Pencereli bot koşusu (6 sn aralıklı 27 kare):
+ikisi de CLEARED (82,2 sn / 77,8 sn). Bölüm 30 evrak salonu arenasında üç düşman, Bölüm 15 terasında iki düşman oyuncunun
+önünde aynı noktada iç içe — kaç kişi olduğu ve kimin vuracağı okunmuyordu. Kök neden: `_apply_separation` 40 px'te
+150 hızla itiyor ama kovalama (95–165) onu yeniyor; saldırı sırası (`_has_melee_turn`) yalnız saldırıyı tek kişiye
+veriyor, bekleyenler yine oyuncunun dibine yürüyor. DTM'de kalabalık okunur bir sıra olur; oyuncu "sıradaki kim" görür.
+**Değişiklik:** `EnemyBase._melee_ahead` — kovalayan yakın dövüşçü, oyuncuya kendinden yakın ve aynı taraftaki bir yakın
+dövüşçünün 58 px'ten arkasındaysa durup bekler; öndeki düşünce boşluğu kapatır. Nişancıların kademeli hattıyla
+(`_ranged_neighbor`, 64 px) aynı kalıp. Patron ve nişancı sıraya girmez; sıçrayan/dash'li dalları etkilemez (yalnız
+yürüyerek yaklaşma dalı). 58 px: gövde 34 px + iki sprite'ın görünür yarısı birbirine değmeden ayrık okunur; hipotez.
+**Testler:** `--import` SCRIPT ERROR yok; `campaign_smoke` çıkış 0; `dtm_gaps` PASS; yeni `tests/melee_queue.tscn` PASS
+(eşkıya+zırhlı+eşkıya aynı taraftan: önce 38/33 px, sonra 56/56 px; öndeki silinince sıradaki 3 sn'de oyuncuya ulaşır);
+`ranged_spacing`, `arena_mercy`, `telegraph_mark`, `arena_pursuer`, `lie_lift` PASS; bot Bölüm 1 (82,1 sn), 13 (65,9 sn), 25 (78,5 sn), 15 (78,3 sn), 30 (84,1 sn) CLEARED.
+**Sonraki öneri:** birikim Tur 272/2–5 insan testine bağlı; otonom iş kalmadı.
+
