@@ -2066,12 +2066,23 @@ class _Searchlight extends Node2D:
 	const MIN_ANG := deg_to_rad(20.0)
 	const STEP := deg_to_rad(13.0)
 	var _t := randf() * 6.0
+	var _haze := Sprite2D.new()
 	var _beam := Sprite2D.new()
 	var _head := Sprite2D.new()
 
 	func _ready() -> void:
 		process_mode = Node.PROCESS_MODE_ALWAYS
 		texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		# Toz konisi: aynı huzme dokusu NORMAL blend ile. Gündüz (parlak deniz/
+		# gök) additive hüzme neredeyse görünmezken bu sıcak yarı saydam koni
+		# silüeti okunur kalır; gece additive parlamanın altında eriyip kaybolur.
+		_haze.texture = PIX_BEAM
+		_haze.centered = false
+		_haze.offset = Vector2(-PIX_BEAM.get_width() * 0.5, 8.0)
+		_haze.scale = Vector2(ART, ART)
+		_haze.z_index = -6
+		_haze.self_modulate = Color(1.0, 0.9, 0.68, 0.42)
+		add_child(_haze)
 		_beam.texture = PIX_BEAM
 		_beam.centered = false
 		# Huzme mercek ağzından başlar (mafsaldan 8 sanat pikseli önde).
@@ -2094,6 +2105,7 @@ class _Searchlight extends Node2D:
 		_t += delta
 		var ang := MIN_ANG + 2.0 * STEP + sin(_t * 0.6) * 2.0 * STEP
 		_beam.rotation = ang
+		_haze.rotation = ang
 		_head.frame = clampi(roundi((ang - MIN_ANG) / STEP), 0, 4)
 
 

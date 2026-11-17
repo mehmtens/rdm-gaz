@@ -10,8 +10,10 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 - (Tur 250 denetimi, Bölüm 9 — ödül/ritim; 1 aynı turda yapıldı) ~~(1) çok dalgalı arenada dalga arası nefes yok~~
   **(tur 250: düşük canlıya bir kez merhamet yemeği, `battle_arena.gd`)** · (2) arena bitiş ödülü (TEMİZ! + tek pickup)
   parlak sur arka planında az fark ediliyor olabilir — ödül düşerken kısa ışık halkası/parlama ölçülsün (insan testi).
-  (3) nişancı kule düşmanının ışıldak hüzmesi gündüz bölümlerde zayıf; gece net (Bölüm 9 t0072 gece, okunur). Gündüz
-  bölümde tüfek telegrafı kare kare bakılsın. (4) iki ağır dövüş (arena + kapı önü) arka arkaya, arada düz geçiş kısa;
+  ~~(3) nişancı kule düşmanının ışıldak hüzmesi gündüz bölümlerde zayıf~~ **(tur 252: kök neden saf ADD blend —
+  gündüz Bölüm 28 kule hüzmesi parlak deniz üstünde görünmezdi; hüzmeye aynı dokudan normal-blend sıcak toz konisi
+  alt katmanı eklendi, `_Searchlight` / `dtm_level.gd`; gündüz okunur, gece additive parlama korundu, kare kare
+  doğrulandı).** Kalan: gündüz tüfek telegrafının kendisi (ünlem+kontur) ayrı; insan testinde ölçülsün. (4) iki ağır dövüş (arena + kapı önü) arka arkaya, arada düz geçiş kısa;
   1. kitap doruğu olduğu için kasıtlı olabilir — insan testinde yorgunluk ölçülsün. (5) Bölüm 9 arena bitiş ödülü sabit
   (HEALTH); oyuncu silahsızsa yakın silah da düşmesi dövüş çeşitliliğini artırır (düşük öncelik, elle veri).
 
@@ -7784,3 +7786,40 @@ görüntüsünde düğmeler ve menü kontrol edildi; telefonda görülmedi.
 
 **Sonraki öneri:** Yol haritası 9 — bölüm sonu 3 yıldız (hız, hasarsızlık, gizli
 alan) + menüde toplam yıldız.
+
+### 2026-11-17 — Gözetleme kulesi hüzmesi gündüz okunurluğu (tur 252, birikim)
+
+**Neden şimdi:** Birikimin en üstündeki (Tur 250 denetimi) açık, otonom
+doğrulanabilir madde (3): nişancı kulesinin ışıldak hüzmesi gündüz bölümlerde
+zayıf, gece net. Yol haritaları ve P1 tablosu kapalı; bu madde görsel okunurluk
+sütununda somut ve kare kare doğrulanabilir.
+
+**Kök neden:** `_Searchlight._beam` saf `BLEND_MODE_ADD`. Additive ışık karanlık
+(gece) arka planda parlar ama zaten aydınlık (gündüz deniz/gök) yüzeye neredeyse
+hiçbir şey eklemez. Kule + ışık yalnız Bölüm 28 (gündüz) ve Bölüm 4/9/10/32/34/35/36
+(gece) var; Bölüm 5 kulesi `light=false`. Yani sorun fiilen tek gündüz bölümünde
+(28). Ekran görüntüsüyle doğrulandı: additive hüzme parlak deniz üstünde soluk bir
+leke, kule silüetine telegraf değeri katmıyordu.
+
+**Oyuncu ne hissedecek:** Gündüz kulenin altından inen ışık konisi artık net bir
+sıcak hüzme olarak okunuyor — kule hangi yöne baktığı/tarama yaptığı belli.
+
+**Yapılanlar:** `dtm_level.gd` `_Searchlight` sınıfına aynı `huzme.png` dokusundan
+NORMAL-blend bir `_haze` alt katmanı (self_modulate `(1.0,0.9,0.68,0.42)` sıcak
+yarı saydam, z_index -6, beam'in altında) eklendi; `_beam` ile aynı açıyla döner.
+Gündüz koni silüeti okunur, gece additive parlamanın altında eriyip görünmez kalır.
+Yeni geometrik çizim yok (PNG doku, sanat kuralına uygun).
+
+**Sayılar (hipotez):** Alfa 0,42 — gündüz deniz üstünde koni şekli belirgin ama
+dolu üçgen değil, hüzme dokusunun kendi kenar yumuşaması korunuyor. Sıcak ton
+(1.0,0.9,0.68) sahnenin sıcak anahtar ışığıyla uyumlu; soğuk deniz üstünde ayrışır.
+
+**Testler:** `--import` SCRIPT ERROR yok; `tests/campaign_smoke.gd` çıkış 0;
+`tests/dtm_gaps.tscn` PASS; bot Bölüm 1 (91,5 sn), 13 (61,1 sn), 25 (82,2 sn),
+28 (83,3 sn) CLEARED. 1280×720 ekran görüntüsü: Bölüm 28 (gündüz) hüzme konisi
+parlak deniz üstünde net ve sahneye ait; Bölüm 9 (gece) additive koni eskisi gibi
+parlak, toz katmanı yıkamadı.
+
+**Sonraki öneri:** Birikim (3) kalanı — gündüz tüfek telegrafının kendisi (ünlem +
+beyaz kontur) ayrı konu; insan testiyle ölçülmeli. Ya da birikim (2): arena bitiş
+ödülü parlak sur arka planında düşerken kısa ışık halkası (insan testine bağlı).
