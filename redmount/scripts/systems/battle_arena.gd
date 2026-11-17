@@ -289,11 +289,22 @@ func _finish() -> void:
 	Fx.popup(Vector2((gate_left_x + gate_right_x) * 0.5, floor_y - 130.0), "TEMİZ!", _accent, 30)
 	if reward != null:
 		var r: Node2D = reward.instantiate()
-		r.global_position = Vector2((gate_left_x + gate_right_x) * 0.5, floor_y - 60.0)
+		var rpos := Vector2((gate_left_x + gate_right_x) * 0.5, floor_y - 60.0)
+		r.global_position = rpos
 		# _finish() fizik sorgu akışı sırasında (düşman ölümü) çağrılabilir —
 		# Area2D ödülü doğrudan eklemek "flushing queries" hatası verir.
 		get_parent().add_child.call_deferred(r)
+		# Parlak sur arka planında tek pickup az fark ediliyor; sıcak altın halka
+		# + kıvılcım ödülü düştüğü yeri duyurur ("TEMİZ!" vurgusuyla uyumlu ton,
+		# additive değil okunur). Gecikmeli: ödül bir frame sonra ekleniyor.
+		_announce_reward.call_deferred(rpos)
 	cleared.emit()
+
+
+## Ödül düşüş vurgusu: genişleyen altın halka + yukarı kıvılcım patlaması.
+func _announce_reward(at: Vector2) -> void:
+	Fx.ring(at, Color(1.0, 0.86, 0.46), 12.0, 78.0, 0.42, 5.0)
+	Fx.spark(at, Vector2.UP, 12, Color(1.0, 0.9, 0.58), 1.3)
 
 
 # --- Bariyer görseli -------------------------------------------------

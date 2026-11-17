@@ -8,8 +8,10 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
 - (Tur 250 denetimi, Bölüm 9 — ödül/ritim; 1 aynı turda yapıldı) ~~(1) çok dalgalı arenada dalga arası nefes yok~~
-  **(tur 250: düşük canlıya bir kez merhamet yemeği, `battle_arena.gd`)** · (2) arena bitiş ödülü (TEMİZ! + tek pickup)
-  parlak sur arka planında az fark ediliyor olabilir — ödül düşerken kısa ışık halkası/parlama ölçülsün (insan testi).
+  **(tur 250: düşük canlıya bir kez merhamet yemeği, `battle_arena.gd`)** · ~~(2) arena bitiş ödülü (TEMİZ! + tek pickup)
+  parlak sur arka planında az fark ediliyor~~ **(tur 253: ödül düşerken sıcak altın genişleyen halka + yukarı kıvılcım
+  patlaması, `_announce_reward` / `battle_arena.gd`; yerleşik Fx his katmanı, "TEMİZ!" vurgusuyla aynı ton; Bölüm 28
+  rıhtımda doğrulandı — ödül yeri okunur. Parlak sur üstünde "yeterince patlıyor mu" nicel ölçüm insan testine kalır).
   ~~(3) nişancı kule düşmanının ışıldak hüzmesi gündüz bölümlerde zayıf~~ **(tur 252: kök neden saf ADD blend —
   gündüz Bölüm 28 kule hüzmesi parlak deniz üstünde görünmezdi; hüzmeye aynı dokudan normal-blend sıcak toz konisi
   alt katmanı eklendi, `_Searchlight` / `dtm_level.gd`; gündüz okunur, gece additive parlama korundu, kare kare
@@ -7823,3 +7825,35 @@ parlak, toz katmanı yıkamadı.
 **Sonraki öneri:** Birikim (3) kalanı — gündüz tüfek telegrafının kendisi (ünlem +
 beyaz kontur) ayrı konu; insan testiyle ölçülmeli. Ya da birikim (2): arena bitiş
 ödülü parlak sur arka planında düşerken kısa ışık halkası (insan testine bağlı).
+
+### 2026-11-17 — Arena bitiş ödülü düşüş vurgusu (tur 253, birikim)
+
+**Neden şimdi:** Tur 252'de birikim (3) kapandıktan sonra aynı grubun sıradaki
+açık maddesi (2): arena temizlenince düşen tek ödül (HealthPickup vb.) parlak sur /
+deniz arka planında az fark ediliyor olabilir. Okunurluk sütununda, görsel his
+katmanıyla çözülebilir, otonom test edilebilir.
+
+**Oyuncu ne hissedecek:** Arena bittiğinde "TEMİZ!" yazısıyla birlikte ödülün
+düştüğü noktada kısa bir sıcak altın halka genişler ve yukarı kıvılcım saçılır;
+göz doğrudan ödüle çekilir, kalabalık/parlak sahnede pickup kaybolmaz.
+
+**Yapılanlar:** `battle_arena.gd` `_finish()` ödül eklerken `_announce_reward(pos)`
+çağırıyor (ödül bir frame sonra `call_deferred` ile eklendiğinden vurgu da
+deferred): `Fx.ring(at, altın (1,0.86,0.46), r 12→78, 0.42 sn, kalınlık 5)` +
+`Fx.spark(at, yukarı, 12, sıcak)`. Yeni çevre/sprite sanatı değil — oyunun her
+yerde kullandığı yerleşik FX his katmanı (iniş halkası, şok, kıvılcım); sanat
+kuralı çevre/prop PNG'leri için, bu juice efektleri kapsam dışı.
+
+**Sayılar (hipotez):** Altın ton coin/"TEMİZ!" vurgusuyla uyumlu, soğuk denizde
+ayrışır; 0,42 sn kısa, dövüş sonrası nefesi bölmez; r1=78 ödül yarıçapından geniş
+ki pickup üstünde bir çember olarak algılansın.
+
+**Testler:** `--import` SCRIPT ERROR yok; `tests/campaign_smoke.gd` 36/36 çıkış 0;
+bot Bölüm 1 (78,2 sn) ve 28 (94,6 sn) — gerçek arena temizleme yolu `_announce_reward`
+tetikliyor — CLEARED. Geçici pencere sahnesiyle (silindi) Bölüm 28 rıhtımında efekt
+ayak dibinde sıcak okunur parlama olarak doğrulandı.
+
+**Sonraki öneri:** Birikim grubunun kalan maddeleri (gündüz tüfek telegrafı nicel
+ölçümü, 1. kitap doruğu yorgunluğu) insan testine bağlı. Sıradaki otonom aday:
+Tur 237 Survival denetimi (5) — Günün Dalgası koyu düşman okunurluğu için Survival'a
+özel zayıf kalıcı rim (insan testi bağımlı) ya da yeni bir tam bölüm denetimi.
