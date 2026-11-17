@@ -14,9 +14,10 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   insan testinde açılış zırhının zorluğu düşürüp düşürmediği ölçülsün, düşürüyorsa ödül kitap/bölüm başına değişsin
   (zırh / can / coin) · (3) 36 bölüm betiğinin yalnız 11'inde elle konmuş sır var (`_chimney`/`_secret_han`); kalan 25
   bölümün üç sırrı otomatik (mahzen + han + dam). DTM'de sır mekâna aittir — bölüm başına bir elle sır (mevcut iç mekân/
-  süslerle, yeni sanat yok) büyük ama değerli iş; insan testi "sırlar sıradan" derse bölüm bölüm yapılsın · (4) otomatik
-  han hedefleri bölüm genişliğinin %45/%75'i: birçok bölümde ikinci sır aynı göreli konumda; (3) yapılırsa kendiliğinden
-  çözülür · (5) mahzen dış cephesi (çatlak duvar + kiremit çatı) her biyomda aynı; Kitap 2/3 sur/tersane biyomlarında
+  süslerle, yeni sanat yok) büyük ama değerli iş; insan testi "sırlar sıradan" derse bölüm bölüm yapılsın · ~~(4) otomatik
+  han hedefleri bölüm genişliğinin %45/%75'i~~ **(tur 260: ölçüldü, gerek yok — hedef yalnız arama başlangıcı; sır en
+  yakın boş düz zemine kayıyor ve bölüm genişlikleri farklı: 36 bölümde mahzen dışı sırlar x=1398…10830 arasında
+  dağınık, iki bölümde aynı konum yok)** · (5) mahzen dış cephesi (çatlak duvar + kiremit çatı) her biyomda aynı; Kitap 2/3 sur/tersane biyomlarında
   yapıştırılmış durup durmadığı insan testinde sorulsun (yeni sanat gerektirir, ChatGPT tarzı kuralına tabi).
 
 - (Tur 250 denetimi, Bölüm 9 — ödül/ritim; 1 aynı turda yapıldı) ~~(1) çok dalgalı arenada dalga arası nefes yok~~
@@ -7989,3 +7990,15 @@ süsler mahzen içine sığıyor, kapı/duvara binmiyor, sahneye ait.
 `tests/cellar_variety.tscn` PASS (her mahzende tek zırh ödülü, ≥2 dizilim); `secret_reach` PASS (108), `secret_roll_clear`
 PASS (108 rulo), `secret_roll_visible` PASS, `coin_economy` PASS; bot Bölüm 1 (78,1 sn), 13 (67,8 sn), 25 (85,2 sn) CLEARED.
 **Sonraki öneri:** denetimin kalan maddeleri (2–5) insan testine bağlı ya da büyük elle tasarım işi; otonom iş kalmadı → durdu.
+
+### 2026-11-17 — Birikim (Tur 259/4) ölçüldü: han sırlarının konumu zaten dağınık (tur 260)
+
+**Neden:** stil listesi, iki yol haritası ve P1 kapalı; birikimde otonom görünen tek madde Tur 259 denetiminin (4)'üydü
+("otomatik han hedefleri genişliğin %45/%75'i, ikinci sır aynı göreli konumda").
+**Ölçüm:** `tests/secret_count.tscn` ile 36 bölümün sır x'leri alındı. `_auto_secrets` hedefi yalnız aramanın başlangıcı;
+sır hedefe en yakın boş, tavansız düz zemine kayıyor ve bölüm genişlikleri 9–18 bin px arasında değişiyor. Sonuç: mahzen
+dışındaki 72 sır x=1398…10830 arasında dağınık (ör. B1 1398/3510, B7 2950/8270, B24 6900/10830, B28 3600/4660); oyuncunun
+"hep aynı yerde" sezeceği bir kalıp yok. **Değişiklik yapılmadı.**
+**Sonuç:** birikimin kalan maddeleri (Tur 259/2, 3, 5 ve önceki açıklar) insan/telefon testine bağlı ya da elle büyük
+tasarım işi; 36 bölüm tur 257'ye kadar ayrı ayrı denetlendi. Otonom iş kalmadı → otomasyon durdu.
+**Sonraki öneri:** telefonda insan oyun testi (özellikle açılış zırhının zorluğa etkisi ve "sırlar sıradan mı" sorusu).
