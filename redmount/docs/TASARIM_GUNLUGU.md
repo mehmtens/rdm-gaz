@@ -289,6 +289,27 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-17 (233) — Denetim: Bölüm 20, 25 ve 35 gerçek karelerle — temiz; "gerçek kare" serisi tamam, otomasyon durdu
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Serinin son
+üç bölümü pencereli botla (`REDMOUNT_SNAP_DIR`, 1280×720, 10 sn arayla; 9–10 kare) oynatıldı.
+**Sonuç:** Bölüm 20 CLEARED 92,2 sn (0 ölüm; 11 sn duraklama x≈9875); Bölüm 25 CLEARED 86,6 sn (0 ölüm); Bölüm 35
+CLEARED 108,8 sn (1 ölüm; 20 sn duraklama x≈6953).
+- Bölüm 20: gece Samatya balıkçı çarşısı arenası (ağlar, tenteler, sur kuleleri), ay ışıklı kemer ve vapurlu Marmara,
+  vinçli antrepo, "SAMATYA ERZAKI", film rulolu ağ deposu ve "YENİKAPI" kapılı son arena; yapıştırma izi yok.
+- Bölüm 25: kitapçı yokuşu arenası, kâğıt asılı matbaa avlusu, baskı presi arenası, "MATBAA ERZAKI", damlar ve
+  "SİRKECİ" kapılı son arena; yapıştırma izi yok.
+- Bölüm 35: çiçekli hisar yokuşu (projektörlü iskele kulesi), hilal sancaklı hisar avlusu arenası, "HİSAR KİLERİ",
+  Ağır Zırhlı boss çubuğu, Boğaz kıyısı pres hattı ve sarmaşıklı hisar kapısı finali; ChatGPT arka planlarıyla
+  bütünleşik. Tek ölüm tur 194'te kaydedilen kışla arenası maddesiyle aynı bölge (insan testine bağlı).
+- Böylece 36 bölümün hepsi tur 214'ten beri gerçek pencereli karelerle denetlendi. Seri boyunca otonom düzeltilen
+  bulgular: HUD durum plakası (215), sinematikte kombo flaşı (227), film rulosu dünya yazısının duyuruyla çakışması
+  (228), kovalamaca uyarısının plakasız/kısa dünya yazısı olması (232).
+Kod değişmedi. Birikimin kalanı (dokunmatik ATIL konumu, coin toplama oranı, ses mix'i, İ/I kerning, düşman tipi atlas
+renkleri, arena ölüm eşikleri) insan/cihaz testine bağlı. Otomasyon durdu.
+**Sonraki öneri:** telefonda insan oyun testi — özellikle Bölüm 13/29 kovalamaca plakasının mobil üst bantta okunurluğu,
+KAY/ATIL düğme yerleri ve eşikteki arena ölümleri (Bölüm 4, 10, 18, 21, 35).
+
 ### 2026-11-17 (232) — Denetim: Bölüm 13 ve 16 gerçek karelerle; kovalamaca uyarısı HUD plakasında
 
 **Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Tur 231'in
