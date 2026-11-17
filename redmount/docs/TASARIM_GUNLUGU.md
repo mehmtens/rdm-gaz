@@ -428,6 +428,22 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-18 (278) — Bölüm 34 denetimi (Kandilli vericisi): temiz, koşulsuz yeni iş yok; otomasyon durdu
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve birikimin koşulsuz maddeleri bitti → kural (d). Bölüm 34 en son
+erken denetim dizisinde (Bölüm 18 ve 34) bakılmıştı; o günden beri eklenen sistemler (sıra bekleyen yakın dövüşçü, pres
+sesi, ön plan saydamlığı, LieLift) bu bölümde hiç görsel olarak kontrol edilmemişti. Pencereli bot koşusu (8 sn aralık, 9 kare).
+**Bulgular:** CLEARED 71,6 sn, 0 yeniden doğma; can eğrisi 115 → 109 (dam yolu) → 80 (pres hattı; bot iki kez prese
+yakalandı) → 91 (yemek) → son arena (2 dalga) en düşük ~49. Kitap 3 sonu için tur 273 eğrisiyle (4–36 arası) rahat
+tarafta, ani sıçrama yok. Ekranlar: çiçekli yamaç damları + film rulosu bildirimi (HUD'a binmiyor), su kemeri ve
+iskele kulesi, sırt kantini + presler, telsiz odası arenası (Boğaz pencereleri), iskele galerisi + Anadoluhisarı
+silüetli son arena — hepsi DTM düzeyinde; koyu ceketli düşmanlar gece konturuyla taş zeminde okunuyor; dalga sayacı,
+combo yazısı ve konuşma kutusu çakışmıyor. `stall=8s@9568` son arenanın dalga süresi. Pres hasarı botun zamanlama
+körlüğü (pres artık sesli + tozlu, tur 270); insan oyuncuyu temsil etmiyor.
+**Testler:** kod değişikliği yok; bot Bölüm 34 pencereli CLEARED.
+**Sonraki öneri:** Beş ardışık denetim (273, 276, 277, 278 temiz; 275 tek düzeltme) koşulsuz iş üretmedi. İnsan oyun
+testi verisi gelene kadar otomasyonun durması doğru; gelince birikim tur 271–275 koşullu maddeleri önceliklendirilsin.
+
 ### 2026-11-18 (277) — Bölüm 12 denetimi (Kitap 1 finali): temiz, koşulsuz yeni iş yok; otomasyon durdu
 
 **Neden şimdi:** Stil listesi, iki yol haritası ve birikimin koşulsuz maddeleri bitti → kural (d). Hiç denetlenmemiş
