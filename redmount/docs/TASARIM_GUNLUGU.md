@@ -289,6 +289,19 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-17 (219) — Denetim: en az denetlenen Bölüm 33 ve 34 gerçek karelerle — temiz, otomasyon durdu
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Günlükte en
+az anılan bölümler (33 → 14 anma, 34 → 16) pencereli botla (`REDMOUNT_SNAP_DIR`, 1280×720, 8 sn arayla) oynatıldı.
+**Sonuç:** Bölüm 33 CLEARED 99,2 sn (15 sn duraklama x≈8145 depo arenası, 61/115 canla), Bölüm 34 CLEARED 68,6 sn
+(5 sn duraklama x≈9525 final iskele arenası).
+- Bölüm 33: Vaniköy gece yalı sokağı (fenerler, begonvilli duvarlar), "YÜKLEME KİLERİ" iskele dükkânı, kemerli depo
+  arenası (DALGA 2/2, Bosphorus manzaralı kapı) ChatGPT arka planlarıyla bütünleşik; Gazelle/REDMOUNT telsizi okunur.
+- Bölüm 34: Kandilli yamacı gözetleme kulesi (tüfekli nişan ışığı net), sur üstü yol, "KANDİLLİ VERİCİSİ" iç mekânı
+  (bobinler, kontrol masası, cami siluetli pencereler) ve vinçli iskele finali; HUD plakası can/coin/bıçak/mermi/zırh
+  satırlarını sarıyor. Kombo etiketinde "İYİ" küçük ölçekte "|Y|" gibi okunuyor — bilinen PixelText İ/I kerning maddesi.
+Kod değişmedi; otonom düzeltilebilir yeni iş yok. Kalan birikim insan/cihaz testine bağlı. Otomasyon durdu.
+
 ### 2026-11-17 (218) — Denetim: en az denetlenen Bölüm 17 ve 29 gerçek karelerle — temiz, otomasyon durdu
 
 **Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan/cihaz testine bağlı. Günlükte en
