@@ -31,6 +31,16 @@ var _base: Vector2
 var _t: float = 0.0
 var _hit_lock: float = 0.0
 var _rod: Sprite2D
+## Önceki karede başlık dipte miydi (iniş anını bir kez yakalamak için).
+var _was_down: bool = false
+
+## İniş sesi (tur 270, ses denetimi): pres her inişte metal "gümler", altında toz kalkar.
+## Eskiden yalnız oyuncuya çarparsa sarsıntı/toz vardı, ses hiç yoktu — ritim tehlikesinde
+## oyuncu altından geçme zamanını kulakla da tutar. Sesi uzaklığa göre kısılır,
+## `SLAM_HEAR` px'ten uzakta hiç çalmaz (ekran dışındaki presler bölümü gürültüye boğmasın).
+const SLAM_NEAR := 380.0
+const SLAM_HEAR := 900.0
+const SLAM_FAR_DB := -22.0
 
 
 func _ready() -> void:
@@ -129,6 +139,11 @@ func _physics_process(delta: float) -> void:
 	position = _base + Vector2(0, drop_height * down)
 	_fit_rod()
 
+	var is_down := down >= 0.98
+	if is_down and not _was_down:
+		_on_slam()
+	_was_down = is_down
+
 	if down >= 0.98 and _hit_lock <= 0.0:
 		for b in _hit.get_overlapping_bodies():
 			if b.is_in_group(&"player") and b.has_method(&"apply_hit"):
@@ -136,6 +151,27 @@ func _physics_process(delta: float) -> void:
 				_hit_lock = period * 0.9
 				Combat.shake(5.0)
 				Fx.dust(global_position + Vector2(0, drop_height * 0 + thickness * 0.5), 0, 6)
+
+
+func _on_slam() -> void:
+	var db := slam_volume_db(_player_distance())
+	if is_nan(db):
+		return
+	Sfx.play(&"heavy_hit", 0.6, db)
+	Fx.dust(global_position + Vector2(0, thickness * 0.5), 0, 4)
+
+
+## Oyuncuya uzaklığa göre iniş sesi düzeyi; duyulmayacak kadar uzaksa NAN.
+static func slam_volume_db(dist: float) -> float:
+	if dist > SLAM_HEAR:
+		return NAN
+	var k := clampf((dist - SLAM_NEAR) / (SLAM_HEAR - SLAM_NEAR), 0.0, 1.0)
+	return lerpf(-2.0, SLAM_FAR_DB, k)
+
+
+func _player_distance() -> float:
+	var p := get_tree().get_first_node_in_group(&"player") as Node2D
+	return global_position.distance_to(p.global_position) if p != null else INF
 
 
 ## Kirişe bağlı kol: üst ucu kirişte sabit, boyu başlığın o anki konumuna göre.

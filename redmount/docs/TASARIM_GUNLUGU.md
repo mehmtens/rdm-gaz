@@ -7,6 +7,11 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 270 "sessiz olay" denetimi: görsel efekt üretip `Sfx` çağırmayan betikler tarandı; 1 aynı turda yapıldı)
+  ~~(1) ezici presler (7 bölüm) inişte sessiz, toz/sarsıntı yalnız oyuncuya çarpınca~~ **(tur 270)** · Kalanlar
+  sessiz kalmalı ya da tek seferlik: `backdrop.gd` (arka plan), `bolum08/11` açılış tozu, `bolum10` kıvılcım süsü,
+  `book03_level12` bilgi yazısı — oyun olayı değil, ses gerekmez.
+
 - (Tur 265 ses/müzik denetimi, Bölüm 1/13 bot koşusunda Sfx çalışları sayıldı; etki/maliyet sırasıyla, 1 aynı turda
   yapıldı) ~~(1) 12'lik ses havuzu körlemesine sırayla çalınıyordu: çalışların %14'ü çalan bir sesi kesiyordu (sancak,
   düşman yıkılışı, zırh/silah kırılması dahil); çoklu vuruşta aynı ses aynı karede 2–3 kez üst üste biniyordu~~
@@ -8161,4 +8166,19 @@ yıkılış seslerine uygulandı; savuruş/kalkan sesleri zaten saldırı türü
 (çevik > eşkıya = 1,0 > zırhlı, uç oranı > 1,25, boss tabanı); `telegraph_mark` PASS; bot Bölüm 1 (78,7 sn),
 13 (59,9 sn), 25 (88,4 sn) CLEARED.
 **Sonuç:** Tur 265 ses denetiminin beş maddesinin hepsi uygulandı; kalan yalnız insan kulağına bağlı placeholder klip/mix.
+
+### 2026-11-17 — Pres inişine ses ve toz (tur 270, denetim: sessiz olaylar)
+
+**Neden:** birikimin otonom maddeleri bitti → kural (d). Ses sütununun devamı: "görsel efekt üretip ses çalmayan" betikler
+tarandı. Tek gerçek oyun olayı ezici pres çıktı (`crusher.gd`; Bölüm 7, 11, 22, 24, 34, 35): oyuncunun ritimle altından
+geçtiği tehlike inişte hiç ses çıkarmıyordu, toz ve sarsıntı yalnız oyuncuya çarparsa vardı. Pres hattında zamanlama
+kulakla tutulur ("güm — geç — güm"); sessiz pres okunurluğun yarısını kaybediyordu.
+**Değişiklik:** başlık dibe vardığı karede bir kez `heavy_hit` perde 0,6 (kalın metal gümleme; yeni klip gerekmedi) +
+küçük toz. Düzey oyuncuya uzaklıkla: 380 px'e kadar −2 dB, 900 px'e doğru −22 dB'e iner, 900 px ötesinde çalmaz
+(ekran yarı genişliği ~640 px; ekran dışı presler bölümü gürültüye boğmasın). Senkron pres sıralarında (`_press_gantry`)
+aynı kare birleştirmesi (tur 265) tek, biraz daha güçlü gümleme verir. Oyuncuya çarpınca mevcut sarsıntı/toz korunur.
+**Testler:** `--import` SCRIPT ERROR yok; `campaign_smoke` çıkış 0; `dtm_gaps` PASS; yeni `tests/crusher_slam.tscn` PASS
+(yakında 2 sn'de 2 iniş sesi, uzaklıkla kısılır, 5000 px'te sessiz); `crusher_beam` PASS; bot Bölüm 7 (95,3 sn; 20 sn
+takılma @5803 önceki ölçümle aynı, dökümhane arenası), 22 (69,8 sn), 34 (79,0 sn) CLEARED.
+**Sonraki öneri:** otonom iş kalmadı; ses/müzik dengesi (25 placeholder klip, düzeyler) telefonda insan kulağıyla.
 
