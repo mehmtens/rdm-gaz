@@ -26,6 +26,12 @@ const BAND := 110.0
 ## olarak arena içinde tetikleniyordu; oyuncu dövüşürken okuyamıyordu.
 const HOLD_IN_ARENA := ["gazelle", "redmount"]
 const CALM := 0.8
+## Arena kapısı kapanırken AÇIK olan dost satırı: okuma süresinin (yazılış + bekleme) en çok
+## bu kadarı geçtiyse panelden çekilir, kuyruğun başına döner ve dövüş bitince baştan okunur.
+## Tur 255 denetimi: Bölüm 30/31/32/34'te bir sonraki hedefi söyleyen satır arenadan
+## 160–540 px önce tetikleniyor, okunmadan dövüşe karışıyordu. Okumanın çoğu bittiyse
+## satır yerinde kalır (yarım cümleyi tekrar etmek ritmi bozar).
+const REQUEUE_BEFORE := 0.6
 
 static var _instance: RadioPanel
 
@@ -40,6 +46,9 @@ var _hold := 0.0
 var _slide := 0.0
 var _active := false
 var _calm := 0.0
+var _cur: Array = []
+var _age := 0.0
+var _life := 1.0
 
 
 ## `urgent`: senaryolu, dövüşün içindeki anı anlatan satır (ör. Bölüm 20 "Kemal kaçıyor!");
@@ -58,6 +67,13 @@ func _held(it: Array) -> bool:
 	if not HOLD_IN_ARENA.has(it[0]):
 		return false
 	return _calm > 0.0
+
+
+## Bu satır dost hikâye satırı mı (acil değil)? Dövüşte beklemeye tabi olanlar.
+func _held_now(it: Array) -> bool:
+	if it.is_empty() or (it.size() > 3 and it[3]):
+		return false
+	return HOLD_IN_ARENA.has(it[0])
 
 
 ## Telsiz şu an üst bantta ne kadar yer kaplıyor: HUD'un üst öğeleri (dalga rozeti, kombo,
@@ -112,20 +128,27 @@ func _process(delta: float) -> void:
 		_panel.modulate.a = 0.0
 		return
 	if BattleArena.player_in_combat(get_tree()):
+		if _calm <= 0.0 and _active and _held_now(_cur) and _age < _life * REQUEUE_BEFORE:
+			_queue.push_front(_cur)
+			_active = false
 		_calm = CALM
 	else:
 		_calm = maxf(_calm - delta, 0.0)
 	if not _active and not _queue.is_empty() and not _held(_queue[0]):
 		var it: Array = _queue.pop_front()
+		_cur = it
 		_portrait.texture = PORTRAITS.get(it[0], PORTRAITS["telsiz"])
 		_name.text = String(it[1])
 		_name.add_theme_color_override(&"font_color", NAME_COLOR.get(it[0], NAME_COLOR["telsiz"]))
 		_full = String(it[2])
 		_shown = 0.0
 		_hold = HOLD + _full.length() * 0.02
+		_age = 0.0
+		_life = _full.length() / CHARS_PER_SEC + _hold
 		_active = true
 		Sfx.play(&"checkpoint", 1.8, -12.0)
 	if _active:
+		_age += delta
 		_slide = minf(_slide + delta * 6.0, 1.0)
 		if _shown < _full.length():
 			_shown += delta * CHARS_PER_SEC

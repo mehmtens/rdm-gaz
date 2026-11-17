@@ -55,5 +55,42 @@ func _ready() -> void:
 	assert(not rp._active, "TEMİZ! okunmadan satır çıkmamalı")
 	await get_tree().create_timer(1.1).timeout
 	assert(rp._active and rp._full == "Bitti.", "arena temizlenince satır çıkmalı")
+	rp._active = false
+
+	# Tur 255: arena kapısı, açık dost satırın okunması bitmeden kapanırsa satır
+	# panelden çekilir ve dövüş bitince baştan çıkar.
+	var arena2 := BattleArena.new()
+	arena2.gate_left_x = 2000.0
+	arena2.gate_right_x = 3000.0
+	add_child(arena2)
+	p.position.x = 1500.0
+	await get_tree().create_timer(1.0).timeout
+	RadioPanel.say(get_tree(), "gazelle", "GAZELLE", "Hedef: Çengelköy sahil konağı.")
+	await _frames(10)
+	assert(rp._active, "arena dışında satır çıkmalı")
+	arena2._active = true
+	p.position.x = 2500.0
+	await _frames(3)
+	assert(not rp._active and rp._queue.size() == 1, "yarım okunan dost satır dövüşte çekilmeli")
+	arena2._done = true
+	await get_tree().create_timer(1.1).timeout
+	assert(rp._active and rp._full == "Hedef: Çengelköy sahil konağı." and int(rp._shown) < 20,
+		"satır dövüşten sonra baştan çıkmalı")
+	rp._active = false
+
+	# Okuması çoğunlukla bitmiş satır dövüş başlasa da yerinde kalır.
+	var arena3 := BattleArena.new()
+	arena3.gate_left_x = 4000.0
+	arena3.gate_right_x = 5000.0
+	add_child(arena3)
+	p.position.x = 3500.0
+	await get_tree().create_timer(1.0).timeout
+	RadioPanel.say(get_tree(), "redmount", "REDMOUNT", "Kısa.")
+	await get_tree().create_timer(2.2).timeout
+	assert(rp._active, "kısa satır hâlâ açık olmalı")
+	arena3._active = true
+	p.position.x = 4500.0
+	await _frames(3)
+	assert(rp._active and rp._queue.is_empty(), "çoğu okunmuş satır kesilmemeli")
 	print("RADIO ARENA HOLD: PASS")
 	get_tree().quit(0)

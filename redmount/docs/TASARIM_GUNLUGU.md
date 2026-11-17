@@ -7884,3 +7884,28 @@ birikim maddeleri (tüfek telegrafı nicel ölçümü, kitap doruğu yorgunluğu
 rim, düşman tip rengi, ses/mix, font metriği) insan/ses yargısına veya büyük sanat
 turuna bağlı — otonom körlemesine yapılmamalı. Sonraki tur: başka bir bölüm denetimi
 ya da insan geri bildirimi.
+
+### 2026-11-17 — Denetim Bölüm 30: arenadan hemen önce açılan hikâye satırı dövüşe taşıyordu (tur 255)
+
+**Neden şimdi:** tüm listeler (stil, yol haritası, P1, otonom birikim) kapalı; öncelik (d) denetim. Kayıtlarda ayrı
+denetimi olmayan Bölüm 30 (Beylerbeyi arşivi) pencereli botla 15 sn arayla oynatıldı (6 kare, CLEARED 78 sn).
+**Bulgu:** `b30/t0060` karesinde Gazelle'in bir sonraki bölümün hedefini söyleyen satırı ("Kasada mühür odasının yeri:
+Çengelköy sahil konağı.") `DALGA 1/2 · 3 DÜŞMAN` sürerken üst bantta. Tur 248 kuralı yalnız arena İÇİNDE tetiklenen
+satırı bekletiyor; arenadan önce açılan satır "kesilmez" diye dövüşe taşıyor. Statik tarama: 36 bölümde arena kapısından
+≤600 px önce tetiklenen 4 dost satır var, dördü de hikâyenin kilit/yön satırı — B30 (408 px), B31 "Kâtip... Nüzhet
+Hanım" (163 px), B32 "tekne Vaniköy iskelesine" (335 px), B34 "Kumanda Anadoluhisarı'nda" (543 px). Satır ~4,5–5 sn
+açık kalıyor; koşan oyuncu bu mesafeyi 1,5–2 sn'de geçer.
+**Oyuncu ne hissedecek:** kapılar kapanırken yarım okunmuş satır panelden kayıp çekilir, "TEMİZ!"den 0,8 sn sonra
+baştan gelir; hedef bilgisi dövüş gürültüsünde kaybolmaz. Okumanın çoğu bitmişse satır yerinde kalır.
+**Yapılan:** `RadioPanel.REQUEUE_BEFORE = 0,6`: dövüş başladığı karede açık satır dost + acil değilse ve okuma süresinin
+(yazılış + bekleme) %60'ı dolmadıysa kuyruğun başına döner. Satırları elle kaydırmak yerine genel kural seçildi: yeni
+bölüm düzenlemelerinde de korur, dört bölümün yerleşimine dokunmaz.
+**Sayılar (hipotez):** %60 — yazılış ~1,3 sn + bekleme ~3,4 sn; ilk ~2,8 sn içinde kapı kapanırsa oyuncu cümleyi
+büyük ihtimalle bitirmemiştir. Sonrası tekrar okutmak sıkıcı olur. İnsan testinde "satır iki kez çıktı" rahatsız
+ederse eşik düşürülsün.
+**Diğer kareler:** iskele/bahçe/arşiv rafları/arka iskele DTM kalitesinde, combo ve dalga rozeti okunur; başka ucuz kusur yok.
+**Testler:** `--import` SCRIPT ERROR yok; `tests/campaign_smoke.gd` çıkış 0; `tests/dtm_gaps.tscn` PASS;
+`tests/radio_arena_hold.tscn` PASS (iki yeni durum: yarım okunan satır dövüşte çekilip sonra baştan çıkar; çoğu okunmuş
+satır kesilmez); bot Bölüm 1 (78,1 sn), 13 (64,0), 25 (94,7), 30 (81,6), 31 (86,9), 32 (78,1), 34 (79,0) CLEARED.
+**Sonraki öneri:** birikimin açık maddeleri insan/telefon testine bağlı. Ayrı denetimi olmayan Bölüm 10, 16, 27, 29,
+36 sıradaki otonom denetim adayları.
