@@ -7,6 +7,11 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 280 denetimi, Bölüm 4 pencereli bot koşusu; 1 aynı turda yapıldı) ~~(1) film rulosu duyurusu telsiz açıkken
+  ipucu balonunu örtüyordu~~ **(tur 280: `HintTrigger._banner_push`)** · (2) bot kontrol kulübesi arenasından 23/115
+  canla çıkıp hendek köprüsünde öldü (yalnız pencereli koşuda; headless koşu CLEARED 110,6 sn); arena ödülü can + hemen sağda kantin var — insan
+  testinde arena çıkış canı ölçülsün, "köprüde öldüm" derse hendek bıçaklısı (6720) 100 px sağa.
+
 - (Tur 275 denetimi, hiç denetlenmemiş Bölüm 24 — Kitap 2 finali, Bozdoğan Kemeri — pencereli bot koşusu (181 sn,
   CLEARED, 0 respawn, en düşük hp ~39) + 6 mekân ekran görüntüsü; DTM sütunlarıyla karşılaştırıldı. Görsel kalite
   DTM düzeyinde: zengin arka plan, net silüet, okunur düşmanlar, 12 mekânlı ritim, katmanlı rota (üst bakım yolu),
@@ -427,6 +432,26 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-18 (280) — İpucu balonu sır/mekân duyurusunun altına iniyor (Bölüm 4 denetimi + düzeltme)
+
+**Neden şimdi:** Stil listesi, iki yol haritası ve birikimin koşulsuz maddeleri bitti → kural (d). Hiç denetlenmemiş
+Bölüm 4 (Silahlı Kontrol Bölgesi) pencereli bot koşusuyla (8 sn aralık, 14 kare) oynandı.
+**Bulgular:** CLEARED 110,9 sn, 1 yeniden doğma. Ekranlar (kum torbası ateş hattı, kontrol kulübesi arenası — dalga
+sayacı + EFSANE x14 çakışmasız, SINIR KANTİNİ, kule köprüsü + projektör, bariyer düellosu) DTM düzeyinde.
+(1) **Çakışma (koşulsuz, düzeltildi):** 3150'deki film rulosu duyurusu, telsiz kutusu üst bandı aşağı ittiği için
+Kalkanlı Zabıta ipucu balonunun üst satırlarını örtüyordu (ipucu gerçek zamanlı koşuda; tur 276'da Bölüm 8'de görülen
+çakışma ışınlama artefaktı sanılmıştı, bu ikinci ve gerçek kanıt). Oyuncu sırrı bulduğu anda, mekaniği öğreten metni
+okuyamıyordu. (2) Ölüm: bot arenadan 23/115 canla çıkıp kantinden can almadan (bot dükkân kullanmaz) hendek köprüsünde
+tüfekli + bıçaklı arasında düştü — insan oyuncuyu temsil etmiyor; birikime yazıldı.
+**Ne yapıldı:** `_PlaceBanner` `place_banner` grubuna girdi ve `screen_rect()` veriyor; `HintTrigger._banner_push`
+balonu ekran koordinatında plakayla karşılaştırıp aşağı kaydırıyor (yumuşak, 420 px/sn), alt kenar en fazla −70'e iner
+(oyuncunun başı ~−60). Duyuru sönünce balon yerine döner. İpucu gecikmiyor/kaybolmuyor — bekletme seçeneği reddedildi:
+tetik 110 px, kalma 1,8 sn; 5,5 sn bekleyen balon oyuncu geçtikten sonra ekran dışında açılırdı.
+**Testler:** yeni `tests/hint_banner_dodge.tscn` (telsiz + duyuru + 4 satırlık ipucu, 1280×720 pencereli: plaka alt
+343, balon üst 343, PASS; görüntü Read ile bakıldı — üç kutu da okunur); import (SCRIPT ERROR 0), 36 sahne smoke çıkış 0, DTM GAPS PASS, bot Bölüm 1 CLEARED 75,5 sn, Bölüm 4
+CLEARED 110,6 sn, Bölüm 13 CLEARED 65,9 sn.
+**Sonraki öneri:** Denetlenmemiş kalan bölümler 6, 14, 18, 21, 25, 32.
 
 ### 2026-11-18 (279) — Bölüm 2 denetimi (Kitap 1, kasap düellosu): temiz, koşulsuz yeni iş yok; otomasyon durdu
 

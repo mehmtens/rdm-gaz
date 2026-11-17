@@ -926,6 +926,7 @@ class _PlaceBanner extends Control:
 		mouse_filter = Control.MOUSE_FILTER_IGNORE
 		texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 		visible = false
+		add_to_group(&"place_banner")  # ipucu balonları alt kenarından kaçar (tur 280)
 		_story = Label.new()
 		_story.set_anchors_preset(Control.PRESET_TOP_WIDE)
 		_story.offset_top = 62.0
@@ -983,6 +984,13 @@ class _PlaceBanner extends Control:
 		modulate.a = clampf(minf(_t * 3.0, (HOLD - _t) * 2.0), 0.0, 1.0)
 		if _t >= HOLD:
 			visible = false
+
+	## Ekrandaki duyurunun kapladığı alan (başlık + plaka), görünmüyorsa boş Rect2.
+	## Dünya-uzayı ipucu balonları bu alanın altına iner (HintTrigger).
+	func screen_rect() -> Rect2:
+		if not visible or modulate.a < 0.05:
+			return Rect2()
+		return get_global_rect().merge(_story.get_global_rect())
 
 	func _draw() -> void:
 		PixelText.sign_board(self, Vector2(size.x * 0.5, 29.0), _title, _accent, PX, false)

@@ -43,6 +43,11 @@ var _timer: float = 0.0
 ## geçilen iki ipucu aynı anda açılıyordu).
 var _gone: bool = false
 static var _current: HintTrigger
+## Mekân/sır duyurusu (HUD `place_banner`) balonun üstüne binince balon aşağı iner
+## (tur 280, Bölüm 4: film rulosu plakası Kalkanlı Zabıta ipucunu örtüyordu).
+var _push: float = 0.0
+## Balonun alt kenarı en fazla buraya iner: oyuncunun başının (~−60) hemen üstü.
+const LOWEST_BOTTOM := -70.0
 
 
 func _ready() -> void:
@@ -121,6 +126,29 @@ func _process(delta: float) -> void:
 	_fade = move_toward(_fade, target, delta * 3.5)
 	_bubble.modulate.a = _fade
 	# Baloncuk alt kenarından sabitlenir; metin uzadıkça yukarı doğru büyür.
-	_bubble.position = Vector2(-WIDTH * 0.5, -150.0 - _bubble.size.y - _fade * 10.0)
+	var top := -150.0 - _bubble.size.y - _fade * 10.0
+	_push = move_toward(_push, _banner_push(top) if _fade > 0.001 else 0.0, delta * 420.0)
+	_bubble.position = Vector2(-WIDTH * 0.5, top + _push)
 	if _fade <= 0.001 and _shown and (_gone or (not _inside and _timer <= 0.0)):
 		set_process(false)
+
+
+## Balonun duyuru plakasından kurtulmak için inmesi gereken yerel px (0 = çakışma yok).
+## Ekran koordinatında karşılaştırılır: HUD bir CanvasLayer, balon dünya-uzayında.
+func _banner_push(top: float) -> float:
+	var xf := get_global_transform_with_canvas()
+	var a := xf * Vector2(-WIDTH * 0.5, top)
+	var b := xf * Vector2(WIDTH * 0.5, top + _bubble.size.y)
+	var bubble := Rect2(a, b - a).abs()
+	var need := 0.0
+	for n in get_tree().get_nodes_in_group(&"place_banner"):
+		if not n.has_method(&"screen_rect"):
+			continue
+		var r: Rect2 = n.screen_rect()
+		if r.size == Vector2.ZERO or r.end.x < bubble.position.x or r.position.x > bubble.end.x:
+			continue
+		need = maxf(need, r.end.y + 8.0 - bubble.position.y)
+	if need <= 0.0:
+		return 0.0
+	var sy := maxf(xf.get_scale().y, 0.001)
+	return minf(need / sy, maxf(0.0, LOWEST_BOTTOM - (top + _bubble.size.y)))
