@@ -7,6 +7,24 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 294 denetimi, günlükte en az denetlenen bölümlerden Bölüm 26 — Sirkeci Sevkiyatı, Kitap 3 / "İstanbul'un Sesi"
+  2. bölüm, gündüz gar — headless bot (CLEARED @9758, 82,1 sn, 0 respawn; indeks 25) + 7 mekân pencereli ekran görüntüsü;
+  DTM sütunlarıyla karşılaştırıldı. Görsel kalite DTM düzeyinde ya da üstü: pirinç satıcılı gar cephesi + Boğaz/cami
+  silüeti, lacivert yolcu vagonları önünde net okunan kukuletalı düşman, iki katlı bekleme salonu, tuğla su kulesi +
+  liman vinci/asılı yük, gotik pencereli sevk odası iç mekânı (raf/evrak/lamba). Taşma, kalıcı dikiş, gömülü gövde,
+  okunmayan HUD yok; `_fg` kolon oyuncu hizasında 0.4 alfaya yumuşuyor, `dark_rim` düşmanları ahşaptan ayırıyor.
+  Hepsi insan testine bağlı — otonom değişiklik yapılmadı) (1) botun can eğrisi arka yük peronu arenasında (x=7900–8700,
+  `_fight` ELITE+BOMBER → BRUISER+SHIELD+ASSASSIN, **ödülsüz**) 54→9 cana düştü, 11 sn takıldı; bot yine 0 respawn
+  CLEARED. Ödülsüzlük Kitap 3 kuralı (her bölümde yalnız ilk arena AMMO verir; bolum25–33 hepsinde böyle) — convention'a
+  uygun, kurtarma var: hemen önünde baca ARMOR (7670,−470) + `_checkpoint(7850)`, hemen sonra sevk odası HEALTH (9320).
+  İnsan testi "arka peronda öldüm, baca zırhını atladım" derse: arena girişine (x≈7880, zemin) tek görünür HEALTH ·
+  (2) açılış gar meydanı (x≈240) ve gar cephesi gündüz/aydınlık; okunurluk sorunu yok, gece bölümlerindeki spawn-karanlığı
+  kalıbı burada görülmedi · (3) sevk odası iç mekânında (`_interior(8900,9380,-230,[-115])`) SHIELD düşmanı girişe yakın
+  (9050, zemin) + üst katta RIFLE; bot 104 canla rahat geçti, açık yok · (4) yolcu peronu gizli sandığı (`sandik`, HEALTH,
+  w1+70≈3460) iki vagon arasında, bot aldı; insan testi "sandığı göremedim" derse vagon aralığına tek coin izi ·
+  (5) 10400 px uzunluk Kitap 3 ortası için uygun; üç telsiz balonu (2450/5390/8330) oynanışı durdurmadan ritmi dolduruyor,
+  uzun düz geçiş yok.
+
 - (Tur 292 denetimi, en az bireysel denetlenen Bölüm 12 — Kitap 1 finali, İç Kale / Karahanlı, gece — headless bot
   (CLEARED @7370, 81,7 sn, 1 respawn) + 6 mekân pencereli ekran görüntüsü; DTM sütunlarıyla karşılaştırıldı. Görsel kalite
   DTM düzeyinde ya da üstü: pirinç preslı cephanelik iç mekânı, Boğaz gecesi + kayık sarnıç kanalı, palet asansörü, iki
@@ -467,6 +485,24 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-18 (294) — Denetim (Bölüm 26 — Sirkeci Sevkiyatı): temiz, DTM düzeyinde; otonom iş çıkmadı
+
+- **Neden şimdi:** Stil listesi (33/33), iki yol haritası ve birikimin insan testine bağlı olmayan maddeleri kapalı →
+  kural (d) denetim. Günlükte en az başlıklı denetimi olan bölümlerden Bölüm 26 (Kitap 3, Sirkeci garı, gündüz) seçildi.
+- **Ne yapıldı:** headless bot koşusu (indeks 25) + 7 mekân pencereli ekran görüntüsü (gar meydanı, gar cephesi, yolcu
+  peronu, bekleme salonu, yük rampası, su kulesi bacası, sevk odası); DTM sütunlarıyla (hareket, dövüş okunurluğu,
+  düşman telegrafı, bölüm ritmi, rota katmanı, set-piece, ekonomi, HUD, oyun hissi) karşılaştırıldı.
+- **Bulgular:** Görsel kalite her mekânda DTM düzeyinde ya da üstü (gar cephesi + Boğaz/cami silüeti, lacivert vagonlar,
+  tuğla su kulesi + liman vinci, gotik pencereli sevk odası). Taşma, kalıcı dikiş, gömülü gövde, okunmayan HUD, düşük
+  kontrast düşman yok; `_fg` kolon oyuncu hizasında saydamlaşıyor, `dark_rim` düşmanları ahşaftan ayırıyor. Tek dikkat:
+  arka yük peronu arenası (x=7900–8700, ödülsüz) botun canını 54→9'a düşürdü — ama bu Kitap 3 kuralına uygun (her
+  bölümde yalnız ilk arena AMMO verir; bolum25–33 doğrulandı) ve kurtarma mevcut (baca ARMOR 7670 + checkpoint 7850 +
+  sevk odası HEALTH 9320). Bot 0 respawn CLEARED. Beş bulgu birikime yazıldı; hepsi insan testi verisine bağlı,
+  convention'a uygunluk nedeniyle tasarım değiştirilmedi.
+- **Testler:** kod değişikliği yok; bot Bölüm 26 CLEARED @9758, 82,1 sn, 0 respawn.
+- **Sonraki öneri:** Kitap 3 son arenalarında (ör. Bölüm 26 arka peron) insan oyuncunun ölüm sayısı ve arena giriş canı
+  ölçülsün; bot rota seçimi (baca zırhı için tırmanır/tırmanmaz) insan oyuncuyu temsil etmiyor.
 
 ### 2026-11-18 (293) — Kanal suyunda oyuncu okunurluğu: su gövdesi oyuncunun sütununda saydamlaşıyor
 
