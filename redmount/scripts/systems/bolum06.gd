@@ -110,6 +110,10 @@ func _build() -> void:
 	_prop("varil", 7500, -200)
 	_pickup(ARMOR, 7420, -245)
 
+	## Damlardan inişte kırılabilir can sandığı: 5820 kantininden sonra yalnız ARMOR var;
+	## alev + pres + kablo hattı finale girişi ~20 cana indiriyordu (tur 330).
+	_prop("sandik", 7880, 0, HEALTH)
+
 	# --- 6. Zırhlı Ustabaşı; haddehane kapısı -------------------------------------
 	_checkpoint(7950, 0)
 	_story(8020, _sahne_ustabasi)

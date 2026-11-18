@@ -660,7 +660,7 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   Deney sahnesinde nişan durumunda 64 px aralık korunuyor (tur 30 düzeltmesi), yığılma kovalama
   ya da geri itilme sonrası oluyor; tek karede yeniden üretilemedi. İnsan testinde ya da bir
   sonraki denetimde yeniden görülürse `CHASE` durumundaki ayrışmaya nişancı komşusu eklensin.
-- Son arenaya düşük canla varış (Bölüm 4: 16–25 can, Bölüm 5: 29 can [tur 156: 33–43 can, iki koşuda da 1 ölüm], Bölüm 6: 12 can [tur 156, 1 ölüm], Bölüm 28: 21 can [tur 150: 39→8 can]; bot). Dört bölümde de
+- Son arenaya düşük canla varış (Bölüm 4: 16–25 can, Bölüm 5: 29 can [tur 156: 33–43 can, iki koşuda da 1 ölüm], Bölüm 6: 12 can [tur 156, 1 ölüm] **(tur 330: 7880 kırılabilir can sandığı eklendi)**, Bölüm 28: 21 can [tur 150: 39→8 can]; bot). Dört bölümde de
   orta arenadan son arenaya kadar can kaynağı yok (yalnız büfe). İnsan testinde son arenaya
   giriş canı ölçülsün; ortanca %40'ın altındaysa son kontrol noktası önüne kırılabilir simit.
 - ~~Adlı rakiplerin görünümü: Binbaşı Kaya, Sur Ağası ve Muhafız Başı ara sahnede Seçkin
@@ -764,6 +764,28 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-18 (330) — Denetim (Bölüm 6 ve 25): Bölüm 6 finali önüne kırılabilir can sandığı
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikim insan testine bağlı → kural (d). Günlükte en az
+anılan bölümlerden 6 ve 25 telegraf okuyan botla pencereli oynatıldı (14 sn'de bir kare).
+**Ölçüm:** Bölüm 25 CLEARED @10158 / 76,5 sn / 0 ölüm / hp min 73 — temiz; matbaa erzakı ve konak arenası kareleri
+taşmasız, stil içi. Bölüm 6 CLEARED @9456 / 137,5 sn / **1 ölüm** (Zırhlı Ustabaşı, finale 22 canla giriş; can 51 → 22
+x≈6800–7400 alev + pres + kablo hattında). İşçi Kantini (5820) sonrası finale kadar yalnız ARMOR var.
+**Karar:** bu artık varyans değil: Bölüm 6 bot koşularında finalde/son kesimde ölüm tur 156, 170 (×2), 198, ~260 (2),
+330'da; 0 ölüm yalnız 281'de. Birikimdeki "son arenaya giriş ortancası %40'ın altındaysa son kontrol noktası önüne
+kırılabilir simit" koşulu bot verisinde sağlanıyor (giriş 1–22 can). Kitap 1'in 6. bölümü Kitap 2 finallerinden sert
+olmamalı.
+**Oyuncu ne hissedecek:** fabrika damlarından inen beton basamakta, bayrağın hemen solunda bir sandık; kıran Ustabaşı'na
+nefes alarak girer. Kantinde alışveriş yapan için ek bir ödül, dalga ve pres ritmi aynı.
+**Değişiklik (`scripts/systems/bolum06.gd`):** `_prop("sandik", 7880, 0, HEALTH)` (kontrol noktası 7950'nin solu, tur
+319 Bölüm 36 kalıbı). Hipotez: +35 can → finale ~55–60 canla giriş.
+**Testler:** `--import` SCRIPT ERROR 0; `campaign_smoke` çıkış 0; `DTM GAPS: PASS`; bot Bölüm 6 pencereli CLEARED @9458 /
+132,5 sn / 1 ölüm (bot sandık kırmıyor; finale 52 canla girdi, ölüm Ustabaşı düellosunda — etki insan testinde
+ölçülecek). Ekran görüntüsünde sandık basamağa oturuyor, ChatGPT tuğla/taş dokusuyla "ait".
+**Birikime:** bot finale 52 canla girse de Ustabaşı'nda 52 → 2 eridi (43 sn takılma). İnsan testi "Ustabaşı zor" derse
+3. dalga BRUISER+RIFLE → KNIFE+RIFLE.
+**Sonraki öneri:** insan oyun testi (Bölüm 6 finali, 9 finali, 14 arşiv, 36 ambar can sandıkları).
 
 ### 2026-11-18 (329) — Denetim (Bölüm 9 ve 13, pencereli, yeni bot): temiz; otonom iş kalmadı, otomasyon durdu
 
