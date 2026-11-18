@@ -31,6 +31,8 @@ func _build() -> void:
 	_pickup(ARMOR, 945, -235)
 	_enemy(STREET, 1100, 0)
 	_prop("saksi", 1300)
+	# Matbaa sokağı cumbasından kiremit: yokuş arenası öncesi telegraflı ilk tehlike.
+	_falling_pot(1250, -230)
 
 	# --- 2. Kitapçı yokuşu: üç basamak yukarı, yokuşun düzünde arena --------------
 	# Kitap 2'nin ortak çukur avlusu yerine yokuş gerçekten tırmanılır (arkadaki taş
@@ -56,6 +58,8 @@ func _build() -> void:
 	# tabancaya geçilir; yığının arkasında bıçakçı, inen oyuncuyu karşılar.
 	_terrain(3350, 10300, 0)
 	_checkpoint(3400, 0)
+	# Matbaa saçağından kiremit: balya yığınına koşarken ikinci telegraflı beat.
+	_falling_pot(3520, -230)
 	_crates(3650, 1, 1)
 	_crates(3740, 1, 2)
 	_coin_line(3700, 3, 50, -235)

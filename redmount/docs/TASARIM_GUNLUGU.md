@@ -7,6 +7,17 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 307 taraması: 36 bölümde `_canal/_collapse/_falling_pot/_flame/_press/_live_wire` sayımı. Tehlikesiz kalanlar:
+  Bölüm 1, 3, 4, 5, 10 (Kitap 1, öğretici ağırlıklı — kasıtlı olabilir) ve **Bölüm 21, 23** (25 bu turda kapandı).)
+  (1) **UYGULANDI (tur 307) — Bölüm 25 Cağaloğlu matbaası:** iki erken telegraflı `_falling_pot` (sokak 1250, avlu 3520);
+  bot CLEARED, kiremitlerden hasar almadı. · (2) **DENENDİ VE GERİ ALINDI (tur 307): Bölüm 25 dağıtım deposu balya presi**
+  (`_press_gantry([8580])`, son arena öncesi): bot periyot 2,8 sn'de iki, 3,4 sn'de üç kez yakalandı (−32/−46 can, hp min
+  2). Pres son arenaya yakın konmamalı; temaya uygun pres istenirse ERKEN bölüme (avlu/baskı salonu öncesi) ve insan
+  testiyle. · (3) **Bölüm 21 ve 23 tehlikesiz:** 23'te son arena zaten zor (hp min 3–17), tehlike yalnız erken kesime;
+  21'de (Yenikapı rıhtımı, gece) rıhtıma `_canal` ya da çürük iskele `_collapse` erken kesimde aday. · (4) **Bölüm 25
+  ciltçi geçidi varyansı sürüyor:** bu turun koşusunda 87→31 (önceki turlarda 9 + 1 ölüm); insan testi "ciltçide öldüm"
+  derse ELITE@7650 → BRUISER veya HEALTH@8100 öne (7400) alınsın.
+
 - (Tur 306 denetimi, Bölüm 18 "Kapalıçarşı Arka Hanı", Kitap 2 / "Haliç'in İzi" 6. bölüm = KİTAP 2 FİNALİ, indeks 17 —
   headless bot iki koşu CLEARED @10056-10058 / ~87 sn / 0 respawn ama **hp min 3 (!) birinci koşu, 48 ikinci koşu** =
   çok yüksek varyans. Üç arenalı en zor Kitap 2 bölümü. Etki/maliyet sırası:)
@@ -9116,3 +9127,21 @@ denge bulgusu ama otonom nerf yapılmadı — bot 0 ölümle geçiyor, karar ins
 **Sonraki öneri:** 16-17-18 tehlikesiz şeridi kapandı (üçüne de ikişer temaya uygun telegraflı kiremit). Bölüm 18 han
 ambarı can vadisi insan testinde ölçülmeli (en güçlü aday). Bir sonraki tur başka az denetlenen bölümde kural (d), ya da
 tüm bölümlerde hızlı bir `hazard=0` taraması yapıp tehlikesiz bölümleri topluca listeye almak.
+
+### 2026-11-18 — Tehlike taraması + Bölüm 25 matbaası: iki erken kiremit, pres denemesi geri alındı (tur 307)
+
+**Neden şimdi:** stil listesi ve iki yol haritası kapalı, birikimin otonom maddeleri tükendi; tur 306'nın önerisi olan
+36 bölüm `hazard=0` taraması yapıldı → kural (d). Tehlikesiz: 1, 3, 4, 5, 10 (Kitap 1) ve 21, 23, 25. Kitap 3'ün açılışı
+Bölüm 25 "Cağaloğlu'nda İlk Baskın" seçildi (önceki turlarda hiç tehlike düşünülmemiş, tema "matbaa" pres için doğal).
+**Oyuncu ne hissedecek:** sokak ve avluda saçaktan düşen kiremit, Kitap 3'e girerken "şehir de sana karşı" beat'i;
+düz koridor + düşman ritmi kırılıyor, tek vuruşluk ve telegraflı olduğu için adil.
+**Değişiklik (`bolum25.gd`):** `_falling_pot(1250,-230)` (yokuş arenası öncesi sokak) + `_falling_pot(3520,-230)` (matbaa
+avlusu, balya yığınına koşu). Mevcut `_FallingPot`, yeni görsel/geometri yok.
+**Denenip geri alınan:** dağıtım deposuna tek balya presi (`_press_gantry([8580])`, son arena öncesi). Bot periyot 2,8
+sn'de iki kez (94→62), 3,4 sn'de üç kez (86→40, son arenada hp 2) yakalandı — pres savurması oyuncuyu tekrar altına
+düşürüyor ve son arenaya marjı yiyor. Geri alındı, bulgu birikim md.2'ye yazıldı (sayılar hipotez).
+**Testler:** `--import` SCRIPT ERROR 0; `dtm_gaps` PASS; `campaign_smoke` çıkış 0; bot Bölüm 25 CLEARED @10159 / 85,2 sn /
+0 respawn / hp min 10 (düşüş ciltçi geçidinde 87→31, kiremitlerle ilgisiz; avlu sonrası can 92 sabit). Ortak sistem
+değişmedi (yalnız tek bölüm).
+**Sonraki öneri:** birikim md.3 — Bölüm 21 (rıhtım, erken kesime `_canal`/`_collapse`) ya da Bölüm 23 (yalnız erken kesim).
+
