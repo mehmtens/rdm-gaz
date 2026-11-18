@@ -22,8 +22,13 @@ const TRIM := {
 	"jump": -3.0, "land": -2.0, "reload": -3.0, "hit": -1.0,
 	"heavy_hit": 1.0, "enemy_down": 0.0, "player_death": 2.0, "boss_slam": 2.0,
 	"goal": 1.0, "checkpoint": -1.0, "powerup": -1.0,
-	"ui_move": -9.0, "ui_select": -5.0, "ui_deny": -4.0, "warn": -4.0,
+	"ui_move": -9.0, "ui_select": -5.0, "ui_deny": -8.0, "warn": -4.0,
 }
+## Tur 287 ses düzeyi ölçümü (50 ms en yüksek pencere RMS + TRIM + HEADROOM): ret sesi seçim sesinden 5 dB
+## yüksekti (−14,5 / −19,7 dB) → −8; artık seçimle aynı düzeyde, alçak perdesiyle ayrışır.
+## Oyuncunun silahı kırılınca çalan ses −19,8 dB ile müziğin (−24 dB sürekli) hemen üstünde, aynı öncelikteki
+## zırh kırılmasından 4 dB alçaktı; kutu/platform da aynı sesi kullandığı için TRIM değil, yalnız oyuncu kaybı yükselir.
+const WEAPON_LOSS_DB := 4.0
 ## Ses önceliği (tur 265, ses denetimi): havuz doluyken yeni ses yalnız kendinden düşük ya da
 ## eşit öncelikli çalan sesi keser. Eskiden körlemesine sıradaki oyuncu çalınıyordu; Bölüm 1 bot
 ## koşusunda çalışların %14'ü çalan bir sesi kesiyordu (sancak, düşman yıkılışı, zırh/silah kırılması

@@ -1587,7 +1587,7 @@ func _drop_weapon(play_break_sound := true) -> void:
 	_apply_hitbox_profile(_punch_reach, _punch_offset)
 	weapon_changed.emit("", 0, 0)
 	if play_break_sound:
-		Sfx.play(&"weapon_break")
+		Sfx.play(&"weapon_break", 1.0, Sfx.WEAPON_LOSS_DB)
 		# Kırılınca yedek kendiliğinden ele gelir (dövüşün ortasında menü yok).
 		if _stash != null:
 			swap_weapon()

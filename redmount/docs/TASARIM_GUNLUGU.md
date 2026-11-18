@@ -454,6 +454,28 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-18 (287) — Denetim (ses düzeyi sütunu): silah kaybı sesi müziğe gömülüyordu, ret sesi fazla yüksekti
+
+**Neden şimdi:** stil listesi, iki yol haritası ve birikimin koşulsuz maddeleri bitti → kural (d). Ses sütununda çağrı
+yerleri (tur 243), havuz önceliği (265) ve müzik kısma (268) yapılmıştı ama efektlerin birbirine ve müziğe göre gerçek
+düzeyi hiç ölçülmemişti. Oyuncu ne hissederdi: dövüşün ortasında silahı kırılır ama fark etmez (yumrukla savurmaya devam
+eder); menüde parası yetmeyince ceza gibi yüksek bir "bıt". Doğrulama: 26 efekt + 8 müzik WAV'ında ölçüm.
+**Ölçüm:** etkin düzey = 50 ms en yüksek pencere RMS + `TRIM` + `HEADROOM` (−3). Müzik sürekli RMS −17,4…−18,7 dBFS,
+`BASE_DB` −6 ile ≈ −24 dB. Aykırılar: (1) oyuncunun silah kaybı (`weapon_break`, öncelik 2) −19,8 dB — müziğin yalnız
+4 dB üstünde, aynı öncelikteki zırh kırılmasından (−15,9) ve düşman yıkılışından (−14,4) 4–5 dB alçak; dosyanın sürekli
+RMS'i (−21,7) müzik düzeyinde. (2) `ui_deny` −14,5 dB, `ui_select` (−19,7) sesinden 5 dB yüksek — menüde en yüksek ses.
+Diğer 22 efekt öncelik/sıklık sırasıyla tutarlı (en kısık adım −35,9, en yüksek boss vuruşu −6,8).
+**Ne yapıldı:** `Sfx.WEAPON_LOSS_DB` = +4 dB yalnız oyuncunun silah kaybında (`redmount.gd _drop_weapon`); aynı ses kutu,
+çöken platform ve kalkanlı düşmanda da kullanıldığı için `TRIM` değişmedi (kutu kırmak yüksekleşmesin). `ui_deny` TRIM
+−4 → −8 (−18,5 dB; seçimle aynı düzeyde, alçak perdesiyle ayrışır). Yeni `tests/sfx_mix.tscn` ham WAV'dan aynı ölçümü
+yapar: odak < seçim, ret ≤ seçim + 2 dB, silah kaybı ≥ zırh kırılması ve ≥ müzik + 6 dB. Eski değerlerle (ret −14,5)
+ikinci kural düşer.
+**Sayılar (hipotez):** +4 dB silah kaybını zırh kırılmasıyla eşitler (iki olay da "korumanı kaybettin" bilgisi). Kulakla
+dinlenmedi (otomasyonda hoparlör yok); insan testinde telefon hoparlöründe silah kaybı duyuluyor mu bakılsın.
+**Testler:** `--import` hatasız; 36 sahne smoke çıkış 0 (36 OK); DTM GAPS PASS; SFX MIX PASS; SFX VOICES PASS; UI SFX OK;
+bot Bölüm 1 CLEARED (77,4 sn).
+**Sonraki öneri:** ölçülmemiş sütun kalmadıysa otomasyon insan/telefon testi gelene kadar durur.
+
 ### 2026-11-18 (286) — Denetim (teknik/mobil oturum): bölüm geçişlerinde bellek birikimi yok; kalıcı test eklendi
 
 **Neden şimdi:** stil listesi, iki yol haritası ve birikimin koşulsuz maddeleri bitti, 36/36 bölüm denetlendi → kural
