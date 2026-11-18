@@ -166,7 +166,7 @@ func _build() -> void:
 	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
 	_radio(2525, "gazelle", "GAZELLE", "Bedesten... Kâtip kalabalığın içinde saklanmayı seviyor.")
 	_radio(5555, "redmount", "REDMOUNT", "Çuvallarda sahte mühürlü evrak. Yüzlerce.")
-	_radio(8585, "gazelle", "GAZELLE", "Defterin son işareti: Çemberlitaş hamamının külhanı.")
+	_radio(8585, "gazelle", "GAZELLE", "Defter odası yukarıda. Kâtip her şeyi yazar; kendi izini de.")
 	_goal(10100, 0)
 
 

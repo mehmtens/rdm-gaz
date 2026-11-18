@@ -135,7 +135,7 @@ func _build() -> void:
 	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
 	_radio(2537, "gazelle", "GAZELLE", "Kamondo merdivenleri. Babamla burada fotoğraf çekmiştik.")
 	_radio(5582, "redmount", "REDMOUNT", "Telgraf binası üç kat. İçeriden, kat kat çıkacağız.")
-	_radio(8627, "telsiz", "SON TELGRAF", "...ANA HAT DÜŞTÜ STOP ÜSKÜDAR YEDEK RÖLE DEVREDE STOP")
+	_radio(8627, "gazelle", "GAZELLE", "Ana hat bu katta. Şeritleri kesersek Kâtip'in sesi de kesilir.")
 	_goal(10150, 0)
 
 

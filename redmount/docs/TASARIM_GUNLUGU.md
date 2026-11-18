@@ -684,6 +684,30 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-18 (316) — Anlatı: 19 bölümde bölüm sonu keşfini önceden ele veren telsizler yeniden yazıldı
+
+**Neden şimdi:** tur 315'in ardından günlükte az anılan Bölüm 22 denetlendi (bot CLEARED @10107 / 76,5 sn / 0 respawn /
+hp min 37 — pompa presleri 96→64, şaft arenası →37; denge sağlıklı, değişiklik gerekmedi). Ama metinde bir anlatı hatası
+çıktı: 8627'deki telsiz "Kapatma çizelgesi: şafakta Saraçhane ana vanası" diyor, çizelge ise 9000'deki sahnede bulunuyor.
+36 bölümün tüm telsiz/sahne konumları tarandı: telsizler formülle ~%25/%55/%85 noktalarına (2537/5582/8627) konmuş ve
+**üçüncü telsiz 16 bölümde (13–28, 33, 34) bölüm sonu sahnesinin keşfini** (sonraki adres, K imzası, yanmış mektup,
+Kemal Bey'in yakalanışı, Süleymaniye/Zeyrek/Kandilli) 400–2500 px önce söylüyordu; 27 ve 35'te telsiz sahnenin ilk
+satırının kopyasıydı. Oyuncu ne hissedecek: bölüm sonu sahnesi artık gerçekten bir keşif; telsiz bunun yerine
+"yaklaşıyoruz" gerilimi kuruyor (DTM'nin bölüm içi bağırışları gibi kısa, ortamı anlatan satırlar).
+**Yapılan:** 19 dosyada (`bolum13`–`bolum28`, `bolum33`–`bolum35`) yalnız son `_radio(...)` satırının metni değişti;
+konumlar, tetikler ve sahne metinleri aynı. Yeni satırlar mekânı/beklentiyi anlatır, ipucunu sahneye bırakır (ör. 22:
+"Kontrol odası ileride. Emirler hangi masada yazılıyorsa orada."; 21: "Vardiya düdüğü çaldı. Kemal Bey bu kalabalığın
+içinde bir yerde."). 16'daki "Kemal Bey'in adı... editörüm" satırı ayrıca Bölüm 18'deki el yazısı ifşasını iki bölüm
+önceden harcıyordu. 27: SON TELGRAF (sahnenin ilk satırıyla aynı) → Gazelle; 28: Rıfat kararını söylemek yerine çıkışta
+buluşma çağrısı; 35: Nüzhet kaydı kumanda sahnesinin tekrarı yerine yeni bir tehdit. Sahneden SONRA gelen özet
+telsizler (29, 31, 32) dokunulmadı — orada telsiz hatırlatma işlevi görüyor.
+**Test:** import SCRIPT ERROR yok; `campaign_smoke` çıkış 0 (36 sahne); `DTM GAPS: PASS`; bot Bölüm 27 (konuşmacı
+telsiz→gazelle) CLEARED @10105, 86,7 sn. Eski metinlere bağlı test yok (grep).
+**Birikime:** (Bölüm 22 denetimi) hiçbiri koşulsuz değil: pompa salonu presleri bota 32 can aldırdı (radyo "ritmi yakala"
+diyor) — insan testinde pres ritminin okunduğu gözlensin. Telsiz konumlarının formülü (2537/5582/8627 ezberi) kalan
+iki telsizde de sürüyor; anlatı sorunu yok, ama ilerde bölüme özgü olay noktalarına bağlanabilir.
+**Sonraki adım:** Bölüm 26 (en az anılan) denetimi veya insan testi bulguları.
+
 ### 2026-11-18 (315) — Denetim (Bölüm 24 — Bozdoğan Kemeri, Kitap 2 finali): revaktaki üçüncü tekil Elit kalkanlıya döndü
 
 **Neden şimdi:** stil listesi ve iki yol haritası kapalı, birikimdeki maddelerin hepsi insan testine bağlı → kural (d).

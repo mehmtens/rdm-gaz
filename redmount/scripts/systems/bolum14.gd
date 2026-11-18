@@ -148,7 +148,7 @@ func _build() -> void:
 	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
 	_radio(2425, "gazelle", "GAZELLE", "Sahte mühür! Kâğıtlar resmi görünüyor ama mühür ters basılmış.")
 	_radio(5335, "redmount", "REDMOUNT", "Kim mühür basıyorsa, baskıhanede olmalı.")
-	_radio(8245, "gazelle", "GAZELLE", "Arşiv avlusunda bir adres: Zeyrek su hattı.")
+	_radio(8245, "gazelle", "GAZELLE", "Mürekkep kokusu hâlâ taze. Kalıplar bu binada bir yerde basılıyor.")
 	_goal(9700, 0)
 
 
