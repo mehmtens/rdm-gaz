@@ -12,7 +12,7 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   (1) **UYGULANDI (tur 312) — orta kesimde elit tekrarı:** selamlık zemini ELITE@4450 + kütüphane arenasının iki ELITE
   dalgası = 1700 px içinde üç Elit Muhafız (0,2 sn hazırlık, en kısa telegraf). Bot selamlıkta 87→56, kütüphanede →28.
   Selamlık bekçisi BRUISER yapıldı (0,4 sn hazırlık, yavaş tank → üç katlı cephede katları kullanma fırsatı). ·
-  (2) **Çevresel tehlike yalnız ilk 3000 px'te** (1750, 2902 saksıları); 3000→9750 tehlikesiz. Konak iç mekânı saksıya
+  (2) **UYGULANDI (tur 313) — Çevresel tehlike yalnız ilk 3000 px'te** (1750, 2902 saksıları); 3000→9750 tehlikesiz. Konak iç mekânı saksıya
   uymaz; tema uygun aday: deniz köşkü öncesi rıhtım (8250–8450) dalga/ıslak tahta `_collapse` — son arenaya yakın,
   bot ölçümüyle ve görsel doğrulamayla. · (3) **Son arena (8450–9350) set-piece zayıf:** tek scaffold@8900, üç dalga;
   "deniz köşkü, Nüzhet kayıkla kaçar" vaadi mekanik değil (bot 19 sn takılma, hp 91→42). İnsan testi "son arena
@@ -9226,3 +9226,19 @@ arena dalgaları değişmedi. Sayılar hipotez; insan testinde selamlık "fazla 
 **Testler:** `--import` SCRIPT ERROR 0; `dtm_gaps` PASS; `campaign_smoke` çıkış 0 (Bolum31 OK); bot Bölüm 31 CLEARED
 @9705 / 82,1 sn / 0 respawn / hp min 41 (önce 28); selamlık kaybı 31→8 hp, kütüphane arenası min 41. Ortak sistem değişmedi.
 **Sonraki öneri:** birikim (Tur 312) md.2 — deniz köşkü öncesi tema uygun tehlike, görsel doğrulamayla; ya da insan testi.
+
+### 2026-11-18 — Bölüm 31 deniz köşkü sofası: sığ kanal + iki çürük tahta (tur 313, birikim Tur 312/2)
+
+**Neden şimdi:** stil listesi, iki yol haritası, P1 kapalı; birikimin tek koşulsuz maddesi Tur 312/2 (3000→9750 tehlikesiz).
+**Oyuncu ne hissedecek:** son arenaya inerken yalının su seviyesindeki döşeme çürümüş — titreyen iki tahta, altında deniz
+suyu. Bölüm 29'da öğrendiği iskeleyi tanır; düşerse ölmez, çıkış taşından rıhtıma çıkar. Bıçakçı kanal kenarına alındı:
+dövüş kenarda geçer, kontrol noktası (8250) kanalın ardında ve düşmansız kalır.
+**Değişiklik (`bolum31.gd`):** `_canal(8070,8240,110)` + çıkış taşı `_terrain(8190,8240,55)` + iki `_collapse` (85 px,
+8112/8197) üstlerinde birer coin; `KNIFE` 8150→8030. Sanat yeni değil (Bölüm 29'un su/tahta çizimi).
+**Görsel doğrulama:** pencereli `capture_level.gd` ile 8020 ve 8300'den çekim (önce/sonra); kanal taş temele, tahtalar
+zemin hizasına oturuyor, salon arka planıyla çakışma yok → "ait". İlk denemede bıçakçı 8340'ta kontrol noktasına çok
+yakındı, düzeltildi.
+**Testler:** `--import` SCRIPT ERROR 0; `dtm_gaps` PASS; `campaign_smoke` çıkış 0; bot Bölüm 31 CLEARED @9705 / 84,1 sn /
+0 respawn / hp min 37 (kütüphane, kanaldan bağımsız varyans); kanala 103 canla girdi, hasar almadı; son arena min 54.
+**Sonraki öneri:** birikimin kalan maddeleri insan testine bağlı (Bölüm 18 ambar, 25 ciltçi, 31 son arena set-piece);
+yeni bir bölüm denetimi (kural d) yapılabilir.

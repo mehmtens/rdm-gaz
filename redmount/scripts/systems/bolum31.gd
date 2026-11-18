@@ -102,7 +102,16 @@ func _build() -> void:
 	chimney_rack = true   # konak salonu: ahşap raf kule
 	_chimney(7980, -480, 140, 150, AMMO)
 	chimney_rack = false
-	_enemy(KNIFE, 8150, 0)
+	# Deniz köşküne inen sofa: yalının su seviyesindeki döşemesi çürümüş, altı deniz suyu.
+	# İki telegraflı çürük tahta; düşen ölmez, çıkış taşından rıhtıma döner (Bölüm 29
+	# iskelesinin tekrarı). 3000 px'ten sonraki tek çevresel beat; arenadan önce nefes
+	# payı için kontrol noktası kanalın ardında kalır.
+	_enemy(KNIFE, 8030, 0)   # kanal kenarında dövüş: geri tepme çürük tahtaya iter
+	_canal(8070, 8240, 110)
+	_terrain(8190, 8240, 55)
+	for k in 2:
+		_collapse(8112.0 + k * 85.0, -30.0, 85)
+		_pickup(COIN, 8112.0 + k * 85.0, -80.0)
 
 	# --- 7. Deniz köşkü: son arena -------------------------------------------
 	_checkpoint(8250, 0)
