@@ -13,9 +13,10 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   sayacı "DALGA 1/2 · 2 DÜŞMAN", kombo "HARİKA ×5", "POLİS! KOŞ!" kovalamaca ipucu balonu. Hiçbiri koşulsuz değil)
   (1) açılış karesi (x≈80) gecenin en karanlık noktası; `bolum29.gd:21 _night(0.76,0.78,0.94)` + ilk fenerden önceki köşe.
   Polis kovalaması (`_chase` x=420) oyuncuyu ~1–2 sn'de aydınlık rıhtıma ittiği için bloklamıyor; bot hasarsız geçti.
-  İnsan testi "başta nereye gittiğimi göremedim" derse spawn'a tek fener (8572 civarı değil, x≈120) · (2) evrak/depo arenası
-  (x≈8578, iç mekân) koyu ceketli düşmanlar koyu ahşap raf önünde — gece/altın rim ile okunuyor, ama Bölüm 30/22/31 ile aynı
-  düşük-kontrast kalıbı; iç mekâna özel kontur alfası yapılırsa bu bölüm de kapsanır (insan testi "seçemedim" derse) ·
+  İnsan testi "başta nereye gittiğimi göremedim" derse spawn'a tek fener (8572 civarı değil, x≈120) · ~~(2) evrak/depo arenası
+  (x≈8578, iç mekân) koyu ceketli düşmanlar koyu ahşap raf önünde — Bölüm 30/22/31 ile aynı düşük-kontrast kalıbı~~
+  **(tur 285: ölçüldü, kapandı — gece bölümünde düşmanın tam alfa `dark_rim` konturu var; 4× büyütmede altın kenar
+  gövdeyi raftan ayırıyor)** ·
   (3) son arenaya 110/115 canla girildi, Kitap 3 eğrisine göre rahat; açık yok. Ekran görüntülerinde taşma, kalıcı dikiş,
   okunmayan HUD yok.
 
@@ -67,9 +68,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   (ayırma 40 px, kovalama hızı onu yeniyor; ölçüm 38/33 px merkez aralığı — iki gövde tek kara leke)~~ **(tur 272:
   `_melee_ahead` sırası, 56/56 px)** · (2) Bölüm 30 yanan arşivden evrak salonu arenasına can 24–36/115 ile giriliyor
   (bot); arada dükkân + sandık yemeği + dalga arası merhamet var — açık yok, insan testinde arena giriş canı ölçülsün ·
-  (3) Bölüm 30 iç mekân (evrak salonu) koyu ceketli düşmanlar koyu ahşap rafların önünde düşük kontrastlı; gece
-  konturu açık ama iç mekânın sıcak ışığında zayıf kalıyor — insan testi "seçemedim" derse iç mekâna özel kontur
-  alfası · (4) Bölüm 15 betik başlığı "su çarkı (üst dişli yolu)" diyor ama bölümde çark mekaniği yok; dört iskele +
+  ~~(3) Bölüm 30 iç mekân (evrak salonu) koyu ceketli düşmanlar koyu ahşap rafların önünde düşük kontrastlı~~
+  **(tur 285: ölçüldü, kapandı — konturlu silüet 1:1 karede okunuyor; yarım boyut kontak karelerinde zayıf görünmüştü)** · (4) Bölüm 15 betik başlığı "su çarkı (üst dişli yolu)" diyor ama bölümde çark mekaniği yok; dört iskele +
   coin. Çark arka plan resminde var; dönen çark platformu yeni sanat + mekanik ister — insan testi "set-piece eksik"
   derse · (5) Bölüm 15 üç arenasının üçü de düz sokak zemininde (çeşme, çark, teras); ikinci arena çark iskelelerini
   arena içine alırsa dikey dövüş katmanı kazanır — yeni sanat yok, yalnız yerleşim; insan testi "arenalar aynı" derse.
@@ -453,6 +453,23 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-18 (285) — Denetim: iç mekân düşman kontrastı ölçüldü (Bölüm 30), temiz; otomasyon durdu
+
+**Neden:** stil listesi, iki yol haritası ve birikimin otonom maddeleri bitti → kural (d). Dört ayrı denetimde (Bölüm 22,
+29, 30, 31) tekrarlanan tek bulgu "iç mekânda koyu ceketli düşman koyu raf önünde düşük kontrast" idi; tekrar sayısı
+koşulsuz bir düzeltmeyi haklı çıkarabilirdi, önce ölçüldü. Oyuncu ne hissederdi: kalabalık arenada kimin nerede olduğunu
+seçememek — doğrulama: arena karesinde düşman silüetini büyütüp kenarı aramak.
+**Ölçüm:** Bölüm 30 pencereli bot koşusu (1,5 sn aralık, 54 kare, CLEARED 81,5 sn, 0 respawn). Evrak salonu arenası
+(x 6850–7650) karelerinden düşman bölgesi 4× NEAREST büyütüldü: Bölüm 30 gece sahnesi olduğundan (`_night`) düşmanlar tam
+alfa `dark_rim` konturu taşıyor; 3 px altın kenar gövdeyi koyu raftan ve pencere ışığından net ayırıyor. Önceki
+denetimlerdeki "zayıf" izlenimi 640×360'a küçültülmüş kontak karelerinden geliyordu (kontur yarıya iniyor). Sekiz mekânlık
+kontak sayfasında taşma, HUD/telsiz çakışması, kalıcı dikiş bulunmadı.
+**Ne yapıldı:** kod değişmedi; birikimde tur 272/3 ve tur 284/2 kapatıldı (ölçüm notuyla). Gelecek denetimler için not:
+okunurluk yargısı yarım boyut kontak karesinden değil, 1:1 kırpmadan verilsin.
+**Testler:** bot Bölüm 30 pencereli CLEARED (81,5 sn; 12 sn duraklama @9586 son arena dövüşü).
+**Sonraki öneri:** otonom iş kalmadı; birikimin kalanı insan testine bağlı (Kitap 3 son arena giriş canı, su silüeti,
+set-piece çarkı).
 
 ### 2026-11-18 (283) — Bölüm 21, 25, 32 denetimi + son arena öncesi can taraması: temiz; 36/36 bölüm denetlendi, otomasyon durdu
 
