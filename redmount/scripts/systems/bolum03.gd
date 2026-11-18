@@ -70,6 +70,8 @@ func _build() -> void:
 	# --- 3. Pazar duvarı: tenteyle duvarın üstüne, tepede tüfekli ----------------
 	_checkpoint(3120, 0)
 	_terrain(3400, 9200, 0)
+	# Bölüm 2'de tanıtılan saksı burada tekrar: pazar duvarına koşarken cumbadan düşer.
+	_falling_pot(3270, -230)
 	var aw2 := AwningBounce.new()
 	aw2.width = 180
 	aw2.height = 60
@@ -120,6 +122,8 @@ func _build() -> void:
 
 	# --- 5. Fenerli ara sokak: altta düşmanlar, üstte çamaşır ipi yolu ----------
 	_checkpoint(6150, 0)
+	# Fenerli ara sokak cumbası: ipe çıkmadan önce ikinci telegraflı saksı.
+	_falling_pot(6230, -230)
 	var aw3 := AwningBounce.new()
 	aw3.width = 160
 	aw3.height = 60

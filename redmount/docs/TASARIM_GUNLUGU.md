@@ -19,7 +19,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   terazi kulesi öncesi (3580) iki erken kiremit; bot CLEARED 0 respawn, hp min 38. · (5) **Kitap 1 boşluğu (sıradaki):**
   Bölüm 2 kiremidi tanıtıyor (5962), 6–8 pres/alev/çökme kullanıyor; ama **3, 4, 5 ve 10 tehlikesiz** → "öğret, sonra
   kullan" zinciri 2'den sonra üç bölüm kopuk. Bölüm 1 öğretici, kasıtlı tehlikesiz kalsın. Sıra: 3 → 4 → 5 → 10, her
-  birine erken kesimde tema uygun tek-iki telegraflı tehlike. · (4) **Bölüm 25
+  birine erken kesimde tema uygun tek-iki telegraflı tehlike. **Bölüm 3 UYGULANDI (tur 310):** pazar duvarı (3270) + fenerli ara
+  sokak (6230) iki saksı; bot CLEARED 0 respawn, hp min 57. · (4) **Bölüm 25
   ciltçi geçidi varyansı sürüyor:** bu turun koşusunda 87→31 (önceki turlarda 9 + 1 ölüm); insan testi "ciltçide öldüm"
   derse ELITE@7650 → BRUISER veya HEALTH@8100 öne (7400) alınsın.
 
@@ -9172,3 +9173,15 @@ kasıtlı olup olmadığına bakılsın (öğretici bölümler — tek tehlike t
 0 respawn / hp min 38 (sevk/bakım arenası; erken kesimde kiremitlerden hasar yok). Ortak sistem değişmedi.
 **Bulgu:** Kitap 1'de 2 kiremidi tanıtıyor ama 3, 4, 5, 10 tehlikesiz (birikim md.5).
 **Sonraki öneri:** birikim md.5 — Bölüm 3'ten başlayarak Kitap 1 tehlike zinciri.
+
+### 2026-11-18 — Bölüm 3 gece pazarı: tanıtılan saksının tekrarı (tur 310, birikim md.5)
+
+**Neden şimdi:** Kitap 1'de saksı Bölüm 2'de (5962) tanıtılıyor, sonra 3-4-5 tehlikesiz → DTM'nin "öğret, hemen tekrar
+kullan, sonra çeşitle" zinciri kopuk. Bölüm 3 zincirin ilk halkası.
+**Oyuncu ne hissedecek:** Bölüm 2'de öğrendiği gölge + titreme uyarısını tanır, iki kez (duvar tırmanışı öncesi, ip
+yolu öncesi) hareket halindeyken okumak zorunda kalır; hâlâ tek vuruş, ölümcül değil.
+**Değişiklik (`bolum03.gd`):** `_falling_pot(3270,-230)` + `_falling_pot(6230,-230)`; geometri ve arenalar değişmedi.
+**Testler:** `--import` SCRIPT ERROR 0; `dtm_gaps` PASS; `campaign_smoke` çıkış 0; bot Bölüm 3 CLEARED @9006 / 79,2 sn /
+0 respawn / hp min 57 (meydan pususu arenasında). Ortak sistem değişmedi.
+**Sonraki öneri:** birikim md.5 — Bölüm 4 (kontrol noktası/tepe; kum torbası teması).
+
