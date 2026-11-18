@@ -7,6 +7,17 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 328 denetimi, Bölüm 14 "Sahte Mühür" (indeks 13) ve Bölüm 2 (indeks 1), yeni botla; ikisi de kod değişmeden CLEARED.)
+  (1) **Bölüm 14 can vadisi 5650→8850:** halat arenası HEALTH ödülünden sonra fener basamakları (ELITE+KNIFE+ASSASSIN) ve
+  baskıhane boyunca can yok (ARMOR 6250/8450, baca AMMO). Pencereli koşu finale 34 canla girip 1 kez öldü, başsız koşu
+  61–66 canla 0 ölüm → varyans; tur ~150'deki "son arena" maddesiyle aynı. İnsan testi "arşivde öldüm" derse fener bacası
+  ödülü (7550) AMMO→HEALTH (keşif ödülü) ya da 8850 kontrol noktası yanına kırılabilir can sandığı (tur 319 kalıbı). ·
+  (2) **Bölüm 2 kasap düellosu bota hiç hasar vermedi** (iki koşu, 115/115; 12 sn takılma @8296–8505, 2–4 başarılı kaçış):
+  Kitap 1'in ikinci bölümü için kabul edilebilir; insan testi "patron kolay" derse Kasap Rıza'nın açılış süresi kısaltılsın. ·
+  (3) **Bölüm 2 pazar arenasında telsiz kutusu dalga şeridinin hemen üstünde** (ayrı satırlar, çakışma yok); küçük ekranda
+  kalabalık görünürse arena sırasında telsiz ertelensin. · (4) Görsel: halat atölyesi, fener basamakları, arşiv avlusu,
+  pazar ve Haliç rıhtımı karelerinde taşma, stil dışı öğe yok.
+
 - (Tur 325, patron duruşu.) (1) **UYGULANDI (tur 325) — zırhlı patron kombo kilidi:** ayrıntı tur kaydında. ·
   (2) **Duruş süresi 0,6 sn hipotez:** insan testinde ölçülsün: patrona "hiç vuramıyorum/kaçamıyorum" denirse 0,4;
   "patron hâlâ kıpırdamıyor" denirse 0,8–1,0 (1,0'da bot patron arenalarında 8 ölüm verdi). · (3) **Zırhlı Vurucu
@@ -741,6 +752,18 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-18 (328) — Denetim (Bölüm 14 ve 2, yeni bot): temiz; otonom iş kalmadı, otomasyon durdu
+
+**Neden şimdi:** listeler kapalı, birikim insan testine bağlı → kural (d). Son tur kayıtlarında (315–327) hiç anılmayan
+Bölüm 14 (son bakış tur 282) ve Bölüm 2 (tur 279) telegraf okuyan botla oynatıldı; pencereli koşularda 10/16 sn'de bir kare.
+**Sonuç:** Bölüm 14 pencereli CLEARED @9656 / 97,8 sn / 1 ölüm (arşiv final arenası, 34 canla giriş); başsız CLEARED @9654 /
+82,7 sn / 0 ölüm / finale 61–66 can. Bölüm 2 başsız CLEARED @9506 / 80,4 sn / 0 ölüm; pencereli @9506 / 81,8 sn / 0 ölüm;
+kasap düellosu bota hasar vermedi. Karelerde taşma, çakışma, okunmayan düşman ya da stil dışı öğe yok.
+**Karar:** Bölüm 14 son arena ölümü tek koşuda ve birikimde zaten "insan testinde ölüm 1'i geçerse" koşuluna bağlı;
+varyansa göre denge değiştirmek tur 303'teki gibi geri alınacak işe döner. Kod değişikliği yok; bulgular birikime yazıldı.
+**Testler:** dört bot koşusu CLEARED (kod değişmedi).
+**Sonraki öneri:** insan oyun testi (patron telegrafı + duruş, Bölüm 14 arşiv, 18 ambar, 25 ciltçi, 31 kanal).
 
 ### 2026-11-18 (327) — Denetim (Bölüm 20 ve 28, pencereli, yeni bot): temiz; otonom iş kalmadı, otomasyon durdu
 
