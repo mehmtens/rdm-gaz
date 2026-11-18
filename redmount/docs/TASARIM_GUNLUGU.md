@@ -7,6 +7,32 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 299 denetimi, günlükte en az anılan bölüm — Bölüm 29 "Kuzguncuk Kıyı Deposu", Kitap 3 / "İstanbul'un Sesi"
+  5. bölüm, gece — headless bot CLEARED @10107 / 82,9 sn / 0 respawn, en uzun takılma 16 sn @8549 = defter odası arenası;
+  indeks 28. Bölüm 29 Kitap 3 Kuzguncuk atlaslarını (`book03_kuzguncuk_streets/depot_atlas`) kullanıyor — bunlar stil
+  listesinde onaylı, Tur 294/297 denetimlerinde DTM düzeyinde doğrulandı. Pencereli çekim bu turda alınamadı: `capture_level.gd`
+  headless'ta `frame_post_draw`/hikâye-atlama döngüsünde asılı kaldı (bkz. madde 6). Denetim kod + bot telemetrisiyle
+  yapıldı; otonom denge değişikliği yapılmadı, hepsi insan testine bağlı. Etki/maliyet sırasıyla:)
+  (1) **Çevresel tehlike dağılımı (en güçlü bulgu):** bölümde yalnız 3 tehlike var ve hepsi uçlarda kümelenmiş — açılışta tek
+  `_falling_pot(1150)`, finalde `_canal`+3× `_collapse` (9250–9700). Aradaki ~8000 px (çatılar, çeşme arenası, bahçe duvarı,
+  rıhtım, depo, defter odası; x≈1400–9050) tamamen tehlikesiz. DTM orta bölümü telegraflı tehlikelerle örer; bu boşluk ritim
+  ve çeşitlilik kaybı. Doğal yer: rıhtım (vinç paleti/asılı yük @5950, telegraflı sallanan yük) veya depo (aşağıya bak, md.2).
+  Düzeltilebilir ama zorluk değiştirir → eklemeden sonra bot 0-ölüm geçişi yeniden ölçülmeli (indeks 28). ·
+  (2) **Tema sadakati — "çöken iskele" vaadi:** bölüm başlık yorumu depo bölümünü "depo (erzak; çöken iskele)" diye tanımlıyor
+  ama 6. bölüm (depo `_interior(7000,8000)`) içinde hiç `_collapse`/`_canal` yok; tek çöken iskele finalde (8. bölüm). Depoya
+  temaya uygun tek telegraflı `_collapse` segmenti hem vaadi karşılar hem md.1 boşluğunu kapatır. Zorluk değiştirir, bot yeniden
+  ölçülmeli. · (3) **Rıhtım dövüş boşluğu:** rıhtım (5150–6550, ~1400 px: scaffold+hareketli platform) yalnız 1 BRUISER@6200
+  içeriyor; geçiş ağırlıklı. Bu kasıtlı "nefes" beat'i olabilir (DTM geçiş→dövüş→nefes→meydan okuma ritmine uygun), dokunma;
+  insan testi "rıhtım boş/sıkıcı" derse hareketli platform üstüne tek tüfekli. · (4) **Defter odası finali (8300–9000,
+  `_fight` ELITE+KNIFE → ELITE+RIFLE+BRUISER):** bot 16 sn takıldı, 115→67 cana düştü; `_fight` varsayılanı HEALTH ödülü verdiği
+  için bot 67→88 toparlandı, sonra çöken-iskele finaline (SHIELD+ASSASSIN @9800) 88 canla girdi. Dengeli görünüyor; insan testi
+  "defter odası sonrası can bitti" derse çöken iskele girişine (x≈9150, zemin) tek görünür HEALTH. · (5) **Açılış tehlike
+  yoğunluğu:** `_falling_pot(1150)` bölümün ilk 8000 px'indeki tek çevresel tehlike (md.1'in alt yüzü); tek başına sorun değil
+  ama çeşitlilik için md.1/md.2 ile birlikte ele alınmalı. · (6) **`capture_level.gd` headless asılması (oyun dışı araç):**
+  bu turda 8 noktalık pencereli çekim denemesi headless'ta `frame_post_draw`/`Cutscene` atlama döngüsünde asılı kaldı (2+ dk
+  çıktı yok, süreç öldürüldü). Tur 298'deki "ilk çekim başlık kartına takılıyor" notuyla aynı aile; araç cilası gerekiyor
+  ki otonom denetimler görsel doğrulama yapabilsin.
+
 - (Tur 298 denetimi, Bölüm 3 + 27; insan testine bağlı) (1) **UYGULANDI:** Bölüm 27 arşiv çıkışına tek HEALTH
   (8880) · (2) Bölüm 27 finali (bombacı+elit+iri, 2 dalga): insan testinde final ölümü 1'i geçerse son dalgadan bombacı
   çıkarılsın · (3) Bölüm 3 bahçe arenası (`@5138`, 3 dalga) bot 8 sn takıldı, 0 ölüm; insan arena süresi ölçülsün ·
@@ -528,6 +554,29 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-18 (299) — Denetim: Bölüm 29 (Kuzguncuk Kıyı Deposu) temiz; çevresel tehlike orta bölümde yok
+
+**Neden şimdi:** stil listesi (33/33) ve her iki yol haritası kapalı, birikimin koşulsuz maddeleri bitmiş → kural (d).
+Günlükte en az anılan bölüm sayımı yapıldı; Bölüm 29 (16 anım) en azı, seçildi.
+**Nasıl doğrulandı:** indeks 28 başsız bot (`bolum_play.tscn`, `--fixed-fps 60`) + tüm bölüm betiği (`bolum29.gd`) ve
+`dtm_level.gd` yardımcılarının okunması. Pencereli çekim denendi ama `capture_level.gd` headless'ta asılı kaldı (birikim
+Tur 299/6), çekimsiz kalındı; Kuzguncuk atlasları zaten stil listesinde onaylı ve Tur 294/297'de DTM düzeyinde doğrulandı.
+**Bulgular:** CLEARED @10107, 82,9 sn, 0 respawn; en uzun takılma 16 sn @8549 (defter odası arenası). Can eğrisi: çeşme
+arenası 93→77, defter odası arenası 115→67 → `_fight` varsayılan HEALTH ödülüyle 67→88 toparlanma → çöken-iskele finaline
+(SHIELD+ASSASSIN) 88 canla giriş. Bölüm ritmi DTM'e uygun (kovalamaca → çatı rotası → çeşme arenası → bahçe duvarı →
+rıhtım nefesi → depo erzak+mağaza → defter odası arenası → çöken iskele finali), katmanlı rota ve iç mekânlar var, hikâye
+beat'i (Gazelle annesinin dosyası) güçlü. **En güçlü eksik:** 3 çevresel tehlikenin hepsi uçlarda — açılış saksısı (1150)
+ve final kanal/çökme (9250–9700); aradaki ~8000 px tehlikesiz. Ayrıca başlık yorumu depoda "çöken iskele" vaat ediyor
+ama depo iç mekânında çökme yok (yalnız finalde).
+**Değişiklik:** yok (otonom denge değişikliği yapılmadı — bot 0 ölümle temiz, DTM kurallarına uygun; tehlike eklemek
+zorluğu değiştirir, insan verisi olmadan risk). Denetim 6 maddeyle birikime yazıldı (Tur 299), en üstteki iki madde
+(orta bölüm tehlikesi + depo "çöken iskele" vaadi) gelecekte bot yeniden ölçülerek uygulanabilir.
+**Testler:** bot indeks 28 CLEARED @10107 / 82,9 sn / 0 respawn. Kod değişmediğinden `--import`/smoke/dtm_gaps yeniden
+koşulmadı (yalnız belge güncellemesi).
+**Sonraki adım:** birikim Tur 299/1 — rıhtım veya depoya temaya uygun tek telegraflı tehlike ekle (`_collapse` veya
+sallanan vinç yükü), sonra indeks 28 + ortak sistem değişmediği için yalnız 28 bot koşusuyla 0-ölüm korunuyor mu diye
+doğrula. Alternatif: `capture_level.gd` headless asılmasını düzelt (Tur 299/6) ki otonom denetimler görsel doğrulama alabilsin.
 
 ### 2026-11-18 (298) — Denetim: Bölüm 3 temiz; Bölüm 27 arşivinden çıkışa tek can (final örüntüsü 5. koşuda da)
 
