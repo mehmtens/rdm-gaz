@@ -7,6 +7,27 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 304 denetimi, günlükte dedike denetimi olmayan Bölüm 17 "Beyazıt Posta Hattı", Kitap 2 / "Haliç'in İzi" 5.
+  bölüm, indeks 16 — headless bot CLEARED @10007 / 74,8 sn / 0 respawn / hp min 94, en uzun takılma 11 sn @2853 =
+  Beyazıt meydanı arenası. Temiz, adil, dengeli; zorluk/okunurluk sorunu YOK. Bulgular DTM sütunlarıyla tasarım-kalitesi
+  karşılaştırması, hepsi insan testine bağlı, çoğu çevresel çeşitlilik. Etki/maliyet sırasıyla:)
+  (1) **UYGULANDI (tur 304) — çevresel tehlike tamamen yoktu (en güçlü bulgu):** Bölüm 17'de hiç telegraflı çevresel
+  tehlike yoktu (`_canal/_collapse/_falling_pot/flame/crusher` = 0); komşular 15 (3), 19 (4), 20 (1) var ve **16-17-18
+  ardışık üçlüsü tamamen tehlikesiz** = Kitap 2 ortasında uzun "düz zemin + düşman" şeridi. İki temaya uygun telegraflı
+  `_falling_pot` eklendi: meydan girişi (1850,-230, medrese saçak kiremidi, arena öncesi beat) + posta cephesi geçişi
+  (5500,-240, tüfek hattı + kiremit çapraz baskısı, hareketli platforma koşarken). Geometri değişmedi (bot-güvenli).
+  Bot yeniden CLEARED 85,0 sn / 0 respawn / hp min 85 (kiremitler ~9 hp, adil). · (2) **Hareketli platform (S4) yarım
+  kullanılıyor:** tek `_moving(5650,-220)` yatay 280 px, altı tehlikesiz → yalnız coin köprüsü. DTM hareketli platformu
+  tehlike üstüne koyar; artık altına/yanına kiremit beat'i geldi, bir sonraki adım platform geçişini RIFLE@5440 atış
+  hattıyla zamanlamak. · (3) **S7 "Paket geçidi" zayıf dilim (8350-9300, ~950 px):** tek BRUISER + HEALTH; kasıtlı nefes
+  olabilir ama "geçit" vaadi mekanik değil — dar aralık/kısa parkur ya da tek telegraflı tehlikeyle "geçit" hissi.
+  Düşük öncelik. · (4) **Katmanlı rota ödül doğrulaması:** S3 saçak zinciri (6 scaffold zikzak + PISTOL@4530), S5
+  galeri (4 scaffold + ARMOR@7110), S6 üst kat (KNIFE + coin) — üst rotalar var ve ödüllü; bot düşük rotayı kullanıyor,
+  insan testinde üst ödül görünürlük/erişimi doğrulansın. · (5) **Meydan arenası siper set-piece'i az kullanılıyor:**
+  tek `_stones(2600)` "sütun kaidesi siperi" niyetli ama 2. dalga RIFLE+SHIELD oyuncuyu siper almaya zorlamıyorsa
+  dekoratif kalır; insan testi "siper işe yaradı mı" ölçsün, yaramadıysa tüfekliyi siper gerektirecek açıya koy. ·
+  (6) **Görsel doğrulama alınamadı:** `capture_level.gd` hâlâ güvenilmez (tur 300-301); denetim kod + bot telemetrisiyle.
+
 - (Tur 302 denetimi, Bölüm 32 "Kuleli Gözetleme Hattı"; insan testine bağlı) (1) **UYGULANDI (tur 302):** nefes
   odasına görünür tek HEALTH (8080,0), baca sonrası iyileşme boşluğu kapandı · (2) section 6 "projektörlü kuleler"
   vaadi mekanik değil (yalnız RIFLE tünekleri); temaya uygun sweeping ışıldak tehlikesi — yeni sprite/piksel art, büyük
@@ -9011,3 +9032,23 @@ TIMEOUT @4046 → kod geri alındı, özgün sütun zaten tur 302'de CLEARED do�
 **Sonraki öneri:** otonom geometri maddesi tükendi; bir sonraki tur kural (d) denetimi (günlükte az anılan bir bölümü
 botla oynat, DTM sütunlarıyla karşılaştır, ölçülebilir iyileştirmeleri birikime yaz) ya da md.3'ün geometri-dışı
 (RIFLE/siper) dilimini küçük ve bot-güvenli tut.
+
+### 2026-11-18 — Bölüm 17 denetimi: çevresel tehlike boşluğu kapatıldı (tur 304)
+
+**Neden şimdi:** stil listesi (33/33) ve iki yol haritası kapalı, P1 özellik boşlukları hep "Uygulandı", birikimin
+otonom-geometri maddesi tur 303'te tükendi → kural (d). Günlükte dedike denetimi olmayan Bölüm 17 "Beyazıt Posta Hattı"
+(Kitap 2, indeks 16) botla oynatıldı ve DTM sütunlarıyla karşılaştırıldı.
+**Bulgu:** bot CLEARED @10007 / 74,8 sn / 0 respawn / hp min 94 — temiz, adil, dengeli; zorluk sorunu yok. En güçlü
+tasarım bulgusu: bölümde hiç telegraflı çevresel tehlike yok (`_canal/_collapse/_falling_pot/flame/crusher` = 0), üstelik
+**16-17-18 ardışık üçlüsü tamamen tehlikesiz** (komşu 15=3, 19=4, 20=1). Kitap 2 ortasında uzun "düz zemin + düşman"
+şeridi; DTM geçiş bölümlerini telegraflı tehlikelerle örer. 6 maddelik denetim birikime yazıldı (etki/maliyet sırası).
+**Değişiklik (`bolum17.gd`):** en üstteki madde uygulandı — iki temaya uygun, telegraflı, dodge edilebilir `_falling_pot`:
+meydan girişi (1850,-230, medrese saçak kiremidi, arena öncesi "burası düşman" beat'i) + posta cephesi geçişi
+(5500,-240, tüfekliyi geçip hareketli taşıma yoluna koşarken tüfek hattı + kiremit çapraz baskısı). Komşu bölümlerin
+(13/14/27/29/31) kullandığı mevcut `_FallingPot` yeniden kullanıldı; yeni görsel yok, platform geometrisi değişmedi.
+Sayılar: iki kiremit (komşular da 1-2 kullanıyor), zemini kapatmaz, ölümcül değil (hipotez, insan testiyle doğrulanmalı).
+**Testler:** `--import` SCRIPT ERROR 0; `dtm_gaps` PASS; `campaign_smoke` çıkış 0; bot Bölüm 17 yeniden CLEARED @10008 /
+85,0 sn / 0 respawn / hp min 85 (kiremitler ~9 hp; arena takılması 14 sn @2853 değişmedi — tehlikeler arenanın dışında).
+Ortak sistem değişmedi (yalnız tek bölüm). Görsel çekim alınmadı (`capture_level.gd` güvenilmez).
+**Sonraki öneri:** birikim md.1 (Bölüm 17) kapandı; kalan 2-6 insan testine bağlı. Ardışık tehlikesiz şerit için komşu
+Bölüm 16 ve 18'de de aynı denetim yapılabilir (ikisi de hazard=0), ya da kural (d) ile başka az denetlenen bölüm.

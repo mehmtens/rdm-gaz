@@ -41,6 +41,10 @@ func _build() -> void:
 	# doğum noktalarının (2125/2250/2500/2750/2875) arasında, kimse taşın içine doğmaz.
 	_checkpoint(1550, 0)
 	_terrain(1700, 3350, 0)
+	## Meydan girişinde medrese saçağından kopan kiremit: telegraflı (düşmeden
+	## titrer), dodge edilir, zemini kapatmaz — arena öncesi "burası düşman" beat'i
+	## (16-17-18 ardışık tehlikesiz şeridini kırar, bkz. tur 304 denetimi).
+	_falling_pot(1850, -230)
 	_prop("vazo", 1950, 0)
 	_stones(2600, 1, 1)
 	_pickup(COIN, 2645, -135)
@@ -83,6 +87,10 @@ func _build() -> void:
 	## Tüfekli tünek malzemesi yere göre: tüfekli cephe önündeki taş sette.
 	_stones(5260, 3, 2)
 	_enemy(RIFLE, 5440, -180)
+	## Posta binası saçağından düşen kiremit: oyuncu tüfekliyi geçip hareketli
+	## taşıma yoluna koşarken telegraflı ikinci tehlike beat'i (çapraz baskı:
+	## tüfek hattı + düşen kiremit), dodge edilir, platform geometrisine dokunmaz.
+	_falling_pot(5500, -240)
 	_moving(5650, -220, Vector2(280, 0), 140, 0.0)
 	_scaffold(6050, -220, 120)
 	_pickup(RIFLE_PICKUP, 6050, -265)
