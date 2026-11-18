@@ -7,6 +7,16 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 317 denetimi, Bölüm 26 "Sirkeci Sevkiyatı", Kitap 3 / 2. bölüm, indeks 25. Bot: CLEARED @9758 / 81,3 sn /
+  0 respawn / hp min **6** (arka peron arenası); değişiklik sonrası @9759 / 78,0 sn / hp min 18.)
+  (1) **UYGULANDI (tur 317) — arka peron arenası 2. dalga 3 ağır düşman:** BRUISER+SHIELD+ASSASSIN, 25 ve 27'nin son
+  arena 2. dalgalarından (iki düşman) yoğun; SHIELD 350 px sonra sevk odasında (9050) tekrar. SHIELD dalgadan çıktı. ·
+  (2) **Can vadisi 3150→7900:** zemin rotasında can yok; HEALTH yalnız salon üst katında (5300,-275), vagon arası gizli
+  sandıkta ve erzakçıda. Bot üçünü de almıyor (115→51). İnsan testi "arenaya az canla girdim" derse sandığın önüne coin
+  izi ya da baca ödülü ARMOR→HEALTH. · (3) **Gar cephesi arenası** 115→83, 8 sn takılma: normal. · (4) **Tek tehlike**
+  (6300 diken çukuru) — vinç paleti ve vagonlar baskıyı taşıyor, kasıtlı. · (5) **Komiser Rıfat sahnesi** sesle (voice)
+  oynanıyor; ilk görünüş vaadi ("ilk kez görünür") görsel değil — karakter sprite'ı eklenirse buraya.
+
 - (Tur 315 denetimi, Bölüm 24 "Bozdoğan Kemeri / Son Kumanda", KİTAP 2 FİNALİ, indeks 23 — günlükte en az anılan
   bölüm (28), son ayrıntılı bakış tur 57. Bot: başsız CLEARED @18658 / 180,2 sn / 0 respawn / hp min 24 (dağıtım haznesi
   MINIBOSS arenası); pencereli CLEARED @18657 / 172,1 sn / 0 respawn / hazne hp min 96 → yüksek varyans.)
@@ -683,6 +693,22 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-18 (317) — Denetim (Bölüm 26 — Sirkeci Sevkiyatı): arka peron arenası 2. dalgası iki düşmana indi
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikim insan testine bağlı → kural (d). Tur 316'nın
+önerdiği en az anılan Bölüm 26 bot ile oynatıldı.
+**Ölçüm:** CLEARED @9758, 81,3 sn, 0 respawn; can 115 → gar cephesi arenası 83 → peron/salon 57 → arka peron arenasına
+51 ile giriş → **6** (12 sn takılma). Arena ödülü HEALTH ile 36.
+**Bulgu:** 2. dalga BRUISER+SHIELD+ASSASSIN; komşu bölümlerin son arena 2. dalgaları iki düşman (25: BRUISER+ASSASSIN,
+27: ELITE+BRUISER) → Kitap 3'ün 2. bölümünde zorluk eğrisinde sıçrama; kalkanlı ayrıca 350 px sonra sevk odasında.
+**Oyuncu ne hissedecek:** arena hâlâ yoğun (Elit+bombacı, sonra tank+suikastçı) ama kalkanlı ilk kez sevk odasında,
+tüfekliyle birlikte ayrı bir okuma sorusu olarak gelir; arena sonrası ölüm eşiği yerine gergin bir kazanış.
+**Değişiklik (`scripts/systems/bolum26.gd`):** `_wave(BRUISER, SHIELD, ASSASSIN)` → `_wave(BRUISER, ASSASSIN)`.
+Sayı hipotez; insan testi "arena kolay" derse geri alınır.
+**Testler:** `--import` SCRIPT ERROR 0; `DTM GAPS: PASS`; `campaign_smoke` çıkış 0 (Bolum26 OK); bot Bölüm 26 CLEARED
+@9759 / 78,0 sn / 0 respawn / hp min 18 (önce 6), takılma 8 sn (önce 12). Ortak sistem değişmedi.
+**Sonraki adım:** en az anılan sıradaki bölüm denetimi ya da insan testi (Bölüm 18, 25, 26 can vadileri).
 
 ### 2026-11-18 (316) — Anlatı: 19 bölümde bölüm sonu keşfini önceden ele veren telsizler yeniden yazıldı
 

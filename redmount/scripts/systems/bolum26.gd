@@ -102,7 +102,8 @@ func _build() -> void:
 	# --- 7. Arka yük peronu: arena ------------------------------------------
 	_checkpoint(7850, 0)
 	_scaffold(8300, -150, 180)
-	_fight(7900, 8700, _wave(ELITE, BOMBER), _wave(BRUISER, SHIELD, ASSASSIN))
+	# 2. dalga iki düşman (25 ve 27'nin son arenalarıyla aynı yoğunluk); kalkanlı sevk odasında.
+	_fight(7900, 8700, _wave(ELITE, BOMBER), _wave(BRUISER, ASSASSIN))
 
 	# --- 8. Sevk odası: telgraf makbuzu (iki katlı büro) -------------------------
 	_checkpoint(8800, 0)
