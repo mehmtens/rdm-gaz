@@ -46,6 +46,10 @@ func _build() -> void:
 	# Tente sol kapıya dayalı: dalga doğum noktaları (x ≥ 2220) katı tezgâha düşmesin.
 	_checkpoint(1550, 0)
 	_terrain(1700, 3350, 0)
+	## Çarşı yolunda tezgâh saksısı: telegraflı (düşmeden titrer), dodge edilir,
+	## zemini kapatmaz — arena öncesi tehlike beat'i (16-17-18 ardışık tehlikesiz
+	## şeridinin sonu; erken/güvenli bölüme konur, geç vadiyi sıkıştırmaz, bkz. tur 306).
+	_falling_pot(1850, -230)
 	_stall(2850)
 	var tente := AwningBounce.new()
 	tente.width = 160
@@ -87,6 +91,10 @@ func _build() -> void:
 	_balcony(5080, -180, 240)
 	_enemy(RIFLE, 5140, -180)
 	_pickup(RIFLE_PICKUP, 5000, -225)
+	## Bakırcı dükkânının üst rafından düşen bakır tepsi: telegraflı ikinci tehlike
+	## beat'i (tüfek balkonunu geçerken); erzak dükkânı (5950) hemen ardından can
+	## tamponu sağlar, han ambarı zorluk vadisinden (8100+) önce ve uzakta.
+	_falling_pot(5300, -230)
 	_enemy(KNIFE, 5450, 0)
 	_enemy(BRUISER, 5650, 0)
 	_prop("kasa", 5780, 0, COIN)

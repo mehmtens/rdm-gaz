@@ -7,6 +7,23 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 306 denetimi, Bölüm 18 "Kapalıçarşı Arka Hanı", Kitap 2 / "Haliç'in İzi" 6. bölüm = KİTAP 2 FİNALİ, indeks 17 —
+  headless bot iki koşu CLEARED @10056-10058 / ~87 sn / 0 respawn ama **hp min 3 (!) birinci koşu, 48 ikinci koşu** =
+  çok yüksek varyans. Üç arenalı en zor Kitap 2 bölümü. Etki/maliyet sırası:)
+  (1) **UYGULANDI (tur 306) — çevresel tehlike yoktu (16-17-18 şeridinin sonu):** iki telegraflı `_falling_pot` eklendi
+  ama YALNIZCA erken/güvenli bölümlere: çarşı yolu saksısı (1850,-230, arena öncesi) + bakırcı bakır tepsisi (5300,-230,
+  erzak dükkânı 5950 hemen ardından). Geç zorluk vadisine (8100+) KONULMADI — orada bot zaten hp 3'e düşüyor. Bot yeniden
+  CLEARED 0 respawn, hp min 48. · (2) **(İNSAN TESTİ, EN GÜÇLÜ DENGE BULGUSU) Han ambarı → defter odası can vadisi:**
+  han ambarı arenası (8100, `ELITE+BOMBER` → `ELITE+KNIFE+RIFLE`) **ödülü AMMO** (16/17'deki arenalar HEALTH veriyor,
+  bu tek istisna → iyileşme yok); hemen ardından defter odasında tek `ELITE@9050` geliyor, HEALTH ancak 9280'de. Bot bir
+  koşuda ambar→ELITE arasında hp 10→3'e düştü (neredeyse öldü), diğer koşuda 48. Bu Kitap 2'nin en oynak/ölümcül-yakın
+  yeri. İnsan testi "burada öldüm" derse en ucuz düzeltme: ambar ödülünü AMMO→HEALTH yap (diğer arenalarla tutarlı) VEYA
+  defter odası ELITE'inden ÖNCE (x≈8950) tek görünür HEALTH. Otonom nerf yapılmadı (bot 0 ölümle geçiyor, karar insana).
+  · (3) **Üç arena + AMMO ödül ekonomisi:** ambar AMMO veriyor çünkü çatı finali (3 dalga, RIFLE içerir) cephane istiyor;
+  tutarlılık (madde 2) ile ekonomi arasında denge insan testinde ölçülmeli. · (4) **Katmanlı rota ödülleri var ve ödüllü**
+  (tente→revak HEALTH@2390, bedesten raf PISTOL@4370, han avlusu ARMOR@7010); insan testinde görünürlük doğrulansın. ·
+  (5) **Görsel doğrulama alınamadı** (`capture_level.gd` güvenilmez); denetim kod + bot telemetrisiyle.
+
 - (Tur 305 denetimi, Bölüm 16 "Süleymaniye Arşivi", Kitap 2 / "Haliç'in İzi" 4. bölüm, indeks 15 — headless bot CLEARED
   @9956 / 72,4 sn / 0 respawn / **hp min 28** (belge odası arenası @8274, çift ELITE: ELITE+RIFLE → ELITE+KNIFE+RIFLE),
   en uzun takılma 10 sn aynı arena. Temiz geçiş ama Bölüm 17'den sıkı. Etki/maliyet sırası, insan testine bağlı:)
@@ -9082,3 +9099,20 @@ insan testine bırakıldı (bot 0 ölümle geçiyor, otonom denge değiştirmedi
 75,9 sn / 0 respawn / hp min 39 (sıkı nokta hâlâ belge arenası, kiremitlerden bağımsız). Ortak sistem değişmedi.
 **Sonraki öneri:** 16-17-18 şeridinden Bölüm 18 kaldı (hazard=0); bir sonraki tur aynı denetim ya da kural (d) ile
 başka az denetlenen bölüm. Belge/meydan arenalarının çift-ELITE zorluk zirveleri insan testinde ölçülmeli.
+
+### 2026-11-18 — Bölüm 18 denetimi: Kitap 2 finali, tehlike boşluğu kapatıldı + can vadisi bulgusu (tur 306)
+
+**Neden şimdi:** 16-17-18 ardışık tehlikesiz şeridini tamamlamak → kural (d), Bölüm 18 "Kapalıçarşı Arka Hanı" (Kitap 2
+finali, indeks 17) botla oynatıldı.
+**Bulgu:** üç arenalı en zor Kitap 2 bölümü. Bot iki koşu da CLEARED (0 respawn) ama **hp min birinci koşuda 3,
+ikincide 48 = çok yüksek varyans**. Düşüş yeri: han ambarı arenası (ödül AMMO, iyileşme yok) → defter odası tek ELITE@9050,
+HEALTH ancak 9280'de. Çevresel tehlike yine 0 (şeridin üçüncü ve son bölümü).
+**Değişiklik (`bolum18.gd`):** en üstteki madde uygulandı — iki telegraflı `_falling_pot` ama YALNIZCA erken/güvenli
+bölümlere: çarşı yolu saksısı (1850) + bakırcı tepsisi (5300, erzak dükkânı 5950 öncesi). Geç zorluk vadisine (8100+)
+bilinçli KONULMADI (bot orada zaten hp 3'e düşüyor; hazard eklemek ölüm riski yaratırdı). Ambar can vadisi (md.2) en güçlü
+denge bulgusu ama otonom nerf yapılmadı — bot 0 ölümle geçiyor, karar insan testine (birikim md.2'de ucuz düzeltme önerisi).
+**Testler:** `--import` SCRIPT ERROR 0; `dtm_gaps` PASS; `campaign_smoke` çıkış 0; bot Bölüm 18 yeniden CLEARED @10058 /
+87,1 sn / 0 respawn / hp min 48 (kiremitler güvenli bölümde, zarar vermedi). Ortak sistem değişmedi.
+**Sonraki öneri:** 16-17-18 tehlikesiz şeridi kapandı (üçüne de ikişer temaya uygun telegraflı kiremit). Bölüm 18 han
+ambarı can vadisi insan testinde ölçülmeli (en güçlü aday). Bir sonraki tur başka az denetlenen bölümde kural (d), ya da
+tüm bölümlerde hızlı bir `hazard=0` taraması yapıp tehlikesiz bölümleri topluca listeye almak.
