@@ -722,6 +722,22 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-18 (323) — Tehlike-üstü-dövüş taraması (36 bölüm): Bölüm 22 pompa salonu kablosu kaldırıldı
+
+**Neden şimdi:** tur 322'de bulunan hata sınıfı (yalnız oyuncuya işleyen zamanlı tehlikenin ±120 px'inde yer yakın
+düşmanı) betikle 36 bölümde tarandı: `_live_wire` / `_flame` aralıkları × `_enemy(..., y=0)` (RIFLE/BOMBER hariç).
+**Bulgular:** (a) **Bölüm 22** pompa salonu: üç presin hemen ardından ASSASSIN@7250 tam `_live_wire(7200, 7380)` üstünde —
+Bölüm 7'nin aynısı. (b) **Bölüm 30** yanan arşiv: ELITE@5800 iki zemin alevinin (5550/5950) arasındaki 320 px'lik temiz
+zeminde; alevler sabit konumlu ve telegraflı, "alevler arasında dövüş" kasıtlı set-piece → dokunulmadı.
+**Değişiklik (`scripts/systems/bolum22.gd`):** `_live_wire(7200, 7380, 1.2)` kaldırıldı; pompa salonu üç pres (zamanlama)
+→ temiz zeminde Suikastçı → kontrol noktası 7450. Bölümde 4400 ve 9660 kabloları kalıyor.
+**Dürüst ölçüm:** bot Bölüm 22 önce iki koşu CLEARED @10110/10105, sonra iki koşu @10110/10109, 0 ölüm; 7000–7400 arası
+önce de sonra da 0 hasar (bot Suikastçıyı kablo açılmadan bitiriyor). Değişiklik bot verisine değil tasarım ilkesine
+dayanıyor: Suikastçının kaçma/atılma hamlesi insan oyuncuyu kablonun üstüne sürükler. İnsan testi "pompa salonu fazla
+kolay" derse kablo 6900–7000 (pres arası, düşmansız) konumuna geri konabilir.
+**Testler:** `--import` SCRIPT ERROR 0; `dtm_gaps` PASS; `campaign_smoke` çıkış 0 (Bolum22 OK); bot yukarıda.
+**Sonraki öneri:** insan oyun testi (Bölüm 7 fırın yolu, 22 pompa salonu, birikim Tur 322).
+
 ### 2026-11-18 (322) — Denetim (Bölüm 7 ve 1): Bölüm 7 fırın yolunda dövüşün altındaki elektrik kablosu kaldırıldı
 
 **Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin tamamı insan testine bağlı → kural (d). Son
