@@ -7,6 +7,15 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 322 denetimi, Bölüm 7 "Karahanlı Haddehanesi" (indeks 6, son başlıklı denetim tur 186) ve Bölüm 1 "Balat"
+  (indeks 0, tur 180). Bot yüksek varyanslı: Bölüm 7 yedi koşuda CLEARED, 0–1 ölüm; Bölüm 1 CLEARED @8608, 0 ölüm, hp min 37.)
+  (1) **UYGULANDI (tur 322) — Bölüm 7 fırın yolu kablo+dövüş üst üste:** ayrıntı tur kaydında. · (2) **Bölüm 7 zırhlı arena
+  ödülü** (HEALTH, 5350 arena ortası) son düşman sağ kapıda (≈5800) ölünce oyuncunun 450 px gerisinde düşüyor; bot 7 koşunun
+  6'sında almadı ve 19–49 canla pres hattına girdi. Altın halka duyurusu var; insan testi "arenadan az canla çıktım" derse
+  ödül x'i son düşmanın öldüğü yere (ya da sağ kapıya) yakın düşürülsün — ortak BattleArena değişikliği, 36 bölümü etkiler. ·
+  (3) **Bölüm 1 ilk bölüm için ağır:** pazar 3. dalgada ve finalde ASSASSIN, final 3. dalgada ELITE; bot 115→37. DTM'nin ilk
+  bölümü yumuşak; insan testi "ilk bölüm zor" derse pazar 3. dalga ASSASSIN→STREET, final ELITE→BRUISER.
+
 - (Tur 320 denetimi, Bölüm 35 "Anadoluhisarı Kale İçi", indeks 34 — son adlı denetimi tur 194. Değişiklik öncesi bot
   CLEARED @9908 / 107,2 sn / 1 ölüm; sonrası 4 koşu CLEARED, 2'si 0 ölüm (hp min 17/27), 2'si 1 ölüm. Etki/maliyet:)
   (1) **UYGULANDI (tur 320) — kışla arenası 1. dalga çift Elit:** ELITE+ELITE → ELITE+KNIFE (ayrıntı tur kaydında). ·
@@ -712,6 +721,25 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-18 (322) — Denetim (Bölüm 7 ve 1): Bölüm 7 fırın yolunda dövüşün altındaki elektrik kablosu kaldırıldı
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin tamamı insan testine bağlı → kural (d). Son
+başlıklı denetimi en eski iki bölüm (1: tur 180, 7: tur 186) bot ile oynatıldı.
+**Bulgu:** Bölüm 7 fırın yolunda (6320–8000) iki pres + iki alevin hemen ardından Bıçaklı (7400) ve Zırhlı Vurucu (7600)
+tam olarak yalnız oyuncuyu yakan elektrik kablosunun (7450–7620) iki ucunda duruyordu: dövüş, zamanlı bir tehlikenin
+üstünde geçiyor ve kablo düşmana işlemiyor → okunmayan, haksız hasar. İlk koşuda bu 300 px'te 53→21.
+**İlk deneme (geri alındı):** ikiliyi kablonun ardına (7780/7930) taşımak; düşmanlar 320 px görüş menziliyle oyuncuya
+yürüyüp dövüşü yine kablonun üstüne getirdi, 3 koşuda 2 ölüm.
+**Değişiklik (`scripts/systems/bolum07.gd`):** `_live_wire(7450, 7620, 0.0)` kaldırıldı. Fırın yolu ritmi artık
+pres→alev→pres→alev (zamanlama bölümü) → temiz zeminde ikili dövüş → kontrol noktası (nefes). Bölümde 3400'deki kablo
+kalıyor (tanıtım tek başına, düşmansız). **Oyuncu ne hissedecek:** tehlikeyi geçtim, şimdi dövüşüyorum — iki ayrı beceri
+ayrı anlarda sınanıyor. Sayılar hipotez.
+**Testler:** `--import` SCRIPT ERROR 0; `dtm_gaps` PASS; `campaign_smoke` çıkış 0 (Bolum07 OK); bot Bölüm 7 dört koşu
+CLEARED (önce: 0 ölüm, hp min 11, dövüş bölgesi kaybı 20–32): sonrası dövüş bölgesi (7150–7650) kaybı 0, 0, 0, 10 hp;
+ölümler (2/4) arena ödülünü almadan 19 canla pres hattına giren koşularda (birikim md.2). Bölüm 1: CLEARED @8608 / 75,6 sn /
+0 ölüm / hp min 37, değişiklik yok.
+**Sonraki öneri:** insan oyun testi; Bölüm 7 arena ödülü konumu ve Bölüm 1 zorluğu (birikim Tur 322).
 
 ### 2026-11-18 (321) — Denetim (Bölüm 15 — Zeyrek Su Hattı): temiz; otonom iş kalmadı, otomasyon durdu
 

@@ -127,7 +127,6 @@ func _build() -> void:
 	_story(8980, _sahne_verici)
 	# Çevresel tehlikeler.
 	_live_wire(3400, 3560, 0.5)
-	_live_wire(7450, 7620, 0.0)
 	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.
 	_radio(2325, "karahanli", "KARAHANLI (hoparlör)", "Haddeme hoş geldin. Burada demir de, kahraman da bükülür.")
 	_radio(5115, "redmount", "REDMOUNT", "Verici çatıda. Onu susturursam yayınını da susturmuş olurum.")
