@@ -7,6 +7,16 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 320 denetimi, Bölüm 35 "Anadoluhisarı Kale İçi", indeks 34 — son adlı denetimi tur 194. Değişiklik öncesi bot
+  CLEARED @9908 / 107,2 sn / 1 ölüm; sonrası 4 koşu CLEARED, 2'si 0 ölüm (hp min 17/27), 2'si 1 ölüm. Etki/maliyet:)
+  (1) **UYGULANDI (tur 320) — kışla arenası 1. dalga çift Elit:** ELITE+ELITE → ELITE+KNIFE (ayrıntı tur kaydında). ·
+  (2) **Arena→pres ölüm hattı (7350–8080):** dört koşunun üçünde ölüm aynı yerde — kışla arenasından 10–20 canla çıkan
+  bot iki presin altında ölüyor; HEALTH 8250'de, preslerden SONRA. İnsan testi "preste öldüm" derse HEALTH 8250 →
+  7400 (pres öncesi) ya da 7350 kontrol noktası yanına sandık (tur 319 Bölüm 36 kalıbı). · (3) **Bölümde 4 Elit**
+  (sur kapısı arenası, avlu 5650, kışla, sırt 9250): kışla sonrası kabul edilebilir; avlu ELITE@5650 HİSAR KİLERİ
+  büfesinin hemen önünde, büfe kullanımı insan testinde ölçülsün. · (4) **Final sırtı** (RIFLE+ELITE üst sur, SHIELD
+  zemin) bot 47→17; ölüm yok, normal. · (5) Kışla takılması 18–25 sn (iki dalga + Yüzbaşı) — MINIBOSS için normal.
+
 - (Tur 318 denetimi, Bölüm 23 "Saraçhane", indeks 22 — günlükte en az anılan (30). Bot CLEARED @10107 / 91,3 sn /
   0 respawn / hp min 27. Hiçbiri koşulsuz değil:)
   (1) **İlk %70 yumuşak:** 0→7350 px boyunca can 115→99 (iki tekil ELITE 5550/6700 bota hasar vermedi); bütün baskı bakım
@@ -702,6 +712,27 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-18 (320) — Denetim (Bölüm 35 — Anadoluhisarı Kale İçi): kışla arenasının çift Elit dalgası Elit+Bıçaklı oldu
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin tamamı insan testine bağlı → kural (d). Eşit
+anılan bölümler arasında son adlı denetimi en eski olan Bölüm 35 (tur 194) bot ile oynatıldı.
+**Ölçüm:** CLEARED @9908, 107,2 sn, **1 ölüm**: kışla arenasına 56 canla giriş → 17 (20 sn takılma @6878) → pres
+hattında x≈7881 ölüm. Kışla arenası tur 173, 194, 2xx (birikim "Bölüm 7/35 ek koşu") ve bu koşuda ölüm ya da ölüm eşiği
+noktası — bot verisinde artık dört kez tekrarlı.
+**Bulgu:** 1. dalga ELITE+ELITE; bölümde zaten sur kapısı arenası, avlu (5650) ve sırtta (9250) birer Elit var →
+kışlaya kadar üç ayrı karşılaşmada Elit'in 0,2 sn telegrafı, sonra aynı arenada iki Elit üst üste, ardından Yüzbaşı.
+Tur 312/315'teki "Elit tekrarı" kalıbı.
+**Oyuncu ne hissedecek:** kışlaya giren oyuncu önce tek Seçkin'i bıçaklıdan ayırıp okuyabilir (biri kısa telegraf, biri
+hızlı ama hafif); asıl sınav 2. dalgada Yüzbaşı + kalkanlı olarak kalır. Galeri iskeleleri ve HEALTH ödülü değişmedi.
+**Değişiklik (`scripts/systems/bolum35.gd`):** `_wave(ELITE, ELITE)` → `_wave(ELITE, KNIFE)`; bölüm yorumu güncellendi.
+Hipotez: arena hasarı ~%20 azalır; insan testi "kışla kolay" derse geri alınır.
+**Testler:** `--import` SCRIPT ERROR 0; `DTM GAPS: PASS`; `campaign_smoke` çıkış 0 (Bolum35 OK); bot Bölüm 35 dört
+koşu, hepsi CLEARED: 101,2 sn / 0 ölüm / hp min 17; 104,2 sn / 0 ölüm / hp min 27; 107,8 sn / 1 ölüm; 107,2 sn / 1 ölüm
+(arenadan 10 canla çıkış, pres x≈7611). Bot varyansı yüksek; arena çıkış canı 19/45/?/10 (önce 17). Ortak sistem
+değişmedi.
+**Birikime:** arena→pres ölüm hattı (HEALTH 8250 preslerden sonra) — insan testine bağlı, öneri birikimde.
+**Sonraki adım:** insan oyun testi (Bölüm 18, 25, 26, 33, 35, 36 can vadileri) ya da sıradaki eski denetimli bölüm.
 
 ### 2026-11-18 (319) — Denetim (Bölüm 36 — Son Yayın, final): ambar arenası önüne kırılabilir can sandığı
 
