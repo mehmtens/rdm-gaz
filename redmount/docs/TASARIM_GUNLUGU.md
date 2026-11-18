@@ -773,6 +773,27 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-18 (334) — Test aracı: botun üç sonsuz takılması giderildi (çukur, iskele, ölüm döngüsü)
+
+**Neden şimdi:** tur 333 önerisi Bölüm 28 orta kesim ölümünü yeniden görmekti. Pencereli koşu **zaman aşımına** düştü:
+bot 5450–6260 arasında 230 kez öldü. Ardından 10 çukurlu bölümün regresyonunda Bölüm 35 de bir kez takıldı. Bot denetimin
+tek ölçüm aracı; rastgele TIMEOUT'lar hem denetimi hem gelecekteki testleri kırar.
+**Bulgular ve düzeltmeler (yalnız `_autoplay.gd`, oyun kodu değişmedi):**
+(1) Düşmana yürüme dalı kenar-zıplaması yapmıyordu: dikenli çukurun (6180–6340) sağındaki Vurucuya yürüyen bot kenardan
+düşüyordu → düşman aynı kattaysa ve önde boşluk varsa zıpla (ilk sürüm yüksek iskele kenarından da atlatıp çukura
+fırlattı; koşul "düşmanın x'inde bu katta zemin var" ile daraltıldı). (2) Arena düşmanı alt kattayken bot her karede
+yeniden çömeliyordu; Bölüm 35'te arena iskelesine doğunca 850 sn yerinde kaldı → 1,5 sn inemezse 1 sn çömelmeden kenardan
+yürür. (3) Ölüm döngüsü: kule tepesinden (−330) koşarak atlayış tam çukura iniyor; doğuştan sonra rota deterministik
+olduğu için her seferinde aynı ölüm → son ilerlemeden beri tek sayılı ölümden sonra bot koşmadan yürür (farklı yay).
+**Testler:** `--import` SCRIPT ERROR 0; `DTM GAPS: PASS`; `campaign_smoke` çıkış 0; bot (son sürüm) Bölüm 28 ×4 CLEARED
+(0/0/1/1 ölüm; birinde kuleden çukura düşüp sonraki doğuşta yürüyerek geçti), Bölüm 1, 12, 25, 35 CLEARED. Ara sürümle
+Bölüm 2, 7, 8, 9, 15, 20, 29, 32, 36 CLEARED. Bölüm 28 orta kesimi (röle salonu arenası 6900–7750) 0 ölümle 53→20–35:
+tur 333'teki ölüm varyans, madde kapandı.
+**Birikime:** Bölüm 28 röle kulesi (5880, −330) sağından koşarak atlayan oyuncu tam dikenli çukura (6180–6340) iniyor;
+çukur anında öldürüyor (bot 72 canla öldü). İnsan testi "kuleden atlayınca öldüm" derse 6270,−150 iskelesi 6230'a
+kaydırılıp 160 px'e genişletilsin (iniş yakalama) ya da kule tüfeklisi 6050 iskelesine alınsın.
+**Sonraki öneri:** otonom iş yok; insan oyun testi (Bölüm 4/5/6 can sandıkları, Bölüm 28 kule-çukur atlayışı).
+
 ### 2026-11-18 (333) — Ödül toplayan botla can vadisi yeniden ölçümü; Bölüm 5 Makinist öncesi can sandığı
 
 **Neden şimdi:** tur 332 botu arena ödülünü toplamaya başladı; birikimdeki "can vadisi" maddelerinin hepsi eski (kötümser)

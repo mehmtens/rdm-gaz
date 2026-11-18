@@ -34,6 +34,11 @@ var _heal_t := 0.0
 var _heal_scan := 0.0
 var _heal_skip: Array = []
 var _heals := 0
+## Arena düşmanı alt kattayken aynı kotta inemeden geçen süre (tur 334).
+var _below_t := 0.0
+var _below_y := 0.0
+## Son ilerlemeden beri ölüm sayısı (tur 334 döngü kırıcı).
+var _deaths_here := 0
 
 
 func _ready() -> void:
@@ -77,17 +82,20 @@ func _physics_process(delta: float) -> void:
 	if _player.get_health() <= 0:
 		_main._respawn_player()
 		_respawns += 1
+		_deaths_here += 1
 		# Geri ışınlanma sonraki karede ">150 px geri" kuralıyla ikinci kez sayılmasın.
 		_prev_x = _player.global_position.x
 		return
 	if x < _prev_x - 150.0:
 		_respawns += 1
+		_deaths_here += 1
 	_prev_x = x
 	_max_x = maxf(_max_x, x)
 	if _max_x > _progress_x + 50.0:
 		_note_stall()
 		_progress_x = _max_x
 		_progress_t = _run_t
+		_deaths_here = 0
 
 	# diyalog kutusu açıksa geç
 	var db = _main.get_node_or_null(^"DialogueBox")
@@ -174,10 +182,19 @@ func _physics_process(delta: float) -> void:
 			var below := up.global_position.y > y + 60.0
 			if below:
 				# Düşman aşağıda: galeriden in (çömel + zıpla), ya da kenardan yürü.
-				if on_floor and absf(dx2) < 220.0:
+				# Aynı katta 1,5 sn inemediyse (tur 334: Bölüm 35'te arena iskelesine doğan bot
+				# her karede yeniden çömelip yerinde kaldı) 1 sn çömelmeden kenardan yürü.
+				if on_floor and absf(y - _below_y) < 4.0:
+					_below_t += delta
+				else:
+					_below_t = 0.0
+					_below_y = y
+				if on_floor and absf(dx2) < 220.0 and fmod(_below_t, 2.5) < 1.5:
 					Input.action_press(&"crouch")
 					_tap(&"jump")
 					_release_queue.append([&"crouch", _run_t + 0.3])
+				elif _below_t >= 1.5:
+					Input.action_release(&"crouch")
 			elif absf(dx2) < 110.0 and on_floor:
 				_tap(&"jump")
 			if absf(dx2) < 76.0:
@@ -221,6 +238,12 @@ func _physics_process(delta: float) -> void:
 		# Düşmanla arada siper / sandık varsa üstünden atla.
 		if _player.is_on_floor() and _player.is_on_wall():
 			_tap(&"jump")
+		# Düşman çukurun öbür yakasındaysa insan gibi atla (tur 334): Bölüm 28 dikenli çukurunun
+		# sağındaki Vurucuya yürüyen bot kenardan düşüp sonsuz yeniden doğma döngüsüne giriyordu.
+		# Yalnız düşmanın ayağı da bu kattaysa: yüksek iskele kenarından boşluğa atlamasın.
+		elif on_floor and absf(foe_dx) > 40.0 and not _ground_at(x + signf(foe_dx) * 30.0, y) \
+				and _ground_at(foe.global_position.x, y):
+			_tap(&"jump")
 		return
 
 	if _seek_heal(x, y, on_floor):
@@ -229,7 +252,12 @@ func _physics_process(delta: float) -> void:
 	# girdi botu
 	Input.action_release(&"move_left")
 	Input.action_press(&"move_right")
-	Input.action_press(&"run")
+	# Aynı yerde art arda ölüyorsa (tur 334: Bölüm 28 kuleden dikenli çukura her doğuşta aynı yay)
+	# insan gibi taktik değiştir: tek sayılı ölümlerden sonra yürüyerek dene.
+	if _deaths_here % 2 == 1:
+		Input.action_release(&"run")
+	else:
+		Input.action_press(&"run")
 
 	if absf(x - _last_x) < 3.0:
 		_stuck_t += delta
