@@ -38,6 +38,10 @@ func _build() -> void:
 	# Kitap 2'nin ortak çukur avlusu yerine dar sokak düz; cumbalar arenanın önünde.
 	_checkpoint(1550, 0)
 	_terrain(1700, 9900, 0)
+	## Ciltçiler sokağında cumba saksısı: telegraflı (düşmeden titrer), dodge
+	## edilir, zemini kapatmaz — arena öncesi tehlike beat'i (16-17-18 ardışık
+	## tehlikesiz şeridini kırar, bkz. tur 305 denetimi).
+	_falling_pot(1850, -230)
 	_balcony(2000, -40, 110)
 	_balcony(2160, -140, 110)
 	_coin_line(2120, 3, 50, -190)
@@ -78,6 +82,10 @@ func _build() -> void:
 	## Tüfekli tünek malzemesi yere göre: tüfekli kurutma iskelesinde (tek yön: altından geçilir, alttan çıkılır).
 	_scaffold(5365, -180, 270)
 	_enemy(RIFLE, 5440, -180)
+	## İmalathane kurutma iskelesinin üst rafından düşen ağırlık: oyuncu tüfekliyi
+	## geçip hareketli yola koşarken telegraflı ikinci tehlike beat'i (tüfek hattı +
+	## düşen ağırlık çapraz baskısı), dodge edilir, platform geometrisine dokunmaz.
+	_falling_pot(5550, -280)
 	_moving(5650, -210, Vector2(250, 0), 130, 0.0)
 	_scaffold(6030, -210, 120)
 	_pickup(RIFLE_PICKUP, 6030, -255)

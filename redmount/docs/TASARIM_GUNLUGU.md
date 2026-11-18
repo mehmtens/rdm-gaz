@@ -7,6 +7,20 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 305 denetimi, Bölüm 16 "Süleymaniye Arşivi", Kitap 2 / "Haliç'in İzi" 4. bölüm, indeks 15 — headless bot CLEARED
+  @9956 / 72,4 sn / 0 respawn / **hp min 28** (belge odası arenası @8274, çift ELITE: ELITE+RIFLE → ELITE+KNIFE+RIFLE),
+  en uzun takılma 10 sn aynı arena. Temiz geçiş ama Bölüm 17'den sıkı. Etki/maliyet sırası, insan testine bağlı:)
+  (1) **UYGULANDI (tur 305) — çevresel tehlike yoktu (16-17-18 tehlikesiz şerit, Bölüm 17 ile aynı bulgu):** iki temaya
+  uygun telegraflı `_falling_pot` eklendi: ciltçiler sokağı cumba saksısı (1850,-230, arena öncesi beat) + kâğıt
+  imalathanesi kurutma iskelesi ağırlığı (5550,-280, tüfek hattı çapraz baskısı). Geometri değişmedi; bot yeniden CLEARED
+  75,9 sn / 0 respawn / hp min 39. · (2) **Belge odası arenası zorluk zirvesi:** bot 94→28 cana düştü (çift ELITE, iki
+  dalga da ELITE içeriyor); arena HEALTH ödülü 58'e toparladı, 0 ölüm. İnsan testinde ölüm noktası olabilir — "belge
+  arenasında can bitti" denirse 2. dalgadaki ikinci ELITE KNIFE/RIFLE ile değiştirilsin ya da ara ödül eklensin. ·
+  (3) **Hareketli platform (S4) yarım kullanılıyor** (Bölüm 17 ile aynı kalıp): tek `_moving(5650)`, artık yanında
+  kiremit beat'i var; sonraki adım geçişi RIFLE@5440 atışıyla zamanlamak. · (4) **Katmanlı rota ödülleri var ve ödüllü**
+  (balcony@2000/2160, taş seki+PISTOL@4450, galeri+ARMOR@6720); insan testinde üst rota görünürlük/erişimi doğrulansın. ·
+  (5) **Görsel doğrulama alınamadı** (`capture_level.gd` güvenilmez); denetim kod + bot telemetrisiyle.
+
 - (Tur 304 denetimi, günlükte dedike denetimi olmayan Bölüm 17 "Beyazıt Posta Hattı", Kitap 2 / "Haliç'in İzi" 5.
   bölüm, indeks 16 — headless bot CLEARED @10007 / 74,8 sn / 0 respawn / hp min 94, en uzun takılma 11 sn @2853 =
   Beyazıt meydanı arenası. Temiz, adil, dengeli; zorluk/okunurluk sorunu YOK. Bulgular DTM sütunlarıyla tasarım-kalitesi
@@ -9052,3 +9066,19 @@ Sayılar: iki kiremit (komşular da 1-2 kullanıyor), zemini kapatmaz, ölümcü
 Ortak sistem değişmedi (yalnız tek bölüm). Görsel çekim alınmadı (`capture_level.gd` güvenilmez).
 **Sonraki öneri:** birikim md.1 (Bölüm 17) kapandı; kalan 2-6 insan testine bağlı. Ardışık tehlikesiz şerit için komşu
 Bölüm 16 ve 18'de de aynı denetim yapılabilir (ikisi de hazard=0), ya da kural (d) ile başka az denetlenen bölüm.
+
+### 2026-11-18 — Bölüm 16 denetimi: çevresel tehlike boşluğu kapatıldı (tur 305)
+
+**Neden şimdi:** tur 304'te bulunan 16-17-18 ardışık tehlikesiz şeridini sistematik kapatmak → kural (d), komşu Bölüm 16
+"Süleymaniye Arşivi" (Kitap 2, indeks 15) botla oynatıldı, DTM sütunlarıyla karşılaştırıldı.
+**Bulgu:** bot CLEARED @9956 / 72,4 sn / 0 respawn ama **hp min 28** belge odası çift-ELITE arenasında (@8274, iki dalga
+da ELITE) — Bölüm 17'den (min 94) belirgin sıkı, tek zorluk zirvesi orası. Çevresel tehlike yine 0 (Bölüm 17 ile aynı
+en güçlü bulgu). 5 maddelik denetim birikime yazıldı.
+**Değişiklik (`bolum16.gd`):** en üstteki madde uygulandı — iki temaya uygun telegraflı `_falling_pot`: ciltçiler sokağı
+cumba saksısı (1850,-230, arena öncesi beat) + kâğıt imalathanesi kurutma iskelesi ağırlığı (5550,-280, tüfek hattı
+çapraz baskısı). Mevcut `_FallingPot` yeniden kullanıldı, yeni görsel/geometri yok. Belge arenası zorluk zirvesi (md.2)
+insan testine bırakıldı (bot 0 ölümle geçiyor, otonom denge değiştirmedim).
+**Testler:** `--import` SCRIPT ERROR 0; `dtm_gaps` PASS; `campaign_smoke` çıkış 0; bot Bölüm 16 yeniden CLEARED @9958 /
+75,9 sn / 0 respawn / hp min 39 (sıkı nokta hâlâ belge arenası, kiremitlerden bağımsız). Ortak sistem değişmedi.
+**Sonraki öneri:** 16-17-18 şeridinden Bölüm 18 kaldı (hazard=0); bir sonraki tur aynı denetim ya da kural (d) ile
+başka az denetlenen bölüm. Belge/meydan arenalarının çift-ELITE zorluk zirveleri insan testinde ölçülmeli.
