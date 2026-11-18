@@ -7,6 +7,16 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 325, patron duruşu.) (1) **UYGULANDI (tur 325) — zırhlı patron kombo kilidi:** ayrıntı tur kaydında. ·
+  (2) **Duruş süresi 0,6 sn hipotez:** insan testinde ölçülsün: patrona "hiç vuramıyorum/kaçamıyorum" denirse 0,4;
+  "patron hâlâ kıpırdamıyor" denirse 0,8–1,0 (1,0'da bot patron arenalarında 8 ölüm verdi). · (3) **Zırhlı Vurucu
+  (armored_bruiser, `armor_break_hits` 4) duruşsuz bırakıldı:** sıradan düşman, 60 can; insan testinde "Vurucu kilitleniyor,
+  sıkıcı" denirse `poise_time` 0,4. · (4) **Bot patrona saldırı telegrafında geri çekilmiyor:** `_autoplay.gd` patron
+  hazırlığında (ATTACK/WINDUP) atılma ile kaçsa bot verisi insan oyununa yaklaşır — test aracı işi.
+  (5) **Bölüm 11 (tur 324 denetimi, temiz, 0 ölüm):** ilk arena dalgalarının üçünde Elit var (ELITE+KNIFE → ASSASSIN+ELITE+
+  SHIELD → ELITE+ELITE), Kitap 2 açılışı için yoğun; bot 115→39, bir koşuda bu arenada iki ölüm. İnsan testi "ilk arenada
+  öldüm" derse 3. dalga ELITE+ELITE → BRUISER+KNIFE.
+
 - (Tur 324 denetimi, Bölüm 10 "Kuzey Surları" (indeks 9, Kitap 1 finali, son denetim tur 185) ve Bölüm 16 (indeks 15,
   tur 193). Bölüm 16 CLEARED @9956 / 79,8 sn / 0 ölüm / hp min 32 → temiz.)
   (1) **UYGULANDI (tur 324) — Bölüm 10 final 3. dalgası çift Elit:** ayrıntı tur kaydında. · (2) **Bölüm 10 can vadisi
@@ -731,6 +741,33 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-18 (325) — Dövüş: zırhlı patronlar artık kesintisiz komboyla kilitlenmiyor (duruş / poise)
+
+**Neden şimdi:** tur 324 denetiminin devamında Bölüm 11 ve 13 bot ile oynatıldı (ikisi de CLEARED, 0 ölüm). Bölüm 10 ve
+11'in final arenalarında ~16 sn can sabit kalıyordu. Pencereli koşunun kareleri nedenini gösterdi: bot Muhafız Başı'nı
+(Ağır Zırhlı) kesintisiz komboyla kilitliyor (EFSANE x16 → x35); patron canı t=60'ta %85 iken t=70'te sıfır, patron tek
+hamle yapamıyor. Kök neden `enemy_base.apply_hit`: her darbe patronu 0,2 sn HURT'e sokuyor, saldırı vuruş kutusunu
+kapatıyor ve atılma hazırlığını iptal ediyordu. Yani "kalıcı ağır zırh, 8 isabette kırılır" vaadi mekanikte yoktu,
+patron dövüşü tek tuşa basmaya iniyordu.
+**Değişiklik:** `EnemyConfig.poise_time` (varsayılan 0 = eski davranış; kayıt formatı değişmedi). Patron bir kez
+sendeledikten sonra `poise_time` süresince darbeler hasar verir, kıvılcım ve ses çıkarır, zırh kırılma sayacını
+işletir, ama saldırıyı kesmez ve geri itmez. Zırh kırık pencere biterken de duruş başlar, böylece patron ilk darbede
+yeniden kilitlenmez. Kırık pencerede tam hasar ve tepkisizlik aynen sürüyor. `poise_time = 0.6`: Ağır Zırhlı
+(`mini_boss.tres`), Su İdaresi Şefi (`waterworks_chief.tres`), Yayın Şefi (`broadcast_director.tres`). Zırhlı Vurucu
+ve adlı sıradan düşmanlar değişmedi.
+**Oyuncu ne hissedecek:** patron artık kombonun içinden çekicini kaldırabiliyor. Telegrafı (0,5 sn hazırlık) okuyup
+atılmak ya da zırhı 8 isabetle kırıp 2,4 sn'lik pencereye yüklenmek gerçek bir seçim oluyor (DTM patron ritmi).
+**Sayı gerekçesi (hipotez):** hafif kombo darbeleri ~0,2–0,25 sn aralıkla geliyor. 0,6 sn duruş + 0,2 sn sendeleme,
+patrona ~0,8 sn'lik döngüde bir 0,5 sn hazırlık açıyor. Bot ölçümü (patronlu 8 bölüm: 6, 7, 8, 9, 10, 11, 12, 24; tek
+koşu): duruş kapalıyken patron arenasında 0 ölüm; 1,0 sn'de 8 ölüm, takılma +8–17 sn (çok sert, reddedildi); 0,6 sn'de
+3 ölüm (Bölüm 8, 9, 11 patronları), en uzun takılma 30 sn, hepsi CLEARED. Bot telegrafta kaçmayan saf bir tuşa basıcı,
+dolayısıyla bu ölümler beklenen ders. İnsan testiyle ayarlanacak (birikim Tur 325 md.2).
+**Testler:** `--import` SCRIPT ERROR 0; yeni `tests/boss_poise.tscn` PASS (4 sn kombo altında saldırıda geçen kare
+eski 11 → yeni 57, zırh kırılması sürüyor); `DTM GAPS: PASS`; `campaign_smoke` çıkış 0 (36/36); `named_foe`,
+`melee_queue`, `arena_mercy` PASS; bot CLEARED: Bölüm 1, 6, 7, 8, 9, 10, 11, 12, 24, 35, 36 (36'daki 2 ölüm tur 319
+temeliyle aynı yerlerde). Denetim: Bölüm 13 CLEARED @9559 / 65,9 sn / 0 ölüm / hp min 54; Bölüm 11 CLEARED 0 ölüm.
+**Sonraki öneri:** insan oyun testi, özellikle bir patron dövüşü (Bölüm 4/7 Ağır Zırhlı): duruş okunuyor mu?
 
 ### 2026-11-18 (324) — Denetim (Bölüm 10 ve 16): Kitap 1 finalinde Sur Ağası sonrası çift Elit, Elit+Bıçaklı oldu
 

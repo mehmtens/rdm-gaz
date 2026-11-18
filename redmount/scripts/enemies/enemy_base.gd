@@ -89,6 +89,8 @@ var _boss_mark_player: Node = null
 ## `apply_hit`'ten hemen önce yazar, hemen sonra siler (bkz. `Redmount`, `Projectile`).
 var weapon_hit: StringName = &""
 var _armor_break_timer: float = 0.0
+## Duruş süresi (config.poise_time): > 0 iken darbe sendeletmez.
+var _poise_t: float = 0.0
 var _slam_done: bool = false
 var _thrown_timer: float = 0.0
 var _thrown_damage: int = 0
@@ -130,6 +132,7 @@ func _physics_process(delta: float) -> void:
 		velocity.y = minf(velocity.y + config.gravity * delta, 1400.0)
 	_attack_cd = maxf(_attack_cd - delta, 0.0)
 	_block_cd = maxf(_block_cd - delta, 0.0)
+	_poise_t = maxf(_poise_t - delta, 0.0)
 
 	# Bir yerlere düşüp kaybolursa (ör. suikastçı boşluğa sıçradı) sessizce yok ol.
 	if _state != State.DEAD and global_position.y > _spawn_y + 1400.0:
@@ -770,6 +773,8 @@ func _do_armor_break(delta: float) -> void:
 	velocity.x = move_toward(velocity.x, 0.0, 900.0 * delta)
 	_armor_break_timer -= delta
 	if _armor_break_timer <= 0.0:
+		## Kırık pencere bitti: patron ilk darbede yeniden kilitlenmesin, hamle yapabilsin.
+		_poise_t = config.poise_time
 		_recover()
 
 
@@ -876,6 +881,18 @@ func apply_hit(damage: int, dir: Vector2, knockback: float) -> void:
 
 	_health = maxi(_health - damage, 0)
 	_flash()
+	## Duruşta: darbe hasar verir ama saldırı/atılma sürer (ölümcül darbe yine öldürür).
+	var poised := not in_break and _poise_t > 0.0 and _health > 0
+	if poised:
+		Fx.spark(global_position + Vector2(0, -58), Vector2(push, -0.3), 4, Color(1, 0.85, 0.45))
+		_emit_boss_health()
+		Sfx.play(&"enemy_hurt", voice_pitch())
+		if config.armor_break_hits > 0:
+			_hits_taken += 1
+			if _hits_taken >= config.armor_break_hits:
+				_hits_taken = 0
+				_enter_armor_break()
+		return
 	_set_hitbox_enabled(false)
 	_dash_preparing = false
 	_aiming = false
@@ -933,6 +950,7 @@ func apply_hit(damage: int, dir: Vector2, knockback: float) -> void:
 		_start_evade(push)
 		return
 
+	_poise_t = config.poise_time
 	if damage >= config.knockdown_damage_threshold:
 		_knockdown_timer = config.knockdown_duration
 		_getup_timer = config.getup_duration

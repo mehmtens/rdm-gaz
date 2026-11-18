@@ -126,6 +126,10 @@ extends Resource
 @export var armor_break_hits: int = 0
 ## Zırh kırık kalma süresi — bu sırada tam hasar alır, hareket edemez (sn).
 @export var armor_break_duration: float = 2.2
+## Duruş (poise, tur 324): bir kez sendeledikten sonra bu kadar saniye darbeler
+## hasar verir ve zırh sayacını işletir ama saldırıyı kesmez/sendeletmez. 0 = her
+## darbede sendeler (eski davranış). Kesintisiz kombo patronu kilitlemesin diye.
+@export var poise_time: float = 0.0
 ## Ağır saldırıda (`guard_break`) yere vurup dalga (shockwave) çıkarsın mı?
 @export var slam_on_heavy: bool = false
 @export var slam_damage: int = 14

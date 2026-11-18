@@ -41,6 +41,7 @@ dash_cooldown = 1.9
 is_boss = true
 armor_break_hits = 6
 armor_break_duration = 2.5
+poise_time = 0.6
 slam_on_heavy = true
 slam_damage = 12
 slam_knockback = 300.0
