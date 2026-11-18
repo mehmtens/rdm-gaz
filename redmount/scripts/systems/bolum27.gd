@@ -110,6 +110,11 @@ func _build() -> void:
 		_collapse(8650.0 + k * 100.0, -90.0, 90)
 	_coin_line(8630, 3, 70, -140)
 	_terrain(8760, 10300, 0)
+	## Çivili bodrumu aşınca tek can: kablo koridoru (5 düşman) + arşiv eliti ile son
+	## arena (5 düşman, bombacılı) arasının tek nefesi. 6050'deki can üst rotada; bot
+	## koşularında (tur 59, 174, 195, 298) final hep 1–2 ölüm ya da 2 can.
+	## Zemin hizasında, ana yolda, kontrol noktasının hemen önünde.
+	_pickup(HEALTH, 8880, -40)
 
 	# --- 9. Çatı direkleri: son arena; hattı kes ----------------------------------
 	_checkpoint(8950, 0)

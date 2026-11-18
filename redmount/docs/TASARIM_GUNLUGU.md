@@ -7,6 +7,12 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 298 denetimi, Bölüm 3 + 27; insan testine bağlı) (1) **UYGULANDI:** Bölüm 27 arşiv çıkışına tek HEALTH
+  (8880) · (2) Bölüm 27 finali (bombacı+elit+iri, 2 dalga): insan testinde final ölümü 1'i geçerse son dalgadan bombacı
+  çıkarılsın · (3) Bölüm 3 bahçe arenası (`@5138`, 3 dalga) bot 8 sn takıldı, 0 ölüm; insan arena süresi ölçülsün ·
+  (4) Bölüm 27 üst rota canı (6050,−275) görünürlüğü insan testinde doğrulansın · (5) `capture_level.gd` ilk çekimde
+  açılış başlık kartına takılıyor (ilk nokta ısınma çekimi olmalı) — oyun dışı araç cilası.
+
 - (Tur 297 denetimi, günlükte az anılan Bölüm 5 — Demiryolu Ablukası, Kitap 1, gün batımı — headless bot CLEARED
   @9391 / 88,3 sn / 0 respawn + 7 pencereli ekran görüntüsü; DTM sütunlarıyla karşılaştırıldı, görsel DTM düzeyinde:
   gün batımı Boğaz + cami silüeti, demiryolu deposu, makas kulesi (fenerli kabin/projektör), vagon rotası, İstasyon
@@ -518,6 +524,25 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-18 (298) — Denetim: Bölüm 3 temiz; Bölüm 27 arşivinden çıkışa tek can (final örüntüsü 5. koşuda da)
+
+**Neden şimdi:** stil/yol haritaları ve birikimin koşulsuz maddeleri kapalı → kural (d). Tur 297'nin önerdiği, günlükte
+az anılan Bölüm 3 ve 27 pencereli botla oynandı (8/10 sn aralıklı kareler).
+**Bulgular:** Bölüm 3 (Balat iskele/pazar, Kitap 1) CLEARED 73,6 sn, 0 ölüm, en düşük can 77; iskele, bahçe arenası,
+Gece Çaycısı, Pazar Çıkışı DTM düzeyinde; HUD satırı panelde, dokunmatikte `DEĞİŞ` yazıyor (klavye `Q` sızmıyor) →
+temiz. Bölüm 27 (Galata Telgrafı) CLEARED 89,5 sn pencereli, başsız 99,2 sn: final arenasına (9100–9700, 5 düşman,
+bombacı+elit+iri) 53 canla girdi, **2 cana** indi. Bu, finalin beşinci bağımsız kötü koşusu (tur 59: 5 koşunun 4'ünde
+1–2 ölüm; 174: finalde ölüm; 195: koridorda ölüm; 298: 2 can). Bölümün tek açık HEALTH'i (6050,−275) üst rotada; bot
+dahil "ana yoldan giden" oyuncu kablo koridoru + arşiv eliti + final boyunca yalnız koridor ödülüyle besleniyor (tur 295
+taramasında 1 HEALTH'li beş bölümden biri).
+**Değişiklik:** `bolum27.gd` — çivili bodrum çukurundan (8600–8760) hemen sonra, son kontrol noktasının önünde, zemin
+hizasında tek HEALTH (8880,−40). Tur 295 Bölüm 28 emsaliyle aynı kalıp: zor geçişin (çökme platformlu çukur) ödülü,
+ana yolda görünür, gizli değil. Bir paket; hipotez — insan testinde final ölümü hâlâ 1'i geçerse son dalgadan bombacı.
+**Testler:** `--import` SCRIPT ERROR 0; `campaign_smoke` çıkış 0; `dtm_gaps` PASS; bot Bölüm 27 başsız CLEARED 96,3 sn,
+0 ölüm, finale 66 canla giriş, en düşük 15 (önce 53 → 2); pencereli çekimde can paketi arşiv zemininde, çukurun
+ötesinde, mevcut sprite ile okunuyor, taşma yok. Ortak sistem değişmedi.
+**Sonraki öneri:** otonom iş kalmadı; birikimdeki "1 HEALTH'li bölümler" (7, 30, 32, 34) insan testinde ölçülsün.
 
 ### 2026-11-18 (297) — Denetim: Bölüm 5 (Demiryolu Ablukası, Kitap 1) temiz, DTM düzeyinde; otonom iş çıkmadı
 
