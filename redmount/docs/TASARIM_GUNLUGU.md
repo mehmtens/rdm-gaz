@@ -540,7 +540,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   arada İSKELE ERZAKI büfesi var. İnsan testinde arena ölümü 1'i geçerse arşiv zemin katına (x≈6200) kırılabilir simit.
   **(Tur 178 yeniden ölçüm, düzeltilmiş sayım):** 18/115 giriş, arena ölümü tam 1 — eşikte, değiştirilmedi.
 
-- (Tur 169) Bölüm 36 galerili ambar arenası (x≈6200–7100, Seçkin+Bıçakçı+Suikastçı → Yüzbaşı+Tüfekli): pres
+- **(UYGULANDI tur 319: 6060'a HEALTH sandığı; insan testinde arena ölümü hâlâ 1'i geçerse 2. dalga MINIBOSS+RIFLE → MINIBOSS.)**
+  (Tur 169) Bölüm 36 galerili ambar arenası (x≈6200–7100, Seçkin+Bıçakçı+Suikastçı → Yüzbaşı+Tüfekli): pres
   hattı düzeltildikten sonra iki koşuda da ilk ölüm burada — bot 5000'deki Seçkin + 1–2 pres vuruşuyla arenaya
   29–36/115 canla giriyor; 5150 kontrol noktasından arenaya can kaynağı yok. İnsan testinde arena ölümü 1'i
   geçerse pres köprüsü sonrasına (x≈6050) kırılabilir simit. Bölüm 34 pres hattı (230 px, 2,6 sn) da kuralın
@@ -701,6 +702,26 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-18 (319) — Denetim (Bölüm 36 — Son Yayın, final): ambar arenası önüne kırılabilir can sandığı
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikim insan testine bağlı → kural (d). Günlükte anılma
+sayıları eşit (31); son ayrıntılı denetimi en eski olan kampanya finali Bölüm 36 (tur 222) bot ile oynatıldı.
+**Ölçüm:** CLEARED @16259, 171,6 sn, **2 ölüm**: (1) galerili ambar arenası (5150 kontrol noktası → pres hattı 75→43 →
+arenaya 43 canla giriş → ölüm), (2) anten güvertesi sonu x≈11761 (38 canla arşivden çıkış, 9 canla öldü). Final
+takılması 29 sn (Yayın Şefi) — boss için normal.
+**Bulgu:** ambar arenası tur 134, 169 (×2), 222 ve bu koşuda ilk ölüm noktası — birikimdeki "1'i geçerse" eşiği bot
+verisinde artık tekrarlı; 5150 kontrol noktasından arenaya can kaynağı yok (pres hattı + Seçkin aşınması).
+**Oyuncu ne hissedecek:** pres köprüsünden çıkınca, ambar kapısının önünde bir sandık: kıranlar Yüzbaşı dalgasına
+nefes alarak girer, kırmayanlar için zorluk aynı. Arena dalgaları, pres ritmi ve kitap finali yoğunluğu değişmedi.
+**Değişiklik (`scripts/systems/bolum36.gd`):** `_prop("sandik", 6060, 0, HEALTH)` (son pres 5900 ile iç mekân 6150
+arası). Bölüm 30/33'teki sandık kalıbı. Hipotez: tek HEALTH ≈ +35 can, arenaya ~75 canla giriş.
+**Testler:** `--import` SCRIPT ERROR 0; `campaign_smoke` çıkış 0 (Bolum36 OK); `DTM GAPS: PASS`; bot Bölüm 36
+CLEARED @16260 / 172,3 sn / 2 ölüm (arena 13 canla geçildi; ölümler arşiv x≈8714 ve yayın odası x≈12900'e kaydı —
+bot sandık kırmıyor, bu yüzden fark varyans; etki insan testinde ölçülecek).
+**Birikime:** anten güvertesi/arşiv can vadisi — arşivdeki HEALTH (9450, −275) üst rafta, bot almıyor; insan testi
+"anten güvertesinde öldüm" derse 9850 kontrol noktası yanına zemin sandığı.
+**Sonraki adım:** insan oyun testi (Bölüm 18, 25, 26, 33, 36 can vadileri) ya da sıradaki eski denetimli bölüm.
 
 ### 2026-11-18 (318) — Denetim (Bölüm 23 — Saraçhane): otonom iş kalmadı, otomasyon durdu
 

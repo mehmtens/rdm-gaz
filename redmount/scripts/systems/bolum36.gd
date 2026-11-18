@@ -70,6 +70,8 @@ func _build() -> void:
 	_checkpoint(5150, 0)
 	_press_gantry([5300, 5600, 5900], [0.0, 0.33, 0.66], 3.0)
 	_coin_line(5320, 6, 105, -60)
+	## Pres köprüsü sonrası nefes: 5150 kontrol noktasından arenaya tek can kaynağı (tur 319).
+	_prop("sandik", 6060, 0, HEALTH)
 	_interior(6150, 7150, -345, [], 0)
 	_scaffold(6320, -115, 180)
 	_scaffold(6980, -115, 180)
