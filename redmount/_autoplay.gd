@@ -19,6 +19,13 @@ var _stall_at := 0.0
 var _progress_x := -1e9
 var _progress_t := 0.0
 var _time_limit := 360.0
+## Patron telegrafından kaçış (tur 326): son atılmanın hedefi/zamanı ve sayısı.
+var _evade_id := 0
+var _evade_t := -10.0
+var _boss_evades := 0
+## Atılmadan sonraki 1 sn içinde yine de yenen darbe sayısı (kaçışın işe yarayıp yaramadığı).
+var _evade_hits0 := -1
+var _boss_evade_fails := 0
 
 
 func _ready() -> void:
@@ -111,6 +118,10 @@ func _physics_process(delta: float) -> void:
 		return
 
 	var on_floor: bool = _player.is_on_floor()
+	if _evade_hits0 >= 0 and _run_t - _evade_t >= 1.0:
+		if int(_player.hits_taken) > _evade_hits0:
+			_boss_evade_fails += 1
+		_evade_hits0 = -1
 
 	# yakın düşman: dön + yaklaş + vur (duvara koşmayı bırak)
 	var foe: Node2D = null
@@ -166,6 +177,31 @@ func _physics_process(delta: float) -> void:
 			return
 	if foe != null:
 		Input.action_release(&"run")
+		# Patron telegrafı (tur 326): zırhlı patron saldırı hazırlığındayken ve menzildeyken
+		# insan gibi ondan uzağa atıl (atılmanın kısa dokunulmazlığı vuruşu boşa çıkarır).
+		# Her hazırlıkta bir kez; patron dışındaki düşmanlarda bot eskisi gibi tuşa basıcı.
+		# Patron hücum hazırlığı: hücum bırakılmadan hemen önce üstünden zıpla.
+		if _boss_charge_imminent(foe, foe_dx) and on_floor:
+			_tap(&"jump")
+			_evade_id = foe.get_instance_id()
+			_evade_t = _run_t
+			_boss_evades += 1
+			_evade_hits0 = int(_player.hits_taken)
+			return
+		if _boss_windup_in_reach(foe, foe_dx):
+			var away := &"move_left" if foe_dx > 0.0 else &"move_right"
+			Input.action_press(away)
+			Input.action_release(&"move_right" if away == &"move_left" else &"move_left")
+			_tap(&"dash")
+			_evade_id = foe.get_instance_id()
+			_evade_t = _run_t
+			_boss_evades += 1
+			_evade_hits0 = int(_player.hits_taken)
+			return
+		# Atıldıktan sonra patron vuruşunu bitirene (RECOVERY) kadar menzil dışında bekle,
+		# sonra açığa gir: DTM'deki "kaç, sonra cezalandır" ritmi.
+		if foe.get_instance_id() == _evade_id and _run_t - _evade_t < 1.2 				and foe.get("_state") == 4 and foe.get("_phase") != 2:
+			return
 		if foe_dx > 14.0:
 			Input.action_press(&"move_right"); Input.action_release(&"move_left")
 		elif foe_dx < -14.0:
@@ -219,6 +255,33 @@ func _physics_process(delta: float) -> void:
 		_stuck_t = 0.0
 
 
+## Patron ağır saldırı hazırlığında (WINDUP) ve vuruş menzilinde mi? Aynı patrona 0,7 sn'de
+## bir kez (0,5 sn'lik ağır hazırlık başına tek atılma).
+func _boss_windup_in_reach(foe: Node2D, foe_dx: float) -> bool:
+	var cfg = foe.get("config")
+	if cfg == null or not cfg.is_boss:
+		return false
+	if foe.get_instance_id() == _evade_id and _run_t - _evade_t < 0.7:
+		return false
+	if foe.get("_state") != 4 or foe.get("_phase") != 0:	# State.ATTACK, Phase.WINDUP
+		return false
+	# Yalnız büyük telegraflı ağır vuruş (çekiç/yere vurma): hafif kombo darbesini bot,
+	# çoğu insan gibi, değiş tokuş eder; her darbeden kaçmak dövüşü yapay uzatırdı.
+	if not foe.get("_attack_heavy"):
+		return false
+	return absf(foe_dx) < float(cfg.attack_range) + 40.0
+
+
+## Patron hücum (DASH) hazırlığının son 0,15 sn'si mi? Hücum menzilinde, hazırlık başına bir kez.
+func _boss_charge_imminent(foe: Node2D, foe_dx: float) -> bool:
+	var cfg = foe.get("config")
+	if cfg == null or not cfg.is_boss or not foe.get("_dash_preparing"):
+		return false
+	if foe.get_instance_id() == _evade_id and _run_t - _evade_t < 0.7:
+		return false
+	return float(foe.get("_dash_timer")) < 0.15 and absf(foe_dx) < float(cfg.dash_trigger_range) + 40.0
+
+
 func _wall_is_moving() -> bool:
 	for i in _player.get_slide_collision_count():
 		var c := _player.get_slide_collision(i)
@@ -260,7 +323,8 @@ func _note_stall() -> void:
 
 func _finish_level(msg: String) -> void:
 	_note_stall()
-	print("PROBE Bölüm %d: %s  stall=%.0fs@%.0f" % [_level_idx + 1, msg, _longest_stall, _stall_at])
+	print("PROBE Bölüm %d: %s  stall=%.0fs@%.0f respawns=%d boss_evades=%d/%d isabet" % [
+		_level_idx + 1, msg, _longest_stall, _stall_at, _respawns, _boss_evades, _boss_evade_fails])
 	Input.action_release(&"move_right")
 	Input.action_release(&"run")
 	if not OS.get_environment("REDMOUNT_PROBE_LEVEL").is_empty():

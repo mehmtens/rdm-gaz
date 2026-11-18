@@ -11,8 +11,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   (2) **Duruş süresi 0,6 sn hipotez:** insan testinde ölçülsün: patrona "hiç vuramıyorum/kaçamıyorum" denirse 0,4;
   "patron hâlâ kıpırdamıyor" denirse 0,8–1,0 (1,0'da bot patron arenalarında 8 ölüm verdi). · (3) **Zırhlı Vurucu
   (armored_bruiser, `armor_break_hits` 4) duruşsuz bırakıldı:** sıradan düşman, 60 can; insan testinde "Vurucu kilitleniyor,
-  sıkıcı" denirse `poise_time` 0,4. · (4) **Bot patrona saldırı telegrafında geri çekilmiyor:** `_autoplay.gd` patron
-  hazırlığında (ATTACK/WINDUP) atılma ile kaçsa bot verisi insan oyununa yaklaşır — test aracı işi.
+  sıkıcı" denirse `poise_time` 0,4. · (4) **UYGULANDI (tur 326) — bot patron telegrafında kaçıyor:** ağır vuruşta atılma,
+  hücumda zıplama; ayrıntı tur kaydında. Kalan: hafif kombo darbeleri ve patron yanındaki yardımcı düşmanlar.
   (5) **Bölüm 11 (tur 324 denetimi, temiz, 0 ölüm):** ilk arena dalgalarının üçünde Elit var (ELITE+KNIFE → ASSASSIN+ELITE+
   SHIELD → ELITE+ELITE), Kitap 2 açılışı için yoğun; bot 115→39, bir koşuda bu arenada iki ölüm. İnsan testi "ilk arenada
   öldüm" derse 3. dalga ELITE+ELITE → BRUISER+KNIFE.
@@ -741,6 +741,32 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-18 (326) — Test aracı: bot patron telegrafını okuyor (ağır vuruştan atılma, hücumun üstünden zıplama)
+
+**Neden şimdi:** stil listesi ve iki yol haritası kapalı; birikimin en üstündeki tek otonom madde Tur 325 md.4. Tur 325'in
+patron duruşu ayarı (0,6 sn) bot ölümleriyle ölçüldü, ama bot telegrafa hiç tepki vermeyen bir tuşa basıcıydı: o ölümler
+"patron çok sert" mi yoksa "bot kaçmıyor" mu, ayırt edilemiyordu. Bot insan gibi telegrafı okursa patron dengesi verisi
+anlamlı olur.
+**Değişiklik (`_autoplay.gd`, yalnız test aracı; oyun kodu değişmedi):** (a) patron (`config.is_boss`) ağır vuruş
+hazırlığındayken (ATTACK + WINDUP + `_attack_heavy`) ve `attack_range + 40` içindeyken ters yöne basılıp atılınıyor
+(atılmanın 0,14 sn dokunulmazlığı); patron RECOVERY'ye geçene kadar (en çok 1,2 sn) yeniden yaklaşılmıyor, sonra açığa
+giriliyor (kaç → cezalandır). (b) Patron hücum hazırlığının (`_dash_preparing`) son 0,15 sn'sinde, hücum menzilindeyse
+zıplanıyor. Her hazırlıkta bir kez. Rapor satırına `respawns` ve `boss_evades=N/M isabet` eklendi (M: kaçıştan sonraki
+1 sn içinde yine de yenen darbe).
+**Denenip reddedilenler:** her patron saldırısından kaçmak (hafif dahil) Bölüm 9 patron arenasında takılmayı 20 → 38–47 sn
+yaptı, bir koşu 45 sn sınırını aştı; kaçıştan sonra yerinde durmak isabet oranını 8/1 → 10/7'ye kötüleştirdi (patron
+yürüyüp yeniden vuruyor). Yalnız ağır vuruş: hafif kombo darbesini bot değiş tokuş ediyor, insanların çoğu gibi.
+**Ölçüm (patronlu bölümler, tek koşu):** temel (tur 325 kodu) 8/9/11: 0/1/0 ölüm. Yeni sürüm: Bölüm 6, 7, 8, 9 (×3), 10,
+11, 12, 24, 36 hepsi CLEARED; kaçışların ağır vuruşta 39/40'ı hasarsız, Karahanlı/Yayın Şefi'nde (hücumlu) 19/29; patron
+bölümlerinde toplam ölüm 7/12 koşu (Bölüm 36'nın 2'si tur 319 temelindeki ambar arenasında, patron dışı). En uzun takılma
+Bölüm 9 20–34 sn (sınır 45). Kalan ölümler patron yanındaki yardımcı düşmanlardan ve hafif darbelerden.
+**Sonuç (tasarım):** telegrafı okuyan oyuncuya karşı Ağır Zırhlı'nın ağır vuruşu neredeyse hiç isabet etmiyor → 0,6 sn
+duruş, okunan telegrafla birlikte adil. Hücum zıplaması daha az güvenilir (%66): insan testinde "Karahanlı'nın hücumundan
+kaçılmıyor" denirse `dash_prepare_time` 0,5 → 0,6.
+**Testler:** `--import` SCRIPT ERROR 0; `campaign_smoke` çıkış 0; `DTM GAPS: PASS`; `boss_poise` PASS; bot CLEARED: Bölüm 1,
+6, 7, 8, 9 (×3), 10, 11, 12, 24, 36.
+**Sonraki öneri:** insan oyun testi (patron telegrafı + duruş). Otonom: yeni denetim turu.
 
 ### 2026-11-18 (325) — Dövüş: zırhlı patronlar artık kesintisiz komboyla kilitlenmiyor (duruş / poise)
 
