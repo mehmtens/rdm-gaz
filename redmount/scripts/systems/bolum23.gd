@@ -31,6 +31,8 @@ func _build() -> void:
 	_balcony(930, -200, 200)
 	_pickup(ARMOR, 940, -245)
 	_enemy(STREET, 1050, 0)
+	# Saraçhane sokağı saçağından kiremit: çeşme avlusu arenası öncesi telegraflı beat.
+	_falling_pot(1250, -230)
 
 	# --- 2. Çeşme avlusu: sokaktan yükseltilmiş taraça, hızlı/zırhlı iki dalga ----
 	# Avlu sokaktan iki basamak yukarıda (arkadaki çeşmenin taş setiyle aynı hizada);
@@ -54,6 +56,8 @@ func _build() -> void:
 	# yerine tırmanış). Tepede tabanca; öbür yüzden inince kalkanlı karşılar.
 	_terrain(3300, 10300, 0)
 	_checkpoint(3400, 0)
+	# Terazi kulesine koşarken eski su dairesi saçağından kiremit (ikinci erken beat).
+	_falling_pot(3580, -240)
 	_stones(3800, 1, 1)
 	_stones(3890, 1, 2)
 	_stones(3980, 1, 3)

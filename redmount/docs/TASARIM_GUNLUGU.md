@@ -15,8 +15,11 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   2). Pres son arenaya yakın konmamalı; temaya uygun pres istenirse ERKEN bölüme (avlu/baskı salonu öncesi) ve insan
   testiyle. · (3) **Bölüm 21 UYGULANDI (tur 308):** gece sokağı (1250) + kayıkhane (3580) iki erken kiremit; bot
   CLEARED 0 respawn, kiremitlerden hasar yok. Yüksekte (`-150`) `_collapse` denenmedi: çürük tahta ayaksız çizilir, havada
-  süzülür gibi durur (görsel doğrulama alınamadığı için koyulmadı). **Bölüm 23 hâlâ tehlikesiz:** son arena zaten zor
-  (hp min 3–17), tehlike yalnız erken kesime. · (4) **Bölüm 25
+  süzülür gibi durur (görsel doğrulama alınamadığı için koyulmadı). **Bölüm 23 UYGULANDI (tur 309):** sokak (1250) +
+  terazi kulesi öncesi (3580) iki erken kiremit; bot CLEARED 0 respawn, hp min 38. · (5) **Kitap 1 boşluğu (sıradaki):**
+  Bölüm 2 kiremidi tanıtıyor (5962), 6–8 pres/alev/çökme kullanıyor; ama **3, 4, 5 ve 10 tehlikesiz** → "öğret, sonra
+  kullan" zinciri 2'den sonra üç bölüm kopuk. Bölüm 1 öğretici, kasıtlı tehlikesiz kalsın. Sıra: 3 → 4 → 5 → 10, her
+  birine erken kesimde tema uygun tek-iki telegraflı tehlike. · (4) **Bölüm 25
   ciltçi geçidi varyansı sürüyor:** bu turun koşusunda 87→31 (önceki turlarda 9 + 1 ölüm); insan testi "ciltçide öldüm"
   derse ELITE@7650 → BRUISER veya HEALTH@8100 öne (7400) alınsın.
 
@@ -9160,3 +9163,12 @@ final 9400+) bilinçli konmadı: bot orada 115→23'e iniyor. Kayıkhanede taban
 **Sonraki öneri:** Bölüm 23 erken kesimi (Saraçhane avlusu) aynı kalıpla; sonra Kitap 1 (1, 3, 4, 5, 10) tehlikesizliğinin
 kasıtlı olup olmadığına bakılsın (öğretici bölümler — tek tehlike tanıtımı DTM'deki gibi erken öğretim olabilir).
 
+### 2026-11-18 — Bölüm 23 Saraçhane: sokak ve terazi kulesi önüne iki telegraflı kiremit (tur 309)
+
+**Neden şimdi:** tur 307 taramasında tehlikesiz kalan son Kitap 2 bölümü.
+**Değişiklik (`bolum23.gd`):** `_falling_pot(1250,-230)` (çeşme avlusu arenası öncesi sokak) + `_falling_pot(3580,-240)`
+(su terazisi kulesine koşu). Geç kesime (bakım geçidi/taşma avlusu; tarihsel hp min 3–17) bilinçli konmadı.
+**Testler:** `--import` SCRIPT ERROR 0; `dtm_gaps` PASS; `campaign_smoke` çıkış 0; bot Bölüm 23 CLEARED @10106 / 87,4 sn /
+0 respawn / hp min 38 (sevk/bakım arenası; erken kesimde kiremitlerden hasar yok). Ortak sistem değişmedi.
+**Bulgu:** Kitap 1'de 2 kiremidi tanıtıyor ama 3, 4, 5, 10 tehlikesiz (birikim md.5).
+**Sonraki öneri:** birikim md.5 — Bölüm 3'ten başlayarak Kitap 1 tehlike zinciri.
