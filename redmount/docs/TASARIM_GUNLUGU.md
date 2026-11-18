@@ -21,7 +21,7 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   (2) **Tema sadakati — "çöken iskele" vaadi:** bölüm başlık yorumu depo bölümünü "depo (erzak; çöken iskele)" diye tanımlıyor
   ama 6. bölüm (depo `_interior(7000,8000)`) içinde hiç `_collapse`/`_canal` yok; tek çöken iskele finalde (8. bölüm). Depoya
   temaya uygun tek telegraflı `_collapse` segmenti hem vaadi karşılar hem md.1 boşluğunu kapatır. Zorluk değiştirir, bot yeniden
-  ölçülmeli. **md.1+2 UYGULANDI (tur 300):** depoda sızıntı suyu + 2 çürük tahta (7600–7860). · (3) **Rıhtım dövüş boşluğu:** rıhtım (5150–6550, ~1400 px: scaffold+hareketli platform) yalnız 1 BRUISER@6200
+  ölçülmeli. **md.1+2 ve md.6 UYGULANDI (tur 300–301):** depoda sızıntı suyu + 2 çürük tahta (7600–7860). · (3) **Rıhtım dövüş boşluğu:** rıhtım (5150–6550, ~1400 px: scaffold+hareketli platform) yalnız 1 BRUISER@6200
   içeriyor; geçiş ağırlıklı. Bu kasıtlı "nefes" beat'i olabilir (DTM geçiş→dövüş→nefes→meydan okuma ritmine uygun), dokunma;
   insan testi "rıhtım boş/sıkıcı" derse hareketli platform üstüne tek tüfekli. · (4) **Defter odası finali (8300–9000,
   `_fight` ELITE+KNIFE → ELITE+RIFLE+BRUISER):** bot 16 sn takıldı, 115→67 cana düştü; `_fight` varsayılanı HEALTH ödülü verdiği
@@ -8924,3 +8924,13 @@ Sayılar: 110 derinlik ve basamak final kanalıyla aynı (oyuncu zaten bu kalıb
 tahtalar ve su ChatGPT depo atlasının önünde aynı ahşap/taş dilinde, taşma yok — sahneye ait.
 **Sonraki öneri:** birikim Tur 299 md.6 (`capture_level.gd` ilk çekimde başlık kartı/telsiz örtüyor; ısınma çekimi ile
 bu turda çalıştı) — aracı varsayılan ısınma çekimiyle sağlamlaştırmak; kalan maddeler insan testine bağlı.
+
+### 2026-11-18 — Araç: `capture_level.gd` ısınma çekimi + başsız koruma (tur 301)
+
+**Neden:** birikim Tur 299 md.6 / Tur 298 md.5 — otonom denetimlerin görsel doğrulaması bu araca bağlı; headless'ta
+`frame_post_draw` hiç gelmediği için asılıyordu, pencerelide ilk kareyi açılış başlık kartı + ilk telsiz örtüyordu.
+**Değişiklik (oyun dışı, yalnız `tests/`):** başsız sürücüde açık hata mesajıyla çıkış kodu 1 (asılma yok); ilk noktada
+kaydedilmeyen 240 karelik ısınma çekimi otomatik eklenir. `f` tip çıkarımı açık `PackedStringArray` yapıldı.
+**Testler:** headless çağrı 1 sn içinde "pencereli çalıştır" hatasıyla çıkış 1; pencereli Bölüm 29 `giris:500:-40`
+çıkış 0, başlık kartı/telsiz yok (yalnız bölümün kendi kovalamaca tostu — set-piece, araç hatası değil).
+**Sonraki öneri:** birikimde otonom madde kalmadı; kalanlar insan testine bağlı. Bir sonraki tur kural (d) denetimi.

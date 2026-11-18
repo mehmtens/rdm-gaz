@@ -8,6 +8,11 @@ extends Node
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	# Başsız modda çizim yok: frame_post_draw hiç gelmez, araç asılı kalırdı (Tur 299).
+	if DisplayServer.get_name() == "headless":
+		push_error("capture_level: pencereli çalıştır (--headless olmadan).")
+		get_tree().quit(1)
+		return
 	# Gerçek kayda dokunma (çekimde duraklatma/satın alma kaydı değiştirirdi).
 	Save._path = "user://_capture_level.cfg"
 	Save.load_game()
@@ -22,8 +27,14 @@ func _ready() -> void:
 	var player: Node2D = main.get_node(^"Redmount")
 	for a in get_tree().get_nodes_in_group(&"battle_arena"):
 		a.queue_free()
-	for spec in OS.get_environment("REDMOUNT_SHOTS").split(";", false):
-		var f := spec.split(":")
+	# İlk nokta ısınma çekimi: açılış başlık kartı ve ilk telsiz ilk kareyi örtüyordu
+	# (Tur 298/299). Kaydedilmeyen ısınma noktası onları tüketir.
+	var specs := Array(OS.get_environment("REDMOUNT_SHOTS").split(";", false))
+	if not specs.is_empty():
+		var w: PackedStringArray = (specs[0] as String).split(":")
+		specs.push_front("_isinma:%s:%s" % [w[1], w[2]])
+	for spec in specs:
+		var f: PackedStringArray = (spec as String).split(":")
 		player.global_position = Vector2(f[1].to_float(), f[2].to_float())
 		(player as CharacterBody2D).velocity = Vector2.ZERO
 		for i in 50:
@@ -45,5 +56,9 @@ func _ready() -> void:
 			for i in 5:
 				await get_tree().process_frame
 		await RenderingServer.frame_post_draw
+		if f[0] == "_isinma":
+			for i in 240:
+				await get_tree().process_frame
+			continue
 		get_viewport().get_texture().get_image().save_png(folder.path_join("%s.png" % f[0]))
 	get_tree().quit()
