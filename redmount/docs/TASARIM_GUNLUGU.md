@@ -663,6 +663,9 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 - Son arenaya düşük canla varış (Bölüm 4: 16–25 can [tur 331: 11 can] **(tur 331: 7285 kırılabilir can sandığı eklendi)**, Bölüm 5: 29 can [tur 156: 33–43 can, iki koşuda da 1 ölüm], Bölüm 6: 12 can [tur 156, 1 ölüm] **(tur 330: 7880 kırılabilir can sandığı eklendi)**, Bölüm 28: 21 can [tur 150: 39→8 can]; bot). Dört bölümde de
   orta arenadan son arenaya kadar can kaynağı yok (yalnız büfe). İnsan testinde son arenaya
   giriş canı ölçülsün; ortanca %40'ın altındaysa son kontrol noktası önüne kırılabilir simit.
+  **Tur 332 uyarısı:** tur 332'ye kadar bot arena ödülünü (arena ortasına düşen HEALTH) geri dönüp almıyordu; bu
+  maddedeki ve tüm "can vadisi" maddelerindeki bot canları kötümser. Yeni botla (`heals=`) Bölüm 4 son arenaya ~46–76
+  canla giriyor; Bölüm 5, 9, 14, 18, 28, 33 yeniden ölçülsün.
 - ~~Adlı rakiplerin görünümü: Binbaşı Kaya, Sur Ağası ve Muhafız Başı ara sahnede Seçkin
   Muhafız (`elite`) görünümüyle konuşuyor, dövüşte Ağır Zırhlı (`miniboss`) olarak çıkıyor~~
   **(Tur 211'de yapıldı):** cutscene'e `miniboss` türü (MINIBOSS_FRAMES, ölçek 0,71) eklendi;
@@ -764,6 +767,31 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-18 (332) — Denetim (Bölüm 12 ve 34): bot artık arkada kalan arena ödülünü topluyor; Bölüm 12 "kanal ölümü" bot eksikliğiymiş
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikim insan testine bağlı → kural (d). Bölüm 34 (son başlıklı
+denetim tur 189) ve Bölüm 12 pencereli botla oynatıldı (14 sn'de bir kare).
+**Bulgu:** Bölüm 12'de bot cephanelikten 8 canla çıkıp sandık üstü tüfekliye öldü (tur 292'de aynı koridorda kanalda, aynı
+8 canla). Karelerde nedeni görüldü: cephanelik ödülü (HEALTH) kapılar açılınca arena ortasına (2300) düşüyor, bot son dalgayı
+sağ kapıda (≈2650) bitirip **hiç geri dönmeden** sağa koşuyor. `_autoplay.gd` yalnız ileri koşuyordu; insan ise "TEMİZ!" ve
+altın halkayla duyurulan ödüle döner. Bu, tur 330/331 dahil tüm "can vadisi" ölçümlerini kötümser yapıyordu.
+**Değişiklik (yalnız test aracı, `_autoplay.gd`):** `_seek_heal()` — canı ≥25 eksikken, 700 px geride ve aynı katta (±150 px)
+görünen can paketine döner, yukarıdaysa altına gelip zıplar; 6 sn'de ulaşamazsa o paketten vazgeçer. Rapor satırına
+`heals=` eklendi. Oyun kodu değişmedi.
+**Yeniden ölçüm (başsız, yeni bot):** Bölüm 12 CLEARED @7557 / 85,5 sn / heals=1 — ödülle 48→60 can, kanal ve tüfekli
+koridoru **ölmeden** geçildi; tek ölüm Karahanlı düellosunda (24 canla giriş; Kitap 1 finali, kabul). Bölüm 34 CLEARED
+@9907 / 72,8 sn / 0 ölüm / hp min 42 (pencereli eski bot: son arenada 79→9, ölüm yok). Bölüm 4 CLEARED 0 ölüm, son
+arenaya ~46–76 canla (tur 331'de 11). Bölüm 6 CLEARED, 2 ölüm (3445'te erken kesim + Zırhlı Ustabaşı; takılma 41 sn
+@8947 = son arena içinde, can aramasıyla ilgisiz).
+**Karar:** Bölüm 12 cephanelik→kanal koridoruna (tur 292 md.1) can eklenmeyecek — ödülü alan oyuncu koridoru geçiyor.
+Tur 330/331 can sandıkları kaldırılmadı (insan için fazladan, kırılması gereken ödül; zararsız), ama gerekçeleri kısmen
+bot eksikliğine dayanıyordu: birikime not düşüldü. Bölüm 34 görsel: iskele evi damı, son arena (iki tüfekli Seçkin ayrık,
+üst üste değil) taşmasız, stil içi.
+**Testler:** `--import` SCRIPT ERROR 0; `DTM GAPS: PASS`; `campaign_smoke` çıkış 0; bot (yeni) Bölüm 1 CLEARED 0 ölüm,
+Bölüm 25 CLEARED 0 ölüm heals=1, Bölüm 12/34/4/6 yukarıda — hepsi çıkış 0.
+**Sonraki öneri:** yeni botla eski "can vadisi" maddelerini (Bölüm 5, 9, 14, 18, 28, 33) yeniden ölç; koşulu artık
+sağlamayanları birikimden düş.
 
 ### 2026-11-18 (331) — Denetim (Bölüm 8 ve 4): Bölüm 4 Yüzbaşı Demir öncesi kırılabilir can sandığı
 

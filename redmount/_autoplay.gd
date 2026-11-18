@@ -26,6 +26,14 @@ var _boss_evades := 0
 ## Atılmadan sonraki 1 sn içinde yine de yenen darbe sayısı (kaçışın işe yarayıp yaramadığı).
 var _evade_hits0 := -1
 var _boss_evade_fails := 0
+## Can arama (tur 332): insan oyuncu canı azken arkada kalan, ekranda görünen can paketine
+## döner (çoğunlukla arena ödülü: kapılar açılınca arena ortasına düşer, bot ise son dalgayı
+## sağ kapıda bitirip ileri koşuyordu). Bu eksik, denetimlerdeki can eğrilerini kötümser yapıyordu.
+var _heal_target: Node2D = null
+var _heal_t := 0.0
+var _heal_scan := 0.0
+var _heal_skip: Array = []
+var _heals := 0
 
 
 func _ready() -> void:
@@ -215,6 +223,9 @@ func _physics_process(delta: float) -> void:
 			_tap(&"jump")
 		return
 
+	if _seek_heal(x, y, on_floor):
+		return
+
 	# girdi botu
 	Input.action_release(&"move_left")
 	Input.action_press(&"move_right")
@@ -282,6 +293,53 @@ func _boss_charge_imminent(foe: Node2D, foe_dx: float) -> bool:
 	return float(foe.get("_dash_timer")) < 0.15 and absf(foe_dx) < float(cfg.dash_trigger_range) + 40.0
 
 
+## Arkada kalan can paketine dön (en az 25 can eksikken, 700 px geriye kadar, aynı kat ±150 px).
+## 6 sn'de ulaşılamayan paketten vazgeçilir (yüksek raf, kapı ardı). Kumandayı aldıysa true.
+func _seek_heal(x: float, y: float, on_floor: bool) -> bool:
+	if _heal_target != null:
+		if not is_instance_valid(_heal_target) or _heal_target.get("_collected"):
+			_heals += 1
+			_heal_target = null
+		elif _run_t - _heal_t > 6.0:
+			_heal_skip.append(_heal_target.get_instance_id())
+			_heal_target = null
+	if _heal_target == null:
+		if _player.get_max_health() - _player.get_health() < 25 or _run_t < _heal_scan:
+			return false
+		_heal_scan = _run_t + 0.5
+		var holder := _main.get_node_or_null(^"LevelHolder")
+		if holder == null or holder.get_child_count() == 0:
+			return false
+		var best_dx := 1e9
+		for c in holder.get_child(0).get_children():
+			if not (c is Node2D) or not ("heal_amount" in c) or c.get("_collected"):
+				continue
+			if _heal_skip.has(c.get_instance_id()):
+				continue
+			var dx: float = c.global_position.x - x
+			if dx < -700.0 or dx > 60.0 or absf(c.global_position.y - y) > 150.0:
+				continue
+			if absf(dx) < absf(best_dx):
+				best_dx = dx
+				_heal_target = c
+		if _heal_target == null:
+			return false
+		_heal_t = _run_t
+	var tdx: float = _heal_target.global_position.x - x
+	var tdy: float = _heal_target.global_position.y - y
+	Input.action_release(&"run")
+	if tdx > 8.0:
+		Input.action_press(&"move_right"); Input.action_release(&"move_left")
+	elif tdx < -8.0:
+		Input.action_press(&"move_left"); Input.action_release(&"move_right")
+	else:
+		Input.action_release(&"move_right"); Input.action_release(&"move_left")
+	# Paket yukarıdaysa (iskele, sandık) altına gelince zıpla; önüne engel çıkarsa da.
+	if on_floor and ((tdy < -70.0 and absf(tdx) < 90.0) or _player.is_on_wall()):
+		_tap(&"jump")
+	return true
+
+
 func _wall_is_moving() -> bool:
 	for i in _player.get_slide_collision_count():
 		var c := _player.get_slide_collision(i)
@@ -323,8 +381,8 @@ func _note_stall() -> void:
 
 func _finish_level(msg: String) -> void:
 	_note_stall()
-	print("PROBE Bölüm %d: %s  stall=%.0fs@%.0f respawns=%d boss_evades=%d/%d isabet" % [
-		_level_idx + 1, msg, _longest_stall, _stall_at, _respawns, _boss_evades, _boss_evade_fails])
+	print("PROBE Bölüm %d: %s  stall=%.0fs@%.0f respawns=%d boss_evades=%d/%d isabet heals=%d" % [
+		_level_idx + 1, msg, _longest_stall, _stall_at, _respawns, _boss_evades, _boss_evade_fails, _heals])
 	Input.action_release(&"move_right")
 	Input.action_release(&"run")
 	if not OS.get_environment("REDMOUNT_PROBE_LEVEL").is_empty():
