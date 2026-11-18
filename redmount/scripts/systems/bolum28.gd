@@ -97,6 +97,10 @@ func _build() -> void:
 	sign.text = "ŞERİT MAKİNESİ"
 	sign.position = Vector2(7950, -260)
 	add_child(sign)
+	## Şerit kırılınca arkasında tek can: röle salonu (5 düşman) ile arşiv
+	## elitinin arası bölümün tek nefesi; 4 bot koşusunda (tur 150/186/222/295)
+	## ikinci yarı 1–8 cana iniyordu. Zemin hizasında, ana yolda.
+	_pickup(HEALTH, 8030, -40)
 
 	# --- 7. Arşiv: iki katlı alıcı listesi odası ------------------------------
 	_checkpoint(8100, 0)

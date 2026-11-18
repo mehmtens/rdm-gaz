@@ -8735,3 +8735,19 @@ Beş bulgu birikime yazıldı; hepsi insan testi verisine bağlı, botun rota se
 temsil etmediği için bot ölümüyle tasarım değiştirilmedi.
 **Testler:** kod değişikliği yok; bot 36 bölüm CLEARED (yukarıda), Bölüm 22 (73,5 sn) ve 31 (70,7 sn) pencereli CLEARED.
 **Sonraki öneri:** otonom iş kalmadı; Kitap 3 son arenalarında insan ölüm sayısı ve arena giriş canı ölçülsün.
+
+### 2026-11-18 — Bölüm 28 denetimi: şerit makinesinin arkasına tek can (tur 295)
+
+**Neden:** stil listesi, iki yol haritası ve birikimin otonom maddeleri bitti → kural (d). Son başlıklı denetimi tur 222
+olan Bölüm 28 (Üsküdar röle istasyonu, Kitap 3) pencereli botla (7 sn aralık, 16 kare) oynandı.
+**Bulgu:** CLEARED 106,2 sn ama 1 ölüm: röle salonu arenasından (6900–7750, 5 düşman) 2 canla çıktı, arena ödülüyle 32'ye
+çıktı, arşiv elitine (8550) yenildi. Bu dördüncü bağımsız koşu: tur 150 (39→8), 186 (46→1), 222 (son arenada ölüm), 295
+(arşivde ölüm) — hep ikinci yarı. Bölüm 28, Kitap 3'te rota üstünde hiç HEALTH toplanabiliri olmayan tek bölüm (25–33
+taraması: diğerlerinin hepsinde 1–3 tane var); can yalnız arena varsayılan ödülü ve 5250'deki dükkândan.
+**Değişiklik:** `bolum28.gd` — şerit makinesi (kırılabilir duvar, 7950) kırılınca hemen arkasına, zemin hizasına tek
+HEALTH (8030,−40). Hikâye hedefini (şeridi kırmak) somut ödüle bağlar, ana yolda görünür, gizli değil. Bir paket; arena
+ödülü ve dükkânla toplam kaynak Kitap 3 ortalamasına iner (hipotez, insan testi gelince yeniden bakılmalı).
+**Testler:** `--import` SCRIPT ERROR 0; `campaign_smoke` çıkış 0; `dtm_gaps` PASS; bot Bölüm 28 pencereli CLEARED 97,7 sn,
+**0 ölüm** (arşive 72, son arenaya 58 canla giriş, bitiş 27). Ekran görüntüsünde can paketi makinenin önünde, zeminde,
+mevcut sprite ile okunuyor; taşma yok. Ortak sistem değişmedi (yalnız tek bölüm).
+**Sonraki öneri:** otonom iş kalmadı; insan testinde Bölüm 28 röle salonu arenası çıkış canı ölçülsün.
