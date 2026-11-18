@@ -111,6 +111,9 @@ func _build() -> void:
 	_cloud(7040, -250, 130.0, 3)
 
 	# --- 6. Makinist Cemil; kalkan trene atlayış ----------------------------------
+	# Trenden inişte kırılabilir can sandığı (tur 333): büfeden (5600) Makinist'e kadar can yok;
+	# arena ödülünü toplayan bot da finale ~%27 canla girip ölüyor (tur 156'dan beri aynı).
+	_prop("sandik", 7880, 0, HEALTH)
 	_checkpoint(7950, 0)
 	_story(8000, _sahne_makinist)
 	_prop("vazo", 8300)

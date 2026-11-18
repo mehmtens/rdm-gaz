@@ -107,7 +107,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   ELITE@3720 → bölümde üç Elit; bot 57→18. Bölüm 16'daki kalıpla aynı; "ambarda öldüm" denirse 2. dalga ELITE→SHIELD. ·
   (2) **Bölüm 33 can boşluğu 2350→7320:** ilk arena ödülü AMMO; arada can yalnız kasa cebindeki sandıkta (3945) ve
   yükleme kilerinde (6150, satın alma). Bot ikisini de kullanmıyor (34 canla 2000 px yürüdü); insan sandığı kırıyor mu
-  gözlensin, görünmüyorsa sandığın önüne coin izi. · (3) **Bölüm 19 Kitap 3 açılışı olarak yumuşak:** bot 9500 px
+  gözlensin, görünmüyorsa sandığın önüne coin izi. **Tur 333 (ödül toplayan bot): 0 ölüm, en düşük 53 → boşluk
+  ölümcül değil, madde insan gözlemine kaldı.** · (3) **Bölüm 19 Kitap 3 açılışı olarak yumuşak:** bot 9500 px
   boyunca neredeyse hasarsız; kitap finali (18) sonrası nefes olarak doğru olabilir, insan testi "sıkıcı" derse orta
   kesime tek STREET→KNIFE. · (4) **Bölüm 33 ilk arena takılması** (10 sn @2769, iki dalga) normal; ödül tutarlılığı
   (AMMO vs HEALTH) Bölüm 18'deki gibi insan testinde ölçülsün. · (5) **Bölüm 31 yeni kanal** (tur 313) insan testinde:
@@ -160,6 +161,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   koşuda ambar→ELITE arasında hp 10→3'e düştü (neredeyse öldü), diğer koşuda 48. Bu Kitap 2'nin en oynak/ölümcül-yakın
   yeri. İnsan testi "burada öldüm" derse en ucuz düzeltme: ambar ödülünü AMMO→HEALTH yap (diğer arenalarla tutarlı) VEYA
   defter odası ELITE'inden ÖNCE (x≈8950) tek görünür HEALTH. Otonom nerf yapılmadı (bot 0 ölümle geçiyor, karar insana).
+  **Tur 333 (ödül toplayan bot):** 0 ölüm, ambar→defter odası arası 85→52, finale 51+ canla → vadi derin değil; madde
+  insan testi "burada öldüm" demedikçe kapalı sayılır.
   · (3) **Üç arena + AMMO ödül ekonomisi:** ambar AMMO veriyor çünkü çatı finali (3 dalga, RIFLE içerir) cephane istiyor;
   tutarlılık (madde 2) ile ekonomi arasında denge insan testinde ölçülmeli. · (4) **Katmanlı rota ödülleri var ve ödüllü**
   (tente→revak HEALTH@2390, bedesten raf PISTOL@4370, han avlusu ARMOR@7010); insan testinde görünürlük doğrulansın. ·
@@ -665,7 +668,9 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   giriş canı ölçülsün; ortanca %40'ın altındaysa son kontrol noktası önüne kırılabilir simit.
   **Tur 332 uyarısı:** tur 332'ye kadar bot arena ödülünü (arena ortasına düşen HEALTH) geri dönüp almıyordu; bu
   maddedeki ve tüm "can vadisi" maddelerindeki bot canları kötümser. Yeni botla (`heals=`) Bölüm 4 son arenaya ~46–76
-  canla giriyor; Bölüm 5, 9, 14, 18, 28, 33 yeniden ölçülsün.
+  canla giriyor; Bölüm 5, 9, 14, 18, 28, 33 yeniden ölçülsün. **Tur 333 ölçüldü:** Bölüm 5 finale 31 canla (%27) +
+  ölüm → **7880 kırılabilir can sandığı eklendi**; Bölüm 28 ölüm orta kesimde (7060–7290, 65 canla giriş), finale 101
+  canla → son-arena maddesi kapandı; Bölüm 9 (45–57) ve 14 (69–74) finale %40 üstünde giriyor.
 - ~~Adlı rakiplerin görünümü: Binbaşı Kaya, Sur Ağası ve Muhafız Başı ara sahnede Seçkin
   Muhafız (`elite`) görünümüyle konuşuyor, dövüşte Ağır Zırhlı (`miniboss`) olarak çıkıyor~~
   **(Tur 211'de yapıldı):** cutscene'e `miniboss` türü (MINIBOSS_FRAMES, ölçek 0,71) eklendi;
@@ -767,6 +772,23 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-18 (333) — Ödül toplayan botla can vadisi yeniden ölçümü; Bölüm 5 Makinist öncesi can sandığı
+
+**Neden şimdi:** tur 332 botu arena ödülünü toplamaya başladı; birikimdeki "can vadisi" maddelerinin hepsi eski (kötümser)
+botla ölçülmüştü. Altı bölüm (5, 9, 14, 18, 28, 33) başsız, paralel yeniden koşuldu.
+**Ölçüm (CLEARED / ölüm / son arenaya giriş canı):** Bölüm 5 — 1 ölüm, **31** (final içinde öldü; tur 156: 33–43 + ölüm).
+Bölüm 9 — 1 ölüm, 45–57 (Binbaşı Kaya; tur 329 ile aynı varyans). Bölüm 14 — 1 ölüm, 69–74 (son patron). Bölüm 18 —
+0 ölüm, min 51. Bölüm 28 — 1 ölüm orta kesimde (7060–7290), finale 101. Bölüm 33 — 0 ölüm, min 53.
+**Karar:** yalnız Bölüm 5 "son arenaya giriş %40 altı" koşulunu ödül toplanınca da sağlıyor → tur 330/331 kalıbı:
+`bolum05.gd` `_prop("sandik", 7880, 0, HEALTH)` (trenden iniş zemini 7590–7950, kontrol noktası 7950'nin solu). Büfe 5600'den
+Makinist Cemil'e kadar can yoktu; uzun tren üstü kavgası (4 düşman + tüfekli) 57→31 alıyor. Hipotez: +35 → ~%55 giriş.
+Bölüm 18 ve 33 can maddeleri insan gözlemine kaldı; Bölüm 9/14 finalleri eşiğin üstünde.
+**Oyuncu ne hissedecek:** vagon tepesinden inince kontrol direğinin dibinde sandık; Makinist'in üç dalgasına nefesle girer.
+**Görsel:** `capture_level` 7820'den: sandık taş peron zeminine oturuyor, trafo/çit arka planıyla "ait" (Bölüm 4/6 sandığı).
+**Testler:** `--import` SCRIPT ERROR 0; `DTM GAPS: PASS`; `campaign_smoke` çıkış 0 (Bolum05 OK); bot Bölüm 5 CLEARED @9391
+/ 100,9 sn / 1 ölüm (bot sandık kırmıyor — beklenen; insan testinde ölçülecek).
+**Sonraki öneri:** Bölüm 28 orta kesim (7060–7290) ölümü tek koşu — bir sonraki denetimde tekrar görülürse incelensin.
 
 ### 2026-11-18 (332) — Denetim (Bölüm 12 ve 34): bot artık arkada kalan arena ödülünü topluyor; Bölüm 12 "kanal ölümü" bot eksikliğiymiş
 
