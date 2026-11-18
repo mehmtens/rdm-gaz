@@ -7,6 +7,14 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 318 denetimi, Bölüm 23 "Saraçhane", indeks 22 — günlükte en az anılan (30). Bot CLEARED @10107 / 91,3 sn /
+  0 respawn / hp min 27. Hiçbiri koşulsuz değil:)
+  (1) **İlk %70 yumuşak:** 0→7350 px boyunca can 115→99 (iki tekil ELITE 5550/6700 bota hasar vermedi); bütün baskı bakım
+  geçidi arenası (99→27) ve taşma avlusu finalinde. İnsan testi "ilk yarı sıkıcı" derse vana salonu ELITE@6700 önüne
+  RIFLE@-180 ya da avlu 2. dalgasına üçüncü düşman. · (2) **Bakım geçidi arenası** (RIFLE,KNIFE,RIFLE → ELITE,SHIELD)
+  takılmasız ama ağır; HEALTH ödülü doğru. · (3) **Final takılması 11 sn @9920** (üç dalga): normal. · (4) Tur 309
+  kiremitleri bota hasar vermedi (115 sabit) — telegraf okunuyor.
+
 - (Tur 317 denetimi, Bölüm 26 "Sirkeci Sevkiyatı", Kitap 3 / 2. bölüm, indeks 25. Bot: CLEARED @9758 / 81,3 sn /
   0 respawn / hp min **6** (arka peron arenası); değişiklik sonrası @9759 / 78,0 sn / hp min 18.)
   (1) **UYGULANDI (tur 317) — arka peron arenası 2. dalga 3 ağır düşman:** BRUISER+SHIELD+ASSASSIN, 25 ve 27'nin son
@@ -693,6 +701,14 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-18 (318) — Denetim (Bölüm 23 — Saraçhane): otonom iş kalmadı, otomasyon durdu
+
+**Ne yapıldı:** kural (d): günlükte en az anılan Bölüm 23 bot ile oynatıldı — CLEARED @10107, 91,3 sn, 0 respawn,
+hp min 27 (bakım geçidi arenası), final arenası 11 sn takılma. Eğri sona yüklü ama ölüm eşiğine yaklaşmıyor; tek bulgu
+("ilk %70 yumuşak") zevk/denge kararı → insan verisi olmadan değiştirilmedi. Dört bulgu birikime. Kod değişikliği yok.
+**Durum:** stil listesi, iki yol haritası, P1 kapalı; birikimin tamamı insan testine bağlı.
+**Sonraki öneri:** insan oyun testi (öncelik: Bölüm 18 ambar, 25 ciltçi, 26 arka peron, 33 ambar, 23 ilk yarı temposu).
 
 ### 2026-11-18 (317) — Denetim (Bölüm 26 — Sirkeci Sevkiyatı): arka peron arenası 2. dalgası iki düşmana indi
 
