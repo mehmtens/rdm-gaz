@@ -187,7 +187,12 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   ~~(1) yenilen/yere düşen düşman ve ölen oyuncu ayak noktası çevresinde döndürülünce gövdenin yarısı zemine gömülüyordu
   (38–59 px)~~ **(tur 271: `LieLift`)** · (2) son arenaya giden yolda can kaynağı: 33/36 bölümde garanti yemek var,
   Bölüm 3/7/35'te yok ama üçünde de arena yanında can satan dükkân var — açık yok; insan testinde boss'a giriş canı
-  ölçülsün · (3) Kitap 2–3'te "kasa = yemek" kuralı neredeyse kayboluyor: 24 bölümün 19'unda zarlı kasa yok (Kitap 1'de
+  ölçülsün. **(tur 302 rafine ölçüm):** "garanti yemek var mı" yerine *son garanti iyileşme → final arena mesafesi*
+  statik tarandı (kaynaklar: `_pickup(HEALTH)`, `_chimney(…HEALTH)`, `_prop("sandik",…HEALTH)`, ara `_fight` arenaları
+  temizlenince HEALTH). Tek gerçek aykırı: Bölüm 32 — baca@4900 sonrası ~3850 px (kilitsiz tüfek dizisi) iyileşmesiz,
+  bot 83→27. **Düzeltildi:** nefes odasına `_pickup(HEALTH, 8080, 0)` (gap 670 px'e indi). Diğer büyük boşluklar aykırı
+  değil: Bölüm 26 (son _fight@7900 ama 9320'de HEALTH pickup), 35/30 ara iyileşme-arenasından geçiş; B32 deseni (kilitsiz
+  sürekli menzilli yıpranma + heal yok) başka bölümde yok · (3) Kitap 2–3'te "kasa = yemek" kuralı neredeyse kayboluyor: 24 bölümün 19'unda zarlı kasa yok (Kitap 1'de
   her bölümde 1–4); oyuncunun Kitap 1'de öğrendiği "kasayı kır, yemek çıkabilir" alışkanlığı karşılıksız kalıyor. İnsan
   testi "Kitap 3'te can sıkıntısı" derse uygun mekânlara elle kasa konsun (yeni sanat yok, `_prop("kasa", ...)`) ·
   (4) HUD durum kutusu yazı ağırlıklı ("Zırh 5/6", "Bıçak 18/20"); telefonda okunurluk insan testinde sorulsun.
