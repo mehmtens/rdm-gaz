@@ -454,6 +454,36 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-18 (290) — Denetim (Bölüm 32) + DTM tarzı dikey kamera çapası: zıplamada kamera sabit, kulede yer görünür
+
+**Neden şimdi:** stil listesi, iki yol haritası ve birikimin koşulsuz maddeleri bitti → kural (d). Günlükte en az anılan
+bölüm 32 (18 anılma) pencereli bot ile oynatıldı (9 sn aralık, 9 kare). Hareket hissi/okunurluk sütununda somut kusur:
+kamera her zıplamayı dikeyde birebir izliyordu (Camera2D `drag_vertical` kapalı, `game_camera.gd` yalnız düşüşte
+aşağı bakıyordu). Gözlemler: (a) rasathane iç mekânında (x≈7086) oyuncu ahşap kule/iskele üstündeyken alttaki iki
+düşman ekranın alt kenarında yarıya kesik; (b) iskele (x≈4010) ve Fenerci Kileri kulesi (x≈6246) üstünde yer çizgisi
+kadraj dışında. DTM'de kamera platforma oturur: sıradan zıplamada ekran oynamaz, yükseğe çıkınca aşağısı görünür kalır.
+Oyuncu ne hisseder: zıplarken ekran "zıplamaz", kule/iskele üstünden aşağıdaki tehdit okunur.
+**Yapılan (`scripts/systems/game_camera.gd`):** `_frame_vertical` — kamera düğümünün yerel `position.y`'si gövde
+yerine bir çapayı izleyecek şekilde kaydırılıyor (Camera2D yumuşatması bu hedefe uygulanır; `offset`'e yazmak
+yumuşatmayla ters yönde salınım yapardı). Çapa: yerdeyken gövde y'si; havada kalkış seviyesinin altına düşünce gövdeyi
+izler, `rise_margin`=110 px'ten fazla yükselince (duvar tırmanışı, uzun sıçrama) 110 px gerisinden izler. Yerdeyken
+aşağı ışın: altındaki zemine uzaklığın 160 px'i aşan kısmının 0,75 katı kadar (en çok 140) kadraj aşağı kayar,
+220 px/sn ile yumuşar. Işınlanmada (|Δy|>240 px tek karede: yeniden doğma, kontrol noktası) çapa anında sıfırlanır.
+**Sayıların gerekçesi (hipotez):** zıplama tepesi ~126 px → 110 marj kamerayı ~16 px oynatır (DTM hissi: neredeyse
+sabit, tümüyle kilitli değil, tepe ekran üstüne yaklaşmaz). 160 px eşik: tek ara kat (−125…−160) eski kadrajla
+zaten yeri gösteriyordu, yalnız iki kat üstü (kule, iskele ≈−300) kayar; 0,75 × (306−160) ≈ 110 px → 1,12 zoom'da
+ekran altı y≈+27, yerdeki düşmanın tamamı görünür, oyuncunun başı üstte ~200 px kalır.
+**Test:** yeni `tests/camera_anchor.tscn` (gerçek oyuncu sahnesi): zıplama 126 px'te kamera hedefi 16 px yükseldi;
+300 px kulede ekran altı y=27 (zemin 0); ışınlanmada çapa sıfır → PASS. Negatif kontrol: `_frame_vertical` kapalıyken
+"kamera hedefi 126 px yükseldi" ile assert düşüyor. Derleme temiz; `campaign_smoke` çıkış 0; `DTM GAPS: PASS`;
+bot Bölüm 1 CLEARED 76,2 sn, Bölüm 13 CLEARED 67,8 sn, Bölüm 25 CLEARED 83,4 sn, Bölüm 32 pencereli CLEARED 76,6 sn
+(öncesi 75,7 sn); `bubble_clamp`, `hint_banner_dodge`, `sky_follow`, `sky_wide` PASS; SKY_SPEAKER_RESULT.
+**Görsel:** Bölüm 32 yeni koşuda 3 sn aralıklı 26 kare; x≈7151 karesinde kule üstündeki oyuncu ile yerdeki iki düşman
+tam kadrajda, x≈4034 iskele ve x≈6198 kule karelerinde kaldırım şeridi ekranın altında. Taşma/sıçrama yok.
+**Birikime (insan testine bağlı):** (1) telefonda "zıplarken ekran durgun, yüksek platforma inince kamera geç
+geliyor" derse `rise_margin` 110→90 veya yumuşatma hızı 6→8 · (2) "kuleden aşağı bakmak çok" derse `high_bias` 0,75→0,6.
+**Sonraki öneri:** otonom iş yok; telefonda insan oyun testi (kamera hissi bu turla değişti, testte özellikle sorulsun).
+
 ### 2026-11-18 (289) — Denetim: Bölüm 33 ve 23 pencereli bot koşusu temiz; otonom iş çıkmadı, otomasyon durdu
 
 **Neden şimdi:** stil listesi, iki yol haritası ve birikimin koşulsuz maddeleri bitti → kural (d). Günlükte en az anılan
