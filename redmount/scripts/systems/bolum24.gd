@@ -125,7 +125,9 @@ func _build() -> void:
 	_moving(11800, -230, Vector2(300, 0), 140, 0.0)
 	_scaffold(12220, -230, 120)
 	_pickup(RIFLE_PICKUP, 12220, -275)
-	_enemy(ELITE, 12000, 0)
+	## Revakta Elit yerine kalkanlı: üst üste üçüncü tekil Elit'i kırar; kalkan önden
+	## keser, arkadaki tüfekli ateş eder — oyuncu hareketli iskeleyle üstten aşar.
+	_enemy(SHIELD, 12000, 0)
 	_enemy(RIFLE, 12300, 0)
 
 	# --- 9. Dağıtım haznesi: alt servis yolu, ağır savunma ------------------------

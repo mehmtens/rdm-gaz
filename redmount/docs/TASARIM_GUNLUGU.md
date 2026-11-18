@@ -7,6 +7,19 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 315 denetimi, Bölüm 24 "Bozdoğan Kemeri / Son Kumanda", KİTAP 2 FİNALİ, indeks 23 — günlükte en az anılan
+  bölüm (28), son ayrıntılı bakış tur 57. Bot: başsız CLEARED @18658 / 180,2 sn / 0 respawn / hp min 24 (dağıtım haznesi
+  MINIBOSS arenası); pencereli CLEARED @18657 / 172,1 sn / 0 respawn / hazne hp min 96 → yüksek varyans.)
+  (1) **UYGULANDI (tur 315) — revakta üçüncü tekil Elit:** ölçüm salonu ELITE@9750, merdiven ELITE@10650, revak
+  ELITE@12000 = 2250 px'te üç tekil Elit, ardından hazne arenası MINIBOSS; başsız koşuda revak 83→60, hazne →24.
+  Revak ELITE→SHIELD (bölümde yalnız 5600'de kullanılan tip; kalkan+arkada tüfekli = hareketli iskeleyle üstten aşma). ·
+  (2) **Can vadisi 8700→15480 (~6800 px görünür HEALTH yok):** hazne arena ödülü ARMOR, merdivenlerde ARMOR. İnsan testi
+  "haznede/arşivde öldüm" derse hazne ödülü ARMOR→HEALTH (Bölüm 18 md.2 ile aynı kalıp). · (3) **Uzunluk 180 sn** (diğer
+  bölümlerin ~2 katı, 12 mekân): kitap finali olarak kasıtlı; insan testi "çok uzun" derse 6–7 (ölçüm salonu+merdiven)
+  tek mekâna indirilebilir. · (4) **Final arenası 22–24 sn takılma** (üç dalga + Ana Vana Muhafızı): boss için normal;
+  insan testinde "muhafız zırhı altı vuruşta açılır" ipucunun okunduğu gözlensin. · (5) **Tehlike dağılımı** 3200–7450
+  arası tehlikesiz, sonra kanal/çökme/pres yoğun: insan testi "ilk yarı düz" derse kemer altı pusuna tek saksı.
+
 - (Tur 314 denetimi, günlükte en az anılan Bölüm 19 (indeks 18) ve 33 (indeks 32); bot ikisi de CLEARED 0 respawn.
   Bölüm 19 @10106 / 82,1 sn / hp min 62 (4 tehlike, ilk 9500 px'te can ≥97). Bölüm 33 @9755 / 82,3 sn / hp min 18.
   Hiçbiri koşulsuz değil — hepsi insan testine bağlı:)
@@ -670,6 +683,29 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-18 (315) — Denetim (Bölüm 24 — Bozdoğan Kemeri, Kitap 2 finali): revaktaki üçüncü tekil Elit kalkanlıya döndü
+
+**Neden şimdi:** stil listesi ve iki yol haritası kapalı, birikimdeki maddelerin hepsi insan testine bağlı → kural (d).
+Günlükte en az anılan bölüm 24 (28 anılma; son ayrıntılı bakış tur 57) bot ile iki kez oynatıldı, 15 ekran görüntüsü
+alındı (pencereli koşu, `REDMOUNT_SNAP_DIR`).
+**Ölçüm:** başsız CLEARED @18658, 180,2 sn, 0 respawn, en uzun takılma 24 sn final arenasında (boss). HP: kemer altı
+pusu 105→81, galeri 57, ölçüm salonu HEALTH ile 87, merdiven+revak 87→60, hazne arenası (BRUISER+KNIFE → MINIBOSS)
+→ **24**, arşiv+pres 54→28, revir/teras sonrası 102, finalde 62.
+**Bulgu:** 8850–12500 arasında üç ayrı mekânda üç tekil ELITE (0,2 sn en kısa telegraf) art arda; hemen ardından
+MINIBOSS. Aynı tip üst üste tekrar → dövüş okunurluğu tekdüze, final öncesi yıpranma Elit'ten geliyor (tur 312 Bölüm 31
+bulgusuyla aynı kalıp).
+**Yapılan (`scripts/systems/bolum24.gd`):** revak (section 8) ELITE@12000 → SHIELD. Kalkanlı önden keser, arkasındaki
+RIFLE@12300 ateş eder; oyuncu ya kalkanı arkadan vurmak için hareketli iskeleyi (11800) kullanır ya da tüfekliyi önce
+temizler — yeni bir okuma sorusu. SHIELD bölümde yalnız bir kez (5600) kullanılıyordu.
+**Gerekçe (hipotez):** Elit'in kısa telegrafı yerine kalkanlının yavaş, okunur tehdidi; zorluk düşüşü küçük
+(hazne+final ağır kalıyor). İnsan testi "revak kolay" derse geri alınabilir.
+**Test:** `DTM GAPS: PASS`; `campaign_smoke` çıkış 0 (36 sahne, SCRIPT ERROR yok); pencereli bot Bölüm 24 değişiklik
+sonrası CLEARED @18657, 172,1 sn, 0 respawn, revak 115→106, hazne min 96. Ekran görüntüleri: revakta kalkanlı ile
+dövüş okunuyor, hazne MINIBOSS çubuğu, pres arası HEALTH (15480) görünür; taşma/çakışma yok. Tek düşman tipi değişikliği
+ortak sistemi etkilemediği için 0/12 koşuları gerekmedi.
+**Birikime:** 5 madde (Tur 315), hepsi insan testine bağlı. **Sonraki adım:** günlükte en az anılan sıradaki bölüm
+(26 veya 22) için aynı denetim; ya da insan testi gelirse birikimdeki "öldüm" maddeleri.
 
 ### 2026-11-18 (302) — Denetim (Bölüm 32 — Kuleli Gözetleme Hattı): nefes odasına görünür tek can; baca sonrası iyileşme boşluğu kapandı
 
