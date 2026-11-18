@@ -20,7 +20,11 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   Bölüm 2 kiremidi tanıtıyor (5962), 6–8 pres/alev/çökme kullanıyor; ama **3, 4, 5 ve 10 tehlikesiz** → "öğret, sonra
   kullan" zinciri 2'den sonra üç bölüm kopuk. Bölüm 1 öğretici, kasıtlı tehlikesiz kalsın. Sıra: 3 → 4 → 5 → 10, her
   birine erken kesimde tema uygun tek-iki telegraflı tehlike. **Bölüm 3 UYGULANDI (tur 310):** pazar duvarı (3270) + fenerli ara
-  sokak (6230) iki saksı; bot CLEARED 0 respawn, hp min 57. · (4) **Bölüm 25
+  sokak (6230) iki saksı; bot CLEARED 0 respawn, hp min 57. **4, 5, 10 KASITLI BIRAKILDI (tur 311):** üçünde de çevresel tehlike
+  yerine güçlü alternatif baskı var — Bölüm 4 dört tüfekli kule + kum torbası siperleri (rifle=4), Bölüm 5 zamanlı vinç
+  paletleri + vagon tepeleri (moving=2, rifle=3), Bölüm 10 çifte hareketli köprü + burç tüfeklileri (moving=3, rifle=3,
+  bomber=1). Askerî kontrol noktasına/sura saksı tematik değil; insan testi "Kitap 1 ortası düz" derse Bölüm 4'e yanan
+  varil (`_flame`), Bölüm 10'a sur saçağı taşı düşünülsün. · (4) **Bölüm 25
   ciltçi geçidi varyansı sürüyor:** bu turun koşusunda 87→31 (önceki turlarda 9 + 1 ölüm); insan testi "ciltçide öldüm"
   derse ELITE@7650 → BRUISER veya HEALTH@8100 öne (7400) alınsın.
 
@@ -9184,4 +9188,14 @@ yolu öncesi) hareket halindeyken okumak zorunda kalır; hâlâ tek vuruş, öl�
 **Testler:** `--import` SCRIPT ERROR 0; `dtm_gaps` PASS; `campaign_smoke` çıkış 0; bot Bölüm 3 CLEARED @9006 / 79,2 sn /
 0 respawn / hp min 57 (meydan pususu arenasında). Ortak sistem değişmedi.
 **Sonraki öneri:** birikim md.5 — Bölüm 4 (kontrol noktası/tepe; kum torbası teması).
+
+### 2026-11-18 — Tehlike zinciri kapandı; otonom iş kalmadı, otomasyon durdu (tur 311)
+
+**Ne yapıldı:** tur 307 taramasının son maddesi (Kitap 1: 4, 5, 10) kodla incelendi. Üçünde de çevresel tehlike yerine
+bölüme özgü baskı kaynağı var (tüfekli kuleler, zamanlı paletler, hareketli köprüler); saksı/kiremit askerî/sur temasına
+uymuyor, eklemek "formül tehlike" olurdu. Kod değişikliği yok; gerekçe birikim md.5'e yazıldı.
+**Durum:** 36 bölümde tehlikesiz kalanlar yalnız Bölüm 1 (öğretici, kasıtlı) ve 4, 5, 10 (alternatif baskı, kasıtlı).
+Stil listesi 33/33, iki yol haritası kapalı, P1 boşlukları uygulanmış; birikimin kalan maddeleri insan testine bağlı
+(Bölüm 18 han ambarı can vadisi, Bölüm 25 ciltçi geçidi varyansı, Bölüm 16/17 çift-ELITE arenaları, Bölüm 32 tırmanış).
+**Sonraki öneri:** insan oyun testi; özellikle Bölüm 18 (8100–9280) ve Bölüm 25 (7450–8150) can eğrisi.
 
