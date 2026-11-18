@@ -7,6 +7,16 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 324 denetimi, Bölüm 10 "Kuzey Surları" (indeks 9, Kitap 1 finali, son denetim tur 185) ve Bölüm 16 (indeks 15,
+  tur 193). Bölüm 16 CLEARED @9956 / 79,8 sn / 0 ölüm / hp min 32 → temiz.)
+  (1) **UYGULANDI (tur 324) — Bölüm 10 final 3. dalgası çift Elit:** ayrıntı tur kaydında. · (2) **Bölüm 10 can vadisi
+  5300→8400:** 1. arena (KNIFE+STREET+BOMBER → ELITE+ASSASSIN → BRUISER+ELITE) 89→21–46, HEALTH ödülünü bot altı koşunun
+  hiçbirinde almadı; ardından iki tüfekli kule + Bıçaklı (6900–7550) 46→5. Altı koşudaki 5 ölümün hepsi bu zincirden
+  (finale 5 canla giriş ya da 1. arenada). İnsan testi "Sur Ağası'na az canla vardım" derse 7780 kontrol noktası yanına
+  kırılabilir can sandığı (tur 319 Bölüm 36 kalıbı) ya da 1. arena 3. dalga ELITE→KNIFE. · (3) **Final arenada ~16 sn
+  hasarsız duraklama @8330–8370** (üç koşuda da, can sabit): bot Sur Ağası'na karşı bekliyor gibi; insan testinde patronun
+  açılış süresi/zırh ipucu okunuyor mu gözlensin.
+
 - (Tur 322 denetimi, Bölüm 7 "Karahanlı Haddehanesi" (indeks 6, son başlıklı denetim tur 186) ve Bölüm 1 "Balat"
   (indeks 0, tur 180). Bot yüksek varyanslı: Bölüm 7 yedi koşuda CLEARED, 0–1 ölüm; Bölüm 1 CLEARED @8608, 0 ölüm, hp min 37.)
   (1) **UYGULANDI (tur 322) — Bölüm 7 fırın yolu kablo+dövüş üst üste:** ayrıntı tur kaydında. · (2) **Bölüm 7 zırhlı arena
@@ -721,6 +731,24 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-18 (324) — Denetim (Bölüm 10 ve 16): Kitap 1 finalinde Sur Ağası sonrası çift Elit, Elit+Bıçaklı oldu
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin tamamı insan testine bağlı → kural (d). Son
+başlıklı denetimi en eski iki bölüm (10: tur 185, 16: tur 193) bot ile oynatıldı.
+**Bulgu:** Bölüm 16 temiz (CLEARED @9956, 79,8 sn, 0 ölüm, hp min 32). Bölüm 10'un ilk koşusu test ölçütüne göre
+**BAŞARISIZ**: CLEARED ama 2 ölüm ve son arenada 45 sn takılma (eşik >45). Bölümde 5 Elit var (1. arenada 2, finalde 3);
+final arenası ELITE+KNIFE → Sur Ağası → **ELITE+ELITE** ile bitiyordu. Tur 312/315/320'de düzeltilen "Elit tekrarı"
+kalıbının aynısı, üstelik patrondan sonra gelen en sert dalga Kitap 1'in doruğunu söndürüyor.
+**Değişiklik (`scripts/systems/bolum10.gd`):** `final.wave3 = _wave(ELITE, ELITE)` → `_wave(ELITE, KNIFE)`.
+**Oyuncu ne hissedecek:** Sur Ağası'nı yıkan oyuncu kısa bir temizlik dalgasıyla bölümü kapatır; asıl sınav patron olarak
+kalır. Hipotez: final takılması ~%30 kısalır; insan testi "final kolay" derse geri alınır.
+**Dürüst ölçüm (bot):** önce üç koşu 2/0/1 ölüm, takılma 45/22/24 sn (hp min 5); sonra üç koşu 1/0/1 ölüm, takılma
+30/22/25 sn, hepsi geçti. Ölüm sayısı anlamlı değişmedi: ölümler final 3. dalgasından değil, 1. arena + kule bölümünün
+can tüketiminden (5→finale giriş) geliyor; insan testine bağlı öneri birikimde (Tur 324 md.2).
+**Testler:** `--import` SCRIPT ERROR 0; `DTM GAPS: PASS`; `campaign_smoke` çıkış 0 (Bolum10 OK); bot Bölüm 10 üç koşu
+CLEARED (yukarıda), Bölüm 16 CLEARED. Ortak sistem değişmedi.
+**Sonraki öneri:** insan oyun testi (Bölüm 7, 10, 22; birikim Tur 322/324 can vadileri).
 
 ### 2026-11-18 (323) — Tehlike-üstü-dövüş taraması (36 bölüm): Bölüm 22 pompa salonu kablosu kaldırıldı
 

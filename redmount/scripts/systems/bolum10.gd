@@ -111,7 +111,9 @@ func _build() -> void:
 	final.wave2 = _wave(MINIBOSS)
 	final.named_title = "SUR AĞASI"
 	final.named_wave = 2
-	final.wave3 = _wave(ELITE, ELITE)
+	## Sur Ağası sonrası çift Elit yerine Elit+Bıçaklı (tur 324): bölümde 5 Elit vardı,
+	## final takılması 22–45 sn; Kitap 1 finali patrondan sonra sönmeden kapanır.
+	final.wave3 = _wave(ELITE, KNIFE)
 	final.reward = HEALTH
 	add_child(final)
 	_story(9000, _sahne_kor_nokta)
