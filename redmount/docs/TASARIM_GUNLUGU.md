@@ -7,6 +7,22 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 292 denetimi, en az bireysel denetlenen Bölüm 12 — Kitap 1 finali, İç Kale / Karahanlı, gece — headless bot
+  (CLEARED @7370, 81,7 sn, 1 respawn) + 6 mekân pencereli ekran görüntüsü; DTM sütunlarıyla karşılaştırıldı. Görsel kalite
+  DTM düzeyinde ya da üstü: pirinç preslı cephanelik iç mekânı, Boğaz gecesi + kayık sarnıç kanalı, palet asansörü, iki
+  katlı taş tutukevi (konturlu koyu assassin'ler raf önünde net okunuyor), vitraylı taht salonu (camlardan cami silüeti).
+  Hiçbiri koşulsuz değil) (1) bot 3 dalgalı cephanelik arenasından (x=2300, ödül HEALTH) 8/115 canla çıkıp çöken-tahta
+  sarnıç kanalında (x≈3390–4190, düşmek = suya = ölüm) bir kez öldü; `_checkpoint(3050)` hemen hazardın önünde yakaladı,
+  respawn sonrası temiz CLEARED. Kitap 1 finali kasıtlı olarak zor; arena ödülü HEALTH + 3050 kontrol noktası + rota üstü
+  ARMOR (3800,−330) kurtarma sağlıyor. İnsan testi "cephanelik sonrası kanalda can yetmedi, köprüde öldüm" derse: arena
+  ödülü sağ kapı yakınına (`armory.reward` pozisyonu) ya da kanal girişine (x≈3150, zemin −40) tek HEALTH · (2) 03sarnic
+  karesinde çöken tahtadan suya düşen oyuncu silüeti koyu lacivert su tonunda zayıf okunuyor — bu, tur 24/8/276'da not
+  edilen "canal su hattı okunurluğu" maddesinin 3. bağımsız ekran görüntüsü doğrulaması (artık hipotez değil, 3× gözlendi).
+  İnsan testi beklemeden küçük/güvenli iyileştirme adayı: su çizgisinin altındayken oyuncuya ince kenar parlaması (yalnız
+  görünürlük, zorluk/ödül değişmez) — ortak oyuncu render'ına dokunduğu için regresyon riski; ayrı turda ölçülü yapılmalı ·
+  (3) taht/tutukevi/zırh-platform karelerinde taşma, kalıcı dikiş, gömülü gövde, okunmayan HUD yok; dark_rim konturu koyu
+  assassin'leri koyu ahşap raftan ayırıyor (tur 285 bulgusunu bağımsız doğrular).
+
 - (Tur 284 denetimi, hiç bireysel denetlenmemiş Bölüm 29 — Kuzguncuk kıyı deposu, Kitap 3, gece — pencereli bot koşusu
   (75,1 sn CLEARED, 0 respawn; indeks 28) + 7 mekân ekran görüntüsü; DTM sütunlarıyla karşılaştırıldı. Görsel kalite DTM
   düzeyinde: alacakaranlık/gece Boğaz manzarası, yelkenli + Beylerbeyi iskele silüeti, dolmuş, net düşman rim ışığı, dalga
@@ -453,6 +469,33 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-18 (292) — Denetim: Bölüm 12 (Kitap 1 finali, İç Kale / Karahanlı) temiz; otonom iş çıkmadı, otomasyon durdu
+
+**Neden şimdi:** stil listesi, iki yol haritası ve birikimin koşulsuz maddeleri bitti → kural (d). 36 bölümün denetim
+başlığı sayısı tarandı; en az bireysel denetlenen bölüm 12 (Kitap 1 finali, boss: Karahanlı) seçildi. Oyuncu ne
+hissederdi: kitabın zirvesi — 3 dalgalı cephanelik arenası, çöken-tahta sarnıç kanalı, iki katlı tutukevi, vitraylı taht
+salonu boss'u — ritim, okunurluk ve son dilimde can adaleti. Doğrulama: headless bot koşusu (indeks 11) + 6 mekân
+pencereli ekran görüntüsü (`capture_level.tscn`, 1280×720), DTM sütunlarıyla karşılaştırma + `bolum12.gd` can/hazard
+yerleşimi.
+**Ölçüm:** bot CLEARED @7370, 81,7 sn, 1 respawn, `stall=14s@2688` = cephanelik kilitli arena (3 dalga: ELITE+KNIFE+BOMBER
+/ BRUISER+ELITE / ASSASSIN+ELITE — kasıtlı, kitap zirvesi). Tek ölüm: arenadan 8/115 canla çıkıp çöken-tahta kanalında
+(x≈3390–4190, düşmek = suya = ölüm) öldü; `_checkpoint(3050)` hazardın hemen önünde yakaladı, respawn sonrası temiz
+tamamladı. Rota: arena ödülü HEALTH (2300) + 3050 kontrol noktası + ARMOR 3800,−330 kurtarma sağlıyor.
+**Görsel:** altı karenin tamamı DTM düzeyinde ya da üstü — pirinç pres/vazo cephanelik iç mekânı, Boğaz gecesi + kayık
+sarnıç kanalı (altın yansımalar), palet asansörü, iki katlı taş tutukevi, vitraylı taht salonu (camlardan İstanbul cami
+silüeti, Boğaz yansıması). Konturlu koyu assassin'ler koyu ahşap raf önünde net okunuyor (dark_rim; tur 285 bulgusunu
+bağımsız doğrular). Taşma, kalıcı dikiş, gömülü gövde, okunmayan HUD yok. Tek zayıf nokta: suya düşen oyuncu silüeti koyu
+su tonunda zor okunuyor (tur 24/8/276 maddesinin 3. ekran görüntüsü doğrulaması — birikime yazıldı).
+**Birikime (hiçbiri koşulsuz değil, insan testine bağlı):** (1) cephanelik sonrası kanalda arena giriş/çıkış canı ölçülsün;
+"köprüde/kanalda öldüm" derse arena ödülünü sağ kapıya ya da kanal girişine (3150,−40) tek HEALTH · (2) su hattı okunurluğu
+artık 3× gözlendi; ayrı ölçülü turda su altı kenar parlaması (ortak render, regresyon riski) · (3) tutukevi/taht kontrastı
+temiz.
+**Testler:** kod değişikliği yok (yalnız denetim + belge); bot Bölüm 12 (indeks 11) headless CLEARED 81,7 sn; 6 pencereli
+ekran görüntüsü alındı ve Read ile incelendi (geçici capture dosyaları commit dışı).
+**Sonraki öneri:** otonom iş kalmadı — stil listesi/yol haritaları/P1 boşluk tablosu tamam, birikim yalnız insan-testi
+kapılı, denetlenen 12. bölüm de koşulsuz iş çıkarmadı. Sıradaki gerçek adım telefonda insan oyun testi; bulgular birikime
+yazılınca otomasyon yeniden iş alır. Otomasyon bu turda durdu.
 
 ### 2026-11-18 (291) — Tur 290 kamera işi doğrulanıp commit edildi + Bölüm 21 denetimi (temiz); otonom iş çıkmadı
 
