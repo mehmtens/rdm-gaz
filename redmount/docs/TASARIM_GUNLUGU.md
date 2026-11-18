@@ -325,7 +325,7 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   **(tur 285: ölçüldü, kapandı — konturlu silüet 1:1 karede okunuyor; yarım boyut kontak karelerinde zayıf görünmüştü)** · (4) Bölüm 15 betik başlığı "su çarkı (üst dişli yolu)" diyor ama bölümde çark mekaniği yok; dört iskele +
   coin. Çark arka plan resminde var; dönen çark platformu yeni sanat + mekanik ister — insan testi "set-piece eksik"
   derse · (5) Bölüm 15 üç arenasının üçü de düz sokak zemininde (çeşme, çark, teras); ikinci arena çark iskelelerini
-  arena içine alırsa dikey dövüş katmanı kazanır — yeni sanat yok, yalnız yerleşim; insan testi "arenalar aynı" derse.
+  arena içine alırsa dikey dövüş katmanı kazanır — yeni sanat yok, yalnız yerleşim; insan testi "arenalar aynı" derse. **(tur 321: çark arenasında 7050–7560 dört −240 iskele zaten içeride; insan testinde kullanımı gözlensin)**
 
 - (Tur 271 denetimi, Bölüm 19 bot koşusu + 36 bölüm can kaynağı ölçümü; 1 aynı turda yapıldı)
   ~~(1) yenilen/yere düşen düşman ve ölen oyuncu ayak noktası çevresinde döndürülünce gövdenin yarısı zemine gömülüyordu
@@ -712,6 +712,19 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-18 (321) — Denetim (Bölüm 15 — Zeyrek Su Hattı): temiz; otonom iş kalmadı, otomasyon durdu
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin tamamı insan testine bağlı → kural (d). Son
+başlıklı denetimi en eski bölüm Bölüm 15 (tur 184; tur 214/272'de kare/okunurluk bakışı) bot ile oynatıldı.
+**Ölçüm:** CLEARED @9735, 76,1 sn, 0 respawn, hp min 54 (su çarkı arenası 74→54, 9 sn takılma @7288). Çeşme meydanı
+105→93, sarnıç çürük tahtaları 93→74, gizli kemer HEALTH + arena ödülü 54→110, teras finali 105→98. Eğri dalgalı ve
+nefes noktaları doğru yerde; tur 156/184 ölçümleriyle (91–94 sn, 12 sn takılma) uyumlu, daha kısa.
+**Bulgu:** koşulsuz iş yok. Birikimdeki tur 272 md. (5) "üç arena düz zeminde" kısmen geçersiz: çark arenasının içinde
+(7050–7560) dört iskele (−240) zaten var, 7000'deki (−130) basamakla çıkılıyor; ayrık dikey katman mevcut. Md. (4)
+(dönen çark set-piece'i) yeni sanat + mekanik ister, insan testine bağlı kalır.
+**Testler:** yalnız bot koşusu (kod değişmedi).
+**Sonraki adım:** insan oyun testi (Bölüm 18, 25, 26, 33, 35, 36 can vadileri; 15 çark arenası dikey katmanı kullanılıyor mu).
 
 ### 2026-11-18 (320) — Denetim (Bölüm 35 — Anadoluhisarı Kale İçi): kışla arenasının çift Elit dalgası Elit+Bıçaklı oldu
 
