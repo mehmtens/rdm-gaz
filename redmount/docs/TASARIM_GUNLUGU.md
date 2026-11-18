@@ -12,6 +12,10 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   çıkarılsın · (3) Bölüm 3 bahçe arenası (`@5138`, 3 dalga) bot 8 sn takıldı, 0 ölüm; insan arena süresi ölçülsün ·
   (4) Bölüm 27 üst rota canı (6050,−275) görünürlüğü insan testinde doğrulansın · (5) `capture_level.gd` ilk çekimde
   açılış başlık kartına takılıyor (ilk nokta ısınma çekimi olmalı) — oyun dışı araç cilası.
+  (6) Ek başsız koşu: Bölüm 7 CLEARED 95,3 sn, 1 ölüm, en düşük 3 (takılma 20 sn @5820, dökümhane arenası — tur 186
+  ve 69 ile aynı yer); Bölüm 35 CLEARED 119,3 sn, 1 ölüm, en düşük 1 (takılma 19 sn @7084, kışla arenası — tur 173/194
+  ile aynı yer). İkisinde de arenaya bitişik büfe var (bot kullanmıyor) → bot verisiyle denge değiştirilmedi; insan
+  testinde büfe kullanımıyla arena ölümü 1'i geçerse dökümhane/kışla ikinci dalgasından sonra simit.
 
 - (Tur 297 denetimi, günlükte az anılan Bölüm 5 — Demiryolu Ablukası, Kitap 1, gün batımı — headless bot CLEARED
   @9391 / 88,3 sn / 0 respawn + 7 pencereli ekran görüntüsü; DTM sütunlarıyla karşılaştırıldı, görsel DTM düzeyinde:
@@ -542,7 +546,10 @@ ana yolda görünür, gizli değil. Bir paket; hipotez — insan testinde final 
 **Testler:** `--import` SCRIPT ERROR 0; `campaign_smoke` çıkış 0; `dtm_gaps` PASS; bot Bölüm 27 başsız CLEARED 96,3 sn,
 0 ölüm, finale 66 canla giriş, en düşük 15 (önce 53 → 2); pencereli çekimde can paketi arşiv zemininde, çukurun
 ötesinde, mevcut sprite ile okunuyor, taşma yok. Ortak sistem değişmedi.
-**Sonraki öneri:** otonom iş kalmadı; birikimdeki "1 HEALTH'li bölümler" (7, 30, 32, 34) insan testinde ölçülsün.
+**Ek ölçüm:** Bölüm 7 ve 35 başsız birer koşu (birikim Tur 298/6): ikisi de bilinen arenada 1 ölüm, büfe bitişik →
+değişiklik yok. Otomasyon durdu.
+**Sonraki öneri:** otonom iş kalmadı; birikimdeki "1 HEALTH'li bölümler" (7, 30, 32, 34) ve Bölüm 7/35 arena
+ölümleri insan testinde ölçülsün.
 
 ### 2026-11-18 (297) — Denetim: Bölüm 5 (Demiryolu Ablukası, Kitap 1) temiz, DTM düzeyinde; otonom iş çıkmadı
 
