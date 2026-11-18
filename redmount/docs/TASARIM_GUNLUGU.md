@@ -7,6 +7,20 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 297 denetimi, günlükte az anılan Bölüm 5 — Demiryolu Ablukası, Kitap 1, gün batımı — headless bot CLEARED
+  @9391 / 88,3 sn / 0 respawn + 7 pencereli ekran görüntüsü; DTM sütunlarıyla karşılaştırıldı, görsel DTM düzeyinde:
+  gün batımı Boğaz + cami silüeti, demiryolu deposu, makas kulesi (fenerli kabin/projektör), vagon rotası, İstasyon
+  Büfesi, çelik kanopili uzun tren dövüşü, Makinist Cemil finali. Taşma/dikiş/okunmayan HUD yok, `dark_rim` düşmanları
+  ayırıyor. Hepsi insan testine bağlı) (1) bot 14 sn `@5139` takıldı = depo arenası (`arena@4800`, 3 dalga
+  STREET/KNIFE → RIFLE/KNIFE/ASSASSIN → BRUISER/RIFLE, ödül HEALTH); bot 0 respawn geçti, bu beklenen dövüş süresi
+  ama insan testinde arena süresi/ölüm ölçülsün, uzunsa dalga veya ara ödül düzenlensin · (2) son arena Makinist Cemil
+  (`final@8550`, 3 dalga, 3. dalga adlı boss): bot finalde 27–43 cana düştü; büfe (5600) + arena HEALTH ödülü kurtarma
+  var, insan testi "boss öncesi can bitti" derse büfe/ara ödül dengesi · (3) tema: "kalkan tren" aciliyeti mekanik
+  değil (süre baskısı yok, yalnız 2 vinç paleti 2150/2700 + bulut platform zamanlı); insan testi "aciliyet yok" derse
+  bölüm sonu görsel kalkış geri sayımı/hız hissi · (4) 06tren üst katı bulut platform coin yolu (6560/7040) opsiyonel
+  üst rota; görünürlük/ödül dengesi insan testinde doğrulansın · (5) yakalama aracı ışınlama artefaktı (telsiz/afiş/tost
+  yığılması) Bölüm 34 ile aynı, oyun dışı.
+
 - (Tur 296 denetimi, günlükte en az anılan Bölüm 34 — Kandilli Verici Sırtı, Kitap 3, gece — headless bot CLEARED
   @9906 / 71,2 sn / 0 respawn + 10 pencereli ekran görüntüsü; DTM sütunlarıyla karşılaştırıldı, görsel DTM düzeyinde.
   Etki/maliyet sırasıyla, biri bu turda uygulandı) **(1) UYGULANDI (bu tur):** `radio_top_band` testi görev/film-rulosu
@@ -504,6 +518,22 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-18 (297) — Denetim: Bölüm 5 (Demiryolu Ablukası, Kitap 1) temiz, DTM düzeyinde; otonom iş çıkmadı
+
+**Neden şimdi:** stil/yol haritaları ve birikimin koşulsuz maddeleri kapalı → kural (d). Tur 296'dan sonra günlükte
+az anılan bölümlerden Bölüm 5 (3 anım) seçildi.
+
+**Yapıldı:** Bölüm 5 headless bot (CLEARED @9391, 88,3 sn, 0 respawn; indeks 4) + 7 pencereli ekran görüntüsü (peron /
+vagon tepeleri+vinç / makas kulesi / depo arenası / İstasyon Büfesi / uzun tren / Cemil finali), DTM sütunlarıyla
+karşılaştırıldı. Görsel kalite DTM düzeyinde; taşma, kalıcı dikiş, okunmayan HUD yok; dövüş okunurluğu iyi. Botun
+14 sn `@5139` takılması incelendi: depo arenası (3 dalga) dövüş süresi, traversal kusuru değil — bot 0 respawn geçti.
+Beş denetim bulgusu (hepsi insan testine bağlı) birikime yazıldı; koşulsuz otonom değişiklik çıkmadı.
+
+**Testler:** bot Bölüm 5 CLEARED (88,3 sn, 0 respawn). Kod değişmedi (yalnız günlük/birikim kaydı).
+
+**Sonraki öneri:** günlükte az anılan bir sonraki bölüm (Bölüm 27 ya da 3, 3–4 anım) denetlenebilir; ya da telefonda
+insan oyun testi (birikimin tamamı artık insan-testi kapılı).
 
 ### 2026-11-18 (296) — Denetim: Bölüm 34 (Kandilli Verici Sırtı) temiz + HUD tostu okunurluğu testi sağlamlaştırıldı
 
