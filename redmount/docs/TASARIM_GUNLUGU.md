@@ -10,9 +10,12 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 - (Tur 302 denetimi, Bölüm 32 "Kuleli Gözetleme Hattı"; insan testine bağlı) (1) **UYGULANDI (tur 302):** nefes
   odasına görünür tek HEALTH (8080,0), baca sonrası iyileşme boşluğu kapandı · (2) section 6 "projektörlü kuleler"
   vaadi mekanik değil (yalnız RIFLE tünekleri); temaya uygun sweeping ışıldak tehlikesi — yeni sprite/piksel art, büyük
-  iş ayrı tur · (3) fener kulesi çıkışı (iskeleler x=4000'de düz dikey üst üste, RIFLE@4140 tepeden ateş, 7 sn takılma):
-  çıkışı inişteki gibi zigzaglamak set-piece hissini artırır + dikey-committed vurulma adaletsizliğini azaltır, sıçrama
-  erişilebilirliği korunmalı, bot yeniden ölçülmeli · (4) son arena insan testinde can bitirirse ilk dalgadan BOMBER
+  iş ayrı tur · (3) **DENENDİ VE GERİ ALINDI (tur 303):** fener tırmanışını (x=4000 düz dikey sütun → kule 4140) zigzag
+  yapmak iki varyantta da botu kule dibinde tıkadı (maxx≈4056, TIMEOUT). Neden: bot, tırmanışta ~110 px yatay + ~105 px
+  dikey ÇAPRAZ sıçramaları güvenilir yapamıyor; düz dikey sütun (yalnız dikey atlama) ve mevcut son adım (4000,-330→kule
+  4140,-420, 140/90) bot için zorunlu. Dikey-committed vurulma adaletsizliği GEOMETRİYLE otonom çözülemiyor; geometri
+  dışı yolla ele alınmalı (RIFLE'ı hafif konumlandır/zamanla ya da tırmanışa tek siper/kutu), insan testiyle doğrula —
+  bir sonraki tur bu maddeyi zigzagla yeniden DENEME · (4) son arena insan testinde can bitirirse ilk dalgadan BOMBER
   çıkarılsın · (5) hazar çeşitliliği: iki tip (çürük iskele @2700, tek flame @6500), ekleme zorluğu değiştirir.
 
 - (Tur 299 denetimi, günlükte en az anılan bölüm — Bölüm 29 "Kuzguncuk Kıyı Deposu", Kitap 3 / "İstanbul'un Sesi"
@@ -8983,3 +8986,28 @@ kaydedilmeyen 240 karelik ısınma çekimi otomatik eklenir. `f` tip çıkarım�
 **Testler:** headless çağrı 1 sn içinde "pencereli çalıştır" hatasıyla çıkış 1; pencereli Bölüm 29 `giris:500:-40`
 çıkış 0, başlık kartı/telsiz yok (yalnız bölümün kendi kovalamaca tostu — set-piece, araç hatası değil).
 **Sonraki öneri:** birikimde otonom madde kalmadı; kalanlar insan testine bağlı. Bir sonraki tur kural (d) denetimi.
+
+### 2026-11-18 — Bölüm 32 fener tırmanışı zigzag denemesi: geri alındı (tur 303)
+
+**Neden şimdi:** stil listesi (33/33) ve iki yol haritası kapalı, P1 özellik boşlukları hep "Uygulandı" → kural (c),
+birikimin en üstündeki koşulsuz/otonom aday Tur 302 md.3: fener kulesi çıkışı x=4000'de düz dikey üç basamaklı sütun,
+tepede RIFLE@4140 oyuncuya dikey atış yapıyor. Hedef: çıkışı inişteki gibi (4320→4600) zigzaglayıp oyuncuyu dikey
+şaftın altında çakılı hedef olmaktan çıkarmak, kuleyi gerçek "tırman-zirve-in" set-piece'ine dönüştürmek. Madde zaten
+"sıçrama erişilebilirliği korunmalı, bot yeniden ölçülmeli" diyor.
+**Denenen:** iki varyant. (a) Sağ-sol-sağ gerçek zigzag (3980/3880/4000, ortadaki basamak nişancıdan 260 px sola çeker).
+(b) Çapraz-yükselen, sağa-ilerleyen (3920/4030/4140, dikey maruziyet yalnız son adıma iner, iniş gibi bot-dostu).
+Her ikisinde de coin'ler yeni rotayı telegraflıyordu.
+**Sonuç — BAŞARISIZ, geri alındı:** `--import` temiz, `dtm_gaps` PASS, `campaign_smoke` çıkış 0, ama **bot Bölüm 32 iki
+varyantta da aynı yerde tıkandı: maxx≈4056, TIMEOUT @4046** (hp sabit 89, respawn 0 — ölmüyor, kule dibinde salınıyor,
+zirveye çıkamıyor). Teşhis: bot, tırmanışta ~110 px yatay + ~105 px dikey ÇAPRAZ sıçramayı güvenilir yapamıyor; düz
+dikey sütun (saf dikey atlama) ve mevcut son adım 4000,-330→kule 4140,-420 (140/90, bu çaprazı bot ZATEN geçebiliyor)
+bot için zorunlu. Ara basamakların çapraz olması rotayı bozdu. `git checkout -- scripts/systems/bolum32.gd` ile kod
+sütunun özgün haline döndürüldü (bölüm yeniden bot-geçilebilir).
+**Karar:** dikey-committed vurulma adaletsizliği GEOMETRİYLE otonom çözülemiyor (bot platform AI'sı diyagonal çıkış
+sıçramalarında kalıyor). Birikim md.3 "DENENDİ VE GERİ ALINDI" diye işaretlendi; zigzagla yeniden denenmemeli. Geometri
+dışı çözüm önerisi: RIFLE'ı hafif konumlandır/zamanla ya da tırmanışa tek siper — insan testiyle doğrula.
+**Testler:** `--import` SCRIPT ERROR 0; `dtm_gaps` PASS; `campaign_smoke` çıkış 0; bot Bölüm 32 (iki varyant) BAŞARISIZ
+TIMEOUT @4046 → kod geri alındı, özgün sütun zaten tur 302'de CLEARED doğrulanmış.
+**Sonraki öneri:** otonom geometri maddesi tükendi; bir sonraki tur kural (d) denetimi (günlükte az anılan bir bölümü
+botla oynat, DTM sütunlarıyla karşılaştır, ölçülebilir iyileştirmeleri birikime yaz) ya da md.3'ün geometri-dışı
+(RIFLE/siper) dilimini küçük ve bot-güvenli tut.
