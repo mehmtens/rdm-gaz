@@ -758,11 +758,11 @@ zıplanıyor. Her hazırlıkta bir kez. Rapor satırına `respawns` ve `boss_eva
 yaptı, bir koşu 45 sn sınırını aştı; kaçıştan sonra yerinde durmak isabet oranını 8/1 → 10/7'ye kötüleştirdi (patron
 yürüyüp yeniden vuruyor). Yalnız ağır vuruş: hafif kombo darbesini bot değiş tokuş ediyor, insanların çoğu gibi.
 **Ölçüm (patronlu bölümler, tek koşu):** temel (tur 325 kodu) 8/9/11: 0/1/0 ölüm. Yeni sürüm: Bölüm 6, 7, 8, 9 (×3), 10,
-11, 12, 24, 36 hepsi CLEARED; kaçışların ağır vuruşta 39/40'ı hasarsız, Karahanlı/Yayın Şefi'nde (hücumlu) 19/29; patron
-bölümlerinde toplam ölüm 7/12 koşu (Bölüm 36'nın 2'si tur 319 temelindeki ambar arenasında, patron dışı). En uzun takılma
+11, 12, 24, 36 hepsi CLEARED; kaçışların Ağır Zırhlı/Sur Ağası bölümlerinde 39 kaçışın 38'i hasarsız, hücumlu patronlarda (Bölüm 12, 24, 36) 28 kaçışın 18'i; patron
+bölümlerinde toplam 7 ölüm / 11 koşu (Bölüm 36'nın 2'si tur 319 temelindeki ambar arenasında, patron dışı). En uzun takılma
 Bölüm 9 20–34 sn (sınır 45). Kalan ölümler patron yanındaki yardımcı düşmanlardan ve hafif darbelerden.
 **Sonuç (tasarım):** telegrafı okuyan oyuncuya karşı Ağır Zırhlı'nın ağır vuruşu neredeyse hiç isabet etmiyor → 0,6 sn
-duruş, okunan telegrafla birlikte adil. Hücum zıplaması daha az güvenilir (%66): insan testinde "Karahanlı'nın hücumundan
+duruş, okunan telegrafla birlikte adil. Hücumlu patronlarda kaçış daha az güvenilir (%64): insan testinde "Karahanlı'nın hücumundan
 kaçılmıyor" denirse `dash_prepare_time` 0,5 → 0,6.
 **Testler:** `--import` SCRIPT ERROR 0; `campaign_smoke` çıkış 0; `DTM GAPS: PASS`; `boss_poise` PASS; bot CLEARED: Bölüm 1,
 6, 7, 8, 9 (×3), 10, 11, 12, 24, 36.
