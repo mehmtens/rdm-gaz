@@ -7,6 +7,18 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 329 denetimi, Bölüm 9 "Zırhlı Üs" (indeks 8, son başlıklı tur 250) ve Bölüm 13 (indeks 12, tur 232), pencereli, yeni bot.)
+  (1) **Bölüm 9 finali Binbaşı Kaya'da bir ölüm:** bot finale 45 canla girdi (6320–8000 arası yalnız ARMOR, can yok; ÜS KANTİNİ
+  6100'de can satıyor, bot alışveriş yapmıyor), 2. dalgada öldü, kontrol noktasından tek denemede bitirdi (132,8 sn, 36 sn
+  takılma @9043). Tur 229/250 koşularında 0 ölüm → varyans. İnsan testi "Binbaşı'ya az canla vardım" derse 3. dalga
+  ELITE+BRUISER → ELITE+KNIFE (tur 324 Bölüm 10 kalıbı) ya da 8000 kontrol noktası yanına can sandığı (tur 319 kalıbı). ·
+  (2) **Bölüm 9 ilk arena 109→25** (dördü dalga 3 dahil beş Zırhlı Vurucu): "Zırhlı Üs" teması gereği kasıtlı; tur 250
+  merhamet yemeği çalışıyor, ödülle 55'e çıktı. · (3) **Bölüm 9'da 9 Zırhlı Vurucu** — tema; insan testi "tekrar, sıkıcı"
+  derse 7700 BRUISER → SHIELD. · (4) **Bölüm 13 en kısa ve en kolay bölümlerden** (CLEARED @9560 / 65,9 sn / 0 ölüm / hp min
+  43, en uzun takılma 8 sn): Kitap 2 ortası için hafif; insan testi "çabuk bitti" demedikçe dokunulmasın. · (5) Görsel:
+  Bölüm 9 kale avlusu, kuzey kapısı; Bölüm 13 rıhtım ambarı, han avlusu karelerinde taşma, çakışma, stil dışı öğe yok;
+  dokunmatikte silah değiştirme ipucu zaten "DEĞİŞ" (hud.gd).
+
 - (Tur 328 denetimi, Bölüm 14 "Sahte Mühür" (indeks 13) ve Bölüm 2 (indeks 1), yeni botla; ikisi de kod değişmeden CLEARED.)
   (1) **Bölüm 14 can vadisi 5650→8850:** halat arenası HEALTH ödülünden sonra fener basamakları (ELITE+KNIFE+ASSASSIN) ve
   baskıhane boyunca can yok (ARMOR 6250/8450, baca AMMO). Pencereli koşu finale 34 canla girip 1 kez öldü, başsız koşu
@@ -752,6 +764,17 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-18 (329) — Denetim (Bölüm 9 ve 13, pencereli, yeni bot): temiz; otonom iş kalmadı, otomasyon durdu
+
+**Neden şimdi:** stil listesi 33/33, iki yol haritası ve P1 kapalı, birikim insan testine bağlı → kural (d). Başlıklarda en
+uzun süredir anılmayan Bölüm 13 (tur 232) ve Bölüm 9 (tur 250) telegraf okuyan botla pencereli oynatıldı, 12 sn'de bir kare.
+**Sonuç:** Bölüm 13 CLEARED @9560 / 65,9 sn / 0 ölüm / hp min 43. Bölüm 9 CLEARED @9408 / 132,8 sn / 1 ölüm (Binbaşı Kaya,
+finale 45 canla giriş). Karelerde taşma, çakışma, okunmayan düşman ya da stil dışı öğe yok.
+**Karar:** Bölüm 9 ölümü tek koşuda; önceki denetimlerde (229, 250) 0 ölüm → varyans. Denge değişikliği insan verisine
+bağlı (tur 303 dersi). Kod değişikliği yok; beş bulgu birikime yazıldı.
+**Testler:** iki bot koşusu CLEARED (kod değişmedi).
+**Sonraki öneri:** insan oyun testi (Bölüm 9 finali, 14 arşiv, 18 ambar, 25 ciltçi, 31 kanal; patron telegrafı + duruş).
 
 ### 2026-11-18 (328) — Denetim (Bölüm 14 ve 2, yeni bot): temiz; otonom iş kalmadı, otomasyon durdu
 
