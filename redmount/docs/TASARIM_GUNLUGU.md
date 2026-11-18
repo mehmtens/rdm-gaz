@@ -454,6 +454,28 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-18 (291) — Tur 290 kamera işi doğrulanıp commit edildi + Bölüm 21 denetimi (temiz); otonom iş çıkmadı
+
+**Neden şimdi:** tur başında `git status` tur 290'ın (dikey kamera çapası) commit edilmemiş değişikliklerini gösterdi —
+kilit 46 dk nabızsız bayatlamıştı, yani önceki oturum günlüğü yazıp commit edemeden kapanmış (kullanım limiti/çökme).
+Kural gereği yarım/testsiz commit edilmez; önce testler bizzat yeniden koşuldu.
+**Doğrulama + commit (`ad909f52`):** `--import` SCRIPT ERROR yok; `camera_anchor.tscn` PASS (zıplama 126→16 px,
+kule 300 px→ekran altı y=27, ışınlanmada çapa sıfır); `dtm_gaps` PASS; `campaign_smoke` çıkış 0; bot Bölüm 1 CLEARED
+81,2 sn. `game_camera.gd` + `camera_anchor.gd/.tscn/.uid` + tur 290 günlük kaydı commit edildi.
+**Denetim (kural d):** stil listesi, iki yol haritası ve birikimin koşulsuz maddeleri bitti. Yeni kamera ORTAK sistem
+olduğu için denetim hedefi, çapanın asıl riski olan dikey yapılı bir bölümde (kule/iskele) regresyon aramak oldu;
+bolum32 (çapanın geliştirildiği bölüm) dışında en dikey Kitap 3 bölümü Bölüm 21 (Yenikapı rıhtımı, gece) seçildi.
+Pencereli bot (1280×720, 8 sn aralık, 12 kare): CLEARED 94,8 sn, en düşük 41/115 son arenada.
+**Bulgular:** 12 karenin hepsi DTM düzeyinde — kuru havuz + Sultanahmet silüeti kemerde, gece Boğaz + vapur/iskele
+vinci, "RIHTIM ERZAKÇISI" dükkânı, iç mekân liman reisi arenası (harita duvarı, saat, boru rafı), "AKSARAY" istasyon
+levhası; DALGA sayacı, kombo ×16, net düşman rim ışığı, HUD taşması/dikiş yok. Yeni kamera çapası zemin seviyesinde
+regresyon yapmıyor (ekran dikeyde sabit, dükkân/arka plan kadrajda dengeli). Çapanın yüksek-platform davranışı bot
+kuleye tırmanmadığı için karede görülemiyor; birim testi (`camera_anchor.tscn`) ve tur 290 analiziyle doğrulanmış
+durumda, telefonda insan testinde "zıplarken ekran durgun, kuleye çıkınca aşağısı görünüyor mu" ayrıca sorulsun.
+**Testler:** kod değişikliği yok (yalnız doğrulama + denetim); yukarıdaki doğrulama suiti + bot Bölüm 21 CLEARED 94,8 sn.
+**Sonraki öneri:** tüm listeler (stil, iki yol haritası, birikim koşulsuz maddeleri) bitti ve denetim yeni otonom iş
+çıkarmadı → otomasyon durdu. Kalan tüm maddeler telefonda insan oyun testine bağlı (özellikle yeni kamera hissi).
+
 ### 2026-11-18 (290) — Denetim (Bölüm 32) + DTM tarzı dikey kamera çapası: zıplamada kamera sabit, kulede yer görünür
 
 **Neden şimdi:** stil listesi, iki yol haritası ve birikimin koşulsuz maddeleri bitti → kural (d). Günlükte en az anılan
