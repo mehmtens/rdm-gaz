@@ -62,7 +62,10 @@ func _build() -> void:
 	# --- 4. Selamlık: üç katlı konak cephesi, kat kat devriye -------------------
 	_checkpoint(4000, 0)
 	_interior(4100, 4950, -345, [-115.0, -230.0], 1)
-	_enemy(ELITE, 4450, 0)
+	## Zemin katın bekçisi Zırhlı Vurucu: yavaş (0,4 sn hazırlık) ve tank, oyuncuya
+	## katları kullanma fırsatı verir. Eskiden ELITE'ti (0,2 sn); kütüphane arenasının
+	## iki ELITE dalgasıyla 1700 px içinde üç hızlı muhafız tekrarı oluyordu (tur 312).
+	_enemy(BRUISER, 4450, 0)
 	_enemy(KNIFE, 4700, -115)
 	_enemy(STREET, 4300, -230)
 	_pickup(PISTOL, 4880, -160)

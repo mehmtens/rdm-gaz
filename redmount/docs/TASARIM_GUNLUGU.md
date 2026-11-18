@@ -7,6 +7,20 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 312 denetimi, Bölüm 31 "Çengelköy Sahil Konağı", Kitap 3 / 7. bölüm, indeks 30 — günlükte en az anılan bölüm
+  (24). Bot iki koşu deterministik CLEARED @9707 / 78,7 sn / 0 respawn / hp min 28. Etki/maliyet sırası:)
+  (1) **UYGULANDI (tur 312) — orta kesimde elit tekrarı:** selamlık zemini ELITE@4450 + kütüphane arenasının iki ELITE
+  dalgası = 1700 px içinde üç Elit Muhafız (0,2 sn hazırlık, en kısa telegraf). Bot selamlıkta 87→56, kütüphanede →28.
+  Selamlık bekçisi BRUISER yapıldı (0,4 sn hazırlık, yavaş tank → üç katlı cephede katları kullanma fırsatı). ·
+  (2) **Çevresel tehlike yalnız ilk 3000 px'te** (1750, 2902 saksıları); 3000→9750 tehlikesiz. Konak iç mekânı saksıya
+  uymaz; tema uygun aday: deniz köşkü öncesi rıhtım (8250–8450) dalga/ıslak tahta `_collapse` — son arenaya yakın,
+  bot ölçümüyle ve görsel doğrulamayla. · (3) **Son arena (8450–9350) set-piece zayıf:** tek scaffold@8900, üç dalga;
+  "deniz köşkü, Nüzhet kayıkla kaçar" vaadi mekanik değil (bot 19 sn takılma, hp 91→42). İnsan testi "son arena
+  sıkıcı/uzun" derse ikinci kat seki veya kayığa doğru kapanan iskele. · (4) **Selamlık HEALTH vazosu üst katta**
+  (4850,-230) — katmanlı rota ödülü olarak doğru; insan testinde görünürlüğü doğrulansın. · (5) **Kütüphane arenası
+  raf galerisi** (4 scaffold, RIFLE_PICKUP@6070,-275): bot rafları kullanmıyor; insan testinde rafların siper/üstünlük
+  verip vermediği gözlensin.
+
 - (Tur 307 taraması: 36 bölümde `_canal/_collapse/_falling_pot/_flame/_press/_live_wire` sayımı. Tehlikesiz kalanlar:
   Bölüm 1, 3, 4, 5, 10 (Kitap 1, öğretici ağırlıklı — kasıtlı olabilir) ve **Bölüm 21, 23** (25 bu turda kapandı).)
   (1) **UYGULANDI (tur 307) — Bölüm 25 Cağaloğlu matbaası:** iki erken telegraflı `_falling_pot` (sokak 1250, avlu 3520);
@@ -9199,3 +9213,16 @@ Stil listesi 33/33, iki yol haritası kapalı, P1 boşlukları uygulanmış; bir
 (Bölüm 18 han ambarı can vadisi, Bölüm 25 ciltçi geçidi varyansı, Bölüm 16/17 çift-ELITE arenaları, Bölüm 32 tırmanış).
 **Sonraki öneri:** insan oyun testi; özellikle Bölüm 18 (8100–9280) ve Bölüm 25 (7450–8150) can eğrisi.
 
+### 2026-11-18 — Denetim (Bölüm 31 — Çengelköy Sahil Konağı): selamlık bekçisi ELITE→BRUISER, elit tekrarı kırıldı (tur 312)
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 boşlukları kapalı; birikimin kalanı insan testine bağlı → kural (d).
+Günlükte en az anılan bölüm 31 (24 anılma) bot ile iki kez oynatıldı (deterministik: CLEARED @9707, 0 respawn, hp min 28).
+**Bulgu:** orta kesimde 1700 px içinde üç Elit Muhafız (selamlık zemini + kütüphane arenasının iki dalgası). ELITE en kısa
+telegraflı yakın düşman (0,2 sn hazırlık, 130 hız); dar üç katlı iç mekânda okunurluk ve çeşitlilik zayıf, can 87→28.
+**Oyuncu ne hissedecek:** selamlıkta yavaş, ağır bir Zırhlı Vurucu (0,4 sn hazırlık, 70 hız, 60 can, hasar ×0,55) —
+okunur bir "tank" ve katları kullanma fırsatı; ardından kütüphanedeki elit arena gerçek zirve olarak hissedilir.
+**Değişiklik (`scripts/systems/bolum31.gd`):** `_enemy(ELITE, 4450, 0)` → `_enemy(BRUISER, 4450, 0)`. Geometri, ödül,
+arena dalgaları değişmedi. Sayılar hipotez; insan testinde selamlık "fazla kolay/uzun" derse STREET@-230 ELITE yapılabilir.
+**Testler:** `--import` SCRIPT ERROR 0; `dtm_gaps` PASS; `campaign_smoke` çıkış 0 (Bolum31 OK); bot Bölüm 31 CLEARED
+@9705 / 82,1 sn / 0 respawn / hp min 41 (önce 28); selamlık kaybı 31→8 hp, kütüphane arenası min 41. Ortak sistem değişmedi.
+**Sonraki öneri:** birikim (Tur 312) md.2 — deniz köşkü öncesi tema uygun tehlike, görsel doğrulamayla; ya da insan testi.
