@@ -13,8 +13,10 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   bot CLEARED, kiremitlerden hasar almadı. · (2) **DENENDİ VE GERİ ALINDI (tur 307): Bölüm 25 dağıtım deposu balya presi**
   (`_press_gantry([8580])`, son arena öncesi): bot periyot 2,8 sn'de iki, 3,4 sn'de üç kez yakalandı (−32/−46 can, hp min
   2). Pres son arenaya yakın konmamalı; temaya uygun pres istenirse ERKEN bölüme (avlu/baskı salonu öncesi) ve insan
-  testiyle. · (3) **Bölüm 21 ve 23 tehlikesiz:** 23'te son arena zaten zor (hp min 3–17), tehlike yalnız erken kesime;
-  21'de (Yenikapı rıhtımı, gece) rıhtıma `_canal` ya da çürük iskele `_collapse` erken kesimde aday. · (4) **Bölüm 25
+  testiyle. · (3) **Bölüm 21 UYGULANDI (tur 308):** gece sokağı (1250) + kayıkhane (3580) iki erken kiremit; bot
+  CLEARED 0 respawn, kiremitlerden hasar yok. Yüksekte (`-150`) `_collapse` denenmedi: çürük tahta ayaksız çizilir, havada
+  süzülür gibi durur (görsel doğrulama alınamadığı için koyulmadı). **Bölüm 23 hâlâ tehlikesiz:** son arena zaten zor
+  (hp min 3–17), tehlike yalnız erken kesime. · (4) **Bölüm 25
   ciltçi geçidi varyansı sürüyor:** bu turun koşusunda 87→31 (önceki turlarda 9 + 1 ölüm); insan testi "ciltçide öldüm"
   derse ELITE@7650 → BRUISER veya HEALTH@8100 öne (7400) alınsın.
 
@@ -9144,4 +9146,17 @@ düşürüyor ve son arenaya marjı yiyor. Geri alındı, bulgu birikim md.2'ye 
 0 respawn / hp min 10 (düşüş ciltçi geçidinde 87→31, kiremitlerle ilgisiz; avlu sonrası can 92 sabit). Ortak sistem
 değişmedi (yalnız tek bölüm).
 **Sonraki öneri:** birikim md.3 — Bölüm 21 (rıhtım, erken kesime `_canal`/`_collapse`) ya da Bölüm 23 (yalnız erken kesim).
+
+### 2026-11-18 — Bölüm 21 Yenikapı: gece sokağı ve kayıkhaneye iki telegraflı kiremit (tur 308)
+
+**Neden şimdi:** tur 307 taramasının birikim md.3'ü; Bölüm 21 (Kitap 2 / 9. bölüm, Yenikapı gece rıhtımı) tehlikesizdi.
+**Oyuncu ne hissedecek:** mezat arenasından ve kızak yığınından önce saçaktan düşen kiremit — gölge + titreme uyarısıyla
+okunur, tek vuruşluk; düz "yürü-dövüş" ritmini erken kesimde kırar.
+**Değişiklik (`bolum21.gd`):** `_falling_pot(1250,-230)` + `_falling_pot(3580,-240)`. Geç kesime (sevk bürosu 7600+,
+final 9400+) bilinçli konmadı: bot orada 115→23'e iniyor. Kayıkhanede tabanca rotasının orta basamağını çürük tahtaya
+(`_collapse`) çevirmek düşünüldü ama yüksekte ayaksız çizileceği için vazgeçildi (görsel doğrulama yok).
+**Testler:** `--import` SCRIPT ERROR 0; `dtm_gaps` PASS; `campaign_smoke` çıkış 0; bot Bölüm 21 CLEARED @10106 / 93,5 sn /
+0 respawn / hp min 23 (son arena; erken kesimde can 115 sabit, kiremitler zarar vermedi). Ortak sistem değişmedi.
+**Sonraki öneri:** Bölüm 23 erken kesimi (Saraçhane avlusu) aynı kalıpla; sonra Kitap 1 (1, 3, 4, 5, 10) tehlikesizliğinin
+kasıtlı olup olmadığına bakılsın (öğretici bölümler — tek tehlike tanıtımı DTM'deki gibi erken öğretim olabilir).
 

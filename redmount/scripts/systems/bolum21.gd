@@ -28,6 +28,8 @@ func _build() -> void:
 	_stones(700, 2, 2)
 	_pickup(ARMOR, 790, -225)
 	_enemy(KNIFE, 1050, 0)
+	# Gece sokağı cumbasından kiremit: mezat arenası öncesi telegraflı beat.
+	_falling_pot(1250, -230)
 	for x in [300, 1400]:
 		_lantern(float(x))
 
@@ -55,6 +57,8 @@ func _build() -> void:
 	# üst hat tabancaya kadar kesintisiz; altta kalkanlı ve iskele altında bıçakçı.
 	_terrain(3350, 10300, 0)
 	_checkpoint(3400, 0)
+	# Kayıkhane saçağından kiremit: kızak yığınına koşarken ikinci telegraflı beat.
+	_falling_pot(3580, -240)
 	_crates(3720, 2, 1)
 	_scaffold(3980, -170, 180)
 	_coin_line(3920, 3, 60, -215)
