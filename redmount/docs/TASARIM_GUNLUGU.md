@@ -7,6 +7,19 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 314 denetimi, günlükte en az anılan Bölüm 19 (indeks 18) ve 33 (indeks 32); bot ikisi de CLEARED 0 respawn.
+  Bölüm 19 @10106 / 82,1 sn / hp min 62 (4 tehlike, ilk 9500 px'te can ≥97). Bölüm 33 @9755 / 82,3 sn / hp min 18.
+  Hiçbiri koşulsuz değil — hepsi insan testine bağlı:)
+  (1) **Bölüm 33 ambar arenası (7400–8200) çift ELITE:** iki dalganın ikisi de ELITE içeriyor + kasa dağı tepesinde
+  ELITE@3720 → bölümde üç Elit; bot 57→18. Bölüm 16'daki kalıpla aynı; "ambarda öldüm" denirse 2. dalga ELITE→SHIELD. ·
+  (2) **Bölüm 33 can boşluğu 2350→7320:** ilk arena ödülü AMMO; arada can yalnız kasa cebindeki sandıkta (3945) ve
+  yükleme kilerinde (6150, satın alma). Bot ikisini de kullanmıyor (34 canla 2000 px yürüdü); insan sandığı kırıyor mu
+  gözlensin, görünmüyorsa sandığın önüne coin izi. · (3) **Bölüm 19 Kitap 3 açılışı olarak yumuşak:** bot 9500 px
+  boyunca neredeyse hasarsız; kitap finali (18) sonrası nefes olarak doğru olabilir, insan testi "sıkıcı" derse orta
+  kesime tek STREET→KNIFE. · (4) **Bölüm 33 ilk arena takılması** (10 sn @2769, iki dalga) normal; ödül tutarlılığı
+  (AMMO vs HEALTH) Bölüm 18'deki gibi insan testinde ölçülsün. · (5) **Bölüm 31 yeni kanal** (tur 313) insan testinde:
+  tahtaların titreme uyarısı okunuyor mu, düşen oyuncu çıkış taşını buluyor mu.
+
 - (Tur 312 denetimi, Bölüm 31 "Çengelköy Sahil Konağı", Kitap 3 / 7. bölüm, indeks 30 — günlükte en az anılan bölüm
   (24). Bot iki koşu deterministik CLEARED @9707 / 78,7 sn / 0 respawn / hp min 28. Etki/maliyet sırası:)
   (1) **UYGULANDI (tur 312) — orta kesimde elit tekrarı:** selamlık zemini ELITE@4450 + kütüphane arenasının iki ELITE
@@ -9242,3 +9255,10 @@ yakındı, düzeltildi.
 0 respawn / hp min 37 (kütüphane, kanaldan bağımsız varyans); kanala 103 canla girdi, hasar almadı; son arena min 54.
 **Sonraki öneri:** birikimin kalan maddeleri insan testine bağlı (Bölüm 18 ambar, 25 ciltçi, 31 son arena set-piece);
 yeni bir bölüm denetimi (kural d) yapılabilir.
+
+### 2026-11-18 — Denetim (Bölüm 19 ve 33): otonom iş kalmadı, otomasyon durdu (tur 314)
+
+**Ne yapıldı:** kural (d): günlükte en az anılan iki bölüm (19: 26, 33: 26 anılma) bot ile oynatıldı. İkisi de CLEARED 0
+respawn; Bölüm 33'te çift-ELITE ambar arenası ve 2350→7320 can boşluğu, Bölüm 19'da düşük baskı bulundu. Beş bulgu
+birikime yazıldı; hepsi zorluk/denge kararı → insan verisi olmadan otonom değişiklik yapılmadı. Kod değişikliği yok.
+**Sonraki öneri:** insan oyun testi (öncelik: Bölüm 18 ambar, 25 ciltçi, 33 ambar, 31 yeni kanal).
