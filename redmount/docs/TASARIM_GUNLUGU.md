@@ -16,10 +16,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   respawn sonrası temiz CLEARED. Kitap 1 finali kasıtlı olarak zor; arena ödülü HEALTH + 3050 kontrol noktası + rota üstü
   ARMOR (3800,−330) kurtarma sağlıyor. İnsan testi "cephanelik sonrası kanalda can yetmedi, köprüde öldüm" derse: arena
   ödülü sağ kapı yakınına (`armory.reward` pozisyonu) ya da kanal girişine (x≈3150, zemin −40) tek HEALTH · (2) 03sarnic
-  karesinde çöken tahtadan suya düşen oyuncu silüeti koyu lacivert su tonunda zayıf okunuyor — bu, tur 24/8/276'da not
-  edilen "canal su hattı okunurluğu" maddesinin 3. bağımsız ekran görüntüsü doğrulaması (artık hipotez değil, 3× gözlendi).
-  İnsan testi beklemeden küçük/güvenli iyileştirme adayı: su çizgisinin altındayken oyuncuya ince kenar parlaması (yalnız
-  görünürlük, zorluk/ödül değişmez) — ortak oyuncu render'ına dokunduğu için regresyon riski; ayrı turda ölçülü yapılmalı ·
+  ~~karesinde çöken tahtadan suya düşen oyuncu silüeti koyu lacivert su tonunda zayıf okunuyor~~ **(tur 293: su gövdesi
+  oyuncu sütununda piksel basamaklı saydamlaşıyor — `_Art._tiled_window`; oyuncu render'ına dokunulmadı)** ·
   (3) taht/tutukevi/zırh-platform karelerinde taşma, kalıcı dikiş, gömülü gövde, okunmayan HUD yok; dark_rim konturu koyu
   assassin'leri koyu ahşap raftan ayırıyor (tur 285 bulgusunu bağımsız doğrular).
 
@@ -469,6 +467,25 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-18 (293) — Kanal suyunda oyuncu okunurluğu: su gövdesi oyuncunun sütununda saydamlaşıyor
+
+- **Neden şimdi:** Stil listesi ve iki yol haritası kapalı; birikimin en üstündeki somut, insan testine bağlı olmayan
+  madde buydu (3 bağımsız ekran görüntüsünde gözlendi: tur 24/276/292). Sığ kanallarda (`_canal`, ör. Bölüm 12 sarnıcı,
+  derinlik 120) su sanatı z=4 ile oyuncunun önünde 0.82 alfa çiziliyordu; gece bölümünde gövde lacivertte kayboluyordu.
+- **Oyuncu ne hissedecek:** Suya düşünce karakteri kaybetmez; bacaklar/ayakkabı ve gece konturu suyun "berrak"
+  sütununda görünür, dalgalı yüzey şeridi önde kaldığı için "suyun içindeyim" hissi korunur.
+- **Ne yapıldı:** `dtm_level.gd` `_Art`: `_diver_x()` oyuncu su çizgisinin ≥8 px altında ve suyun x aralığında mı
+  bakar; öyleyse `_tiled_window()` gövde dokusunu aynı döşeme düzeniyle (sınırlar PX=3 ızgarasına oturur, kaynak
+  kaydırılır → desen kopmaz) çizer, oyuncu sütununda alfa iki basamakla düşer: 0.82 → 0.6 (3 sanat pikseli kenar) → 0.4
+  (±8 sanat pikseli, ~40 px rig'i örter). Sayılar hipotez: 0.4 silüet + rim'i okutup suyun rengini hâlâ veriyor; daha
+  düşük değer "su yokmuş" gibi duruyordu varsayımı insan testinde doğrulanmalı. Oyuncu kodu/malzemesi değişmedi
+  (birikimde not edilen "ortak oyuncu render'ı" regresyon riski böylece yok). Kodla şekil yok; yalnız mevcut PNG doku.
+- **Görsel kontrol:** Bölüm 12 sarnıcında iki konum (3460, 3620) pencereli ekran görüntüsü + 2× büyütme: oyuncu net,
+  sütun sınırı piksel basamaklı ve ince, sahneye ait duruyor; köprü tahtaları ve yüzey dalgası bozulmadı.
+- **Testler:** derleme temiz · yeni `tests/water_diver.tscn` PASS (kanal içi açık, tahta üstü/kanal dışı kapalı) ·
+  campaign_smoke çıkış 0 · DTM GAPS PASS · HERO RIM PASS · bot CLEARED: indeks 11 (74,3 sn), 0, 12, 23, 24.
+- **Sonraki:** birikimdeki kalan maddeler insan testine bağlı; yeni iş için denetim turu (en az denetlenmiş bölüm).
 
 ### 2026-11-18 (292) — Denetim: Bölüm 12 (Kitap 1 finali, İç Kale / Karahanlı) temiz; otonom iş çıkmadı, otomasyon durdu
 

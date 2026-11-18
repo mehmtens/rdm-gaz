@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://tests/water_diver.gd" id="1"]
+
+[node name="WaterDiver" type="Node"]
+script = ExtResource("1")

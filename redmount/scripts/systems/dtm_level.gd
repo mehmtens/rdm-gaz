@@ -1256,6 +1256,55 @@ class _Art extends Node2D:
 	func _ready() -> void:
 		set_process(kind == A_WATER)
 
+	## Su okunurluğu (tur 293): oyuncu su çizgisinin altındaysa yerel x'i, değilse NAN.
+	## Ayakları yüzey şeridinin üstündeyse (köprüde/tahtada) pencere açılmaz.
+	func _diver_x(surface_y: float) -> float:
+		var p := get_tree().get_first_node_in_group(&"player") as Node2D
+		if p == null or not p.is_inside_tree():
+			return NAN
+		var lp := to_local(p.global_position)
+		var hw := size.x * 0.5
+		if lp.x < -hw - WIN_IN - WIN_FRINGE or lp.x > hw + WIN_IN + WIN_FRINGE:
+			return NAN
+		if lp.y < surface_y + 8.0:
+			return NAN
+		return lp.x
+
+	const WIN_IN := 24.0  ## 8 sanat pikseli: gövde yarı genişliği (~40 px rig'i örter)
+	const WIN_FRINGE := 9.0  ## 3 sanat pikseli: ara ton basamağı (yumuşak değil, piksel adım)
+	const WATER_A := 0.82
+	const WATER_A_MID := 0.6
+	const WATER_A_IN := 0.4
+
+	## Su gövdesini `_tiled` gibi döşer; oyuncunun sütununda alfa iki piksel basamakla
+	## düşer (0.82 → 0.6 → 0.4), böylece lacivert suyun içindeki silüet okunur ama
+	## doku desen sürekliliği bozulmaz (sınırlar PX ızgarasına oturur, kaynak kaydırılır).
+	func _tiled_window(t: Texture2D, r: Rect2, wx: float) -> void:
+		var snap := func(b: float) -> float:
+			return clampf(r.position.x + roundf((b - r.position.x) / PX) * PX, r.position.x, r.end.x)
+		var cuts: Array = [r.position.x, snap.call(wx - WIN_IN - WIN_FRINGE), snap.call(wx - WIN_IN),
+			snap.call(wx + WIN_IN), snap.call(wx + WIN_IN + WIN_FRINGE), r.end.x]
+		var alphas: Array = [WATER_A, WATER_A_MID, WATER_A_IN, WATER_A_MID, WATER_A]
+		var src := Vector2(t.get_size())
+		var tw := src.x * PX
+		var th := src.y * PX
+		var y := r.position.y
+		while y < r.end.y - 0.5:
+			var h := minf(th, r.end.y - y)
+			var x := r.position.x
+			while x < r.end.x - 0.5:
+				var w := minf(tw, r.end.x - x)
+				for s in 5:
+					var a0 := maxf(x, cuts[s])
+					var a1 := minf(x + w, cuts[s + 1])
+					if a1 - a0 < 0.5:
+						continue
+					var sx := roundf((a0 - x) / PX)
+					draw_texture_rect_region(t, Rect2(a0, y, a1 - a0, h),
+						Rect2(sx, 0, floorf((a1 - a0) / PX), floorf(h / PX)), Color(1, 1, 1, alphas[s]))
+				x += tw
+			y += th
+
 	## Piksel dokuyu PX ölçekte döşer; kenarda yarım kalan döşeme tam pikselden kırpılır.
 	func _tiled(t: Texture2D, r: Rect2, tint := Color.WHITE, src := Rect2()) -> void:
 		var region := src if src.size.x > 0.0 else Rect2(Vector2.ZERO, t.get_size())
@@ -1498,7 +1547,12 @@ class _Art extends Node2D:
 				var fr := int(_t * 5.0) % 3
 				var top_h := PIX_WATER_TOP.get_height() * PX
 				_tiled(PIX_WATER_TOP, Rect2(-hw, -hh + 26.0, size.x, top_h), Color(1, 1, 1, 0.9), Rect2(fr * 32, 0, 32, 12))
-				_tiled(PIX_WATER, Rect2(-hw, -hh + 26.0 + top_h, size.x, size.y - 26.0 - top_h), Color(1, 1, 1, 0.82))
+				var body := Rect2(-hw, -hh + 26.0 + top_h, size.x, size.y - 26.0 - top_h)
+				var wx := _diver_x(-hh + 26.0)
+				if is_nan(wx):
+					_tiled(PIX_WATER, body, Color(1, 1, 1, 0.82))
+				else:
+					_tiled_window(PIX_WATER, body, wx)
 			A_STALL:
 				for lx in [-hw + 10.0, hw - 18.0]:
 					draw_texture_rect(SCAFFOLD_POST, Rect2(lx - 6.0, -hh + 20.0, 14.0, size.y - 20.0), true)
