@@ -454,6 +454,24 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-18 (286) — Denetim (teknik/mobil oturum): bölüm geçişlerinde bellek birikimi yok; kalıcı test eklendi
+
+**Neden şimdi:** stil listesi, iki yol haritası ve birikimin koşulsuz maddeleri bitti, 36/36 bölüm denetlendi → kural
+(d). Bölüm denetimleri art arda iş çıkarmadığı için hiç ölçülmemiş bir sütun seçildi: OYNANIS-KALITE Aşama 0'daki
+"headless kapanış sızıntısı tekrarlanabilir mi, çalışma anında bellek büyüyor mu" maddesi. Oyuncu ne hissederdi:
+telefonda uzun oturumda (çok bölüm + çok yeniden deneme) giderek takılan/çöken oyun. Doğrulama: aynı `Main` içinde
+yeniden yükleme döngüsünde `Performance` nesne/düğüm/yetim sayıları.
+**Ölçüm:** Bölüm 1 altı kez yeniden yüklendi: obj 4328, node 815 sabit; 2→3→4→1 döngüsü iki tur aynı sayılar
+(fark ≤1); 4 kontrol noktası dönüşü +2 obj sonra sabit; yetim düğüm her adımda 0. Statik bellek ilk geçişte
+önbellekle 272→286 MB, sonra düz. `--verbose` kapanış listesi: 8–12 `RefCounted` ref 0 — quit anında askıda kalan
+await durumları; yalnız kapanış, oyun içinde birikim yok → madde kapandı (P0 değil).
+**Ne yapıldı:** oyun kodu değişmedi. `tests/level_reload_memory.tscn` eklendi (aynı ölçümü sınar, bölüm başına
+±8 nesne payı). Mutasyon kontrolü: `_load_current_level` eski bölümü `remove_child` ile bırakınca test "FAIL —
+orphan 617→1219" ile düştü, geri alındı.
+**Testler:** import SCRIPT ERROR 0; 36 sahne smoke çıkış 0; DTM GAPS PASS; LEVEL RELOAD MEMORY PASS.
+**Sonraki öneri:** otonom iş kalmadı; birikimin kalanı insan/cihaz testine bağlı (gerçek telefonda bellek ve kare
+süresi, Kitap 3 son arena giriş canı, set-piece çarkı). Otomasyon durur.
+
 ### 2026-11-18 (285) — Denetim: iç mekân düşman kontrastı ölçüldü (Bölüm 30), temiz; otomasyon durdu
 
 **Neden:** stil listesi, iki yol haritası ve birikimin otonom maddeleri bitti → kural (d). Dört ayrı denetimde (Bölüm 22,
