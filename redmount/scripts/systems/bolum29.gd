@@ -96,6 +96,14 @@ func _build() -> void:
 	_enemy(RIFLE, 7350, -230)
 	_prop("kasa", 7150, -115, COIN)
 	_coin_line(7450, 5, 50, -160)
+	# Çöken iskele vaadi: rıhtıma bakan uçta döşeme çürümüş, altı sızıntı suyu.
+	# İki telegraflı çürük tahta; düşen ölmez, sudan basamakla çıkar (final iskelesinin
+	# öğretici küçük provası). Üst kat (-115) aynı aralıkta güvenli alternatif rota.
+	_canal(7600, 7860, 110)
+	_terrain(7800, 7860, 55)
+	for k in 2:
+		_collapse(7655.0 + k * 110.0, -30.0, 110)
+		_pickup(COIN, 7655.0 + k * 110.0, -80.0)
 	_pickup(HEALTH, 7920, -275)
 	_coin_line(7550, 5, 60, -395)
 

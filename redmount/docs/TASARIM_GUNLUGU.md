@@ -21,7 +21,7 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   (2) **Tema sadakati — "çöken iskele" vaadi:** bölüm başlık yorumu depo bölümünü "depo (erzak; çöken iskele)" diye tanımlıyor
   ama 6. bölüm (depo `_interior(7000,8000)`) içinde hiç `_collapse`/`_canal` yok; tek çöken iskele finalde (8. bölüm). Depoya
   temaya uygun tek telegraflı `_collapse` segmenti hem vaadi karşılar hem md.1 boşluğunu kapatır. Zorluk değiştirir, bot yeniden
-  ölçülmeli. · (3) **Rıhtım dövüş boşluğu:** rıhtım (5150–6550, ~1400 px: scaffold+hareketli platform) yalnız 1 BRUISER@6200
+  ölçülmeli. **md.1+2 UYGULANDI (tur 300):** depoda sızıntı suyu + 2 çürük tahta (7600–7860). · (3) **Rıhtım dövüş boşluğu:** rıhtım (5150–6550, ~1400 px: scaffold+hareketli platform) yalnız 1 BRUISER@6200
   içeriyor; geçiş ağırlıklı. Bu kasıtlı "nefes" beat'i olabilir (DTM geçiş→dövüş→nefes→meydan okuma ritmine uygun), dokunma;
   insan testi "rıhtım boş/sıkıcı" derse hareketli platform üstüne tek tüfekli. · (4) **Defter odası finali (8300–9000,
   `_fight` ELITE+KNIFE → ELITE+RIFLE+BRUISER):** bot 16 sn takıldı, 115→67 cana düştü; `_fight` varsayılanı HEALTH ödülü verdiği
@@ -8908,3 +8908,19 @@ HEALTH (8030,−40). Hikâye hedefini (şeridi kırmak) somut ödüle bağlar, a
 **0 ölüm** (arşive 72, son arenaya 58 canla giriş, bitiş 27). Ekran görüntüsünde can paketi makinenin önünde, zeminde,
 mevcut sprite ile okunuyor; taşma yok. Ortak sistem değişmedi (yalnız tek bölüm).
 **Sonraki öneri:** otonom iş kalmadı; insan testinde Bölüm 28 röle salonu arenası çıkış canı ölçülsün.
+
+### 2026-11-18 — Bölüm 29: kıyı deposunda çöken iskele (tur 300)
+
+**Neden şimdi:** stil listesi ve iki yol haritası kapalı → kural (c), birikimin en üstü Tur 299 Bölüm 29 denetimi md.1+2:
+x≈1400–9050 arası ~8000 px tehlikesiz, bölüm başlığı "depo (erzak; çöken iskele)" vaat ediyor ama depoda tehlike yok.
+**Oyuncu ne hisseder:** depoda rıhtıma bakan uçta döşeme çürümüş; tahtaya basınca titreyip çöker, oyuncu sızıntı suyuna
+iner (ölümcül değil, basamakla çıkar). Bölüm sonundaki 3 tahtalık çöken iskele finalinin küçük, güvenli provası olur:
+DTM'nin "önce öğret, sonra sına" ritmi. Üst kat (-115) aynı aralıkta güvenli alternatif rota.
+**Değişiklik:** `bolum29.gd` — `_canal(7600,7860,110)` + çıkış basamağı `_terrain(7800,7860,55)` + 2× `_collapse` (110 px)
+ve tahtaların üstünde birer coin (rota telegrafı). Mevcut piksel art tahta/su sanatı yeniden kullanıldı, yeni görsel yok.
+Sayılar: 110 derinlik ve basamak final kanalıyla aynı (oyuncu zaten bu kalıbı tanıyacak); 2 tahta = öğretici, final 3.
+**Testler:** `--import` SCRIPT ERROR yok; `campaign_smoke` çıkış 0; `dtm_gaps` PASS; bot Bölüm 29 iki koşu CLEARED
+(82,8 sn / 0 ölüm / en düşük 53; 78,0 sn / 0 ölüm / en düşük 60). Pencereli çekim (`capture_level`, 7480 ve 7700):
+tahtalar ve su ChatGPT depo atlasının önünde aynı ahşap/taş dilinde, taşma yok — sahneye ait.
+**Sonraki öneri:** birikim Tur 299 md.6 (`capture_level.gd` ilk çekimde başlık kartı/telsiz örtüyor; ısınma çekimi ile
+bu turda çalıştı) — aracı varsayılan ısınma çekimiyle sağlamlaştırmak; kalan maddeler insan testine bağlı.
