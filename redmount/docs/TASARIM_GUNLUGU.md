@@ -7,6 +7,14 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 302 denetimi, Bölüm 32 "Kuleli Gözetleme Hattı"; insan testine bağlı) (1) **UYGULANDI (tur 302):** nefes
+  odasına görünür tek HEALTH (8080,0), baca sonrası iyileşme boşluğu kapandı · (2) section 6 "projektörlü kuleler"
+  vaadi mekanik değil (yalnız RIFLE tünekleri); temaya uygun sweeping ışıldak tehlikesi — yeni sprite/piksel art, büyük
+  iş ayrı tur · (3) fener kulesi çıkışı (iskeleler x=4000'de düz dikey üst üste, RIFLE@4140 tepeden ateş, 7 sn takılma):
+  çıkışı inişteki gibi zigzaglamak set-piece hissini artırır + dikey-committed vurulma adaletsizliğini azaltır, sıçrama
+  erişilebilirliği korunmalı, bot yeniden ölçülmeli · (4) son arena insan testinde can bitirirse ilk dalgadan BOMBER
+  çıkarılsın · (5) hazar çeşitliliği: iki tip (çürük iskele @2700, tek flame @6500), ekleme zorluğu değiştirir.
+
 - (Tur 299 denetimi, günlükte en az anılan bölüm — Bölüm 29 "Kuzguncuk Kıyı Deposu", Kitap 3 / "İstanbul'un Sesi"
   5. bölüm, gece — headless bot CLEARED @10107 / 82,9 sn / 0 respawn, en uzun takılma 16 sn @8549 = defter odası arenası;
   indeks 28. Bölüm 29 Kitap 3 Kuzguncuk atlaslarını (`book03_kuzguncuk_streets/depot_atlas`) kullanıyor — bunlar stil
@@ -554,6 +562,42 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-18 (302) — Denetim (Bölüm 32 — Kuleli Gözetleme Hattı): nefes odasına görünür tek can; baca sonrası iyileşme boşluğu kapandı
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 özellik boşlukları bitti; birikimin tepesindeki iki madde (Bölüm 29,
+Bölüm 3+27) yalnız insan testine/araç cilasına bağlı kalanlardan ibaret → kural (d). Günlükte en az anılan bölüm 32
+(24 anılma, Kitap 3 / "İstanbul'un Sesi" 8. bölüm) headless bot ile oynatıldı. Tur 290 aynı bölümü **kamera hissi**
+yönünden denetlemişti; bu tur **ekonomi/can yönetimi** sütununa bakıldı.
+**Ölçüm (bot, index 31):** CLEARED @9855, 76,6 sn, 0 respawn; tek kayda değer takılma `stall=7s@4046` = fener kulesi
+dikey tırmanışı (kasıtlı set-piece). HP eğrisi: baca HEALTH ödülü (x=4900) sonrası Fenerci Kileri (shop, 5600) = 83;
+gözetleme hattı tüfek dizisi (2 RIFLE kule + ELITE, 6000–7300) = 55; son arenaya (8750) = 45, içinde 27'ye indi,
+`_fight` HEALTH ödülüyle 57'ye toparladı.
+**Bulgu (en güçlü):** Bölüm 32'nin **tek görünür iyileşmesi** baca (4900, section 4). Oradan son arenaya kadar
+~3850 px boyunca (section 5 shop → 6 tüfek dizisi → 7 nefes odası) hiç `_pickup(HEALTH)` yok; bölümün en ağır sürekli
+menzilli yıpranması tam bu aralıkta (83→27). Shop'ta "can" satılıyor ama coin gerektiriyor; parası olmayan/az olan oyuncu
+son set-piece'e düşük canla giriyor. Bu, kabul edilmiş Bölüm 27 (tur 298: "arşiv çıkışına tek HEALTH") ve Bölüm 29
+(md.4) desenine birebir uyuyor.
+**Yapılan (`scripts/systems/bolum32.gd`):** sinyal kayıt odasının (section 7, nefes beat'i, x=7600–8300) ana kat
+zeminine görünür tek `_pickup(HEALTH, 8080, 0)` — son arenadan (8550 kontrol noktası) hemen önce, ana yol üstünde,
+`_sahne_kayit` hikâye beat'iyle aynı noktada. Yeni mekanik/sprite yok; mevcut pickup yeniden kullanıldı.
+**Gerekçe (hipotez, insan testine bağlı):** bot zaten 0 ölümle geçtiği için bu değişiklik bota kolaylık katıyor;
+asıl hedef, bottan daha fazla hasar alan insan oyuncunun son arenaya savaşacak canla girmesi. Tema uygun: fenerci
+kileri/sinyal odası erzak barındırır. DTM "meydan okumadan önceki nefes odası iyileştirir" ilkesiyle tutarlı.
+**Test:** derleme SCRIPT ERROR yok; `DTM GAPS: PASS`; `campaign_smoke` çıkış 0 (36 sahne, Bolum32 dâhil OK);
+bot Bölüm 32 değişiklik sonrası CLEARED @9855, 76,6 sn, 0 respawn (traversal etkilenmedi). Pickup eklemesi zemin/geçiş
+geometrisini değiştirmediği için ortak sistem testleri (0/12/24) gerekmedi.
+**Birikime (Bölüm 32 denetimi, hiçbiri koşulsuz değil — insan testine bağlı):** (1) **UYGULANDI (bu tur):** nefes
+odasına görünür tek HEALTH (8080,0). · (2) Gözetleme hattı (section 6) "projektörlü kuleler" vaadi: başlık yorumu
+projektör/ışıldak diyor ama mekanik ışıldak-tarama tehlikesi yok, kuleler yalnız RIFLE tünekleri; temaya uygun tek
+sweeping ışıldak tehlikesi (yeni sprite gerektirir, piksel art şartı) gözetleme hissini mekanikleştirir — büyük iş,
+ayrı tur. · (3) Fener kulesi tırmanışı (4000–4600): üç iskele x=4000'de dikey üst üste, RIFLE@4140 tepeden tırmanış
+boyunca ateş ediyor (7 sn takılma); iniş zaten merdiven gibi zigzag, çıkış düz dikey — çıkışı da zigzaglamak hem set-piece
+hissini artırır hem "committed dikey sıçramada vurulma" adaletsizliğini azaltır; sıçrama erişilebilirliği korunmalı,
+bot yeniden ölçülmeli. · (4) Son arena (8750–9550, KNIFE+ASSASSIN+BOMBER → BRUISER+ELITE): bot 27'ye indi, `_fight`
+HEALTH ödülüyle toparladı; insan testi "son dalga can bitiriyor" derse ilk dalgadan BOMBER çıkarılabilir. · (5) Hazar
+çeşitliliği: iki tehlike tipi (çürük iskele canal+collapse @2700, tek flame @6500); DTM orta bölümü daha örgülü örer
+ama section 3 iskelesi güçlü bir set-piece, ekleme zorluğu değiştirir.
 
 ### 2026-11-18 (299) — Denetim: Bölüm 29 (Kuzguncuk Kıyı Deposu) temiz; çevresel tehlike orta bölümde yok
 

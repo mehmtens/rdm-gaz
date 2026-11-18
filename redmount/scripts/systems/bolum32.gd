@@ -108,6 +108,7 @@ func _build() -> void:
 	_interior(7600, 8300, -230, [-115.0], 1)
 	_enemy(KNIFE, 7850, -115)
 	_pickup(RIFLE_PICKUP, 8230, -160)
+	_pickup(HEALTH, 8080, 0)  ## nefes odasında görünür tek can: baca (4900) sonrası tüfek dizisi + son arenaya tek iyileşme
 	_coin_line(7650, 5, 50, -160)
 	_story(8000, _sahne_kayit)
 
