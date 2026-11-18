@@ -454,6 +454,28 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-18 (288) — Denetim: Bölüm 17 (Beyazıt Posta Hattı, Kitap 2/5) temiz; otonom iş çıkmadı, otomasyon durdu
+
+**Neden şimdi:** stil listesi, iki yol haritası ve birikimin koşulsuz maddeleri bitti → kural (d). Bireysel denetimi en
+az olan bölümler arasından Bölüm 17 seçildi (36 bölümde en az anılan ikinci grup: 17/23/26/29/32). Oyuncu ne hissederdi:
+Kitap 2 ortası bir gündüz sokak/iç mekân bölümü akıcı mı, dövüş adil mi, set-piece var mı. Doğrulama: headless bot koşusu
+(indeks 16) + 5 mekân pencereli ekran görüntüsü, DTM sütunlarıyla karşılaştırma + `bolum17.gd` düşman/arena yerleşimi.
+**Ölçüm:** Bot CLEARED @10008, t=79,5 s, 0 respawn, en düşük hp ~72/115 (2. arena); tek kayda değer `stall=15s@2853` =
+x=2500 kilitli arena (iki dalga: STREET×2+KNIFE, sonra RIFLE+SHIELD+STREET) — sütun kaidesi siperiyle tasarlanmış, uzunluk
+Kitap 2 ortası için uygun. Görsel kalite DTM düzeyinde: Beyazıt/Süleymaniye/Ayasofya arka planı, net silüet + rim ışığı,
+dalga sayacı, telsiz paneli (Gazelle), "SAHAFLAR ERZAKI"/"KAPALIÇARŞI" dükkân levhaları, tasnif salonu iç mekânı (telgraf
+şeridi, harita, kasa). Taşma, kalıcı dikiş, okunmayan HUD yok.
+**İnceleme:** `mid` ekran görüntüsünde tüfeklinin oyuncuya ~40 px mesafede görünmesi çekim ışınlaması artefaktı; gerçek
+yerleşim `bolum17.gd:85` RIFLE x=5440,y=−180 yüksek taş sette (yorum: "tüfekli tünek ... taş sette"), oyuncu alttan/soldan
+yaklaşıyor — telegraf/menzil tasarımı sağlam, kusur değil. Tüfekli arena doğumu (2. dalga) kaidenin dışında, kimse taşa
+doğmuyor (`bolum17.gd:40-55`).
+**Birikime (hiçbiri koşulsuz değil, hepsi insan testine bağlı):** (1) x=2500 arenası iki dalga ~15 s — Kitap 2 ortası için
+uygun; insan testi "ilk arena uzun" derse 2. dalgadan bir düşman eksilt · (2) 4530,−345 PISTOL ve iskele coin dizisi tek
+zıplama üstü ara katta, ana yolun üstünde görünür; bot almadı (keşif ödülü, açık değil) · (3) 2. arenaya 85/115 ile girilip
+HEALTH ödülüyle toparlanıyor — açık yok, insan testinde arena giriş canı ölçülsün.
+**Sonraki öneri:** otonom iş kalmadı — stil listesi/yol haritaları/P1 boşluk tablosu tamam, birikim yalnız insan-testi
+kapılı. Sıradaki gerçek adım telefonda insan oyun testi; bulgular birikime yazılınca otomasyon yeniden iş alır.
+
 ### 2026-11-18 (287) — Denetim (ses düzeyi sütunu): silah kaybı sesi müziğe gömülüyordu, ret sesi fazla yüksekti
 
 **Neden şimdi:** stil listesi, iki yol haritası ve birikimin koşulsuz maddeleri bitti → kural (d). Ses sütununda çağrı
