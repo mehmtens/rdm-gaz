@@ -7,6 +7,20 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 296 denetimi, günlükte en az anılan Bölüm 34 — Kandilli Verici Sırtı, Kitap 3, gece — headless bot CLEARED
+  @9906 / 71,2 sn / 0 respawn + 10 pencereli ekran görüntüsü; DTM sütunlarıyla karşılaştırıldı, görsel DTM düzeyinde.
+  Etki/maliyet sırasıyla, biri bu turda uygulandı) **(1) UYGULANDI (bu tur):** `radio_top_band` testi görev/film-rulosu
+  tostunu (`_ach`) kapsamıyordu + varsayılan headless'ta kapanış kırılgandı → kapsam + `--fixed-fps 60` + `_top_inset`
+  tabanlı bekleme eklendi · (2) *(insan testi)* jeneratör odası iç mekânı (`_interior(7400,8000,-230,[-115])`) yakalama
+  aracında ışınlamayla temiz çıkmıyor; bot sorunsuz geçiyor ama insan testinde iç mekânın arka duvar/piston okunurluğu
+  ayrıca doğrulansın · (3) *(insan testi)* tematik tutarlılık: "Verici Sırtı / jeneratör odası" temasına karşın tek
+  `_live_wire` (6300,6460) kantinin dibinde; jeneratör odası ve verici direği elektrik tehlikesi için doğal yer ama
+  tehlikesiz. İnsan testi "tehlike/tema zayıf" derse jeneratör odasına telegraflı ark eklenir (bot can eğrisi ölçülerek) ·
+  (4) *(oyun dışı, düşük öncelik)* `capture_level.gd` ışınlamada telsiz/afiş/tost yığılmasını ve iç mekân geçişini
+  bozuyor → denetim ekran görüntülerinin güvenilirliği için araç cilası · (5) *(insan testi)* son terrace arenası
+  (`_fight(9000,9600)`) ödülsüz (Kitap 3 convention); bot son arenaya 93/115 canla, stall 6s@9537 ile girdi. İnsan testi
+  "son arenada can bitti" derse arena girişine (x≈8950, zemin) tek görünür HEALTH.
+
 - (Tur 295 taraması, insan testine bağlı) Bölüm dosyalarında açık `HEALTH` (toplanabilir/sandık/arena ödülü) sayısı:
   Bölüm 7, 27, 30, 32, 34 yalnız 1 (artı `_fight` varsayılan can ödülleri). Hepsi son denetimlerde botla ölümsüz ya da tek
   ölümle geçti; Bölüm 28 (4 koşuda tekrarlayan düşük can) tur 295'te düzeltildi. İnsan testinde bu beş bölümden birinde
@@ -490,6 +504,33 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-18 (296) — Denetim: Bölüm 34 (Kandilli Verici Sırtı) temiz + HUD tostu okunurluğu testi sağlamlaştırıldı
+
+**Neden şimdi:** stil listesi (33/33), iki yol haritası ve birikimin koşulsuz (insan testine bağlı olmayan)
+maddeleri kapalı → kural (d). Günlükte en az anılan bölüm Bölüm 34'tü (1 kez).
+
+**Yapıldı:** Bölüm 34 (Kitap 3 / "İstanbul'un Sesi" 10. bölüm, gece) headless bot + 10 pencereli ekran görüntüsüyle
+denetlendi (yokuş / çatı kablo yolu / bahçe sekileri / sırt yolu / kantin / pres hattı / verici direği / iç mekân /
+son terrace), DTM sütunlarıyla karşılaştırıldı. **Görsel kalite DTM düzeyinde:** sarmaşıklı Kandilli sokağı + Boğaz
+gecesi, kırmızı kiremitli ev-ev çatı rotası (balkon/anten/çanak), antenli sırt yolu, kantin kiosku, Boğaz silüetli
+verici direği (Mavi Camii silüeti, Anadoluhisarı kapısı). Taşma, kalıcı dikiş, okunmayan HUD yok; `dark_rim` düşmanları
+koyu ahşaptan ayırıyor. Bot CLEARED @9906, 71,2 sn, 0 respawn (indeks 33).
+
+Denetimin somut, oyun-dışı-risksiz çıktısı uygulandı: ekran görüntülerinde görülen üst-orta pankart yığılması
+(telsiz balonu + mekân afişi + görev/film-rulosu tostu üst üste) **yakalama aracının ışınlama artefaktı** olduğu
+kontrollü bir sonda ile kanıtlandı — gerçek oyunda telsiz açıkken toast (y122–196) telsizin altında, mekân afişi
+(y206–330) tostun altında, çakışma yok. Ancak mevcut `tests/radio_top_band.gd` görev tostunu (`_ach`) hiç kapsamıyordu
+ve varsayılan headless koşumunda zaman-tabanlı telsiz kapanışı küçük delta yüzünden dolmadan düşüyordu. Test:
+(1) telsiz + afiş + görev tostu aynı anda açıkken tostun telsizin altında kaldığını VE afişle çakışmadığını doğrular,
+(2) kapanış beklemesi artık `hud._top_inset`'in 0'a dönmesine bağlı (ham `top_inset()` erken sıfırlanınca rozet 1 px
+şaşıyordu), (3) docstring deterministik `--fixed-fps 60` koşumunu belgeler. `RADIO TOP BAND: PASS`.
+
+**Testler:** `--import` SCRIPT ERROR yok · `radio_top_band` (--fixed-fps 60) PASS · `dtm_gaps` PASS ·
+`campaign_smoke` çıkış 0 · bot Bölüm 34 CLEARED (71,2 sn, 0 respawn). Oyun/sistem kodu değişmedi (yalnız test dosyası).
+
+**Sonraki öneri:** Bölüm 34 denetim bulguları birikime yazıldı (hepsi insan testi veya oyun-dışı araç işi); yeni
+otonom iş için günlükte az anılan bir sonraki bölüm (Bölüm 5 ya da 27, 3 anım) denetlenebilir.
 
 ### 2026-11-18 (294) — Denetim (Bölüm 26 — Sirkeci Sevkiyatı): temiz, DTM düzeyinde; otonom iş çıkmadı
 
