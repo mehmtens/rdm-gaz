@@ -113,6 +113,9 @@ func _build() -> void:
 	# Kuleden inen bulut basamakları: kum torbasını üstten aşan isteğe bağlı yol.
 	_cloud(7170, -235, 120.0, 2)
 	_cloud(7330, -150, 120.0, 2)
+	# Kum torbasıyla bayrak arasında kırılabilir can sandığı: kantinden sonra köprü ve
+	# kule boyunca yalnız ZIRH var; oyuncu Yüzbaşı Demir'e nefes alarak girsin (tur 331).
+	_prop("sandik", 7285, 0, HEALTH)
 
 	# --- 5. Bariyer: Yüzbaşı Demir; tren düdüğü -----------------------------------
 	_checkpoint(7320, 0)

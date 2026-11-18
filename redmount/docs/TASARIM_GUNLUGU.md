@@ -660,7 +660,7 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   Deney sahnesinde nişan durumunda 64 px aralık korunuyor (tur 30 düzeltmesi), yığılma kovalama
   ya da geri itilme sonrası oluyor; tek karede yeniden üretilemedi. İnsan testinde ya da bir
   sonraki denetimde yeniden görülürse `CHASE` durumundaki ayrışmaya nişancı komşusu eklensin.
-- Son arenaya düşük canla varış (Bölüm 4: 16–25 can, Bölüm 5: 29 can [tur 156: 33–43 can, iki koşuda da 1 ölüm], Bölüm 6: 12 can [tur 156, 1 ölüm] **(tur 330: 7880 kırılabilir can sandığı eklendi)**, Bölüm 28: 21 can [tur 150: 39→8 can]; bot). Dört bölümde de
+- Son arenaya düşük canla varış (Bölüm 4: 16–25 can [tur 331: 11 can] **(tur 331: 7285 kırılabilir can sandığı eklendi)**, Bölüm 5: 29 can [tur 156: 33–43 can, iki koşuda da 1 ölüm], Bölüm 6: 12 can [tur 156, 1 ölüm] **(tur 330: 7880 kırılabilir can sandığı eklendi)**, Bölüm 28: 21 can [tur 150: 39→8 can]; bot). Dört bölümde de
   orta arenadan son arenaya kadar can kaynağı yok (yalnız büfe). İnsan testinde son arenaya
   giriş canı ölçülsün; ortanca %40'ın altındaysa son kontrol noktası önüne kırılabilir simit.
 - ~~Adlı rakiplerin görünümü: Binbaşı Kaya, Sur Ağası ve Muhafız Başı ara sahnede Seçkin
@@ -764,6 +764,27 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-18 (331) — Denetim (Bölüm 8 ve 4): Bölüm 4 Yüzbaşı Demir öncesi kırılabilir can sandığı
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikim insan testine bağlı → kural (d). Başlıklarda en uzun
+süredir denetlenmeyen Bölüm 8 (tur 276) ve Bölüm 4 (tur 280) telegraf okuyan botla pencereli oynatıldı (14 sn'de bir kare).
+**Ölçüm:** Bölüm 8 CLEARED @9409 / 104,4 sn / 1 ölüm (finale 99 canla girdi, 40 sn takılma @9049 — patron düellosu; can
+kaynağı eksikliği değil). Bölüm 4 CLEARED @9309 / 99,8 sn / 0 ölüm ama can 3158→7831 arası 96 → 5; son arenaya **11 canla**
+girdi. Kantin (5520) sonrası köprü, iki kule ve bariyere kadar yalnız ARMOR (6470) var.
+**Karar:** birikimdeki "son arenaya giriş ortancası %40'ın altındaysa son kontrol noktası önüne kırılabilir simit" koşulu
+Bölüm 4'te tur 156'dan beri (16–25 can) ve bu koşuda (11) sağlanıyor → tur 330 Bölüm 6 kalıbı uygulandı.
+**Oyuncu ne hissedecek:** kuleden inen bulut basamaklarının dibinde, kum torbasıyla bayrak arasında bir sandık; kıran
+Yüzbaşı Demir'e nefes alarak girer. Kantinden alışveriş yapan için ek ödül; dalgalar değişmedi.
+**Değişiklik (`scripts/systems/bolum04.gd`):** `_prop("sandik", 7285, 0, HEALTH)` (kontrol noktası 7320'nin solu, kum
+torbası 7150–7250'nin sağı). Hipotez: +35 can → finale ~45–50 canla giriş (bot sandık kırmıyor; insan testinde ölçülecek).
+**Testler:** `--import` SCRIPT ERROR 0; `DTM GAPS: PASS`; `campaign_smoke` çıkış 0 (Bolum04 OK); bot Bölüm 4 pencereli
+CLEARED @9306 / 118,1 sn / 1 ölüm (bu koşuda bot ilk arenanın HEALTH ödülünü aldı, finale 70 canla girdi, ölüm Yüzbaşı Demir
+dalgasında → varyans). `capture_level` ile 7200'den çekim: sandık kum torbası ile fener direği arasında taş zemine oturuyor,
+ChatGPT tren deposu arka planıyla "ait".
+**Birikime:** Bölüm 8 patron düellosunda 99 → 13 (tek koşu; tur 276'da 0 ölüm → varyans). Bölüm 4 finali 70 canla da bir
+ölüm verdi; insan testi "Yüzbaşı Demir zor" derse 3. dalga ELITE+RIFLE → ELITE+KNIFE.
+**Sonraki öneri:** insan oyun testi (Bölüm 4 ve 6 finalleri önündeki can sandıkları, Bölüm 8 patronu).
 
 ### 2026-11-18 (330) — Denetim (Bölüm 6 ve 25): Bölüm 6 finali önüne kırılabilir can sandığı
 
