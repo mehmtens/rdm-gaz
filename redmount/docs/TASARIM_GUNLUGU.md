@@ -454,6 +454,28 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-18 (289) — Denetim: Bölüm 33 ve 23 pencereli bot koşusu temiz; otonom iş çıkmadı, otomasyon durdu
+
+**Neden şimdi:** stil listesi, iki yol haritası ve birikimin koşulsuz maddeleri bitti → kural (d). Günlükte en az anılan
+iki bölüm seçildi (33: 21 anılma, Kitap 3; 23: 21 anılma, Kitap 2 sonu — Saraçhane su hattı). Oyuncu ne hissederdi: gece
+liman/depo bölümünde ve su galerisinde ritim, okunurluk ve son arena adaleti. Doğrulama: pencereli bot koşusu (8 sn aralık,
+11+12 kare), DTM sütunlarıyla karşılaştırma, `bolum23.gd` arena/can yerleşimi.
+**Ölçüm:** Bölüm 33 CLEARED @9755, 81,0 sn, 0 respawn, en düşük can 52/115; tek takılma `stall=17s@8162` = iki dalgalı depo
+arenası (kasıtlı). Bölüm 23 CLEARED @10110, 93,8 sn, 0 respawn, en düşük can 17/115 (son arena, 3 dalga/7 düşman); bakım
+geçidi arenasında 24'e inip arena can ödülüyle ~40'la son arenaya girdi.
+**Görsel:** iki bölüm de DTM düzeyinde — gece Boğaz/iskele, vinç sepeti, yükleme kileri; su galerisi kemerleri, Bozdoğan
+Kemeri finali. Dalga sayacı, "İYİ ×2"/"EFSANE ×16" kombo, film rulosu duyurusu okunur; taşma, kalıcı dikiş, gömülü gövde
+yok. Bölüm 33 t=0 karesi kararma (bölüm açılış geçişi), kusur değil. 6350'deki diken çukuru iskele altından suyu gösteriyor;
+mekânla tutarlı.
+**Birikime (hiçbiri koşulsuz değil, insan testine bağlı):** (1) Bölüm 23 son arenaya ~40/115 giriş; yemek 9240,−160 ara
+katta (tur 283 taramasındaki "önceki arena ödülü can → açık yok" grubu). İnsan testi "Saraçhane sonunda can yetmedi" derse
+tur 274/282 kalıbı: yemek 9240,−40 · (2) Bölüm 33 depo arenası 17 sn — Kitap 3 için uygun, "uzun" derse 2. dalgadan bir
+düşman eksilt · (3) Bölüm 23 bakım geçidi tüfeklileri kolon (`_fg` 8200) yanında; tur 275 saydamlaşması yalnız oyuncu
+hizasında, düşman kolon arkasına tam girerse görünmez — çekimde girmedi, insan testinde "kolonun arkasından vuruldum" derse
+`_Foreground._occ` düşmanlara da genişletilsin.
+**Testler:** kod değişikliği yok; bot Bölüm 33 (indeks 32) ve 23 (indeks 22) pencereli CLEARED (yukarıda).
+**Sonraki öneri:** otonom iş kalmadı; sıradaki gerçek adım telefonda insan oyun testi.
+
 ### 2026-11-18 (288) — Denetim: Bölüm 17 (Beyazıt Posta Hattı, Kitap 2/5) temiz; otonom iş çıkmadı, otomasyon durdu
 
 **Neden şimdi:** stil listesi, iki yol haritası ve birikimin koşulsuz maddeleri bitti → kural (d). Bireysel denetimi en
