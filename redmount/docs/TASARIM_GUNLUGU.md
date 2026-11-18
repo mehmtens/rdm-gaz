@@ -7,6 +7,11 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 295 taraması, insan testine bağlı) Bölüm dosyalarında açık `HEALTH` (toplanabilir/sandık/arena ödülü) sayısı:
+  Bölüm 7, 27, 30, 32, 34 yalnız 1 (artı `_fight` varsayılan can ödülleri). Hepsi son denetimlerde botla ölümsüz ya da tek
+  ölümle geçti; Bölüm 28 (4 koşuda tekrarlayan düşük can) tur 295'te düzeltildi. İnsan testinde bu beş bölümden birinde
+  "ikinci yarıda can bitti" gelirse aynı çözüm: bölümün hikâye hedefinin hemen arkasına, zemine tek HEALTH.
+
 - (Tur 294 denetimi, günlükte en az denetlenen bölümlerden Bölüm 26 — Sirkeci Sevkiyatı, Kitap 3 / "İstanbul'un Sesi"
   2. bölüm, gündüz gar — headless bot (CLEARED @9758, 82,1 sn, 0 respawn; indeks 25) + 7 mekân pencereli ekran görüntüsü;
   DTM sütunlarıyla karşılaştırıldı. Görsel kalite DTM düzeyinde ya da üstü: pirinç satıcılı gar cephesi + Boğaz/cami
