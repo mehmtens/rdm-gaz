@@ -742,6 +742,17 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-18 (327) — Denetim (Bölüm 20 ve 28, pencereli, yeni bot): temiz; otonom iş kalmadı, otomasyon durdu
+
+**Neden şimdi:** tur 326 sonrası birikimde yalnız insan testine bağlı maddeler kaldı; en uzun süredir denetlenmeyen iki bölüm
+(20: tur 233, 28: tur 222) telegraf okuyan yeni botla pencereli oynatıldı, 8 sn'de bir kare alındı.
+**Sonuç:** Bölüm 20 CLEARED @10106 / 81,7 sn / 0 ölüm / en uzun takılma 11 sn; Bölüm 28 CLEARED @10109 / 90,6 sn / 0 ölüm /
+12 sn. Karelerde (rıhtım pazarı, vinçli ambar, kanıt arşivi, Yenikapı kapısı; Üsküdar avlusu, yalı sokağı, şerit makinesi
+atölyesi, Kız Kulesi rıhtımı) taşma, çakışma, okunmayan düşman ya da stil dışı öğe yok; HUD, dalga ve kanıt tostları
+okunuyor. Bölüm 20'de arşivde can 37'ye iniyor, ardından Yenikapı öncesi iyileşme var — ritim yerinde.
+**Testler:** iki bot koşusu CLEARED (kod değişmedi).
+**Sonraki öneri:** insan oyun testi (patron telegrafı + duruş, Bölüm 18 ambar, 25 ciltçi, 31 kanal).
+
 ### 2026-11-18 (326) — Test aracı: bot patron telegrafını okuyor (ağır vuruştan atılma, hücumun üstünden zıplama)
 
 **Neden şimdi:** stil listesi ve iki yol haritası kapalı; birikimin en üstündeki tek otonom madde Tur 325 md.4. Tur 325'in
