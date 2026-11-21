@@ -7,6 +7,10 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 338 ölçek taraması.) **Kalan `draw_texture_rect` hedefleri:** `dtm_level.gd` _Art çizimlerinde (raf, iç pencere,
+  asma lamba, kabin, vagon, saksı, tuğla yaması) hedef dikdörtgen / doku boyutu oranı tek tek 2x mi diye ölçülsün; ChatGPT
+  kesitleri (binlerce renk) muaf. Tur 338'de yalnız Sprite2D ölçekleri ve arena parmaklığı tarandı.
+
 - (Tur 336 görsel denetimi.) **UYGULANDI (tur 337) — Bölüm 35 pres blokları ışıksız gri:** ayrıntı tur kaydında.
 
 - (Tur 329 denetimi, Bölüm 9 "Zırhlı Üs" (indeks 8, son başlıklı tur 250) ve Bölüm 13 (indeks 12, tur 232), pencereli, yeni bot.)
@@ -774,6 +778,25 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-22 (338) — Ölçek taraması: arena parmaklığı ikinci çubuğu kırpıyordu, 2x'e düzeltildi
+
+**Neden şimdi:** tur 337'nin önerisi — pres gibi gerilmiş/yanlış ölçekli başka set-piece var mı? Kilitli arena kapısı
+DTM ritminin en sık görülen öğesi (36 bölümde her arena girişinde), yanlış çizimi her dövüşte göze girer.
+**Tarama:** `scale = Vector2(a, b)` (a≠b) tüm `scripts/`: yalnız `crusher.gd` (tur 337'de düzeltildi, genişlik uyumu),
+`breakable_wall.gd` (`wall_broken.png` ChatGPT kesiti, 1,25 dikey; muaf) ve `shockwave.gd` (efekt, kasıtlı). Doku boyutu
+↔ çizim bölgesi karşılaştırmasında bulgu: `parmaklik.png` e785cec4'te 18×36 (2x) yeniden çizilmiş ama `battle_arena.gd`
+hâlâ eski 12 sütun / 3x bölgeyi okuyordu → oyuncu tek çubuk + yarım kesik ikinci çubuk ve iri pikseller görüyordu.
+**Oyuncu ne hissedecek:** arena kapandığında simetrik iki çubuklu, perçinli kuşaklı dövme demir parmaklık; piksel
+ızgarası tepe mızraklarıyla (18×15, 2x) ve karakterle aynı.
+**Değişiklik:** `battle_arena.gd` parmaklık bölgesi `Rect2(0, 0, PARMAKLIK.get_width(), hh / 2.0)`. Genişlik (36 px) ve
+çarpışma aynı.
+**Görsel doğrulama:** geçici `_capture_gate` (arenaları silmeyen `capture_level` kopyası) ile Bölüm 1 pazar arenası,
+önce/sonra 3x yakın çekim: önce kesik, sonra iki tam çubuk → "ait". Geçici dosyalar silindi.
+**Testler:** `--import` SCRIPT ERROR 0; `campaign_smoke` çıkış 0; `dtm_gaps` PASS; `arena_mercy`, `arena_pursuer`,
+`arena_respawn`, `arena_weapon_drop` PASS; bot Bölüm 1 CLEARED @8606 / 76,7 sn / 0 ölüm, Bölüm 13 CLEARED @9560 / 68,8 sn
+/ 0 ölüm, Bölüm 25 CLEARED @10155 / 87,5 sn / 0 ölüm.
+**Sonraki öneri:** birikim (Tur 338) — `_Art` içindeki küçük piksel dokuların hedef boyut oranı taraması.
 
 ### 2026-11-22 (337) — Pres başlığı ve pistonu 1x çizimle yeniden yapıldı (birikim Tur 336)
 

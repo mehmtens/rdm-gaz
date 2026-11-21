@@ -376,5 +376,7 @@ class _GateVis extends Node2D:
 		draw_texture_rect(PARMAKLIK_TEPE, Rect2(-tw * 0.5, y - 30.0, tw, 30.0), false, tint)
 		while y < -drop - 0.5:
 			var hh := minf(th, -drop - y)
-			draw_texture_rect_region(PARMAKLIK, Rect2(-tw * 0.5, y, tw, hh), Rect2(0, 0, 12, hh / 3.0), tint)
+			## 18×36 çizim 2x (tur 338: eski 12 sütun/3x bölge ikinci çubuğu kırpıyordu).
+			draw_texture_rect_region(PARMAKLIK, Rect2(-tw * 0.5, y, tw, hh),
+				Rect2(0, 0, PARMAKLIK.get_width(), hh / 2.0), tint)
 			y += th
