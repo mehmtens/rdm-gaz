@@ -781,6 +781,16 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-22 (344) — Denetim (Bölüm 29 ve 33): temiz; otonom iş kalmadı, otomasyon durdu
+
+**Neden şimdi:** stil listesi, iki yol haritası, P1 kapalı; birikim insan testine bağlı → kural (d). Son denetimi eski
+kalan iki bölüm (29: tur 300, 33: tur 314) başsız botla oynatıldı.
+**Bölüm 29:** CLEARED @10107 / 75,1 sn / 0 ölüm, hp min 55 (8500–8800 arenası 110→55, sonra 76); 8 sn takılma @8741.
+**Bölüm 33:** CLEARED @9755 / 76,6 sn / 0 ölüm, hp min 60 (ambar arenası 7500–8000, 99→60, sonra 83); 10 sn takılma
+@7986 (arena dalga ritmi). Tur 314'teki çift-ELITE ambar ve 2350→7320 can boşluğu bulguları birikimde, insan testine bağlı.
+**Değişiklik:** yok (yalnız günlük). **Testler:** bot Bölüm 29 ve 33 CLEARED, SCRIPT ERROR 0.
+**Sonraki öneri:** insan oyun testi (Bölüm 30 arşiv, 26 vagon inişi, 33 ambar arenası, dokunmatik).
+
 ### 2026-11-22 (343) — Denetim (Bölüm 1 ve 30): Bölüm 30 elit tekrarı denendi, geri alındı; otomasyon durdu
 
 **Neden şimdi:** stil listesi (33/33), iki yol haritası ve P1 kapalı; birikim insan testine bağlı → kural (d). Günlük
