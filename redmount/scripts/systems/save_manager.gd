@@ -54,6 +54,10 @@ var daily_best_streak: int = 0
 var master_volume_db: float = 0.0
 ## Telefonda dokunma/isabet titreşimi (eski kayıtlarda yok → açık).
 var vibration: bool = true
+## Dokunmatik oyun düğmelerinin boy kademesi (TouchControls.SIZE_STEPS; eski kayıtta yok → 1 NORMAL).
+var touch_size: int = 1
+## Dokunmatik oyun düğmelerinin saydamlık kademesi (TouchControls.ALPHA_STEPS; eski kayıtta yok → 0 TAM).
+var touch_alpha: int = 0
 ## Oyuncu duraklatma/cephaneliği bir kez açtı mı: HUD'daki "ESC: CEPHANELİK" ipucu
 ## öğrenildikten sonra gizlenir (eski kayıtta yok → false).
 var armory_seen: bool = false
@@ -129,6 +133,8 @@ func load_game() -> void:
 		save_game()
 	master_volume_db = float(cfg.get_value("settings", "master_volume_db", 0.0))
 	vibration = bool(cfg.get_value("settings", "vibration", true))
+	touch_size = clampi(int(cfg.get_value("settings", "touch_size", 1)), 0, 2)
+	touch_alpha = clampi(int(cfg.get_value("settings", "touch_alpha", 0)), 0, 2)
 	armory_seen = bool(cfg.get_value("hints", "armory_seen", false))
 	achievements_claimed = cfg.get_value("achievements", "claimed", [])
 	stat_defeats = int(cfg.get_value("achievements", "defeats", 0))
@@ -167,6 +173,8 @@ func save_game() -> void:
 	cfg.set_value("shop", "costume", costume)
 	cfg.set_value("settings", "master_volume_db", master_volume_db)
 	cfg.set_value("settings", "vibration", vibration)
+	cfg.set_value("settings", "touch_size", touch_size)
+	cfg.set_value("settings", "touch_alpha", touch_alpha)
 	cfg.set_value("hints", "armory_seen", armory_seen)
 	_announce_achievements()
 	cfg.set_value("achievements", "claimed", achievements_claimed)
@@ -386,6 +394,15 @@ func set_volume_db(db: float) -> void:
 func set_vibration(on: bool) -> void:
 	vibration = on
 	save_game()
+
+
+## Dokunmatik düzen kademeleri (0..2); açık TouchControls düğmeleri hemen yeniden dizilir.
+func set_touch_layout(size_step: int, alpha_step: int) -> void:
+	touch_size = clampi(size_step, 0, 2)
+	touch_alpha = clampi(alpha_step, 0, 2)
+	save_game()
+	if is_inside_tree():
+		get_tree().call_group(&"touch_controls", &"_layout")
 
 
 func set_armory_seen() -> void:

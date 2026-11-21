@@ -36,6 +36,14 @@ const ART_DIR := "res://assets/ui/pixel/"
 ## başparmak oklar arasında kayarken sürekli vızıldamasın.
 const TICK_MS := 12
 const TICK_STRENGTH := 0.3
+## Oyuncunun seçtiği düğme boyu (Save.touch_size): yalnız oyun düğmeleri; konumlar da aynı
+## oranla kenardan uzaklaşır, böylece düğmeler arası boşluk oranı (çakışmazlık) korunur.
+## Duraklat ve sonuç düğmeleri sabit (HUD şeridi ve sonuç kartı onlara göre dizili).
+const SIZE_STEPS := [0.88, 1.0, 1.15]
+const SIZE_NAMES := ["KÜÇÜK", "NORMAL", "BÜYÜK"]
+## Oyun düğmelerinin saydamlığı (Save.touch_alpha); basılı düğme her zaman tam görünür.
+const ALPHA_STEPS := [1.0, 0.7, 0.45]
+const ALPHA_NAMES := ["TAM", "%70", "%45"]
 const GAMEPLAY_ACTIONS := ["move_left", "move_right", "crouch", "dash", "attack", "jump", "heavy_attack", "fire", "slide", "swap_weapon"]
 
 var _buttons: Dictionary = {}
@@ -60,6 +68,7 @@ func _ready() -> void:
 	visible = active_on_device()
 	if not visible:
 		return
+	add_to_group(&"touch_controls")
 	for spec in BUTTONS:
 		var key: String = spec[0]
 		var radius: int = spec[2]
@@ -260,10 +269,17 @@ func _layout() -> void:
 	var viewport_size := get_viewport().get_visible_rect().size
 	var insets := safe_insets(get_viewport())
 	var vertical := safe_vertical_insets(get_viewport())
-	var button_scale := clampf(viewport_size.y / 720.0, 0.85, 1.2)
+	var base_scale := clampf(viewport_size.y / 720.0, 0.85, 1.2)
+	var player_scale: float = SIZE_STEPS[clampi(Save.touch_size, 0, 2)]
+	var alpha: float = ALPHA_STEPS[clampi(Save.touch_alpha, 0, 2)]
 	for spec in BUTTONS:
 		var key: String = spec[0]
 		var radius: int = spec[2]
+		var gameplay: bool = key in GAMEPLAY_ACTIONS
+		var button_scale := base_scale * player_scale if gameplay else base_scale
+		var a := alpha if gameplay and not _buttons[key].is_pressed() else 1.0
+		_buttons[key].modulate.a = a
+		_labels[key].modulate.a = a
 		var offset: Vector2 = RESULTS_POS.get(key, spec[3]) if _mode == "results" else spec[3]
 		var center := Vector2(
 			offset.x * button_scale + insets.x if offset.x > 0 else viewport_size.x + offset.x * button_scale - insets.y,
@@ -306,6 +322,8 @@ func _on_press(key: String) -> void:
 		stats.on_press(key, Time.get_ticks_msec(), _neighbors)
 	_icons[key].offset.y = 1.0
 	_labels[key].position.y += _labels[key].scale.y * float(_art_scale[key])
+	_buttons[key].modulate.a = 1.0
+	_labels[key].modulate.a = 1.0
 	if key not in ["move_left", "move_right"]:
 		haptic_tick()
 

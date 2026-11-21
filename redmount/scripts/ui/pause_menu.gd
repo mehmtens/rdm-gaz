@@ -49,6 +49,7 @@ func open() -> void:
 	Sfx.play(&"checkpoint", 1.4, -6.0)
 	_refresh_armory_coins(GameState.coins)
 	refresh_costume()
+	_refresh_touch_texts()
 	_first_btn.grab_focus()
 	Save.set_armory_seen()  # HUD'daki cephanelik ipucu artık gerekmiyor
 
@@ -162,6 +163,12 @@ func _build() -> void:
 	if TouchControls.active_on_device():
 		var vib := _mk_btn(_vibration_text(), toggle_vibration)
 		vib.name = "Vibration"
+		## Dokunmatik düzen: başparmağı büyük/küçük oyuncu ve düğmenin altında kalan
+		## düşmanı görmek isteyen oyuncu için iki kademeli döngü.
+		var ts := _mk_btn(_touch_size_text(), cycle_touch_size)
+		ts.name = "TouchSize"
+		var ta := _mk_btn(_touch_alpha_text(), cycle_touch_alpha)
+		ta.name = "TouchAlpha"
 	_mk_btn("ANA MENÜ", func() -> void:
 		close()
 		menu_requested.emit())
@@ -277,6 +284,34 @@ func toggle_vibration() -> void:
 	Save.set_vibration(not Save.vibration)
 	(_root.get_node(^"Vibration") as Button).text = _vibration_text()
 	TouchControls.haptic_tick()
+
+
+func cycle_touch_size() -> void:
+	Save.set_touch_layout((Save.touch_size + 1) % TouchControls.SIZE_STEPS.size(), Save.touch_alpha)
+	(_root.get_node(^"TouchSize") as Button).text = _touch_size_text()
+	TouchControls.haptic_tick()
+
+
+func cycle_touch_alpha() -> void:
+	Save.set_touch_layout(Save.touch_size, (Save.touch_alpha + 1) % TouchControls.ALPHA_STEPS.size())
+	(_root.get_node(^"TouchAlpha") as Button).text = _touch_alpha_text()
+	TouchControls.haptic_tick()
+
+
+## Ayar başka yerden (kayıt yükleme, test) değişmiş olabilir; açılışta yazılar güncellenir.
+func _refresh_touch_texts() -> void:
+	var ts := _root.get_node_or_null(^"TouchSize") as Button
+	if ts != null:
+		ts.text = _touch_size_text()
+		(_root.get_node(^"TouchAlpha") as Button).text = _touch_alpha_text()
+
+
+static func _touch_size_text() -> String:
+	return "DÜĞME BOYU: " + String(TouchControls.SIZE_NAMES[clampi(Save.touch_size, 0, 2)])
+
+
+static func _touch_alpha_text() -> String:
+	return "DÜĞME SAYDAMLIĞI: " + String(TouchControls.ALPHA_NAMES[clampi(Save.touch_alpha, 0, 2)])
 
 
 static func _vibration_text() -> String:

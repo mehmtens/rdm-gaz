@@ -781,6 +781,33 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-22 (339) — Dokunmatik düzen ayarı: düğme boyu ve saydamlığı duraklat menüsünde
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan testine bağlı. OYNANIS-KALITE
+"İki başparmak kontrolü" satırında koşulsuz tek açık boşluk "oyuncunun düğme ölçeğini ayarlaması henüz yok" idi. Mobil
+oyunlarda (DTM dahil) kontrol boyu/saydamlığı ayarı standart; büyük başparmaklı oyuncu kaçan basış, küçük ekranlı
+oyuncu düğmenin örttüğü düşman yaşıyor — ikisi de `TouchStats` ölçümünün ilk göreceği sürtünme.
+**Oyuncu ne hissedecek:** duraklatınca DÜĞME BOYU (KÜÇÜK/NORMAL/BÜYÜK) ve DÜĞME SAYDAMLIĞI (TAM/%70/%45) döngüleri;
+değişiklik anında oyunda, kalıcı. Soluk düğme basılınca tam görünür (basışın alındığı okunur).
+**Sayılar (hipotez):** boy ×0,88 / ×1,15 — konumlar da aynı oranla ölçeklenir, böylece düğme aralığı/çakışmazlık oranı
+korunur; ×1,15'te sağ sütun hâlâ ekranın %75'inin sağında (dövüş şeridi kuralı, `touch_polish`), en üst düğme y≈239
+(üst HUD bandının altında). ×1,2 üstü 720p'de ATIL ile ▼ arası daralıyor; ilk kademeler muhafazakâr. Saydamlık %45 alt
+sınır: bu kademede halka ve yazı taş zeminde hâlâ seçiliyor (çekim); daha soluğu denenmedi. Duraklat ve sonuç düğmeleri sabit (HUD şeridi ve sonuç
+kartı onlara göre dizili).
+**Değişiklik:** `save_manager.gd` `touch_size`/`touch_alpha` (eski kayıtta 1/0, sınırlanır) + `set_touch_layout`
+(`touch_controls` grubuna `_layout` çağrısı); `touch_controls.gd` `SIZE_STEPS`/`ALPHA_STEPS`, `_layout` oyun düğmelerine
+oyuncu ölçeği ve alfa uygular, `_on_press` tam görünür yapar; `pause_menu.gd` iki döngü düğmesi (yalnız dokunmatik
+cihazda, titreşimin altında), açılışta yazılar tazelenir. Yeni görsel yok (mevcut piksel UI).
+**Görsel doğrulama:** geçici pencereli çekim (Bölüm 1, `REDMOUNT_TOUCH_CONTROLS=1`): NORMAL, BÜYÜK+%70, KÜÇÜK+%45 ve
+duraklat menüsü; düğmeler çakışmıyor, oyuncu/zemin açık, menü 720p'de sığıyor. İlk çekimde menü yazısı açılışta eski
+kademeyi gösteriyordu → `_refresh_touch_texts` eklendi, yeniden çekimde doğru. Geçici dosyalar silindi.
+**Testler:** `--import` SCRIPT ERROR 0; yeni `tests/touch_layout.tscn` PASS (kayıt uyumu, sınırlama, üç kademede oran/
+ekranda kalma/üst bant/çakışmazlık, saydamlık ve basılı tam görünürlük); `touch_polish`, `touch_hints` PASS, `back_button`
+çıkış 0; `campaign_smoke` çıkış 0 (36 OK); `dtm_gaps` PASS; bot Bölüm 1 CLEARED @8608 / 77,3 sn / 0 ölüm, Bölüm 13
+CLEARED @9560 / 69,8 sn / 0 ölüm, Bölüm 25 CLEARED @10155 / 99,2 sn / 0 ölüm.
+**Sonraki öneri:** telefon testinde `TouchStats` CSV'siyle kademe başına kaçan basış oranı karşılaştırılsın; "düğme
+yerini taşıma" (sürükle-bırak düzenleyici) ancak boy ayarı yetmezse birikime alınsın.
+
 ### 2026-11-22 (338) — Ölçek taraması: arena parmaklığı ikinci çubuğu kırpıyordu, 2x'e düzeltildi
 
 **Neden şimdi:** tur 337'nin önerisi — pres gibi gerilmiş/yanlış ölçekli başka set-piece var mı? Kilitli arena kapısı
