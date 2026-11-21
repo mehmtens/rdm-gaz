@@ -781,6 +781,28 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-22 (341) — Denetim (Bölüm 26 Sirkeci): yükleme çukuru vagondan 160 px uzaklaştırıldı, iniş tuzağı kalktı
+
+**Neden şimdi:** stil listesi (33/33), iki yol haritası ve P1 kapalı; birikim insan testine bağlı → kural (d). En az anılan
+bölümler içinde son denetimi en eski olan Bölüm 26 (tur 149) seçildi.
+**Bulgular (etki/maliyet sırasıyla):** (1) **Vagon → diken çukuru iniş tuzağı:** vagon 5890–6290 (üstü −140), çukur 6300'de
+başlıyordu. Koşarak inen oyuncu ~133 px (340 px/s, düşüş g×1,3), yürüyerek inen ~78 px ileri düşer → ikisi de dikene;
+vagon üstünden çukur yalnız ekranın alt kenarında görünüyordu. Bot iki kez burada öldü (hasarsız, can 57), tur 80 koşusu
+da 2 yeniden doğma vermişti. DTM'de çukur önceden görülür ve atlayış bilinçli karardır. → **bu turda uygulandı.** ·
+(2) Can eğrisi: gar cephesi arenası + peron + bekleme salonu 115→57 (@4750); GAR ERZAKÇISI 5560 can satıyor, salon
+HEALTH 5300 → kabul. · (3) Bot 9 sn takılma @5951 (vagon üstü, palet bekleme) — bot yolu, insan sorunu değil. ·
+(4) Arka yük peronu arenası 109→73, sevk odası HEALTH ile 103 → temiz. · (5) Görsel: meydan, peron, salon, rampa,
+arena, sevk odası pencereli karelerde taşma/çakışma/stil dışı öğe yok; salon çatı coin şeridi telsiz panelinin altında.
+**Değişiklik (`bolum26.gd`):** `_terrain(-400,6450)`, `_spike_pit(6450,6610)`, `_terrain(6610,10400)` (çukur genişliği
+160 aynı); coin şeridi 6300→6420 (hareketli paletin 6390–6650 yolu üstünde, çukuru ödülle işaretler). Hareketli palet,
+Zırhlı Vurucu (6750, çukur sonundan 140 px), vagon 2 değişmedi. Aynı kalıp tarandı (tüm `bolum*.gd`, vagon sonundan
+<160 px'te çukur/kanal): yalnız bu nokta.
+**Görsel doğrulama:** `capture_level` 6400: vagon ile çukur arasında iniş şeridi, çukur zemin hizasında tam görünüyor,
+palet ve coin'ler üstünde → "ait".
+**Testler:** `--import` SCRIPT ERROR 0; `dtm_gaps` PASS; `campaign_smoke` çıkış 0; bot Bölüm 26 CLEARED @9756 / 88,1 sn /
+0 ölüm (önce 96,5 sn / 2 ölüm).
+**Sonraki öneri:** otonom iş yok; insan oyun testi (Bölüm 26 vagon inişi dahil).
+
 ### 2026-11-22 (340) — Denetim (Bölüm 24 ve 32, yeni bot + pencereli çekim): temiz; otonom iş kalmadı, otomasyon durdu
 
 **Neden şimdi:** stil listesi (33/33), iki yol haritası ve P1 kapalı; birikimin kalanı insan testine bağlı → kural (d).

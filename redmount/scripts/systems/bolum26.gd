@@ -19,9 +19,12 @@ func _build() -> void:
 	sky_shade = Color(0.08, 0.06, 0.05)
 	back_row_skip = [[3300.0, 10400.0]]
 
-	_terrain(-400, 6300, 0)
-	_spike_pit(6300, 6460)
-	_terrain(6460, 10400, 0)
+	## Yükleme çukuru vagonun (5890–6290) 160 px ötesinde: vagondan koşarak inen
+	## oyuncu ~133 px ileri düşer, zemine basar ve çukuru önünde görür (Tur 341;
+	## önce çukur vagona bitişikti, yürüyerek inen dikene düşüyordu).
+	_terrain(-400, 6450, 0)
+	_spike_pit(6450, 6610)
+	_terrain(6610, 10400, 0)
 
 	# --- 1. Gar meydanı: kemerli revak, tenteyle saçağa ------------------------
 	_story(-1.0, _sahne_meydan, 240.0)
@@ -87,7 +90,7 @@ func _build() -> void:
 	_crates(5800, 1, 1)
 	_wagon(5890)
 	_moving(6390, -260, Vector2(260, 0), 140, 0.0)
-	_coin_line(6300, 5, 50, -320)
+	_coin_line(6420, 5, 50, -320)
 	_enemy(BRUISER, 6750, 0)
 	_crates(6900, 1, 1)
 	_wagon(6990, Color(1.0, 0.92, 0.88))
