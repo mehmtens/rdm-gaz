@@ -7,6 +7,20 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 345 denetimi, Bölüm 11 "Sessiz Koridor" (indeks 10, son adlı denetim tur 230) ve Bölüm 22 (indeks 21, tur 220).)
+  (1) **Bölüm 11 ilk arena 3. dalga ELITE+ELITE → BRUISER+KNIFE denendi, REDDEDİLDİ:** özgün düzen üç koşuda arenadan
+  59/66/66 canla çıktı, değişiklikle 46/39 — Zırhlı Vurucu (60 can, zırh) dövüşü uzatıyor, toplam hasar artıyor. Tur 325/5
+  önerisi bu kanıtla düştü; insan testi "ilk arenada öldüm" derse ELITE+ELITE → ELITE+KNIFE (tur 324 kalıbı) denensin,
+  BRUISER değil. · (2) **Bölüm 11 final arenası (Muhafız Başı) can vadisi:** beş koşuda 89–96 → 6–24; bir koşuda ölüm
+  (arenaya 76 canla, ilk arena ödülü alınmadan girdi). 8150 sandık HEALTH arena içinde, bot çoğu koşuda almıyor. İnsan
+  testi "Muhafız Başı'nda öldüm" derse ödül/sandık kapı girişine (7400) alınsın. · (3) **Bölüm 11'de 6 Elit Muhafız**
+  (2700 koridor, ilk arena 4, final 2): "seçkin muhafız pususu" teması gereği; insan testi "hep aynı düşman" derse önce
+  final 3. dalga ELITE+KNIFE → ASSASSIN+KNIFE. · (4) **Bölüm 11 final 29–42 sn takılma @7787–8064:** MINIBOSS ritmi
+  (6–8 başarılı kaçış), hata değil. · (5) **Bölüm 22 temiz:** CLEARED @10110 / 67,7 sn / 0 ölüm, hp min 48 (son arena);
+  2900→6900 arası can 96'da sabit (geçiş bölümü, baskı düşük) — insan testi "orta kısım boş" demedikçe dokunulmasın.
+  Pencereli kareler (Bölüm 11 avlu arenası 4600 + final 7900, Bölüm 22 orta 5600 + SU ERZAKÇISI 9800): taşma, çakışma,
+  stil dışı öğe yok.
+
 - (Tur 338 ölçek taraması, kapandı.) **Karışık piksel yoğunluğu (2x / 3x):** `dtm_level.gd` `_Art` parçaları, diken, kablo
   ve alev eski kurala göre tutarlı 3x (`PX := 3.0`); tur 25 Ekim sonrası yeni sprite'lar (pres, anten, projektör) 2x.
   Tek tek kırpma/gerilme hatası kalmadı. İnsan testi "bazı nesneler iri pikselli, yapıştırılmış gibi" derse önce en sık
@@ -780,6 +794,19 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-22 (345) — Denetim (Bölüm 11 ve 22): Bölüm 11 elit dalgası denemesi reddedildi; otonom iş kalmadı, otomasyon durdu
+
+**Neden şimdi:** stil listesi (0 açık), iki yol haritası ve P1 kapalı; birikim insan testine bağlı → kural (d). Adlı son
+denetimi en eski iki bölüm: Bölüm 22 (tur 220) ve Bölüm 11 (tur 230).
+**Bölüm 22:** CLEARED @10110 / 67,7 sn / 0 ölüm, hp min 48; temiz.
+**Bölüm 11:** özgün düzen üç koşuda CLEARED, 0 ölüm; ilk arena çıkışı 59/66/66, final (Muhafız Başı) en düşük 15/24/10.
+**Deneme:** birikim tur 325/5 önerisi — ilk arena 3. dalga ELITE+ELITE → BRUISER+KNIFE (çeşitlilik + Kitap 2 açılışını
+yumuşatma). İki koşuda ilk arena çıkışı 46/39 (daha kötü), birinde finalde ölüm → **geri alındı**. Gerekçe: Zırhlı
+Vurucu'nun 60 canı ve zırhı dövüşü uzatıyor; Elit hızlı ölüyor. Öneri birikimde düzeltildi (BRUISER değil KNIFE).
+**Değişiklik:** yok (yalnız günlük). **Testler (deneme sırasında):** `--import` SCRIPT ERROR 0; `dtm_gaps` PASS;
+`campaign_smoke` çıkış 0; bot Bölüm 11 ×2 (deneme) CLEARED 1/0 ölüm, ×3 (özgün) CLEARED 0 ölüm; bot Bölüm 22 CLEARED.
+**Sonraki öneri:** insan oyun testi (Bölüm 11 Muhafız Başı can vadisi, Bölüm 30 arşiv, Bölüm 26 vagon inişi, dokunmatik).
 
 ### 2026-11-22 (344) — Denetim (Bölüm 29 ve 33): temiz; otonom iş kalmadı, otomasyon durdu
 
