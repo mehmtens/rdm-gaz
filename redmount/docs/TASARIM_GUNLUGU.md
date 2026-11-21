@@ -7,6 +7,9 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 336 görsel denetimi.) **Bölüm 35 pres blokları ışıksız gri:** insan testi "yapıştırılmış gibi" derse
+  sol üst sıcak kenar parlaması + pas akıntısı (`tools/gen_gpt_style_props.py` yöntemi). Başka stil dışı öğe yok.
+
 - (Tur 329 denetimi, Bölüm 9 "Zırhlı Üs" (indeks 8, son başlıklı tur 250) ve Bölüm 13 (indeks 12, tur 232), pencereli, yeni bot.)
   (1) **Bölüm 9 finali Binbaşı Kaya'da bir ölüm:** bot finale 45 canla girdi (6320–8000 arası yalnız ARMOR, can yok; ÜS KANTİNİ
   6100'de can satıyor, bot alışveriş yapmıyor), 2. dalgada öldü, kontrol noktasından tek denemede bitirdi (132,8 sn, 36 sn
@@ -772,6 +775,23 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-22 (336) — Görsel birlik denetimi: Kitap 2/3 iç mekânları (Bölüm 14 baskıhane, Bölüm 35 kışla); P1 "görsel birlik" kapandı
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 oynanış maddeleri kapalı; birikim insan testine bağlı → kural (d).
+Tur 335 (18 Kasım) Bölüm 1 büfe/pazar ve Bölüm 21 altı kesitini taramış, OYNANIS-KALITE P1 "görsel birlik" satırına not
+düşmüş ama oturum günlük kaydı ve commit'ten önce kapanmıştı; bıraktığı tek açık iş "aynı taramanın Kitap 2/3 iç-mekân
+atlaslarında (baskıhane, kışla) tekrarı" idi. Bu tur onu bitirdi ve 335'in belge notunu da commit'e aldı.
+**Yöntem:** `capture_level` pencereli, 1280×720. Bölüm 14 (indeks 13): 4700 halat atölyesi, 5200, 8300 ve 8650
+baskıhane. Bölüm 35 (indeks 34): 6500 hisar kileri, 6950 ve 7600 kale avlusu, 7950 kışla koridoru.
+**Bulgu:** ahşap iskele, sandık/varil, hazine sandığı, zırh/para pikapları, büfe tentesi ("HİSAR KİLERİ"), fener direkleri
+ve karakter konturları ChatGPT atlaslarıyla aynı palette ve ışık yönünde (sıcak fener solda, soğuk ay/deniz sağda);
+taşma, çakışma ya da yapıştırılmış öğe yok. Kalan tek gözlem: Bölüm 35 pres blokları (sarı-siyah şeritli) perçinli ama
+sıcak fener ışığını almıyor, ışıksız gri kalıyor. Gözle "ait" sayılır; insan testi "pres yapıştırılmış gibi" derse
+`gen_gpt_style_props.py` yöntemiyle sol üst sıcak kenar ve pas akıntısı eklensin (birikime).
+**Değişiklik:** yalnız belge (OYNANIS-KALITE P1 "görsel birlik" notu kapandı, bu kayıt). Oyun kodu ve görsel değişmedi,
+bu yüzden derleme/bot testleri koşulmadı; çekim aracı iki bölümde de çıkış 0.
+**Sonraki öneri:** otonom iş yok; insan oyun testi (Bölüm 4/5/6 can sandıkları, Bölüm 28 kule-çukur atlayışı, Bölüm 35 presleri).
 
 ### 2026-11-18 (334) — Test aracı: botun üç sonsuz takılması giderildi (çukur, iskele, ölüm döngüsü)
 
