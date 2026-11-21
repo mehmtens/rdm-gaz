@@ -7,6 +7,13 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 349 denetimi, Bölüm 16 (indeks 15) ve Bölüm 32 (indeks 31), yeni bot + Bölüm 32 pencereli çekim; ikisi de kod
+  değişmeden CLEARED, 0 ölüm.) (1) **Bölüm 16 temiz:** CLEARED @9956 / 82,1 sn / 0 ölüm, en uzun takılma 8s@8234, heals=1. ·
+  (2) **Bölüm 32 temiz:** CLEARED @9855 / 78,9 sn / 0 ölüm, takılma 7s@4037, heals=0 (hiç cana ihtiyaç olmadı). ·
+  (3) **Görsel (Bölüm 32):** gece Boğaz iskelesi — katmanlı dikey rota (iskele/tahta basamak kuleleri), minareli şehir
+  silüeti + su yansıması, fener/zincir, final hikâye sahnesi (Mavi Cami silüeti); palet-ışık ChatGPT atlasıyla tutarlı,
+  taşma/çakışma/stil dışı yok. İkisinde de izlenecek iş yok; insan testi özel bir şey demedikçe dokunulmasın.
+
 - (Tur 348 denetimi, Bölüm 8 "Yeraltı Sevkiyatı" (indeks 7) ve Bölüm 19 (indeks 18), yeni bot + pencereli çekim. Bölüm 8
   botun **kararlı (headless) ÖLDÜĞÜ** tek bölüm — önceki denetimlerin düşük-can finalleri hep sağ kaldı; bu daha güçlü sinyal.
   5 bulgu, etki/maliyet sırası; (1) BU TURDA UYGULANDI.)
@@ -824,6 +831,21 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-22 (349) — Denetim (Bölüm 16 ve Bölüm 32): ikisi de temiz, kod değişikliği yok
+
+**Neden şimdi:** stil listesi 0 açık, yol haritaları + P1 kapalı, birikim insan-testine bağlı → kural (d), kesintisiz
+döngüde sıradaki taze bölümler. Bölüm 16 (indeks 15) ve Bölüm 32 (indeks 31) — son turlarda adlı denetimi olmayanlar.
+
+**Bulgu:** İkisi de botla kod değişmeden CLEARED, 0 ölüm. Bölüm 16: 82,1 sn, en uzun takılma 8s, heals=1. Bölüm 32:
+78,9 sn, takılma 7s, heals=0 (hiç cana ihtiyaç duymadı). Bölüm 8'deki gibi bir kararlı ölüm yok; relief/denge işi
+çıkmadı. Bölüm 32 pencereli çekim (giriş/orta/final): gece Boğaz iskelesi, katmanlı dikey platform rotası, minareli
+şehir silüeti + su yansıması, final hikâye sahnesi — palet/ışık ChatGPT atlasıyla tutarlı, taşma/çakışma/stil dışı yok.
+
+**Yapılan:** kod değişikliği yok; gözlemler birikime (insan-testine bağlı) yazıldı.
+
+**Sonraki öneri:** denetime taze bölümlerle devam (17/20/24/26/35). Botun kararlı öldüğü yer çıkarsa tur 348'deki
+"kapı girişi canı" kalıbı uygulanır; çıkmazsa gözlem birikime.
 
 ### 2026-11-22 (348) — Denetim (Bölüm 8 Yeraltı Sevkiyatı ve Bölüm 19): Bölüm 8 final arenasına kapı girişi canı eklendi (bot ölümü düzeldi)
 
