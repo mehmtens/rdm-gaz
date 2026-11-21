@@ -7,9 +7,11 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- (Tur 338 ölçek taraması.) **Kalan `draw_texture_rect` hedefleri:** `dtm_level.gd` _Art çizimlerinde (raf, iç pencere,
-  asma lamba, kabin, vagon, saksı, tuğla yaması) hedef dikdörtgen / doku boyutu oranı tek tek 2x mi diye ölçülsün; ChatGPT
-  kesitleri (binlerce renk) muaf. Tur 338'de yalnız Sprite2D ölçekleri ve arena parmaklığı tarandı.
+- (Tur 338 ölçek taraması, kapandı.) **Karışık piksel yoğunluğu (2x / 3x):** `dtm_level.gd` `_Art` parçaları, diken, kablo
+  ve alev eski kurala göre tutarlı 3x (`PX := 3.0`); tur 25 Ekim sonrası yeni sprite'lar (pres, anten, projektör) 2x.
+  Tek tek kırpma/gerilme hatası kalmadı. İnsan testi "bazı nesneler iri pikselli, yapıştırılmış gibi" derse önce en sık
+  görülen 3x parçalar (iskele, raf, fener) 1,5x çözünürlükte yeniden çizilip 2x'e alınsın; toplu PX değişikliği yapılmasın
+  (bütün bölüm yerleşimleri boyuta bağlı).
 
 - (Tur 336 görsel denetimi.) **UYGULANDI (tur 337) — Bölüm 35 pres blokları ışıksız gri:** ayrıntı tur kaydında.
 
@@ -796,7 +798,10 @@ hâlâ eski 12 sütun / 3x bölgeyi okuyordu → oyuncu tek çubuk + yarım kesi
 **Testler:** `--import` SCRIPT ERROR 0; `campaign_smoke` çıkış 0; `dtm_gaps` PASS; `arena_mercy`, `arena_pursuer`,
 `arena_respawn`, `arena_weapon_drop` PASS; bot Bölüm 1 CLEARED @8606 / 76,7 sn / 0 ölüm, Bölüm 13 CLEARED @9560 / 68,8 sn
 / 0 ölüm, Bölüm 25 CLEARED @10155 / 87,5 sn / 0 ölüm.
-**Sonraki öneri:** birikim (Tur 338) — `_Art` içindeki küçük piksel dokuların hedef boyut oranı taraması.
+**Ek tarama (aynı tur):** `_Art` küçük dokuları (`raf`, `ic_pencere`, `asma_lamba`, `kule_kulube`, `pres_yatak`,
+`sivali_tugla`) hepsi `get_size() * PX`, `diken` (20×10) ve `kablo` (16×6) bölge okumaları 3x ile tutarlı; ikinci kırpma
+yok. Karışık 2x/3x yoğunluk birikime insan testi maddesi olarak yazıldı.
+**Sonraki öneri:** otonom iş yok; insan oyun testi (arena parmaklığı, presler, Bölüm 4/5/6 can sandıkları).
 
 ### 2026-11-22 (337) — Pres başlığı ve pistonu 1x çizimle yeniden yapıldı (birikim Tur 336)
 
