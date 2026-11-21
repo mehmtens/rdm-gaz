@@ -105,6 +105,11 @@ func _build() -> void:
 
 	# --- 6. Tünel bekçisi; gün ışığı ----------------------------------------------
 	_checkpoint(8100, 0)
+	# Finale nefesi: sarnıç arenasından (x~5900) bu yana ana yolda can yok; tek
+	# takviye (ARMOR 6900) üst/katmanlı rotada, yerden geçen oyuncu ıskalıyor.
+	# DTM boss kapısı önüne can deposu koyar; tünel bekçisi (3 dalga, ASSASSIN+
+	# BRUISER'la biter) öncesi kapı girişine görünür bir can. Düşman ayarı değişmez.
+	_pickup(HEALTH, 8140, -56.0)
 	_prop("varil", 8350)
 	_prop("vazo", 8800)
 	var final: BattleArena = ARENA.instantiate()

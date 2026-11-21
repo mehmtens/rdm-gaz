@@ -7,6 +7,24 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 348 denetimi, Bölüm 8 "Yeraltı Sevkiyatı" (indeks 7) ve Bölüm 19 (indeks 18), yeni bot + pencereli çekim. Bölüm 8
+  botun **kararlı (headless) ÖLDÜĞÜ** tek bölüm — önceki denetimlerin düşük-can finalleri hep sağ kaldı; bu daha güçlü sinyal.
+  5 bulgu, etki/maliyet sırası; (1) BU TURDA UYGULANDI.)
+  (1) **[UYGULANDI] Bölüm 8 final arenası (TÜNEL BEKÇİSİ) ölümü:** bot finale ~65 canla girdi, wave2 (MINIBOSS) ortasında
+  51→35→21→öldü (respawns=1, stall 41s@9059). Sarnıç arenasından (x~5900) finale (8650) kadar ana yolda can yok; tek takviye
+  ARMOR 6900 üst/katmanlı rotada, yerden geçen bot/oyuncu ıskalıyor. Mercy yemeği yalnız dalga ARALARINDA düşüyor, uzun tek
+  düşmanlı MINIBOSS dalgası içinde rahatlama yok. DTM kalıbı + tur 319/328/329 belgelenen çözüm "kapı girişine can": final
+  kapısı (gate 8200) önüne `_pickup(HEALTH, 8140, -56)`. Düşman/ayar değişmedi. **Doğrulama:** aynı deterministik bot
+  respawns 1→0, stall 41s→35s, süre 110.9→99.1s. Sayılar insan testi gelene kadar hipotez; insan testi finalde hâlâ zorsa
+  3. dalga ASSASSIN+BRUISER → ASSASSIN+KNIFE. ·
+  (2) **Genel: mercy yalnız dalga aralarında (battle_arena.gd `_maybe_mercy_drop`):** uzun MINIBOSS/named dalga içinde düşen
+  oyuncuya relief yok; heal ancak oyuncunun ölemediği dalgadan SONRA geliyor. 36 bölümü etkileyen sistem değişikliği, riskli;
+  insan testi "boss dalgasında çaresiz öldüm" derse dalga-içi eşik (ör. named dalgada da bir kez) düşünülsün. Toplu yapılmaz. ·
+  (3) **Bölüm 8 sarnıç arenası (x5350, 3 dalga, HEALTH):** bot 58'e indi, ödülle 88. Baskı tema gereği (yeraltı); ölüm yok,
+  dokunulmasın. · (4) **Bölüm 19 temiz:** CLEARED @10105 / 84,8 sn / 0 ölüm / hp min ~86 (final); izlenecek iş yok. ·
+  (5) **Görsel:** Bölüm 8 dört kesiti (asansör kuyusu rıhtımı, Yerebatan Sarnıcı kolonları, su değirmeni+şelale, dağ geçidi)
+  ChatGPT atlasıyla palet/ışık yönünde tam tutarlı; props (varil/vazo/sandık/tüp) sahneye ait, taşma/çakışma/stil dışı yok.
+
 - (Tur 346 denetimi, Bölüm 27 "Galata Telgrafı" (indeks 26) ve Bölüm 31 "Çengelköy Sahil Konağı" (indeks 30), yeni bot + pencereli çekim; ikisi de kod değişmeden CLEARED, 0 ölüm.)
   (1) **Bölüm 27 telgraf cephesi can dibi (min 31, x=5760–7410):** tüfekliler + kablo direkleri bölümü botun en çok hasar
   aldığı yer; hemen ardından kablo koridoru/arşiv ödülleriyle 47→92 toparlıyor, can vadisi oluşmuyor. İnsan testi "cephede
@@ -806,6 +824,38 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-22 (348) — Denetim (Bölüm 8 Yeraltı Sevkiyatı ve Bölüm 19): Bölüm 8 final arenasına kapı girişi canı eklendi (bot ölümü düzeldi)
+
+**Neden şimdi:** stil listesi 0 açık, iki yol haritası ve P1 kapalı, birikimin tamamı insan testine bağlı → kural (d),
+taze bölüm denetimi. Son turlar 15/23/27/31/11/22/29/33/1/30'u gördü; taze: Bölüm 8 (indeks 7) + Bölüm 19 (indeks 18).
+
+**Bulgu:** Bölüm 8 botun **kararlı (headless) öldüğü** ilk bölüm oldu — önceki tüm finaller düşük canla da olsa sağ
+kalıyordu, bu yüzden daha güçlü bir sinyal. Bot final arenaya (TÜNEL BEKÇİSİ: wave1 KNIFE+STREET+BOMBER, wave2 MINIBOSS,
+wave3 ASSASSIN+BRUISER) ~65 canla girdi ve MINIBOSS dalgasının ortasında öldü (respawns=1, stall 41s@9059, 110,9 sn).
+Sarnıç arenasından (x~5900) finale kadar ana yolda can yok; tek takviye ARMOR 6900 üst/katmanlı rotada, yerden geçen
+oyuncu ıskalıyor. Arena merhamet yemeği yalnız dalga ARALARINDA düşüyor (`_maybe_mercy_drop`), uzun tek-düşmanlı MINIBOSS
+dalgası içinde rahatlama yok.
+
+**Yapılan (kural d, en üst bulgu uygulandı):** `bolum08.gd` final kapısı (gate_left 8200) önüne,
+checkpoint 8100 ile 8350 varili arasına görünür bir can: `_pickup(HEALTH, 8140, -56)`. Bu, DTM'nin boss kapısı önüne can
+deposu koyma kalıbı ve projenin kendi belgelenmiş çözümü (tur 319/328/329: "kapı girişine can sandığı"). **Düşman/dalga
+ayarı değişmedi** — additif relief, geri alınabilir; nerf değil.
+
+**Oyuncu ne hissedecek:** finale koşarken, tünel bekçisinden önce görünür bir nefes/ödül beat'i; yorgun oyuncu kör
+ölmüyor, zorluk zirvesi öncesi toparlanıyor.
+
+**Test:** import temiz (SCRIPT ERROR yok); aynı deterministik bot L8 **respawns 1→0**, stall 41s→35s, süre 110,9→99,1 sn;
+`campaign_smoke.gd` çıkış 0 (36 sahne); `dtm_gaps.tscn` → DTM GAPS: PASS. Bölüm 19 kontrol: CLEARED @10105 / 84,8 sn /
+0 ölüm / hp min ~86 — temiz, iş yok. Pencereli dört kesit (kuyu/Yerebatan/su değirmeni/dağ geçidi): palet-ışık tutarlı,
+taşma/çakışma/stil dışı yok.
+
+**Sayılar hipotez:** can miktarı (30) ve konum insan testine kadar hipotez. İnsan testi finalde hâlâ zorsa birikim (1)'deki
+yedek: 3. dalga ASSASSIN+BRUISER → ASSASSIN+KNIFE. Daha geniş "mercy yalnız dalga aralarında" gözlemi birikim (2)'de,
+36 bölümü etkilediği için insan testine bağlı.
+
+**Sonraki öneri:** denetime taze bölümlerle devam (sıradaki aday Bölüm 16/17/20/24/26/32/35); her birinde botun
+kararlı öldüğü yer varsa aynı "kapı girişi canı" kalıbı, yoksa gözlem birikime.
 
 ### 2026-11-22 (347) — Denetim (Bölüm 15 ve Bölüm 23 Saraçhane): değişiklik yok; Bölüm 23 final ölümü kayda geçti, otomasyon durdu
 
