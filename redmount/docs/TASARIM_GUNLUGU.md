@@ -781,6 +781,17 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-22 (342) — Denetim (Bölüm 34 Kandilli): temiz; otonom iş kalmadı, otomasyon durdu
+
+**Neden şimdi:** tur 341 sonrası kural (d) devam; son denetimi en eski kalan Bölüm 34 (tur 250).
+**Bulgular:** bot CLEARED @9910 / 78,4 sn / 0 ölüm, hp min 72 (son arena); 11 sn takılma @9546 (son arena, patron
+ritmi). 2780→6680 arası can 104'te sabit — bahçe merdiveni sonrası sırt yolu baskısı düşük; zorluk kararı, insan testi
+"sırt yolu boş" derse kuleler arasına bir KNIFE eklensin (birikime not). Pencereli kareler (2300 çatı yolu, 4200 kule/
+iskele, 6600 SIRT KANTİNİ + jeneratör presleri, 9350 son arena): taşma, çakışma, stil dışı öğe yok; tur 337'nin 1x
+pres çizimi atlasla aynı piksel yoğunluğunda.
+**Değişiklik:** yok. **Testler:** bot Bölüm 34 CLEARED, SCRIPT ERROR 0.
+**Sonraki öneri:** insan oyun testi (Bölüm 26 vagon inişi, Bölüm 34 sırt yolu baskısı, presler, dokunmatik kademeler).
+
 ### 2026-11-22 (341) — Denetim (Bölüm 26 Sirkeci): yükleme çukuru vagondan 160 px uzaklaştırıldı, iniş tuzağı kalktı
 
 **Neden şimdi:** stil listesi (33/33), iki yol haritası ve P1 kapalı; birikim insan testine bağlı → kural (d). En az anılan
