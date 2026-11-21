@@ -781,6 +781,25 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-22 (343) — Denetim (Bölüm 1 ve 30): Bölüm 30 elit tekrarı denendi, geri alındı; otomasyon durdu
+
+**Neden şimdi:** stil listesi (33/33), iki yol haritası ve P1 kapalı; birikim insan testine bağlı → kural (d). Günlük
+başlıklarında son denetimi en eski iki bölüm: Bölüm 1 (tur 180) ve Bölüm 30 (tur 255).
+**Bölüm 1:** bot CLEARED @8608 / 82,4 sn / 0 ölüm, hp min 40 (7900 sonrası, merhamet yemeği 70'e çıkardı); 8 sn takılma
+@5622 (çatı yolu). Pencereli kareler (1200 giriş, 4400 orta, 5600 çatı/BALAT BÜFESİ): taşma, çakışma, stil dışı öğe yok.
+**Bölüm 30:** üç başsız koşu, üçü de CLEARED; ölüm 0/1/0, en düşük can 1 (son arena 57→1) / 54 / 29. Evrak salonu
+arenası (6900, ELITE+KNIFE → ELITE+RIFLE+ASSASSIN) 23 / ölüm / 30. 5800–9650 arasında dört Elit Muhafız (saha 5800, arena
+iki dalga, final 2. dalga) — tur 312 Bölüm 31 kalıbına benzer elit tekrarı.
+**Deneme:** arena 2. dalga ELITE → SHIELD (Kalkanlı + tüfekli iskele okunur bulmaca). Üç koşuda üçünde de bir ölüm (iki
+koşuda bot arenaya zaten 18–30 canla vardı; ölüm 7000 arenasında ve son arenada) → kanıt iyileşme göstermedi, **geri
+alındı**. Bot varyansı yüksek; asıl yıpranma 5400–5900 sahası (ELITE + iskelede KNIFE + RIFLE), HEALTH sandığı tüfekli
+iskelede (6150, −230) ve bot genelde almıyor.
+**Birikime not:** insan testi "Beylerbeyi arşivinde öldüm" derse önce saha ELITE (5800) → BRUISER (tur 312 kalıbı), sonra
+gerekiyorsa 7750 kontrol noktası yanına kırılabilir can sandığı (tur 319 kalıbı). Arena dalgaları olduğu gibi kalsın.
+**Değişiklik:** yok (yalnız günlük). **Testler:** `--import` SCRIPT ERROR 0; bot Bölüm 1 CLEARED; bot Bölüm 30 ×3
+CLEARED (özgün), ×3 CLEARED (deneme, geri alındı).
+**Sonraki öneri:** insan oyun testi (Bölüm 30 arşiv yıpranması, Bölüm 26 vagon inişi, Bölüm 34 sırt yolu, dokunmatik).
+
 ### 2026-11-22 (342) — Denetim (Bölüm 34 Kandilli): temiz; otonom iş kalmadı, otomasyon durdu
 
 **Neden şimdi:** tur 341 sonrası kural (d) devam; son denetimi en eski kalan Bölüm 34 (tur 250).
