@@ -21,7 +21,7 @@ Her madde: yeniden çiz → oyun içi ekran görüntüsünde ChatGPT arka planı
 - [x] kum_torbasi, raf, kaset, cerceve, tas_blok — siper/dekor (c0d3a221)
 - [x] diken, alev, alev_izgara, kivilcim, kablo, bomba, bomba_ikaz, patlama — tehlike/efekt (67e753bc)
 - [x] han_kapisi, ic_duvar, ic_pencere, fabrika_pencere, tavan, tugla, sivali_tugla, hatil — iç mekân (844606dc)
-- [x] pres, pres_kol, ray, su_govde, su_yuzey, anten, kule_ayak, kule_kulube, ahsap_kat — set-piece (c698388f)
+- [x] pres, pres_kol, ray, su_govde, su_yuzey, anten, kule_ayak, kule_kulube, ahsap_kat — set-piece (c698388f); pres/pres_kol 1x yeniden çizim + eşit 2x ölçek (tur 337)
 - [x] kalkan, kalkan_kirik — Kalkanlı Zabıta (c9c735cd)
 - [x] golge — temas gölgesi (yalnız ton kontrolü): (8,6,12) koyu mor dither, uyumlu, değişmedi (4e040e9a)
 - [x] sancak — kaynak Claude (gen_pixel_props.py), yeniden çizildi (4e040e9a)

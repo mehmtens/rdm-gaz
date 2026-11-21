@@ -78,7 +78,8 @@ func _ready() -> void:
 	teeth.visible = false
 	var head := Sprite2D.new()
 	head.texture = PRES
-	head.scale = Vector2(width / PRES.get_width(), (thickness + 6.0) / 16.0)
+	## 1x çizim, 2x NEAREST (sanat kuralı); genişlik farklıysa yalnız yatayda uyar.
+	head.scale = Vector2(width / PRES.get_width(), 2.0)
 	head.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	head.position = Vector2(0, 3.0)
 	_vis.add_child(head)
@@ -86,8 +87,8 @@ func _ready() -> void:
 	rod.texture = PRES_KOL
 	rod.region_enabled = true
 	rod.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
-	rod.region_rect = Rect2(0, 0, 8, 240)
-	rod.scale = Vector2(3, 3)
+	rod.region_rect = Rect2(0, 0, PRES_KOL.get_width(), 360)
+	rod.scale = Vector2(2, 2)
 	rod.centered = false
 	rod.position = Vector2(-12, -ht - 720.0)
 	rod.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
@@ -180,5 +181,5 @@ func _fit_rod() -> void:
 		return
 	var head_top := position.y - thickness * 0.5
 	var rod_len := maxf(head_top - ceiling_y, 3.0)
-	_rod.region_rect = Rect2(0, 0, 8, ceil(rod_len / 3.0))
-	_rod.position.y = -thickness * 0.5 - _rod.region_rect.size.y * 3.0
+	_rod.region_rect = Rect2(0, 0, PRES_KOL.get_width(), ceil(rod_len / 2.0))
+	_rod.position.y = -thickness * 0.5 - _rod.region_rect.size.y * 2.0

@@ -7,8 +7,7 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- (Tur 336 görsel denetimi.) **Bölüm 35 pres blokları ışıksız gri:** insan testi "yapıştırılmış gibi" derse
-  sol üst sıcak kenar parlaması + pas akıntısı (`tools/gen_gpt_style_props.py` yöntemi). Başka stil dışı öğe yok.
+- (Tur 336 görsel denetimi.) **UYGULANDI (tur 337) — Bölüm 35 pres blokları ışıksız gri:** ayrıntı tur kaydında.
 
 - (Tur 329 denetimi, Bölüm 9 "Zırhlı Üs" (indeks 8, son başlıklı tur 250) ve Bölüm 13 (indeks 12, tur 232), pencereli, yeni bot.)
   (1) **Bölüm 9 finali Binbaşı Kaya'da bir ölüm:** bot finale 45 canla girdi (6320–8000 arası yalnız ARMOR, can yok; ÜS KANTİNİ
@@ -775,6 +774,25 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-22 (337) — Pres başlığı ve pistonu 1x çizimle yeniden yapıldı (birikim Tur 336)
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin en üstü tur 336'nın "Bölüm 35 pres blokları
+ışıksız gri" gözlemi. Yakın çekim gerçek sebebi gösterdi: `pres.png` 34×22 çizilip oyunda 2,9×4,1 **eşit olmayan**
+ölçekle geriliyordu — pikseller dikdörtgen, oyuncu ve iskeleden iri; silüet düz kutu, fener ışığı yok. Pres 8 bölümün
+(6, 7, 11, 22, 24, 34, 35, 36) set-piece'i, sanat kuralının (1x çiz, 2x NEAREST) açık ihlaliydi.
+**Oyuncu ne hissedecek:** pres artık arka plan atlasıyla aynı piksel yoğunluğunda ağır bir dövme çelik makine: bağlantı
+başlığı, kaburgalı gövde, eğik ikaz bandı, geniş çene ve dişler; tehlike okunurluğu (sarı-siyah bant, dişler) korundu.
+**Değişiklik:** `tools/gen_gpt_style_props.py` `make_pres` 50×44 (oyunda 100×88, eski kapladığı alanla aynı) ve
+`make_pres_kol` 12×16 yeniden yazıldı — STEEL rampa, sol üst sıcak fener katkısı (turuncu-altına), sağ kenar ay
+parlaması, sağ altta mor gölge, perçin + pas akıntısı, boya kalkması, yağ izi, dişlerin üstünde AO, koyu mor kontur.
+`crusher.gd`: başlık ölçeği (genişlik/50, 2), kol 2x ve `_fit_rod` 2'ye göre. Çarpışma/vuruş alanı değişmedi.
+**Görsel doğrulama:** `capture_level` pencereli; Bölüm 35 (7680) önce/sonra yakın karşılaştırma ve Bölüm 7 (6750)
+gantry'si: kollar kirişe bağlanıyor, başlık indiğinde zemine oturuyor, piksel ızgarası oyuncu/iskele ile aynı → "ait".
+**Testler:** `--import` SCRIPT ERROR 0; `campaign_smoke` çıkış 0; `dtm_gaps` PASS; `crusher_slam` PASS; bot Bölüm 35
+CLEARED @9905 / 110,4 sn / 1 ölüm (x≈6800 kışla arenası, preslerden önce — tur 320'deki bilinen varyans); bot Bölüm 7
+CLEARED @9255 / 104,7 sn / 1 ölüm (x≈5100 zırhlı arena, presler 6550'de — tur 322 varyansı). Pres hatlarında ölüm yok.
+**Sonraki öneri:** aynı "eşit olmayan ölçek" taraması diğer `Sprite2D` set-piece'lerinde (scale x ≠ y) yapılsın.
 
 ### 2026-11-22 (336) — Görsel birlik denetimi: Kitap 2/3 iç mekânları (Bölüm 14 baskıhane, Bölüm 35 kışla); P1 "görsel birlik" kapandı
 

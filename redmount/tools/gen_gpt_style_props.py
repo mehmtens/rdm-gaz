@@ -1629,69 +1629,144 @@ WATER = [(8, 14, 26), (12, 22, 38), (16, 32, 50), (22, 44, 62), (30, 58, 74), (4
 
 
 def make_pres(rnd):
-    """Pres başlığı (34×22): perçinli dövme çelik blok, sarı-siyah ikaz bandı, altta
-    dişli ezme yüzü. Üst kenar fener ışığında, sağ kenarda ay, alt dişler gölgede."""
-    w, h = 34, 22
+    """Pres başlığı (50×44, oyunda 2x = 100×88): dövme çelik ezme bloğu. Üstte perçinli
+    bağlantı başlığı ve piston bileziği, ortada dikey takviye kaburgaları, sarı-siyah
+    ikaz bandı, altta geniş çene plakası ve dişler. Sol üstten sıcak fener ışığı (üst pah ve
+    kaburga sol yüzleri turuncu-altına kayar), sağ kenarda soğuk ay parlaması, gölgeler
+    mora; perçinlerden pas akıntısı, bantta boya kalkması, yağ izi. Tur 337: eski 34×22
+    çizim 2,9×4,1 gerilerek ışıksız gri kalıyordu."""
+    w, h = 50, 44
     img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     px = img.load()
-    for y in range(h - 3):
+    lamp = (206, 166, 106)
+    shade = (34, 22, 37)
+
+    def put(x, y, c):
+        if 0 <= x < w and 0 <= y < h:
+            px[x, y] = tuple(c[:3]) + (255,)
+
+    def lit(c, x, y):
+        # Sol üst fener: sıcak katkı sola/üste doğru artar; sağ alt mora kayar.
+        warm = max(0.0, 1.0 - x / 30.0) * max(0.0, 1.0 - y / 40.0)
+        c = mix(c, lamp, warm * 0.48)
+        cold = max(0.0, (x - 30) / 20.0) * (y / 44.0)
+        return mix(c, shade, cold * 0.35)
+
+    # Silüet: başlık (0–7, iç x 6..43), gövde (8–33, x 2..47), çene (34–38, x 0..49).
+    def inside(x, y):
+        if y <= 7:
+            return 6 <= x <= 43 if y >= 2 else 8 <= x <= 41
+        if y <= 33:
+            return 2 <= x <= 47
+        if y <= 38:
+            return True
+        return False
+
+    ribs = (11, 24, 37)
+    for y in range(39):
         for x in range(w):
-            u = (x - 16.5) / 17.0
-            lv = 0.5 - y * 0.018 - max(0.0, u) * 0.18
-            if y <= 1:
-                lv = 0.82 if y == 0 else 0.62  # üst pah
-            if x <= 1:
-                lv += 0.12
-            c = pick(STEEL, lv, rnd, 0.4)
-            if 12 <= y <= 15:
-                stripe = (x + y) // 3 % 2 == 0  # ikaz bandı
-                c = pick(HAZARD, 0.75 - (y - 12) * 0.12, rnd, 0.3) if stripe else pick(STEEL, 0.1, rnd, 0.2)
-                if rnd.random() < 0.12:
-                    c = pick(RUST, 0.5, rnd, 0.3)  # boya kalkması
-            if y in (11, 16):
-                c = STEEL[1]
-            if x >= w - 3:
-                c = mix(c, MOON, 0.25)
-            if y > 2 and rnd.random() < 0.05:
-                c = pick(RUST, 0.4, rnd, 0.3)
-            px[x, y] = c + (255,)
-    # Perçinler ve yağ akıntısı.
-    for x in (4, 12, 21, 29):
-        px[x, 4] = STEEL[7] + (255,)
-        px[x + 1, 5] = STEEL[1] + (255,)
-    for y in range(6, 11):
-        px[8, y] = mix(px[8, y][:3], (16, 12, 20), 0.5) + (255,)
-    # Ezme dişleri.
-    for y in range(h - 3, h):
+            if not inside(x, y):
+                continue
+            if y <= 7:
+                # Bağlantı başlığı: üstte pah, ortada piston bileziği yuvası.
+                lv = 0.62 - y * 0.05
+                if y == 0 or (y == 2 and (x <= 7 or x >= 42)):
+                    lv = 0.88
+                if 20 <= x <= 29 and y <= 4:
+                    lv = 0.30 + (0.25 if x <= 22 else 0.0)  # yuva içi gölgede
+                c = pick(STEEL, lv, rnd, 0.35)
+            elif y <= 33:
+                lv = 0.46 - (y - 8) * 0.010
+                if y == 8:
+                    lv = 0.22  # başlığın gövdeye attığı gölge
+                rib = next((r for r in ribs if r - 1 <= x <= r + 1), None)
+                if rib is not None and y < 24:
+                    lv = 0.72 if x == rib - 1 else (0.55 if x == rib else 0.20)
+                elif rib is not None and x == rib + 2 and y < 24:
+                    lv = 0.16  # kaburga gölgesi
+                if x <= 3:
+                    lv += 0.18  # sol kenar fenere bakar
+                c = pick(STEEL, lv, rnd, 0.45)
+                if 24 <= y <= 30:
+                    stripe = (x + y) // 4 % 2 == 0  # ikaz bandı, eğik
+                    if stripe:
+                        c = pick(HAZARD, 0.78 - (y - 24) * 0.09 + (0.12 if x < 14 else 0.0), rnd, 0.3)
+                    else:
+                        c = pick(STEEL, 0.12, rnd, 0.2)
+                    if rnd.random() < 0.10:
+                        c = pick(RUST, 0.55, rnd, 0.4)  # boya kalkması
+                if y in (23, 31):
+                    c = STEEL[1] if y == 31 else pick(STEEL, 0.7, rnd, 0.2)
+                if 32 <= y <= 33:
+                    c = pick(STEEL, 0.18, rnd, 0.2)
+            else:
+                # Çene plakası: kalın, üst pahı ışıkta.
+                lv = 0.80 if y == 34 else 0.44 - (y - 35) * 0.06
+                if x <= 1:
+                    lv += 0.15
+                c = pick(STEEL, lv, rnd, 0.4)
+            c = lit(c, x, y)
+            if x >= w - 4 and inside(x, y) and not inside(x + 1, y) or x >= w - 3:
+                c = mix(c, MOON, 0.38)  # ay kenarı
+            if y > 9 and rnd.random() < 0.015:
+                c = pick(RUST, 0.35, rnd, 0.3)
+            put(x, y, c)
+
+    # Perçinler (başlık + çene) ve altlarından pas akıntısı.
+    for x in (9, 16, 33, 40):
+        put(x, 4, lit(STEEL[8], x, 4))
+        put(x + 1, 5, STEEL[1])
+    for x in (4, 12, 20, 29, 37, 45):
+        put(x, 36, lit(STEEL[8], x, 36))
+        put(x + 1, 37, STEEL[1])
+    for x0, y0, n in ((10, 9, 6), (33, 9, 9), (41, 9, 4), (17, 10, 3)):
+        for i in range(n):
+            t = i / max(1, n - 1)
+            base = px[x0, y0 + i][:3]
+            put(x0, y0 + i, mix(base, RUST[2 if t < 0.5 else 1], 0.75 - t * 0.4))
+            if i == 0:
+                put(x0 + 1, y0, mix(base, RUST[3], 0.5))
+    # Yağ izi bağlantı yuvasından aşağı.
+    for y in range(8, 15):
+        put(25, y, mix(px[25, y][:3], (16, 12, 20), 0.55))
+    # Ezme dişleri (39–43): üçgen dişler, dişin sol yüzü ışıkta.
+    for y in range(39, h):
+        d = y - 39
         for x in range(w):
-            k = x % 4
-            if (y - (h - 3)) > (1 if k in (1, 2) else 0) + (0 if k in (1, 2) else -1) + 1:
+            k = x % 6
+            if abs(k - 2.5) > 2.5 - d * 0.55:
                 continue
-            if y == h - 1 and k not in (1, 2):
-                continue
-            px[x, y] = pick(STEEL, 0.55 if k == 1 else 0.22, rnd, 0.2) + (255,)
+            lv = 0.60 if k <= 2 else 0.20
+            put(x, y, lit(pick(STEEL, lv - d * 0.05, rnd, 0.2), x, y))
     outline(img)
+    # Zemine dönük AO: dişlerin hemen üstü koyulaşır.
+    for x in range(1, w - 1):
+        if px[x, 38][3] and px[x, 38][:3] != OUTLINE[:3]:
+            put(x, 38, mix(px[x, 38][:3], shade, 0.4))
     return img
 
 
 def make_pres_kol(rnd):
-    """Pres pistonu (8×16, dikey döşenir): parlatılmış çelik silindir, ince yağ izi."""
-    w, h = 8, 16
+    """Pres pistonu (12×16, dikey döşenir, oyunda 2x): parlatılmış çelik silindir; solda
+    sıcak fener şeridi, sağda ay kenarı, ince yağ izi ve kademeli contalar."""
+    w, h = 12, 16
     img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     px = img.load()
     for y in range(h):
         for x in range(1, w - 1):
-            u = (x - 3.5) / 3.0
+            u = (x - 5.5) / 4.5
             lv = light(u) * 0.95 + 0.05
             c = pick(STEEL, lv, rnd, 0.2)
-            if u > 0.6:
-                c = mix(c, MOON, 0.35)
-            if x == 4 and y in (5, 6, 7, 12):
+            if u < -0.2:
+                c = mix(c, (206, 166, 106), 0.22 * (-u))
+            if u > 0.55:
+                c = mix(c, MOON, 0.40)
+            if x == 6 and y in (3, 4, 5, 6, 11, 12):
                 c = mix(c, (30, 22, 20), 0.5)  # yağ izi
             px[x, y] = c + (255,)
-    for y in (0, 1):
-        for x in range(1, w - 1):
-            px[x, y] = mix(px[x, y][:3], STEEL[2], 0.4) + (255,)  # bilezik gölgesi
+    for x in range(1, w - 1):
+        px[x, 0] = mix(px[x, 0][:3], STEEL[2], 0.5) + (255,)  # conta gölgesi
+        px[x, 1] = mix(px[x, 1][:3], (34, 22, 37), 0.25) + (255,)
     outline_sides(img)
     return img
 
