@@ -807,6 +807,31 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-22 (347) — Denetim (Bölüm 15 ve Bölüm 23 Saraçhane): değişiklik yok; Bölüm 23 final ölümü kayda geçti, otomasyon durdu
+
+**Neden şimdi:** stil listesi (0 açık), YOL_HARITASI ve OYNANIS P1 kapalı; birikimin tamamı insan testine bağlı → kural (d).
+Tur 346'nın önerdiği en seyrek bölümler: 23 Saraçhane (indeks 22) ve 15 (indeks 14).
+**Oyuncu ne hissedecek:** oynanış değişmedi; amaç iki bölümün adaleti ve görsel tutarlılığını yeniden ölçmekti.
+
+**Bot (60 fps):**
+- Bölüm 15: CLEARED @9735 / 77,0 sn / 0 respawn / 12 sn takılma @7255; min can 96. Temiz, düşük baskı.
+- Bölüm 23: CLEARED @10107 / 107,6 sn / **1 respawn** / 13 sn takılma @9806. Can eğrisi: 0→7350 115→82 (yine yumuşak),
+  bakım geçidi arenası 82→**3**, arena ödülüyle 23'le final arenasına giriş, 4'te ölüm (x≈9480), 9350 kontrol noktasından
+  tam canla dönüp temizledi. Kontrol masası canı (9240,−160, üst raf) bu koşuda alınmadı.
+- Bölüm 23 geçmişi: tur 174 1 ölüm/min 2, tur 283 min 17, tur 318 min 27, bu tur 1 ölüm. Bakım geçidi → final arka arkaya
+  bölümün tek gerçek baskı noktası; varyans yüksek.
+**Karar:** değişiklik yok. Ölüm, hemen önündeki kontrol noktasıyla ~15 sn'lik bir arena tekrarı (DTM final arenası
+normu); masa canı üst rotanın ödülü olarak görünür yerde (çekimde kırmızı kit rafta okunuyor). Tur 343/345'te benzer
+"bot verisine göre denge" denemeleri geri alındı; insan verisi olmadan tekrarlanmadı.
+**Görsel (pencereli `capture_level.gd`):** Bölüm 23 bakım geçidi (7900: kemerli su galerisi, pirinç borular, ön plan
+kolonları) ve kontrol masası (9200: Bozdoğan Kemeri planı, çekmeceli dolap, İznik vazosu, pencereden kiremitli evler);
+Bölüm 15 orta (5000: yosunlu taş rıhtım, vana çarkı, asma iskele). Hepsi ChatGPT temeliyle palet/ışık uyumlu → "ait".
+**Testler:** kod değişikliği yok (bot iki bölümde CLEARED; derleme yolu bot yüklemesinde kullanıldı).
+**Birikime:** Tur 318/1 maddesine ek — "Bölüm 23 bakım geçidi → final: 6 denetimin 2'sinde ölüm; insan testi 'Saraçhane
+sonunda can yetmedi' derse masa canı 9240,−40'a indirilsin (tur 274/282 kalıbı)".
+**Sonraki öneri:** insan oyun testi ana darboğaz (öncelik: Bölüm 23 son iki arena, 18 ambar, 25 ciltçi, 33 ambar).
+Kural (d) ile sıradaki seyrek bölümler: 19, 17, 32.
+
 ### 2026-11-22 (346) — Denetim (Bölüm 27 Galata Telgrafı ve Bölüm 31 Çengelköy): temiz; otonom iş kalmadı, otomasyon durdu
 
 **Neden şimdi:** stil listesi (0 açık), YOL_HARITASI ve OYNANIS P1 kapalı; birikimin tüm maddeleri insan testine bağlı
