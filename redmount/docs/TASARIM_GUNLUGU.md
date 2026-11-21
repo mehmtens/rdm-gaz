@@ -7,6 +7,18 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 346 denetimi, Bölüm 27 "Galata Telgrafı" (indeks 26) ve Bölüm 31 "Çengelköy Sahil Konağı" (indeks 30), yeni bot + pencereli çekim; ikisi de kod değişmeden CLEARED, 0 ölüm.)
+  (1) **Bölüm 27 telgraf cephesi can dibi (min 31, x=5760–7410):** tüfekliler + kablo direkleri bölümü botun en çok hasar
+  aldığı yer; hemen ardından kablo koridoru/arşiv ödülleriyle 47→92 toparlıyor, can vadisi oluşmuyor. İnsan testi "cephede
+  az canla kaldım" derse 7300 mors salonu ödülü (AMMO) → HEALTH; veri gelmeden dokunulmasın. ·
+  (2) **Bölüm 31 son arena 20 sn takılma @9293:** deniz köşkü, Nüzhet MINIBOSS ritmi (başarılı kaçışlar), hata değil; bota
+  min can son arenada 52'ye düşüyor, ölüm yok. İnsan testi "Nüzhet'te öldüm" demedikçe dokunulmasın. ·
+  (3) **Bölüm 31 konak kapısı min 35 (x=6001):** bahçe→kapı geçişi; kütüphane arenası sonrası 81→101 toparlıyor, vadi yok.
+  Düşük baskı/varyans; izlenecek. ·
+  (4) **Görsel:** iki bölümün dört kesiti de (Karaköy rıhtımı, telgraf iç/Kamondo kemeri + bakır kablo makaraları; Çengelköy
+  yalı iç/İznik pano/kayık + "KULELİ" ipucu) ChatGPT atlasıyla palet ve ışık yönünde tutarlı; taşma, çakışma, stil dışı
+  öğe yok. Bölüm 27 ve 31 için görsel birlik gözlemi güncel oyunda temiz.
+
 - (Tur 345 denetimi, Bölüm 11 "Sessiz Koridor" (indeks 10, son adlı denetim tur 230) ve Bölüm 22 (indeks 21, tur 220).)
   (1) **Bölüm 11 ilk arena 3. dalga ELITE+ELITE → BRUISER+KNIFE denendi, REDDEDİLDİ:** özgün düzen üç koşuda arenadan
   59/66/66 canla çıktı, değişiklikle 46/39 — Zırhlı Vurucu (60 can, zırh) dövüşü uzatıyor, toplam hasar artıyor. Tur 325/5
@@ -794,6 +806,39 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-22 (346) — Denetim (Bölüm 27 Galata Telgrafı ve Bölüm 31 Çengelköy): temiz; otonom iş kalmadı, otomasyon durdu
+
+**Neden şimdi:** stil listesi (0 açık), YOL_HARITASI ve OYNANIS P1 kapalı; birikimin tüm maddeleri insan testine bağlı
+(reddedilmiş denemeler ya da "insan testi X derse Y") → kural (d). Günlükte başlıklı ayrı denetimi en eski/en seyrek
+kalan iki bölüm seçildi: Bölüm 27 (Galata Telgrafı, önceki başlıklı denetim yok) ve Bölüm 31 (Çengelköy, son set-piece
+tur 313, denge denetimi tur 312). İki bölüm de yeni bot + pencereli çekimle incelendi.
+**Oyuncu ne hissedecek:** bu tur oynanış değişmedi; amaç iki geç Kitap 3 bölümünün hâlâ adil ve "sahneye ait" durduğunu
+doğrulamaktı.
+
+**Bot (yeni bot, 60 fps):**
+- Bölüm 27: CLEARED @10105 / 90,8 sn / 0 respawn / 9 sn takılma @9637 (son çatı arenası ritmi). Can eğrisi: telgraf cephesi
+  tüfeklileri + kablo direkleri bölümünde min 31 (x=5760–7410), sonra kablo koridoru/arşiv ödülleriyle 47→92'ye toparlıyor.
+  İsabet heals=2. Can vadisi yok, ölüm yok.
+- Bölüm 31: CLEARED @9708 / 86,0 sn / 0 respawn / 20 sn takılma @9293 (deniz köşkü son arena — Nüzhet MINIBOSS ritmi,
+  başarılı kaçışlar). Min can 35 (x=6001, konak kapısı), kütüphane arenasından sonra 81→101 toparlıyor. İsabet heals=1.
+
+**Görsel (pencereli `capture_level.gd`, 1280×720):**
+- Bölüm 27 — kıyı (620), telgraf cephesi (5760), telgraf iç/Kamondo kemeri (7300), çatı (9340): Karaköy rıhtımı (Galata
+  köprüsü, vapur, yamaç evleri) ChatGPT atlasıyla tam uyumlu; tenteli tezgâh, fener, korkuluk, kolon stil içi. Telgraf
+  binası içi (Kamondo kemeri + Süleymaniye silüeti, bakır kablo makaraları ahşap raflarda, fıçı/sandık, tenteli KANTİNİ)
+  temaya özgü ve yapıştırılmış öğe yok.
+- Bölüm 31 — sahil (900), bahçe (5700), kütüphane (7800), deniz köşkü (9300): gece ışıklı yalı iç mekânı — İznik mavisi
+  pano, divan minderi, pirinç ibrik/tepsi, raf, fener; kemerli pencerelerden alacakaranlık Boğaz, yansıma, şehir silüeti.
+  Köşk sahnesinde kayık (Nüzhet kaçışı) ve "KULELİ" kapısı sonraki ipucunu önceden gösteriyor. Hepsi palet/ışık tutarlı,
+  stil dışı öğe yok.
+
+**Testler:** `--import` SCRIPT ERROR 0. (Bu tur kod değişmediğinden smoke/dtm_gaps tekrarı gereksiz; iki bölüm botu zaten
+tam kampanya yükleme yolunu kullanıyor ve CLEARED verdi.)
+**Sonuç:** iki bölüm de mekanik olarak temiz (0 ölüm) ve görsel olarak ChatGPT temeliyle tutarlı; otonom değişiklik
+gerektiren bulgu yok. Gözlemler birikime (insan testine bağlı) yazıldı. Kod değişikliği yok.
+**Sonraki öneri:** insan oyun testi hâlâ ana darboğaz (birikimdeki denge maddelerinin çoğu buna bağlı). Kural (d) ile
+denetlenecek sıradaki en seyrek bölümler: 23 Saraçhane, 15, 17.
 
 ### 2026-11-22 (345) — Denetim (Bölüm 11 ve 22): Bölüm 11 elit dalgası denemesi reddedildi; otonom iş kalmadı, otomasyon durdu
 
