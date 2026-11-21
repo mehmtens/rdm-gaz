@@ -781,6 +781,18 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-22 (340) — Denetim (Bölüm 24 ve 32, yeni bot + pencereli çekim): temiz; otonom iş kalmadı, otomasyon durdu
+
+**Neden şimdi:** stil listesi (33/33), iki yol haritası ve P1 kapalı; birikimin kalanı insan testine bağlı → kural (d).
+Günlükte en az anılan bölümler (19, 24, 31, 32: 31'er anılma) içinden son denetimi en eski olan 24 (tur 94) ve 32 seçildi.
+**Bulgular:** Bölüm 24 CLEARED @18660 / 187,3 sn / 0 ölüm; hp min 26 (@15133, vana avlusu) ardından can ödülleriyle 115'e
+dolup finale girdi; 26 sn takılma @18075 son düello (9 kaçış) — patron ritmi, sorun değil. Bölüm 32 CLEARED @9855 /
+78,4 sn / 0 ölüm, hp min 55, 8 sn takılma @9496 (son arena). Pencereli çekim (2500, 4500, 6200 iskele/fenerci kileri,
+9450 Vaniköy rıhtımı): taşma, çakışma, stil dışı öğe yok; telsiz yazısı daktilo ortasında yakalandı (hata değil).
+**Değişiklik:** yok (zorluk/denge sinyali yok; insan verisi olmadan dokunulmadı).
+**Testler:** bot Bölüm 24 ve 32 CLEARED, SCRIPT ERROR 0. Kod değişmediği için smoke/dtm_gaps koşulmadı.
+**Sonraki öneri:** insan oyun testi (arena parmaklığı, presler, dokunmatik düzen kademeleri, Bölüm 4/5/6 can sandıkları).
+
 ### 2026-11-22 (339) — Dokunmatik düzen ayarı: düğme boyu ve saydamlığı duraklat menüsünde
 
 **Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikimin kalanı insan testine bağlı. OYNANIS-KALITE
