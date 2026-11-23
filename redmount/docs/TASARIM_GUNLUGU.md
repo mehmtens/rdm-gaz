@@ -832,6 +832,24 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-23 (350) — Denetim (Bölüm 25 ve Bölüm 28): Bölüm 28 röle salonu kapısına can
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikim insan testine bağlı → kural (d). Ad başlığında en
+uzun süredir denetlenmeyen iki bölüm: 25 (tur 120) ve 28 (tur 222). Yeni bot ile başsız koşuldu.
+**Bulgu:** Bölüm 25 temiz (CLEARED @10156 / 83,3 sn / 0 ölüm, min 77, takılma 6s@9783). Bölüm 28 röle salonu arenası
+(6900–7750) üçüncü kez en düşük nokta: tur 333 ölüm, tur 334 20–35, bu tur 65→**8**. İlk arenadan (2100) salona kadar
+ana yolda can yok; oyuncu kule tüfeklisi + Vurucu'dan ~%55 canla 5 düşmanlı iki dalgaya giriyor. Tur 333 "tekrar
+görülürse incelensin" demişti.
+**Oyuncu ne hissedecek:** kontrol direğinin dibinde can çantası; salona dolu canla girer, arena gerilimi kalır ama
+ölümle bitmez. Düşman/dalga düzeni değişmedi (tur 345: dalga değişimi ters tepebilir).
+**Değişiklik (`scripts/systems/bolum28.gd`):** `_pickup(HEALTH, 6810, -40)` (checkpoint 6750 ile salon 6850 arası).
+Tur 348 (Bölüm 8) kapı girişi kalıbı. Hipotez; insan testi "salon kolaylaştı" derse arena 1 ödülü AMMO kalır, bu can
+6500'e (Vurucu öncesi) alınabilir.
+**Görsel:** `capture_level` 6560'tan: çanta direğin sağında, taş rıhtım üstünde, ahşap baraka arka planıyla "ait".
+**Testler:** `--import` SCRIPT ERROR 0; `DTM GAPS: PASS`; `campaign_smoke` çıkış 0 (36 OK); bot Bölüm 28 CLEARED @10105 /
+98,5 sn / 0 ölüm, salon min 8→**54**, bölüm min 54; bot Bölüm 25 CLEARED (değişiklik öncesi, kod etkilenmedi).
+**Sonraki öneri:** insan oyun testi; otonom denetim için ad başlığında hiç geçmeyen Bölüm 2, 13, 18.
+
 ### 2026-11-22 (349) — Denetim (Bölüm 16 ve Bölüm 32): ikisi de temiz, kod değişikliği yok
 
 **Neden şimdi:** stil listesi 0 açık, yol haritaları + P1 kapalı, birikim insan-testine bağlı → kural (d), kesintisiz

@@ -83,6 +83,10 @@ func _build() -> void:
 
 	# --- 6. Röle salonu: iç mekânda arena (galerilerle) -----------------------
 	_checkpoint(6750, 0)
+	## Salon kapısında can: ilk arenadan (2100) beri ana yolda can yok, oyuncu kule
+	## ve Vurucu'dan ~%55 canla giriyor; salonun 5 düşmanı bot koşularında (tur 333/
+	## 334/350) 65 canı 0–8–35'e indirdi. Tur 348 (Bölüm 8) kapı girişi kalıbı.
+	_pickup(HEALTH, 6810, -40)
 	_interior(6850, 7800, -345, [], 0)
 	_scaffold(7020, -115, 180)
 	_scaffold(7630, -115, 180)
