@@ -7,6 +7,10 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 365, Bölüm 4 (indeks 3)) **Son kesimde (x~6800–8100) ince marj:** iki koşu CLEARED 0 ölüm; koşu 2'de can 37→15'e
+  iniyor, ardından 45'e toparlıyor (koşu 1'de dip 34). En uzun takılma 14 sn @4678–4943 (orta arena ritmi). İnsan testi
+  "Bölüm 4 sonunda az canla kaldım" derse son arena geçidi önüne gevşek HEALTH düşünülsün; veri gelmeden dokunma.
+
 - (Tur 364, Bölüm 30 "Beylerbeyi İskele Arşivi" (indeks 29)) **Evrak salonu arenası (6900–7600) hâlâ en derin vadi:**
   bot arenaya 41 canla girip 9'a iniyor (4 koşunun 4'ünde 41→9/16). Önündeki 6450 İSKELE ERZAKI dükkânı (can satar) ve
   6150 üst kat sandığı insan oyuncu için toparlanma sunuyor; bot ikisini de kullanmıyor. İnsan testi "evrak salonunda
@@ -10358,4 +10362,17 @@ Sayılar hipotez: tek can paketi, arenaya girişte alınır; zorluk dalgaları d
 `REDMOUNT_PROBE_LEVEL=29` → CLEARED 79,0 sn / respawns 0 (final girişi 42→72, dip 16) ve CLEARED 76,7 sn / respawns 0
 (46→66, dip 45). Yeni görsel yok (mevcut can sprite'ı), çekim gerekmedi.
 **Sonraki adım:** dedike denetimi olmayan Bölüm 4 ve Bölüm 28 (indeks 3, 27) aynı yöntemle (en az 2 koşu) denetlensin.
+
+### 2026-11-23 — Denetim (Bölüm 4 ve Bölüm 28): temiz, kod değişikliği yok (tur 365)
+
+**Ne yapıldı:** kural (d) — dedike denetim başlığı hiç almamış son iki bölüm (4 ve 28; indeks 3, 27) ikişer kez bot ile
+oynatıldı (tur 364'te Bölüm 30'da tek koşunun yanıltıcı olabileceği görüldü).
+**Bulgular:** Bölüm 4 — CLEARED 103,5 / 104,0 sn, respawns 0/0, heals 1/1; can dibi 34 ve 15 (x~8100, sonra 45'e toparlanma);
+takılma 14 sn orta arena ritmi. Bölüm 28 — CLEARED 104,8 / 99,3 sn, respawns 0/0, heals 2/1; can dibi 26 ve 55 (son arena
+x~9700), röle salonu arenası (x~7300) 95→43 / 105→55, ardından kapı canıyla toparlanma (tur 330'daki düzen çalışıyor).
+Ölüm yok, otonom değişiklik gerekmedi; Bölüm 4 ince marjı birikime yazıldı.
+**Test:** `REDMOUNT_PROBE_LEVEL=3` ×2, `=27` ×2 → dördü CLEARED. Kod değişmediği için derleme/smoke tekrarlanmadı
+(tur 364 sonuçları geçerli: import temiz, smoke rc=0, DTM GAPS: PASS). Görsel çekim yapılmadı (yeni görsel yok).
+**Sonraki adım:** 36 bölümün hepsi en az bir dedike denetimden geçti; otonom kuyruk boş, birikimdeki denge maddeleri insan
+testi verisi bekliyor. Otomasyon durdu.
 
