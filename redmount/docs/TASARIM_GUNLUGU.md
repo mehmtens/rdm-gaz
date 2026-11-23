@@ -7,6 +7,13 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 363 denetimi, Bölüm 21 "Yenikapı" (indeks 20) — son dedike ölçüm tur 308, eski bot. Kod değişmeden CLEARED @10107 /
+  91,2 sn / respawns 0 / heals 0.) **İlk %75'te baskı çok düşük:** bot x~7900'e kadar (t=0–52) yalnız 3 hasar alıyor
+  (115→112); mezat arenası (2500, STREET+KNIFE+STREET / ASSASSIN+KNIFE) ve kayıkhane hasarsız. Bütün gerilim sevk bürosu
+  (7950, 112→85) ve final iskele arenasında (9700, 101→30) toplanıyor. Kitap 2'nin 9. bölümü için ritim arka yüklü.
+  İnsan testi "Yenikapı'nın başı boş/kolay" derse önce mezat 2. dalgasına SHIELD ekle (ASSASSIN+KNIFE → ASSASSIN+SHIELD),
+  final değişmesin; bot ustalığı insanı temsil etmez, veri gelmeden dokunma. Görsel temiz.
+
 - (Tur 362 denetimi, Bölüm 20 "Samatya Taş Depoları" (indeks 19) — son dedike denetim tur 21 (26 Ekim); yeni bot +
   4 kareli pencereli çekim. Kod değişmeden CLEARED @10105 / 90,9 sn / respawns 0 / heals 3.) **x~8419 iç mekân
   arenası ani can düşüşü:** bot arenaya 65 canla girip ~0,7 sn'de 37'ye iniyor (üst üste binen yakın + menzil
@@ -10313,3 +10320,19 @@ kapanış sızıntı uyarısı, çalışma anı değil); `REDMOUNT_PROBE_LEVEL=1
 4 kare, Read ile değerlendirildi.
 **Sonraki adım:** otonom kuyruk hâlâ denge kararlarıyla dolu ama hepsi insan testi verisi bekliyor. Birikime bir
 yeni gözlem (Bölüm 20 x~8419 iç mekân arenası ani can düşüşü) eklendi. Otomasyon durdu.
+
+### 2026-11-23 — Denetim (Bölüm 21 "Yenikapı"): temiz, kod değişikliği yok (tur 363)
+
+**Ne yapıldı:** kural (d) — stil listesi ve iki yol haritası kapalı, birikimin tüm üst maddeleri "veri gelmeden dokunma"
+diyor. Tur 356'nın önerdiği en eski ölçümlü bölüm Bölüm 21 (indeks 20; son ölçüm tur 308, eski bot) yeni bot ile oynatıldı,
+4 kare pencereli çekimle (1200 gece sokağı, 4300 kayıkhane, 6700 kuru havuz, 9650 gece iskelesi/AKSARAY kapısı) denetlendi.
+**Bulgular:** CLEARED @10107 / 91,2 sn / respawns 0 / heals 0; takılma 10s@8223 (sevk bürosu arena ritmi). Can eğrisi arka
+yüklü: x~7900'e kadar 115→112, sevk bürosu 85, tartıhane canıyla 101, final arenası dibi 30 (ölüm yok). Tur 308'in iki
+kiremidi hasar izi bırakmadan okunuyor. Ritim bulgusu birikime yazıldı (insan testine bağlı, mezat 2. dalgasına SHIELD
+önerisi). Görsel: Ayasofya silüetli gece rıhtımı + fenerler, kızaktaki tekneler ve Boğaz kemeri, kuru havuzda tekne
+iskeleti + iskele katları, vapurlu gece iskelesi + "AKSARAY" han kapısı — palet/ışık ChatGPT atlasıyla tutarlı, props
+sahneye ait, taşma/çakışma/yapıştırılmış öğe yok. Telsiz balonunun karelerde kalması çekim yan etkisi.
+**Test:** `REDMOUNT_PROBE_LEVEL=20 bolum_play.tscn` → CLEARED; `capture_level.tscn` 4 kare, Read ile değerlendirildi.
+Kod değişmediği için derleme/smoke tekrarlanmadı (tur 362 sonuçları geçerli).
+**Sonraki adım:** otonom kuyruk boş, birikimdeki denge maddeleri insan testi verisi bekliyor (Bölüm 21 baş baskısı, 20
+kayıkhane, 26 son arena, 36 jeneratör). Otomasyon durdu.
