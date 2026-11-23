@@ -10607,3 +10607,18 @@ dip 69. Bölüm 25: ilk koşuda ciltçi geçidinde (x~7700) 1 ölüm; iki tekrar
 birikimdeki "ciltçi geçidi varyansı" maddesine veri eklendi, insan testi bekleme kararı korundu (Bölüm 35'teki 3/2 tekrar
 eden ölümle aynı güçte sinyal değil).
 **Sonraki adım:** denetlenmemiş kalanlar Bölüm 1, 2, 3, 5, 8–11; otonom kuyruk dışında birikim insan testi bekliyor.
+
+### 2026-11-24 — Denetim (Bölüm 8–11) + Bölüm 10 Sur Ağası: kapı canı; bot ölümü 2/2 → 1/3 (tur 379)
+
+**Neden şimdi:** kural (d) denetiminin devamı; tur 357'den beri denetlenmemiş Bölüm 8–11 (Kitap 1 sonu).
+**Bulgular (taban kod):** Bölüm 9: CLEARED 137,5 sn, 0 ölüm, dip 37 → temiz. Bölüm 11: 2 koşuda 1/0 ölüm (Muhafız Başı
+finali, x~7400) → varyans, dokunulmadı. Bölüm 8: 2/2 ölüm final mini-boss'ta (x~8800–9050); bilinen "kararlı ölüm",
+kapı canı zaten var → Kitap 1 ortası final sertliği olarak bırakıldı (birikimdeki not geçerli). **Bölüm 10 (Kitap 1
+finali):** 2/2 ölüm Sur Ağası arenasında; 6300 arena ödülünden sonra 7900'e kadar ana yolda can yok, sur tüfeklileri
+aşındırıyor, bot finale 46–62 canla giriyor.
+**Değişiklik:** `bolum10.gd` — kontrol noktası (7780) önüne `_pickup(HEALTH, 7850, −505)` (Bölüm 19/23/30/36 kalıbı).
+Dalgalar aynı; sayı hipotez.
+**Oyuncu ne hissedecek:** sur yürüyüşünün yorgunluğunu atıp Sur Ağası'nı adil başlatır; patron yine zorlu.
+**Test:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0; `dtm_gaps` PASS; `embedded_objects` PASS. Bot Bölüm 10 yeni
+kod ×3: CLEARED 1/0/0 ölüm (129,5 / 125,6 / 126,7 sn), finalde dip 4–16 (gerilim korunuyor). Yeni görsel yok.
+**Sonraki adım:** denetlenmemiş kalan Bölüm 1, 2, 3, 5.

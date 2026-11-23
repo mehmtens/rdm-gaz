@@ -101,6 +101,8 @@ func _build() -> void:
 
 	# --- 7. Sur Ağası; kör nokta ----------------------------------------------------
 	_checkpoint(7780, -460)
+	## Kapı canı (tur 379): 6300 arenasından sonra sur tüfeklileri aşındırıyor, ana yolda can yoktu.
+	_pickup(HEALTH, 7850, -505)
 	_story(7830, _sahne_sur_agasi)
 	var final: BattleArena = ARENA.instantiate()
 	final.position = Vector2(8400, -460)
