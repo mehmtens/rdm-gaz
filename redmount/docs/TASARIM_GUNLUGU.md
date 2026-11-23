@@ -920,6 +920,24 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-24 (386) — Denetim (Bölüm 10 Sur Ağası finali ve Bölüm 14): Bölüm 10 patron sonrası dalga tek
+
+**Neden şimdi:** kural (d); stil listesi, iki yol haritası kapalı, birikim insan testine bağlı. Adlı denetimi en eski
+bölümler Bölüm 10 (tur 324) ve Bölüm 14 (tur 336, yalnız görsel). **Bölüm 14 temiz:** CLEARED @9657 / 88,7 sn / 0 ölüm,
+takılma 7s@4919, dip 77. **Bölüm 10 (indeks 9, Kitap 1 finali):** taban 4 koşu CLEARED, ölüm 1/0/0/1, takılma
+43/43/38/38 sn @8323–8332 (45 sn eşiğine 2 sn pay). Can eğrisi: kapı canıyla (7850, tur 379) 85'e çıkıp giriyor,
+wave1 ELITE+KNIFE 85→71, ölüm wave2 Sur Ağası'nda (71→15→0); üç dalga tek takılma olarak birikiyor.
+**Değişiklik (`bolum10.gd`):** wave3 `_wave(ELITE, KNIFE)` → `_wave(ELITE)` (tur 381/383 kalıbı). Kapı canı, wave1 ve
+patron değişmedi.
+**Oyuncu ne hissedecek:** Kitap 1'in tepe noktası Sur Ağası'nda kalıyor; patron düştükten sonra kısa bir temizlik
+dalgası, sonra kör nokta sahnesi — finalin sonu sarkmıyor.
+**Doğrulama:** yeni kodla 4 koşu CLEARED, ölüm 0/0/1/0 (taban 2/4 → 1/4), takılma 40/35/30/36 sn (en kötü 43→40). Ölüm
+patron dalgasında kaldı (tur 382 dersi: thinning ölümü değil takılmayı düzeltir); eşik payı için kabul edildi. Sayılar
+insan testi gelene kadar hipotez; insan testi "Sur Ağası'nda öldüm" derse wave1 ELITE+KNIFE → ELITE.
+**Testler:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0; `dtm_gaps` PASS. Yeni görsel yok.
+**Sonraki adım:** insan oyun testi (Bölüm 22 pompa salonu, 11 Muhafız Başı, 24 mini-boss, 10 Sur Ağası); otonom
+denetim için sıradaki eski bölüm Bölüm 12 (tur 332).
+
 ### 2026-11-24 (385) — Denetim (Bölüm 29 ve 34): temiz, kod değişikliği yok; otomasyon durdu
 
 **Ne yapıldı:** tur 384'ün önerisi; her biri 2 koşu. Bölüm 29: CLEARED 78,1 / 76,2 sn, 0/0 ölüm, dip 65 / 77, en uzun
