@@ -832,6 +832,16 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-23 (353) — Denetim (Bölüm 3 gece pazarı): temiz, kod değişikliği yok; otomasyon durdu
+
+**Neden şimdi:** kural (d); tur 352'nin önerdiği Bölüm 3 (indeks 2). Yeni bot + pencereli 4 kare (1800, 4500, 7000, 8700).
+**Bot:** CLEARED @9006 / 77,5 sn / 0 ölüm / min can 79 (8610, final öncesi), heals=0, takılma 11s@5147 (pusu arenası).
+Tur 310'da eklenen iki saksı hasar izi bırakmadan okunuyor; can eğrisi 89–115 arasında dalgalı, vadi yok.
+**Görsel:** gece iskelesi + Boğaz yalıları, bostan çiti arkasında pazar, "PAZAR ÇIKIŞI" kapısı: palet/ışık ChatGPT
+atlasıyla tutarlı, taşma/çakışma yok. 8700 karesinde bıçakçının evin arkasından çıkması ışınlanma çekiminin yan etkisi.
+**Testler:** kod değişmedi; tur 352 testleri geçerli.
+**Sonraki öneri:** insan oyun testi (Bölüm 2 yeni tebeşir yeri, Bölüm 28 salon canı, Bölüm 8 final); otonom denetim için Bölüm 5.
+
 ### 2026-11-23 (352) — Denetim (Bölüm 2): Gazelle'in tebeşir ipucu gökyüzünden taş duvara indi
 
 **Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikim insan testine bağlı → kural (d). Tur 351'in önerdiği,
