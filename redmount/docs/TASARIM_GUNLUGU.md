@@ -10458,3 +10458,13 @@ pres bölgesine (~15000) geçti. İyileşme yok; günlükte a9 zırhının biler
 Birikim maddesi güncellendi (insan testi tetikleyicisi: 1. dalgadan KNIFE çıkarmak).
 **Test:** `REDMOUNT_PROBE_LEVEL=23` ×3 (deneme) + önceki 5 koşu. Kod değişmedi; derleme/smoke tur 367 sonuçları geçerli.
 **Sonraki adım:** sistematik tarama serisine devam (doğma anında düşen/kaybolan düşmanlar).
+
+### 2026-11-23 — Tarama: doğma anında düşen düşman yok; ödül ulaşılabilirlik taraması güvenilir değil (tur 369)
+
+**Ne yapıldı:** tur 366–367 tarama serisinin devamı. (1) 36 bölümde 319 elle konmuş düşman 2,5 sn serbest bırakıldı:
+çukura/kanala düşen, zeminsiz kalan ya da kaybolan **yok**. (2) Ödüller `_reachable_surfaces` modeliyle (zemin hizasından
+≤115 px yükselti zinciri) tarandı: model duvar zıplamasını, tente sekmesini ve boşluk üstü zıplama yaylarını bilmediği
+için bilinen-erişilebilir ödülleri (mahzen damı coin'leri, kavisli coin dizileri) işaretliyor; sinyal/gürültü düşük,
+kalıcı teste çevrilmedi. Kod değişikliği yok; geçici tarama dosyaları silindi.
+**Sonraki adım:** otonom kuyruk boş — stil listesi ve iki yol haritası kapalı, birikimdeki denge maddeleri insan testi
+verisi bekliyor. Otomasyon durdu.
