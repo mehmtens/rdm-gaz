@@ -118,6 +118,9 @@ func _build() -> void:
 	# --- 8. Arka iskele: son arena ------------------------------------------
 	_checkpoint(8750, 0)
 	_lantern(8850)
+	## Kapı girişine can (Bölüm 8/28/29 kalıbı): evrak salonu ile alevli koridordan sonra
+	## 6150 sandığından beri zeminde can yok; bot iki koşuda finale 39 ve 3 canla girdi (tur 364).
+	_pickup(HEALTH, 8890, -45)
 	_fight(8950, 9650, _wave(KNIFE, ASSASSIN, BOMBER), _wave(ELITE, BRUISER))
 	_han_gate(10050, "ÇENGELKÖY")
 	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.

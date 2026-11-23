@@ -7,6 +7,11 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 364, Bölüm 30 "Beylerbeyi İskele Arşivi" (indeks 29)) **Evrak salonu arenası (6900–7600) hâlâ en derin vadi:**
+  bot arenaya 41 canla girip 9'a iniyor (4 koşunun 4'ünde 41→9/16). Önündeki 6450 İSKELE ERZAKI dükkânı (can satar) ve
+  6150 üst kat sandığı insan oyuncu için toparlanma sunuyor; bot ikisini de kullanmıyor. İnsan testi "evrak salonunda
+  eridim" derse önce 2. dalga ELITE+RIFLE+ASSASSIN → ELITE+RIFLE; veri gelmeden dokunma.
+
 - (Tur 363 denetimi, Bölüm 21 "Yenikapı" (indeks 20) — son dedike ölçüm tur 308, eski bot. Kod değişmeden CLEARED @10107 /
   91,2 sn / respawns 0 / heals 0.) **İlk %75'te baskı çok düşük:** bot x~7900'e kadar (t=0–52) yalnız 3 hasar alıyor
   (115→112); mezat arenası (2500, STREET+KNIFE+STREET / ASSASSIN+KNIFE) ve kayıkhane hasarsız. Bütün gerilim sevk bürosu
@@ -10336,3 +10341,21 @@ sahneye ait, taşma/çakışma/yapıştırılmış öğe yok. Telsiz balonunun k
 Kod değişmediği için derleme/smoke tekrarlanmadı (tur 362 sonuçları geçerli).
 **Sonraki adım:** otonom kuyruk boş, birikimdeki denge maddeleri insan testi verisi bekliyor (Bölüm 21 baş baskısı, 20
 kayıkhane, 26 son arena, 36 jeneratör). Otomasyon durdu.
+
+### 2026-11-23 — Bölüm 30 son arenası: kapı girişine can; bot ölümü 1/2 → 0/2 (tur 364)
+
+**Neden şimdi:** stil listesi ve iki yol haritası kapalı, birikimin tüm maddeleri insan testi bekliyor → kural (d).
+"Denetim (Bölüm N" başlığı hiç almamış üç bölümden (4, 28, 30) en eski anılan Bölüm 30 seçildi.
+**Bulgu:** iki kodsuz koşu: CLEARED 75,6 sn / respawns 0 / heals 0 (can dibi 9 ve finalde 13) ve CLEARED 82,0 sn /
+**respawns 1** (evrak salonu 41→9, alevli koridor + kasa + BRUISER sonrası son arenaya 3 canla girip ölüm). 6150 üst kat
+sandığından bölüm sonuna kadar ~3850 px boyunca zeminde hiç can yok; evrak salonu + alevli koridor + son arena peş peşe.
+Oyuncu ne hissedecek: son arenaya "tek vuruşluk" canla girmek yerine kapıda nefes alıp finali tam bir dövüş olarak
+yaşayacak. Bölüm 8/28/29/36'daki "kapı girişine can" kalıbı.
+**Değişiklik:** `scripts/systems/bolum30.gd` — son arena geçidi (8950) önüne `_pickup(HEALTH, 8890, -45)`, fener 8850'nin
+dibinde, 8750 kontrol noktasından sonra. Evrak salonu dokunulmadı (önünde dükkân + sandık var; birikime yazıldı).
+Sayılar hipotez: tek can paketi, arenaya girişte alınır; zorluk dalgaları değişmedi.
+**Test:** `--import` SCRIPT ERROR 0; `dtm_gaps.tscn` → DTM GAPS: PASS; `campaign_smoke.gd` rc=0; bot iki koşu
+`REDMOUNT_PROBE_LEVEL=29` → CLEARED 79,0 sn / respawns 0 (final girişi 42→72, dip 16) ve CLEARED 76,7 sn / respawns 0
+(46→66, dip 45). Yeni görsel yok (mevcut can sprite'ı), çekim gerekmedi.
+**Sonraki adım:** dedike denetimi olmayan Bölüm 4 ve Bölüm 28 (indeks 3, 27) aynı yöntemle (en az 2 koşu) denetlensin.
+
