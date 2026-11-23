@@ -10555,3 +10555,14 @@ kurulumunu görmüyor. Önceki denetimlerde bu bölümlerin çoğu bot ile 0 öl
 Bölüm 19 ve 23'te görüldü, ikisi de düzeltildi. Toplu can eklemek formül olur ve kanıtsız zorluk düşürür → yapılmadı.
 **Sonraki adım:** otonom kuyruk boş — stil listesi ve iki yol haritası kapalı, birikim insan testi verisi bekliyor.
 Yeni denetim, bot ölümü tekrarlayan bölüm çıkarsa tekil düzeltmeyle sürmeli. Otomasyon durdu.
+
+### 2026-11-24 — Denetim (Bölüm 15 ve 17): temiz, kod değişikliği yok; otomasyon durdu (tur 375)
+
+**Ne yapıldı:** stil listesi, iki yol haritası kapalı; birikim insan testi bekliyor → kural (d) denetimi. Günlükte en az
+anılan iki bölüm seçildi (Bölüm 15: 39 anma, Bölüm 17: 40 anma). Bölüm 15: CLEARED @9737 / 83,7 sn / 0 ölüm / heals 0;
+en uzun takılma 9s@7342 (orta arena), can 105→55'e iniyor, 8200–8700 ödülüyle 108'e toparlanıyor, finalde dip 46.
+Bölüm 17: CLEARED @10007 / 86,9 sn / 0 ölüm / heals 1; takılma 15s@2853 (ilk arena, can 115→85, ardından tam dolum),
+sonrası 82–115 bandında, finalde dip ~96. İki bölümün ritmi geçiş→dövüş→nefes düzeninde; tekrarlayan ölüm ya da
+çökük can vadisi yok → değişiklik gerekmedi (tek koşu, bot varyansı bandında).
+**Sonraki adım:** otonom kuyruk boş — stil listesi ve iki yol haritası kapalı, birikim maddeleri insan testi verisi
+bekliyor. Otomasyon durdu.
