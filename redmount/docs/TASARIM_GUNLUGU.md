@@ -832,6 +832,18 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-23 (354) — Denetim (Bölüm 5 gar/trafo): temiz, kod değişikliği yok; otomasyon durdu
+
+**Neden şimdi:** kural (d); stil listesi, iki yol haritası ve P1 kapalı, birikim insan testine bağlı. Tur 353'ün önerdiği
+Bölüm 5 (indeks 4). Yeni bot + pencereli 4 kare (2400 vagon damları, 4800 peron saçağı, 7000 vagon arenası, 8700 trafo).
+**Bot:** CLEARED @9391 / 95,8 sn / 0 ölüm / heals=1; can dibi 51 (ilk arena ~5100) ve 33 (final arenası 8600–8850),
+ikisinden sonra toparlanma (81, 63). Takılma 20s@5139 arena dalga ritmi. Vadi/ölüm yok; Bölüm 5 tehlikesizliği tur 311'de
+kasıtlı kabul edildi (zamanlı paletler + vagonlar baskı kaynağı).
+**Görsel:** Haydarpaşa tipi gar + Boğaz gün batımı, demir saçak, kızıl yük vagonları, trafo merkezi tel örgüsü: palet/ışık
+ChatGPT atlasıyla tutarlı, props (sandık/varil/vazo) sahneye ait, taşma/çakışma yok. Telsiz balonu çekim yan etkisi.
+**Testler:** kod değişmedi; tur 352 testleri geçerli.
+**Sonraki öneri:** insan oyun testi (Bölüm 2 tebeşir, Bölüm 28 salon canı, Bölüm 8 final, Bölüm 5 final arenası min 33).
+
 ### 2026-11-23 (353) — Denetim (Bölüm 3 gece pazarı): temiz, kod değişikliği yok; otomasyon durdu
 
 **Neden şimdi:** kural (d); tur 352'nin önerdiği Bölüm 3 (indeks 2). Yeni bot + pencereli 4 kare (1800, 4500, 7000, 8700).
