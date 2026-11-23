@@ -920,6 +920,22 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-24 (382) — Denetim (Bölüm 6 Zırhlı Ustabaşı finali): kronik miniboss varyansı, kod değişikliği yok
+
+**Neden şimdi:** tur 381'in Bölüm 9 finalinde işe yarayan "boss sonrası dalga tek" kalıbını Bölüm 6'ya da uygulamak için
+yeniden ölçüm (Bölüm 6 son dedike denetim tur 330; final arenasında kronik ölüm geçmişi var).
+**Bot (taban kod, 3 koşu):** CLEARED @9456 ×3; respawns 1/0/0, stall 27/36/21 sn, heals=1, boss_evades 10/8/4. Tek ölüm
+final miniboss arenasında (Zırhlı Ustabaşı, wave2). Stall max 36 sn — 45 sn eşiğinden 9 sn pay var.
+**Denenen değişiklik ve RED:** wave3 `_wave(BRUISER, RIFLE)` → `_wave(BRUISER)` (B9 kalıbı). 5 koşu: respawns 1/0/0/0/1
+(**2 ölüm**), stall 17–22 sn. Stall payı iyileşti ama **ölüm oranı değişmedi**; iki ölümün ikisi de wave2 miniboss'un
+KENDİSİNDE (x~8240, arena içi), wave3'te değil → thinning ölümü etkilemiyor. Bölüm 330'da zaten kapı öncesi kırılabilir
+can sandığı (7880) var ve bot kullanıyor (heals=2). Değişiklik yalnız tanımlı bir dalgayı kolaylaştırıp asıl ölüm
+nedenine dokunmuyordu; tur 330'da dengelenmiş bölümü gereksiz zayıflatmak → **geri alındı.**
+**Karar:** Bölüm 6 finalindeki 1–2/5 ölüm kronik miniboss varyansı (tur 156/170/198/260 kaydı); can tamponu mevcut,
+stall sağlıklı. İnsan testi "Zırhlı Ustabaşı'da takıldım/öldüm" demedikçe dokunulmasın.
+**Testler:** kod değişmedi (yalnız bu günlük); tur 381 testleri geçerli, bolum06.gd `git checkout` ile tabana döndü.
+**Sonraki öneri:** otonom denetim için sıradaki eski/adsız bölüm (11, 15, 16, 18, 19, 22, 27, 28, 29, 34).
+
 ### 2026-11-24 (381) — Denetim (Bölüm 9 Zırhlı Üs / Binbaşı Kaya): kapı canı + boss sonrası dalga tek
 
 **Neden şimdi:** kural (d); stil listesi, iki yol haritası ve P1 kapalı, birikim insan testine bağlı. Bölüm 9 (indeks 8)
