@@ -132,6 +132,9 @@ func _build() -> void:
 
 	# --- 8. Taşma avlusu: suikastçı baskını; Bozdoğan Kemeri ---------------------
 	_checkpoint(9350, 0)
+	## Kapı girişine can (Bölüm 8/28/30 kalıbı): masadaki can üst rafta, zemin
+	## rotası onu ıskalıyor; üç dalgalı finale ~30 canla girilmesin.
+	_pickup(HEALTH, 9400, -45)
 	var final: BattleArena = ARENA.instantiate()
 	final.position = Vector2(9700, 0)
 	final.gate_left_x = 9450

@@ -7,6 +7,19 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 371 denetimi, Bölüm 33 (indeks 32)) **Erken arena (x~2600–3950) en sert kesit:** bot 105→55'e iniyor, sonra
+  x~7600'e kadar hiç hasar almıyor (55'te sabit, 7599'da 85'e toparlıyor); bölümün baskısı ön yüklü, orta kesit boş.
+  En uzun takılma 17s@8155 (iç mekân arenası), ölüm yok. İnsan testi "Bölüm 33'ün ortası boş" derse orta kesite (5100–
+  7500) tek elle konmuş düşman çifti düşünülsün; veri gelmeden dokunma.
+- (Tur 371 denetimi, Bölüm 23 (indeks 22)) **İlk %75'te baskı düşük:** iki koşuda bot x~7700'e kadar 95–99 canda
+  (yalnız 6 hasar); bütün gerilim bakım geçidi (7600–8300) ve finalde toplanıyor — Yenikapı (tur 363) ile aynı arka
+  yüklü ritim. İnsan testi "başı kolay" derse 3400–4750 kesitine tek ASSASSIN; veri gelmeden dokunma.
+- (Tur 371 denetimi, Bölüm 23) **Bakım geçidi arenası (7600–8300) can vadisi:** 3 koşuda 89→17, 87→55, ?→27; ödül HEALTH
+  arenadan sonra. Kapı canı tur 371'de yalnız finale kondu; insan testi burada da erirse 2. dalga ELITE+SHIELD → ELITE.
+- (Tur 371 denetimi, Bölüm 23) **"Taşma avlusu" adı ile görüntü uyuşmuyor:** final arena (9450–10000) hâlâ kontrol
+  masası iç mekân arka planında çekiliyor (çizim masası, çekmeceli dolap); yorum "avlu/Bozdoğan Kemeri" diyor. Görsel
+  stil içi, yalnız anlatı tutarsızlığı; düşük öncelik.
+
 - (Tur 367/368, Bölüm 24 (indeks 23), Kitap 2 finali) **Dağıtım haznesi mini-boss arenası (12650–13450) botun zayıf
   noktası:** taban kodla 2/2, tur 367 koduyla 3/3 koşuda birer ölüm; bot arenaya 78–109 canla girip mini-boss dalgasında
   4–26'ya iniyor. Tur 368'de ödül ZIRH→CAN denendi: 3 koşuda 4 ölüm, ölümler arenanın içine kaydı → **reddedildi, geri
@@ -10490,3 +10503,23 @@ için bilinen-erişilebilir ödülleri (mahzen damı coin'leri, kavisli coin diz
 kalıcı teste çevrilmedi. Kod değişikliği yok; geçici tarama dosyaları silindi.
 **Sonraki adım:** otonom kuyruk boş — stil listesi ve iki yol haritası kapalı, birikimdeki denge maddeleri insan testi
 verisi bekliyor. Otomasyon durdu.
+
+### 2026-11-24 — Bölüm 23 son arenası: kapı girişine can; bot ölümü 2/2 → 0/2 (tur 371)
+
+**Neden şimdi:** stil listesi, iki yol haritası kapalı; birikim insan testi bekliyor → kural (d) denetimi. Günlükte en az
+anılan iki bölüm seçildi: Bölüm 33 (36 anma) ve Bölüm 23 (37 anma).
+**Bulgular:** Bölüm 33 CLEARED @9756 / 84,3 sn / 0 ölüm / heals 0; görsel (Vaniköy sokağı, kablo atölyesi) stil içi.
+Bölüm 23 taban kodla **2/2 koşuda son arenada ölüm** (Taşma avlusu, 3 dalga: 2×ASSASSIN / SHIELD+KNIFE+RIFLE /
+BRUISER+ELITE): bot finale 37–65 canla girip 12–20'ye iniyor. Nedeni: kontrol masasındaki tek can (9240,−160) üst
+rafta, zemin rotası onu ıskalıyor (koşu 2'de heals 0); bakım arenası ödülü de vadiyi yalnız 27–47'ye toparlıyor.
+Görsel: bakım geçidi kolonları, kontrol masası iç mekânı (çizim masası, çekmeceli dolap, raf), Bozdoğan Kemeri kapısı
+ChatGPT atlasıyla palet/ışık tutarlı; yapıştırılmış öğe yok. 4 yeni birikim maddesi yazıldı (Bölüm 33 ön yüklü baskı,
+Bölüm 23 arka yüklü ritim, bakım arenası vadisi, "avlu" adı/görüntü uyuşmazlığı).
+**Değişiklik:** `bolum23.gd` — final kapısı (9450) önüne zemin rotasında `_pickup(HEALTH, 9400, -45)` (Bölüm 8/28/30
+kalıbı). Sayı hipotez: tek paket, üç dalga zorluğu korunuyor.
+**Oyuncu ne hissedecek:** masadaki rafı kaçırsa bile finale nefesle girecek; kemer öncesi son dövüş "hak edilmiş"
+zorlukta kalır, ucuz ölüme dönmez.
+**Test:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0; `dtm_gaps` PASS; `embedded_objects` PASS. Bot: Bölüm 23 taban
+2/2 ölüm → yeni kod ×2 CLEARED 0 ölüm (@10110/92,7 sn ve @10107/96,9 sn; finalde dip 40–42); Bölüm 1 CLEARED 0 ölüm;
+Bölüm 33 CLEARED 0 ölüm (kod değişmedi). Yeni görsel yok (mevcut can paketi).
+**Sonraki adım:** birikim maddeleri insan testi verisi bekliyor; sonraki denetim adayları Bölüm 34 ve 19.
