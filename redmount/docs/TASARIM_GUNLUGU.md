@@ -10566,3 +10566,16 @@ sonrası 82–115 bandında, finalde dip ~96. İki bölümün ritmi geçiş→d�
 çökük can vadisi yok → değişiklik gerekmedi (tek koşu, bot varyansı bandında).
 **Sonraki adım:** otonom kuyruk boş — stil listesi ve iki yol haritası kapalı, birikim maddeleri insan testi verisi
 bekliyor. Otomasyon durdu.
+
+### 2026-11-24 — Denetim (Bölüm 31 ve 32): temiz, kod değişikliği yok; otomasyon durdu (tur 376)
+
+**Ne yapıldı:** stil listesi, iki yol haritası kapalı; birikim maddeleri insan testi bekliyor → kural (d) denetimi. Günlükte
+en az anılan, henüz dedike denetlenmemiş iki bölüm seçildi (Bölüm 31 ve 32, 41'er anma). Bölüm 31: CLEARED @9708 / 84,4 sn
+/ 0 ölüm / heals 1; can 105→76 (ilk iki arena), x~6000 arenasında 76→48, 6400'de 78'e toparlanıyor; final arenası
+(x~8800–9300) 98→49, en uzun takılma 20s@9294 (final dalgaları), çıkışta 79. Bölüm 32: CLEARED @9858 / 81,6 sn / 0 ölüm /
+heals 2; x~6000'e kadar yavaş aşınma 105→77, x~6400–7600 kesitinde 71→43 (bölümün en sert yeri), 8481'de 66'ya
+toparlanıyor, finalde (x~9200–9500) dip 49, takılma 13s@9498. İkisinin ritmi de geçiş→dövüş→nefes düzeninde; tekrarlayan
+ölüm ya da 20'nin altına inen vadi yok → değişiklik gerekmedi (tek koşu, bot varyansı bandında). Pencereli ekran görüntüsü
+alınmadı (kod/görsel değişikliği yok; önceki turlarda bu bölümlerin görselleri stil listesi kapsamında doğrulandı).
+**Sonraki adım:** otonom kuyruk boş — stil listesi ve iki yol haritası kapalı, birikim maddeleri insan testi verisi
+bekliyor. Otomasyon durdu.
