@@ -832,6 +832,20 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-23 (355) — Denetim (Bölüm 33 Vaniköy/verici yokuşu): temiz, kod değişikliği yok; otomasyon durdu
+
+**Neden şimdi:** kural (d); stil listesi, iki yol haritası ve P1 kapalı, birikim insan testine bağlı. Bölüm 33 (indeks 32)
+son kez tur 314'te eski botla denetlendi; o turun "çift-ELITE ambar arenası" ve "2350→7320 can boşluğu" bulguları yeni
+botla (tur 332, arkada kalan ödülü toplayan) yeniden ölçüldü. Pencereli 4 kare (2800, 4800, 7700, 9200).
+**Bot:** CLEARED @9755 / 79,9 sn / 0 ölüm / heals=0; ilk arena (~2900) 105→63, 3000–7300 arası 63'te sabit (hasar yok,
+can da yok), 7300 civarı ödülle 93, ambar arenası (7500–8040) dibi 40, ödülle 70; takılma 13s@8000 dalga ritmi. Tur
+314'teki iki bulgu vadi/ölüm üretmiyor → insan testi "ambarda öldüm" demedikçe dokunulmasın.
+**Görsel:** Vaniköy sahil yolu (begonvilli yalı duvarı, fenerler), kayıkhane kanalı + asma tahtalar, kablo deposu (Boğaz
+kemeri), verici atölyesi: palet/ışık ChatGPT atlasıyla tutarlı, props sahneye ait, taşma/çakışma yok. 9200 karesindeki
+film rulosu tostu ve düşman kümesi ışınlanma çekiminin yan etkisi.
+**Testler:** kod değişmedi; tur 352 testleri geçerli.
+**Sonraki öneri:** insan oyun testi (Bölüm 2 tebeşir, 28 salon canı, 8 final, 5 final min 33, 33 ambar min 40).
+
 ### 2026-11-23 (354) — Denetim (Bölüm 5 gar/trafo): temiz, kod değişikliği yok; otomasyon durdu
 
 **Neden şimdi:** kural (d); stil listesi, iki yol haritası ve P1 kapalı, birikim insan testine bağlı. Tur 353'ün önerdiği
