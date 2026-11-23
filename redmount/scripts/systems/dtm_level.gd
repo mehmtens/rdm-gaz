@@ -570,9 +570,12 @@ func _canal(x0: float, x1: float, depth: float) -> void:
 
 
 ## Tebeşir işareti (süs): Gazelle'in bıraktığı iz ya da sokak yazısı.
-func _chalk(x: float, y: float, text: String) -> void:
+## `y` ilk satırın üstü; "|" ile satır kırılır. Bir zemin/duvar yüzüne yazılacaksa `z` -1'in
+## (zemin sanatı) üstünde olmalı, yoksa taşın arkasında kalır (Tur 352).
+func _chalk(x: float, y: float, text: String, z: int = -5) -> void:
 	var c := _Chalk.new()
 	c.text = text
+	c.layer_z = z
 	c.position = Vector2(x, y)
 	add_child(c)
 
@@ -2053,13 +2056,14 @@ class _Sign extends Node2D:
 class _Chalk extends Node2D:
 	const FIND_DIST := 230.0
 	var text := ""
+	var layer_z := -5
 	var _found := false
 	var _t := 0.0
 	var _spark_t := 0.0
 	var _player: Node2D
 
 	func _ready() -> void:
-		z_index = -5
+		z_index = layer_z
 		texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 
 	func _process(delta: float) -> void:
@@ -2070,7 +2074,9 @@ class _Chalk extends Node2D:
 			_spark_t -= delta
 			if _spark_t <= 0.0:
 				_spark_t = 0.9
-				var w := PixelText.width(text, 3.0)
+				var w := 0.0
+				for line in text.split("|"):
+					w = maxf(w, PixelText.width(line, 3.0))
 				Fx.spark(global_position + Vector2(randf_range(-w * 0.5, w * 0.5), 10.0),
 					Vector2(0, -1), 3, Color(1.0, 0.95, 0.75), 0.6)
 			if _player != null and _player.global_position.distance_to(global_position) < FIND_DIST:
@@ -2095,7 +2101,10 @@ class _Chalk extends Node2D:
 		var pulse := 0.65 + 0.35 * (0.5 + 0.5 * sin(_t * 4.0)) if not _found else 1.0
 		var ink := Color(1.0, 0.98, 0.9, pulse)
 		var edge := Color(0.55, 0.42, 0.18, 0.8) if _found else Color(0.2, 0.2, 0.25, 0.7)
-		PixelText.draw_centered(self, 0.0, 0.0, text, 3.0, ink, edge)
+		var top := 0.0
+		for line in text.split("|"):
+			PixelText.draw_centered(self, 0.0, top, line, 3.0, ink, edge)
+			top += PixelText.height(3.0) + 3.0
 
 
 ## Fener: piksel art direk + cam fener; eklemeli karışımlı dither hale.

@@ -832,6 +832,25 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-23 (352) — Denetim (Bölüm 2): Gazelle'in tebeşir ipucu gökyüzünden taş duvara indi
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikim insan testine bağlı → kural (d). Tur 351'in önerdiği,
+ad başlığında hiç denetlenmemiş Bölüm 2 (indeks 1). Yeni bot + pencereli 6 kare (2300, 4600, 6600, 8900, 9300).
+**Bot:** CLEARED @9506 / 76,5 sn / 0 ölüm / min can 86, heals=0, takılma 16s@8249 (Kasap Rıza arenası ritmi). Kitap 1'in
+ikinci bölümü için baskı düşük ama kasıtlı (öğretme eğrisi); denge işi çıkmadı.
+**Bulgu (görsel/okunurluk):** finaldeki "G: GECE PAZARI" tebeşiri (9290, -300) hiçbir yüzeye değmiyordu: paralaks arka
+planın önünde, havada asılı yazı → "yapıştırılmış" duruyor; hikâye sahnesi ise "Duvarda tebeşirle bir işaret" diyor.
+**Oyuncu ne hissedecek:** çıkış kapısından önceki taş yükseltinin (9120–9330, -100) yüzünde, iki satır tebeşir yazısı;
+gerçekten bir duvara karalanmış iz gibi okunur, sahne kamerası (9225, -120) doğrudan oraya döner.
+**Değişiklik:** `dtm_level.gd` `_chalk(x, y, text, z = -5)` — "|" ile çok satır, isteğe bağlı z (zemin sanatı z -1'in
+üstüne yazmak için); varsayılan davranış (Bölüm 8 "I I I") değişmedi. `bolum02.gd`: `_chalk(9225, -90, "G:|GECE PAZARI", 0)`,
+sahne pan hedefi (9180,-170)→(9225,-120). Yeni sanat yok (PixelText piksel yazısı).
+**Görsel doğrulama:** pencereli `capture_level` 9300: yazı taş yüzün içinde (taşma yok), oyuncu üstünde dururken
+okunuyor, kapı ve baca ile çakışmıyor → "ait".
+**Testler:** `--import` SCRIPT ERROR 0; `DTM GAPS: PASS`; `campaign_smoke` çıkış 0 (36 OK); bot Bölüm 2 ve Bölüm 8 (tebeşirin
+diğer kullanıcısı) — Bölüm 2 CLEARED @9506 / 76,8 sn / 0 ölüm; Bölüm 8 CLEARED @9409 / 99,0 sn / 0 ölüm (tur 348 ile aynı).
+**Sonraki öneri:** insan oyun testi; otonom denetim için ad başlığında az geçen Bölüm 3 / 5.
+
 ### 2026-11-23 (351) — Denetim (Bölüm 13 ve Bölüm 18): ikisi de temiz, kod değişikliği yok; otomasyon durdu
 
 **Neden şimdi:** kural (d); tur 350'nin önerdiği, ad başlığında hiç denetlenmemiş bölümler. Yeni bot, başsız.

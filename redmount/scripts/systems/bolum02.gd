@@ -157,7 +157,8 @@ func _build() -> void:
 	chimney_brick = true   # güneşli Balat sokağı: tuğla kule
 	_chimney(8980, -520, 140, 150)
 	chimney_brick = false
-	_chalk(9290, -300, "G: GECE PAZARI")
+	# Tebeşir duvarda: yükseltinin taş yüzüne iki satır (eskiden gökyüzünde asılıydı, Tur 352).
+	_chalk(9225, -90, "G:|GECE PAZARI", 0)
 	_story(9100, _sahne_tebesir)
 	_coin_line(9150, 4, 50, -150)
 	# Çevresel tehlikeler.
@@ -238,7 +239,7 @@ func _sahne_kasap_riza(cs: Cutscene) -> void:
 func _sahne_tebesir(cs: Cutscene) -> void:
 	var p := cs.player_pos()
 	cs.actor("rm", "redmount", p)
-	await cs.pan(Vector2(9180, -170), 0.6)
+	await cs.pan(Vector2(9225, -120), 0.6)
 	await cs.say("rm", "REDMOUNT", "Duvarda tebeşirle bir işaret... G harfi ve bir ok.")
 	await cs.say("rm", "REDMOUNT", "'Gece Pazarı.' Minibüsün camından tebeşir atmış olmalı. Akıllı kız.")
 	await cs.say("rm", "REDMOUNT", "Pazarda bir pusu bekliyor beni. Olsun. Geliyorum, Gazelle.")
