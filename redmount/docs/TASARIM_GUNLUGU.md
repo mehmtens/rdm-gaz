@@ -920,6 +920,29 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-24 (384) — Denetim (Bölüm 15, 16, 18, 22, 28) + Bölüm 22 pres faz hatası, final 1. dalga, kapı canı
+
+**Neden şimdi:** kural (d); tur 383'ün önerdiği eski denetimli bölümler. Bölüm 15: CLEARED 75,1 sn / 0 ölüm / dip 54.
+Bölüm 16: 81,2 sn / 0 / dip 48. Bölüm 18: 92,1 sn / 0 / dip 54. Bölüm 28: 96,2 sn / 0 / dip 45 → temiz. **Bölüm 22
+(indeks 21):** taban 4 koşuda 1/0/1/1 ölüm, hepsi pompa salonunda (x~6800–6990, 12–20 sn takılma); finalde dip 1–18.
+**Bulgu (hata):** `crusher.gd` fazı periyodun kesri olarak okuyor (`_t = phase_offset * period`), ama Bölüm 22
+`_press(…, 0.0/1.0/2.0, 3.0)` yazmış → 1,0 ve 2,0 sıfıra sarıyor, üç pres **aynı anda** iniyordu (kademe hiç
+çalışmamış). Aynı yanlış yazım Bölüm 34 (1,2) ve 35 (1,5) içinde de vardı; orada sarma sonucu zaten kademeliydi.
+**Değişiklik:** (1) `bolum22.gd` pres fazları 0,66 / 0,33 / 0 — iniş dalgası soldan sağa akar, oyuncu dalganın
+arkasından koşar (0/0,33/0,66 yönü de denendi: bot geçtiği presin kenarında ezildi, 8 koşuda 6 ölüm → reddedildi).
+(2) Pres hızlanınca eski ölümün gizlediği final vadisi ortaya çıktı (bot tam canla girip 1. dalgada ölüyordu):
+final 1. dalga KNIFE+BOMBER+KNIFE → KNIFE+BOMBER (kopuk kablo zaten baskı yapıyor); kontrol odası rafındaki can
+(9240,−160) kapı önüne zemine (9410,−45) taşındı (toplam can aynı). Son dalga inceltmesi (BRUISER+RIFLE → BRUISER)
+denendi, ölümler 1./2. dalgada olduğu için etkisiz → geri alındı (tur 382 dersi). (3) Bölüm 34 `1.2`→`0.2`, Bölüm 35
+`1.5`→`0.5`: davranış birebir aynı, yazım düzeltmesi. (4) Yeni test `tests/press_phase.tscn`: bölüm betiklerindeki tüm
+pres/portal fazlarının [0,1) aralığında olduğunu doğrular (eski kodda FAIL, yenide PASS 22 faz).
+**Oyuncu ne hissedecek:** pompa salonunda okunur bir pres dalgası (sol→sağ) — beklersen ritmi görürsün, dalganın
+peşinden koşarsan geçersin; Saraçhane finali hâlâ sert ama ilk dalga bombacıyı kabloya karşı okumaya alan bırakıyor.
+**Test:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0; `dtm_gaps` PASS; `press_phase` PASS; `crusher_slam` PASS.
+Bot Bölüm 22 son kod ×8: CLEARED ×8, ölüm 0/0/1/0/1/1/0/0 (3/8, hepsi pres salonunda x~6520 — bot presleri
+modellemiyor, durup arka presin kenarında eziliyor), **final 8/8 ölümsüz**; taban ×4: 3 ölüm. Yeni görsel yok.
+**Sonraki öneri:** Bölüm 29 ve 34 denetimi (34'te pres hattı var, faz yazımı düzeltildi; bot davranışı ölçülsün).
+
 ### 2026-11-24 (383) — Denetim (Bölüm 11 Muhafız Başı finali): kapı canı + boss sonrası dalga tek
 
 **Neden şimdi:** tur 381/382 sonrası patronlu bölümlerde en kötü-durum stall taraması; Bölüm 11 (indeks 10) ve 19 tek

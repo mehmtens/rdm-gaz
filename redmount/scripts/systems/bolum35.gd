@@ -92,7 +92,7 @@ func _build() -> void:
 	_checkpoint(7350, 0)
 	_interior(7470, 8080, -345, [], 0)
 	_press(7600, 0.0, 3.0, 0.0, -339.0)
-	_press(7950, 1.5, 3.0, 0.0, -339.0)
+	_press(7950, 0.5, 3.0, 0.0, -339.0)  ## faz kesir: eski 1.5 ≡ 0.5
 	# İki pres arasındaki iskele basamakları galeriye çıkar: üstte otomatik gizli sandık.
 	_scaffold(7775, -115, 110)
 	_scaffold(7775, -230, 110)

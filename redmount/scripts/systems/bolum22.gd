@@ -86,9 +86,12 @@ func _build() -> void:
 	# Pompa salonu: tonoz altında pistonlar; makine rafı üstte (riskli ama güvenli).
 	for cx in [6330.0, 7200.0]:
 		_fg("kolon", cx, 40.0, 440.0)
-	_press(6450, 0.0, 3.0)
-	_press(6750, 1.0, 3.0)
-	_press(7050, 2.0, 3.0)
+	## Faz periyodun kesri (crusher.gd): 0,66 / 0,33 / 0 — iniş dalgası soldan sağa
+	## akar, oyuncu dalganın arkasından koşar (tur 384). Eski 0/1/2
+	## değerleri üç presi aynı anda indiriyordu.
+	_press(6450, 0.66, 3.0)
+	_press(6750, 0.33, 3.0)
+	_press(7050, 0.0, 3.0)
 	_coin_line(6420, 6, 105, -60)
 	_crates(6300, 1, 1)
 	for k in 4:
@@ -118,19 +121,22 @@ func _build() -> void:
 	_interior(8900, 9280, -230, [-115.0], 0)
 	_story(9000, _sahne_cizelge)
 	_enemy(ELITE, 9150, 0)
-	_pickup(HEALTH, 9240, -160)
+	## Can kontrol noktasıyla kapı arasında, zeminde (kapı canı, tur 384): rafta
+	## kalınca finale yarım canla giriliyordu.
 	_coin_line(8950, 5, 60, -160)
 
 	# --- 8. Tahliye avlusu: ortada kopuk kablo; Saraçhane ------------------------
 	_checkpoint(9350, 0)
+	_pickup(HEALTH, 9410, -45)
 	var final: BattleArena = ARENA.instantiate()
 	final.position = Vector2(9700, 0)
 	final.gate_left_x = 9450
 	final.gate_right_x = 10000
 	final.floor_y = 0
 	## Avlunun ortasında kopuk pompa kablosu: dövüş kablonun sönük anlarında ortadan
-	## geçer. Bombacının ateşi oyuncuyu kabloya iter; son dalgada ağır + tüfekli.
-	final.wave1 = _wave(KNIFE, BOMBER, KNIFE)
+	## geçer. Bombacının ateşi oyuncuyu kabloya iter; son dalgada ağır + tüfekli. 1. dalga bıçakçı+bombacı (tur 384:
+	## üçlü + kablo, tam canla girene bile ölümcüldü).
+	final.wave1 = _wave(KNIFE, BOMBER)
 	final.wave2 = _wave(SHIELD, ELITE)
 	final.wave3 = _wave(BRUISER, RIFLE)
 	final.reward = HEALTH

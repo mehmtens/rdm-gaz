@@ -92,7 +92,7 @@ func _build() -> void:
 	_checkpoint(6550, 0)
 	_press(6750, 0.0, 2.6)
 	_press(6980, 0.6, 2.6)
-	_press(7210, 1.2, 2.6)
+	_press(7210, 0.2, 2.6)  ## faz kesir: eski 1.2 ≡ 0.2
 	_coin_line(6720, 6, 92, -60)
 	_interior(7400, 8000, -230, [-115.0], 0)
 	_enemy(KNIFE, 7600, 0)
