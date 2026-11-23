@@ -7,6 +7,14 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 361 denetimi, Bölüm 26 "Galata" (indeks 25) — günlükte adlı denetimi az; yeni bot + 4 kareli pencereli çekim.
+  Kod değişmeden CLEARED @9758 / 84,4 sn / respawns 0 / heals 1.) **Son arena (x~8465) keskin can vadisi:** bot finale
+  57 canla girip 57→51→33→15'e iniyor (t=64–76), hemen sonra x~8936'daki ödülle 75'e toparlıyor. 15 can gözlemlenen
+  en düşük banttan; ölüm yok ama marj çok dar ve rahatlama arenadan SONRA geliyor (Bölüm 8/28/29'daki "kapı girişine can"
+  kalıbının tersi). İnsan testi "Galata son arenasında az canla öldüm" derse arena geçidi önüne (gate ~8400) gevşek
+  `_pickup(HEALTH, ~8360, -45)`; bot varyansı yüksek, veri gelmeden dokunma, en az 2 koşu. Görsel: giriş (Ayasofya/Boğaz
+  silüeti + çarşı cephesi), rıhtım vinci set-piece, Galata postane iç mekânı (mektup rafları, gotik pencere, "GALATA"
+  tabelası) — palet/ışık ChatGPT atlasıyla tam tutarlı, taşma/çakışma/stil dışı yok.
 - (Tur 359, Bölüm 36 sonrası) **Jeneratör kesimi (x~8200–9000) yeni ölüm noktası:** ambar arenası artık
   geçiliyor ama bot arenadan 33–34 canla çıkıyor ve 8600–9000 arasında ölüyor (4 koşunun 2'sinde). İnsan testi burada
   sıkışırsa jeneratör girişine (`_checkpoint` sonrası) gevşek HEALTH; veri gelmeden dokunma. Bot varyansı yüksek:
@@ -10260,3 +10268,18 @@ birikime yazıldı.
 x~8100'e kadar sabit, son arena/finalde 50'ye iniyor ama ölüm yok. Yeni denge veya rota sorunu görülmedi; birikime ekleme yok.
 **Test:** `REDMOUNT_PROBE_LEVEL=18 bolum_play.tscn` → CLEARED. Kod değişmediği için smoke/derleme tekrarlanmadı.
 **Sonraki adım:** otonom kuyruk boş; birikimdeki denge maddeleri insan testi verisi bekliyor. Otomasyon durdu.
+
+### 2026-11-23 — Denetim (Bölüm 26 "Galata"): temiz, kod değişikliği yok (tur 361)
+
+**Ne yapıldı:** kural (d) — stil listesi ve iki yol haritası kapalı, birikimin üst maddeleri (Bölüm 36 jeneratör,
+diğer can dipleri) açıkça "veri gelmeden dokunma" diyor. Günlükte adlı denetimi az olan Bölüm 26 bot ile oynatıldı
+ve 4 kare pencereli çekimle görsel denetimden geçirildi.
+**Bulgular:** CLEARED @9758 / 84,4 sn / respawns 0 / heals 1; en uzun takılma 9s@8465 (son arena). Tek dikkat çeken
+nokta son arenada can 57→15'e düşüyor (gözlemlenen en düşük banttan biri), ödül arenadan SONRA x~8936'da geliyor —
+"kapı girişine can" kalıbının tersi. Ölüm yok, bot varyansı yüksek → otonom değişiklik YAPILMADI, birikime yazıldı.
+Görsel: Ayasofya/Boğaz silüetli çarşı girişi, rıhtım vinci set-piece, Galata postane iç mekânı; palet/ışık ChatGPT
+atlasıyla tam tutarlı, taşma/çakışma/stil dışı/yapıştırılmış öğe yok. Görsel birlik Bölüm 26'da temiz.
+**Test:** `REDMOUNT_PROBE_LEVEL=25 bolum_play.tscn` → CLEARED; `capture_level.tscn` 4 kare, Read ile değerlendirildi.
+Kod değişmediği için smoke/derleme tekrarlanmadı (import temiz, rc=0).
+**Sonraki adım:** otonom kuyruk hâlâ denge kararlarıyla dolu ama hepsi insan testi verisi bekliyor. Birikime bir
+yeni gözlem (Bölüm 26 son arena can vadisi) eklendi. Otomasyon durdu.
