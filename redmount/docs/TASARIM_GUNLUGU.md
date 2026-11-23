@@ -7,6 +7,11 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 366, Bölüm 7 (indeks 6)) **Fırın yolu (6320–7800) arena sonrası can marjı:** zırhlı arena hafifleyince bot
+  arenadan 37–67 canla çıkıyor; pres+alev ritminde 3 koşunun 1'inde öldü (x~6960, 6320 kontrol noktası hemen önce).
+  6100 DÖKÜMHANE ÇAYOCAĞI can satıyor, bot kullanmıyor. İnsan testi "fırın yolunda öldüm" derse 6320 sonrası gevşek
+  HEALTH düşünülsün; veri gelmeden dokunma.
+
 - (Tur 365, Bölüm 4 (indeks 3)) **Son kesimde (x~6800–8100) ince marj:** iki koşu CLEARED 0 ölüm; koşu 2'de can 37→15'e
   iniyor, ardından 45'e toparlıyor (koşu 1'de dip 34). En uzun takılma 14 sn @4678–4943 (orta arena ritmi). İnsan testi
   "Bölüm 4 sonunda az canla kaldım" derse son arena geçidi önüne gevşek HEALTH düşünülsün; veri gelmeden dokunma.
@@ -10376,3 +10381,34 @@ x~9700), röle salonu arenası (x~7300) 95→43 / 105→55, ardından kapı can�
 **Sonraki adım:** 36 bölümün hepsi en az bir dedike denetimden geçti; otonom kuyruk boş, birikimdeki denge maddeleri insan
 testi verisi bekliyor. Otomasyon durdu.
 
+
+### 2026-11-23 — Denetim (Bölüm 6 ve 7): kontrol noktasında sıkışma hatası 8 noktada giderildi; Bölüm 7 zırhlı arena 2. dalgası hafifledi (tur 366)
+
+**Neden şimdi:** kural (d) — stil listesi ve iki yol haritası kapalı, birikimin bütün maddeleri "insan verisi bekle" diyor.
+Son dedike denetimi 26–27 Ekim'de kalan Bölüm 6 ve 7 (indeks 5, 6) yeni botla oynatıldı.
+**Bulgular:** Bölüm 6 — CLEARED 127,8 sn / 0 ölüm (can dibi 25, x~4000–5400 orta arena, sonra toparlanma); temiz.
+Bölüm 7 — zırhlı arenada (4800–5900) 3 koşunun 2'sinde ölüm; bot arenaya **109 canla** giriyordu, yani sorun kapı
+canı değil yoğunluk: BRUISER+STREET → BRUISER+SHIELD+RIFLE → MINIBOSS, üç tank/menzil gövdesi ardından mini-boss.
+2. dalga hafifletilince bot iki koşuda bombacıda öldü ve x=8000 kontrol noktasında **havada sıkışıp 800 sn takıldı**:
+otomatik gizli han'ın (`_secret_han`) 90×90 sandık basamağı tam kontrol noktasının üstüne kurulmuştu. Bu bir insan
+oyuncu için de oyunu kilitleyen P0 hatası (ölünce bloğun içinde doğuyorsun, ne yürüyebiliyor ne zıplayabiliyorsun).
+**Kök neden:** `_chimney_spot_free` kontrol noktası/bitiş mesafesini simetrik ±260 px ile ölçüyordu, ama han
+merkezden 330 px sola (sandık basamakları) uzanıyor. Yeni tarama testi 36 bölümde 222 kontrol noktasının **8'inde**
+doğma alanının katı cisimle çakıştığını buldu: 5'i bu han hatası (Bölüm 5, 7, 11, 16, 25), 4'ü elle yerleştirme
+kayması (Bölüm 5 sandık, Bölüm 2 tente sekme kutusu, Bölüm 14 30 px taş seki y=60 içinde, Bölüm 31 çürük tahta kenarı).
+**Değişiklik:**
+- `dtm_level.gd` `_chimney_spot_free`: kontrol noktası/bitiş han'ın gerçek kapladığı alanın (cx−400…cx+220) içindeyse
+  yer reddedilir (eski ±260 kuralı da korunuyor; diğer bölümlerde yer değişmez). 108 sır sayısı korunuyor.
+- Elle: Bölüm 5 kontrol noktası 1820→1760, Bölüm 2 5880→5800, Bölüm 14 (3350,60)→(3350,30), Bölüm 31 8250→8290.
+- `bolum07.gd` zırhlı arena 2. dalga BRUISER+SHIELD+RIFLE → SHIELD+RIFLE (kalkan + menzil dersi; Kabadayı 1. dalgada
+  zaten tanıtılıyor, 3. dalga mini-boss aynı). Sayı hipotez: dalga başına bir tank gövdesi eksildi.
+- Yeni kalıcı koruma: `tests/checkpoint_clear.tscn` — 36 bölümü kurar, her kontrol noktasında 28×56 oyuncu gövdesini
+  katı cisimlerle sorgular. Düzeltmeden önce 8 çakışma/FAIL, sonra 0/PASS.
+**Oyuncu ne hissedecek:** ölünce kontrol noktasında temiz doğup devam edecek (eskiden 8 noktada sıkışıp bölümü baştan
+açmak zorunda kalabilirdi); Bölüm 7'de Karahanlı ile ilk karşılaşma arenası, tam canla girilince adil.
+**Test:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0; `dtm_gaps.tscn` → DTM GAPS: PASS; `checkpoint_clear.tscn` →
+PASS (222 nokta, 0 çakışma); `secret_count` rc=0, `secret_reach` PASS (108 sır), `secret_roll_clear` PASS, `secret_roll_visible`
+PASS. Bot (son kod): Bölüm 7 ×3 CLEARED, arena ölümü **0/3** (önce 2/3; geçiş koşularıyla 0/6), bir koşuda fırın yolunda
+(x~6960) ölüm; Bölüm 1, 2, 5, 11, 12, 13, 14, 25, 31 CLEARED 0 ölüm; Bölüm 16 ×3 CLEARED (1 koşuda belge odası arenası
+ölümü; değişikliksiz taban koşusu ve diğer 2 koşu 0 ölüm → varyans). Yeni görsel yok, çekim gerekmedi.
+**Sonraki adım:** Bölüm 7 fırın yolu notu birikime yazıldı; kalan denge maddeleri insan testi bekliyor.

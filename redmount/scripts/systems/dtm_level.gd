@@ -1136,7 +1136,10 @@ func _chimney_spot_free(cx: float) -> bool:
 			if absf(px - cx) < 420.0:
 				return false
 		elif ch.is_in_group(&"checkpoint") or ch.is_in_group(&"level_goal"):
-			if absf(px - cx) < 260.0:
+			## Han simetrik değil: sandık basamakları merkezden 330 px sola uzanır (_secret_han).
+			## Yalnız ±260 bakılınca Bölüm 5/7/11/16/25'te basamak kontrol noktasının üstüne
+			## kuruluyordu; ölen oyuncu bloğun içinde doğup sıkışıyordu (tur 366).
+			if absf(px - cx) < 260.0 or (px > cx - 400.0 and px < cx + 220.0):
 				return false
 		elif ch is Cutscene:
 			if absf(float(ch.trigger_x) - cx) < 260.0:

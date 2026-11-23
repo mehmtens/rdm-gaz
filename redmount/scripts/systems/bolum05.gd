@@ -40,7 +40,8 @@ func _build() -> void:
 	_prop("vazo", 1450, -140)
 
 	# --- 2. Vagon tepeleri + zamanlı vinç paletleri (üstte isteğe bağlı yol) ------
-	_checkpoint(1820, 0)
+	## Kontrol noktası sandığın (1810–1900) dışında: içinde doğan oyuncu sıkışıyordu (tur 366).
+	_checkpoint(1760, 0)
 	_crates(1810, 1, 1)
 	_wagon(1900)
 	_enemy(KNIFE, 2150, -140)

@@ -57,7 +57,8 @@ func _build() -> void:
 	# --- 3. Kemerli taş geçit: taş sekiden tabancaya, devriye ----------------------
 	# Kapalı kemer altında açık kanal yere ait değildi; kaldırıldı. Tabancalı iskele
 	# (−150) yerden zıplamayla erişilemiyordu (~125): altına 90 px taş seki.
-	_checkpoint(3350, 60)
+	## Doğma noktası taş sekinin üstünde (y=30); y=60 sekinin içindeydi (tur 366).
+	_checkpoint(3350, 30)
 	_terrain(3300, 3450, 30)
 	_terrain(3450, 9800, 0)
 	_stones(3560, 1, 1)

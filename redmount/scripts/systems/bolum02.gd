@@ -103,7 +103,8 @@ func _build() -> void:
 	add_child(shop)
 
 	# --- 5. Çatıdan gizli dinleme: sokak bina ile kapanır, yol çatılardan ---------
-	_checkpoint(5880, 0)
+	## Tente sekme kutusunun (5826–5994) dışında doğsun (tur 366).
+	_checkpoint(5800, 0)
 	_terrain(6000, 9040, 0)
 	# Son avlu: tebeşir izi basamaklı taş setin üstünde, sahne gibi öne çıkar.
 	_terrain(9040, 9120, -50)

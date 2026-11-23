@@ -80,7 +80,9 @@ func _build() -> void:
 	arena.gate_right_x = 5900
 	arena.floor_y = 0
 	arena.wave1 = _wave(BRUISER, STREET)
-	arena.wave2 = _wave(BRUISER, SHIELD, RIFLE)
+	## 2. dalga kalkan + tüfek dersi (tur 366): üç tank+menzil gövdesi ardından mini-boss geliyordu;
+	## bot arenaya 109 canla girip 3 koşunun 2'sinde öldü. Kabadayı 1. dalgada zaten tanıtılıyor.
+	arena.wave2 = _wave(SHIELD, RIFLE)
 	arena.wave3 = _wave(MINIBOSS)
 	arena.reward = HEALTH
 	add_child(arena)

@@ -114,7 +114,8 @@ func _build() -> void:
 		_pickup(COIN, 8112.0 + k * 85.0, -80.0)
 
 	# --- 7. Deniz köşkü: son arena -------------------------------------------
-	_checkpoint(8250, 0)
+	## Çürük tahtanın (8155–8240) kenarından uzak doğsun (tur 366).
+	_checkpoint(8290, 0)
 	_lantern(8350)
 	_scaffold(8900, -120, 220)
 	_fight(8450, 9350, _wave(KNIFE, ASSASSIN, BOMBER), _wave(ELITE, SHIELD), _wave(BRUISER, RIFLE))
