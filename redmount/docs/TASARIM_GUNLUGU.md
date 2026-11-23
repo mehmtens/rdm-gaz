@@ -10523,3 +10523,12 @@ zorlukta kalır, ucuz ölüme dönmez.
 2/2 ölüm → yeni kod ×2 CLEARED 0 ölüm (@10110/92,7 sn ve @10107/96,9 sn; finalde dip 40–42); Bölüm 1 CLEARED 0 ölüm;
 Bölüm 33 CLEARED 0 ölüm (kod değişmedi). Yeni görsel yok (mevcut can paketi).
 **Sonraki adım:** birikim maddeleri insan testi verisi bekliyor; sonraki denetim adayları Bölüm 34 ve 19.
+
+### 2026-11-24 — Denetim (Bölüm 34 ve 22): temiz, kod değişikliği yok; otomasyon durdu (tur 372)
+
+**Ne yapıldı:** kural (d) denetiminin ikinci dilimi; sıradaki en az anılan iki bölüm. Bölüm 34 ×2: CLEARED @9910/81,9 sn ve
+@9908/83,3 sn, 0 ölüm, heals 1; x~7700'e kadar 99–104 can, finalde (x~9150–9570) dip 26 ama ölüm yok, takılma 8–14s@9530
+(final arena ritmi). Bölüm 22: CLEARED @10109/75,2 sn, 0 ölüm, dip 36 (son arena x~9900). İkisi de ölümsüz; tek koşuluk
+dip değerleri bot varyansı bandında (Bölüm 23'teki gibi tekrarlanan ölüm yok) → değişiklik gerekmedi.
+**Sonraki adım:** otonom kuyruk boş — stil listesi ve iki yol haritası kapalı, birikim maddeleri insan testi verisi
+bekliyor. Otomasyon durdu.
