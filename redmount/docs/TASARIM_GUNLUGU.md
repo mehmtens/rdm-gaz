@@ -920,6 +920,30 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-24 (381) — Denetim (Bölüm 9 Zırhlı Üs / Binbaşı Kaya): kapı canı + boss sonrası dalga tek
+
+**Neden şimdi:** kural (d); stil listesi, iki yol haritası ve P1 kapalı, birikim insan testine bağlı. Bölüm 9 (indeks 8)
+son turlarda adlı denetime girmemişti. Pencereli 6 kare (köprü, nehir yatağı, cephanelik, zırhlı avlu, sur duvarı, final
+kapısı) + bot.
+**Oyuncu ne hissedecek:** Binbaşı Kaya dövüşüne artık sur gauntlet'inden sonra yarı canla değil, kapı önünde toparlanıp
+giriyor; boss sonrası temizlik kısa — dövüşün tepe noktası Binbaşı'nda kalıyor, uzayıp sarkmıyor.
+**Bulgu (bot, taban kod):** CLEARED @9405 / 138,6 sn ama **1 ölüm** (respawns=1) ve **stall=42s@8999** (45 sn eşiğine
+dayanıyor). Can eğrisi: zırhlı avlu arenası (5350) 109→12 (ödülle 72); sur gauntlet'i (6750–7700 KNIFE/RIFLE/BRUISER)
+72→52; final arenasına **52 canla** girip wave1 (BRUISER+BOMBER) 52→12, wave2 (MINIBOSS) sırasında öldü. Tekrar doğup
+2. denemede temizledi. Miniboss kaçışlı (boss_evades 7); üç dalga (BRUISER+BOMBER / MINIBOSS / ELITE+BRUISER) tek stall
+olarak birikip 42–46 sn'ye çıkıyordu — bir sonraki ölçümde 46s = BASARISIZ.
+**Değişiklik (`bolum09.gd`):** (1) Kapı canı: `_pickup(HEALTH, 8120, -45)` — çekpoint/boss sahnesi (8000/8060) ile arena
+kapısı (gate_left 8180) arasında; oyuncu kilitten hemen önce toparlanır (tur 377/379 kalıbı). (2) Boss sonrası temizlik
+dalgası `wave3` `_wave(ELITE, BRUISER)` → `_wave(ELITE)`; miniboss hâlâ tek (wave2), değişmedi.
+**Testler:** import temiz (SCRIPT ERROR yok); `campaign_smoke` çıkış 0; `dtm_gaps` PASS. Bölüm 9 bot **3 koşu**: CLEARED,
+respawns=0/0/0, stall 26/23/21 sn, heals=1/1/1 (kapı canı tutarlı kullanılıyor). Ölüm 1→0, boss arena stall 42–46→21–26 sn.
+**Görsel:** altı kare temiz — köprü (Boğaz gecesi, almaşık taş kemer, gemiler), nehir yatağı (asma tahtalar, kuleden tüfek
+izi), cephanelik duvarı (gotik pencere, fenerler), zırhlı avlu (kiremit kule, selvi, bayrak, ikaz bantlı varil), sur
+gauntlet'i (iskele/kule, hazine sandığı), Binbaşı kapısı (almaşık kemer, portkulis, tolgalı boss): palet/ışık ChatGPT
+atlasıyla tutarlı, props sahneye ait, taşma/çakışma/stil dışı yok. Güç-yükseltme ikonları kasıtlı parıltıyla havada.
+**Sonraki öneri:** insan oyun testi (Bölüm 2 tebeşir, 24 mini-boss, 7 fırın yolu, 4/30/26 dar can marjları, 9 zırhlı avlu
+arenası 109→12); otonom denetim için sıradaki adsız/eski bölüm (6, 11, 15, 16, 18, 19, 22, 27, 28, 29, 34).
+
 ### 2026-11-23 (370) — Görsel doğrulama (Bölüm 35 presleri): stil gözlemi kapandı, kod değişikliği yok
 
 **Neden şimdi:** Öncelik 0 (görsel stil) ve a/b/c kapalı — STIL_DONUSUM_LISTESI ve iki yol haritası 0 açık madde,

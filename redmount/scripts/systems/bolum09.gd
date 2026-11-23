@@ -115,6 +115,9 @@ func _build() -> void:
 	# --- 6. Binbaşı Kaya; geçit açılır --------------------------------------------
 	_checkpoint(8000, 0)
 	_story(8060, _sahne_binbasi)
+	## Kapı canı: sur gauntlet'i (6750–7700 bıçak/tüfek/zırhlı) oyuncuyu arenaya
+	## düşük canla sokuyor; Binbaşı dövüşünden hemen önce bir toparlanma marjı.
+	_pickup(HEALTH, 8120, -45)
 	_prop("varil", 8350)
 	_prop("kasa", 8900)
 	var final: BattleArena = ARENA.instantiate()
@@ -126,7 +129,9 @@ func _build() -> void:
 	final.wave2 = _wave(MINIBOSS)
 	final.named_title = "BİNBAŞI KAYA"
 	final.named_wave = 2
-	final.wave3 = _wave(ELITE, BRUISER)
+	## Binbaşı dövüşü kaçışlı/uzun; arenanın üç dalgası tek stall olarak birikip
+	## 45 sn sınırına dayanıyordu. Boss sonrası temizlik dalgası tek düşmana indi.
+	final.wave3 = _wave(ELITE)
 	final.reward = HEALTH
 	add_child(final)
 	_story(9200, _sahne_gecit_acildi)
