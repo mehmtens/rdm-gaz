@@ -72,12 +72,16 @@ func _build() -> void:
 	_coin_line(5320, 6, 105, -60)
 	## Pres köprüsü sonrası nefes: 5150 kontrol noktasından arenaya tek can kaynağı (tur 319).
 	_prop("sandik", 6060, 0, HEALTH)
+	## Kapı girişi canı (tur 359): bot sandığın üstünden atlayıp arenaya ~46 canla giriyor ve 2. dalgada
+	## ölüyordu (tur 169/328/358). Bölüm 8/28 kalıbı — geçitten hemen önce yürüyerek alınan gevşek can.
+	_pickup(HEALTH, 6130, -45)
 	_interior(6150, 7150, -345, [], 0)
 	_scaffold(6320, -115, 180)
 	_scaffold(6980, -115, 180)
 	_scaffold(6650, -230, 240)
 	_coin_line(6580, 4, 45, -280)
-	_fight(6200, 7100, _wave(ELITE, KNIFE, ASSASSIN), _wave(MINIBOSS, RIFLE))
+	## 2. dalga yalnız Yüzbaşı (tur 359): tüfekli eklenince bot kapı canına rağmen 2/2 koşuda öldü.
+	_fight(6200, 7100, _wave(ELITE, KNIFE, ASSASSIN), _wave(MINIBOSS))
 
 	# --- 5. Jeneratör: alevli ızgara, baca tırmanışı; 2. bağlantı ------------------
 	_checkpoint(7250, 0)

@@ -7,8 +7,12 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 359, Bölüm 36 sonrası) **Jeneratör kesimi (x~8200–9000) yeni ölüm noktası:** ambar arenası artık
+  geçiliyor ama bot arenadan 33–34 canla çıkıyor ve 8600–9000 arasında ölüyor (4 koşunun 2'sinde). İnsan testi burada
+  sıkışırsa jeneratör girişine (`_checkpoint` sonrası) gevşek HEALTH; veri gelmeden dokunma. Bot varyansı yüksek:
+  aynı kodla respawn 1–5 arası; tek koşu karar için yetmez, en az 2 koşu.
 - (Tur 358 denetimi, Bölüm 36 (indeks 35) — günlükte en az anılan bölümlerden; kod değişmeden CLEARED @16258 / 180,8 sn /
-  respawns 1 / heals 2.) (1) **Tek ölüm yine galerili ambar arenasında (x6200–7100)**, tur 169 ve tur 328 ölçümleriyle aynı
+  respawns 1 / heals 2.) (1) **[TUR 359'DA UYGULANDI: kapı canı 6130 + 2. dalga yalnız MINIBOSS] Tek ölüm yine galerili ambar arenasında (x6200–7100)**, tur 169 ve tur 328 ölçümleriyle aynı
   yer: bot arenaya 46/115 canla giriyor, 2. dalgada (Yüzbaşı+Tüfekli) 2'ye düşüp ölüyor. · (2) **Tur 319 can sandığı
   (6060) bot verisiyle ölçülemiyor:** bot pres köprüsünden zıplayarak sandığın üstünden geçiyor, kırmıyor (5906'da havada,
   can 53→46, iyileşme yok). Yani sandığın etkisi yalnız insan testinde görülebilir. İnsan testinde arena ölümü 1'i geçerse
@@ -10230,3 +10234,20 @@ sandığını kırmadan üstünden atlıyor → tur 319 düzeltmesi bot verisiyl
 canı, sonra dalga hafifletme) birikime yazıldı. Kod değişikliği yok.
 **Testler:** `--import` SCRIPT ERROR 0; bot Bölüm 36 (indeks 35) CLEARED, 1 respawn.
 **Sonraki öneri:** insan oyun testi (öncelik: Bölüm 36 ambar arenası, Bölüm 29 çeşme arenası, Bölüm 18 ambar, 25 ciltçi).
+
+### 2026-11-23 — Bölüm 36 ambar arenası: kapı canı + hafif 2. dalga (tur 359, birikim Tur 358/1)
+
+**Neden şimdi:** stil listesi, iki yol haritası, P1 kapalı; birikimin en üstü Bölüm 36 ambar arenası. Ölüm aynı yerde tur
+169, 328, 358'de ve bu turun iki ölçümünde tekrarlandı → Bölüm 8'deki "kararlı ölüm" ile aynı güçte sinyal, birikimde
+yazılı iki adımlı plan uygulandı.
+**Oyuncu ne hissedecek:** final bölümünde pres köprüsünü yaralı geçen oyuncu ambar kapısında bir can bulur; Yüzbaşı
+dalgası artık arkadan ateş eden tüfekli olmadan, tek ve okunur bir düello. Arena yine zor (bot 3–4 cana iniyor).
+**Değişiklik (`scripts/systems/bolum36.gd`):** (1) `_pickup(HEALTH, 6130, -45)` geçitten (6200) hemen önce — sandık
+(6060) korunuyor. Tek başına denendi: bot canı aldı (53→76) ama 2/2 koşuda arenada yine öldü. (2) 2. dalga
+`MINIBOSS, RIFLE` → `MINIBOSS`. Sayılar hipotez; insan testi "ambar çok kolay" derse tüfekliyi geri koy, canı bırak.
+**Testler:** `--import` SCRIPT ERROR 0; `dtm_gaps` PASS; `campaign_smoke` çıkış 0 (Bolum36 OK). Bot Bölüm 36 (indeks 35),
+iki adım birlikte, 2 koşu: CLEARED @16256 / 186 sn / respawns 1 ve CLEARED @16260 / 182 sn / respawns 2; **ambar
+arenasında ölüm 0/2** (önce 2/2), arena can dibi 3–4. Kalan ölümler jeneratör kesiminde (~8600–9000) ve 12650 arenasında
+— bot varyansı yüksek (yalnız can eklenmiş koşuda respawns 5'e çıkmıştı, ölümlerin 2'si pres köprüsünde, değişiklikten önce).
+**Sonraki öneri:** insan oyun testi (Bölüm 36 ambar + jeneratör, Bölüm 29 çeşme, 18 ambar, 25 ciltçi). Jeneratör notu
+birikime yazıldı.
