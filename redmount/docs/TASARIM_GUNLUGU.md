@@ -832,6 +832,19 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-23 (351) — Denetim (Bölüm 13 ve Bölüm 18): ikisi de temiz, kod değişikliği yok; otomasyon durdu
+
+**Neden şimdi:** kural (d); tur 350'nin önerdiği, ad başlığında hiç denetlenmemiş bölümler. Yeni bot, başsız.
+**Sonuç:** Bölüm 13 CLEARED @9560 / 68,8 sn / 0 ölüm / min 46 (final arenası 8800–8990, 1 can alındı; vadi değil, %40
+eşiğinin üstü). Bölüm 18 CLEARED @10055 / 95,3 sn / 0 ölüm / min 65 (han ambarı 8100–9015 — birikimdeki "can vadisi"
+maddesi bu botla oluşmadı), takılma 11s@9781 (son arena ritmi).
+**Görsel:** pencereli 4 kare (B13 6300 rıhtım depoları, 8800 çeşmeli avlu; B18 5500 bakırcılar çarşısı, 8400 kâtip
+kütüphanesi): palet/ışık ChatGPT atlasıyla tutarlı, props sahneye ait, taşma/çakışma yok. B13'teki "MİNİBÜS! KOŞ!"
+başlığı ışınlanmanın tetiklediği kovalamaca duyurusu (çekim yan etkisi), hata değil.
+**Testler:** kod değişmedi; tur 350 testleri geçerli.
+**Sonraki öneri:** insan oyun testi (Bölüm 28 yeni salon canı, Bölüm 8 final canı, Bölüm 18 ambar); otonom denetim için
+Bölüm 2.
+
 ### 2026-11-23 (350) — Denetim (Bölüm 25 ve Bölüm 28): Bölüm 28 röle salonu kapısına can
 
 **Neden şimdi:** stil listesi, iki yol haritası ve P1 kapalı; birikim insan testine bağlı → kural (d). Ad başlığında en
