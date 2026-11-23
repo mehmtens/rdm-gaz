@@ -91,6 +91,10 @@ func _build() -> void:
 	# --- 5. Muhafız Başı; iç kale kapısı ---------------------------------------
 	_checkpoint(7150, 0)
 	_story(7220, _sahne_muhafiz_basi)
+	## Kapı canı: final ELITE+ASSASSIN → miniboss → ELITE çok sertti (bot 0–3 ölüm,
+	## stall 27–41 sn, 45 sn sınırına dayanıyor). Arena içi can sandığı (8150) sağ
+	## kenarda, ölümcül ilk dalgada ulaşılmıyor; kapı önünde toparlanma marjı.
+	_pickup(HEALTH, 7280, -45)
 	_prop("vazo", 7500)
 	_prop("sandik", 8150, 0, HEALTH)
 	var final: BattleArena = ARENA.instantiate()
@@ -102,7 +106,9 @@ func _build() -> void:
 	final.wave2 = _wave(MINIBOSS)
 	final.named_title = "MUHAFIZ BAŞI"
 	final.named_wave = 2
-	final.wave3 = _wave(ELITE, KNIFE)
+	## Boss sonrası temizlik dalgası tek ELITE'e indi (üç dalga tek stall olarak
+	## 41 sn'ye çıkıyordu); miniboss (wave2) ve ilk dalga değişmedi.
+	final.wave3 = _wave(ELITE)
 	final.reward = HEALTH
 	add_child(final)
 	_story(8450, _sahne_son_kapi)

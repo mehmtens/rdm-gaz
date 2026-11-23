@@ -920,6 +920,24 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-24 (383) — Denetim (Bölüm 11 Muhafız Başı finali): kapı canı + boss sonrası dalga tek
+
+**Neden şimdi:** tur 381/382 sonrası patronlu bölümlerde en kötü-durum stall taraması; Bölüm 11 (indeks 10) ve 19 tek
+koşu ölçüldü. Bölüm 19 temiz (stall 13 sn, 1 ölüm — kronik). **Bölüm 11 en kötü durumda tehlikeli:** ilk koşu CLEARED ama
+**3 ölüm** + **stall 41s@7802** (45 sn eşiğine dayanıyor).
+**Oyuncu ne hissedecek:** Muhafız Başı dövüşüne artık kapı önünde toparlanıp giriyor; ELITE+ASSASSIN → miniboss →
+ELITE+KNIFE üçlüsünün son ayağı kısaldı — tepe nokta Muhafız Başı'nda, boss sonrası grind yok.
+**Bulgu (taban kod, 2 koşu):** final arenası (7850, gate 7350–8350) çok sert: wave1 ELITE+ASSASSIN, wave2 MINIBOSS
+(evades 7–9), wave3 ELITE+KNIFE. Ölüm 3/0, stall 41/27 sn. Arena içi can sandığı (8150) sağ kenarda, ölümcül ilk
+dalgada ulaşılmıyor; kapı öncesi (çekpoint 7150 → gate 7350) hiç can yok.
+**Değişiklik (`bolum11.gd`):** (1) Kapı canı `_pickup(HEALTH, 7280, -45)` — story (7220) ile gate (7350) arası.
+(2) wave3 `_wave(ELITE, KNIFE)` → `_wave(ELITE)`. Miniboss ve wave1 değişmedi.
+**Testler:** import temiz; `campaign_smoke` çıkış 0; `dtm_gaps` PASS. Bölüm 11 bot **6 koşu**: CLEARED ×6, respawns
+1/0/0/1/0/0 (en kötü 1, taban 3), stall 39/28/29/24/27/36 sn (hepsi <45; taban 41), heals 1–2 (kapı canı kullanılıyor).
+En kötü-durum ölüm 3→1, stall 41→39 ve 3-ölüm+41s felaket koşusu ortadan kalktı.
+**Sonraki öneri:** insan oyun testi (Bölüm 11 Muhafız Başı, 9 zırhlı avlu, 24 mini-boss); otonom denetim için sıradaki
+eski bölüm (15, 16, 18, 22, 27, 28, 29, 34).
+
 ### 2026-11-24 (382) — Denetim (Bölüm 6 Zırhlı Ustabaşı finali): kronik miniboss varyansı, kod değişikliği yok
 
 **Neden şimdi:** tur 381'in Bölüm 9 finalinde işe yarayan "boss sonrası dalga tek" kalıbını Bölüm 6'ya da uygulamak için
