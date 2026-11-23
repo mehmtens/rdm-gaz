@@ -79,12 +79,13 @@ func _build() -> void:
 
 	# --- 6. Kışla: galerili koğuşta arena (seçkin + bıçaklı, sonra Yüzbaşı) ----------
 	_checkpoint(6200, 0)
+	_pickup(HEALTH, 6260, -45)
 	_interior(6300, 7200, -345, [], 0)
 	_scaffold(6470, -115, 180)
 	_scaffold(7030, -115, 180)
 	_scaffold(6750, -230, 220)
 	_coin_line(6680, 4, 45, -280)
-	_fight(6350, 7150, _wave(ELITE, KNIFE), _wave(MINIBOSS, SHIELD), [], HEALTH)
+	_fight(6350, 7150, _wave(ELITE, KNIFE), _wave(MINIBOSS), [], HEALTH)
 
 	# --- 7. Kumanda odası: pres hattı, anahtar --------------------------------------
 	# Presler avluya kurulmuş ahşap galerinin kirişlerine asılı (kollar boşlukta sarkmasın).

@@ -10579,3 +10579,21 @@ toparlanıyor, finalde (x~9200–9500) dip 49, takılma 13s@9498. İkisinin ritm
 alınmadı (kod/görsel değişikliği yok; önceki turlarda bu bölümlerin görselleri stil listesi kapsamında doğrulandı).
 **Sonraki adım:** otonom kuyruk boş — stil listesi ve iki yol haritası kapalı, birikim maddeleri insan testi verisi
 bekliyor. Otomasyon durdu.
+
+### 2026-11-24 — Denetim (Bölüm 27 ve 35) + Bölüm 35 kışla arenası: kapı canı + hafif 2. dalga (tur 377)
+
+**Neden şimdi:** stil listesi, iki yol haritası kapalı; birikim insan testi bekliyor → kural (d) denetimi. Tur 357'den beri
+denetlenmemiş iki bölüm seçildi. Bölüm 27 (indeks 26): CLEARED @10105 / 90,9 sn / 0 ölüm / heals 1, finalde dip 42 →
+temiz. Bölüm 35 (Anadoluhisarı, indeks 34): taban kodla 2 koşu, **2 ve 1 yeniden doğma** (tur 69'da da 2/2/4/4) — ölümler
+kışla arenasında (x~6400–7100, ELITE+KNIFE → Yüzbaşı+SHIELD). Bot sur kapısı arenasından ~60 canla çıkıyor, arada ana
+yolda can yok (5950'deki kiler dükkânı parayla; bot almıyor), Yüzbaşı dalgasında 3–13'e inip ölüyor; bir koşuda arenadan
+15 canla çıkıp pres hattında (x~7460) ikinci kez öldü. Bölüm 36 (tur 359) ile aynı kalıp.
+**Değişiklik:** `bolum35.gd` — (1) kontrol noktasının hemen önüne (6260,−45) `_pickup(HEALTH)`; (2) 2. dalga
+`MINIBOSS+SHIELD` → yalnız `MINIBOSS`. Gerekçe (hipotez): Yüzbaşı mini-boss'un kendi okuması kalsın, kalkanlının onu
+gizlemesi değil; kapı canı kiler dükkânını gereksiz kılmaz (dükkânda zırh/cephane de var, can yine pres hattı öncesi işe yarar).
+Yalnız dalga hafifletmesi 2 koşuda 1/1 ölüm verdi → tek başına yetmedi, can ile birlikte uygulandı.
+**Oyuncu ne hissedecek:** Yüzbaşı'ya nefesle girer; arena yine sert (yeni kodla arenada dip 19–30), finalde dip 10–17 —
+Kitap 3 sonu gerilimi korunuyor.
+**Test:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0 (Bolum35 OK); `dtm_gaps` PASS. Bot Bölüm 35 yeni kod ×4:
+CLEARED 1/0/0/0 ölüm (119,7 / 107,3 / 107,3 / 104,6 sn) — taban ×2: 2/1. Yeni görsel yok (mevcut can paketi).
+**Sonraki adım:** denetlenmemiş kalan bölümler (1, 2, 3, 5, 8–14, 25) arasından ikili denetim sürsün.
