@@ -920,6 +920,16 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-24 (385) — Denetim (Bölüm 29 ve 34): temiz, kod değişikliği yok; otomasyon durdu
+
+**Ne yapıldı:** tur 384'ün önerisi; her biri 2 koşu. Bölüm 29: CLEARED 78,1 / 76,2 sn, 0/0 ölüm, dip 65 / 77, en uzun
+takılma 15s@8583. Bölüm 34: CLEARED 72,3 / 80,9 sn, 0/0 ölüm, dip 56 / 55 (final, x~9150); pres hattı (6750–7210, faz
+yazımı tur 384'te eşdeğer kesre çevrildi) hasarsız geçiliyor → yazım düzeltmesinin davranışı değiştirmediği de doğrulandı.
+**Durum:** tur 383'ün listelediği eski bölümler (15, 16, 18, 22, 27, 28, 29, 34) denetlendi. Stil listesi, iki yol
+haritası kapalı; birikim maddeleri insan testi verisi bekliyor.
+**Sonraki adım:** insan oyun testi (öncelik: Bölüm 22 pompa salonu yeni pres dalgası + Saraçhane finali, Bölüm 11
+Muhafız Başı, Bölüm 24 mini-boss). Otomasyon durdu.
+
 ### 2026-11-24 (384) — Denetim (Bölüm 15, 16, 18, 22, 28) + Bölüm 22 pres faz hatası, final 1. dalga, kapı canı
 
 **Neden şimdi:** kural (d); tur 383'ün önerdiği eski denetimli bölümler. Bölüm 15: CLEARED 75,1 sn / 0 ölüm / dip 54.
