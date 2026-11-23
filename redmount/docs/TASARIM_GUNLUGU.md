@@ -832,6 +832,22 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-23 (356) — Denetim (Bölüm 17 Beyazıt Posta Hattı): temiz, kod değişikliği yok; otomasyon durdu
+
+**Neden şimdi:** kural (d); stil listesi, iki yol haritası ve P1 kapalı, birikim insan testine bağlı. Bölüm 17 (indeks 16)
+adlı başlıkta en eski denetimli bölüm (tur 288/304, eski bot); tur 304'te eklenen tehlikeler sonrası yeni botla (tur 332,
+arkada kalan ödülü toplayan) hiç ölçülmemişti. Pencereli 4 kare (2600 Beyazıt kapısı, 5200 Sahaflar erzakı, 7800 telgraf
+salonu, 9500 tasnif salonu/çıkış).
+**Bot:** CLEARED @10008 / 80,8 sn / 0 ölüm / heals=0; can dibi 84 (8287, son arena), ilk arena (~2850) 115→100 sonra
+toparlanma; takılma 14s@2853 dalga ritmi. Tur 304'teki "Bölüm 17 baskı düşük" gözlemi sürüyor (Kitap 2 orta bölümü,
+nefes bölümü olarak kabul edilebilir) — insan testi "çok kolay/boş" demedikçe dokunulmasın.
+**Görsel:** Beyazıt kapısı (almaşık kemer), Sahaflar erzak dükkânı + taş/sandık basamakları, telgraf ve tasnif salonu
+(pirinç makineler, kâğıt şeridi), ortak han kapısı "KAPALIÇARŞI": palet/ışık ChatGPT atlasıyla tutarlı, props sahneye ait,
+taşma/çakışma yok. 7800 karesindeki sinematik şeritler hikâye sahnesinin, telsiz balonları ışınlanma çekiminin yan etkisi.
+**Testler:** kod değişmedi; tur 352 testleri geçerli.
+**Sonraki öneri:** insan oyun testi (Bölüm 2 tebeşir, 28 salon canı, 8 final, 5 final min 33, 33 ambar min 40, 17 düşük
+baskı); otonom denetim için sıradaki en eski: Bölüm 21 (tur 291).
+
 ### 2026-11-23 (355) — Denetim (Bölüm 33 Vaniköy/verici yokuşu): temiz, kod değişikliği yok; otomasyon durdu
 
 **Neden şimdi:** kural (d); stil listesi, iki yol haritası ve P1 kapalı, birikim insan testine bağlı. Bölüm 33 (indeks 32)
