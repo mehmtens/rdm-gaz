@@ -906,6 +906,28 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-23 (370) — Görsel doğrulama (Bölüm 35 presleri): stil gözlemi kapandı, kod değişikliği yok
+
+**Neden şimdi:** Öncelik 0 (görsel stil) ve a/b/c kapalı — STIL_DONUSUM_LISTESI ve iki yol haritası 0 açık madde,
+P1 özellik boşlukları "Uygulandı", birikim top maddeleri insan testi verisine bağlı. Açık kalan tek nokta
+OYNANIS-KALITE-YOL-HARITASI satır 41'in "görsel birlik" maddesindeki **tek açık görsel gözlem**: "Bölüm 35 pres
+blokları ışıksız gri kalıyor, insan testine bırakıldı" (tur 336, 22 Kasım). Bu balans değil, nesnel bir stil
+tutarlılığı sorusu — insan verisi gerekmeden kapatılabilir.
+**Oyuncu ne hissedecek:** Anadoluhisarı kumanda odasında kaleyi dövme çelik makineler dolduruyor; presler artık
+sahnenin ışığına ait, "yapıştırılmış düz gri kutu" hissi yok.
+**Bulgu:** Gözlem zaten **stale**. `tools/gen_gpt_style_props.py:make_pres` docstring'i tur 337'de eski 34×22 çizimin
+"2,9×4,1 gerilerek ışıksız gri kaldığını" yazıp onu 50×44 GPT tarzı dövme çelik bloğa çevirmiş; `pres.png` (Nov 22)
+ve `pres_kol.png` diskte güncel. Zoom (8×) çekim: pres başlığı perçinli bağlantı kapağı, dikey takviye kaburgaları,
+sarı-siyah ikaz bandı, perçinden pas akıntısı, sol üst fener ışığı + sağ soğuk ay kenarı, mor gölge rampası taşıyor;
+piston kolu parlatılmış çelik silindir. Pencereli oyun içi çekim (1280×720, Bölüm 35 x~7780, odak kaybında
+`main.gd` duraklatmasını her karede zorla kapatarak): pres makinesi + çelik köprü kale taşı atlası, selvi, Boğaz
+yansıması ve fenerlerle aynı palet/ışıkta; ışıksız gri yüzey veya stil dışı öğe yok.
+**Testler:** Kod değişmedi (yalnız iki belge). Geçici çekim/script dosyaları (`tests/_capture_pres*.gd/.tscn`)
+commit öncesi silindi; import temiz.
+**Sonraki öneri:** Otonom iş kalemleri (stil listesi, yol haritaları, uygulanabilir birikim) gerçekten tükendi;
+kalan her şey insan oyun testi verisine bağlı. İnsan testi önceliği: Bölüm 2 tebeşir, 24 mini-boss arenası,
+7 fırın yolu, 4/30/26 dar can marjları. Otonom denetim için sıradaki en eski adlı bölüm sürüyor (Bölüm 21, tur 291).
+
 ### 2026-11-23 (356) — Denetim (Bölüm 17 Beyazıt Posta Hattı): temiz, kod değişikliği yok; otomasyon durdu
 
 **Neden şimdi:** kural (d); stil listesi, iki yol haritası ve P1 kapalı, birikim insan testine bağlı. Bölüm 17 (indeks 16)
