@@ -293,7 +293,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   bomber=1). Askerî kontrol noktasına/sura saksı tematik değil; insan testi "Kitap 1 ortası düz" derse Bölüm 4'e yanan
   varil (`_flame`), Bölüm 10'a sur saçağı taşı düşünülsün. · (4) **Bölüm 25
   ciltçi geçidi varyansı sürüyor:** bu turun koşusunda 87→31 (önceki turlarda 9 + 1 ölüm); insan testi "ciltçide öldüm"
-  derse ELITE@7650 → BRUISER veya HEALTH@8100 öne (7400) alınsın.
+  derse ELITE@7650 → BRUISER veya HEALTH@8100 öne (7400) alınsın. Tur 378: 3 koşuda 1/0/0 ölüm (ölüm x~7700, 64→öldü)
+  — hâlâ seyrek varyans, Bölüm 35 gibi kararlı ölüm değil; dokunulmadı.
 
 - (Tur 306 denetimi, Bölüm 18 "Kapalıçarşı Arka Hanı", Kitap 2 / "Haliç'in İzi" 6. bölüm = KİTAP 2 FİNALİ, indeks 17 —
   headless bot iki koşu CLEARED @10056-10058 / ~87 sn / 0 respawn ama **hp min 3 (!) birinci koşu, 48 ikinci koşu** =
@@ -10597,3 +10598,12 @@ Kitap 3 sonu gerilimi korunuyor.
 **Test:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0 (Bolum35 OK); `dtm_gaps` PASS. Bot Bölüm 35 yeni kod ×4:
 CLEARED 1/0/0/0 ölüm (119,7 / 107,3 / 107,3 / 104,6 sn) — taban ×2: 2/1. Yeni görsel yok (mevcut can paketi).
 **Sonraki adım:** denetlenmemiş kalan bölümler (1, 2, 3, 5, 8–14, 25) arasından ikili denetim sürsün.
+
+### 2026-11-24 — Denetim (Bölüm 14, 25, 12, 13): temiz, kod değişikliği yok (tur 378)
+
+**Ne yapıldı:** kural (d) denetimi, tur 357'den beri denetlenmemiş dört bölüm. Bölüm 14: CLEARED @9655 / 94,1 sn / 0 ölüm,
+dip 56. Bölüm 12: CLEARED @8013 / 78,7 sn / 0 ölüm, finalde dip 33 (boss). Bölüm 13: CLEARED @9559 / 68,8 sn / 0 ölüm,
+dip 69. Bölüm 25: ilk koşuda ciltçi geçidinde (x~7700) 1 ölüm; iki tekrar koşu 0/0 (83,8 ve 77,6 sn, final dip 21 ve 73) —
+birikimdeki "ciltçi geçidi varyansı" maddesine veri eklendi, insan testi bekleme kararı korundu (Bölüm 35'teki 3/2 tekrar
+eden ölümle aynı güçte sinyal değil).
+**Sonraki adım:** denetlenmemiş kalanlar Bölüm 1, 2, 3, 5, 8–11; otonom kuyruk dışında birikim insan testi bekliyor.
