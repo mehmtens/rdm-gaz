@@ -7,6 +7,13 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 362 denetimi, Bölüm 20 "Samatya Taş Depoları" (indeks 19) — son dedike denetim tur 21 (26 Ekim); yeni bot +
+  4 kareli pencereli çekim. Kod değişmeden CLEARED @10105 / 90,9 sn / respawns 0 / heals 3.) **x~8419 iç mekân
+  arenası ani can düşüşü:** bot arenaya 65 canla girip ~0,7 sn'de 37'ye iniyor (üst üste binen yakın + menzil
+  hasarı), hemen 67'ye toparlıyor; can vadisi yok, ölüm yok. İnsan testi "kayıkhane arenasında birden eridim"
+  derse 2. dalgada eşzamanlı yakın+RIFLE ayrımını (RIFLE'ı dalga sonuna kaydır) düşün; bot varyansı var, veri
+  gelmeden dokunma, en az 2 koşu. Görsel/ritim/okunurluk temiz.
+
 - (Tur 361 denetimi, Bölüm 26 "Galata" (indeks 25) — günlükte adlı denetimi az; yeni bot + 4 kareli pencereli çekim.
   Kod değişmeden CLEARED @9758 / 84,4 sn / respawns 0 / heals 1.) **Son arena (x~8465) keskin can vadisi:** bot finale
   57 canla girip 57→51→33→15'e iniyor (t=64–76), hemen sonra x~8936'daki ödülle 75'e toparlıyor. 15 can gözlemlenen
@@ -10283,3 +10290,26 @@ atlasıyla tam tutarlı, taşma/çakışma/stil dışı/yapıştırılmış öğ
 Kod değişmediği için smoke/derleme tekrarlanmadı (import temiz, rc=0).
 **Sonraki adım:** otonom kuyruk hâlâ denge kararlarıyla dolu ama hepsi insan testi verisi bekliyor. Birikime bir
 yeni gözlem (Bölüm 26 son arena can vadisi) eklendi. Otomasyon durdu.
+
+### 2026-11-23 — Denetim (Bölüm 20 "Samatya Taş Depoları"): temiz, kod değişikliği yok (tur 362)
+
+**Ne yapıldı:** kural (d) — stil listesi (33/33) ve iki yol haritası kapalı, P1 boşlukları "Uygulandı",
+birikimin üst maddeleri (Bölüm 26 son arena, Bölüm 36 jeneratör, diğer can dipleri) açıkça "veri gelmeden
+dokunma" diyor. Son dedike denetimi 26 Ekim'de (tur 21) kalan Bölüm 20 (Kitap 2, indeks 19) bot ile oynatıldı
+ve 4 kare pencereli çekimle (giriş, x~8400 iç mekân arenası, final, pazar) görsel denetimden geçirildi.
+**Bulgular:** CLEARED @10105 / 90,9 sn / respawns 0 / heals 3; en uzun takılma 12s@9899 (son arena, MINIBOSS
+ritmi — hata değil). DTM sütunları temiz: hareket akıcı, dövüş okunur, bölüm ritmi (sokak geçişi → pazar
+pususu → iç mekân → yükleme avlusu → Kemal Bey kaçış set-piece'i) dengeli. Tek dikkat çeken nokta: x~8419
+iç mekân arenasında can 65→37'ye ani düşüyor (28 hasar ~0,7 sn'de, muhtemelen üst üste binen yakın + menzil),
+hemen ardından 67'ye toparlıyor; can vadisi oluşmuyor, ölüm yok. Bot varyansı mevcut, tek koşu karar için
+yetmez → otonom değişiklik YAPILMADI, birikime yazıldı. Görsel: Boğaz silüeti + vapur + çamaşır ipi/halı
+(giriş), kemerli kayıkhane iç mekânı (fenerler, balıkçı ağları, patlayıcı varil), pazar meydanı — hepsi
+ChatGPT atlasıyla palet ve ışık yönünde tam tutarlı, taşma/çakışma/stil dışı/yapıştırılmış öğe yok. Gazelle
+telsiz satırı capture'da "görülmü" diye kesik görünüyor ama bu yazı-makinesi animasyonunun ortada yakalanması;
+kod satırı tam ve doğru ("Samatya. Kemal Bey burada görülmüş. Ona sormam gereken çok şey var."). Görsel birlik
+Bölüm 20'de temiz.
+**Test:** `--import` SCRIPT ERROR 0; `dtm_gaps.tscn` → DTM GAPS: PASS; `campaign_smoke.gd` çıkış rc=0 (yalnız
+kapanış sızıntı uyarısı, çalışma anı değil); `REDMOUNT_PROBE_LEVEL=19 bolum_play.tscn` → CLEARED; `capture_level.tscn`
+4 kare, Read ile değerlendirildi.
+**Sonraki adım:** otonom kuyruk hâlâ denge kararlarıyla dolu ama hepsi insan testi verisi bekliyor. Birikime bir
+yeni gözlem (Bölüm 20 x~8419 iç mekân arenası ani can düşüşü) eklendi. Otomasyon durdu.
