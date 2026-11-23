@@ -7,6 +7,24 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 357 denetimi, Bölüm 29 "Kuzguncuk Kıyı Deposu" (indeks 28) ve Bölüm 24 (indeks 23) — günlükte en az adı geçen iki
+  bölüm; yeni bot + Bölüm 29 pencereli çekim (8 kare); ikisi de kod değişmeden CLEARED, 0 ölüm.)
+  (1) **Bölüm 29 temiz:** CLEARED @10106 / 83,2 sn / 0 ölüm / respawns=0, heals=1; en uzun takılma 12s@3928 (çeşme meydanı
+  arenası). HP dibi 34 son arenada (defter odası, x~8650); son arena kapısında can düzeni doğru (HEALTH 8200,-45 tam geçit
+  önünde + HEALTH 7920,-275 çatı rotasında), bot 34'ten 79'a toparlıyor — DTM "kapı girişine can" kalıbı uygulanmış. ·
+  (2) **Çeşme arenası (x3250–4050, 2 dalga, ödül AMMO):** botun en çok hasar aldığı yer (93→54), ama ölüm yok, hemen
+  sonra 88'e toparlıyor; yakın zemin canı yok (tek ARMOR çatıda -305, zemin rotası ıskalar). İnsan testi "çeşme meydanında
+  az canla sıkıştım" derse arena geçidine (gate 3250 önü) `_pickup(HEALTH, ~3190, -45)` düşünülsün; veri gelmeden dokunma. ·
+  (3) **Bölüm 24 temiz:** CLEARED @18657 / 188,5 sn / 0 ölüm / heals=0, hp min ~46 (geç kesim x~17300). Uzun bölüm (x18657);
+  tek uzun takılma 25s@13375 miniboss ritmi (9 başarılı kaçış), hata değil. Bölüm hiç cana ihtiyaç bırakmadan geçiliyor. ·
+  (4) **Görsel (Bölüm 29):** sekiz kesit (sarmaşıklı sokak + çatı rotası, çeşme meydanı/manav arenası, bahçe duvarı
+  domates-biber bağı, Kuzguncuk kıyı deposu çok katlı iskele+vinç, defter odası arşiv rafları, Gazelle final diyaloğu
+  "Leyla"); props (varil/sandık/tezgâh/fener/bayrak), karakter konturu ve para hepsi ChatGPT atlasıyla palet ve ışık
+  yönünde tutarlı, taşma/çakışma/stil dışı/yapıştırılmış öğe yok. Görsel birlik güncel oyunda temiz. ·
+  (5) **HUD okunurluğu (Bölüm 29 final):** dalga sayacı "DALGA 2/2 · 3 DÜŞMAN", COMBO ×5 +135, kanıt arşivi "FİLM RULOSU 2/3"
+  bildirimleri aynı anda üst bantta; çakışmadan okunuyor, düzeltme yok. İkisinde de izlenecek acil iş yok; insan testi özel
+  bir şey demedikçe dokunulmasın.
+
 - (Tur 349 denetimi, Bölüm 16 (indeks 15) ve Bölüm 32 (indeks 31), yeni bot + Bölüm 32 pencereli çekim; ikisi de kod
   değişmeden CLEARED, 0 ölüm.) (1) **Bölüm 16 temiz:** CLEARED @9956 / 82,1 sn / 0 ölüm, en uzun takılma 8s@8234, heals=1. ·
   (2) **Bölüm 32 temiz:** CLEARED @9855 / 78,9 sn / 0 ölüm, takılma 7s@4037, heals=0 (hiç cana ihtiyaç olmadı). ·
@@ -10173,3 +10191,21 @@ yeni bir bölüm denetimi (kural d) yapılabilir.
 respawn; Bölüm 33'te çift-ELITE ambar arenası ve 2350→7320 can boşluğu, Bölüm 19'da düşük baskı bulundu. Beş bulgu
 birikime yazıldı; hepsi zorluk/denge kararı → insan verisi olmadan otonom değişiklik yapılmadı. Kod değişikliği yok.
 **Sonraki öneri:** insan oyun testi (öncelik: Bölüm 18 ambar, 25 ciltçi, 33 ambar, 31 yeni kanal).
+
+### 2026-11-23 — Denetim (Bölüm 29 ve 24): temiz, kod değişikliği yok (tur 357)
+
+**Ne yapıldı:** kural (d) — stil listesi, iki yol haritası ve P1 kapalı, birikimin üst maddeleri insan testine bağlı; bu
+yüzden günlükte en az anılan iki bölüm (Bölüm 29: 25, Bölüm 24: 26 anılma) bot ile oynatıldı. İkisi de CLEARED, 0 ölüm.
+Bölüm 29 pencereli 8 kare çekildi (1280×720) ve ChatGPT atlasının yanında Read ile değerlendirildi.
+**Neden şimdi:** otonom iş kuyruğu boş; en az denetlenen bölümlerde gizli bir denge/görsel sorun var mı diye bakıldı.
+**Bulgular:** Bölüm 29 CLEARED @10106 / 83,2 sn / respawns 0 / heals 1; hp dibi 34 son arenada ama kapı önü canı (8200,-45)
+doğru yerleştirilmiş, toparlıyor. Çeşme arenası (x3250–4050) botun en çok hasar aldığı yer (93→54) ama ölüm yok; zemin
+rotasında yakın can yok — insan testi sıkışırsa gate önüne HEALTH önerisi birikime yazıldı. Bölüm 24 CLEARED @18657 /
+188,5 sn / 0 ölüm / heals 0 (hiç cana gerek olmadı), tek uzun takılma miniboss ritmi (25s, 9 kaçış, hata değil). Görsel:
+Bölüm 29'un sokak/çatı, çeşme meydanı, bahçe bağı, kıyı deposu, defter odası ve final diyaloğu kesitleri palet/ışık
+yönünde atlasla tam tutarlı, yapıştırılmış öğe yok. HUD (dalga sayacı + combo + arşiv bildirimi) çakışmadan okunuyor.
+**Testler:** `--import` SCRIPT ERROR 0; bot Bölüm 29 (indeks 28) CLEARED, Bölüm 24 (indeks 23) CLEARED, ikisi 0 respawn.
+**Karar:** beş bulgu birikime yazıldı; hepsi zorluk/denge kararı veya zaten doğru → insan verisi olmadan otonom değişiklik
+yapılmadı. Kod değişikliği yok.
+**Sonraki öneri:** insan oyun testi (öncelik: Bölüm 29 çeşme arenası can boşluğu, Bölüm 18 ambar, 25 ciltçi); ya da yeni
+bir bölüm denetimi (en az anılan: Bölüm 33, 22, 36).
