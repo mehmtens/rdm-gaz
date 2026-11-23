@@ -7,6 +7,15 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 358 denetimi, Bölüm 36 (indeks 35) — günlükte en az anılan bölümlerden; kod değişmeden CLEARED @16258 / 180,8 sn /
+  respawns 1 / heals 2.) (1) **Tek ölüm yine galerili ambar arenasında (x6200–7100)**, tur 169 ve tur 328 ölçümleriyle aynı
+  yer: bot arenaya 46/115 canla giriyor, 2. dalgada (Yüzbaşı+Tüfekli) 2'ye düşüp ölüyor. · (2) **Tur 319 can sandığı
+  (6060) bot verisiyle ölçülemiyor:** bot pres köprüsünden zıplayarak sandığın üstünden geçiyor, kırmıyor (5906'da havada,
+  can 53→46, iyileşme yok). Yani sandığın etkisi yalnız insan testinde görülebilir. İnsan testinde arena ölümü 1'i geçerse
+  önce Bölüm 8/28 kalıbı: sandığa ek olarak kapı önüne gevşek `_pickup(HEALTH, ~6130, -45)`; yetmezse 2. dalga
+  MINIBOSS+RIFLE → MINIBOSS. · (3) Final (Müdür, x14500–15700): 34 sn takılma, 9 kaçış / 1 isabet; 14100 kapı canı
+  doğru yerde, bot 94–64 arası kalıyor, ölüm yok. · (4) Geri kalan kesitler (açılış, mavna, kayıt arşivi, 12650 üç
+  dalgalı arena) 0 ölüm, can 85–105 bandında.
 - (Tur 357 denetimi, Bölüm 29 "Kuzguncuk Kıyı Deposu" (indeks 28) ve Bölüm 24 (indeks 23) — günlükte en az adı geçen iki
   bölüm; yeni bot + Bölüm 29 pencereli çekim (8 kare); ikisi de kod değişmeden CLEARED, 0 ölüm.)
   (1) **Bölüm 29 temiz:** CLEARED @10106 / 83,2 sn / 0 ölüm / respawns=0, heals=1; en uzun takılma 12s@3928 (çeşme meydanı
@@ -10209,3 +10218,15 @@ yönünde atlasla tam tutarlı, yapıştırılmış öğe yok. HUD (dalga sayac�
 yapılmadı. Kod değişikliği yok.
 **Sonraki öneri:** insan oyun testi (öncelik: Bölüm 29 çeşme arenası can boşluğu, Bölüm 18 ambar, 25 ciltçi); ya da yeni
 bir bölüm denetimi (en az anılan: Bölüm 33, 22, 36).
+
+### 2026-11-23 — Denetim (Bölüm 36): ambar arenası ölümü sürüyor, can sandığı bot ile ölçülemiyor (tur 358)
+
+**Ne yapıldı:** kural (d) — stil listesi, iki yol haritası ve P1 kapalı, birikimin üst maddeleri insan testine bağlı.
+Günlükte en az anılan bölümlerden Bölüm 36 (33 bir önceki turlarda denetlendi) bot ile oynatıldı.
+**Neden şimdi:** final bölümünün ambar arenası tur 169'dan beri ölüm noktası; tur 319 sandığının etkisini doğrulamak.
+**Bulgular:** CLEARED @16258 / 180,8 sn / respawns 1 / heals 2. Ölüm yine ambar arenasında (46 canla giriş). Bot 6060
+sandığını kırmadan üstünden atlıyor → tur 319 düzeltmesi bot verisiyle hiç ölçülmemiş; arena ölümü tam 1 (eşikte).
+**Karar:** eşik aşılmadığı ve sandık insan oyuncu için çalıştığı için değişiklik yapılmadı; bir sonraki adım (gevşek kapı
+canı, sonra dalga hafifletme) birikime yazıldı. Kod değişikliği yok.
+**Testler:** `--import` SCRIPT ERROR 0; bot Bölüm 36 (indeks 35) CLEARED, 1 respawn.
+**Sonraki öneri:** insan oyun testi (öncelik: Bölüm 36 ambar arenası, Bölüm 29 çeşme arenası, Bölüm 18 ambar, 25 ciltçi).
