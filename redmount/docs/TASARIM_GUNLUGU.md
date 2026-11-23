@@ -10545,3 +10545,13 @@ dalga ve ters fazlı alev bacaları zorluğu korunuyor.
 **Test:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0; `dtm_gaps` PASS; `embedded_objects` PASS. Bot Bölüm 19 yeni
 kod ×2 CLEARED 0 ölüm (@10106/88,8 sn heals 1, finale 115 canla; @10110/83,0 sn). Yeni görsel yok (mevcut can paketi).
 **Sonraki adım:** aynı "tek can üst rafta" kalıbını diğer bölümlerde tara (final arenası öncesi zemin rotasında can yok mu?).
+
+### 2026-11-24 — Tarama: "final öncesi zemin rotasında can yok" kalıbı; kod değişikliği yok (tur 374)
+
+**Ne yapıldı:** tur 373'ün önerisi. 36 bölüm betiği statik tarandı (son `gate_left_x` öncesi 1500 px'te `_pickup(HEALTH)`
+ve y ≥ −120). 25 arenalı bölümün 18'i "zemin canı yok" çıkıyor, ama sinyal güvenilir değil: sandık/arena ödülü ile gelen
+canları, −160'taki tek-yön raflarına normal zıplamayla (~125 px + platform) erişimi ve Bölüm 26–36'nın farklı arena
+kurulumunu görmüyor. Önceki denetimlerde bu bölümlerin çoğu bot ile 0 ölümle geçti; tekrarlayan final ölümü yalnız
+Bölüm 19 ve 23'te görüldü, ikisi de düzeltildi. Toplu can eklemek formül olur ve kanıtsız zorluk düşürür → yapılmadı.
+**Sonraki adım:** otonom kuyruk boş — stil listesi ve iki yol haritası kapalı, birikim insan testi verisi bekliyor.
+Yeni denetim, bot ölümü tekrarlayan bölüm çıkarsa tekil düzeltmeyle sürmeli. Otomasyon durdu.
