@@ -14,7 +14,7 @@ const VALVES := preload("res://assets/backgrounds/book02_sarachane_valves_atlas.
 func _build() -> void:
 	sky_atlas = STREETS
 	sky_cells = [[0, -100000.0], [1, 1600.0], [2, 3300.0], [3, 4600.0],
-		[0, 6100.0, VALVES], [1, 7400.0, VALVES], [2, 8700.0, VALVES], [3, 9800.0, VALVES]]
+		[0, 6100.0, VALVES], [1, 7400.0, VALVES], [2, 8700.0, VALVES], [3, 9400.0, VALVES]]
 	sky_tint = Color(0.92, 0.88, 0.86)
 	sky_shade = Color(0.07, 0.05, 0.06)
 	back_row_skip = [[3300.0, 9700.0]]

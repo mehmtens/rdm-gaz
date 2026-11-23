@@ -16,10 +16,6 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   yüklü ritim. İnsan testi "başı kolay" derse 3400–4750 kesitine tek ASSASSIN; veri gelmeden dokunma.
 - (Tur 371 denetimi, Bölüm 23) **Bakım geçidi arenası (7600–8300) can vadisi:** 3 koşuda 89→17, 87→55, ?→27; ödül HEALTH
   arenadan sonra. Kapı canı tur 371'de yalnız finale kondu; insan testi burada da erirse 2. dalga ELITE+SHIELD → ELITE.
-- (Tur 371 denetimi, Bölüm 23) **"Taşma avlusu" adı ile görüntü uyuşmuyor:** final arena (9450–10000) hâlâ kontrol
-  masası iç mekân arka planında çekiliyor (çizim masası, çekmeceli dolap); yorum "avlu/Bozdoğan Kemeri" diyor. Görsel
-  stil içi, yalnız anlatı tutarsızlığı; düşük öncelik.
-
 - (Tur 367/368, Bölüm 24 (indeks 23), Kitap 2 finali) **Dağıtım haznesi mini-boss arenası (12650–13450) botun zayıf
   noktası:** taban kodla 2/2, tur 367 koduyla 3/3 koşuda birer ölüm; bot arenaya 78–109 canla girip mini-boss dalgasında
   4–26'ya iniyor. Tur 368'de ödül ZIRH→CAN denendi: 3 koşuda 4 ölüm, ölümler arenanın içine kaydı → **reddedildi, geri
@@ -919,6 +915,23 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-24 (387) — Bölüm 23 taşma avlusu: final arena artık su kemeri/taşma havuzu resminde
+
+**Neden şimdi:** kural (c); stil listesi ve iki yol haritası kapalı, birikimde insan testine bağlı olmayan tek madde
+tur 371'in "Taşma avlusu adı ile görüntü uyuşmuyor" notuydu. Neden: `sky_cells` son girişi `[3, 9800, VALVES]` —
+geçiş perdesi kamera x≈9680'de (SKY_BLEND/2 önce) başlıyordu; final arena 9450–10000 olduğu için oyuncu kapıdan
+girip 1. dalgayı kontrol masası iç mekân resminin (harita masası, çekmeceli dolap) önünde dövüşüyordu.
+**Değişiklik (`bolum23.gd`):** eşik 9800 → 9400. Perde 9280'de, kontrol masası iç mekânından (8900–9280) çıkışta
+başlıyor; 9350 kontrol noktası + kapı canı (9400) avluya geçişte. Yeni sanat yok: VALVES atlasının 4. hücresi
+(ChatGPT; taşma havuzları, ızgaralı kemerli savaklar, arkada Bozdoğan Kemeri) zaten bu sahne için çizilmiş, yalnız
+geç açılıyordu. Masa sahnesi (9000) pan hedefi 9150 → hâlâ masa resminde.
+**Oyuncu ne hissedecek:** kapalı kontrol odasından çıkıp şafakta açık avluya düşmek — finalin "nefes → baskın" eşiği
+görsel olarak da okunuyor; adı geçen kemer finalde arkada.
+**Doğrulama:** pencereli `capture_level` (9150/9450/9700/10050): arena ve kapı avlu resminde, masa çekimi iç mekân,
+HUD/tabela taşması yok. Bot Bölüm 23: CLEARED @10109 / 100,9 sn / 0 ölüm / takılma 12s@9967 / heals 1.
+**Testler:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0; `dtm_gaps` PASS.
+**Sonraki adım:** birikimin kalanı insan testi verisine bağlı; insan oyun testi (Bölüm 22, 11, 24, 10).
 
 ### 2026-11-24 (386) — Denetim (Bölüm 10 Sur Ağası finali ve Bölüm 14): Bölüm 10 patron sonrası dalga tek
 
