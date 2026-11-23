@@ -10251,3 +10251,12 @@ arenasında ölüm 0/2** (önce 2/2), arena can dibi 3–4. Kalan ölümler jene
 — bot varyansı yüksek (yalnız can eklenmiş koşuda respawns 5'e çıkmıştı, ölümlerin 2'si pres köprüsünde, değişiklikten önce).
 **Sonraki öneri:** insan oyun testi (Bölüm 36 ambar + jeneratör, Bölüm 29 çeşme, 18 ambar, 25 ciltçi). Jeneratör notu
 birikime yazıldı.
+
+### 2026-11-23 — Denetim (Bölüm 19): temiz, kod değişikliği yok (tur 360)
+
+**Ne yapıldı:** kural (d) — stil listesi ve iki yol haritası kapalı, birikimin üst maddesi (Bölüm 36 jeneratör kesimi) açıkça
+"veri gelmeden dokunma" diyor. Günlükte en az anılan bölüm (Bölüm 19) bot ile oynatıldı.
+**Bulgular:** CLEARED @10107 / 88,8 sn / respawns 0 / heals 1; en uzun takılma 12s@9965 (son kesim). HP 115 bandında
+x~8100'e kadar sabit, son arena/finalde 50'ye iniyor ama ölüm yok. Yeni denge veya rota sorunu görülmedi; birikime ekleme yok.
+**Test:** `REDMOUNT_PROBE_LEVEL=18 bolum_play.tscn` → CLEARED. Kod değişmediği için smoke/derleme tekrarlanmadı.
+**Sonraki adım:** otonom kuyruk boş; birikimdeki denge maddeleri insan testi verisi bekliyor. Otomasyon durdu.
