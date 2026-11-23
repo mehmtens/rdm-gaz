@@ -10622,3 +10622,13 @@ Dalgalar aynı; sayı hipotez.
 **Test:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0; `dtm_gaps` PASS; `embedded_objects` PASS. Bot Bölüm 10 yeni
 kod ×3: CLEARED 1/0/0 ölüm (129,5 / 125,6 / 126,7 sn), finalde dip 4–16 (gerilim korunuyor). Yeni görsel yok.
 **Sonraki adım:** denetlenmemiş kalan Bölüm 1, 2, 3, 5.
+
+### 2026-11-24 — Denetim (Bölüm 1, 2, 3, 5): temiz, kod değişikliği yok; otomasyon durdu (tur 380)
+
+**Ne yapıldı:** denetim döngüsünün son grubu. Bölüm 1: CLEARED 79,4 sn / 0 ölüm / dip 81. Bölüm 2: 78,4 sn / 0 / dip 96.
+Bölüm 3: 80,6 sn / 0 / dip 56. Bölüm 5: 89,6 sn / 0 / finalde dip 11 (x~8550, final arenası; ölüm yok, tek koşu —
+izlenecek, dokunulmadı). Böylece tur 357–380 arasında 36 bölümün tamamı yeni botla en az bir kez denetlendi; tekrarlayan
+ölüm bulunan Bölüm 19, 23, 30, 35, 36 ve 10 tekil kapı canı/dalga ayarıyla düzeltildi, Bölüm 8 ve 24 bilinçli final
+sertliği olarak bırakıldı.
+**Sonraki adım:** otonom kuyruk boş — stil listesi ve iki yol haritası kapalı, birikim maddeleri insan testi verisi
+bekliyor. Otomasyon durdu.
