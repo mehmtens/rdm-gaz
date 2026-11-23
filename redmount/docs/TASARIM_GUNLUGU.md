@@ -935,8 +935,10 @@ dalgası, sonra kör nokta sahnesi — finalin sonu sarkmıyor.
 patron dalgasında kaldı (tur 382 dersi: thinning ölümü değil takılmayı düzeltir); eşik payı için kabul edildi. Sayılar
 insan testi gelene kadar hipotez; insan testi "Sur Ağası'nda öldüm" derse wave1 ELITE+KNIFE → ELITE.
 **Testler:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0; `dtm_gaps` PASS. Yeni görsel yok.
-**Sonraki adım:** insan oyun testi (Bölüm 22 pompa salonu, 11 Muhafız Başı, 24 mini-boss, 10 Sur Ağası); otonom
-denetim için sıradaki eski bölüm Bölüm 12 (tur 332).
+**Ek (aynı oturum) — Bölüm 12 (indeks 11) denetimi:** 3 koşu CLEARED (83,4 / 79,7 / 84,2 sn), 0 ölüm, takılma
+13–14 sn @2690 (ilk arena), dip 46 (final). Temiz, kod değişikliği yok. Böylece 36 bölümün hepsi tur 336 sonrası adlı
+denetimden geçti. **Otomasyon durdu.**
+**Sonraki adım:** insan oyun testi (Bölüm 22 pompa salonu, 11 Muhafız Başı, 24 mini-boss, 10 Sur Ağası).
 
 ### 2026-11-24 (385) — Denetim (Bölüm 29 ve 34): temiz, kod değişikliği yok; otomasyon durdu
 
