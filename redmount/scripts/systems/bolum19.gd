@@ -131,6 +131,8 @@ func _build() -> void:
 
 	# --- 8. Külhan: alev bacaları arasında Külhanbeyi; Samatya adresi -----------
 	_checkpoint(9300, 0)
+	## Yakıt rafındaki can üst rotada; zemin rotasını seçen oyuncu da finale nefesle girsin.
+	_pickup(HEALTH, 9340, -45)
 	var final: BattleArena = ARENA.instantiate()
 	final.position = Vector2(9700, 0)
 	final.gate_left_x = 9400

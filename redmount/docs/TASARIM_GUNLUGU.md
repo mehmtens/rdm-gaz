@@ -10532,3 +10532,16 @@ Bölüm 33 CLEARED 0 ölüm (kod değişmedi). Yeni görsel yok (mevcut can pake
 dip değerleri bot varyansı bandında (Bölüm 23'teki gibi tekrarlanan ölüm yok) → değişiklik gerekmedi.
 **Sonraki adım:** otonom kuyruk boş — stil listesi ve iki yol haritası kapalı, birikim maddeleri insan testi verisi
 bekliyor. Otomasyon durdu.
+
+### 2026-11-24 — Bölüm 19 külhan finali: kapı önüne zemin rotasında can; bot ölümü 1/2 → 0/2 (tur 373)
+
+**Neden şimdi:** stil listesi, iki yol haritası kapalı; birikim insan testi bekliyor → kural (d) denetimi. Tur 371'in
+önerdiği aday Bölüm 19 (Çemberlitaş hamamı → külhan).
+**Bulgular:** taban kodla 2 koşu CLEARED, biri 1 ölümle (x~9600–9850, Külhanbeyi arenası), heals 0/0. Finale 80 canla
+girip 20–29'a iniyor. Bölüm 23 ile aynı kalıp: tek can (8650,−275) yakıt rafı iskelesinin üstünde, zemin rotası ıskalıyor.
+**Değişiklik:** `bolum19.gd` — final kapısı önüne (9340,−45) `_pickup(HEALTH)`. Sayı hipotez: tek paket; Bruiser'lı ikinci
+dalga ve ters fazlı alev bacaları zorluğu korunuyor.
+**Oyuncu ne hissedecek:** üst rafı atlasa da Külhanbeyi'ne nefesle girer; ölüm alev/boss okumasına bağlı kalır.
+**Test:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0; `dtm_gaps` PASS; `embedded_objects` PASS. Bot Bölüm 19 yeni
+kod ×2 CLEARED 0 ölüm (@10106/88,8 sn heals 1, finale 115 canla; @10110/83,0 sn). Yeni görsel yok (mevcut can paketi).
+**Sonraki adım:** aynı "tek can üst rafta" kalıbını diğer bölümlerde tara (final arenası öncesi zemin rotasında can yok mu?).
