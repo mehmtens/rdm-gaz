@@ -21,7 +21,11 @@ func _build() -> void:
 	($PlayerSpawn as Node2D).position = Vector2(80, -160)
 
 	# --- 1. Tepe: gözlem; inişte ilk karşılaşma ---------------------------------
-	_terrain(-400, 700, -120)
+	## Tepe 230'da biter: −400'den başlayınca soldaki gizli mahzenin (−600…−230) yarısını yutuyordu,
+	## zula tüpü ve iki coin toprağın içinde kalıyordu (tur 367). Mahzen kapısının önünde 60 px basamak.
+	_terrain(-400, -230, 0)
+	_terrain(-230, -150, -60)
+	_terrain(-150, 700, -120)
 	_terrain(700, 800, -80)
 	_terrain(800, 900, -40)
 	# Ateş hattında toprak siper seti (iki basamak): ikinci kum torbasını aşmak için yükselti.

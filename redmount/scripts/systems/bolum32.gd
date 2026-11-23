@@ -70,7 +70,10 @@ func _build() -> void:
 	_scaffold(4320, -330, 120)
 	_scaffold(4460, -220, 120)
 	_pickup(PISTOL, 4140, -470)
-	_coin_line(4000, 3, 160, -380)
+	## Orta coin kulenin (4075–4205, tepe −420) gövdesine gömülüydü (tur 367); kule tepesinin üstüne.
+	_pickup(COIN, 4000, -380)
+	_pickup(COIN, 4140, -530)
+	_pickup(COIN, 4320, -380)
 	_scaffold(4600, -110, 120)
 	_chimney(4900, -600, 140, 150, HEALTH)
 	_lantern(4900, -640)
@@ -108,7 +111,7 @@ func _build() -> void:
 	_interior(7600, 8300, -230, [-115.0], 1)
 	_enemy(KNIFE, 7850, -115)
 	_pickup(RIFLE_PICKUP, 8230, -160)
-	_pickup(HEALTH, 8080, 0)  ## nefes odasında görünür tek can: baca (4900) sonrası tüfek dizisi + son arenaya tek iyileşme
+	_pickup(HEALTH, 8080, -45)  ## (y=0'da yarısı zemine gömülüydü, tur 367) nefes odasında görünür tek can: baca (4900) sonrası tüfek dizisi + son arenaya tek iyileşme
 	_coin_line(7650, 5, 50, -160)
 	_story(8000, _sahne_kayit)
 

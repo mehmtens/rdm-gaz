@@ -7,6 +7,12 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 367, Bölüm 24 (indeks 23), Kitap 2 finali) **Dağıtım haznesi arenası (12650–13450, BRUISER+KNIFE → MINIBOSS)
+  sonrası ölüm 5/5 koşu:** tur 357'de 0 ölüm/can dibi 46 idi; şimdi değişikliksiz taban kodla da 2/2, tur 367 koduyla 3/3
+  ölüm (x~13050–14300). Bot arenaya 78–109 canla giriyor, mini-boss dalgasında 4–26'ya iniyor; ödül ARMOR (can değil),
+  ardından çürük kapak tahtası + kanal. 5/5 güçlü sinyal: sıradaki tur önce ölüm anlarını kesinleştirsin (arena içi mi,
+  13600 sonrası kanal mı), sonra en küçük müdahale (ödül ARMOR→HEALTH ya da 13600 sonrası gevşek can) en az 3 koşuyla.
+
 - (Tur 366, Bölüm 7 (indeks 6)) **Fırın yolu (6320–7800) arena sonrası can marjı:** zırhlı arena hafifleyince bot
   arenadan 37–67 canla çıkıyor; pres+alev ritminde 3 koşunun 1'inde öldü (x~6960, 6320 kontrol noktası hemen önce).
   6100 DÖKÜMHANE ÇAYOCAĞI can satıyor, bot kullanmıyor. İnsan testi "fırın yolunda öldüm" derse 6320 sonrası gevşek
@@ -10412,3 +10418,31 @@ PASS. Bot (son kod): Bölüm 7 ×3 CLEARED, arena ölümü **0/3** (önce 2/3; g
 (x~6960) ölüm; Bölüm 1, 2, 5, 11, 12, 13, 14, 25, 31 CLEARED 0 ölüm; Bölüm 16 ×3 CLEARED (1 koşuda belge odası arenası
 ölümü; değişikliksiz taban koşusu ve diğer 2 koşu 0 ölüm → varyans). Yeni görsel yok, çekim gerekmedi.
 **Sonraki adım:** Bölüm 7 fırın yolu notu birikime yazıldı; kalan denge maddeleri insan testi bekliyor.
+
+### 2026-11-23 — Gömülü nesne taraması: 4 donmuş düşman, gömülü coin/can, Bölüm 4 mahzeni (tur 367)
+
+**Neden şimdi:** tur 366'da kontrol noktasının otomatik han'ın sandığına gömüldüğü bulunmuştu; aynı hata sınıfı
+düşman ve ödüller için de taranmadı. Kural (d) denetimi bu turda sistematik bir taramaya çevrildi.
+**Bulgular (36 bölüm, 2251 düşman/ödül):** (1) Bölüm 17/24/33/34'te elle konmuş birer düşman (Zırhlı Kabadayı ×2,
+Elit, Bombacı) otomatik han'ın sandık basamağının içinde doğuyordu; fizik onu sola itip sandığa gömüyor, düşman
+düşüş hızı 1400'de **sonsuza dek donuyordu** (4 sn ölçüm). Oyuncu için bu, tasarımcının koyduğu dövüşün yok olması ve
+sandığa yapışık kıpırtısız bir düşman demek. (2) Bölüm 32: kule rotasının orta coin'i kulenin gövdesinde (4160,−380);
+"nefes odasının tek görünür canı" y=0'da yarı zemine gömülü. (3) Bölüm 4: açılış tepesi (`_terrain(-400,700,-120)`)
+her bölümün solundaki gizli mahzenin (−600…−230) yarısını yutuyordu; zula tüpü ve iki coin toprağın içindeydi.
+Gürültü olarak ayıklandı: pres altındaki coin'ler (hareketli gövde, anlık çakışma) ve Bölüm 5 vagon düşmanı
+(1,5 sn içinde vagonun üstüne çıkıyor).
+**Değişiklik:**
+- `dtm_level.gd` `_chimney_spot_free`: elle konmuş düşman han'ın sandık basamaklarında ya da kapının sol yarısında
+  (cx−345…cx−128) ise yer reddedilir. İlk denemede tüm ayak izi (oda dahil) reddedildi; bu 12 han'ın 6'sını yerinden
+  etti (oda içindeki düşman sağa itilip serbest kalıyor, sorun değil) → dar aralığa indirildi; yalnız 4 hedef bölüm
+  değişti (Bölüm 17/34 han kaydı, Bölüm 24/33 dam sırrına döndü). 108 sır korunuyor.
+- `bolum32.gd`: orta coin kule tepesinin üstüne (4140,−530); can paketi (8080,−45).
+- `bolum04.gd`: tepe −150'de başlıyor, mahzen kapısının önünde 60 px basamak (−230…−150), mahzen tabanı y=0.
+- Yeni kalıcı koruma: `tests/embedded_objects.tscn` — 36 bölüm, 1 sn yerleşme, hareketli gövdeler hariç. Eski kodda
+  6 gömülü/FAIL, yeni kodda 0/PASS.
+**Test:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0; `dtm_gaps` PASS; `checkpoint_clear` PASS; `embedded_objects`
+PASS; `secret_count` rc=0, `secret_reach` PASS (108), `secret_roll_clear` PASS, `secret_roll_visible` PASS. Bot: Bölüm 1, 4,
+13, 17, 32, 33, 34 CLEARED 0 ölüm; Bölüm 24 ×3 CLEARED ama her koşuda 1 ölüm (x~13050–14300) — **değişikliksiz taban
+kodla da 2/2 ölüm**, bu tura bağlı değil; birikimin en üstüne yazıldı. Yeni görsel yok (Bölüm 4'te yalnız zemin
+basamağı; mevcut terrain sanatı), çekim yapılmadı.
+**Sonraki adım:** birikim üstü — Bölüm 24 dağıtım haznesi ölümü (5/5).

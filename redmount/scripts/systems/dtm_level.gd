@@ -1141,6 +1141,13 @@ func _chimney_spot_free(cx: float) -> bool:
 			## kuruluyordu; ölen oyuncu bloğun içinde doğup sıkışıyordu (tur 366).
 			if absf(px - cx) < 260.0 or (px > cx - 400.0 and px < cx + 220.0):
 				return false
+		elif ch is EnemyBase:
+			## Elle konmuş düşman sandık basamaklarında (cx−330…cx−150) ya da kapının sol yarısında
+			## (kapı merkezi cx−130) kalırsa fizik onu sola, sandığın içine itiyor ve düşman orada
+			## donuyordu (Bölüm 17/24/33/34; tur 367 gömülü nesne taraması). Odanın içindeki düşman
+			## sağa itilip serbest kalır, han'ı kaydırmaz.
+			if px > cx - 345.0 and px < cx - 128.0:
+				return false
 		elif ch is Cutscene:
 			if absf(float(ch.trigger_x) - cx) < 260.0:
 				return false
