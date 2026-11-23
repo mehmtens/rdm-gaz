@@ -7,11 +7,12 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- (Tur 367, Bölüm 24 (indeks 23), Kitap 2 finali) **Dağıtım haznesi arenası (12650–13450, BRUISER+KNIFE → MINIBOSS)
-  sonrası ölüm 5/5 koşu:** tur 357'de 0 ölüm/can dibi 46 idi; şimdi değişikliksiz taban kodla da 2/2, tur 367 koduyla 3/3
-  ölüm (x~13050–14300). Bot arenaya 78–109 canla giriyor, mini-boss dalgasında 4–26'ya iniyor; ödül ARMOR (can değil),
-  ardından çürük kapak tahtası + kanal. 5/5 güçlü sinyal: sıradaki tur önce ölüm anlarını kesinleştirsin (arena içi mi,
-  13600 sonrası kanal mı), sonra en küçük müdahale (ödül ARMOR→HEALTH ya da 13600 sonrası gevşek can) en az 3 koşuyla.
+- (Tur 367/368, Bölüm 24 (indeks 23), Kitap 2 finali) **Dağıtım haznesi mini-boss arenası (12650–13450) botun zayıf
+  noktası:** taban kodla 2/2, tur 367 koduyla 3/3 koşuda birer ölüm; bot arenaya 78–109 canla girip mini-boss dalgasında
+  4–26'ya iniyor. Tur 368'de ödül ZIRH→CAN denendi: 3 koşuda 4 ölüm, ölümler arenanın içine kaydı → **reddedildi, geri
+  alındı** (a9 zırhı tur ~170'ten beri bilerek; tur 340/357 tek koşuda 0 ölümdü, tur 57/167'de 1–2 — kronik sınır).
+  Kitap 2 finali için koşu başına bir kontrol noktası dönüşü kabul edilebilir zorluk olabilir. İnsan testi "Bölüm 24
+  mini-boss'unda takıldım" derse önce 1. dalgadan KNIFE'ı çıkar (BRUISER tek), mini-boss'a dokunma.
 
 - (Tur 366, Bölüm 7 (indeks 6)) **Fırın yolu (6320–7800) arena sonrası can marjı:** zırhlı arena hafifleyince bot
   arenadan 37–67 canla çıkıyor; pres+alev ritminde 3 koşunun 1'inde öldü (x~6960, 6320 kontrol noktası hemen önce).
@@ -10446,3 +10447,14 @@ PASS; `secret_count` rc=0, `secret_reach` PASS (108), `secret_roll_clear` PASS, 
 kodla da 2/2 ölüm**, bu tura bağlı değil; birikimin en üstüne yazıldı. Yeni görsel yok (Bölüm 4'te yalnız zemin
 basamağı; mevcut terrain sanatı), çekim yapılmadı.
 **Sonraki adım:** birikim üstü — Bölüm 24 dağıtım haznesi ölümü (5/5).
+
+### 2026-11-23 — Bölüm 24 mini-boss arenası ödülü denemesi: reddedildi, kod değişikliği yok (tur 368)
+
+**Ne yapıldı:** birikimin üstü (tur 367: Bölüm 24'te 5/5 koşuda ölüm). Ölüm anları kesinleştirildi: dağıtım haznesi
+arenası (13053), kapak tahtası/kanal (13953), suikastçılı arşiv (14189, 14272), final terası (17903). Ortak payda: bot
+mini-boss'tan 4–26 canla çıkıyor, sonraki ilk can 15480'de. Hipotez: a9 ödülü ZIRH→CAN, mini-boss sonrası nefes.
+**Sonuç:** 3 koşu CLEARED, respawns 1/1/2 — ölümler arenanın İÇİNE kaydı (can 8–13'e iniyor), vadideki ölüm bir koşuda
+pres bölgesine (~15000) geçti. İyileşme yok; günlükte a9 zırhının bilerek seçildiği yazılı → değişiklik **geri alındı**.
+Birikim maddesi güncellendi (insan testi tetikleyicisi: 1. dalgadan KNIFE çıkarmak).
+**Test:** `REDMOUNT_PROBE_LEVEL=23` ×3 (deneme) + önceki 5 koşu. Kod değişmedi; derleme/smoke tur 367 sonuçları geçerli.
+**Sonraki adım:** sistematik tarama serisine devam (doğma anında düşen/kaybolan düşmanlar).
