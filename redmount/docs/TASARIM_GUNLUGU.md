@@ -955,6 +955,19 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-25 (434) — `level05_throne_hall` bekletildi; otonom iş kalmadı, otomasyon durdu
+
+**Neden şimdi:** tur 433'ün önerisi — son kullanılmayan ChatGPT resmi `level05_throne_hall` için uygun bölüm var mı?
+**Karar: bekletildi, kod değişikliği yok.** Resim Batı gotiği bir katedral salonu (sivri kemerler, dev sütunlar, pencerelerde
+karlı dağlar). Adaylar tek tek tartıldı: Bölüm 12 taht düellosu zaten kendi Osmanlı "aslanlı taht salonu" hücresinde (tur 430),
+Bölüm 9 finali kurguda açık hava sur kapısı (Binbaşı Kaya "geçidi açar"; fortress hücre 0 birebir), Bölüm 10 kuzey surları ve
+Bölüm 11 Sessiz Koridor çini/kemer atlaslarıyla İstanbul kimliğinde; Kitap 3 finali yayın salonu modern. Gotik salon hiçbir
+kurguya ait değil, takmak REDMOUNT'un İstanbul kimliğini bozar. Resim `assets/backgrounds/` içinde kalıyor (silme yasağı).
+**Durum:** stil listesi, YOL_HARITASI, OYNANIS-KALITE P1 kapalı; birikimdeki bütün maddeler insan (telefon) testi verisine
+bağlı; son tasarım denetimi (tur 421) yeni iş çıkarmadı ve 36 bölümün tamamı birden çok kez botla + pencereli çekimle denetlendi.
+Görev kuralı gereği otomasyon durdu. **Test:** yalnız belge değişti; kod/sahne değişmediği için test koşulmadı.
+**Bir sonraki adım:** insan oyun testi (telefon APK) — birikimdeki "insan testi derse" maddelerinin her biri bu veriyi bekliyor.
+
 ### 2026-11-25 (433) — Bölüm 9 (Zırhlı Üs) açılışı: tünel çıkışında dağ üssünün tamamı ilk kez görünüyor
 
 **Neden şimdi:** tur 432'den sonra `assets/backgrounds/` içinde kullanılmayan iki ChatGPT resmi kaldı: `level04_mountain_fortress`
