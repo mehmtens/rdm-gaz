@@ -916,6 +916,19 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-24 (396) — Denetim (Bölüm 17 ve 32, pencereli): temiz, kod değişikliği yok; otomasyon durdu
+
+**Neden şimdi:** stil listesi, iki yol haritası kapalı; birikim insan testi bekliyor → kural (d). Günlükte en az anılan
+iki bölüm (17, 32) pencereli botla, 9–10 sn'de bir kare alınarak oynatıldı. Efektlerin (`Fx`) kodla çizimi tur
+bb387ed5'te bilinçli bırakıldığı için yeniden açılmadı.
+**Bulgular:** Bölüm 17: CLEARED @10006 / 85,9 sn / 0 ölüm / heals 1; en uzun takılma 11 sn @2853 (kapı arenası, 2. dalga
+geniş alan — normal); dip 68 son arenada, 98'e toparlıyor. Telsiz balonu ve kombo sayacı ("İYİ ×3") sağ üstte yan yana,
+çakışmıyor. Bölüm 32: CLEARED @9855 / 77,5 sn / 0 ölüm / heals 0; can 115→55 düzgün aşınma, finale 57 canla giriyor,
+takılma 8 sn @9496. İki bölümde de palet/ışık ChatGPT atlasıyla tutarlı, HUD/dalga şeridi/tabelalar okunur, taşma yok.
+**Durum:** yeni ölçülebilir iş çıkmadı. Kuyruk boş, birikim insan testi verisine bağlı. **Otomasyon durdu.**
+**Sonraki öneri:** gerçek cihazda insan testi (tur 395 önerisi geçerli: düğme boyu, sağ sütunun düşman örtmesi,
+`touch_stats` CSV'si).
+
 ### 2026-11-24 (395) — Telefon denetimi (oyun içi): ara sahneler ve dövüş HUD'u 20:9'da temiz; otomasyon durdu
 
 **Ne yapıldı:** tur 390–394 menü düzeltmelerinden sonra aynı telefon açısı oyun içine uygulandı. (1) `capture_cutscenes`
