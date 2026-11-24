@@ -926,6 +926,17 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-25 (410) — Denetim (Bölüm 2 ve Bölüm 3, Kitap 1 açılışı): ikisi de temiz, kod değişikliği yok
+
+**Neden şimdi:** stil listesi ve iki yol haritası kapalı, birikim insan testi bekliyor → kural (d). Tur 409'un listesindeki
+pres okuyan/başsız botla ölçülmemiş bölümlerden ilk ikisi.
+**Bulgular (başsız, snapshot'sız):** Bölüm 2: CLEARED @9506 / 74,6 sn / respawns 0 / heals 0; can dibi 105 (hiç ciddi hasar
+yok), en uzun takılma 15s@8237 (final arenası). Bölüm 3: CLEARED @9006 / 76,8 sn / respawns 0 / heals 0; can dibi 69
+(x~6200 kesimi), takılma 13s@5138 (orta arena). Tur 380 ölçümleriyle (dip 96 ve 56) aynı bantta. Kitap 1'in ilk
+bölümleri için düşük baskı öğretici ritme uygun → değişiklik gerekmedi (tek koşu; ölüm yok, karar için yeterli).
+**Değişiklik:** yok. **Test:** bot ×2 (indeks 1, 2) CLEARED.
+**Durum:** ölçülmemiş kalanlar 4, 5, 9, 12, 14, 18–20, 23, 27–28, 30–33; denetim sürüyor.
+
 ### 2026-11-25 (409) — Görsel + sayısal denetim (Bölüm 26 "Sirkeci Sevkiyatı"): temiz ve stilde; çekim kipi hayalet ölüm yöntem notu
 
 **Neden şimdi:** stil listesi ve iki yol haritası kapalı, birikim insan testi bekliyor → kural (d). Son turlar (404–408) yalnız
