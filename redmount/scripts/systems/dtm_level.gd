@@ -193,6 +193,7 @@ func _build_chapter() -> void:
 	# Önce içerik: bölüm sky_* / back_row_on ayarlarını _build içinde verir.
 	camera_limit_left = mini(camera_limit_left, -640)
 	_build()
+	_exit_apron()
 	_exit_gates()
 	_cut_holes()
 	for g in _ground_parts:
@@ -670,6 +671,21 @@ func _han_gate(cx: float, title := "", ground := 0.0) -> void:
 		sign.text = title
 		sign.position = Vector2(cx, ground - 340.0)
 		add_child(sign)
+
+
+## Çıkış sahnesinin kamerası (Cutscene.pan) sınırsız: kapıya pan'larken kamera
+## sınırını aşıp zeminin bittiği kenarı gösteriyordu (tur 419, Bölüm 6/17). Son
+## zemin parçası sınırın bir ekran ötesine kadar uzatılır; oyuncu hedefte bölümü
+## bitirdiği için bu önlük oynanışa girmez.
+func _exit_apron() -> void:
+	var last: Array = []
+	for g in _ground_parts:
+		if last.is_empty() or float(g[1]) > float(last[1]):
+			last = g
+	var want := float(camera_limit_right) + 800.0
+	if last.is_empty() or float(last[1]) >= want:
+		return
+	_terrain(float(last[1]), want, float(last[2]))
 
 
 ## Han kapılarının x'leri (çıkışta kapı var mı diye bakılır).

@@ -11375,3 +11375,25 @@ CLEARED 91,4 sn / 0 ölüm, 15 CLEARED 79,1 sn / 0, 16 CLEARED 76,4 sn / 0, 17 C
 çekildi: kapı ve terasın altında kesintisiz kaldırım.
 
 **Sonraki adım:** Kitap 3'ten 32 ve 34 dedike görsel denetim; birikim insan testi verisi bekliyor.
+
+### 2026-11-25 — Görsel denetim Bölüm 6, 7, 11, 32, 34 → çıkış sahnesi zemin önlüğü (ortak) (tur 420)
+
+**Neden şimdi:** tur 417–419 sonraki-adım listesi (dedike görsel çekimi en eski bölümler: 6, 7, 11, 32, 34); otonom
+birikim insan verisi bekliyor. `capture_level.tscn` 1280×720, bölüm başına 4–5 nokta, Read ile ChatGPT atlası yanında.
+
+**Bulgular:** Bölüm 32 (Kuleli gece kıyısı, rıhtım çukuru, Fenerci Kileri, sinyal kayıt odası, Vaniköy kapısı), Bölüm 34
+(Kandilli yokuşu, çiçekli bahçe merdiveni, sırt yolu, jeneratör odası, Anadoluhisarı kapısı), Bölüm 6 (Ağır Güvenlik:
+tuğla fabrika, vinç sahası, depo çatısı, kale kapısı), Bölüm 7 (haddehane, döküm potaları, tuğla kule), Bölüm 11 (Sessiz
+Koridor: hilal sancaklı revak, kale avlusu, pres/makine odası) ChatGPT tarzıyla tutarlı; taşma/stil dışı öğe yok. **Ortak
+kusur:** çıkış hikâye sahnesinin kamerası (`Cutscene.pan`) sınırsız; kapıya pan'larken `camera_limit_right`'ı aşıp zeminin
+bittiği kenarı gösteriyordu (Bölüm 6 kale kapısı sahnesi, Bölüm 17 Kapalıçarşı kapısı — kapının sağ yarısı boşluk üstünde).
+
+**Değişiklik:** `DtmLevel._exit_apron()` — `_build()` sonrasında en sağdaki zemin parçası `camera_limit_right + 800`'e
+(bir ekran payı) kadar aynı yükseklikte uzatılır. Oyuncu hedefte bölümü bitirdiği için önlük oynanışa girmez; tur 419'un
+bölüm başı uzatmaları zararsız kaldı. Bölüm 6 ve 17 çıkış sahnesi yeniden çekildi: kaldırım kare boyunca kesintisiz.
+
+**Test:** `--import` SCRIPT ERROR 0; campaign_smoke çıkış 0; DTM GAPS PASS; EXIT GROUND PASS (36); bot Bölüm 1 CLEARED
+78,9 sn / 0 ölüm, 6 CLEARED 123,4 sn / 0, 13 CLEARED 66,8 sn / 0, 17 CLEARED 84,6 sn / 0, 25 CLEARED 90,6 sn / 1 ölüm
+(final arenası x~9750, 40 canla giriş — önlük 10300 ötesinde, ilgisiz) → iki tekrar 82,8 / 88,9 sn, 0 ölüm (varyans).
+
+**Sonraki adım:** dedike görsel denetim listesi bitti. Otonom iş yok; birikim insan testi verisi bekliyor.
