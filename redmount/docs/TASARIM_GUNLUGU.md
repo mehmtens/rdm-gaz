@@ -7,6 +7,13 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 425 atlas taraması) **Kitap 1 bölümleri sonraki kitapların atlaslarını tekrar ediyor:** Bölüm 2 = Bölüm 14
+  (`book02_cibali_streets`), Bölüm 3 = Bölüm 29 (`book03_kuzguncuk_streets`), Bölüm 8 = Bölüm 15 (`book02_zeyrek_cistern`),
+  Bölüm 9 ve 10 ikisi de `level04_fortress`. Kullanılmayan, Kitap 1 için çizilmiş ChatGPT atlasları var
+  (`level06_backstreets`, `level07_night_market`, `level07_haddehane`, `level08_rail`, `level08_underground`,
+  `level11_north_walls_atlas_v2`, `level13_*`). Tur 425'teki gibi her biri için önce pencereli küçük örnek al; eski atlasların
+  bazılarında hücre altı koyu şerit var → `sky_src_h` ile kırp. Sıra: Bölüm 10 (yeraltı/raylı?) → 3 → 2 → 8.
+
 - (Tur 421 denetimi, Bölüm 26 (indeks 25) ve 29 (indeks 28)) **Orta kesit hasarsız bant:** Bölüm 29'da bot x~4700–8300
   (≈3600 px, 16 sn) hiç hasar almıyor, baskı 8450 arenasında toplanıyor (115→45, 21 sn takılma); Bölüm 26'da x~5900–8000
   aynı. Bölüm 17/19/23/33 notlarıyla aynı "arka/ön yüklü" desen (Bölüm 19 tur 422: bot bütün bölüm 115'te, tek düşüş
@@ -944,6 +951,26 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-25 (425) — Bölüm 11 (Sessiz Koridor) arka planı kendi atlasına döndü: Bölüm 12 ile hücre tekrarı giderildi
+
+**Neden şimdi:** tur 424'ün önerisi (`sky_atlas` taraması). Tur 424'ten sonra Bölüm 11 ve 12 aynı
+`book03_anadoluhisari_inner` atlasını kullanıyordu (11: hücre 1/0/2, 12: 2/3/0) → arka arkaya iki bölümde aynı üç resim,
+üstelik Bölüm 35 de aynı atlas. Oysa Bölüm 11 için çizilmiş ChatGPT `level12_silent_corridor_atlas` (sur salonu + şehir
+manzarası, hücre kapısı, arşiv koridoru, sarnıç) yalnız eski `level12_redesign.gd`'de duruyordu.
+**Değişiklik:** `bolum11.gd` → `level12_silent_corridor_atlas`, hücreler 0 (surdan iniş/koridor) → 3 @3100 (Gazelle'in
+hücre kapısı) → 1 @5300 (arşiv) → 2 @6400 (sarnıç çukuru, Muhafız Başı, iç kale kapısı); ton 0.96/0.93/1.0 (atlas daha koyu).
+`dtm_level.gd` → yeni `sky_src_h` (varsayılan 0.86, eski davranış birebir): bu atlasın resmi hücrenin üst ~%70'i, altı düz
+koyu şerit; 0.86 ile şerit zemin üstüne taşıyor ve resim dikeyde eziliyordu. Bölüm 11 0.69 kullanıyor → resmin zemini
+oyun zeminine oturuyor, piksel oranı da kareye yaklaştı (yatay 2,5 / dikey 2,4 ekran px).
+**Görsel kanıt (6 pencereli kesit, önce/sonra):** giriş = sütunlu salon, mızrak rafı, demir kapı, solda minareli şehir; tutukevi
+= çivili hücre kapısı, parmaklıklı pencere, çini panolar (sahne "TUTUKEVİ" tabelasıyla birebir); arşiv = kemerli kitaplık
+koridoru; muhafız/çıkış = sarnıç sütunları, zincirli iskele, su — "İÇ KALE" kapısıyla uyumlu. Hepsi "sahneye ait".
+**Oyuncu ne hissedecek:** Bölüm 11 → 12 geçişi artık yeni bir yere girmek gibi; koridorun boğucu iç mekânı, ardından iç kalenin
+açık avlusu.
+**Test:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0; `dtm_gaps` PASS; bot Bölüm 11 CLEARED @8655 / 94,9 sn / 0 ölüm
+(stall 36s@7775 = Muhafız Başı dövüşü, arka plan dışı); bot Bölüm 1 CLEARED @8608 / 83,4 sn / 0 ölüm (ortak parametre kanaryası).
+**Bir sonraki adım:** birikimin en üstündeki Kitap 1 atlas tekrarları (Bölüm 10 → 3 → 2 → 8), her biri önce küçük örnekle.
 
 ### 2026-11-25 (424) — Bölüm 12 (İç Kale finali) arka plan atlası Çengelköy sahil → Anadoluhisarı kale içi: tematik uyumsuzluk + Bölüm 31 tekrarı giderildi
 

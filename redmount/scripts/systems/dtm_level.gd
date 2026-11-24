@@ -127,6 +127,9 @@ var sky_atlas: Texture2D = preload("res://assets/backgrounds/book02_suleymaniye_
 var sky_cells: Array = [[0, -100000.0]]
 ## 2: atlas 2x2 hücre; 1: tek parça resim.
 var sky_grid := 2
+## Hücrenin üstten kullanılan yükseklik oranı. Bazı eski atlasların hücre altında koyu
+## boş şerit var (ör. sessiz koridor: resim hücrenin ~%70'i); o şerit sahneye taşmasın.
+var sky_src_h := 0.86
 var sky_tint := Color(0.82, 0.8, 0.86)
 var sky_shade := Color(0.08, 0.07, 0.1)
 var back_tint := Color(0.34, 0.36, 0.5)
@@ -2019,7 +2022,7 @@ class _Sky extends Node2D:
 			k = span / (_half * 2.0)
 		var scroll := fposmod(x * 0.04, maxf(half.x - 4.0 - span, 1.0))
 		draw_texture_rect_region(atlas, Rect2(x0, -560, x1 - x0, 860),
-			Rect2(cell + Vector2(2.0 + scroll + (x0 + _half) * k, 2.0), Vector2((x1 - x0) * k, half.y * 0.86)),
+			Rect2(cell + Vector2(2.0 + scroll + (x0 + _half) * k, 2.0), Vector2((x1 - x0) * k, half.y * level.sky_src_h)),
 			Color(tint.r, tint.g, tint.b, alpha))
 
 

@@ -12,9 +12,14 @@ const BARS := preload("res://assets/environment/pixel/parmaklik.png")
 
 
 func _build() -> void:
-	sky_atlas = preload("res://assets/backgrounds/book03_anadoluhisari_inner_atlas.png")
-	sky_cells = [[1, -100000.0], [0, 3200.0], [2, 6300.0]]
-	sky_tint = Color(0.84, 0.82, 0.92)
+	## Bölüm için çizilmiş sessiz koridor atlası (tur 425): Bölüm 12 artık Anadoluhisarı iç
+	## kale atlasını kullanıyor; ikisi aynı hücreleri arka arkaya tekrar ediyordu.
+	## Sur salonu (şehir manzarası) -> hücre kapısı (Gazelle) -> arşiv -> sarnıç.
+	sky_atlas = preload("res://assets/backgrounds/level12_silent_corridor_atlas.png")
+	sky_cells = [[0, -100000.0], [3, 3100.0], [1, 5300.0], [2, 6400.0]]
+	## Resim hücrenin üst %70'i; altı boş koyu şerit.
+	sky_src_h = 0.69
+	sky_tint = Color(0.96, 0.93, 1.0)
 	sky_shade = Color(0.04, 0.03, 0.07)
 	back_row_on = false
 	_night(Color(0.74, 0.72, 0.88))
