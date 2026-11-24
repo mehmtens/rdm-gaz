@@ -916,6 +916,22 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-24 (398) — Denetim (Bölüm 6 ve 33) + Bölüm 6 Zırhlı Ustabaşı finali: kapı canı; bot ölümü 2/3 → 0/3
+
+**Neden şimdi:** stil listesi ve iki yol haritası kapalı, birikim insan testi bekliyor → kural (d). Son dedike denetimi
+tur 366 / 371 olan Bölüm 6 ve 33 güncel kodla botla oynatıldı.
+**Bulgular (taban kod):** Bölüm 33: CLEARED @9757 / 85,5 sn / 0 ölüm, takılma 10 sn @8117 → temiz (birikimdeki "orta
+kesit boş" notu geçerli, dokunulmadı). **Bölüm 6:** 3 koşuda 1/0/1 ölüm, hepsi Zırhlı Ustabaşı arenasında (x~8100–9100),
+takılma 42 sn. Bot pres/alev/kablo hattından finale ~28 canla giriyor; 7880'deki can sandığını kırmadan geçiyor.
+**Denenen ve reddedilen:** 3. dalga BRUISER+RIFLE → BRUISER (Bölüm 10/11 "boss sonrası dalga tek" kalıbı): 3 koşuda yine
+0/1/1 ölüm — ölümler Ustabaşı dalgasında, son dalgada değil → geri alındı.
+**Değişiklik:** `bolum06.gd` — kontrol noktası (7950) ile arena kapısı (8120) arasına `_pickup(HEALTH, 8060, −45)`;
+sandık yerinde kalıyor (kıran oyuncu için ek tampon). Dalgalar değişmedi; sayı hipotez.
+**Oyuncu ne hissedecek:** haddehane yolunun yorgunluğunu atıp Ustabaşı'na adil başlar; arena yine sert (yeni kodla dip 27–28).
+**Test:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0; `dtm_gaps` PASS. Bot Bölüm 6 yeni kod ×3: CLEARED 0/0/0
+ölüm (126,3 / 125,6 / 125,7 sn), takılma 18–35 sn. Yeni görsel yok (mevcut can paketi).
+**Sonraki adım:** denetim sürsün; birikim insan testi verisi bekliyor.
+
 ### 2026-11-24 (397) — Denetim (Bölüm 13 Balat kovalamaca, pencereli + Bölüm 15): temiz, kod değişikliği yok; otomasyon durdu
 
 **Neden şimdi:** stil listesi ve iki yol haritası kapalı; birikimin tümü "insan testi verisi gelmeden dokunma" kapılı →

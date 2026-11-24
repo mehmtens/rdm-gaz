@@ -113,6 +113,9 @@ func _build() -> void:
 	## Damlardan inişte kırılabilir can sandığı: 5820 kantininden sonra yalnız ARMOR var;
 	## alev + pres + kablo hattı finale girişi ~20 cana indiriyordu (tur 330).
 	_prop("sandik", 7880, 0, HEALTH)
+	## Kapı canı (tur 398): sandığı kırmadan geçen oyuncu finale ~28 canla giriyordu,
+	## bot 3 koşunun 2'sinde Zırhlı Ustabaşı arenasında öldü (Bölüm 10/19/35 kalıbı).
+	_pickup(HEALTH, 8060, -45)
 
 	# --- 6. Zırhlı Ustabaşı; haddehane kapısı -------------------------------------
 	_checkpoint(7950, 0)
