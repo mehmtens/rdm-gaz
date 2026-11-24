@@ -7,6 +7,10 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 415 denetimi, Bölüm 27 (indeks 26)) **Kablo koridoru arenası (7050–7850) → arşiv eliti zinciri:** 4 koşunun 1'inde bot
+  arenadan 13 canla çıkıp arşiv elitinde öldü, dönüşte çivili bodrum çöken döşemesine düştü (2 ölüm); diğer 3 koşu 0.
+  İnsan testi "arşivde öldüm" derse önce 2. dalga ELITE+RIFLE+SHIELD → ELITE+RIFLE; çukura dokunma.
+
 - (Tur 411 denetimi, Bölüm 5 (indeks 4)) **Makinist Cemil finali dar marj (bot):** iki ölçümde dip 11 ve 4, ölüm yok; bot
   7880 can sandığını kırmadan finale 47 canla giriyor. İnsan testi "Makinist'te az canla kaldım/öldüm" derse önce
   sandığın görünürlüğüne bak (kontrol noktası 7950'nin hemen önü), sonra 3. dalga ELITE+BRUISER → ELITE; veri gelmeden dokunma.
@@ -929,6 +933,20 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-25 (415) — Denetim (Bölüm 23, 27, 28): ölüm bandında; Bölüm 27 tek koşuda 2 ölüm → tekrarla 0/0, değişiklik yok
+
+**Neden şimdi:** kural (d) denetiminin devamı.
+**Bulgular (başsız):** Bölüm 23: CLEARED @10108 / 95,8 sn / 0 ölüm / heals 1; dip 17 x~8144 — birikimdeki "bakım geçidi
+arenası can vadisi" notuyla aynı yer ve bant (tur 371: 17/55/27) → not geçerli, dokunulmadı. Bölüm 28: CLEARED @10106 /
+97,0 sn / 0 ölüm / heals 2; dip 56 → temiz. **Bölüm 27:** ilk koşuda respawns=2: kablo koridoru arenasından (7050–7850,
+ELITE+KNIFE / ELITE+RIFLE+SHIELD) 59→13 canla çıkıp arşiv odasının elitinde (x~8470) öldü, kontrol noktası (7950)
+dönüşünde tam canla çivili bodrum çukurunda (8600–8760, çöken döşeme) ikinci kez düştü. Tur 409 yöntem notu gereği tek
+koşuya güvenmeden 2 tekrar: **respawns 0 / 0** (100,0 ve 88,3 sn; arenadan 46–76 canla çıkıyor, dip 46/50). Tur 377'de de
+0 → ölçüm 1/4 koşu; varyans bandında. Kablo koridoru arenası Bölüm 27'nin en sert yeri, 6550 MORS KANTİNİ can satıyor.
+**Karar:** değişiklik yok; birikime veri notu eklendi.
+**Test:** bot ×5 (indeks 22, 26 ×3, 27) CLEARED.
+**Durum:** ölçülmemiş kalanlar 30–33.
 
 ### 2026-11-25 (414) — Denetim (Bölüm 19 ve Bölüm 20): ikisi de temiz, kod değişikliği yok
 
