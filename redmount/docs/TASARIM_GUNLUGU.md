@@ -7,6 +7,18 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 390 telefon denetimi, 20:9 dokunmatik) **Duraklat menüsü düğmeleri telefonda ~36 px:** dokunmatikte 7 satır
+  (DEVAM / KONTROL NOKTASI / BAŞTAN / SES / TİTREŞİM / DÜĞME BOYU / SAYDAMLIK / ANA MENÜ) panelin içine sığsın diye
+  ince; 1080p telefonda ~18 dp. Ana menüdeki çözümün aynısı: ayar üçlüsünü (TİTREŞİM/BOY/SAYDAMLIK) ikili/üçlü sıraya
+  alıp düğmeleri ≥ 56 px yap; `menu_touch_targets` testini duraklat menüsüne genişlet. Etki yüksek (her ölümde
+  kullanılan ekran), maliyet orta (pause_menu.gd düzeni + cep cephaneliği paneliyle hizalama).
+- (Tur 390) **Mağaza sekmeleri ve GERİ telefonda ~46–50 px:** kart satın alma düğmesi (~40 px) en küçük hedef.
+  `shop_menu.gd` için aynı TOUCH_BUTTON_H kuralı; 16:9'da kart ızgarası taşmamalı. Etki orta, maliyet düşük.
+- (Tur 390) **Kanıt arşivi 20:9'da sağ üçte bir boş:** `_arch_grid.columns = 2` sabit; 1600 genişlikte üçüncü
+  sütun sığar (bölüm başına 3 kare ~460 px). Genişliğe göre 2/3 sütun. Etki düşük, maliyet düşük.
+- (Tur 390) **Dokunmatik sonuç kartının alt üçte biri boş:** telefonda istatistik 3 satır, ipucu satırı gizli; kart
+  masaüstü yüksekliğinde kalıyor (~150 px boşluk). Kart yüksekliği satır sayısına göre küçülsün. Etki düşük.
+
 - (Tur 371 denetimi, Bölüm 33 (indeks 32)) **Erken arena (x~2600–3950) en sert kesit:** bot 105→55'e iniyor, sonra
   x~7600'e kadar hiç hasar almıyor (55'te sabit, 7599'da 85'e toparlıyor); bölümün baskısı ön yüklü, orta kesit boş.
   En uzun takılma 17s@8155 (iç mekân arenası), ölüm yok. İnsan testi "Bölüm 33'ün ortası boş" derse orta kesite (5100–
@@ -915,6 +927,35 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-24 (390) — Telefon denetimi: ana menü dokunma hedefleri büyüdü, ikili ızgara
+
+**Neden şimdi:** stil listesi ve iki yol haritası kapalı, birikim insan testine bağlı → kural (d). Son menü denetimi
+tur 200'de 1280×720 masaüstü görünümündeydi; hedef platform telefon olduğu halde menüler hiç 20:9 + dokunmatik modda
+(`REDMOUNT_TOUCH_CONTROLS=1`, 1600×720) çekilmemişti. 9 ekran çekildi (menü, bölüm seç, ayarlar, arşiv, mağaza ×3,
+HUD, duraklat, sonuç).
+**Bulgu:** ana menü düğmeleri 46 px (ilk 52) — 720 sanal yükseklik 1080p telefonda 1,5× ölçeklenir, xxhdpi'de bu
+~25 dp; dokunma hedefi önerisi 48 dp. Düğmeler arası 8 px: komşu düğmeye yanlış basma riski. DTM'nin menüsü büyük
+tek elle basılan bloklar. Diğer bulgular birikime yazıldı (duraklat menüsü ~36 px, mağaza, arşiv 20:9 boşluğu, sonuç
+kartı boşluğu). HUD, dokunmatik düğmeler, sonuç kartının SONRAKİ/MENÜ akışı ve menü alt ipucu satırı zaten telefona
+uyarlanmış, temiz.
+**Değişiklik (`main_menu.gd`, yalnız dokunmatik cihazda):** sütun 430→540 px; ana düğme 68 px, diğerleri ≥ 60 px
+(`TOUCH_BUTTON_H`, `_button` içinde — alt sayfaların GERİ / KAYDI SIFIRLA / ŞERİT düğmeleri de büyür); BÖLÜM SEÇ+MAĞAZA
+ve KANIT ARŞİVİ+AYARLAR yan yana eşit genişlikte (SURVIVAL+GÜNÜN DALGASI zaten ikiliydi); `mobile` özellikli yapıda
+ÇIKIŞ yok (Android geri tuşu anasayfada zaten çıkar, `handle_back`). Masaüstü düzeni piksel piksel aynı (ekran
+görüntüsüyle karşılaştırıldı). Sayı gerekçesi: 60 px ≈ 34 dp (xxhdpi) — 48 dp için ~96 px gerekir, bu 720 yüksekliğe
+7 düğmeyle sığmaz; ikili ızgara ile yükseklik +30 %, genişlik yarım ama 265 px (başparmaktan çok geniş). İnsan
+testinde "menüde yanlış düğmeye bastım" gelirse 64–68'e çık.
+**Oyuncu ne hissedecek:** telefonda menü büyük, düzenli bir ızgara; başparmakla rahat basılıyor.
+**Yeni test:** `tests/menu_touch_targets.tscn` — dokunmatik/masaüstü × bitmiş/bitmemiş kayıt × 1280/1600: dokunmatikte
+her düğme ≥ 60 px, masaüstünde 46 px (değişmedi), çakışma yok, sütun alt şeridin üstünde (dokunmatik dip 618/652,
+masaüstü 646/678), sağ yarıya (karakterlere) taşmıyor → PASS.
+**Görsel kontrol:** 1600×720 ve 1280×720 dokunmatik ana sayfa / bölüm seç / ayarlar / arşiv ve 1280 masaüstü ana sayfa
++ bölüm seç çekildi: taşma/çakışma yok, "KANIT ARŞİVİ · 12 ÖDÜL" yarım düğmeye sığıyor, bölüm kartları değişmedi.
+Yeni çizim yok (mevcut piksel düğme dokusu).
+**Testler:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0; `dtm_gaps` PASS; `menu_touch_targets` PASS;
+`back_button`, `achievements`, `daily_wave`, `archive_comic`, `level_stars` rc=0. Bot Bölüm 1: CLEARED 78,7 sn / 0 ölüm.
+**Sonraki adım:** birikimin yeni üst maddesi — duraklat menüsünün telefon dokunma hedefleri.
 
 ### 2026-11-24 (389) — Hikâye sahnesi sırasında arka plan artık değişmiyor (7 sahne, sistem düzeltmesi)
 

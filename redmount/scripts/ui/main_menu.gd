@@ -30,6 +30,11 @@ const FIRE := Color(1.0, 0.5, 0.32)
 const PER_BOOK := 12
 ## Kanıt Arşivi sekmeleri: 0–2 kitaplar, 3 GÜNLÜK, 4 GÖREVLER.
 const ACH_TAB := 4
+## Dokunmatik cihazda menü düğmesi asgari yüksekliği (sanal px; 720 yükseklikte 1080p
+## telefonda ~34 dp). Ana düğme biraz daha büyük; sütun ikili sıralar için geniş.
+const TOUCH_BUTTON_H := 60
+const TOUCH_MAIN_H := 68
+const TOUCH_COL_W := 540
 
 var _t := 0.0
 var _home: Control
@@ -215,13 +220,19 @@ func _build_home() -> Control:
 	goal.position = Vector2(64, 230)
 	page.add_child(goal)
 
+	# Telefonda (dokunmatik) düğmeler daha yüksek ve ikişerli: 46 px'lik düğme 1080p telefonda
+	# ~25 dp'ydi, dokunma hedefi önerisinin (48 dp) yarısı. İkili sıralar dikey yeri geri
+	# kazandırır; sütun genişler ki "KANIT ARŞİVİ · 12 ÖDÜL" yarım düğmeye sığsın.
+	var touch := TouchControls.active_on_device()
 	var col := VBoxContainer.new()
+	col.name = "HomeColumn"
 	col.position = Vector2(56, 270)
-	col.custom_minimum_size = Vector2(430, 0)
-	col.add_theme_constant_override(&"separation", 8)
+	col.custom_minimum_size = Vector2(TOUCH_COL_W if touch else 430, 0)
+	col.add_theme_constant_override(&"separation", 10 if touch else 8)
 	page.add_child(col)
 	var finished := Save.best_score(GameState.level_count() - 1) > 0
-	var cont := _button(col, "SON BÖLÜMÜ TEKRAR OYNA" if finished else "DEVAM ET", 52)
+	var cont := _button(col, "SON BÖLÜMÜ TEKRAR OYNA" if finished else "DEVAM ET",
+		TOUCH_MAIN_H if touch else 52)
 	cont.pressed.connect(func() -> void: _start(Save.unlocked_level))
 	_first_button = cont
 	if not finished:
@@ -231,28 +242,30 @@ func _build_home() -> Control:
 		where.add_theme_color_override(&"font_color", GOLD)
 		where.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		col.add_child(where)
-	_button(col, "BÖLÜM SEÇ").pressed.connect(func() -> void: _show(_levels))
+	# Masaüstünde dikey sıra aynı kalır; telefonda BÖLÜM SEÇ+MAĞAZA ve ARŞİV+AYARLAR yan yana.
+	var pair_top: Control = _row(col) if touch else col
+	_wide(_button(pair_top, "BÖLÜM SEÇ"), touch).pressed.connect(func() -> void: _show(_levels))
+	if touch:
+		_wide(_button(pair_top, "MAĞAZA"), true).pressed.connect(func() -> void: Transition.go(SHOP_SCENE))
 	# Survival ve Günün Dalgası aynı arenayı kullanır; yan yana (sütun 720'ye sığsın).
-	var modes := HBoxContainer.new()
-	modes.add_theme_constant_override(&"separation", 8)
-	col.add_child(modes)
-	var surv := _button(modes, "SURVIVAL")
-	surv.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var modes := _row(col)
+	var surv := _wide(_button(modes, "SURVIVAL"), true)
 	surv.pressed.connect(func() -> void:
 		GameState.daily_run = false
 		Transition.go(SURVIVAL_SCENE))
 	var today := DailyWave.today()
-	var daily := _button(modes, "GÜNLÜK %d/%d" % [Save.daily_waves, DailyWave.WAVES]
-		if Save.daily_attempted(today) else "GÜNÜN DALGASI")
-	daily.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var daily := _wide(_button(modes, "GÜNLÜK %d/%d" % [Save.daily_waves, DailyWave.WAVES]
+		if Save.daily_attempted(today) else "GÜNÜN DALGASI"), true)
 	daily.tooltip_text = DailyWave.plan(today).rule.name
 	daily.pressed.connect(func() -> void:
 		GameState.daily_run = true
 		Transition.go(SURVIVAL_SCENE))
-	_button(col, "MAĞAZA").pressed.connect(func() -> void: Transition.go(SHOP_SCENE))
+	if not touch:
+		_button(col, "MAĞAZA").pressed.connect(func() -> void: Transition.go(SHOP_SCENE))
+	var pair_bottom: Control = _row(col) if touch else col
 	# Alınmamış görev ödülü varsa düğme söyler ve arşiv doğrudan GÖREVLER'de açılır.
 	var claims := Achievements.unclaimed()
-	var arch := _button(col, "KANIT ARŞİVİ · %d ÖDÜL" % claims if claims > 0 else "KANIT ARŞİVİ")
+	var arch := _wide(_button(pair_bottom, "KANIT ARŞİVİ · %d ÖDÜL" % claims if claims > 0 else "KANIT ARŞİVİ"), touch)
 	arch.name = "ArchiveButton"
 	if claims > 0:
 		arch.add_theme_color_override(&"font_color", GOLD)
@@ -260,8 +273,9 @@ func _build_home() -> Control:
 		if Achievements.unclaimed() > 0:
 			_arch_book = ACH_TAB
 		_show(_archive))
-	_button(col, "AYARLAR").pressed.connect(func() -> void: _show(_settings))
-	if not OS.has_feature("web"):
+	_wide(_button(pair_bottom, "AYARLAR"), touch).pressed.connect(func() -> void: _show(_settings))
+	# Telefonda çıkış düğmesi yok: Android geri tuşu anasayfada zaten çıkar (handle_back).
+	if not OS.has_feature("web") and not OS.has_feature("mobile"):
 		_button(col, "ÇIKIŞ").pressed.connect(get_tree().quit)
 
 	# İstatistik paneli: coin, ilerleme, survival rekoru.
@@ -378,7 +392,7 @@ func _build_levels() -> Control:
 
 	var back := _button(col, "GERİ", 48)
 	back.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
-	back.custom_minimum_size = Vector2(200, 48)
+	back.custom_minimum_size.x = 200  # yükseklik _button'da (telefonda büyür)
 	back.pressed.connect(func() -> void: _show(_home))
 	return page
 
@@ -527,12 +541,12 @@ func _build_archive() -> Control:
 	foot.add_theme_constant_override(&"separation", 16)
 	col.add_child(foot)
 	var back := _button(foot, "GERİ", 46)
-	back.custom_minimum_size = Vector2(200, 46)
+	back.custom_minimum_size.x = 200
 	back.pressed.connect(func() -> void: _show(_home))
 	# Kitap sonu şeridini yeniden izleme (bitirilmiş kitaplarda; GÜNLÜK'te gizli).
 	_comic_button = _button(foot, "", 46)
 	_comic_button.name = "ComicReplay"
-	_comic_button.custom_minimum_size = Vector2(360, 46)
+	_comic_button.custom_minimum_size.x = 360
 	_comic_button.pressed.connect(_replay_comic)
 	_comic = BookComic.new()
 	_comic.name = "ArchiveComic"
@@ -726,8 +740,26 @@ func _build_settings() -> Control:
 func _button(parent: Control, text: String, h := 46) -> Button:
 	var b := Button.new()
 	b.text = text
-	b.custom_minimum_size = Vector2(0, h)
+	b.custom_minimum_size = Vector2(0, maxi(h, TOUCH_BUTTON_H) if TouchControls.active_on_device() else h)
 	parent.add_child(b)
+	return b
+
+
+## Yan yana düğme sırası (ana sayfa).
+func _row(col: Control) -> HBoxContainer:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override(&"separation", 10 if TouchControls.active_on_device() else 8)
+	col.add_child(row)
+	return row
+
+
+## Sıradaki düğme payı eşit paylaşsın (yalnız yan yana dizilince). Telefonda yarım
+## düğmeler metin uzunluğundan bağımsız eşit genişlik: ızgara düzgün okunur.
+func _wide(b: Button, on: bool) -> Button:
+	if on:
+		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		if TouchControls.active_on_device():
+			b.custom_minimum_size.x = (TOUCH_COL_W - 10) * 0.5
 	return b
 
 
