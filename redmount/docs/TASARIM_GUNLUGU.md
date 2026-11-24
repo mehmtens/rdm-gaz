@@ -11326,3 +11326,29 @@ düzeliyor. İnsan testi "zırhı/platformu göremedim" derse önce plank siluet
 süsü düşünülsün; veri gelmeden dokunma.
 
 **Sonraki adım:** dedike görsel çekimi en eski bölümler (6, 7, 11, 16, 18, 32, 34) arasından ikili görsel denetim sürsün.
+
+### 2026-11-25 — Görsel denetim (Bölüm 18 "Kapalıçarşı Arka Hanı", indeks 17): temiz, kod değişikliği yok (tur 418)
+
+**Neden şimdi:** tur 417'nin sonraki-adım önerisi (dedike görsel çekimi en eski bölümlerden ikili denetim); 16-17-18
+ardışık Kitap 2 şeridinin son halkası. `capture_level.tscn` ile 1280×720, 4 nokta: çarşı kapısı girişi (500) /
+kalpakçılar geçidi (2390) / bakırcılar (5000) / gizli defter odası-han çatısı (9350). Read ile ChatGPT atlasının
+yanında değerlendirildi.
+
+**Bulgular:** Dört kare de ChatGPT tarzıyla tam tutarlı:
+- Giriş: çarşı taş kapısı (sivri kemer), tente+halı tezgâhları, asma kandil, sandık; üst sağda plank platformu + zırh
+  taş duvara karşı net okunuyor (tur 417'de B17 girişinde açık gökyüzüne düşük kontrasttı; burada sorun yok).
+- Kalpakçılar geçidi: Kapalıçarşı tonozlu iç mekânı — kemer dizisi, asma renkli Türk kandilleri, duvar halıları,
+  tezgâhlar; derinlik perspektifi ve plank platformu loş iç mekâna karşı temiz.
+- Bakırcılar: bakır kap/ibrik dizisi, kabartmalı büyük bakır tepsiler, bitki süslü yüksek platformda tüfekli, sandık,
+  SHIELD/bıçakçı okunur, Gazelle diyalog kutusu düzgün.
+- Gizli defter odası: kitaplık duvarları, gemi dümeni, fener, Türk bayrağı, sandıklar, can paketi (kırmızı haç),
+  tüfekli — bölüm sonu loş arşiv tonu bütün.
+HUD okunur; düşmanlar arka plandan ayrışıyor; taşma/çakışma/stil dışı/yapıştırılmış öğe veya kalıcı dikiş yok.
+
+**Değişiklik:** yok. Bölüm 18 görsel birlik açısından ChatGPT atlasıyla tutarlı.
+
+**Test:** `--import` SCRIPT ERROR 0 (tur 417'de koşuldu, kod değişmedi); `capture_level.tscn` ×4 kare rc=0, Read ile
+değerlendirildi. Kod değişmediği için bot/smoke koşulmadı. Geçici çekimler scratchpad'de; depoya dosya eklenmedi.
+
+**Sonraki adım:** Bölüm 16 (Süleymaniye/Zeyrek şeridinin başı) ve 32/34 (Kitap 3) dedike görsel denetim bekliyor;
+otonom aktif iş yok, birikim insan testi verisi bekliyor.
