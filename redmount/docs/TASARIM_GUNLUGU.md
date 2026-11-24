@@ -7,14 +7,6 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- (Tur 425 atlas taraması) **Kitap 1 bölümleri sonraki kitapların atlaslarını tekrar ediyor:** Bölüm 2 = Bölüm 14
-  (`book02_cibali_streets`), Bölüm 3 = Bölüm 29 (`book03_kuzguncuk_streets`), Bölüm 8 = Bölüm 15 (`book02_zeyrek_cistern`),
-  Bölüm 9 ve 10 ikisi de `level04_fortress`. Kullanılmayan, Kitap 1 için çizilmiş ChatGPT atlasları var
-  (`level06_backstreets`, `level07_night_market`, `level07_haddehane`, `level08_rail`, `level08_underground`,
-  `level11_north_walls_atlas_v2`, `level13_*`). Tur 425'teki gibi her biri için önce pencereli küçük örnek al; eski atlasların
-  bazılarında hücre altı koyu şerit var → `sky_src_h` ile kırp. **Bölüm 10 tur 426'da, Bölüm 3 tur 427'de, Bölüm 2 tur 428'de yapıldı.** Kalan: 8
-  (adaylar: `level06_backstreets`/`level07_night_market` → Bölüm 2/3 sokakları, `level08_underground`/`level08_rail` → Bölüm 8).
-
 - (Tur 421 denetimi, Bölüm 26 (indeks 25) ve 29 (indeks 28)) **Orta kesit hasarsız bant:** Bölüm 29'da bot x~4700–8300
   (≈3600 px, 16 sn) hiç hasar almıyor, baskı 8450 arenasında toplanıyor (115→45, 21 sn takılma); Bölüm 26'da x~5900–8000
   aynı. Bölüm 17/19/23/33 notlarıyla aynı "arka/ön yüklü" desen (Bölüm 19 tur 422: bot bütün bölüm 115'te, tek düşüş
@@ -952,6 +944,25 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-25 (429) — Bölüm 8 (Yeraltı Sevkiyatı) arka planı kendi yeraltı atlasına: Bölüm 15 Zeyrek sarnıcı tekrarı giderildi; Kitap 1 atlas tekrarları kapandı
+
+**Neden şimdi:** birikimdeki atlas tekrarlarının sonuncusu. Bölüm 8, Kitap 2 Bölüm 15'in `book02_zeyrek_cistern` atlasını
+kullanıyordu; bölüm için çizilmiş ChatGPT `level08_underground_atlas` (raylı kemer tüneli + vagonlar, sarnıç salonu, sinyalli
+makas istasyonu, gün ışığına açılan tünel çıkışı) yalnız eski `level10_redesign.gd`'de kalmıştı.
+**Değişiklik:** `bolum08.gd` → `level08_underground_atlas`, hücreler 0 (asansör kuyusu, su kanalı) → 2 @3350 (mağara çukuru,
+1. kapı) → 1 @4700 (sarnıç salonu arenası) → 0 @6050 (ikinci kanal, 2. kapı) → 3 @8050 (tünel bekçisi, DAĞ GEÇİDİ kapısı).
+Atlasın hücre altı ~%30'u boş koyu şerit → `sky_src_h = 0.7` (tur 425 parametresi); ton biraz açıldı (0.9/0.9/0.96).
+**Görsel kanıt (6 pencereli kesit):** kuyu = tuğla kemerler, zincirli vinç, sandık vagonları ("İPUCU BULUNDU" tebeşir izi);
+sarnıç = dev sütunlar, demir merdivenler, borudan dökülen su; çıkış = perçinli kasa kapı, boru, fener + DAĞ GEÇİDİ kapısı.
+"Sahneye ait".
+**Test:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0; `dtm_gaps` PASS; bot Bölüm 8 CLEARED @9406 / 99,7 sn / 0 ölüm
+(stall 32s@9050 = tünel bekçisi dövüşü); bot Bölüm 24 CLEARED @18659 / 201,4 sn / respawns 2 (birikimdeki kronik mini-boss
+sınırı, bölüm bu turda değişmedi; ortak `_Sky` kanaryası olarak çizim hatası yok).
+**Durum:** tur 425–429 ile Kitap 1'deki tüm atlas tekrarları giderildi; artık 36 bölümün hiçbiri başka bir bölümle aynı
+hücreleri arka arkaya paylaşmıyor (Bölüm 11/12/35 sırasıyla sessiz koridor / Anadoluhisarı iç / dış+iç). Birikimden çıkarıldı.
+**Bir sonraki adım:** kural (d) denetimi; az denetlenen bölüm 3 için oynanış ölçümü veya kalan ChatGPT atlaslarından
+(`level13_*`, `level07_haddehane`, `level08_rail`) birinin bir bölümde daha uygun olup olmadığı kontrolü.
 
 ### 2026-11-25 (428) — Bölüm 2 (Arka Sokak İzi) arka planı kendi arka sokaklar atlasına: Bölüm 14 Cibali tekrarı giderildi
 

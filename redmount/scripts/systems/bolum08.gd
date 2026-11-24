@@ -11,9 +11,14 @@ const MINIBOSS := preload("res://scenes/enemies/MiniBoss.tscn")
 
 
 func _build() -> void:
-	sky_atlas = preload("res://assets/backgrounds/book02_zeyrek_cistern_atlas.png")
-	sky_cells = [[2, -100000.0], [0, 4800.0], [1, 7600.0]]
-	sky_tint = Color(0.8, 0.82, 0.88)
+	## Bölüm için çizilmiş yeraltı atlası (tur 429): önce Kitap 2 Bölüm 15'in Zeyrek sarnıcını
+	## tekrar ediyordu. Raylı kemer tüneli -> sinyalli makas istasyonu (1. kapı) -> sarnıç salonu
+	## (arena) -> raylı tünel (2. kapı) -> gün ışığına açılan tünel çıkışı (bekçi).
+	sky_atlas = preload("res://assets/backgrounds/level08_underground_atlas.png")
+	sky_cells = [[0, -100000.0], [2, 3350.0], [1, 4700.0], [0, 6050.0], [3, 8050.0]]
+	## Resim hücrenin üst ~%70'i; altı boş koyu şerit.
+	sky_src_h = 0.7
+	sky_tint = Color(0.9, 0.9, 0.96)
 	sky_shade = Color(0.02, 0.03, 0.05)
 	back_row_on = false
 	_night(Color(0.72, 0.76, 0.86))
