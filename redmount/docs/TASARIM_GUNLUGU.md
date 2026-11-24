@@ -7,6 +7,11 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 403, Bölüm 36 (indeks 35)) **Ambar arenası ölümü geri geldi (2/2), dalga hafifletme reddedildi:** bot pres köprüsünde
+  (5300–5900) 54→6'ya eriyor, Yüzbaşı düellosunda 20–34 sn takılıp ölüyor. 1. dalgadan ASSASSIN çıkarmak 2/3/1 ölüm verdi →
+  geri alındı. İnsan testi "ambarda takıldım" derse önce pres köprüsünü ölç (insan bot kadar hasar alıyor mu?); alıyorsa
+  ortadaki presin fazını 0.33→0.5 yap, dalgalara dokunma.
+
 - (Tur 371 denetimi, Bölüm 33 (indeks 32)) **Erken arena (x~2600–3950) en sert kesit:** bot 105→55'e iniyor, sonra
   x~7600'e kadar hiç hasar almıyor (55'te sabit, 7599'da 85'e toparlıyor); bölümün baskısı ön yüklü, orta kesit boş.
   En uzun takılma 17s@8155 (iç mekân arenası), ölüm yok. İnsan testi "Bölüm 33'ün ortası boş" derse orta kesite (5100–
@@ -915,6 +920,26 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-24 (403) — Denetim (Bölüm 31 ve 36) + Bölüm 36 ambar 1. dalga hafifletme denemesi: reddedildi, kod değişikliği yok; otomasyon durdu
+
+**Neden şimdi:** stil listesi ve iki yol haritası kapalı, birikim insan testi bekliyor → kural (d). Son dedike denetimi en
+eski iki bölüm: Bölüm 31 (tur 346) ve Bölüm 36 (tur 359).
+**Bölüm 31 (indeks 30):** 2 koşu, CLEARED @9708 / 94,7 sn / 1 ölüm (deniz köşkü finali x~9100, 83→23) ve 82,0 sn / 0 ölüm
+→ bilinen final sertliği, varyans bandında; dokunulmadı.
+**Bölüm 36 (indeks 35):** taban kodla 2 koşu, CLEARED 184,0 / 177,7 sn, **ikisinde de ambar arenasında 1 ölüm** (x~6400–
+6850). Tur 359 düzeltmesi (kapı canı + 2. dalga yalnız Yüzbaşı) o turda 0/2 vermişti; ölüm geri gelmiş. Can eğrisi: bot pres
+köprüsünde (5300–5900, üçlü faz kaymalı pres) 54→6'ya kadar eriyor, kapı canıyla 29–50'ye çıkıp arenaya giriyor, Yüzbaşı
+düellosunda 20–34 sn takılıp ölüyor.
+**Deneme:** `bolum36.gd` 1. dalga `ELITE+KNIFE+ASSASSIN` → `ELITE+KNIFE`. 3 koşu: respawns 2 / 3 / 1 (biri pres köprüsünde,
+gerisi yine Yüzbaşı düellosunda; takılma 30–34 sn @6587–6615). Taban 1/1'den iyi değil → **reddedildi, geri alındı.**
+Sonuç: ambar ölümü 1. dalgadan değil, botun pres zamanlaması + mini-boss nişanından; ikisi de bot zayıflığı (Bölüm 11/24
+mini-boss notlarıyla aynı). Bitirme bölümünde arena başına bir kontrol noktası dönüşü kabul edilebilir; insan testi verisi
+olmadan dalga/can daha fazla oynanmayacak (birikime not eklendi).
+**Test:** `dtm_gaps` PASS (geri alınmış kodla); kod değişikliği yok, smoke/import gerekmedi. Görsel değişiklik yok.
+**Durum:** yeni ölçülebilir iş çıkmadı; stil listesi ve iki yol haritası kapalı, birikim insan testi verisi bekliyor.
+**Otomasyon durdu.**
+
 
 ### 2026-11-24 (402) — Denetim (Bölüm 18 "Kapalıçarşı Arka Hanı" ve Bölüm 11 "Sessiz Koridor"): ikisi de temiz; otomasyon durdu
 
