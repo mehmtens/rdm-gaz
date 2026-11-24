@@ -1975,9 +1975,13 @@ class _Sky extends Node2D:
 			draw_rect(Rect2(-1100, 60 + i * 40, 2200, 40), Color(dark.r, dark.g, dark.b, 0.12 + i * 0.08))
 		draw_rect(Rect2(-1100, 300, 2200, 500), Color(dark.r, dark.g, dark.b, 0.62))
 
-	## Hücre girdisi [hücre, x] ya da [hücre, x, atlas]: bölüm içinde atlas değişebilir.
+	## Hücre girdisi [hücre, x], [hücre, x, atlas] ya da [hücre, x, atlas, ızgara]: bölüm içinde
+	## atlas değişebilir; dördüncü alan tek parça resmi (1) 2x2 atlasla aynı bölümde karıştırır.
 	func _draw_entry(e: Array, x: float, alpha: float) -> void:
-		_cell(e[2] if e.size() > 2 else level.sky_atlas, int(e[0]), x, alpha)
+		_cell(e[2] if e.size() > 2 else level.sky_atlas, int(e[0]), x, alpha, NAN, NAN, _grid(e))
+
+	func _grid(e: Array) -> int:
+		return int(e[3]) if e.size() > 3 else int(level.sky_grid)
 
 	## Yeni resim, ilerleme yönünden yumuşak kenarlı perdeyle: perdenin önü t=0'da
 	## ekranın gelinen kenarında, t=1'de öbür kenarın da ötesinde (tamamen örtülü).
@@ -1989,7 +1993,7 @@ class _Sky extends Node2D:
 			var mid := (sx + WIPE_STRIP * 0.5) * float(_dir)
 			var a := clampf((mid - edge) / WIPE_FEATHER, 0.0, 1.0)
 			if a > 0.0:
-				_cell(atlas, int(e[0]), x, a * a * (3.0 - 2.0 * a), sx, sx + WIPE_STRIP)
+				_cell(atlas, int(e[0]), x, a * a * (3.0 - 2.0 * a), sx, sx + WIPE_STRIP, _grid(e))
 			sx += WIPE_STRIP
 
 	## Resmin ekrandaki yarı genişliği: 16:9'da (1280) 760 — eski sabit, kenarda 120 px
@@ -2008,11 +2012,13 @@ class _Sky extends Node2D:
 		return maxf(SKY_HALF, ceilf(view_w * 0.5) + 40.0)
 
 	## [x0, x1]: hedef dikdörtgenin yalnız bu dikey şeridi (süpürme perdesi için).
-	func _cell(atlas: Texture2D, index: int, x: float, alpha: float, x0 := NAN, x1 := NAN) -> void:
+	func _cell(atlas: Texture2D, index: int, x: float, alpha: float, x0 := NAN, x1 := NAN, grid := -1) -> void:
 		if is_nan(x0):
 			x0 = -_half
 			x1 = _half
-		var half := atlas.get_size() / float(level.sky_grid)
+		if grid <= 0:
+			grid = level.sky_grid
+		var half := atlas.get_size() / float(grid)
 		var cell := Vector2(index % 2, index / 2) * half
 		var src_w := half.x * float(level.sky_src_w)
 		var tint: Color = level.sky_tint

@@ -8,11 +8,18 @@
 extends DtmLevel
 
 const MINIBOSS := preload("res://scenes/enemies/MiniBoss.tscn")
+## Bölüm için çizilmiş ChatGPT haddehane atlası (tur 431): bütün bölüm tek yüksek fırın resmi
+## gösteriyordu; atlas yalnız kullanılmıyordu. Fırın resmi arena + fırın yolunda kalır.
+const HADDEHANE := preload("res://assets/backgrounds/level07_haddehane_atlas.png")
+const FURNACE := preload("res://assets/backgrounds/level03_high_furnace.png")
 
 
 func _build() -> void:
-	sky_atlas = preload("res://assets/backgrounds/level03_high_furnace.png")
-	sky_grid = 1
+	## Rulo çelik avlusu -> su verme kanalı -> dikey servis şaftı -> yüksek fırın (zırhlı
+	## arena, fırın yolu) -> verici kulesi.
+	sky_atlas = HADDEHANE
+	sky_cells = [[0, -100000.0], [1, 1480.0], [2, 3220.0], [0, 4620.0, FURNACE, 1],
+		[3, 8000.0]]
 	sky_tint = Color(0.92, 0.84, 0.82)
 	sky_shade = Color(0.07, 0.03, 0.03)
 	back_row_on = false

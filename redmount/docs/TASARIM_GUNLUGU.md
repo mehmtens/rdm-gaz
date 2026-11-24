@@ -955,6 +955,26 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-25 (431) — Bölüm 7 (Karahanlı Haddehanesi) arka planı kendi haddehane atlasına: tek resim yerine beş mekân
+
+**Neden şimdi:** tur 430 önerisi. Bölüm 7 ~9000 px boyunca tek parça `level03_high_furnace` resmini gösteriyordu; bölüm için
+çizilmiş ChatGPT `level07_haddehane_atlas` (rulo çelik avlusu, su verme kanalı, dikey servis şaftı, verici kulesi) hiçbir yerde
+kullanılmıyordu — dört hücre bölümün dört kesitiyle birebir aynı.
+**Değişiklik:** `bolum07.gd` → hücreler 0 avlu → 1 @1480 su verme kanalı → 2 @3220 servis hattı tırmanışı → yüksek fırın @4620
+(zırhlı arena + fırın yolu, eski resim burada kalıyor) → 3 @8000 verici. `dtm_level.gd` `_Sky`: girdiye isteğe bağlı 4. alan
+`ızgara` (tek parça resim = 1) — tek parça resim 2x2 atlasla aynı bölümde karışabilsin; alan yoksa `level.sky_grid` (eski
+davranış birebir). Yeni görsel üretilmedi.
+**Görsel kanıt (7 pencereli kesit):** avlu = tuğla hangar, rulo çelikler, Galata silueti; kanal = kemerli köprü altında kor ışıklı
+su (palet platformlarıyla birebir); şaft = iskeleli çelik kule (tırmanış platformlarının arkasında); arena = döküm akan yüksek
+fırın; verici = antenli karanlık bina ("VERİCİ" tabelası ve direğin arkasında). "Sahneye ait".
+**Oyuncu ne hissedecek:** haddehanenin içinde ilerleme hissi — her kontrol noktası yeni bir tesis bölümü; finalde soğuk, kırmızı
+ışıklı verici kulesi turuncu fırından sonra "son hedef" kontrastı veriyor.
+**Test:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0; `dtm_gaps` PASS; bot Bölüm 7 CLEARED @9255 / 94,7 sn / 0 ölüm;
+ortak `_Sky` kanaryaları: Bölüm 13 CLEARED 68,8 sn / 0 ölüm, Bölüm 25 CLEARED 78,1 sn / 0 ölüm, Bölüm 1 CLEARED @8608 / 79,1 sn / 0 ölüm.
+**Bir sonraki adım:** son kullanılmayan atlas `level08_rail` (gar binası, makas kulübesi + vagonlar, taş viyadük, kömür
+deposu + lokomotif hangarı) — Bölüm 5 (demiryolu, `level02_locations`) veya Bölüm 4 (tek parça kontrol noktası) için küçük
+örnekle uygunluk denetimi.
+
 ### 2026-11-25 (430) — Bölüm 12 (İç Kale / Karahanlı, Kitap 1 finali) arka planı kendi üç iç kale atlasına: Bölüm 35 tekrarı giderildi
 
 **Neden şimdi:** tüm listeler kapalı, birikimin üstü (Bölüm 1 atlası) insan onayı bekliyor → (d) denetimi olarak kullanılmayan
