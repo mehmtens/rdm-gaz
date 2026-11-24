@@ -916,6 +916,36 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-24 (402) — Denetim (Bölüm 18 "Kapalıçarşı Arka Hanı" ve Bölüm 11 "Sessiz Koridor"): ikisi de temiz; otomasyon durdu
+
+**Neden şimdi:** stil listesi ve iki yol haritası kapalı, birikimin tüm üst maddeleri "insan testi verisi
+gelmeden dokunma" → kural (d). Günlükte son dedike denetimi az anılan iki bölüm seçildi: Bölüm 18 (indeks 17,
+Kitap 2) ve Bölüm 11 (indeks 10, Kitap 1 finali).
+
+**Bölüm 18 — mekanik:** CLEARED @10055 / 92,1 sn / 0 ölüm / heals 2 / respawns 0. Can eğrisi ön yüklü: 2500
+pazar arenası 115→70 (hemen 100'e toparlıyor), 8200–8400 bakırcı arenası 85→64, final (9834) en uzun takılma
+11 sn. Can vadisi yok, ölüm yok → dengeli.
+**Bölüm 18 — görsel (5 pencereli kare):** giriş (Kapalıçarşı taş kemeri + tenteli halı/lamba tezgâhları),
+bedesten han (tonozlu tavan, asılı mozaik fenerler, perspektif koridor), bakırcılar kesiti (bakır kazan/semaver,
+örs, "BAKIRCI" tabelası), çatı panoraması (kubbeler + Boğaz + "ÇEMBERLİTAŞ" kapısı). Palet/ışık ChatGPT atlasıyla
+tam tutarlı; taş zemin, propslar, düşman silüetleri okunur; yapıştırılmış öğe yok.
+
+**Bölüm 11 — mekanik:** CLEARED @8656 / 99,7 sn / 0 ölüm / heals 2 / respawns 0. Tek dikkat çeken sinyal
+**final arenada 35 sn takılma (x~7400–7815), boss 6 kez kaçtı, can 115→41.** Final arena (x=7850, kapı
+7350–8350): dalga1 ELITE+ASSASSIN → dalga2 MINIBOSS → dalga3 ELITE. Kodda zaten belgeli: `bolum11.gd:94-110`
+"stall 27–41 sn, 45 sn sınırına dayanıyor" + wave3 daha önce üç düşmandan tek ELITE'e indirilmiş. Ölçülen 35 sn
+bu bilinen aralıkta, sınıra 10 sn marj var. Toparlanma: kapı önü HEALTH (7280) + arena içi sağ kenar sandık (8150).
+MINIBOSS'un 6 kaçışı bot nişan zayıflığı (insan oyuncu daha iyi köşeler); ayar insan testi verisi ister → dokunulmadı.
+**Bölüm 11 — görsel (final kare):** iç kale kapı mekanizması salonu — büyük pirinç dişli/çark, kol bankası, tezgâh,
+örs, gece penceresinde Boğaz yansıması; mahfazalı MINIBOSS (kızıl sorguç) + elit muhafız. Pirinç/bakır rampası,
+mor gölge, sıcak fener + soğuk pencere ışığı atlasla tutarlı; stil dışı/yapıştırılmış öğe yok.
+
+**Test:** `--import` SCRIPT ERROR 0; `dtm_gaps` PASS; Bölüm 18 bot CLEARED (92,1 sn / 0 ölüm); Bölüm 11 bot
+CLEARED iki koşuda (99,7 sn / 0 ölüm). Geçici capture dosyaları scratchpad'de, depoya girmedi.
+**Durum:** iki bölüm de sevkiyat kalitesinde; yeni ölçülebilir iş çıkmadı. Bölüm 11 final arenasının 35 sn / boss
+6 kaçış davranışı bilinen ve ayarlanmış, insan testi olmadan dokunulmaz. Stil listesi ve iki yol haritası kapalı,
+birikim insan testi verisi bekliyor. **Otomasyon durdu.**
+
 ### 2026-11-24 (401) — Denetim (Bölüm 20 ve 26) + Bölüm 26 yük rampası: zırhlı iriyarı çukur kenarından geri çekildi; bot ölümü 2–3 → 0
 
 **Neden şimdi:** stil listesi ve iki yol haritası kapalı, birikim insan testi bekliyor → kural (d). Son dedike denetimi
