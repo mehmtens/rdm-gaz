@@ -13,6 +13,10 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   kare `sky_grid` destekliyor → `sky_cols/sky_rows` gerekir). Bölüm 1 kullanıcının onayladığı örnek bölüm (`--ornek`), bu
   yüzden önce pencereli küçük örnek göster, insan onayı olmadan dokunma.
 
+- (Tur 430, Bölüm 12 (indeks 11)) **Karahanlı düellosu bot marjı ince:** 7 koşuda (4 yeni atlas + 3 taban) 5'inde bir
+  kontrol noktası dönüşü; bir koşuda bot tutukevinde (x 5534) 24 cana inmişti. Kitap 1 finali için bir dönüş
+  kabul edilebilir; insan testi "Karahanlı'ya az canla geldim" derse önce 6100 HEALTH'i taht kontrol noktası (6350) sonrasına al.
+
 - (Tur 421 denetimi, Bölüm 26 (indeks 25) ve 29 (indeks 28)) **Orta kesit hasarsız bant:** Bölüm 29'da bot x~4700–8300
   (≈3600 px, 16 sn) hiç hasar almıyor, baskı 8450 arenasında toplanıyor (115→45, 21 sn takılma); Bölüm 26'da x~5900–8000
   aynı. Bölüm 17/19/23/33 notlarıyla aynı "arka/ön yüklü" desen (Bölüm 19 tur 422: bot bütün bölüm 115'te, tek düşüş
@@ -950,6 +954,28 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-25 (430) — Bölüm 12 (İç Kale / Karahanlı, Kitap 1 finali) arka planı kendi üç iç kale atlasına: Bölüm 35 tekrarı giderildi
+
+**Neden şimdi:** tüm listeler kapalı, birikimin üstü (Bölüm 1 atlası) insan onayı bekliyor → (d) denetimi olarak kullanılmayan
+ChatGPT atlaslarını taradım. Bölüm 12 tur 424'ten beri Kitap 3 Bölüm 35'in `book03_anadoluhisari_inner` atlasını paylaşıyordu;
+oysa tam bu bölüm ("Karahanlı'nın iç kalesi") için çizilmiş üç ChatGPT atlası (`level13_final_approach` / `level13_middle` /
+`level13_last`, 12 hücre) yalnız eski `level13_finale.gd`'de kalmıştı.
+**Değişiklik:** `bolum12.gd` → hücre başına atlas (Bölüm 24 yöntemi): APPROACH 0 sancaklı kemer galerisi (giriş) → APPROACH 1
+cephanelik @1450 (miğfer/kalkan rafları, arena) → MIDDLE 0 sarnıç @3050 (çöken tahtalar) → MIDDLE 1 dişlili su kapısı @4250
+(rıhtım) → LAST 0 tutukevi hücreleri @4900 → LAST 2 dişlili taht kapısı @6250 → LAST 3 aslanlı taht salonu @6900 (Karahanlı).
+Ton/gölge aynı (0.86/0.84/0.92). Yeni görsel üretilmedi; kesilip yapıştırma yok, mevcut atlaslar olduğu gibi kullanıldı.
+**Görsel kanıt (7 pencereli kesit):** her kesit sahnenin kurgusuyla birebir (cephanelik arenasının arkasında miğfer rafları,
+sarnıç tahtalarının arkasında sütun ormanı, tutukevi iç mekânının çevresinde parmaklıklı hücreler, düelloda taht + perdeler).
+Proplar/düşmanlar konturla okunuyor; "sahneye ait".
+**Oyuncu ne hissedecek:** Kitap 1'in zirvesi yedi ayrı oda gibi akıyor; her eşik (cephanelik, sarnıç, zindan, taht) yeni bir
+manzara — Bölüm 35'te aynı kaleyi "ikinci kez" görme hissi gitti.
+**Test:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0; `dtm_gaps` PASS; bot Bölüm 12 4/4 CLEARED (74–92 sn), her
+koşuda 1 dönüş (Karahanlı düellosu). Kontrol: taban kodla 3 koşu CLEARED, dönüş 0/0/1. Arka plan çarpışmasız çizim katmanı,
+oynanışa etkisi yok; fark bot varyansı (Karahanlı kaçış zarı tohumsuz). Not birikime eklendi.
+**Bir sonraki adım:** kalan kullanılmayan ChatGPT atlasları `level07_haddehane` ve `level08_rail` — Bölüm 7 (tek parça
+`level03_high_furnace`) ve Bölüm 4 (tek parça `level02_armed_checkpoint`) bütün bölüm boyunca tek resim gösteriyor; hücreli
+atlasa geçişin uygun olup olmadığı küçük örnekle denetlenebilir.
 
 ### 2026-11-25 (429) — Bölüm 8 (Yeraltı Sevkiyatı) arka planı kendi yeraltı atlasına: Bölüm 15 Zeyrek sarnıcı tekrarı giderildi; Kitap 1 atlas tekrarları kapandı
 

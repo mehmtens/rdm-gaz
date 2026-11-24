@@ -13,11 +13,19 @@ const PU_DAMAGE := preload("res://resources/powerups/damage_x2.tres")
 const PU_SHIELD := preload("res://resources/powerups/shield.tres")
 
 const THRONE_X := 7400.0
+## İç kale için çizilmiş üç ChatGPT atlası (tur 430): önce Kitap 3 Bölüm 35'in Anadoluhisarı
+## iç kale atlasını paylaşıyordu; bu atlaslar yalnız eski `level13_finale.gd`'de kalmıştı.
+const APPROACH := preload("res://assets/backgrounds/level13_final_approach_atlas.png")
+const MIDDLE := preload("res://assets/backgrounds/level13_middle_atlas.png")
+const LAST := preload("res://assets/backgrounds/level13_last_atlas.png")
 
 
 func _build() -> void:
-	sky_atlas = preload("res://assets/backgrounds/book03_anadoluhisari_inner_atlas.png")
-	sky_cells = [[2, -100000.0], [3, 3300.0], [0, 6200.0]]
+	## Kemerli sancak galerisi -> cephanelik -> sarnıç -> su kapısı rıhtımı -> tutukevi
+	## hücreleri -> dişlili taht kapısı -> taht salonu (Karahanlı).
+	sky_atlas = APPROACH
+	sky_cells = [[0, -100000.0], [1, 1450.0], [0, 3050.0, MIDDLE], [1, 4250.0, MIDDLE],
+		[0, 4900.0, LAST], [2, 6250.0, LAST], [3, 6900.0, LAST]]
 	sky_tint = Color(0.86, 0.84, 0.92)
 	sky_shade = Color(0.04, 0.03, 0.07)
 	back_row_on = false
