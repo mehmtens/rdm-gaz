@@ -7,6 +7,11 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 421 denetimi, Bölüm 26 (indeks 25) ve 29 (indeks 28)) **Orta kesit hasarsız bant:** Bölüm 29'da bot x~4700–8300
+  (≈3600 px, 16 sn) hiç hasar almıyor, baskı 8450 arenasında toplanıyor (115→45, 21 sn takılma); Bölüm 26'da x~5900–8000
+  aynı. Bölüm 17/23/33 notlarıyla aynı "arka/ön yüklü" desen. İnsan testi "ortası boş" derse bölüm başına tek elle konmuş
+  düşman çifti düşünülsün; veri gelmeden dokunma.
+
 - (Tur 417 görsel denetimi, Bölüm 17 (indeks 16)) **Giriş plank platformu (x=850, y=-205) düşük kontrast:** ince A_PLANK
   yoğun gündüz arka planına karışınca üstündeki zırh uzaktan havada asılı okunuyor; oyuncu yaklaşınca düzeliyor (plank
   işlevsel, zırh plank üstünde toplanıyor). İnsan testi "zırhı/platformu göremedim" derse önce plank silueti koyulaştırma
@@ -11397,3 +11402,20 @@ bölüm başı uzatmaları zararsız kaldı. Bölüm 6 ve 17 çıkış sahnesi y
 (final arenası x~9750, 40 canla giriş — önlük 10300 ötesinde, ilgisiz) → iki tekrar 82,8 / 88,9 sn, 0 ölüm (varyans).
 
 **Sonraki adım:** dedike görsel denetim listesi bitti. Otonom iş yok; birikim insan testi verisi bekliyor.
+
+### 2026-11-25 — Tasarım denetimi Bölüm 26 ve 29: görsel temiz, kod değişikliği yok (tur 421)
+
+**Neden şimdi:** stil listesi, YOL_HARITASI ve OYNANIS-KALITE P1 maddeleri bitmiş; birikimin bütün maddeleri insan testi
+verisine bağlı. Günlükte en eski anılan iki bölüm (29 ve 26) seçildi: bot + 1280×720 pencereli çekim.
+
+**Bot:** Bölüm 26 CLEARED 81,1 sn / 0 ölüm, dip 38 (8260–8500 arenası, 9 sn takılma); Bölüm 29 CLEARED 83,1 sn / 0 ölüm,
+dip 45 (8450–8600 arenası, 21 sn takılma). İkisinde de orta kesit hasarsız (birikime eklendi, veri bekliyor).
+
+**Görsel (Read ile):** Bölüm 29 — Kuzguncuk renkli evler + "POLİS! KOŞ!" kovalamaca, bostan duvarı, KIYI ERZAKÇISI
+rıhtımı, ahşap iskeleli depo, Beylerbeyi kapısı ve Boğaz yansıması; Bölüm 26 — Sirkeci gar cephesi, GAR ERZAKÇISI +
+yük vagonu platformu, lokomotifli peron, Galata rıhtımı vinci, GALATA kapısı. Hepsi ChatGPT atlasıyla aynı palet ve
+ışıkta; taşma, yapıştırılmış öğe, zeminsiz çıkış yok (tur 419/420 önlüğü çalışıyor). Düşman telegrafı (ünlem) okunur.
+
+**Değişiklik:** yalnız belge. **Test:** kod değişmediği için smoke/import koşulmadı; bot ×2 ve çekim ×11 rc=0.
+
+**Sonraki adım:** otonom iş kalmadı; birikim insan testi (telefon) verisi bekliyor.
