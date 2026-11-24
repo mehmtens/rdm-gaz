@@ -916,6 +916,15 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-24 (399) — Denetim (Bölüm 4 ve 7): temiz, kod değişikliği yok; otomasyon durdu
+
+**Neden şimdi:** tur 398'in devamı; birikimde ince marj notu olan iki bölüm (tur 365 ve 366) güncel kodla ikişer koşu.
+**Bulgular:** Bölüm 4: CLEARED 116,3 / 111,4 sn, 0/0 ölüm, dip 32–37 (x~4700, orta arena), takılma 18–20 sn — birikimdeki
+"son kesimde ince marj" bu koşularda görülmedi. Bölüm 7: CLEARED 96,2 / 94,8 sn, 0/0 ölüm; bir koşuda finalde dip 9
+(x~8840), diğerinde dip 71 — bot varyansı, birikimdeki fırın yolu notu geçerli, dokunulmadı.
+**Durum:** yeni ölçülebilir iş çıkmadı. Kuyruk boş, birikim insan testi verisine bağlı. **Otomasyon durdu.**
+**Sonraki öneri:** gerçek cihazda insan testi (düğme boyu, sağ sütunun düşman örtmesi, `touch_stats` CSV'si).
+
 ### 2026-11-24 (398) — Denetim (Bölüm 6 ve 33) + Bölüm 6 Zırhlı Ustabaşı finali: kapı canı; bot ölümü 2/3 → 0/3
 
 **Neden şimdi:** stil listesi ve iki yol haritası kapalı, birikim insan testi bekliyor → kural (d). Son dedike denetimi
