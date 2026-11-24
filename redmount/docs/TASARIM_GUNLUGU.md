@@ -7,10 +7,11 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- (Tur 403 → tur 404 güncellemesi, Bölüm 36 (indeks 35)) **Pres köprüsü erimesi bot artefaktıydı:** tur 404'te bota
-  pres okuma eklendi; köprüde (5300–5900) pres hasarı 0, can 85'te sabit (eskiden 54→6), ambar arenası 50 canla
-  geçildi. Kalan 2 ölüm jeneratör kesiminde (x~9100–10550, can 39→10→3) — tur 359 notuyla aynı yer, tek koşu. İnsan testi
-  "jeneratörde takıldım" derse önce jeneratör girişine gevşek HEALTH; ambar dalgalarına ve pres fazına dokunma.
+- (Tur 403 → 404 → 405, Bölüm 36 (indeks 35)) **Jeneratör/arşiv bandı kapandı, ölüm yayın odası arenasına kaydı:** tur 405'te
+  arşiv girişine (8580) gevşek HEALTH; pres okuyan botla 3 koşuda 8500–10550 bandında ölüm 0 (önce arenayı geçen 2/2 koşuda
+  ölüm). Kalan ölümler ambar arenası (Yüzbaşı, 1/3) ve 12650 üç dalgalı yayın odası arenası (2/3; bot 33–65 canla girip
+  5–23'e iniyor). Final bölümünde arena başına bir dönüş kabul (tur 403); insan testi "yayın odasında takıldım" derse önce
+  12200 kontrol noktası sonrasına gevşek HEALTH (revir dükkânı parayla satıyor), dalgalara dokunma.
 
 - (Tur 371 denetimi, Bölüm 33 (indeks 32)) **Erken arena (x~2600–3950) en sert kesit:** bot 105→55'e iniyor, sonra
   x~7600'e kadar hiç hasar almıyor (55'te sabit, 7599'da 85'e toparlıyor); bölümün baskısı ön yüklü, orta kesit boş.
@@ -920,6 +921,23 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-25 (405) — Pres okuyan botla yeniden ölçüm (Bölüm 6, 7, 36) + Bölüm 36 arşiv girişi canı
+
+**Neden şimdi:** stil listesi ve iki yol haritası kapalı → kural (d); tur 404'ün önerisi: pres okuyan botla pres hattı
+bölümlerini yeniden ölç. **Bölüm 6** ×2: CLEARED 0/0 ölüm (130,8 / 120,9 sn), pres isabeti 1 → temiz. **Bölüm 7** ×4: 0/1/0/0
+ölüm; tek ölüm fırın yolunda (x~7190) — bot zırhlı arenada 115→1'e eriyip ödülle 31'e çıkıyor; diğer 3 koşuda fırın yolu ~22
+can yiyor ama öldürmüyor → birikimdeki tur 366 notu geçerli, varyans bandı, dokunulmadı. **Bölüm 36** taban ×2: 1 ve 2 ölüm;
+ambar arenasını geçtiği her koşuda (tur 404 dahil 2/2) bot arenadan 20–40 canla çıkıp jeneratör alevleri + arşiv odasında
+(x 8600–10550) ölüyor. 7100'den 9450'deki üst raf canına kadar zemin rotasında can yok.
+**Değişiklik:** `bolum36.gd` — 8500 kontrol noktası ile arşiv odası (8650) arasına `_pickup(HEALTH, 8580, −45)` (Bölüm
+10/19/35 kalıbı). Dalgalar ve üst raf canı (katmanlı rota ödülü) aynı. Sayı hipotez.
+**Oyuncu ne hissedecek:** Yüzbaşı'dan yorgun çıkan oyuncu arşiv odasının üç katlı dövüşüne nefesle girer; bitirme bölümünün
+gerilimi arenalarda kalır, aradaki geçit "tuzak" gibi değil.
+**Test:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0; `dtm_gaps` PASS. Bot Bölüm 36 yeni kod ×3: CLEARED 1/1/2 ölüm
+(173,8 / 181,2 / 188,4 sn) — jeneratör/arşiv bandında 0/3; ölümler ambar arenası (1) ve 12650 yayın odası arenası (2)
+(taban ×3: 2/1/2). Yeni görsel yok (mevcut can paketi).
+**Sonraki adım:** birikim insan testi verisi bekliyor; otonom kuyrukta yeni ölçülebilir iş yok.
 
 ### 2026-11-24 (404) — Denetim (Bölüm 16 ve 22) + bot pres okuma: Bölüm 22 ölümü bot artefaktıydı; Bölüm 36 köprü sorusu cevaplandı
 

@@ -95,6 +95,10 @@ func _build() -> void:
 
 	# --- 6. Kayıt arşivi: üç katlı raf odası; Gazelle kayıtları toplar ----------------
 	_checkpoint(8500, 0)
+	## Arşiv girişi canı (tur 405): pres okuyan botla ambar arenasını geçtiği her koşuda bot arenadan
+	## 20–40 canla çıkıp jeneratör alevleri + arşiv odasında öldü (2/2); 7100'den 9450'deki üst raf canına
+	## kadar zemin rotasında can yoktu. Bölüm 10/19/35 kalıbı — oda kapısından önce yürüyerek alınan gevşek can.
+	_pickup(HEALTH, 8580, -45)
 	_interior(8650, 9500, -345, [-115.0, -230.0], 0)
 	_enemy(ELITE, 9000, 0)
 	_enemy(KNIFE, 8850, -115)
