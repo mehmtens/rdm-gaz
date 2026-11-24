@@ -930,6 +930,16 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-25 (414) — Denetim (Bölüm 19 ve Bölüm 20): ikisi de temiz, kod değişikliği yok
+
+**Neden şimdi:** kural (d) denetiminin devamı.
+**Bulgular (başsız):** Bölüm 19: CLEARED @10110 / 92,2 sn / respawns 0 / heals 0; dip 21 yalnız final patronunda (x~9682,
+4 kaçış / 2 isabet), öncesi rahat — tur 360'taki kapı canı düzeltmesinden sonra ölüm yok, gerilim finalde toplanıyor
+(doğru yer). Bölüm 20: CLEARED @10109 / 90,6 sn / respawns 0 / heals 2; dip 37 x~8401 iç mekân arenasında — birikimdeki
+"x~8419 ani can düşüşü" notuyla aynı yer (tur 362'de 65→37), ölüm yok → not geçerli, dokunulmadı.
+**Test:** bot ×2 (indeks 18, 19) CLEARED, 0 ölüm.
+**Durum:** ölçülmemiş kalanlar 23, 27–28, 30–33.
+
 ### 2026-11-25 (413) — Denetim (Bölüm 14 ve Bölüm 18): ikisi de temiz, kod değişikliği yok
 
 **Neden şimdi:** kural (d) denetiminin devamı.
