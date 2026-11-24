@@ -35,6 +35,9 @@ const ACH_TAB := 4
 const TOUCH_BUTTON_H := 60
 const TOUCH_MAIN_H := 68
 const TOUCH_COL_W := 540
+## Kanıt arşivi kitap hücresi genişliği ve sütun aralığı (bkz. _arch_columns).
+const ARCH_CELL_W := 460
+const ARCH_GAP := 24
 
 var _t := 0.0
 var _home: Control
@@ -534,7 +537,7 @@ func _build_archive() -> Control:
 	_arch_grid = GridContainer.new()
 	_arch_grid.columns = 2
 	_arch_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_arch_grid.add_theme_constant_override(&"h_separation", 24)
+	_arch_grid.add_theme_constant_override(&"h_separation", ARCH_GAP)
 	_arch_grid.add_theme_constant_override(&"v_separation", 10)
 	scroll.add_child(_arch_grid)
 	var foot := HBoxContainer.new()
@@ -578,6 +581,7 @@ func _select_arch(b: int) -> void:
 		var open := BookComic.is_unlocked(b + 1)
 		_comic_button.disabled = not open
 		_comic_button.text = "▸ KİTAP %d ŞERİDİ" % (b + 1) if open else "ŞERİT · KİTAP %d%s BİTİR" % [b + 1, ["'İ", "'Yİ", "'Ü"][b]]
+	_arch_grid.columns = _arch_columns() if b < 3 else 2
 	if b == 3:
 		_arch_grid.add_child(_daily_archive_cell())
 		return
@@ -606,6 +610,16 @@ func _select_arch(b: int) -> void:
 			tr.texture = load("res://assets/ui/photos/b%02d_%d.png" % [i + 1, p]) if p < found 				else load("res://assets/ui/photos/kilitli.png")
 			row.add_child(tr)
 		_arch_grid.add_child(cell)
+
+
+## Kitap sekmesinde yan yana kaç bölüm hücresi sığar: hücre 3 kare (3 × 148 + 2 × 8 = 460 px),
+## sütun aralığı 24. 16:9'da 2, 20:9 telefonda (1600 sanal genişlik) 3 — sağ üçte bir boş
+## kalmasın, 12 bölüm 6 yerine 4 satırda (daha az kaydırma).
+func _arch_columns() -> int:
+	var page_w := get_viewport_rect().size.x - _archive.offset_left + _archive.offset_right
+	## Panel kenar payları (2 × 40) + kutu iç payı (2 × 24) + kaydırma çubuğu (~16).
+	var avail := page_w - 80.0 - 48.0 - 16.0
+	return clampi(int((avail + ARCH_GAP) / (ARCH_CELL_W + ARCH_GAP)), 2, 3)
 
 
 ## GÜNLÜK sekmesi: en uzun seriye göre açılan Günün Dalgası kareleri; kilitlinin altında

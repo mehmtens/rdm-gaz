@@ -7,8 +7,6 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- (Tur 390) **Kanıt arşivi 20:9'da sağ üçte bir boş:** `_arch_grid.columns = 2` sabit; 1600 genişlikte üçüncü
-  sütun sığar (bölüm başına 3 kare ~460 px). Genişliğe göre 2/3 sütun. Etki düşük, maliyet düşük.
 - (Tur 390) **Dokunmatik sonuç kartının alt üçte biri boş:** telefonda istatistik 3 satır, ipucu satırı gizli; kart
   masaüstü yüksekliğinde kalıyor (~150 px boşluk). Kart yüksekliği satır sayısına göre küçülsün. Etki düşük.
 
@@ -920,6 +918,22 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-24 (393) — Kanıt arşivi 20:9'da üç sütun
+
+**Neden şimdi:** tur 390 telefon denetiminin birikimdeki üst maddesi. Telefonların çoğu 19,5–20:9; `aspect=expand` ile
+sanal genişlik ~1600 olunca arşivin kitap sekmesi sabit 2 sütunla sağ üçte biri boş bırakıyor, 12 bölüm 6 satıra
+yayılıp kaydırma istiyordu.
+**Değişiklik (`main_menu.gd`):** `_arch_columns()` — kitap sekmesinde sütun sayısı genişlikten: hücre 460 px (3 × 148
+kare + 2 × 8), aralık 24; kullanılabilir alan = sayfa − panel payları (80) − kutu iç payı (48) − kaydırma çubuğu (16).
+1600 → 3 sütun (ızgara 1428 / alan 1472), 1280 ve 18:9 (1440) → 2 (değişmedi). GÜNLÜK ve GÖREVLER sekmeleri 2'de kaldı.
+**Oyuncu ne hissedecek:** telefonda arşiv ekranı dolu ve düzenli; bir kitabın 12 bölümü neredeyse kaydırmadan görünür.
+**Test:** `menu_touch_targets` genişledi — 1600'de 3, 1280'de 2 sütun ve ızgara kaydırma alanına sığıyor → PASS.
+**Görsel kontrol:** 1600×720 dokunmatik ve 1280×720 masaüstü arşiv çekildi: 4 satır, kareler ve başlıklar çakışmıyor,
+16:9 görünüm öncekiyle aynı.
+**Testler:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0; `dtm_gaps` PASS; `menu_touch_targets` PASS;
+`achievements`, `achievement_photos`, `archive_comic`, `daily_wave`, `back_button` rc=0. Oynanış kodu değişmedi.
+**Sonraki adım:** birikimin üstü — dokunmatik sonuç kartının boş alt bölümü.
 
 ### 2026-11-24 (392) — Mağaza telefonda: düğmeler 48→56 px; KOSTÜMLER sekmesi taşması giderildi
 

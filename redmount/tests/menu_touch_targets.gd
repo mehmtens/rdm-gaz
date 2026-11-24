@@ -4,7 +4,8 @@ extends Node
 ## Masaüstü düzeni (46 px, tek sütun) değişmiyor. Bitmiş ve bitmemiş kayıt ("Bölüm N" satırı
 ## sütunu uzatır), 16:9 ve 20:9 için. Tur 391: duraklat menüsü de (kostüm rozeti açıkken, en
 ## uzun hâli) dokunmatikte ≥ 56 px düğme ve ekrana sığan panel. Tur 392: mağazanın üç sekmesi
-## (sekme / satın al / GİY / GERİ) dokunmatikte 56 px ve GERİ panelin içinde.
+## (sekme / satın al / GİY / GERİ) dokunmatikte 56 px ve GERİ panelin içinde. Tur 393: kanıt arşivi
+## kitap sekmesi 20:9'da 3, 16:9'da 2 sütun ve ızgara kaydırma alanına sığıyor.
 
 var _fail := 0
 
@@ -70,6 +71,20 @@ func _check_home(touch: bool, finished: bool, width: int) -> void:
 	if touch and col.get_global_rect().end.x > get_viewport().get_visible_rect().size.x * 0.5:
 		_report("%s: sütun ekranın sağ yarısına taşıyor (karakterler)" % tag)
 	print("  %s: %d düğme, sütun dibi %.0f" % [tag, buttons.size(), bottom])
+	if finished:
+		menu._show(menu._archive)
+		for i in 4:
+			await get_tree().process_frame
+		var vw := get_viewport().get_visible_rect().size.x
+		var want_cols := 3 if vw >= 1560.0 else 2
+		var grid: GridContainer = menu._arch_grid
+		var scroll: Control = grid.get_parent()
+		if grid.columns != want_cols:
+			_report("%s: arşiv %d sütun (genişlik %.0f, beklenen %d)" % [tag, grid.columns, vw, want_cols])
+		if grid.get_combined_minimum_size().x > scroll.size.x + 0.5:
+			_report("%s: arşiv ızgarası %.0f > kaydırma alanı %.0f" % [tag, grid.get_combined_minimum_size().x, scroll.size.x])
+		print("  %s: arşiv %d sütun, ızgara %.0f / alan %.0f" % [tag, grid.columns,
+			grid.get_combined_minimum_size().x, scroll.size.x])
 	menu.queue_free()
 	await get_tree().process_frame
 
