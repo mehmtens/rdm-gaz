@@ -7,10 +7,10 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- (Tur 403, Bölüm 36 (indeks 35)) **Ambar arenası ölümü geri geldi (2/2), dalga hafifletme reddedildi:** bot pres köprüsünde
-  (5300–5900) 54→6'ya eriyor, Yüzbaşı düellosunda 20–34 sn takılıp ölüyor. 1. dalgadan ASSASSIN çıkarmak 2/3/1 ölüm verdi →
-  geri alındı. İnsan testi "ambarda takıldım" derse önce pres köprüsünü ölç (insan bot kadar hasar alıyor mu?); alıyorsa
-  ortadaki presin fazını 0.33→0.5 yap, dalgalara dokunma.
+- (Tur 403 → tur 404 güncellemesi, Bölüm 36 (indeks 35)) **Pres köprüsü erimesi bot artefaktıydı:** tur 404'te bota
+  pres okuma eklendi; köprüde (5300–5900) pres hasarı 0, can 85'te sabit (eskiden 54→6), ambar arenası 50 canla
+  geçildi. Kalan 2 ölüm jeneratör kesiminde (x~9100–10550, can 39→10→3) — tur 359 notuyla aynı yer, tek koşu. İnsan testi
+  "jeneratörde takıldım" derse önce jeneratör girişine gevşek HEALTH; ambar dalgalarına ve pres fazına dokunma.
 
 - (Tur 371 denetimi, Bölüm 33 (indeks 32)) **Erken arena (x~2600–3950) en sert kesit:** bot 105→55'e iniyor, sonra
   x~7600'e kadar hiç hasar almıyor (55'te sabit, 7599'da 85'e toparlıyor); bölümün baskısı ön yüklü, orta kesit boş.
@@ -920,6 +920,27 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-24 (404) — Denetim (Bölüm 16 ve 22) + bot pres okuma: Bölüm 22 ölümü bot artefaktıydı; Bölüm 36 köprü sorusu cevaplandı
+
+**Neden şimdi:** stil listesi ve iki yol haritası kapalı → kural (d). Son turlarda denetlenmemiş Bölüm 16 ve 22.
+**Bulgular (eski bot):** Bölüm 16: CLEARED @9955 / 77,8 sn / 0 ölüm, dip 28 (son arena öncesi), toparlanıyor → temiz.
+Bölüm 22: 3 koşunun 2'sinde ölüm, ikisi de pompa salonunda (x 6450–6750 presleri arası): can 80→64→48→16, 16'şar
+(pres hasarı); `maxx` 6691'de takılı, son çarpışma `Crusher`. Bot presi hiç okumuyordu: inmiş başlığı duvar sanıp
+dash+zıplıyor, iki pres arasında sıkışıyordu. İnsan telegraf titremesi (0,28 sn) ve gümleme sesiyle okur; fazlar tur 384'ten
+beri soldan sağa 1 sn arayla akıyor (A 1,52 → B 2,51 → C 3,50 sn) ve başlık 112 px'lik oyuncunun üstüne ~0,85 sn'lik
+pencerede çekiliyor — tasarım adil, ölçüm kirli.
+**Değişiklik (`_autoplay.gd`, yalnız test botu):** `_press_hold` — önündeki pres (12–150 px) oyuncu boyunun üstüne çekilmemişse
+ya da geçiş süresi içinde inecekse presin 45 px önünde dur, uzaktaysa yürüyerek yaklaş, altındayken asla durma.
+`_count_press_hits` pres vuruş kilidinden hasar sayar; PROBE satırına `press=bekleme/isabet` eklendi. Oyun koduna dokunulmadı.
+**Sonuç (yeni bot):** Bölüm 22 ×2: 0/0 ölüm (78,7 / 77,6 sn). Bölüm 36: pres köprüsünde pres isabeti 0, can 85'te sabit
+(tur 403'te 54→6) → birikimdeki "insan bot kadar hasar alıyor mu?" sorusu: hayır, o erime bot artefaktıydı; ambar arenası
+50 canla geçildi, kalan 2 ölüm jeneratör kesiminde (birikim güncellendi). Pres içeren diğer bölümler (6, 7, 11, 24, 34,
+35) CLEARED, pres isabeti hepsinde 0; Bölüm 24 bu koşuda 0 ölüm (tek koşu).
+**Test:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0; `dtm_gaps` PASS; `press_phase` PASS (22 faz). Bot kontrol
+koşuları Bölüm 1 / 13 / 25: CLEARED 0 / 0 / 1 ölüm (25'teki bilinen ciltçi geçidi varyansı, pres yok).
+**Sonraki adım:** önceki denetimlerde pres hattında görülen can kayıpları (Bölüm 6 haddehane, 7 fırın yolu, 35 pres hattı)
+bu bot ile yeniden ölçülürse birikimdeki kapılı notların bir kısmı kapanabilir; insan testi yine öncelikli.
 
 ### 2026-11-24 (403) — Denetim (Bölüm 31 ve 36) + Bölüm 36 ambar 1. dalga hafifletme denemesi: reddedildi, kod değişikliği yok; otomasyon durdu
 

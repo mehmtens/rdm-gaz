@@ -39,6 +39,16 @@ var _below_t := 0.0
 var _below_y := 0.0
 ## Son ilerlemeden beri ölüm sayısı (tur 334 döngü kırıcı).
 var _deaths_here := 0
+## Pres okuma (tur 404): bot eskiden presi hiç okumuyordu; altına yürüyüp ezilir, iniş
+## halindeki başlığı duvar sanıp dash+zıplamayla üstüne çıkar, iki pres arasında sıkışırdı
+## (Bölüm 22 pompa salonu 3 koşunun 2'sinde ölüm). İnsan telegraf + gümleme sesiyle okur;
+## bot da artık presin önünde durup yükselişin arkasından geçer. `_press_hits` pres hasarı sayısı.
+var _crushers: Array = []
+var _crusher_scan := 0.0
+var _crusher_lock := {}
+var _press_hits := 0
+var _press_waits := 0
+var _press_waiting := false
 
 
 func _ready() -> void:
@@ -134,6 +144,7 @@ func _physics_process(delta: float) -> void:
 		return
 
 	var on_floor: bool = _player.is_on_floor()
+	_count_press_hits()
 	if _evade_hits0 >= 0 and _run_t - _evade_t >= 1.0:
 		if int(_player.hits_taken) > _evade_hits0:
 			_boss_evade_fails += 1
@@ -247,6 +258,9 @@ func _physics_process(delta: float) -> void:
 		return
 
 	if _seek_heal(x, y, on_floor):
+		return
+
+	if _press_hold(x, y, on_floor):
 		return
 
 	# girdi botu
@@ -368,6 +382,67 @@ func _seek_heal(x: float, y: float, on_floor: bool) -> bool:
 	return true
 
 
+## Bölümdeki presleri 2 sn'de bir tarar; her presin vuruş kilidi yeni kurulduysa (oyuncuya
+## çarptı) `_press_hits` artar. Dövüş dalı erken döndüğü için her karede çağrılır.
+func _count_press_hits() -> void:
+	if _run_t >= _crusher_scan:
+		_crusher_scan = _run_t + 2.0
+		_crushers = []
+		for n in _main.find_children("*", "AnimatableBody2D", true, false):
+			if n is Crusher:
+				_crushers.append(n)
+	for c in _crushers:
+		if not is_instance_valid(c):
+			continue
+		var id: int = c.get_instance_id()
+		var lock: float = c.get("_hit_lock")
+		if lock > float(_crusher_lock.get(id, 0.0)) + 0.5:
+			_press_hits += 1
+		_crusher_lock[id] = lock
+
+
+## Önündeki pres yolu kesiyorsa insan gibi bekle: başlık oyuncu boyunun (112 px) üstüne
+## çekilmeden ya da geçiş süresi içinde inecekse presin önünde dur; uzaktaysa yürüyerek yaklaş.
+## Presin altındayken asla durma. true: bu kare girdi verildi.
+func _press_hold(x: float, y: float, on_floor: bool) -> bool:
+	var was := _press_waiting
+	_press_waiting = false
+	if not on_floor:
+		return false
+	for c in _crushers:
+		if not is_instance_valid(c):
+			continue
+		var base: Vector2 = c.get("_base")
+		var drop: float = c.get("drop_height")
+		var w: float = c.get("width")
+		var ground: float = base.y + drop + float(c.get("thickness")) * 0.5
+		if absf(ground - y) > 40.0:
+			continue
+		var front: float = c.global_position.x - w * 0.5 - x
+		if front < 12.0 or front > 150.0:
+			continue
+		var p: float = c.get("period")
+		var t: float = c.get("_t")
+		var tel: float = c.get("telegraph")
+		## Başlığın tam inişe varacağı ana kalan süre (crusher.gd: telegraf + 0,12 periyot iniş).
+		var to_down := fposmod(tel + 0.12 * p - t, p)
+		var raised: bool = c.position.y - base.y < drop - 120.0
+		var clear_t := (front + w + 40.0) / 260.0
+		if raised and to_down > clear_t + 0.1:
+			return false
+		_press_waiting = true
+		if not was:
+			_press_waits += 1
+		Input.action_release(&"run")
+		Input.action_release(&"move_left")
+		if front > 45.0:
+			Input.action_press(&"move_right")
+		else:
+			Input.action_release(&"move_right")
+		return true
+	return false
+
+
 func _wall_is_moving() -> bool:
 	for i in _player.get_slide_collision_count():
 		var c := _player.get_slide_collision(i)
@@ -409,8 +484,9 @@ func _note_stall() -> void:
 
 func _finish_level(msg: String) -> void:
 	_note_stall()
-	print("PROBE Bölüm %d: %s  stall=%.0fs@%.0f respawns=%d boss_evades=%d/%d isabet heals=%d" % [
-		_level_idx + 1, msg, _longest_stall, _stall_at, _respawns, _boss_evades, _boss_evade_fails, _heals])
+	print("PROBE Bölüm %d: %s  stall=%.0fs@%.0f respawns=%d boss_evades=%d/%d isabet heals=%d press=%d/%d" % [
+		_level_idx + 1, msg, _longest_stall, _stall_at, _respawns, _boss_evades, _boss_evade_fails, _heals,
+		_press_waits, _press_hits])
 	Input.action_release(&"move_right")
 	Input.action_release(&"run")
 	if not OS.get_environment("REDMOUNT_PROBE_LEVEL").is_empty():
