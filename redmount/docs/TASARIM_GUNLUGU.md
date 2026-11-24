@@ -922,6 +922,19 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-25 (406) — Denetim (Bölüm 21 "Yenikapı" ve Bölüm 29 "Kuzguncuk Kıyı Deposu"): ikisi de temiz; otomasyon durdu
+
+**Neden şimdi:** stil listesi ve iki yol haritası kapalı, birikim insan testi bekliyor → kural (d). Dedike ölçümü en eski iki
+bölüm, pres okuyan botla (tur 404) ilk kez: Bölüm 21 (son tur 363) ve Bölüm 29 (son tur 357).
+**Bölüm 21 (indeks 20):** CLEARED @10106 / 95,5 sn / 0 ölüm / pres 0/0. Can eğrisi arka yüklü (tur 363 notuyla aynı):
+x~7700'e kadar 103–115, bakım arenasında (8000–8250, en uzun takılma 15 sn @8233) 115→80, finalde 88→35 → gerilim sonda,
+ölüm yok.
+**Bölüm 29 (indeks 28):** CLEARED @10108 / 75,4 sn / 0 ölüm, dip 69 (x~7600), 8590'da 115'e toparlanıyor; takılma 7 sn @3875.
+**Değişiklik:** yok. Birikimdeki Bölüm 21 "arka yüklü ritim" notu geçerli, insan testi verisi bekliyor.
+**Test:** kod değişikliği yok; yalnız bot koşuları (yukarıda).
+**Durum:** yeni ölçülebilir iş çıkmadı; stil listesi ve iki yol haritası kapalı, birikim insan testi verisi bekliyor.
+**Otomasyon durdu.**
+
 ### 2026-11-25 (405) — Pres okuyan botla yeniden ölçüm (Bölüm 6, 7, 36) + Bölüm 36 arşiv girişi canı
 
 **Neden şimdi:** stil listesi ve iki yol haritası kapalı → kural (d); tur 404'ün önerisi: pres okuyan botla pres hattı
