@@ -3,7 +3,8 @@ extends Node
 ## TOUCH_BUTTON_H yüksek, düğmeler çakışmıyor, sütun alt ipucu şeridinin üstünde bitiyor.
 ## Masaüstü düzeni (46 px, tek sütun) değişmiyor. Bitmiş ve bitmemiş kayıt ("Bölüm N" satırı
 ## sütunu uzatır), 16:9 ve 20:9 için. Tur 391: duraklat menüsü de (kostüm rozeti açıkken, en
-## uzun hâli) dokunmatikte ≥ 56 px düğme ve ekrana sığan panel.
+## uzun hâli) dokunmatikte ≥ 56 px düğme ve ekrana sığan panel. Tur 392: mağazanın üç sekmesi
+## (sekme / satın al / GİY / GERİ) dokunmatikte 56 px ve GERİ panelin içinde.
 
 var _fail := 0
 
@@ -31,6 +32,9 @@ func _ready() -> void:
 		OS.set_environment("REDMOUNT_TOUCH_CONTROLS", "1" if touch else "0")
 		await _check_pause(touch)
 	Save.costume = saved_costume
+	for touch in [true, false]:
+		OS.set_environment("REDMOUNT_TOUCH_CONTROLS", "1" if touch else "0")
+		await _check_shop(touch)
 	Save.unlocked_level = saved_unlocked
 	Save.best_scores = saved_scores
 	OS.set_environment("REDMOUNT_TOUCH_CONTROLS", "")
@@ -96,6 +100,37 @@ func _check_pause(touch: bool) -> void:
 	pause.close()
 	get_tree().paused = false
 	pause.queue_free()
+	await get_tree().process_frame
+
+
+func _check_shop(touch: bool) -> void:
+	var shop: Node = load("res://scenes/Shop.tscn").instantiate()
+	add_child(shop)
+	var want: float = shop.TOUCH_BUTTON_H if touch else 48.0
+	for tab in 3:
+		shop._select(tab)
+		for i in 4:
+			await get_tree().process_frame
+		var tag := "mağaza/%s/sekme %d" % ["dokunmatik" if touch else "masaüstü", tab + 1]
+		var n := 0
+		for b in shop.find_children("*", "Button", true, false):
+			if not (b as Control).is_visible_in_tree():
+				continue
+			n += 1
+			var h: float = (b as Control).size.y
+			if h < want - 0.5:
+				_report("%s: '%s' yüksekliği %.0f (beklenen ≥ %.0f)" % [tag, b.text, h, want])
+		var panel: Control = shop.get_child(shop.get_child_count() - 1)
+		for c in shop.get_children():
+			if c is PanelContainer:
+				panel = c
+		var back: Rect2 = shop._back.get_global_rect()
+		## Panel ekranın 24 px alt payında biter; içerik sığmazsa panel kendiliğinden uzar.
+		var limit := get_viewport().get_visible_rect().size.y - 24.0
+		if panel.get_global_rect().end.y > limit + 0.5:
+			_report("%s: panel alt paya taşıyor (%.0f > %.0f)" % [tag, panel.get_global_rect().end.y, limit])
+		print("  %s: %d düğme, GERİ dibi %.0f, panel dibi %.0f" % [tag, n, back.end.y, panel.get_global_rect().end.y])
+	shop.queue_free()
 	await get_tree().process_frame
 
 

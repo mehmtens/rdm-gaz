@@ -22,6 +22,9 @@ const CREAM := Color(0.96, 0.92, 0.84)
 const MUTED := Color(0.72, 0.68, 0.74)
 const RED := Color(0.95, 0.55, 0.42)
 
+## Dokunmatik cihazda sekme / satın al / GERİ yüksekliği (sanal px): 48 px 1080p telefonda
+## ~27 dp'ydi; 56, 7 kartlı GELİŞTİRMELER sekmesini 720 yüksekliğe sığdıran değer.
+const TOUCH_BUTTON_H := 56
 var _t := 0.0
 var _tab := 0
 var _tabs: Array[Button] = []
@@ -48,7 +51,9 @@ func _ready() -> void:
 	panel.offset_bottom = -24
 	add_child(panel)
 	var col := VBoxContainer.new()
-	col.add_theme_constant_override(&"separation", 12)
+	# Aralıklar 8: KOSTÜMLER sekmesi (önizlemeli 3 kart sırası) 12 ile paneli 4 px (telefonda
+	# 56 px düğmelerle 13 px) aşağı taşırıyordu; panel ekranın alt kenar payına giriyordu.
+	col.add_theme_constant_override(&"separation", 8)
 	panel.add_child(col)
 
 	var head := HBoxContainer.new()
@@ -72,7 +77,7 @@ func _ready() -> void:
 	for i in 3:
 		var tab := Button.new()
 		tab.text = ["HAREKETLER", "GELİŞTİRMELER", "KOSTÜMLER"][i]
-		tab.custom_minimum_size = Vector2(210, 48)
+		tab.custom_minimum_size = Vector2(210, _bh())
 		tab.pressed.connect(_select.bind(i))
 		tab.focus_entered.connect(_select.bind(i))
 		head.add_child(tab)
@@ -81,13 +86,13 @@ func _ready() -> void:
 	_grid = GridContainer.new()
 	_grid.columns = 2
 	_grid.add_theme_constant_override(&"h_separation", 14)
-	_grid.add_theme_constant_override(&"v_separation", 12)
+	_grid.add_theme_constant_override(&"v_separation", 8)
 	_grid.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	col.add_child(_grid)
 
 	_back = Button.new()
 	_back.text = "GERİ"
-	_back.custom_minimum_size = Vector2(200, 48)
+	_back.custom_minimum_size = Vector2(200, _bh())
 	_back.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	_back.pressed.connect(func() -> void: Transition.go(MENU_SCENE))
 	col.add_child(_back)
@@ -205,7 +210,7 @@ func _costume_card(it: Dictionary) -> Control:
 	elif Save.owns_costume(id):
 		var b := Button.new()
 		b.text = "GİY"
-		b.custom_minimum_size = Vector2(120, 48)
+		b.custom_minimum_size = Vector2(120, _bh())
 		b.pressed.connect(_wear.bind(id))
 		right.add_child(b)
 	elif Save.unlocked_level < required:
@@ -248,9 +253,14 @@ func _price(cost: int) -> Button:
 	var b := Button.new()
 	b.text = "%d" % cost
 	b.icon = COIN
-	b.custom_minimum_size = Vector2(120, 48)
+	b.custom_minimum_size = Vector2(120, _bh())
 	b.disabled = Save.total_coins < cost
 	return b
+
+
+## Düğme yüksekliği: telefonda dokunma hedefi büyür (ana menü / duraklat ile aynı kural).
+static func _bh() -> int:
+	return TOUCH_BUTTON_H if TouchControls.active_on_device() else 48
 
 
 func _icon(tex: Texture2D) -> TextureRect:

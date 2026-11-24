@@ -7,8 +7,6 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- (Tur 390) **Mağaza sekmeleri ve GERİ telefonda ~46–50 px:** kart satın alma düğmesi (~40 px) en küçük hedef.
-  `shop_menu.gd` için aynı TOUCH_BUTTON_H kuralı; 16:9'da kart ızgarası taşmamalı. Etki orta, maliyet düşük.
 - (Tur 390) **Kanıt arşivi 20:9'da sağ üçte bir boş:** `_arch_grid.columns = 2` sabit; 1600 genişlikte üçüncü
   sütun sığar (bölüm başına 3 kare ~460 px). Genişliğe göre 2/3 sütun. Etki düşük, maliyet düşük.
 - (Tur 390) **Dokunmatik sonuç kartının alt üçte biri boş:** telefonda istatistik 3 satır, ipucu satırı gizli; kart
@@ -922,6 +920,24 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-24 (392) — Mağaza telefonda: düğmeler 48→56 px; KOSTÜMLER sekmesi taşması giderildi
+
+**Neden şimdi:** tur 390 telefon denetiminin birikimdeki üst maddesi; mağaza ana menüden sonra en çok dokunulan ekran
+(satın al düğmesi ~40 px görünür, 48 px hedef → 1080p telefonda ~27 dp).
+**Değişiklik (`shop_menu.gd`):** dokunmatikte sekme, fiyat/satın al, GİY ve GERİ düğmeleri `TOUCH_BUTTON_H = 56`
+(`_bh()`); masaüstü 48 kaldı. Test yazarken **önceden var olan bir hata** çıktı: KOSTÜMLER sekmesinde (önizlemeli 3 kart
+sırası) içerik paneli alt kenar payının 4 px (masaüstü), 56 px düğmelerle 13 px aşağısına uzatıyordu. Sütun ve ızgara
+aralığı 12→8: altı durumun hepsinde panel dibi tam 696 (720 − 24 pay). Kart, yazı, renk değişmedi.
+**Oyuncu ne hissedecek:** telefonda fiyat düğmesine ve sekmelere rahat basılır; kostüm sekmesinde çerçeve kesilmez.
+**Test:** `menu_touch_targets` genişledi — mağazanın 3 sekmesi × dokunmatik/masaüstü: görünür her düğme ≥ 56/48 px,
+panel alt paya taşmıyor → PASS (düzeltmeden önce sekme 3'te 709/700 > 696 ölçüldü).
+**Görsel kontrol:** KOSTÜMLER sekmesi 1600×720 dokunmatik ve 1280×720 masaüstü, GELİŞTİRMELER 1280 dokunmatik ve
+masaüstü çekildi: taşma/çakışma yok, 7 kartlı sekme sığıyor. Yeni çizim yok.
+**Testler:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0; `dtm_gaps` PASS; `menu_touch_targets` PASS;
+`shop_stat_wrap`, `costumes`, `costume_accessory` rc=0. Bot koşusu yok: oynanış kodu değişmedi.
+**Not:** tur 391 push'u ilk denemede GitHub "Internal Server Error" ile reddedildi, bu tur başında yeniden denenip geçti.
+**Sonraki adım:** birikimin üstü — kanıt arşivinin 20:9'da üç sütun kullanması.
 
 ### 2026-11-24 (391) — Duraklat menüsü telefonda: düğmeler 46→56 px
 
