@@ -91,7 +91,10 @@ func _build() -> void:
 	_wagon(5890)
 	_moving(6390, -260, Vector2(260, 0), 140, 0.0)
 	_coin_line(6420, 5, 50, -320)
-	_enemy(BRUISER, 6750, 0)
+	## Zırhlı iriyarı çukurun iniş kenarından (6610) 250 px içeride: atlayıp inen
+	## oyuncu önce yere basar, dövüş sağlam zeminde başlar (tur 401; 6750'de
+	## iniş yumruğuna denk geliyor, geri itilen oyuncu dikene düşüyordu).
+	_enemy(BRUISER, 6860, 0)
 	_crates(6900, 1, 1)
 	_wagon(6990, Color(1.0, 0.92, 0.88))
 	_pickup(RIFLE_PICKUP, 7100, -190)

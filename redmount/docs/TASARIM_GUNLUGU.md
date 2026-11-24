@@ -916,6 +916,26 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-24 (401) — Denetim (Bölüm 20 ve 26) + Bölüm 26 yük rampası: zırhlı iriyarı çukur kenarından geri çekildi; bot ölümü 2–3 → 0
+
+**Neden şimdi:** stil listesi ve iki yol haritası kapalı, birikim insan testi bekliyor → kural (d). Son dedike denetimi
+en eski iki bölüm seçildi: Bölüm 20 (tur 327) ve Bölüm 26 (tur 341/361).
+**Bulgular (taban kod):** Bölüm 20: CLEARED @10106 / 89,3 sn / 0 ölüm / dip 37 (x~8400, arena; 97'ye toparlıyor) → temiz.
+**Bölüm 26:** 3 koşuda 2/2/3 ölüm (pencereli koşuda 3), hepsi yük rampasındaki diken çukurunda (6450–6610); tur 361'de 0.
+Koşular deterministik (aynı kod iki kez birebir); `dtm_level.gd` tur 366 öncesine döndürülünce de aynı → gerileme değil,
+varış zamanlamasıyla açığa çıkan yerleşim sorunu. Kareler: zırhlı BRUISER (6750) iniş kenarından yalnız 140 px içeride;
+çukuru atlayan ya da hareketli paletten inen oyuncu tam yumruğuna iniyor, geri itilip dikene düşüyor (ölüm anında can 57–115,
+yani hasardan değil çukurdan).
+**Değişiklik (`bolum26.gd`):** `_enemy(BRUISER, 6750)` → `6860` (kenardan 250 px; 6900 sandığının önü). Çukur, palet,
+coin hattı ve dalgalar aynı. Sayı hipotez: koşarak atlayışın ~133–250 px iniş payı + bir adım.
+**Oyuncu ne hissedecek:** çukur hâlâ bir atlama sınavı ama ceza adil — iniş bir nefes veriyor, iriyarı dövüşü sağlam zeminde
+başlıyor; "düşman beni çukura itti" haksızlığı yok (DTM'de ağır düşman uçurum dudağına konmaz).
+**Test:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0; `dtm_gaps` PASS; `checkpoint_clear` PASS (222/0);
+`embedded_objects` PASS (2250/0). Bot Bölüm 26 yeni kod: başsız CLEARED @9758 / 86,0 sn / 0 ölüm; pencereli CLEARED @9756 /
+85,1 sn / 0 ölüm. Kare t0051: dövüş çukurun gerisinde, sandık önünde; görsel yeni öğe yok.
+**Sonraki öneri:** diğer bölümlerde "ağır düşman çukur/diken iniş kenarına ≤150 px" kalıbı taranabilir (düşman x ile
+`_spike_pit` bitişi karşılaştırması) — ölçülebilir, insan verisi gerektirmiyor.
+
 ### 2026-11-24 (400) — Denetim (Bölüm 24 / Kitap 2 finali "Bozdoğan Kemeri"): bilinen kapılı not doğrulandı; otomasyon durdu
 
 **Neden şimdi:** stil listesi ve iki yol haritası kapalı, birikimin tümü "insan testi verisi gelmeden dokunma"
