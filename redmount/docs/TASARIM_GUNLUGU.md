@@ -7,6 +7,11 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 417 görsel denetimi, Bölüm 17 (indeks 16)) **Giriş plank platformu (x=850, y=-205) düşük kontrast:** ince A_PLANK
+  yoğun gündüz arka planına karışınca üstündeki zırh uzaktan havada asılı okunuyor; oyuncu yaklaşınca düzeliyor (plank
+  işlevsel, zırh plank üstünde toplanıyor). İnsan testi "zırhı/platformu göremedim" derse önce plank silueti koyulaştırma
+  veya arkasına Dan-the-Man bulut süsü düşünülsün; veri gelmeden dokunma.
+
 - (Tur 415 denetimi, Bölüm 27 (indeks 26)) **Kablo koridoru arenası (7050–7850) → arşiv eliti zinciri:** 4 koşunun 1'inde bot
   arenadan 13 canla çıkıp arşiv elitinde öldü, dönüşte çivili bodrum çöken döşemesine düştü (2 ölüm); diğer 3 koşu 0.
   İnsan testi "arşivde öldüm" derse önce 2. dalga ELITE+RIFLE+SHIELD → ELITE+RIFLE; çukura dokunma.
@@ -11280,3 +11285,44 @@ izlenecek, dokunulmadı). Böylece tur 357–380 arasında 36 bölümün tamamı
 sertliği olarak bırakıldı.
 **Sonraki adım:** otonom kuyruk boş — stil listesi ve iki yol haritası kapalı, birikim maddeleri insan testi verisi
 bekliyor. Otomasyon durdu.
+
+### 2026-11-25 — Görsel denetim (Bölüm 17 "Beyazıt Posta Hattı", indeks 16): temiz, kod değişikliği yok (tur 417)
+
+**Neden şimdi:** stil listesi (33/33), YOL_HARITASI ve OYNANIS-KALITE kapalı; birikimdeki tüm maddeler "insan testi
+bekliyor / veri gelmeden dokunma" koşullu notları — otonom turda uygulanabilir aktif iş yok → kural (d) denetimi. Son
+turlar (409–416) bot ölüm ölçümüne odaklandı, dedike pencereli görsel çekim atlandı. Bölüm 17 tur 357'den beri dedike
+görsel çekimden geçmemişti; bu turda görsel kalite (ChatGPT atlas uyumu, "ait mi/yapıştırılmış mı") açısından denetlendi.
+
+**Yöntem:** `capture_level.tscn` ile 1280×720 pencereli, 4 ana nokta (giriş 500 / Beyazıt meydanı 2500 / posta cephesi
+5900 / çıkış kulesi 9200) + bulut platformunu doğrulamak için 2 yakın çekim (780 ve 850). Hepsi Read ile ChatGPT
+arka planlarının yanında değerlendirildi.
+
+**Bulgular:** Dört ana kare de ChatGPT tarzı atmosferik arka plan + stil içinde süslerle temiz:
+- Giriş: Süleymaniye silueti/kubbeler, taş merdiven, çıkma cumba, sikke hattı — taşma/dikiş yok.
+- Beyazıt meydanı: Beyazıt kapısı (çini alınlık, at nalı kemer, mazgallı kuleler), sandık/varil/testi süsleri stil içinde.
+- Posta cephesi: posta binası kemerleri, yük arabası + posta çuvalları, tüfekli + bıçakçı düşmanlar okunur, telgraf
+  bandı/raf, Gazelle diyalog kutusu düzgün.
+- Çıkış kulesi: revak kemerleri, fenerler, çeşme köşkü, SHIELD düşman — bölüm sonu tonu bütün.
+HUD (CAN/COIN/Zırh) okunur; düşmanlar arka plandan ayrışıyor; kalıcı arka plan dikişi / stil dışı / yapıştırılmış öğe yok.
+
+**İncelenen tek nokta:** giriş bölgesinde `_pickup(ARMOR, 850, -250)` zırhı, geniş kadrajda gökyüzünde asılı gibi
+görünüyordu. Kaynak: `_cloud(850, -205, 130, 0)` = Dan the Man tarzı tek yönlü **plank platformu** (`_oneway_art A_PLANK`),
+zırh onun ~45px üstünde (normal pickup yüksekliği). x=850 yakın çekiminde oyuncu plank'ın üstünde durup zırhı topladı
+(HUD "Zırh 6/6"), plank işlevsel platform olarak net okundu. "Havada asılı" izlenimi yalnız uzaktan, ince plank yoğun
+gündüz arka planına düşük kontrastla karışınca oluşuyor — oyuncu yaklaşınca (kameranın gerçek konumunda) sorun kalkıyor.
+Gerçek oyun hissinde sorun değil; bir görsel değişiklik (plank silueti güçlendirme / bulut süsü) yalnız insan testi
+"zırh havada duruyor / platformu göremedim" derse gerekçelenir — veri gelmeden dokunulmadı (yeni görsel icat etmeyi
+azaltma kuralı).
+
+**Değişiklik:** yok. Bölüm 17 görsel birlik açısından ChatGPT atlasıyla tutarlı; düzeltilecek taşma/çakışma/stil dışı
+öğe bulunmadı.
+
+**Test:** `--import` SCRIPT ERROR 0; `capture_level.tscn` ×6 kare rc=0, Read ile değerlendirildi. Kod değişmediği için
+bot/smoke koşulmadı (yalnız görsel denetim turu). Geçici çekimler scratchpad'de; depoya dosya eklenmedi.
+
+**Birikime eklendi (koşullu):** (Tur 417 görsel denetimi, Bölüm 17) **Giriş plank platformu (x=850, y=-205) düşük
+kontrast:** ince A_PLANK yoğun gündüz arka planına karışınca üstündeki zırh uzaktan havada asılı okunuyor; yaklaşınca
+düzeliyor. İnsan testi "zırhı/platformu göremedim" derse önce plank silueti koyulaştırma veya arkasına Dan-the-Man bulut
+süsü düşünülsün; veri gelmeden dokunma.
+
+**Sonraki adım:** dedike görsel çekimi en eski bölümler (6, 7, 11, 16, 18, 32, 34) arasından ikili görsel denetim sürsün.
