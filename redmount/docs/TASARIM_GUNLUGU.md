@@ -926,6 +926,32 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-25 (409) — Görsel + sayısal denetim (Bölüm 26 "Sirkeci Sevkiyatı"): temiz ve stilde; çekim kipi hayalet ölüm yöntem notu
+
+**Neden şimdi:** stil listesi ve iki yol haritası kapalı, birikim insan testi bekliyor → kural (d). Son turlar (404–408) yalnız
+ölüm bandına baktı; bu tur geniş sütun denetimi: pencereli bot koşusu + `REDMOUNT_SNAP_DIR` ile 7 sn'de bir ekran görüntüsü
+(15 kare), görsel okunurluk / stil uyumu / HUD ayrı değerlendirildi. Bölüm 26 (indeks 25) son dedike denetim listesinde yoktu.
+
+**Görsel (stil uyumu):** `book03_sirkeci_station_atlas` sahnesi ChatGPT kalitesinde ve stilde — Gar Erzakçısı dükkânı (tente,
+fenerler), buharlı lokomotif + vagonlar, arkada minareli/Ayasofyalı İstanbul silüeti; ön plan vagon/sandık/vinç paleti
+katmanları sahneye ait (yapıştırılmış değil). HUD okunur (CAN/COIN/silah/mermi sol üstte, arka plandan ayrışıyor). Dokunulmadı.
+
+**Sayısal (ölüm bandı) — çekim kipi artefaktı ortaya çıktı:** pencereli+snapshot koşusunda CLEARED ama **respawns=3**, hepsi
+yük rampasındaki hareketli vinç paleti geçişinde (x~5800–6600, dikenli çukur 6450–6610; `_moving(6390,-260,…)` + `_spike_pit`).
+Tek veri noktasıyla değişiklik yapmadan **aynı bölümü başsız 2 kez** koştum: ikisinde de **respawns=0** (t=87 sn, dip ~60, en uzun
+takılma 10 sn@8505 final arenası). Fark: snapshot kipi `_process` içinde her 7 sn'de `await RenderingServer.frame_post_draw`
+ile süreci duraklatıyor; bu, botun hareketli palet zamanlamasını kaydırıp çukura düşürüyor → **3 ölüm çekim artefaktı, oyun
+sorunu değil.** Bölüm 26 zorluk bandında temiz.
+
+**Yöntem notu (gelecek turlar için):** pencereli+`REDMOUNT_SNAP_DIR` koşusunun respawn/ölüm sayısına güvenme — snapshot
+duraklamaları hareketli platform/diken kesitlerinde hayalet ölüm üretir. Görsel denetim için snapshot kipi kullan, ama zorluk
+ölçümünü her zaman başsız (snapshot'sız) koşudan al.
+
+**Değişiklik:** yok (kod/görsel). **Test:** Bölüm 26 başsız ×2 CLEARED respawns=0 (87,0 sn); pencereli snapshot ×1 CLEARED
+(artefakt respawns=3). Geçici snapshot dosyaları scratchpad'de, commit'e girmedi.
+**Durum:** yeni oyun işi çıkmadı; Bölüm 26 görsel+sayısal temiz. Pres/başsız botla ölçülmemiş kalanlar: 2–5, 9, 12, 14,
+18–20, 23, 27–28, 30–33. **Otomasyon durdu.**
+
 ### 2026-11-25 (408) — Denetim (Bölüm 8 ve Bölüm 10, Kitap 1 ortası/finali): ikisi de bandında; otomasyon durdu
 
 **Neden şimdi:** stil listesi ve iki yol haritası kapalı, birikim insan testi bekliyor → kural (d). Pres okuyan botla (tur 404)
