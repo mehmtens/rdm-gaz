@@ -5,6 +5,8 @@
 ## Redmount sinyallerine bağlanır.
 extends Control
 
+## Sonuç kartının alt kenarı (ekran ortasına göre, tam boy: ipucu satırı dahil).
+const RESULTS_CARD_BOTTOM := 250
 @onready var _fill: ColorRect = $HealthBg/HealthFill
 @onready var _label: Label = $HealthBg/HealthLabel
 @onready var _coins: Label = $CoinLabel
@@ -628,6 +630,9 @@ var _reveal_t: float = 0.0
 ## Bu koşunun yıldız maskesi; -1 = yıldız gösterme (ör. survival).
 var _reveal_stars: int = -1
 var _star_row: Control
+## Sonuç kartı çerçevesi ve altındaki kostüm künyesi tutucusu (_fit_results_card).
+var _results_card: Panel
+var _badge_holder: Control
 var _star_icons: Array[TextureRect] = []
 var _star_lit: Array[bool] = []
 
@@ -640,6 +645,7 @@ func _reveal(stars: int) -> void:
 	_combo.visible = false
 	_results_rank.visible = false
 	_refresh_costume_badge()
+	_fit_results_card()
 	_star_row.visible = stars >= 0
 	for k in _star_icons.size():
 		var before := (earned_stars & int(STARS[k][0])) != 0
@@ -673,6 +679,22 @@ func _tick_reveal(delta: float) -> void:
 		icon.scale = Vector2.ONE * lerpf(1.8, 1.0, ease(e, 0.4))
 		if e >= 1.0:
 			icon.scale = Vector2.ONE * (1.0 + sin((_reveal_t - k * 0.5) * 4.0) * 0.04)
+
+
+## Telefonda ipucu satırı boş (SONRAKİ/MENÜ kartın yanındaki dokunmatik düğmeler): kart
+## istatistik satırlarının hemen altında biter; masaüstü kartının alt üçte biri (~150 px) boş
+## kalıyordu. İpucu varsa (klavye, "Yeni vuruş mağazada") tam boy. Künye kartla birlikte kayar.
+func _fit_results_card() -> void:
+	if _results_card == null:
+		return
+	var bottom := float(RESULTS_CARD_BOTTOM)
+	if _results_hint.text == "":
+		var text_h := _results_stats.get_minimum_size().y
+		bottom = clampf(_results_stats.offset_top + text_h + 34.0, 110.0, RESULTS_CARD_BOTTOM)
+	_results_card.offset_bottom = bottom
+	if _badge_holder != null:
+		_badge_holder.offset_top = bottom + 8.0
+		_badge_holder.offset_bottom = bottom + 68.0
 
 
 ## Sonuç kartının üstündeki üç yıldız yuvası + alt yazıları (piksel doku, NEAREST).
@@ -722,7 +744,8 @@ func _build_results_card() -> void:
 	card.offset_left = -330
 	card.offset_right = 330
 	card.offset_top = -230
-	card.offset_bottom = 250
+	card.offset_bottom = RESULTS_CARD_BOTTOM
+	_results_card = card
 	_results.add_child(card)
 	_results.move_child(card, 0)
 	var medal := Panel.new()
@@ -757,8 +780,9 @@ func _build_costume_badge() -> void:
 	holder.set_anchors_preset(Control.PRESET_CENTER)
 	holder.offset_left = -330
 	holder.offset_right = 330
-	holder.offset_top = 258
-	holder.offset_bottom = 318
+	holder.offset_top = RESULTS_CARD_BOTTOM + 8
+	holder.offset_bottom = RESULTS_CARD_BOTTOM + 68
+	_badge_holder = holder
 	_results.add_child(holder)
 	_costume_badge = PanelContainer.new()
 	_costume_badge.name = "Costume"

@@ -5,7 +5,8 @@ extends Node
 ## sütunu uzatır), 16:9 ve 20:9 için. Tur 391: duraklat menüsü de (kostüm rozeti açıkken, en
 ## uzun hâli) dokunmatikte ≥ 56 px düğme ve ekrana sığan panel. Tur 392: mağazanın üç sekmesi
 ## (sekme / satın al / GİY / GERİ) dokunmatikte 56 px ve GERİ panelin içinde. Tur 393: kanıt arşivi
-## kitap sekmesi 20:9'da 3, 16:9'da 2 sütun ve ızgara kaydırma alanına sığıyor.
+## kitap sekmesi 20:9'da 3, 16:9'da 2 sütun ve ızgara kaydırma alanına sığıyor. Tur 394: sonuç kartı
+## telefonda (ipucu satırı boş) istatistiklerin altında biter, masaüstünde tam boy kalır.
 
 var _fail := 0
 
@@ -36,6 +37,9 @@ func _ready() -> void:
 	for touch in [true, false]:
 		OS.set_environment("REDMOUNT_TOUCH_CONTROLS", "1" if touch else "0")
 		await _check_shop(touch)
+	for touch in [true, false]:
+		OS.set_environment("REDMOUNT_TOUCH_CONTROLS", "1" if touch else "0")
+		await _check_results(touch)
 	Save.unlocked_level = saved_unlocked
 	Save.best_scores = saved_scores
 	OS.set_environment("REDMOUNT_TOUCH_CONTROLS", "")
@@ -146,6 +150,28 @@ func _check_shop(touch: bool) -> void:
 			_report("%s: panel alt paya taşıyor (%.0f > %.0f)" % [tag, panel.get_global_rect().end.y, limit])
 		print("  %s: %d düğme, GERİ dibi %.0f, panel dibi %.0f" % [tag, n, back.end.y, panel.get_global_rect().end.y])
 	shop.queue_free()
+	await get_tree().process_frame
+
+
+func _check_results(touch: bool) -> void:
+	var hud: Node = load("res://scenes/ui/HUD.tscn").instantiate()
+	add_child(hud)
+	await get_tree().process_frame
+	hud.show_results(42, 11, 14, 95.0, 6420, "BÖLÜM 1 TAMAMLANDI", 5, 3)
+	await get_tree().process_frame
+	var tag := "sonuç/%s" % ("dokunmatik" if touch else "masaüstü")
+	var card: Control = hud._results_card
+	var stats: Label = hud._results_stats
+	var card_end := card.get_global_rect().end.y
+	var text_end := stats.get_global_rect().position.y + stats.get_minimum_size().y
+	if text_end > card_end - 16.0:
+		_report("%s: istatistik satırları kart dışına taşıyor (%.0f > %.0f)" % [tag, text_end, card_end - 16.0])
+	if touch and card.offset_bottom > hud.RESULTS_CARD_BOTTOM - 60:
+		_report("%s: kart küçülmedi (alt %.0f)" % [tag, card.offset_bottom])
+	if not touch and not is_equal_approx(card.offset_bottom, hud.RESULTS_CARD_BOTTOM):
+		_report("%s: masaüstü kartı değişti (alt %.0f)" % [tag, card.offset_bottom])
+	print("  %s: kart altı %.0f, yazı dibi %.0f / kart dibi %.0f" % [tag, card.offset_bottom, text_end, card_end])
+	hud.queue_free()
 	await get_tree().process_frame
 
 

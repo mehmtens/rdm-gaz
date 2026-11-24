@@ -7,9 +7,6 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- (Tur 390) **Dokunmatik sonuç kartının alt üçte biri boş:** telefonda istatistik 3 satır, ipucu satırı gizli; kart
-  masaüstü yüksekliğinde kalıyor (~150 px boşluk). Kart yüksekliği satır sayısına göre küçülsün. Etki düşük.
-
 - (Tur 371 denetimi, Bölüm 33 (indeks 32)) **Erken arena (x~2600–3950) en sert kesit:** bot 105→55'e iniyor, sonra
   x~7600'e kadar hiç hasar almıyor (55'te sabit, 7599'da 85'e toparlıyor); bölümün baskısı ön yüklü, orta kesit boş.
   En uzun takılma 17s@8155 (iç mekân arenası), ölüm yok. İnsan testi "Bölüm 33'ün ortası boş" derse orta kesite (5100–
@@ -918,6 +915,25 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-24 (394) — Sonuç kartı telefonda istatistiklere göre kısalıyor
+
+**Neden şimdi:** tur 390 telefon denetiminin birikimdeki son maddesi. Telefonda ipucu satırı boş (SONRAKİ/MENÜ kartın
+yanındaki dokunmatik düğmeler) ve istatistik 3 satır; kart masaüstü boyunda kaldığı için alt üçte biri (~150 px) boş,
+kart "yarım yüklenmiş" görünüyordu. Bölüm sonu her bölümde bir kez görülen ödül anı.
+**Değişiklik (`hud.gd`):** `_fit_results_card()` — `_reveal` sırasında ipucu metni boşsa kart alt kenarı istatistik
+etiketinin gerçek yüksekliği + 34 px'e iner (110–250 arası); kostüm künyesi kartla birlikte kayar. İpucu varsa
+(klavye, "Yeni vuruş mağazada" uyarısı) kart tam boy (`RESULTS_CARD_BOTTOM = 250`) — masaüstü değişmedi.
+Survival/günün dalgası sonuçları da aynı yoldan geçiyor.
+**Oyuncu ne hissedecek:** telefonda bölüm sonu kartı derli toplu; yıldızlar + üç satır, boşluk yok.
+**Test:** `menu_touch_targets` genişledi — dokunmatikte kart altı 120 (yazı dibi 446 / kart dibi 480), masaüstünde 250
+→ PASS.
+**Görsel kontrol:** 1600×720 dokunmatik ve 1280×720 masaüstü, kızıl dağ künyesiyle çekildi: yazı kartın içinde, künye
+kartın 8 px altında, dokunmatik düğmelerle çakışma yok.
+**Testler:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0; `dtm_gaps` PASS; `menu_touch_targets` PASS;
+`touch_layout`, `touch_polish`, `hud_cutscene_quiet`, `level_stars`, `survival_card` rc=0. Oynanış kodu değişmedi.
+**Durum:** tur 390 telefon denetiminin dört bulgusu kapandı (ana menü, duraklat, mağaza, arşiv, sonuç kartı). Birikimin
+kalanı insan testi verisine bağlı.
 
 ### 2026-11-24 (393) — Kanıt arşivi 20:9'da üç sütun
 
