@@ -16,7 +16,7 @@ const THRONE_X := 7400.0
 
 
 func _build() -> void:
-	sky_atlas = preload("res://assets/backgrounds/book03_cengelkoy_mansion_atlas.png")
+	sky_atlas = preload("res://assets/backgrounds/book03_anadoluhisari_inner_atlas.png")
 	sky_cells = [[2, -100000.0], [3, 3300.0], [0, 6200.0]]
 	sky_tint = Color(0.86, 0.84, 0.92)
 	sky_shade = Color(0.04, 0.03, 0.07)

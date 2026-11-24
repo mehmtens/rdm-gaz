@@ -7,20 +7,6 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- (Tur 423 görsel denetimi, Bölüm 12 (indeks 11), **Kitap 1 finali — İç Kale / Karahanlı**) **Arka plan tematik uyumsuzluğu
-  + görsel tekrar:** `bolum12.gd` `sky_atlas = book03_cengelkoy_mansion_atlas` kullanıyor; yani Kitap 1'in zirvesi olan iç
-  kale finalinin "tutukevi" ve "taht salonu" sahneleri **mehtaplı Boğaz manzaralı deniz köşkü** (divan, pirinç ibrik,
-  mavi-beyaz vazo, kayıkhane direkleri) olarak çiziliyor ve Kitap 3 Bölüm 31 (Çengelköy Sahil Konağı) ile neredeyse birebir
-  aynı görünüyor. İç kale sarnıç/cephanelik/tutukevi/taht kurgusuna sahil yalısı manzarası oturmuyor ("sahneye ait mi?"
-  testini geçmiyor); ayrıca iki bölüm aynı atlası paylaşınca finalin görsel kimliği zayıflıyor. Oynanış sağlam (bot CLEARED
-  78,2 sn / 0 ölüm / dip 33). **Çözüm seçenekleri (etki/maliyet):** 1) **(düşük maliyet, orta etki)** `sky_atlas`'ı mevcut
-  bir taş-kale iç mekân atlasına çevir — en iyi tematik eş `book03_anadoluhisari_inner_atlas` (gerçek kale içi; ama Bölüm 35
-  ile tekrar) veya `book02_zeyrek_cistern_atlas` (tonozlu sarnıç, "iç kale sarnıç"a birebir); sky_cells indekslerini ([2],[3],
-  [0]) yeni atlasın hücrelerine göre ayarla, pencereli kareyle doğrula, prop/pencere taşması olmadığından emin ol. 2) **(yüksek
-  maliyet, yüksek etki)** İç kaleye özgü yeni ChatGPT-tarzı atlas üret (taş cephanelik, sarnıç kemeri, zindan, taht nişi).
-  **Not:** Finale kritik bölüm; tüm arka plan kimliğini körlemesine değiştirmeden önce küçük örnek göster / insan onayı
-  tercih edilir. Prop ve terrain mevcut atlasa göre konumlanmış; swap yapılırsa pencere/duvar hizası kontrol edilmeli.
-
 - (Tur 421 denetimi, Bölüm 26 (indeks 25) ve 29 (indeks 28)) **Orta kesit hasarsız bant:** Bölüm 29'da bot x~4700–8300
   (≈3600 px, 16 sn) hiç hasar almıyor, baskı 8450 arenasında toplanıyor (115→45, 21 sn takılma); Bölüm 26'da x~5900–8000
   aynı. Bölüm 17/19/23/33 notlarıyla aynı "arka/ön yüklü" desen (Bölüm 19 tur 422: bot bütün bölüm 115'te, tek düşüş
@@ -958,6 +944,26 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-25 (424) — Bölüm 12 (İç Kale finali) arka plan atlası Çengelköy sahil → Anadoluhisarı kale içi: tematik uyumsuzluk + Bölüm 31 tekrarı giderildi
+
+**Neden şimdi:** tur 423 bulgusunun "önce küçük örnek göster" adımı. Bölüm 12 `sky_atlas`'ı geçici olarak
+`book03_anadoluhisari_inner_atlas`'a çevrilip 8 pencereli kare alındı; üç kilit kesit de kesin iyileşme gösterdi, swap kalıcı
+yapıldı.
+**Değişiklik:** `bolum12.gd` — `sky_atlas = book03_cengelkoy_mansion_atlas` → `book03_anadoluhisari_inner_atlas`. `sky_cells`
+indeksleri ([2],[3],[0]) aynı bırakıldı (yeni atlasın aynı hücreleri işe yaradı); prop, terrain, pencere/su hizası sorunsuz.
+**Küçük örnek kanıtı (anadoluhisari_inner ile):** cephanelik (x685) = pirinç dişli/piston/top mekanizmalı taş makine dairesi;
+tutukevi (x5114) = taş sur + demir parmaklıklı hücre kapısı (Gazelle'in "tutukevinden" repliğiyle uyumlu); taht/final
+(x7449) = taş kale avlusu, sur kulesi, mazgal, REDMOUNT sancakları, duvar meşaleleri. Önceki Çengelköy sahil yalısı
+manzarası (mehtaplı Boğaz, divan, mavi-beyaz vazo) ve Bölüm 31 ile birebir tekrar gitti; artık Bölüm 35 ile aynı kale dilini
+paylaşıyor (iki kale bölümü için tematik olarak doğru).
+**Oyuncu ne hissedecek:** Kitap 1'in zirvesi artık gerçek bir iç kaleye giriyor gibi — cephanelik, zindan, kale avlusunda
+Karahanlı ile hesaplaşma; sahil köşkü kopukluğu yok.
+**Test:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0 (Bolum12 yüklendi); `dtm_gaps` PASS; bot Bölüm 12 CLEARED @7895
+/ 85,8 sn / 0 ölüm (stall 20s@2690 cephanelik arenası, eşik altında). Atlas yalnız arka plan; oynanış etkilenmedi. Yeni
+görsel üretilmedi (mevcut ChatGPT atlası yeniden kullanıldı).
+**Durum:** tur 423 bulgusu kapandı, birikimden çıkarıldı. **Bir sonraki adım:** kalan az denetlenen bölüm (3) görsel denetimi;
+benzer "yanlış kitap atlası" kullanan başka bölüm var mı diye `sky_atlas` referansları taranabilir.
 
 ### 2026-11-25 (423) — Görsel denetimi Bölüm 12 (İç Kale / Karahanlı, Kitap 1 finali): arka plan tematik uyumsuzluğu bulundu (birikime), kod değişikliği yok
 
