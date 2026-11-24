@@ -7,13 +7,6 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- (Tur 388 taraması, düşük öncelik — görsel karar gerekir) **Ara sahne tetikleyicisinin 100 px gerisi ile 450 px ilerisi
-  arasında gökyüzü geçişi olan 18 sahne:** Bölüm 3 (2950), 5 (3830), 8 (4440), 13 (8150, 9350), 18 (7330, 9150),
-  20 (9000), 23 (9000), 24 (14150), 26 (2900, 9500), 29 (8170), 30 (8350), 31 (7250), 32 (5100), 35 (8150), 36 (9650).
-  Kamera `pan` sırasında perde geçişi konuşmanın arkasında oynayabilir; çoğu kapı eşiğinde kasıtlı "yeni mekân" okuması
-  olabilir. Sahne sahne `capture_cutscenes` ile bakılmadan eşik oynatılmasın; yalnız konuşma sırasında iki resmin
-  yarı yarıya görüneceği yerler düzeltilsin (tur 388'de Bölüm 24 teras sahnesi bu yüzden düzeldi).
-
 - (Tur 371 denetimi, Bölüm 33 (indeks 32)) **Erken arena (x~2600–3950) en sert kesit:** bot 105→55'e iniyor, sonra
   x~7600'e kadar hiç hasar almıyor (55'te sabit, 7599'da 85'e toparlıyor); bölümün baskısı ön yüklü, orta kesit boş.
   En uzun takılma 17s@8155 (iç mekân arenası), ölüm yok. İnsan testi "Bölüm 33'ün ortası boş" derse orta kesite (5100–
@@ -922,6 +915,28 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-24 (389) — Hikâye sahnesi sırasında arka plan artık değişmiyor (7 sahne, sistem düzeltmesi)
+
+**Neden şimdi:** stil listesi ve iki yol haritası kapalı; birikimin en üstündeki madde (tur 388 ara sahne taraması,
+18 aday) "sahne sahne bakılmadan eşik oynatılmasın" diyordu. Tur 388'in yarım kalan sondası (`_probe_cutscene_sky`,
+tip çıkarımı hatasıyla derlenmiyordu) düzeltilip 14 aday bölümde koşturuldu: her tetikli sahneye koşarak yaklaşıp
+sahne boyunca gökyüzü hedef hücresi izlendi.
+**Bulgu:** 7 sahnede sahne kamerası (`pan`) eşiği aşıp perdeyi konuşmanın ortasında süpürüyordu: Bölüm 13 gümrük
+(9350), Bölüm 18 ambar (7330), Bölüm 24 merdiven (11180) ve arşiv (14150), Bölüm 35 kumanda (8150) ve mavna (9650),
+Bölüm 36 arşiv (9650). Kalan 11 aday ya temiz ya da yalnız sahneye koşarken başlamış geçişin ilk ~1,5 sn'de bitmesi
+(GECISTE) — kapı eşiğinde kasıtlı "yeni mekân" okuması, dokunulmadı.
+**Değişiklik:** eşikleri tek tek oynatmak arenaları bozabilirdi (tur 388 dersi), bu yüzden sistemde çözüldü:
+`dtm_level.gd` `_Sky._advance` — `Cutscene.active` varken hedef hücre donar; başlamış geçiş biter, yeni geçiş
+başlamaz. Sahne bitince kamera oyuncuya döner, yeni resim oyuncu eşiği yürüyerek geçince gelir.
+**Oyuncu ne hissedecek:** konuşma tek, sabit bir mekânda geçer; arka plan sahne bitip yürümeye başlayınca değişir.
+**Yeni test:** `tests/cutscene_sky_steady.tscn` (sondadan kalıcıya çevrildi; varsayılan 5 bölüm, `PROBE_LEVELS=all`
+ile hepsi) — taban kodda 7 DEGISIYOR, şimdi PASS (17 sahne). Ekran görüntüsü alınmadı: yeni çizim yok, değişiklik
+yalnız mevcut geçişin zamanlaması; sonda geçiş karesini 0 ölçtü.
+**Testler:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0 (36 OK); `dtm_gaps` PASS; `arena_sky_split` PASS
+(81); `sky_blend_arenas` PASS (81, 0 hata); `sky_follow` PASS; `hud_cutscene_quiet` PASS; `cutscene_sky_steady` PASS.
+Bot: Bölüm 1 CLEARED 81,3 sn / 0 ölüm; Bölüm 13 68,8 sn / 0; Bölüm 25 79,9 sn / 0.
+**Sonraki adım:** birikimin kalanı insan testi verisine bağlı; otonom kuyruk boş. **Otomasyon durdu.**
 
 ### 2026-11-24 (388) — Tarama: altı arenada arka plan dövüşün ortasında değişiyordu; eşikler + kalıcı test
 

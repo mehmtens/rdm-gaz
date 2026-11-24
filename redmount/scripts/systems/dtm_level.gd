@@ -1908,6 +1908,11 @@ class _Sky extends Node2D:
 
 	func _advance(delta: float) -> void:
 		var tgt := target_cell(global_position.x)
+		## Hikâye sahnesi sürerken yeni geçiş başlamaz: sahne kamerası kayınca eşik aşılıp
+		## konuşmanın ortasında perde süpürüyordu (tur 389: Bölüm 13, 18, 24, 35, 36'da 7
+		## sahne). Başlamış geçiş biter; yeni resim sahneden sonra yürürken gelir.
+		if _from >= 0 and Cutscene.active != null:
+			tgt = _to
 		if _from < 0:
 			_from = tgt
 			_to = tgt
