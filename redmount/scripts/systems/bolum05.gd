@@ -7,10 +7,18 @@
 ## atlar: sıradaki durak sanayi kuşağı.
 extends DtmLevel
 
+## Bölüm için çizilmiş ChatGPT demiryolu atlası (tur 432): depo arenası önce otobüs terminali
+## hücresini gösteriyordu; bu atlas yalnız eski `level08_dressing.gd`'de kalmıştı.
+const RAIL := preload("res://assets/backgrounds/level08_rail_atlas.png")
+const LOCATIONS := preload("res://assets/backgrounds/level02_locations_atlas.png")
+
 
 func _build() -> void:
-	sky_atlas = preload("res://assets/backgrounds/level02_locations_atlas.png")
-	sky_cells = [[1, -100000.0], [0, 4300.0], [2, 7800.0]]
+	## Gar binası (altıncı peron) -> vinçli antrepo + vagonlar -> makas kulübesi -> kömür deposu
+	## ve lokomotif hangarı (depo arenası) -> taş viyadük (uzun tren) -> elektrikli hat (Makinist).
+	sky_atlas = RAIL
+	sky_cells = [[0, -100000.0], [1, 1760.0, LOCATIONS], [1, 3560.0], [3, 4200.0],
+		[2, 5800.0], [2, 7800.0, LOCATIONS]]
 	sky_tint = Color(0.86, 0.82, 0.86)
 	back_tint = Color(0.3, 0.3, 0.42)
 

@@ -955,6 +955,27 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-25 (432) — Bölüm 5 (Demiryolu Ablukası) arka planı kendi demiryolu atlasına: depo arenasındaki otobüs terminali gitti
+
+**Neden şimdi:** tur 431 önerisi; son kullanılmayan ChatGPT atlası `level08_rail` (gar binası + peron, sinyalli makas kulübesi
++ vagonlar, taş viyadük, kömür deposu + lokomotif hangarı) yalnız eski `level08_dressing.gd`'de kalmıştı. Bölüm 5 `level02_locations`
+atlasını kullanıyordu ve depo arenası (4300'den itibaren) o atlasın **otobüs terminali** hücresini gösteriyordu — demiryolu
+bölümüne uymuyordu.
+**Değişiklik:** `bolum05.gd` → iki atlas karışık: RAIL 0 gar binası (altıncı peron) → LOCATIONS 1 vinçli antrepo + vagonlar @1760
+(vinç paletleri) → RAIL 1 makas kulübesi @3560 → RAIL 3 kömür deposu + lokomotif hangarı @4200 (depo arenası) → RAIL 2 taş
+viyadük @5800 (uzun tren) → LOCATIONS 2 elektrikli hat @7800 (Makinist, eskisi gibi). Ton aynı; yeni görsel üretilmedi.
+**Görsel kanıt (6 pencereli kesit):** peron = saatli gar binası, ferforje saçak, vagonlar önünde; makas = sinyal lambaları,
+katener direkleri, taş makas kulübesi; depo = kömür vagonları, kepçeli vinç, tuğla hangar; viyadük = kemerli taş köprü
+vagonların tam arkasında. "Sahneye ait".
+**Oyuncu ne hissedecek:** gardan çıkıp hat boyunca ilerleme — peron, makas, depo, viyadük; her kontrol noktası demiryolunun
+başka bir parçası, otobüs garajı kopukluğu yok.
+**Test:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0; `dtm_gaps` PASS; bot Bölüm 5 iki koşu CLEARED @9391 (99,2 sn / 1
+dönüş; 89,1 sn / 0 dönüş). Taban kod (worktree) aynı anda: CLEARED 103,5 sn / 1 dönüş → Makinist finalindeki dönüş önceden
+var (birikimdeki tur 411 "dar marj" notu), arka planla ilgisi yok.
+**Durum:** artık `assets/backgrounds/` içinde bölüm için çizilip kullanılmayan ChatGPT atlası kalmadı (tur 425–432).
+**Bir sonraki adım:** Bölüm 4 tüm bölüm boyunca tek resim (`level02_armed_checkpoint`) gösteriyor; uygun ikinci resim için
+mevcut atlasların (ör. `level02_locations` 1 = projektörlü kontrol noktası, 3 = sur kapısı) küçük örnekle denetlenmesi.
+
 ### 2026-11-25 (431) — Bölüm 7 (Karahanlı Haddehanesi) arka planı kendi haddehane atlasına: tek resim yerine beş mekân
 
 **Neden şimdi:** tur 430 önerisi. Bölüm 7 ~9000 px boyunca tek parça `level03_high_furnace` resmini gösteriyordu; bölüm için
