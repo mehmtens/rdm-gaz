@@ -37,7 +37,7 @@ func _build() -> void:
 	# --- 2. Ciltçiler sokağı: sokak hizasında; saçak ödülü; arena; erzak ----------
 	# Kitap 2'nin ortak çukur avlusu yerine dar sokak düz; cumbalar arenanın önünde.
 	_checkpoint(1550, 0)
-	_terrain(1700, 9900, 0)
+	_terrain(1700, 10300, 0)  # kamera sınırı (10100) + pan payı; kapı 10000 zeminsizdi (tur 419)
 	## Ciltçiler sokağında cumba saksısı: telegraflı (düşmeden titrer), dodge
 	## edilir, zemini kapatmaz — arena öncesi tehlike beat'i (16-17-18 ardışık
 	## tehlikesiz şeridini kırar, bkz. tur 305 denetimi).

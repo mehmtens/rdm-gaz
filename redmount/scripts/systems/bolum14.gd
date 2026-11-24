@@ -60,7 +60,7 @@ func _build() -> void:
 	## Doğma noktası taş sekinin üstünde (y=30); y=60 sekinin içindeydi (tur 366).
 	_checkpoint(3350, 30)
 	_terrain(3300, 3450, 30)
-	_terrain(3450, 9800, 0)
+	_terrain(3450, 10100, 0)  # kamera sınırı (9900) + pan payı: çıkış kapısının altı boş kalmasın (tur 419)
 	_stones(3560, 1, 1)
 	_scaffold(3700, -150, 160)
 	_pickup(PISTOL, 3700, -195)

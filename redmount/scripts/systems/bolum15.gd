@@ -70,7 +70,7 @@ func _build() -> void:
 	# --- 4. Bakım galerisi: tüfekliye yaklaşma, hareketli köprü (isteğe bağlı) -----
 	_checkpoint(4450, 0)
 	_terrain(4400, 6000, 0)
-	_terrain(6400, 9900, 0)
+	_terrain(6400, 10150, 0)  # kamera sınırı (9950) + pan payı (tur 419)
 	_crates(4650, 1, 1)
 	_crates(4740, 1, 2)
 	## Tüfekli tünek malzemesi yere göre: tüfekli bakım iskelesinde (tek yön: altından geçilir, alttan çıkılır).

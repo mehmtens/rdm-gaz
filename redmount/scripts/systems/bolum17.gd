@@ -98,7 +98,7 @@ func _build() -> void:
 	_enemy(KNIFE, 5900, 0)
 
 	# --- 5. Tasnif salonu: alt açık rota, üst galeri ----------------------------
-	_terrain(6200, 10100, 0)
+	_terrain(6200, 10350, 0)  # kamera sınırı (10150) + pan payı (tur 419)
 	_checkpoint(6250, 0)
 	_story(6350, _sahne_tasnif)
 	# Tasnif salonu: posta binasının içi; galeriler tavana yakın.

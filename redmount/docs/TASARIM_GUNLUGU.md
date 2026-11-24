@@ -11352,3 +11352,26 @@ değerlendirildi. Kod değişmediği için bot/smoke koşulmadı. Geçici çekim
 
 **Sonraki adım:** Bölüm 16 (Süleymaniye/Zeyrek şeridinin başı) ve 32/34 (Kitap 3) dedike görsel denetim bekliyor;
 otonom aktif iş yok, birikim insan testi verisi bekliyor.
+
+### 2026-11-25 — Görsel denetim Bölüm 16 → çıkış zemini boşluğu (Bölüm 14–17) kapatıldı (tur 419)
+
+**Neden şimdi:** tur 418'in sonraki-adım önerisi (Bölüm 16 dedike görsel denetim); listeler ve otonom birikim boş.
+`capture_level.tscn` ile 1280×720, 5 nokta (yokuş 500 / ciltçiler 2400 / kâğıt imalathanesi 5600 / arşiv mahzeni
+8000 / arka teras 9500) + çıkış yakın çekimi (9850).
+
+**Bulgular:** yokuş (Süleymaniye silueti, tente zıplatıcı, iskele+sikke), ciltçiler sokağı (asma halılar, kemer, fener),
+imalathane (kâğıt askıları, asma yol, tüfekli), mahzen (cilt rafları, kandiller) ChatGPT atlasıyla tam tutarlı. **Kusur:**
+arka terasta "BEYAZIT YOLU" han kapısının altı ve sağı zeminsiz — düz, dokusuz koyu taban görünüyor. Kaynak: zemin
+9900'de bitiyor, hedef 10000, kamera sınırı 10100. Bütün DTM bölümleri tarandı: Bölüm 14 (9800/9900), 15 (9900/9950),
+16 (9900/10100), 17 (10100/10150) aynı açığa sahip (17'de çıkış sahnesinin pan'ında kapının sağ yarısı boşluğa taşıyor);
+18+ zemini sınırın ötesine uzatıyor. Oyuncu bölümün son karesinde "dünya burada bitiyor" kenarını görüyordu.
+
+**Değişiklik:** dört bölümde son `_terrain` sınır + ~200 pan payına uzatıldı (14→10100, 15→10150, 16→10300,
+17→10350). Yeni regresyon testi `tests/exit_ground.tscn`: her DtmLevel'in `_ground_parts` sağ ucu
+`camera_limit_right`'ı örtmeli. Düzeltmesiz Bölüm 16 ile FAIL verdiği doğrulandı.
+
+**Test:** `--import` SCRIPT ERROR 0; `exit_ground` PASS (36 bölüm); campaign_smoke çıkış 0; DTM GAPS PASS; bot Bölüm 14
+CLEARED 91,4 sn / 0 ölüm, 15 CLEARED 79,1 sn / 0, 16 CLEARED 76,4 sn / 0, 17 CLEARED 80,3 sn / 0. Bölüm 16 çıkışı yeniden
+çekildi: kapı ve terasın altında kesintisiz kaldırım.
+
+**Sonraki adım:** Kitap 3'ten 32 ve 34 dedike görsel denetim; birikim insan testi verisi bekliyor.
