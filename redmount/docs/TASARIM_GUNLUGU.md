@@ -933,8 +933,12 @@ başlıyor; "düşman beni çukura itti" haksızlığı yok (DTM'de ağır düş
 **Test:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0; `dtm_gaps` PASS; `checkpoint_clear` PASS (222/0);
 `embedded_objects` PASS (2250/0). Bot Bölüm 26 yeni kod: başsız CLEARED @9758 / 86,0 sn / 0 ölüm; pencereli CLEARED @9756 /
 85,1 sn / 0 ölüm. Kare t0051: dövüş çukurun gerisinde, sandık önünde; görsel yeni öğe yok.
-**Sonraki öneri:** diğer bölümlerde "ağır düşman çukur/diken iniş kenarına ≤150 px" kalıbı taranabilir (düşman x ile
-`_spike_pit` bitişi karşılaştırması) — ölçülebilir, insan verisi gerektirmiyor.
+**Ek tarama (aynı tur):** 36 bölüm kuruldu; zemindeki (y > −30) her `enemy_ai` için `_holes` kenarına ±200 px uzaklık
+ölçüldü (geçici betik, commit edilmedi). 13 aday; iniş tarafında ≤150 px olan üçü (Bölüm 15 KNIFE d=50, Bölüm 20 STREET
+d=70, Bölüm 29 SHIELD d=100) diken çukuru değil `_canal`/`_basin` su kesiti — itilen oyuncu çıkış taşından çıkar, ölüm yok;
+üçünün de güncel bot denetimi 0 ölüm. Diken çukuru + iniş kenarında düşman kalıbı yalnız Bölüm 26'daydı, kapandı.
+**Durum:** yeni ölçülebilir iş çıkmadı; stil listesi ve iki yol haritası kapalı, birikim insan testi verisi bekliyor.
+**Otomasyon durdu.**
 
 ### 2026-11-24 (400) — Denetim (Bölüm 24 / Kitap 2 finali "Bozdoğan Kemeri"): bilinen kapılı not doğrulandı; otomasyon durdu
 
