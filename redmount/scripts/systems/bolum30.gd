@@ -92,6 +92,10 @@ func _build() -> void:
 
 	# --- 6. Evrak salonu: galerili salonda arena -----------------------------
 	_checkpoint(6650, 0)
+	## Salon kapısı canı (tur 416): mangallı sekiler + yanan arşiv (alev + elit) oyuncuyu
+	## salona yorgun sokuyor; botla 7 ölçümün hepsinde arenada can 7–16 (1 ölüm). Dükkân
+	## ve üst kat sandığı yine işe yarar (zırh/cephane, final öncesi). Bölüm 35 kalıbı.
+	_pickup(HEALTH, 6600, -45)
 	_story(6720, _sahne_ates)
 	_interior(6850, 7650, -345, [], 0)
 	_scaffold(7020, -115, 180)

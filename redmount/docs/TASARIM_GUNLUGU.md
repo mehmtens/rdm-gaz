@@ -50,7 +50,7 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   iniyor, ardından 45'e toparlıyor (koşu 1'de dip 34). En uzun takılma 14 sn @4678–4943 (orta arena ritmi). İnsan testi
   "Bölüm 4 sonunda az canla kaldım" derse son arena geçidi önüne gevşek HEALTH düşünülsün; veri gelmeden dokunma.
 
-- (Tur 364, Bölüm 30 "Beylerbeyi İskele Arşivi" (indeks 29)) **Evrak salonu arenası (6900–7600) hâlâ en derin vadi:**
+- **[TUR 416'DA UYGULANDI: salon kapısı canı 6600; dalga hafifletme denendi, reddedildi]** (Tur 364, Bölüm 30 "Beylerbeyi İskele Arşivi" (indeks 29)) **Evrak salonu arenası (6900–7600) hâlâ en derin vadi:**
   bot arenaya 41 canla girip 9'a iniyor (4 koşunun 4'ünde 41→9/16). Önündeki 6450 İSKELE ERZAKI dükkânı (can satar) ve
   6150 üst kat sandığı insan oyuncu için toparlanma sunuyor; bot ikisini de kullanmıyor. İnsan testi "evrak salonunda
   eridim" derse önce 2. dalga ELITE+RIFLE+ASSASSIN → ELITE+RIFLE; veri gelmeden dokunma.
@@ -933,6 +933,27 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-25 (416) — Denetim (Bölüm 30–33) + Bölüm 30 evrak salonu: kapı canı; bot ölümü 1/3 → 0/3, salon dibi 7–16 → 20–43
+
+**Neden şimdi:** kural (d) denetiminin son grubu (tur 409 listesindeki ölçülmemiş bölümler).
+**Bulgular (başsız, taban kod):** Bölüm 32: CLEARED 76,6 sn / 0 ölüm / dip 55 → temiz. Bölüm 33: CLEARED 86,1 sn / 0 ölüm /
+dip 21 (8155 iç mekân arenası; birikimdeki "ön yüklü baskı" notu geçerli). Bölüm 31: 3 koşuda 1/0/0 ölüm (tek ölüm x~5900,
+31 canla; tur 403'te de 1/2 farklı yerde) → varyans, dokunulmadı. **Bölüm 30 (Beylerbeyi İskele Arşivi):** 3 koşuda
+0/1/0 ölüm, can dibi 7/10/13 — mangallı sekiler (alev) + yanan arşiv (alev + ELITE/KNIFE/RIFLE) bot'u evrak salonu
+arenasına (6900–7600, ELITE+KNIFE / ELITE+RIFLE+ASSASSIN) 13–24 canla sokuyor; tur 364'teki 4/4 koşuyla birlikte 7/7 ölçümde
+arenada dip ≤16. Bot 6150 üst kat sandığını ve 6450 İSKELE ERZAKI dükkânını kullanmıyor.
+**Deneme 1 (reddedildi):** birikimdeki reçete — 2. dalga ASSASSIN çıkarıldı: 3 koşuda 0/1/1 ölüm, dip 30/10/10 → tabandan
+iyi değil (sorun arenanın kendisi değil, arenaya giriş canı), geri alındı.
+**Değişiklik:** `bolum30.gd` — kontrol noktası 6650'nin hemen önüne `_pickup(HEALTH, 6600, −45)` (Bölüm 10/35 kapı canı
+kalıbı); dalgalar aynı. Gerekçe (hipotez): yanan arşivin aşındırması bölümün kimliği, kalsın; salona nefesle girilsin.
+Dükkân/sandık değerini korur (zırh/cephane, final öncesi can).
+**Oyuncu ne hissedecek:** alevli arşivden çıkınca bir soluk, sonra galerili salonda iki elitle adil kavga.
+**Test:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0 (Bolum30 OK); `dtm_gaps` PASS. Bot Bölüm 30 yeni kod ×3:
+CLEARED 0/0/0 ölüm (88,4 / 79,7 / 75,8 sn), salonda dip 43/20/39, final arenasında dip 29–43 (gerilim korunuyor). Yeni
+görsel yok (mevcut can paketi).
+**Durum:** tur 409 listesindeki tüm bölümler başsız botla ölçüldü (tur 410–416). Otonom kuyruk boş; birikim insan testi
+bekliyor. **Otomasyon durdu.**
 
 ### 2026-11-25 (415) — Denetim (Bölüm 23, 27, 28): ölüm bandında; Bölüm 27 tek koşuda 2 ölüm → tekrarla 0/0, değişiklik yok
 
