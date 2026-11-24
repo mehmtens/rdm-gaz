@@ -916,6 +916,20 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-24 (395) — Telefon denetimi (oyun içi): ara sahneler ve dövüş HUD'u 20:9'da temiz; otomasyon durdu
+
+**Ne yapıldı:** tur 390–394 menü düzeltmelerinden sonra aynı telefon açısı oyun içine uygulandı. (1) `capture_cutscenes`
+1600×720 + `REDMOUNT_TOUCH_CONTROLS=1` (214 kare, üç sahne): balonlar, isim şeritleri, ATLA ve DEVAM düğmeleri
+çakışmıyor; alt ipucu satırı ekranın sağ yarısına yaslı (tasarım gereği, 16:9 ile aynı düzen). Tek çakışma (bölüm
+başlık kartı ilk balonun köşesini örtüyor) yalnız betiğin açılıştan hemen sonra sahneye ışınlamasından: kart 3,6 sn'de
+söner, kampanyadaki en erken hikâye tetiği x=2150 (Bölüm 2) — koşarak ≥ 7 sn; düzeltme gerekmedi. (2) Bot Bölüm 10
+pencereli, 20:9, dokunmatik, 5 sn'de bir kare: CLEARED @9205 / 107,2 sn / 0 ölüm; dalga şeridi, kombo sayacı, Sur Ağası
+boss barı ve sağ sütun düğmeleri (KAY/DEĞİŞ/ATEŞ/FIRLAT) üst üste binmiyor.
+**Durum:** stil listesi ve iki yol haritası kapalı; tur 390 telefon bulgularının hepsi kapandı; birikimin kalan
+maddeleri insan testi verisine bağlı. Kod değişikliği yok. **Otomasyon durdu.**
+**Sonraki öneri (insan testi gelince):** telefonda gerçek cihazda menü düğme boyunu (60/56 px) ve sağ sütun
+düğmelerinin sağdan gelen düşmanları örtüp örtmediğini sor; `touch_stats` CSV'si kaçan basışları gösterir.
+
 ### 2026-11-24 (394) — Sonuç kartı telefonda istatistiklere göre kısalıyor
 
 **Neden şimdi:** tur 390 telefon denetiminin birikimdeki son maddesi. Telefonda ipucu satırı boş (SONRAKİ/MENÜ kartın
