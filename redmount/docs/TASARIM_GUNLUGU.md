@@ -926,6 +926,21 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-25 (408) — Denetim (Bölüm 8 ve Bölüm 10, Kitap 1 ortası/finali): ikisi de bandında; otomasyon durdu
+
+**Neden şimdi:** stil listesi ve iki yol haritası kapalı, birikim insan testi bekliyor → kural (d). Pres okuyan botla (tur 404)
+henüz ölçülmemiş ve geçmişte tekrarlayan ölüm görülen iki bölüm: Bölüm 8 (bilinçli final sertliği, tur 379'da 2/2) ve Bölüm 10
+(tur 379 kapı canı sonrası 1/0/0).
+**Bölüm 8 (indeks 7):** CLEARED @9409 / 104,5 sn / 0 ölüm / heals 1 / pres 0/0. Final mini-boss arenasında (x~8800–9070) can
+85→67, en uzun takılma 36 sn @9025 (final dalgaları), çıkışta 97 → tur 379'daki 2/2 ölüm bu koşuda yok; "Kitap 1 ortası final
+sertliği" notu geçerli, dokunulmadı.
+**Bölüm 10 (indeks 9):** CLEARED @9205 / 125,2 sn / 1 ölüm / heals 2 / pres 0/0. Ölüm yine Sur Ağası arenasında (x~8300–8435,
+46→16→ölüm), kontrol noktası dönüşüyle ikinci denemede temiz. Tur 379 sonrası toplam 4 koşuda 2 ölüm — Kitap 1 finalinde
+"arena başına bir dönüş" kabul bandında (Bölüm 24/36 ile aynı karar); ek can/dalga hafifletmesi patron gerilimini düşürür.
+**Değişiklik:** yok (kod/görsel). **Test:** yalnız bot koşuları (yukarıda).
+**Durum:** pres okuyan botla ölçülmemiş kalanlar: 2–5, 9, 12, 14, 18–20, 23, 26–28, 30–33. Yeni ölçülebilir iş çıkmadı.
+**Otomasyon durdu.**
+
 ### 2026-11-25 (407) — Denetim (Bölüm 15 "Balat" su çarkı ve Bölüm 17 "Beyazıt Posta Hattı"): ikisi de temiz; otomasyon durdu
 
 **Neden şimdi:** stil listesi ve iki yol haritası kapalı, birikim insan testi bekliyor → kural (d). Pres okuyan botla (tur 404)
