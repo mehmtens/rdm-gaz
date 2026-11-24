@@ -12,7 +12,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   Bölüm 9 ve 10 ikisi de `level04_fortress`. Kullanılmayan, Kitap 1 için çizilmiş ChatGPT atlasları var
   (`level06_backstreets`, `level07_night_market`, `level07_haddehane`, `level08_rail`, `level08_underground`,
   `level11_north_walls_atlas_v2`, `level13_*`). Tur 425'teki gibi her biri için önce pencereli küçük örnek al; eski atlasların
-  bazılarında hücre altı koyu şerit var → `sky_src_h` ile kırp. Sıra: Bölüm 10 (yeraltı/raylı?) → 3 → 2 → 8.
+  bazılarında hücre altı koyu şerit var → `sky_src_h` ile kırp. **Bölüm 10 tur 426'da yapıldı.** Kalan sıra: 3 → 2 → 8
+  (adaylar: `level06_backstreets`/`level07_night_market` → Bölüm 2/3 sokakları, `level08_underground`/`level08_rail` → Bölüm 8).
 
 - (Tur 421 denetimi, Bölüm 26 (indeks 25) ve 29 (indeks 28)) **Orta kesit hasarsız bant:** Bölüm 29'da bot x~4700–8300
   (≈3600 px, 16 sn) hiç hasar almıyor, baskı 8450 arenasında toplanıyor (115→45, 21 sn takılma); Bölüm 26'da x~5900–8000
@@ -951,6 +952,23 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-25 (426) — Bölüm 10 (Kuzey Surları) arka planı kendi atlasına: Bölüm 9 ile fortress hücre tekrarı giderildi
+
+**Neden şimdi:** birikimin en üstü (tur 425 taraması). Bölüm 9 (hücre 1/2/0) ve Bölüm 10 (3/2/0) aynı `level04_fortress`
+atlasını arka arkaya iki hücreyle tekrar ediyordu; Bölüm 10 için çizilmiş ChatGPT `level11_north_walls_atlas_v2` (uzun sur +
+burçlar + İstanbul silueti; teraslı burç yamacı; kemerli kuru köprü; flamalı ana kapı burçları) yalnız eski
+`level11_redesign.gd`'de kalmıştı.
+**Değişiklik:** `bolum10.gd` → `level11_north_walls_atlas_v2`, hücreler 0 (surların dibi, ANA KAPI) → 2 @1500 (burçtan burca
+tırmanış) → 1 @4300 (çifte hareketli köprü) → 3 @6400 (projektörlü kuleler + Sur Ağası, mangallı kapı burçları). İlk denemede
+kapı hücresi 7700'deydi; 6900 kesitinde köprü resmi projektör kulelerinin arkasında kalıyordu → 6400'e alındı. `sky_src_h`
+varsayılan (0.86) yeterli: atlasın hücre altı yol şeridi zemin altında kalıyor, sur dibi oyun zeminine oturuyor.
+**Görsel kanıt (8 pencereli kesit):** sur dibi = ANA KAPI tabelası önünde mazgallı sur, kubbe ve minareler; burç = kiremit
+damlı köşk kuleleri, servi, uzak tepede kale; köprü = Gazelle'in ayna sinyali konuşmasında kemerli köprü ve körfez ışıkları
+(asma tahtalar köprünün önünde doğal okunuyor); kule = mangallı demir parmaklıklı kapı burcu. Hepsi "sahneye ait".
+**Test:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0; `dtm_gaps` PASS; bot Bölüm 10 CLEARED @9208 / 109,4 sn / 0 ölüm
+(stall 27s@8338 = Sur Ağası dövüşü).
+**Bir sonraki adım:** birikimdeki atlas tekrarları: Bölüm 3 → 2 → 8.
 
 ### 2026-11-25 (425) — Bölüm 11 (Sessiz Koridor) arka planı kendi atlasına döndü: Bölüm 12 ile hücre tekrarı giderildi
 

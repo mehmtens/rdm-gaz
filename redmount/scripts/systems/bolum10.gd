@@ -10,8 +10,10 @@ const MINIBOSS := preload("res://scenes/enemies/MiniBoss.tscn")
 
 
 func _build() -> void:
-	sky_atlas = preload("res://assets/backgrounds/level04_fortress_atlas.png")
-	sky_cells = [[3, -100000.0], [2, 3000.0], [0, 6500.0]]
+	## Bölüm için çizilmiş kuzey surları atlası (tur 426): Bölüm 9 ile aynı fortress hücrelerini
+	## paylaşıyordu. Sur dibi -> burçtan burca tırmanış -> kemerli köprü -> ana kapı burçları.
+	sky_atlas = preload("res://assets/backgrounds/level11_north_walls_atlas_v2.png")
+	sky_cells = [[0, -100000.0], [2, 1500.0], [1, 4300.0], [3, 6400.0]]
 	sky_tint = Color(0.86, 0.84, 0.92)
 	sky_shade = Color(0.04, 0.04, 0.08)
 	back_row_on = false
