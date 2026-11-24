@@ -7,6 +7,10 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 411 denetimi, Bölüm 5 (indeks 4)) **Makinist Cemil finali dar marj (bot):** iki ölçümde dip 11 ve 4, ölüm yok; bot
+  7880 can sandığını kırmadan finale 47 canla giriyor. İnsan testi "Makinist'te az canla kaldım/öldüm" derse önce
+  sandığın görünürlüğüne bak (kontrol noktası 7950'nin hemen önü), sonra 3. dalga ELITE+BRUISER → ELITE; veri gelmeden dokunma.
+
 - (Tur 407 denetimi, Bölüm 17 (indeks 16)) **Baskı düşük:** pres okuyan botla CLEARED 0 ölüm, dip 85 — bölüm boyunca ~30 can
   kaybı (2800 arenası ve 7400–7900 kesimi). Bölüm 21/23 "arka yüklü" notlarından farklı: burada gerilim hiçbir yerde
   toplanmıyor. İnsan testi "Bölüm 17 kolay" derse önce final arenasının 2. dalgasına tek RIFLE; veri gelmeden dokunma.
@@ -925,6 +929,19 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-25 (411) — Denetim (Bölüm 4 ve Bölüm 5): ölüm yok; Bölüm 5 final dibi botun sandığı kırmamasından, değişiklik yok
+
+**Neden şimdi:** kural (d) denetiminin devamı (tur 410 listesi).
+**Bulgular (başsız):** Bölüm 4: CLEARED @9305 / 105,6 sn / respawns 0 / heals 1; dip 26 (x~8065, son kesim — birikimdeki
+"Bölüm 4 son kesim ince marj" notuyla aynı yer, tur 365'te dip 15/34) → not geçerli, ölüm yok. Bölüm 5: CLEARED @9391 /
+101,0 sn / respawns 0 / heals 1; can 6837→8462 arası 47'de sabit, Makinist Cemil arenasında (8100–9000) 47→4'e iniyor,
+ödülle 34'e toparlıyor (tur 380'de dip 11, aynı yer). Sebep: tur 333'te finale konan kırılabilir can sandığını (7880) bot
+kırmadan geçiyor — Bölüm 36 (tur 358) ile aynı bot sınırı; insan oyuncu sandığı kırarak finale ~%70+ canla girer.
+**Karar:** değişiklik yok. Sandık tasarımı insan için doğru; botun dibini düzeltmek için gevşek HEALTH koymak final
+gerilimini insanda gereksiz azaltır. Birikime insan testi maddesi eklendi.
+**Test:** bot ×2 (indeks 3, 4) CLEARED, 0 ölüm.
+**Durum:** ölçülmemiş kalanlar 9, 12, 14, 18–20, 23, 27–28, 30–33.
 
 ### 2026-11-25 (410) — Denetim (Bölüm 2 ve Bölüm 3, Kitap 1 açılışı): ikisi de temiz, kod değişikliği yok
 
