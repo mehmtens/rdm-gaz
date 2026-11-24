@@ -930,6 +930,16 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-25 (412) — Denetim (Bölüm 9 ve Bölüm 12): ikisi de temiz, kod değişikliği yok
+
+**Neden şimdi:** kural (d) denetiminin devamı.
+**Bulgular (başsız):** Bölüm 9: CLEARED @9406 / 122,5 sn / respawns 0 / heals 1; dip 25 (x~5300–5550 orta arena), final
+takılması 24s@9045 (patron, 8 kaçış) — tur 379'da dip 37, aynı bant. Bölüm 12: CLEARED @7343 / 87,8 sn / respawns 0 /
+heals 1; dip 36 (x~6920, patron öncesi), patronda 23s takılma (12 kaçış / 2 isabet) — tur 378'de dip 33. İkisinde de
+geçiş→dövüş→nefes ritmi korunuyor, 20'nin altına inen vadi yok → değişiklik gerekmedi.
+**Test:** bot ×2 (indeks 8, 11) CLEARED, 0 ölüm.
+**Durum:** ölçülmemiş kalanlar 14, 18–20, 23, 27–28, 30–33.
+
 ### 2026-11-25 (411) — Denetim (Bölüm 4 ve Bölüm 5): ölüm yok; Bölüm 5 final dibi botun sandığı kırmamasından, değişiklik yok
 
 **Neden şimdi:** kural (d) denetiminin devamı (tur 410 listesi).
