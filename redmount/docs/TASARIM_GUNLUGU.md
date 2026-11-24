@@ -7,6 +7,10 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 407 denetimi, Bölüm 17 (indeks 16)) **Baskı düşük:** pres okuyan botla CLEARED 0 ölüm, dip 85 — bölüm boyunca ~30 can
+  kaybı (2800 arenası ve 7400–7900 kesimi). Bölüm 21/23 "arka yüklü" notlarından farklı: burada gerilim hiçbir yerde
+  toplanmıyor. İnsan testi "Bölüm 17 kolay" derse önce final arenasının 2. dalgasına tek RIFLE; veri gelmeden dokunma.
+
 - (Tur 403 → 404 → 405, Bölüm 36 (indeks 35)) **Jeneratör/arşiv bandı kapandı, ölüm yayın odası arenasına kaydı:** tur 405'te
   arşiv girişine (8580) gevşek HEALTH; pres okuyan botla 3 koşuda 8500–10550 bandında ölüm 0 (önce arenayı geçen 2/2 koşuda
   ölüm). Kalan ölümler ambar arenası (Yüzbaşı, 1/3) ve 12650 üç dalgalı yayın odası arenası (2/3; bot 33–65 canla girip
@@ -921,6 +925,20 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-25 (407) — Denetim (Bölüm 15 "Balat" su çarkı ve Bölüm 17 "Beyazıt Posta Hattı"): ikisi de temiz; otomasyon durdu
+
+**Neden şimdi:** stil listesi ve iki yol haritası kapalı, birikim insan testi bekliyor → kural (d). Pres okuyan botla (tur 404)
+henüz ölçülmemiş bölümlerden son dedike denetimi en eski iki tanesi: Bölüm 15 (tur 272) ve Bölüm 17 (tur 304).
+**Bölüm 15 (indeks 14):** CLEARED @9739 / 82,5 sn / 0 ölüm / heals 0 / pres 0/0. Dip 58 (x~7300, orta arena; 105→58 dört
+dilimde, aşınma yumuşak), hemen 85→108'e toparlanıyor; final arenasında 108→77→107, en uzun takılma 10 sn @9413 → ritim
+dengeli (geçiş → orta arena gerilimi → nefes → final), dokunulmadı.
+**Bölüm 17 (indeks 16):** CLEARED @10007 / 88,4 sn / 0 ölüm / heals 1. Dip 85; bot bütün bölümde yalnız ~30 can kaybediyor
+(2800 arenası 115→100, 7400–7900 kesimi 102→85, final 111→88). En uzun takılma 12 sn @2853. Kitap 2'nin 5. bölümü için düşük
+baskı ama tek koşu ve bot ustalığı insanı temsil etmez → birikime gözlem notu, veri gelmeden dokunma.
+**Değişiklik:** yok (kod/görsel). **Test:** yalnız bot koşuları (yukarıda).
+**Durum:** yeni ölçülebilir iş çıkmadı; pres okuyan botla ölçülmemiş kalanlar: 2–5, 8–10, 12, 14, 18–20, 23, 26–28, 30–33.
+**Otomasyon durdu.**
 
 ### 2026-11-25 (406) — Denetim (Bölüm 21 "Yenikapı" ve Bölüm 29 "Kuzguncuk Kıyı Deposu"): ikisi de temiz; otomasyon durdu
 
