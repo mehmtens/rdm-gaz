@@ -7,6 +7,12 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 429 atlas taraması) **Bölüm 1 (Balat) varsayılan `book02_suleymaniye_streets` atlasını Bölüm 16 ile paylaşıyor**
+  (hücre 0/2; 15 bölüm arayla, arka arkaya değil). Aday: ChatGPT `level01_turkish_locations_atlas` (tramvay deposu, inşaat
+  vinci, kanal kemerleri, minibüs garajı, meyve pazarı + simit, trafo, damlar, çeşmeli avlu) — ama 2x4 ızgara (`_Sky` yalnız
+  kare `sky_grid` destekliyor → `sky_cols/sky_rows` gerekir). Bölüm 1 kullanıcının onayladığı örnek bölüm (`--ornek`), bu
+  yüzden önce pencereli küçük örnek göster, insan onayı olmadan dokunma.
+
 - (Tur 421 denetimi, Bölüm 26 (indeks 25) ve 29 (indeks 28)) **Orta kesit hasarsız bant:** Bölüm 29'da bot x~4700–8300
   (≈3600 px, 16 sn) hiç hasar almıyor, baskı 8450 arenasında toplanıyor (115→45, 21 sn takılma); Bölüm 26'da x~5900–8000
   aynı. Bölüm 17/19/23/33 notlarıyla aynı "arka/ön yüklü" desen (Bölüm 19 tur 422: bot bütün bölüm 115'te, tek düşüş
