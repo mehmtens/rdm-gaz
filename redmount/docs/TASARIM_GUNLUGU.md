@@ -9,8 +9,9 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 - (Tur 421 denetimi, Bölüm 26 (indeks 25) ve 29 (indeks 28)) **Orta kesit hasarsız bant:** Bölüm 29'da bot x~4700–8300
   (≈3600 px, 16 sn) hiç hasar almıyor, baskı 8450 arenasında toplanıyor (115→45, 21 sn takılma); Bölüm 26'da x~5900–8000
-  aynı. Bölüm 17/23/33 notlarıyla aynı "arka/ön yüklü" desen. İnsan testi "ortası boş" derse bölüm başına tek elle konmuş
-  düşman çifti düşünülsün; veri gelmeden dokunma.
+  aynı. Bölüm 17/19/23/33 notlarıyla aynı "arka/ön yüklü" desen (Bölüm 19 tur 422: bot bütün bölüm 115'te, tek düşüş
+  final arenasında 115→62). İnsan testi "ortası boş" derse bölüm başına tek elle konmuş düşman çifti düşünülsün; veri
+  gelmeden dokunma.
 
 - (Tur 417 görsel denetimi, Bölüm 17 (indeks 16)) **Giriş plank platformu (x=850, y=-205) düşük kontrast:** ince A_PLANK
   yoğun gündüz arka planına karışınca üstündeki zırh uzaktan havada asılı okunuyor; oyuncu yaklaşınca düzeliyor (plank
@@ -944,7 +945,41 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
-### 2026-11-25 (416) — Denetim (Bölüm 30–33) + Bölüm 30 evrak salonu: kapı canı; bot ölümü 1/3 → 0/3, salon dibi 7–16 → 20–43
+### 2026-11-25 (422) — Görsel + oynanış denetimi Bölüm 19 (Çemberlitaş Külhanı) ve Bölüm 31 (Çengelköy Sahil Konağı): ikisi de temiz, kod değişikliği yok
+
+**Neden şimdi:** YOL_HARITASI, STIL_DONUSUM_LISTESI ve OYNANIS-KALITE P1 kalemlerinin tümü kapalı; birikimdeki her madde
+insan testine bağlı ("veri gelmeden dokunma"). Kural (d): en az denetlenmiş bölümlerden ikisini (19 ve 31) başsız bot +
+pencereli kare ile denetle. Bölüm 19 oynanış tur 414'te, Bölüm 31 tur 416'da ölçülmüştü ama görsel sweep (tur 417→18)
+bu ikisine gelmemişti.
+
+**Bölüm 19 (Çemberlitaş Külhanı, indeks 18) — oynanış (başsız bot):** CLEARED @10106 / 88,4 sn / 0 ölüm / en uzun takılma
+13s@9958 (final arenası, named wave KÜLHANBEYİ). HP bütün bölüm boyunca 115'te sabit; ilk gerçek düşüş final arenasında
+(115→62). Meydan arenası (x~2500, STREET+KNIFE+STREET → RIFLE+ASSASSIN), soyunmalık (x~5350, BOMBER+KNIFE → BRUISER+SHIELD)
+ve su servisi botu neredeyse hiç aşındırmıyor → birikimdeki "arka yüklü ritim" deseni (17/23/33 ile aynı), insan verisine
+bağlı, dokunulmadı.
+**Bölüm 19 — görsel (7 pencereli kesit):** arka sokak (Çemberlitaş sütunu + Sultanahmet silüeti akşam göğü), meydan arenası
+(restorasyon iskelesi, sütun, dalga sayacı HUD), hamam girişi (kurşuni kubbe, taş sofa, oyma kapı), soyunmalık (İznik çini
+paneller, mermer sütun, galerili ahşap raflar, HAMAM ERZAKÇISI dükkânı), ılıklık (çini salon, kurna, buhar), su servisi
+(tonozlu sarnıç, bakır boru/vana, erzak rafı), külhan finali (kemerli ocak ağızları kor halinde, kömür yığını, SAMATYA han
+kapısı, alev bacası). Prosedürel proplar (iskele, alev, kolon, sandık, iç mekân galerisi, bayrak, boru/vana) ChatGPT
+atlaslarıyla (book02_hamam_approach/inner, 3,2 MB) tam uyumlu; düz renk bloğu, ışıksız gri yüzey, yapıştırılmış öğe yok.
+
+**Bölüm 31 (Çengelköy Sahil Konağı, indeks 30) — oynanış (başsız bot):** CLEARED @9706 / 79,6 sn / 0 ölüm / heals 2 /
+takılma 16s@9283 (deniz köşkü final arenası). Bölüm 19'un tersi: baskı dağıtık ve sağlıklı — HP erken düşmeye başlıyor
+(105→61), kütüphane/mühür bandında gerçek vadi (x~5900–6340, 61→22), toparlıyor (54), final arenasında ikinci vadi
+(x~9050–9200, 54→17). İki can vadisi (orta + final), ön/arka yüklü değil → DTM ritmine en yakın bölümlerden; dokunulmadı.
+**Bölüm 31 — görsel (6 pencereli kesit):** sahil yolu (ahşap yalı cumbaları, selvi, begonvil, Boğaz, uzak cami silüeti),
+çınar arenası, konak bahçesi (demir korkuluk + Boğaz yansıması, KONAK KİLERİ dükkânı), kütüphane/mühür odası (renkli vitray,
+oyma ahşap panel, silah rafı, pencerede cami silüeti), deniz köşkü finali (mehtaplı Boğaz, kayık/kayıkhane direkleri, divan
++ pirinç ibrik + mavi-beyaz vazo, dalga sayacı). Hepsi ChatGPT atlaslarıyla (book03_cengelkoy_shore/mansion) uyumlu;
+yapıştırılmış öğe yok.
+
+**Test:** denetim koşuları testtir — iki başsız bot da rc=0 / CLEARED / 0 ölüm; 13 pencereli kesit Read ile incelendi.
+Kod değişmediği için ağır smoke/import koşulmadı (yalnız docs dosyası değişti).
+**Durum:** iki bölüm de temiz, kod değişikliği yok. Birikimdeki tek güncelleme: "arka yüklü ritim" notuna Bölüm 19 eklendi.
+**Bir sonraki adım:** görsel sweep'i kalan az denetlenmiş bölümlere (3, 12) taşı; birikim insan testi bekliyor.
+
+
 
 **Neden şimdi:** kural (d) denetiminin son grubu (tur 409 listesindeki ölçülmemiş bölümler).
 **Bulgular (başsız, taban kod):** Bölüm 32: CLEARED 76,6 sn / 0 ölüm / dip 55 → temiz. Bölüm 33: CLEARED 86,1 sn / 0 ölüm /
