@@ -7,6 +7,20 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 423 görsel denetimi, Bölüm 12 (indeks 11), **Kitap 1 finali — İç Kale / Karahanlı**) **Arka plan tematik uyumsuzluğu
+  + görsel tekrar:** `bolum12.gd` `sky_atlas = book03_cengelkoy_mansion_atlas` kullanıyor; yani Kitap 1'in zirvesi olan iç
+  kale finalinin "tutukevi" ve "taht salonu" sahneleri **mehtaplı Boğaz manzaralı deniz köşkü** (divan, pirinç ibrik,
+  mavi-beyaz vazo, kayıkhane direkleri) olarak çiziliyor ve Kitap 3 Bölüm 31 (Çengelköy Sahil Konağı) ile neredeyse birebir
+  aynı görünüyor. İç kale sarnıç/cephanelik/tutukevi/taht kurgusuna sahil yalısı manzarası oturmuyor ("sahneye ait mi?"
+  testini geçmiyor); ayrıca iki bölüm aynı atlası paylaşınca finalin görsel kimliği zayıflıyor. Oynanış sağlam (bot CLEARED
+  78,2 sn / 0 ölüm / dip 33). **Çözüm seçenekleri (etki/maliyet):** 1) **(düşük maliyet, orta etki)** `sky_atlas`'ı mevcut
+  bir taş-kale iç mekân atlasına çevir — en iyi tematik eş `book03_anadoluhisari_inner_atlas` (gerçek kale içi; ama Bölüm 35
+  ile tekrar) veya `book02_zeyrek_cistern_atlas` (tonozlu sarnıç, "iç kale sarnıç"a birebir); sky_cells indekslerini ([2],[3],
+  [0]) yeni atlasın hücrelerine göre ayarla, pencereli kareyle doğrula, prop/pencere taşması olmadığından emin ol. 2) **(yüksek
+  maliyet, yüksek etki)** İç kaleye özgü yeni ChatGPT-tarzı atlas üret (taş cephanelik, sarnıç kemeri, zindan, taht nişi).
+  **Not:** Finale kritik bölüm; tüm arka plan kimliğini körlemesine değiştirmeden önce küçük örnek göster / insan onayı
+  tercih edilir. Prop ve terrain mevcut atlasa göre konumlanmış; swap yapılırsa pencere/duvar hizası kontrol edilmeli.
+
 - (Tur 421 denetimi, Bölüm 26 (indeks 25) ve 29 (indeks 28)) **Orta kesit hasarsız bant:** Bölüm 29'da bot x~4700–8300
   (≈3600 px, 16 sn) hiç hasar almıyor, baskı 8450 arenasında toplanıyor (115→45, 21 sn takılma); Bölüm 26'da x~5900–8000
   aynı. Bölüm 17/19/23/33 notlarıyla aynı "arka/ön yüklü" desen (Bölüm 19 tur 422: bot bütün bölüm 115'te, tek düşüş
@@ -944,6 +958,22 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-25 (423) — Görsel denetimi Bölüm 12 (İç Kale / Karahanlı, Kitap 1 finali): arka plan tematik uyumsuzluğu bulundu (birikime), kod değişikliği yok
+
+**Neden şimdi:** döngü (d) devamı; Bölüm 12 en az görsel denetlenen Kitap 1 bölümlerinden ve ortak sistem kanaryası (indeks 11).
+**Oynanış (başsız bot):** CLEARED @7435 / 78,2 sn / 0 ölüm / dip 33 / boss_evades 7/2 (Karahanlı dövüşü). Sağlam.
+**Görsel (8 pencereli kesit) — BULGU:** `sky_atlas = book03_cengelkoy_mansion_atlas`. İç kale finalinin cephanelik, tutukevi
+ve taht salonu sahneleri Çengelköy sahil yalısı iç mekânı (vitray + mehtaplı Boğaz manzarası, divan, pirinç ibrik,
+mavi-beyaz vazo) olarak çiziliyor; Kitap 3 Bölüm 31 ile neredeyse birebir aynı. İç kale kurgusuna sahil köşkü manzarası
+oturmuyor ("sahneye ait mi?" testini geçmiyor) + finalin görsel kimliği Bölüm 31'le çakışıyor. Diğer proplar (brüt pres
+makinesi, taş zemin, sandık, lamba, silah rafı) stil içi ve temiz — sorun yalnız arka plan atlas seçimi.
+**Karar:** finale kritik bölüm; tüm arka plan kimliğini körlemesine değiştirmek yerine birikime ayrıntılı bulgu + sıralı
+çözüm (1: mevcut kale/sarnıç atlasına swap — `book03_anadoluhisari_inner` / `book02_zeyrek_cistern`; 2: İç kaleye özgü yeni
+atlas) yazıldı. "Önce küçük örnek göster / insan onayı" disiplini (feedback-no-template-parkour).
+**Test:** bot rc=0 / CLEARED; 8 kesit Read ile incelendi. Yalnız docs değişti, ağır smoke koşulmadı.
+**Durum:** 3 denetimde (19/31/12) ilk gerçek görsel bulgu Bölüm 12'de; birikimde en üstte, çözüm için insan onayı/küçük örnek bekliyor.
+**Bir sonraki adım:** Bölüm 12 atlas swap'ı için küçük örnek (tek pencereli kare, anadoluhisari_inner vs zeyrek_cistern) hazırla; onay gelirse uygula.
 
 ### 2026-11-25 (422) — Görsel + oynanış denetimi Bölüm 19 (Çemberlitaş Külhanı) ve Bölüm 31 (Çengelköy Sahil Konağı): ikisi de temiz, kod değişikliği yok
 
