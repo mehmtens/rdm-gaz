@@ -130,6 +130,9 @@ var sky_grid := 2
 ## Hücrenin üstten kullanılan yükseklik oranı. Bazı eski atlasların hücre altında koyu
 ## boş şerit var (ör. sessiz koridor: resim hücrenin ~%70'i); o şerit sahneye taşmasın.
 var sky_src_h := 0.86
+## Hücrenin yatay kullanılan oranı (16:9'da görünen genişlik). Geniş hücreli atlasta (ör. gece
+## pazarı 1024x384) 0.8 resmi dikeyde ~%40 çekiyordu; küçültmek piksel oranını kareye yaklaştırır.
+var sky_src_w := 0.8
 var sky_tint := Color(0.82, 0.8, 0.86)
 var sky_shade := Color(0.08, 0.07, 0.1)
 var back_tint := Color(0.34, 0.36, 0.5)
@@ -2011,7 +2014,7 @@ class _Sky extends Node2D:
 			x1 = _half
 		var half := atlas.get_size() / float(level.sky_grid)
 		var cell := Vector2(index % 2, index / 2) * half
-		var src_w := half.x * 0.8
+		var src_w := half.x * float(level.sky_src_w)
 		var tint: Color = level.sky_tint
 		## Ekran pikseli başına kaynak pikseli 16:9'daki gibi sabit (resim büyümez,
 		## yalnız yanlardan daha çok görünür); hücreye sığmazsa sıkıştır.

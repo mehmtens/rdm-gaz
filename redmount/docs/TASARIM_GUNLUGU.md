@@ -12,7 +12,7 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   Bölüm 9 ve 10 ikisi de `level04_fortress`. Kullanılmayan, Kitap 1 için çizilmiş ChatGPT atlasları var
   (`level06_backstreets`, `level07_night_market`, `level07_haddehane`, `level08_rail`, `level08_underground`,
   `level11_north_walls_atlas_v2`, `level13_*`). Tur 425'teki gibi her biri için önce pencereli küçük örnek al; eski atlasların
-  bazılarında hücre altı koyu şerit var → `sky_src_h` ile kırp. **Bölüm 10 tur 426'da yapıldı.** Kalan sıra: 3 → 2 → 8
+  bazılarında hücre altı koyu şerit var → `sky_src_h` ile kırp. **Bölüm 10 tur 426'da, Bölüm 3 tur 427'de yapıldı.** Kalan sıra: 2 → 8
   (adaylar: `level06_backstreets`/`level07_night_market` → Bölüm 2/3 sokakları, `level08_underground`/`level08_rail` → Bölüm 8).
 
 - (Tur 421 denetimi, Bölüm 26 (indeks 25) ve 29 (indeks 28)) **Orta kesit hasarsız bant:** Bölüm 29'da bot x~4700–8300
@@ -952,6 +952,24 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-25 (427) — Bölüm 3 (Gece Pazarı Baskını) arka planı kendi gece pazarı atlasına: Bölüm 29 Kuzguncuk tekrarı giderildi
+
+**Neden şimdi:** birikimdeki atlas tekrarları (sıra 10 → **3** → 2 → 8). Bölüm 3, Kitap 3 Bölüm 29'un
+`book03_kuzguncuk_streets` atlasını kullanıyordu (aynı hücre 0 iki kez); bölüm için çizilmiş ChatGPT
+`level07_night_market_atlas` (baharat/halı çarşısı, çeşmeli han avlusu, iskele balık hali, simit arabalı meydan) eski
+`level06_dressing.gd`'de bekliyordu.
+**Değişiklik:** `bolum03.gd` → `level07_night_market_atlas`, hücreler 0 (pazar girişi + iskeleler) → 1 @2900 (pazar duvarı,
+han avlusu) → 3 @3950 (meydan pususu) → 2 @6100 (fenerli ara sokak + iskele çıkışı). `dtm_level.gd` → yeni `sky_src_w`
+(varsayılan 0.8, eski davranış birebir): bu atlasın hücreleri geniş (1024x384); 0.8 ile resim dikeyde ~%40 çekilirdi.
+0.58 ile yatay/dikey ekran ölçeği ~2,6/2,6 → kare piksel.
+**Görsel kanıt (6 pencereli kesit):** giriş = fenerli baharat tezgâhları, halılar, sarımsak/biber dizileri (tenteli tezgâhlarla
+birebir); duvar = çınarlı han kemerleri; meydan = cumbalı taş evler, örtülü at arabası; çıkış = balık hali tentesi + iskele,
+teknelerin direkleri, gece Haliç ışıkları. Arka plan daha zengin ama düşman/coin konturla okunuyor; "sahneye ait".
+**Test:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0; `dtm_gaps` PASS; bot Bölüm 3 CLEARED @9006 / 79,6 sn / 0 ölüm;
+bot Bölüm 13 CLEARED @9557 / 63,2 sn / 0 ölüm (ortak `_Sky` kanaryası).
+**Bir sonraki adım:** Bölüm 2 → `level06_backstreets_atlas` (merdivenli sokak, kemerli çarşı, minibüs garajı = konvoy,
+kanal köprüsü = vinç paleti kanalı).
 
 ### 2026-11-25 (426) — Bölüm 10 (Kuzey Surları) arka planı kendi atlasına: Bölüm 9 ile fortress hücre tekrarı giderildi
 

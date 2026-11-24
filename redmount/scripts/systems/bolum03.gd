@@ -9,9 +9,13 @@ extends DtmLevel
 
 
 func _build() -> void:
-	sky_atlas = preload("res://assets/backgrounds/book03_kuzguncuk_streets_atlas.png")
-	sky_cells = [[0, -100000.0], [2, 3000.0], [0, 6000.0]]
-	sky_tint = Color(0.78, 0.8, 0.92)
+	## Bölüm için çizilmiş gece pazarı atlası (tur 427): önce Kitap 3 Bölüm 29'un Kuzguncuk
+	## sokaklarını tekrar ediyordu. Baharat çarşısı -> han avlusu -> meydan (pusu) -> balık
+	## hali ve iskele (çıkış). Hücreler geniş (1024x384): yatay oran piksel oranını korur.
+	sky_atlas = preload("res://assets/backgrounds/level07_night_market_atlas.png")
+	sky_cells = [[0, -100000.0], [1, 2900.0], [3, 3950.0], [2, 6100.0]]
+	sky_src_w = 0.58
+	sky_tint = Color(0.86, 0.86, 0.96)
 	sky_shade = Color(0.03, 0.03, 0.08)
 	back_tint = Color(0.28, 0.3, 0.46)
 	_night()
