@@ -916,6 +916,23 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-24 (397) — Denetim (Bölüm 13 Balat kovalamaca, pencereli + Bölüm 15): temiz, kod değişikliği yok; otomasyon durdu
+
+**Neden şimdi:** stil listesi ve iki yol haritası kapalı; birikimin tümü "insan testi verisi gelmeden dokunma" kapılı →
+kural (d). Tur 385–396 arka plan/arena sistemine dokundu; dedike bir kovalamaca set-piece'i (Bölüm 13) güncel kodla
+pencereli botla yeniden doğrulandı (son adlı denetim tur 351, o günden beri arka plan eşik düzeltmeleri geçti), ek olarak
+Bölüm 15 başsız botla.
+**Bulgular:** Bölüm 13: CLEARED @9560 / 68,8 sn / 0 ölüm / respawns 0 / heals 1; en uzun takılma 8 sn @6342. Can 115→46
+dibi son avlu arenasında (x~8700), hemen toparlıyor, ölüm yok. Beş pencereli kesit (giriş sur kapısı + Boğaz günbatımı,
+Balat yokuşu kovalamaca, çatı sandık rotası, Haliç ambar rıhtımı, kubbeli avlu finali): props (sandık/varil/çuval/vinç
+zinciri/İznik çini), karakter konturu ve para ChatGPT atlasıyla palet ve ışık yönünde tam tutarlı; taşma/çakışma/stil
+dışı/yapıştırılmış öğe yok. Telsiz balonu uzun satırı iki satıra sarıyor ("...Kartal başının yeni sahibi var."), kırpma
+yazım animasyonunun anlık karesiydi, hata değil. "MİNİBÜS! KOŞ!" kovalamaca uyarısı ve alt yazı okunur. Bölüm 15: CLEARED
+@9738 / 80,0 sn / 0 ölüm / respawns 0 / heals 0; final arenasında can 105→66, heal'siz 96'ya toparlıyor; takılma 9 sn @7288.
+**Durum:** yeni ölçülebilir iş çıkmadı. Kuyruk boş, birikim insan testi verisine bağlı. **Otomasyon durdu.**
+**Sonraki öneri:** gerçek cihazda insan testi (düğme boyu, sağ sütunun düşman örtmesi, `touch_stats` CSV'si); bot
+ustalığı insanı temsil etmediğinden birikimdeki kapılı maddeler ancak o veriyle açılır.
+
 ### 2026-11-24 (396) — Denetim (Bölüm 17 ve 32, pencereli): temiz, kod değişikliği yok; otomasyon durdu
 
 **Neden şimdi:** stil listesi, iki yol haritası kapalı; birikim insan testi bekliyor → kural (d). Günlükte en az anılan
