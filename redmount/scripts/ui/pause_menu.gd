@@ -98,6 +98,9 @@ const ARMORY := [
 	{"id": "armor", "label": "Zırh", "cost": 30, "res": preload("res://resources/armor/body_armor.tres"),
 		"note": "Zırh: hasar -%50, hız -%15, 6 darbe."},
 ]
+## Dokunmatik cihazda menü düğmesi yüksekliği (sanal px). 46 px 1080p telefonda ~25 dp'ydi;
+## 56 px, kostüm rozeti açıkken bile paneli 720 yüksekliğe sığdıran en büyük değer.
+const TOUCH_BUTTON_H := 56
 const COIN_ICON := preload("res://assets/ui/pixel/coin.png")
 const GOLD := Color(1.0, 0.82, 0.45)
 const MUTED := Color(0.72, 0.68, 0.74)
@@ -128,7 +131,8 @@ func _build() -> void:
 	left.add_theme_stylebox_override(&"panel", PixelUI.box("panel", 26))
 	row.add_child(left)
 	_root = VBoxContainer.new()
-	_root.add_theme_constant_override(&"separation", 10)
+	# Telefonda 7 düğme + ses + kostüm rozeti 720'ye sığsın diye aralık daralır, düğmeler büyür.
+	_root.add_theme_constant_override(&"separation", 8 if TouchControls.active_on_device() else 10)
 	_root.custom_minimum_size = Vector2(380, 0)
 	left.add_child(_root)
 	var title := Label.new()
@@ -150,7 +154,7 @@ func _build() -> void:
 	vl.text = "SES"
 	vol_row.add_child(vl)
 	var slider := HSlider.new()
-	slider.custom_minimum_size = Vector2(260, 32)
+	slider.custom_minimum_size = Vector2(260, TOUCH_BUTTON_H - 12 if TouchControls.active_on_device() else 32)
 	slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	slider.min_value = -40.0
 	slider.max_value = 6.0
@@ -321,7 +325,7 @@ static func _vibration_text() -> String:
 func _mk_btn(text: String, cb: Callable) -> Button:
 	var b := Button.new()
 	b.text = text
-	b.custom_minimum_size = Vector2(0, 46)
+	b.custom_minimum_size = Vector2(0, TOUCH_BUTTON_H if TouchControls.active_on_device() else 46)
 	b.focus_mode = Control.FOCUS_ALL
 	b.pressed.connect(cb)
 	_root.add_child(b)

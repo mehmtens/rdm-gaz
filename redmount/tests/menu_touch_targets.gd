@@ -2,7 +2,8 @@ extends Node
 ## Telefonda ana menü dokunma hedefleri (tur 390): dokunmatik cihazda her menü düğmesi en az
 ## TOUCH_BUTTON_H yüksek, düğmeler çakışmıyor, sütun alt ipucu şeridinin üstünde bitiyor.
 ## Masaüstü düzeni (46 px, tek sütun) değişmiyor. Bitmiş ve bitmemiş kayıt ("Bölüm N" satırı
-## sütunu uzatır), 16:9 ve 20:9 için.
+## sütunu uzatır), 16:9 ve 20:9 için. Tur 391: duraklat menüsü de (kostüm rozeti açıkken, en
+## uzun hâli) dokunmatikte ≥ 56 px düğme ve ekrana sığan panel.
 
 var _fail := 0
 
@@ -24,6 +25,12 @@ func _ready() -> void:
 			for width in [1280, 1600]:
 				get_window().size = Vector2i(width, 720)
 				await _check_home(touch, finished, width)
+	var saved_costume := Save.costume
+	Save.costume = "kizil"
+	for touch in [true, false]:
+		OS.set_environment("REDMOUNT_TOUCH_CONTROLS", "1" if touch else "0")
+		await _check_pause(touch)
+	Save.costume = saved_costume
 	Save.unlocked_level = saved_unlocked
 	Save.best_scores = saved_scores
 	OS.set_environment("REDMOUNT_TOUCH_CONTROLS", "")
@@ -60,6 +67,35 @@ func _check_home(touch: bool, finished: bool, width: int) -> void:
 		_report("%s: sütun ekranın sağ yarısına taşıyor (karakterler)" % tag)
 	print("  %s: %d düğme, sütun dibi %.0f" % [tag, buttons.size(), bottom])
 	menu.queue_free()
+	await get_tree().process_frame
+
+
+func _check_pause(touch: bool) -> void:
+	var pause := PauseMenu.new()
+	add_child(pause)
+	pause.open()
+	for i in 4:
+		await get_tree().process_frame
+	var tag := "duraklat/%s" % ("dokunmatik" if touch else "masaüstü")
+	var want: float = PauseMenu.TOUCH_BUTTON_H if touch else 46.0
+	var n := 0
+	for b in pause._root.get_children():
+		if b is Button:
+			n += 1
+			var h: float = (b as Control).size.y
+			if absf(h - want) > 0.5:
+				_report("%s: '%s' yüksekliği %.0f (beklenen %.0f)" % [tag, b.text, h, want])
+	var panel: Control = pause._root.get_parent()
+	var r := panel.get_global_rect()
+	var vh := get_viewport().get_visible_rect().size.y
+	if r.position.y < 0.0 or r.end.y > vh:
+		_report("%s: panel ekrandan taşıyor (%.0f–%.0f, ekran %.0f)" % [tag, r.position.y, r.end.y, vh])
+	if not pause._costume_badge.visible:
+		_report("%s: kostüm rozeti görünmüyor (en uzun hâl denenmedi)" % tag)
+	print("  %s: %d düğme, panel %.0f–%.0f" % [tag, n, r.position.y, r.end.y])
+	pause.close()
+	get_tree().paused = false
+	pause.queue_free()
 	await get_tree().process_frame
 
 

@@ -7,11 +7,6 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- (Tur 390 telefon denetimi, 20:9 dokunmatik) **Duraklat menüsü düğmeleri telefonda ~36 px:** dokunmatikte 7 satır
-  (DEVAM / KONTROL NOKTASI / BAŞTAN / SES / TİTREŞİM / DÜĞME BOYU / SAYDAMLIK / ANA MENÜ) panelin içine sığsın diye
-  ince; 1080p telefonda ~18 dp. Ana menüdeki çözümün aynısı: ayar üçlüsünü (TİTREŞİM/BOY/SAYDAMLIK) ikili/üçlü sıraya
-  alıp düğmeleri ≥ 56 px yap; `menu_touch_targets` testini duraklat menüsüne genişlet. Etki yüksek (her ölümde
-  kullanılan ekran), maliyet orta (pause_menu.gd düzeni + cep cephaneliği paneliyle hizalama).
 - (Tur 390) **Mağaza sekmeleri ve GERİ telefonda ~46–50 px:** kart satın alma düğmesi (~40 px) en küçük hedef.
   `shop_menu.gd` için aynı TOUCH_BUTTON_H kuralı; 16:9'da kart ızgarası taşmamalı. Etki orta, maliyet düşük.
 - (Tur 390) **Kanıt arşivi 20:9'da sağ üçte bir boş:** `_arch_grid.columns = 2` sabit; 1600 genişlikte üçüncü
@@ -927,6 +922,24 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-24 (391) — Duraklat menüsü telefonda: düğmeler 46→56 px
+
+**Neden şimdi:** tur 390 telefon denetiminin birikime yazdığı üst madde. Duraklat menüsü her ölümde/takılmada açılan
+ekran; dokunmatikte 7 düğme + ses çubuğu panelin içine sığsın diye 46 px'te kalmıştı (~25 dp, 1080p).
+**Değişiklik (`pause_menu.gd`, yalnız dokunmatik):** `TOUCH_BUTTON_H = 56` — 7 düğme 56 px, ses çubuğu 44 px, satır
+aralığı 10→8. 56 sayısının gerekçesi: en uzun hâl (kostüm rozeti görünür + 3 dokunmatik ayar düğmesi) paneli 27–693
+px'e yayıyor; 60 px ile panel 720'yi aşardı. Düğme yazıları ve düğüm adları (TouchSize/TouchAlpha/Vibration) aynı —
+`touch_layout`/`touch_polish` bunlara bakıyor. Masaüstü düzeni aynı (46 px, panel 111–609).
+**Oyuncu ne hissedecek:** telefonda duraklat menüsünde KONTROL NOKTASINA DÖN ile BÖLÜMÜ BAŞTAN'ı karıştırmadan basar.
+**Test:** `menu_touch_targets` genişledi — duraklat menüsü kızıl dağ kostümüyle (rozet açık) dokunmatikte her düğme
+56 px ve panel ekranda, masaüstünde 46 px → PASS.
+**Görsel kontrol:** 1280×720 dokunmatik + kostüm rozeti ve 1280×720 masaüstü çekildi: panel kenara değmiyor, cep
+cephaneliği paneliyle yan yana hizalı, yazılar taşmıyor. Yeni çizim yok.
+**Testler:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0; `dtm_gaps` PASS; `menu_touch_targets` PASS;
+`touch_layout`, `touch_polish`, `back_button` rc=0. Bot koşusu yapılmadı: oynanış/bölüm kodu değişmedi (yalnız
+duraklat paneli düzeni; tur 390 Bölüm 1 koşusu aynı kodla CLEARED).
+**Sonraki adım:** birikimin üstü — mağazanın telefon dokunma hedefleri.
 
 ### 2026-11-24 (390) — Telefon denetimi: ana menü dokunma hedefleri büyüdü, ikili ızgara
 
