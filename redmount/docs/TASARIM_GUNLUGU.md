@@ -12,7 +12,7 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   Bölüm 9 ve 10 ikisi de `level04_fortress`. Kullanılmayan, Kitap 1 için çizilmiş ChatGPT atlasları var
   (`level06_backstreets`, `level07_night_market`, `level07_haddehane`, `level08_rail`, `level08_underground`,
   `level11_north_walls_atlas_v2`, `level13_*`). Tur 425'teki gibi her biri için önce pencereli küçük örnek al; eski atlasların
-  bazılarında hücre altı koyu şerit var → `sky_src_h` ile kırp. **Bölüm 10 tur 426'da, Bölüm 3 tur 427'de yapıldı.** Kalan sıra: 2 → 8
+  bazılarında hücre altı koyu şerit var → `sky_src_h` ile kırp. **Bölüm 10 tur 426'da, Bölüm 3 tur 427'de, Bölüm 2 tur 428'de yapıldı.** Kalan: 8
   (adaylar: `level06_backstreets`/`level07_night_market` → Bölüm 2/3 sokakları, `level08_underground`/`level08_rail` → Bölüm 8).
 
 - (Tur 421 denetimi, Bölüm 26 (indeks 25) ve 29 (indeks 28)) **Orta kesit hasarsız bant:** Bölüm 29'da bot x~4700–8300
@@ -952,6 +952,22 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-25 (428) — Bölüm 2 (Arka Sokak İzi) arka planı kendi arka sokaklar atlasına: Bölüm 14 Cibali tekrarı giderildi
+
+**Neden şimdi:** birikimdeki atlas tekrarları (sıra **2** → 8). Bölüm 2, Kitap 2 Bölüm 14'ün `book02_cibali_streets`
+hücrelerini (0/1) birebir kullanıyordu; bölüm için çizilmiş ChatGPT `level06_backstreets_atlas` eski `level06_dressing.gd`'de
+kalmıştı.
+**Değişiklik:** `bolum02.gd` → `level06_backstreets_atlas`, hücreler 0 (Kuzey Hanı arka avlusu, merdivenli sokak) → 2 @1700
+(çift katlı sokak: sarı minibüs garajı — konvoyun geçtiği yer) → 3 @3450 (kanal: sarmaşıklı taş köprü, kemer altı şelaleler) →
+1 @4300 (çeşme meydanı: tenteli kemerli çarşı) → 0 @5900 (çatılar + son avlu: çamaşırlı merdivenli sokak, Haliç). Varsayılan
+`sky_src_h/sky_src_w` yeterli (resim hücreyi dolduruyor).
+**Görsel kanıt (6 pencereli kesit):** kanal kesitinde resmin şelaleli kemerleri oyundaki kanal çukurunun tam üstüne düşüyor;
+garajda minibüsler konvoy sahnesini destekliyor; çarşıda tenteli tezgâh propları resmin tenteleriyle aynı dili konuşuyor.
+"Sahneye ait".
+**Test:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0; `dtm_gaps` PASS; bot Bölüm 2 CLEARED @9506 / 75,1 sn / 0 ölüm.
+**Bir sonraki adım:** Bölüm 8 → `level08_underground_atlas` (raylı kemer tüneli, sarnıç salonu, makas istasyonu, gün ışığına
+açılan tünel çıkışı); hücre altı koyu şerit var → `sky_src_h` ayarı.
 
 ### 2026-11-25 (427) — Bölüm 3 (Gece Pazarı Baskını) arka planı kendi gece pazarı atlasına: Bölüm 29 Kuzguncuk tekrarı giderildi
 

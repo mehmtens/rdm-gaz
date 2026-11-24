@@ -8,8 +8,11 @@ extends DtmLevel
 
 
 func _build() -> void:
-	sky_atlas = preload("res://assets/backgrounds/book02_cibali_streets_atlas.png")
-	sky_cells = [[0, -100000.0], [1, 3500.0]]
+	## Bölüm için çizilmiş arka sokaklar atlası (tur 428): önce Kitap 2 Bölüm 14'ün Cibali
+	## sokaklarını tekrar ediyordu. Merdivenli sokak -> minibüs garajı (konvoy) -> kanal köprüsü
+	## (vinç paleti) -> kemerli çarşı (çeşme meydanı) -> çamaşırlı merdivenli sokak (çatılar).
+	sky_atlas = preload("res://assets/backgrounds/level06_backstreets_atlas.png")
+	sky_cells = [[0, -100000.0], [2, 1700.0], [3, 3450.0], [1, 4300.0], [0, 5900.0]]
 	sky_tint = Color(0.86, 0.8, 0.8)
 
 	# --- 1. Kuzey Hanı arka avlusu: film rulosu, avluda kavga --------------------
