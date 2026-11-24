@@ -916,6 +916,25 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-24 (400) — Denetim (Bölüm 24 / Kitap 2 finali "Bozdoğan Kemeri"): bilinen kapılı not doğrulandı; otomasyon durdu
+
+**Neden şimdi:** stil listesi ve iki yol haritası kapalı, birikimin tümü "insan testi verisi gelmeden dokunma"
+kapılı → kural (d). Son turlar Bölüm 4/6/7/13/15/17/32/33'ü denetledi; birikimde botun en derin vadisi olarak
+geçen Bölüm 24 (indeks 23, Kitap 2 finali) güncel kodla iki koşu + pencereli çekim.
+**Bulgular (taban kod):** Koşu 1: CLEARED @18655 / 185,0 sn / respawns 1; tek ölüm dağıtım haznesi mini-boss
+arenasında (x~13400, can 58→24→14→öldü). Koşu 2: CLEARED @18657 / 195,1 sn / respawns 2; biri aynı mini-boss
+arenası, biri final boss arenasında (x~18000, can 64→28→öldü). İkisi de tur 367/368'deki kapılı notla birebir:
+mini-boss arenası (12650–13450) kronik en derin vadi, koşu başına 1–2 ölüm; final için "koşu başına bir kontrol
+noktası dönüşü kabul edilebilir zorluk" değerlendirmesi geçerli. Tur 368'de denenen ZIRH→CAN ödülü reddedilip geri
+alınmıştı; KNIFE çıkarma yalnız insan testi onaylarsa. Bot ustalığı insanı temsil etmediğinden dokunulmadı.
+**Görsel:** Bölüm 24 giriş sahnesi (Bozdoğan Kemeri su kemeri + Haliç silüeti, halı sergili dükkân cephesi, fener
+hâlesi, kiremit çatılar) pencereli çekimde ChatGPT atlasıyla palet ve ışık yönünde tam tutarlı; başlık kartı okunur,
+taşma/çakışma/stil dışı/yapıştırılmış öğe yok. Oynanış arenası görselleri önceki turlarda doğrulanmıştı.
+**Durum:** yeni ölçülebilir iş çıkmadı. Kuyruk boş, birikim insan testi verisine bağlı. **Otomasyon durdu.**
+**Test:** `--import` SCRIPT ERROR 0; `dtm_gaps` PASS. Kod değişikliği yok, yalnız günlük.
+**Sonraki öneri:** gerçek cihazda insan testi (düğme boyu, sağ sütunun düşman örtmesi, `touch_stats` CSV'si); Bölüm 24
+mini-boss'u için "takıldım" geri bildirimi gelirse birikimdeki 1. dalga KNIFE çıkarma adımı uygulanır.
+
 ### 2026-11-24 (399) — Denetim (Bölüm 4 ve 7): temiz, kod değişikliği yok; otomasyon durdu
 
 **Neden şimdi:** tur 398'in devamı; birikimde ince marj notu olan iki bölüm (tur 365 ve 366) güncel kodla ikişer koşu.
