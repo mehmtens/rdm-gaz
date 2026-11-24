@@ -19,7 +19,7 @@ func _build() -> void:
 	sky_atlas = SHORE
 	sky_cells = [[0, -100000.0], [1, 1700.0], [2, 3300.0], [3, 5000.0],
 		[0, 6600.0, BROADCAST], [1, 8200.0, BROADCAST], [2, 9800.0, BROADCAST], [3, 11400.0, BROADCAST],
-		[0, 13200.0, DAWN], [2, 15000.0, DAWN]]
+		[0, 13600.0, DAWN], [2, 14200.0, DAWN]]
 	sky_tint = Color(0.86, 0.86, 0.96)
 	sky_shade = Color(0.03, 0.03, 0.08)
 	back_row_skip = [[2150.0, 18500.0]]

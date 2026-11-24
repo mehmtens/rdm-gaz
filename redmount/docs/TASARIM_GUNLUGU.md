@@ -916,6 +916,34 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-24 (388) — Tarama: altı arenada arka plan dövüşün ortasında değişiyordu; eşikler + kalıcı test
+
+**Neden şimdi:** kural (d); stil listesi, iki yol haritası kapalı, birikim insan testine bağlı. Tur 387'deki "final
+arenası yanlış resimde" hatası tur 37'de yalnız son arenalar için taranmıştı ("ara bölümlerde de aynı tarama" önerisi
+açık kalmıştı). Bu tur her bölümün her arenası tarandı: kilitli kameranın gezebildiği aralık (kapı ± 320 px) ile
+`sky_cells` eşikleri (sınır − SKY_BLEND/2) karşılaştırıldı.
+**Bulgu (81 arenadan 6'sı):** Bölüm 1 ilk büyük arena (3880–4900; eşik 4380 arenanın ortasında), Bölüm 13 kapan
+depoları (5800–6700; eşik kamera sınırında), Bölüm 24 servis kulesi (15550–16250; kamera neredeyse sabit 15870–15930,
+eşik 15880 — dövüşte iki resim gidip gelebilirdi; ayrıca pistonlu arena çizim masası resmindeydi), Bölüm 24 kule
+terası finali (eşik 17480 kapının hemen içinde; teras ara sahnesi 16950'de çark resminde oynuyordu), Bölüm 36 yayın
+odası (eşik 13080 ortada: canlı yayın konsolundan mavna rampasına geçiyordu), Bölüm 36 Yayın Şefi düellosu (eşik 14880).
+**Değişiklik (yalnız eşikler, yeni sanat yok):** `bolum01.gd` 4500→3800 (arena baştan cami avlusu resminde);
+`bolum13.gd` FINAL 6500→6800; `bolum24.gd` TOWER#2 16000→15500 (pistonlu arena çark/kazan resminde),
+TOWER#3 17600→16800 (kule revirinden çıkınca teras; ara sahne de terasta); `bolum36.gd` DAWN#0 13200→13600 (yayın
+odası arenası tamamen yayın konsolu), DAWN#2 15000→14200 ("köprü üstü" düellosu baştan sona dümenli köprü resminde).
+**Yeni test:** `tests/arena_sky_split.tscn` — her kilitli arenanın kamera aralığında tek resim; taban kodda 6 hata
+verirdi, şimdi PASS (81 arena).
+**Oyuncu ne hissedecek:** her kilitli dövüş tek, adına uygun bir mekânda geçer; perde geçişi dövüş öncesi yürüyüşte
+"yeni yere girdim" okuması olur, dövüşün ortasında dikkat dağıtmaz.
+**Doğrulama:** pencereli `capture_level` (Bölüm 1, 24, 36 arenalarının iki ucu): her arena tek resim, HUD/tabela
+taşması yok, ChatGPT atlas hücreleri sahneye ait.
+**Testler:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0 (36 OK); `dtm_gaps` PASS; `sky_blend_arenas` PASS
+(81 arena, 0 hata); `arena_sky_split` PASS. Bot: Bölüm 1 CLEARED 88,1 sn / 0 ölüm; Bölüm 13 68,8 sn / 0; Bölüm 24
+183,2 sn / 1 (bilinen dağıtım haznesi mini-boss sınırı); Bölüm 36 187,4 sn / 1 (bilinen kronik kesit). Değişiklik
+yalnız arka plan eşiği, oynanışı etkilemez.
+**Sonraki adım:** birikim insan testi verisine bağlı; yeni tarama fikri: ara sahne `pan` hedeflerinin de bölümün adını
+verdiği resimde olup olmadığı (bu turda Bölüm 24 teras sahnesi yan etki olarak düzeldi).
+
 ### 2026-11-24 (387) — Bölüm 23 taşma avlusu: final arena artık su kemeri/taşma havuzu resminde
 
 **Neden şimdi:** kural (c); stil listesi ve iki yol haritası kapalı, birikimde insan testine bağlı olmayan tek madde

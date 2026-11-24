@@ -8,7 +8,7 @@ extends DtmLevel
 
 
 func _build() -> void:
-	sky_cells = [[0, -100000.0], [2, 4500.0]]
+	sky_cells = [[0, -100000.0], [2, 3800.0]]
 
 	# --- 1. Balat girişi: kaçırılma sahnesi, kırılanlar, açık sokakta ilk kavga ---
 	_terrain(-400, 2200, 0)
