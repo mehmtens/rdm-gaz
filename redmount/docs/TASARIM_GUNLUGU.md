@@ -955,6 +955,26 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-25 (433) — Bölüm 9 (Zırhlı Üs) açılışı: tünel çıkışında dağ üssünün tamamı ilk kez görünüyor
+
+**Neden şimdi:** tur 432'den sonra `assets/backgrounds/` içinde kullanılmayan iki ChatGPT resmi kaldı: `level04_mountain_fortress`
+(karlı dağa oyulmuş üs, projektörler, köprüler, sisli vadi) ve `level05_throne_hall`. Bölüm 9'un kurgusu "Redmount tünelden
+çıkınca aracın köprüden üsse girdiğini görür" — bu an şimdiye kadar köprü hücresiyle anlatılıyordu, üssün kendisi görünmüyordu.
+Bölüm 4'ün tek resmi (`level02_armed_checkpoint`) ise bölümün temasına birebir uyuyor; ikinci resim için mevcut adaylar
+(`level02_locations` 1/3) Bölüm 5 ile arka arkaya tekrar yaratırdı → Bölüm 4'e dokunulmadı.
+**Değişiklik:** `bolum09.gd` → giriş (x<1620) panorama (tek parça, tur 431'deki ızgara alanı `1`) → köprü hücresi 1 nehir yatağı /
+çöken ip köprü kesimine (@1620) kaydı → 2 @4500, 0 @8000 aynı. Yeni görsel üretilmedi.
+**Görsel kanıt (3 pencereli kesit):** "TÜNEL" kapısından çıkınca tam ekran kat kat üs, kırmızı sancaklar, projektör huzmeleri,
+köprüler; nehir kesiminde taş kemer köprü palet/ip köprü platformlarının tam arkasında. "Sahneye ait".
+**Oyuncu ne hissedecek:** Dan the Man'in bölüm başı "hedefi gör" anı — ilk karede gideceği kaleyi görüyor; köprü resmi de
+artık gerçek köprü kesiminde.
+**Test:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0; `dtm_gaps` PASS; bot Bölüm 9 iki koşu CLEARED (130,1 sn / 1 dönüş;
+131,2 sn / 0 dönüş). Taban kod (worktree) aynı anda: CLEARED 124,8 sn / 1 dönüş — Binbaşı Kaya dönüşü önceden var (günlükte
+"132,8 sn / 1 ölüm (Binbaşı Kaya" kaydı), arka planla ilgisi yok.
+**Bir sonraki adım:** kalan tek kullanılmayan resim `level05_throne_hall` (gotik taht salonu, sancaklar, projektörlü pencereler) —
+Bölüm 12'nin taht salonu artık kendi atlasında; bu resmin daha uygun olduğu bir yer (ör. Kitap 3 final yayın salonu) yoksa
+bekletilsin. Ardından (d) denetimi: oynanış tarafı (ör. Bölüm 9/12 boss dönüşleri bot marjı).
+
 ### 2026-11-25 (432) — Bölüm 5 (Demiryolu Ablukası) arka planı kendi demiryolu atlasına: depo arenasındaki otobüs terminali gitti
 
 **Neden şimdi:** tur 431 önerisi; son kullanılmayan ChatGPT atlası `level08_rail` (gar binası + peron, sinyalli makas kulübesi

@@ -12,11 +12,15 @@ const POWERUP := preload("res://scenes/pickups/PowerupPickup.tscn")
 const PU_DAMAGE := preload("res://resources/powerups/damage_x2.tres")
 const PU_SHIELD := preload("res://resources/powerups/shield.tres")
 const PU_SPEED := preload("res://resources/powerups/speed.tres")
+const MOUNTAIN_BASE := preload("res://assets/backgrounds/level04_mountain_fortress.png")
 
 
 func _build() -> void:
 	sky_atlas = preload("res://assets/backgrounds/level04_fortress_atlas.png")
-	sky_cells = [[1, -100000.0], [2, 4500.0], [0, 8000.0]]
+	## Tünel çıkışında üssün tamamı ilk kez görünür (tur 433): kullanılmayan ChatGPT dağ kalesi
+	## panoraması (projektörler, köprüler, sisli vadi; tek parça resim). Köprü hücresi nehir
+	## yatağı / ip köprü kesimine kaydı.
+	sky_cells = [[0, -100000.0, MOUNTAIN_BASE, 1], [1, 1620.0], [2, 4500.0], [0, 8000.0]]
 	sky_tint = Color(0.86, 0.84, 0.92)
 	sky_shade = Color(0.04, 0.04, 0.08)
 	back_row_on = false
