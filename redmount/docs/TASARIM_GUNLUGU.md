@@ -7,6 +7,9 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 438) **Formül platform sıraları taraması:** `scripts/systems/*.gd` içinde döngüyle (eşit aralık + aynı y) dizilen
+  iskele/balkon sıralarını bul; görünür bir "tekdüze sıra" oluşturanları (≥3 eş tahta) Bölüm 15 çarkı gibi elle yaya/basamağa çevir.
+
 - (Tur 436 denetimi, Bölüm 2 + 35) **Düşman/kahraman gece okunurluğu:** kilitli arena kalabalıklarında (Bölüm 2 pazar
   x~5200, Bölüm 35 kale kapısı x~9500) kahraman ve düşmanların hepsi koyu silüet; ayrım büyük ölçüde kahramanın beyaz
   ayakkabısı + ince kenar konturuna kalıyor. DTM'de oyuncu paleti belirgin kontrast taşır. **İnsan-verisi gerekli:** test
@@ -987,6 +990,22 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-25 (438) — Denetim Bölüm 28 + 15 → Bölüm 15 su çarkı üst yolu formül sıradan elle yaya çevrildi
+
+**Neden şimdi:** stil listesi, YOL_HARITASI, OYNANIS-KALITE P1 kapalı; birikim insan verisi bekliyor → (d) denetimi. Günlükte en
+uzun süredir anılmayan iki bölüm seçildi: Bölüm 28 (Üsküdar, indeks 27) ve Bölüm 15 (Zeyrek, indeks 14). Bot + 1280×720 çekim ×5.
+**Bulgular:** Bölüm 28 (vapur iskelesi + Kız Kulesi, Üsküdar Erzakçısı, Ayasofya silüetli rıhtım, KUZGUNCUK kapısı) ve Bölüm 15
+(çeşme avlusu, su çarkı, sur kemerleri + SÜLEYMANİYE YOLU kapısı) ChatGPT tarzında, dikişsiz; ikisi CLEARED 0 ölüm (94,6 / 77,4 sn).
+**Tek kusur (tasarım kuralı):** Bölüm 15 su çarkı arenasının "üst dişli yolu" `for k in 4` ile dört eş tahta, aynı -240
+yükseklikte, eşit 170 px aralık + eş sikke sırası — kareyde formül parkur olarak okunuyordu (kullanıcının "şablon parkur yok" kuralı).
+**Değişiklik:** `bolum15.gd` — dört tahta çarkın jantını izleyen elle yaya çevrildi: -235 (w140) → -315 (w120) → tepe -340
+(w150, en geniş) → iniş -250 (w110); basamak yükselişleri ≤105 px (zıplama ~125), boşluklar 50–55 px. Sikke sayısı aynı (4),
+her tahtanın 50 px üstünde → ekonomi değişmedi. Arena kapıları (7000–7700) içinde; yol isteğe bağlı, zemin dövüşü aynı.
+Oyuncu hissi: çarkın üstüne tırmanıp tepeden süzülme, tekdüze sıra yerine küçük bir hareket cümlesi.
+**Test:** `--import` SCRIPT ERROR 0; DTM GAPS PASS; campaign_smoke çıkış 0; bot Bölüm 15 CLEARED 74,8 sn / 0 ölüm;
+pencereli çekim (zemin + tepe) yayı basamaklı ve okunur gösteriyor.
+**Sonraki adım:** benzer `for k in N` eşit aralıklı platform sıralarını diğer bölümlerde tara (birikime eklendi).
 
 ### 2026-11-25 (437) — Denetim sürdü (Bölüm 16 temiz) + açılış karartması ölçüldü (sorun değil, kapandı)
 

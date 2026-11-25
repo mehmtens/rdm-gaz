@@ -103,9 +103,12 @@ func _build() -> void:
 
 	# --- 6. Su çarkı: alçak servis yolu + üst dişli yolu; arena ----------------------
 	_checkpoint(6850, 0)
-	for k in 4:
-		_scaffold(7050.0 + k * 170.0, -240.0, 140)
-		_pickup(COIN, 7050.0 + k * 170.0, -290.0)
+	## Üst dişli yolu çarkın jantını izler: tırmanış → tepe → iniş (tur 438; eskiden
+	## dört eş tahta aynı yükseklikte eşit aralıklıydı, formül sıra gibi okunuyordu).
+	## Basamaklar ≤105 px yükseliyor, boşluklar 50–55 px (zıplama ~125 px / koşu ~250 px).
+	for p in [[7090.0, -235.0, 140], [7270.0, -315.0, 120], [7460.0, -340.0, 150], [7640.0, -250.0, 110]]:
+		_scaffold(p[0], p[1], p[2])
+		_pickup(COIN, p[0], p[1] - 50.0)
 	_crates(6950, 1, 1)
 	_scaffold(7000, -130, 100)
 	_prop("varil", 7250)
