@@ -988,6 +988,23 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-25 (444) — Denetim: Bölüm 25 + 30 temiz (Bölüm 25'teki tek ölüm tekrarda görülmedi)
+
+**Neden şimdi:** stil listesi, YOL_HARITASI ve OYNANIS-KALITE P1 kapalı; birikimin tamamı insan testi verisi/onayı bekliyor →
+(d) denetimi. Adlı denetimi en eski iki bölüm: Bölüm 25 (indeks 24, son tur 350) ve Bölüm 30 (indeks 29, son tur 343).
+Bot pencereli 1280×720, 15 sn'de bir kare (7 + 6 kare), ardından başsız tekrarlar.
+**Bölüm 25:** pencereli koşu CLEARED @10157 / 90,2 sn / **1 dönüş** (final arenası x~9800; ciltçi atölyesi 7300–7600'de
+108→51, final dalga 1 STREET+RIFLE+STREET'e 37 canla girildi). Tekrar ×2: 80,9 sn / 0 ve 86,5 sn / 0 → tur 350 (0 ölüm, min 77)
+ile tutarlı; tek ölüm bot varyansı, değişiklik yok. Görsel: kitapçı yokuşu (tenteli sahaflar, sarmaşıklı taş merdiven),
+matbaa avlusu iki katlı iç mekân + Haliç/cami silüeti, SİRKECİ kapısı — ChatGPT paletinde, dikişsiz.
+**Bölüm 30:** CLEARED @10006 / 80,9 sn / 0 dönüş (min 19 final arenasında, 2. dalga tüfekli); tekrar 80,5 sn / 0.
+Görsel: gece rıhtımı (mangal ateşleri, mor-lacivert cami silüeti), fenerli konak cephesi, kapalı iskele salonu + Boğaz
+yansıması — stil içi. Can eğrisi orta kesitte (4200–7200) 105→27 ile tur 343'ün "Bölüm 30 sıkı" notuyla aynı bantta;
+ölüm yok → dokunulmadı (insan verisi gelmeden düşman/can düzeni değişmez).
+**Test:** dört bot koşusu CLEARED rc=0. Oyun kodu değişmedi; smoke/import koşulmadı.
+**Sonraki adım:** otonom iş yok; durma koşulu sağlandı. Sıradaki anlamlı iş insan (telefon) testi verisi veya yeni yol
+haritası maddesi.
+
 ### 2026-11-25 (443) — Denetim: Bölüm 22 + 34 temiz (en uzun süredir denetlenmeyen iki bölüm)
 
 **Neden şimdi:** stil listesi, YOL_HARITASI ve OYNANIS-KALITE P1 kapalı; birikimin tamamı insan (telefon) testi verisi
