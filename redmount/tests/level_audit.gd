@@ -10,6 +10,7 @@
 ##  ITEM_HIGH     coin / ödül altındaki her yüzeyden 250 px'ten yüksekte (alınamaz)
 ##  PLAT_UNREACH  platforma hiçbir yüzeyden zıplanarak çıkılamıyor
 ##  PLAT_INSIDE   tek yön platform katı gövdenin içinde
+## Ulaşılamayan platformun üstünde ödül (coin/pickup) varsa çıkış kodu 1 (regresyon koruması).
 ## Ayrıca bölüm başına özet: uzunluk, düşman sayısı, düşman yoğunluğu, en uzun düşmansız
 ## düz koşu, tehlike (diken / boşluk / hareketli) sayısı.
 extends Node
@@ -19,6 +20,8 @@ const JUMP_ACROSS := 250.0
 const ITEM_REACH := 250.0
 
 var _out: Array = []
+## Ulaşılamayan platform üstünde kalan ödül sayısı (sıfır değilse çıkış kodu 1).
+var _stranded := 0
 
 
 func _ready() -> void:
@@ -50,7 +53,8 @@ func _ready() -> void:
 				print("   ENEMY_FELL x=%d y=%d -> y=%d %s" % [start[e].x, start[e].y, (e as Node2D).global_position.y, _name(e)])
 		lvl.queue_free()
 		await get_tree().process_frame
-	get_tree().quit()
+	print("AUDIT STRANDED ITEMS: %d" % _stranded)
+	get_tree().quit(1 if _stranded > 0 else 0)
 
 
 func _audit(idx: int, lvl: Node) -> void:
@@ -130,8 +134,17 @@ func _audit(idx: int, lvl: Node) -> void:
 			continue
 		if _overlaps_solid(solids, r):
 			issues.append("PLAT_INSIDE x=%d y=%d w=%d" % [r.get_center().x, r.position.y, r.size.x])
-		if not _reachable(r, surfaces) and not _bounce_reach(bounces, r.position + Vector2(r.size.x * 0.5, 0)):
-			issues.append("PLAT_UNREACH x=%d y=%d w=%d" % [r.get_center().x, r.position.y, r.size.x])
+		if not _reachable(r, surfaces) and not _bounce_reach(bounces, r.position + Vector2(r.size.x * 0.5, 0)) \
+				and not _bounce_reach(bounces, r.position) and not _bounce_reach(bounces, Vector2(r.end.x, r.position.y)):
+			# Üstünde (en fazla 150 px yukarıda) duran ödül varsa kayıp ödüldür: önemli.
+			var stranded := 0
+			for it in items:
+				var ip: Vector2 = (it as Node2D).global_position
+				if ip.x >= r.position.x and ip.x <= r.end.x and ip.y <= r.position.y and ip.y >= r.position.y - 150.0 \
+						and _surface_below(surfaces.filter(func(s): return s != r), ip, 0.0) > r.position.y:
+					stranded += 1
+			_stranded += stranded
+			issues.append("PLAT_UNREACH x=%d y=%d w=%d items=%d" % [r.get_center().x, r.position.y, r.size.x, stranded])
 	# Özet
 	var left: float = lvl.camera_limit_left
 	var right: float = lvl.camera_limit_right

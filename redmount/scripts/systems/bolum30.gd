@@ -64,9 +64,9 @@ func _build() -> void:
 		_flame(4360.0 + k * 220.0, k * 0.4, -45.0 * (k + 1))
 	_rampart(4910, 5050, -135, false, true)
 	_terrain(5050, 10300, 0)
-	_scaffold(4580, -280, 300)
-	_pickup(PISTOL, 4580, -325)
-	_coin_line(4300, 8, 75, -200)
+	_scaffold(4580, -250, 300)
+	_pickup(PISTOL, 4580, -295)
+	_coin_line(4300, 8, 75, -185)
 	_lantern(4150)
 
 	# --- 5. Yanan arşiv: üç kat, katlarda alev; en üstte Leyla dosyası -------------

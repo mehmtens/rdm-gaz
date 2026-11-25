@@ -78,8 +78,8 @@ func _build() -> void:
 
 	# --- 4. Depo arenası; istasyon büfesi -----------------------------------------
 	_checkpoint(4200, 0)
-	_scaffold(4750, -160, 220)
-	_coin_line(4690, 3, 55, -210)
+	_scaffold(4750, -115, 220)
+	_coin_line(4690, 3, 55, -165)
 	_prop("vazo", 4450)
 	_prop("kasa", 4600)
 	_prop("varil", 4980)

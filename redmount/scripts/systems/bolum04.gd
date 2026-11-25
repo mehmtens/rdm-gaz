@@ -70,8 +70,8 @@ func _build() -> void:
 	_deco(BOOTH, 3800, 0, 0.75, true, -12)
 	_story(3740, _sahne_defter)
 	# Arena içinde siper yok: düşmanlar siperi aşamaz, dövüş takılır.
-	_scaffold(4650, -170, 200)
-	_coin_line(4590, 3, 55, -220)
+	_scaffold(4650, -115, 200)
+	_coin_line(4590, 3, 55, -165)
 	_prop("vazo", 4200)
 	_prop("kasa", 4560)
 	_prop("varil", 5150)

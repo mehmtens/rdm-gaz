@@ -49,8 +49,8 @@ func _build() -> void:
 
 	# --- 2. Gar cephesi: sahte polisler (orta iskele zıplamaya) ------------------
 	_checkpoint(1600, 0)
-	_scaffold(2350, -150, 200)
-	_coin_line(2280, 4, 45, -200)
+	_scaffold(2350, -115, 200)
+	_coin_line(2280, 4, 45, -165)
 	_fight(1900, 2800, _wave(KNIFE, STREET, KNIFE), _wave(RIFLE, ELITE), [], AMMO)
 	_story(2900, _sahne_komiser)
 
@@ -107,7 +107,7 @@ func _build() -> void:
 
 	# --- 7. Arka yük peronu: arena ------------------------------------------
 	_checkpoint(7850, 0)
-	_scaffold(8300, -150, 180)
+	_scaffold(8300, -115, 180)
 	# 2. dalga iki düşman (25 ve 27'nin son arenalarıyla aynı yoğunluk); kalkanlı sevk odasında.
 	_fight(7900, 8700, _wave(ELITE, BOMBER), _wave(BRUISER, ASSASSIN))
 

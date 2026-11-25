@@ -77,8 +77,8 @@ func _build() -> void:
 	# --- 4. Zırhlı avlu: kilitli arena; üs kantini --------------------------------
 	_checkpoint(4620, 0)
 	_terrain(4700, 9700, 0)
-	_scaffold(5350, -170, 240)
-	_powerup(5350, -220, PU_DAMAGE)
+	_scaffold(5350, -115, 240)
+	_powerup(5350, -165, PU_DAMAGE)
 	_prop("varil", 5000)
 	_prop("kasa", 5650)
 	_lantern(4850)

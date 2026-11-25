@@ -75,8 +75,8 @@ func _build() -> void:
 	_checkpoint(5200, -380)
 	_prop("vazo", 5400, -380)
 	_prop("varil", 6100, -380)
-	_scaffold(5800, -540, 220)
-	_pickup(ARMOR, 5800, -585)
+	_scaffold(5800, -495, 220)
+	_pickup(ARMOR, 5800, -540)
 	var arena: BattleArena = ARENA.instantiate()
 	arena.position = Vector2(5800, -380)
 	arena.gate_left_x = 5300

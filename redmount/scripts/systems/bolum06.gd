@@ -69,8 +69,8 @@ func _build() -> void:
 
 	# --- 4. Döküm avlusu: kilitli arena; işçi kantini ----------------------------
 	_checkpoint(4420, 0)
-	_scaffold(5050, -170, 240)
-	_coin_line(4980, 4, 50, -220)
+	_scaffold(5050, -115, 240)
+	_coin_line(4980, 4, 50, -165)
 	_prop("varil", 4700)
 	_prop("vazo", 4850)
 	_prop("kasa", 5300)

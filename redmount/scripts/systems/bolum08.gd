@@ -72,8 +72,8 @@ func _build() -> void:
 
 	# --- 4. Sarnıç salonu: kilitli arena ------------------------------------------
 	_checkpoint(4720, 0)
-	_scaffold(5350, -170, 240)
-	_coin_line(5280, 4, 50, -220)
+	_scaffold(5350, -115, 240)
+	_coin_line(5280, 4, 50, -165)
 	_prop("vazo", 5000)
 	_prop("kasa", 5650)
 	_lantern(4900)

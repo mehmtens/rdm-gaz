@@ -85,8 +85,8 @@ func _build() -> void:
 	_prop("vazo", 4480)
 	_prop("kasa", 4620)
 	_prop("saksi", 4760)
-	_scaffold(4400, -150, 220)
-	_coin_line(4320, 4, 55, -200)
+	_scaffold(4400, -115, 220)
+	_coin_line(4320, 4, 55, -165)
 	var arena: BattleArena = ARENA.instantiate()
 	arena.position = Vector2(4350, 0)
 	arena.gate_left_x = 3880

@@ -11952,3 +11952,43 @@ commit edilmedi). Oyun kodu değişmediği için smoke/import ayrıca koşulmad�
 
 **Sonraki adım:** otonom iş tükendi; kalan birikim insan (telefon) testini bekliyor. Yeni tur yalnız insan verisi
 geldiğinde ya da yeni yol haritası maddesi eklendiğinde anlamlı iş üretir.
+
+### 2026-11-25 — Denetim (Bölüm 24 ve 36) → 15 bölümde ulaşılamayan arena iskelesi + 55 kayıp ödül düzeltildi (tur 446)
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1'ler kapalı; birikim insan verisi bekliyor → öncelik (d) denetim.
+Bölüm 24 (indeks 23) ve 36 (indeks 35) bot ile oynatıldı, ardından uzun süredir koşulmayan geometri denetimi
+(`tests/level_audit.tscn`) 36 bölümde çalıştırıldı.
+
+**Bot:** Bölüm 24 CLEARED @18658, t=196 sn, respawns=1 (final boss 38 sn takılma, kitap ortası doruğu için kabul);
+Bölüm 36 CLEARED @16258, t=189 sn, respawns=1 (son boss 34 sn). İkisinde de ritim dağılmış, defekt yok.
+
+**Bulgu (ölçülerek doğrulandı):** oyuncunun tam (basılı) zıplaması ayak hizasında **125,7 px** (geçici fizik testi:
+düz zemin, zıplama tuşu basılı, apex −125,7). Kırılabilir kasa/vazo/varil yalnız hurtbox (basılamaz), pazar tezgâhı süs.
+Buna göre **Bölüm 1–8, 11–13 ve 26'daki kilitli arena iskeleleri (y = −150…−170) hiçbir yüzeyden çıkılamıyordu**;
+üstlerindeki 3–4'lük coin dizileri (Bölüm 9'da hasar güçlendirmesi) oyuncuya görünür ama alınamaz ödüldü — DTM'de
+arena içi yükseklik oyuncuya kaçış/üst-vuruş seçeneği verir; burada "boş vaat"ti. Ayrıca Bölüm 10 burç arenasındaki
+zırh iskelesi (zeminden 160 px) ve Bölüm 30 istinat duvarı üstündeki tabanca iskelesi (en üst basamaktan 145 px)
+aynı sorunu taşıyordu. Toplam 55 ödül etkileniyordu.
+
+**Düzeltme (tasarım sayısı gerekçesi):** iskeleler zeminden/basamaktan **115 px**'e alındı (125,7 apex − ~10 px pay:
+ayakta zıplayışla güvenle iner, kısa dokunuşla (jump_cut 0,42) inemez → bilinçli zıplama ister). Ödüller iskeleyle
+birlikte kaydırıldı (iskelenin 45–50 px üstü, korunan oran). Bölüm 30'da coin dizisi alçalan iskelenin tahtasına
+binmesin diye −200 → −185. Doğrulama: oyuncu −115 tek yön platforma ayakta zıplayışla iniyor (floor=true).
+İç mekân çatı çizgileri (Bölüm 9/14/16/18/21/24/25, ödülsüz, dekor) ve baca kapakları (PLAT_INSIDE: duvar tepesiyle
+kasıtlı 5 px bindirme) dokunulmadı. Bölüm 32 x=6590 coin'i (ITEM_HIGH 260 px) kuleden kuleye koşarak atlama yayında:
+hesapla gövde −332…−382 aralığından geçiyor → yanlış pozitif.
+
+**Denetim aracı:** `PLAT_UNREACH` satırı artık üstündeki ödül sayısını yazıyor (`items=N`); tente sıçrayış kontrolü
+platformun iki ucunu da deniyor (Bölüm 26 gar saçağı yanlış pozitifi kalktı); ulaşılamayan platform üstünde ödül varsa
+`AUDIT STRANDED ITEMS: N` ve çıkış kodu 1 → kalıcı regresyon koruması. Sonuç: **STRANDED 0, rc=0.**
+
+**Değişen dosyalar:** `scripts/systems/bolum01–13,26,30.gd` (bolum10 dahil), `tests/level_audit.gd`.
+
+**Test:** import SCRIPT ERROR 0; campaign_smoke rc=0; DTM GAPS: PASS; ARENA SPAWN CLEAR: PASS; level_audit rc=0
+(STRANDED 0); bot Bölüm 1 CLEARED 82,6 sn/0 ölüm, Bölüm 10 CLEARED 109 sn/0, Bölüm 26 CLEARED 91,4 sn/2 (geçmiş koşularda
+0–2 arası, bot varyansı; bot iskeleleri kullanmıyor), Bölüm 30 CLEARED 87,9 sn/0; çekim Bölüm 1 pazar (iskele iki tente arasında doğal) ve Bölüm 30
+istinat (coin tahtanın altında okunur) — scratchpad, commit edilmedi.
+
+**Sonraki adım:** bu tur, eski denetim aracının hâlâ gerçek defekt bulduğunu gösterdi; sonraki denetim turları bot +
+çekime ek olarak `level_audit` (rc) koşmalı. İnsan testinde "arena iskelesine çıkınca dövüş kolaylaşıyor mu" gözlenmeli;
+kolaylaşıyorsa iskele genişliği (200–240 px) daraltılır.

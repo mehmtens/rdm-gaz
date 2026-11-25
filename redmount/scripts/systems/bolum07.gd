@@ -76,8 +76,8 @@ func _build() -> void:
 	# --- 4. Zırhlı arena: Karahanlı ilk kez görünür ------------------------------
 	_checkpoint(4620, 0)
 	_story(4700, _sahne_karahanli)
-	_scaffold(5300, -170, 240)
-	_coin_line(5230, 4, 50, -220)
+	_scaffold(5300, -115, 240)
+	_coin_line(5230, 4, 50, -165)
 	_prop("varil", 5000)
 	_prop("kasa", 5500)
 	_prop("vazo", 5700)
