@@ -11848,3 +11848,25 @@ normal); bot Bölüm 13 → CLEARED @9556 t=66,8s respawns=0 (kovalamaca gerçek
 
 **Sonraki adım:** denetim aracı güvenilir; sıradaki turda başka bir kovalamaca/geç bölüm (29, ya da Kitap 3) temiz
 çekimle yeniden denetlenebilir. Oynanış birikimi hâlâ insan testi (telefon) verisi bekliyor.
+
+### 2026-11-25 — Bölüm 29 temiz denetim (düzeltilmiş araçla doğrulama) (tur 441)
+
+**Neden şimdi:** tur 440 denetim aracını düzeltti; sıradaki adım diğer kovalamaca bölümünü (29, "POLİS! KOŞ!") temiz
+çekimle denetlemekti. Beş noktadan 1280×720 pencereli çekim (x=2000/4200/6550/8100/9150).
+
+**Araç doğrulaması:** minibüs/polis artık karelerde yok, "KOŞ!" plakası yok — tur 440 düzeltmesi ikinci kovalamaca
+bölümünde de çalışıyor. Her nokta ayrı, zengin sahne gösteriyor (önceki kirlenme giderildi).
+
+**Görsel (Read ile):** x=2000 Kuzguncuk renkli gece evleri (mavi/pembe/okra cepheler, begonvil, fener, çatıda tüfekli
+düşman — dikey çatı rotası); x=4200 Osmanlı taş çeşmesi (bronz musluk) + şişeli bakkal, tüfekli nişan, zırh varili;
+x=6550 KIYI ERZAKÇISI tenteli dükkân, rıhtım vinci, kalkanlı muhafız, gün batımı Boğaz silüeti; x=8100 çok katlı ahşap
+iskele deposu (platformlarda ninja düşmanlar, can paketi, sandık, yapı arasından cami silüeti — katmanlı dikey set);
+x=9150 iç mekân erzak deposu (raflarda denk, tezgâh, gaz lambası, çekmeceler, asılı aletler). Hepsi ChatGPT atlasıyla
+aynı mor-gölge/turuncu-ışık paletinde; yapıştırılmış öğe, düz renk alan, zeminsiz çıkış yok; düşman telegrafı okunur.
+
+**Değişiklik:** yalnız belge (günlük). **Test:** kod değişmediği için smoke/import koşulmadı; çekim ×5 rc=0 (scratchpad,
+commit edilmedi). Bölüm 29 botu tur 421'de CLEARED kayıtlı.
+
+**Sonraki adım:** otonom görsel denetim iki kitabı da kapattı; kalan oynanış birikimi insan testi (telefon) verisi
+bekliyor. Sıradaki tur Kitap 3'ün bir geç bölümünü temiz araçla tarayabilir ya da birikim insan verisi gelene dek
+belge-only denetim turlarıdır.
