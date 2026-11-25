@@ -12028,3 +12028,16 @@ Oyun kodu değişmediği için smoke/bot ayrıca koşulmadı (tur 442 emsali).
 **Sonraki adım:** otonom iş yine tükendi. Bölüm 20 kararı insan testine bağlı; denetim turları `AUDIT HAZARD-FREE`
 satırını bundan sonra referans almalı (eski günlük kayıtlarındaki "hazards=N" sayıları güvenilir değil).
 
+
+### 2026-11-25 — Denetim: 36 bölüm `level_audit` taraması temiz, otonom iş tükendi (tur 448)
+
+**Neden şimdi:** stil listesi, YOL_HARITASI ve OYNANIS-KALITE P1 kapalı; birikimin tüm maddeleri insan (telefon) testi
+verisi/onayı bekliyor → (d) denetim. Tur 446–447 düzeltmelerinden sonra aracın kendisi referans kabul edildi.
+**Ölçüm:** `level_audit.tscn` rc=0, `STRANDED ITEMS: 0`, `HAZARD-FREE: [1, 4, 5, 10, 20]` (tur 447 ile aynı). Kalan
+`PLAT_UNREACH` satırlarının hepsi `items=0` iç mekân çatı çizgisi (Bölüm 9/14/16/18/21/24/25, y −345…−420, tur 446'da
+dekor olarak ayrıldı); `PLAT_INSIDE` satırları kasıtlı baca kapakları; Bölüm 32 `ITEM_HIGH` bilinen yanlış pozitif.
+`longest_empty` yalnız serbest düşmanları sayıyor (arenaları değil); B2 4144 / B36 5007 arena içerdiğinden tur 263'ün
+arena dahil ölçümü (temiz) geçerli. Her bölüm son iki günde bot + çekimle denetlenmiş (tur 420–447).
+**Değişiklik yapılmadı;** yeni birikim maddesi uydurulmadı.
+**Sonraki öneri:** telefonda insan oyun testi — birikimdeki sorular (Bölüm 20 tehlikesizliği, gece kalabalık okunurluğu,
+arena iskelesi zorluğu, Karahanlı'ya kalan can) orada yanıtlanmadan otomasyon anlamlı iş üretemiyor.
