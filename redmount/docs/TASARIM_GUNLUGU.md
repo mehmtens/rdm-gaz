@@ -11870,3 +11870,33 @@ commit edilmedi). Bölüm 29 botu tur 421'de CLEARED kayıtlı.
 **Sonraki adım:** otonom görsel denetim iki kitabı da kapattı; kalan oynanış birikimi insan testi (telefon) verisi
 bekliyor. Sıradaki tur Kitap 3'ün bir geç bölümünü temiz araçla tarayabilir ya da birikim insan verisi gelene dek
 belge-only denetim turlarıdır.
+
+### 2026-11-25 — Bölüm 31 denetimi temiz + arena doğma taraması kalıcı teste alındı (tur 442)
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1 maddeleri kapalı; birikimin tamamı insan testi (telefon) verisi
+bekliyor → öncelik (d) tasarım denetimi. Kitap 3'ten Bölüm 31 (indeks 30) seçildi; tur 440'ta düzeltilen çekim aracıyla
+henüz taranmamıştı.
+
+**Bot (oynanış ritmi):** CLEARED @9708, t=86,7 sn, respawns=0, isabet heals=1. Can eğrisi bölüme yayılmış
+(105 → 77 @1837 → 51 @4957 → 33 @6109 orta arena → can → 93 → 26 @8951 final arenası → 86): Bölüm 19/26/29'daki
+"ortası hasarsız bant" deseni burada YOK; geçiş→dövüş→nefes→meydan okuma ritmi DTM'ye uygun. Final arenasında 16 sn
+takılma (x=9289) kitap sonu baskısı için kabul edilebilir.
+
+**Görsel (5 pencereli çekim, Read ile):** x=1800 Kuzguncuk ahşap köşkleri + balkon platform zinciri, kalkanlı muhafız
+telegrafı okunur; x=3290 bugenvilli konak bahçesi, taş istinat duvarı üst rotası (sandık merdiveni, tüfekli düşman);
+x=6100 vitray kapılı konak salonu + ahşap iskele platformları (kiler tezgâhı); x=8900/9300 Boğaz'a açılan köşk salonu,
+kayık, iskele babaları, "KULELİ" çıkış kapısı. Prop'lar (varil, sandık, plank, coin) atlasla aynı mor-gölge/turuncu-ışık
+paletinde; yapıştırılmış öğe, düz renk alan, zeminsiz çıkış yok. Gazelle "konağı tanıyorum" diyaloğu üç karede kaldı —
+ışınlanmanın hızından (gerçek oynanışta ~10 sn arayla), defekt değil. **Yeni birikim maddesi çıkmadı;** zorla madde
+uydurulmadı.
+
+**Değişiklik:** `tests/arena_spawn_clear.{gd,tscn}` (tur 370'te otomasyonun yazıp commit etmediği tarayıcı) bu turda
+koşuldu ve kalıcı korumaya alındı: 36 bölümün bütün arena dalgalarında düşman doğma gövdesi (24×50) katı cisme gömülü
+mü, altında zemin var mı; arena sonu ödülü/eli boş silahı gömülü mü. Sonuç **593 doğma, 0 sorunlu → PASS** (tur 367
+"donmuş düşman" sınıfına karşı regresyon testi).
+
+**Test:** `arena_spawn_clear.tscn` → "ARENA SPAWN CLEAR: PASS" rc=0; bot Bölüm 31 CLEARED; çekim ×5 rc=0 (scratchpad,
+commit edilmedi). Oyun kodu değişmediği için smoke/import ayrıca koşulmadı.
+
+**Sonraki adım:** otonom iş tükendi; kalan birikim insan (telefon) testini bekliyor. Yeni tur yalnız insan verisi
+geldiğinde ya da yeni yol haritası maddesi eklendiğinde anlamlı iş üretir.
