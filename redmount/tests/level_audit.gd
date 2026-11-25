@@ -22,6 +22,9 @@ const ITEM_REACH := 250.0
 var _out: Array = []
 ## Ulaşılamayan platform üstünde kalan ödül sayısı (sıfır değilse çıkış kodu 1).
 var _stranded := 0
+## Çevresel tehlikesi olmayan bölümler (1 tabanlı; özet satırı, çıkış kodunu etkilemez).
+## Bölüm 1 öğretici; 4/5/10 tur 311'de kasıtlı (tüfekli + hareketli platform baskısı).
+var _hazard_free: Array = []
 
 
 func _ready() -> void:
@@ -53,6 +56,7 @@ func _ready() -> void:
 				print("   ENEMY_FELL x=%d y=%d -> y=%d %s" % [start[e].x, start[e].y, (e as Node2D).global_position.y, _name(e)])
 		lvl.queue_free()
 		await get_tree().process_frame
+	print("AUDIT HAZARD-FREE: %s" % str(_hazard_free))
 	print("AUDIT STRANDED ITEMS: %d" % _stranded)
 	get_tree().quit(1 if _stranded > 0 else 0)
 
@@ -61,6 +65,9 @@ func _audit(idx: int, lvl: Node) -> void:
 	var solids: Array = []   # Rect2
 	var ones: Array = []     # [Rect2, node]
 	var hazards := 0
+	## Tür dökümü: hareketli platform tehlike sayılmaz (eski sayaç sayıyordu);
+	## düşen saksı / canlı kablo / kovalamaca Node2D iç sınıfları da tehlikedir.
+	var hz_kinds := {}
 	var bounces: Array = []  # tente sıçrayış yüzeyleri (~345 px fırlatır)
 	var enemies: Array = []
 	var items: Array = []
@@ -68,7 +75,9 @@ func _audit(idx: int, lvl: Node) -> void:
 		if not _active(n):
 			continue
 		if n is AnimatableBody2D:
-			hazards += 1
+			if n is Crusher:
+				hazards += 1
+				hz_kinds["pres"] = int(hz_kinds.get("pres", 0)) + 1
 			# Hareketli platform yolunun tamamı basılabilir alan sayılır.
 			var travel: Vector2 = n.get("travel") if n.get("travel") != null else Vector2.ZERO
 			for r in _rects(n):
@@ -76,6 +85,9 @@ func _audit(idx: int, lvl: Node) -> void:
 			continue
 		if n is StaticBody2D:
 			var sb := n as StaticBody2D
+			if sb is CollapsingPlatform:
+				hazards += 1
+				hz_kinds["çürük"] = int(hz_kinds.get("çürük", 0)) + 1
 			if sb is AwningBounce:
 				for r in _rects(sb):
 					bounces.append(r)
@@ -87,6 +99,14 @@ func _audit(idx: int, lvl: Node) -> void:
 			continue
 		if n.is_in_group(&"hazard"):
 			hazards += 1
+			hz_kinds["diken"] = int(hz_kinds.get("diken", 0)) + 1
+		elif n is FlameVent:
+			hazards += 1
+			hz_kinds["alev"] = int(hz_kinds.get("alev", 0)) + 1
+		elif n is DtmLevel._FallingPot or n is DtmLevel._LiveWire or n is DtmLevel._Chaser:
+			hazards += 1
+			var k := "saksı" if n is DtmLevel._FallingPot else ("kablo" if n is DtmLevel._LiveWire else "kovalama")
+			hz_kinds[k] = int(hz_kinds.get(k, 0)) + 1
 		if n.is_in_group(&"enemy_ai"):
 			enemies.append(n)
 		elif n.is_in_group(&"coin") or (n is Area2D and n.has_method(&"_on_body_entered") and n.get_script() != null \
@@ -158,13 +178,15 @@ func _audit(idx: int, lvl: Node) -> void:
 		longest = maxf(longest, x - prev)
 		prev = x
 	longest = maxf(longest, right - prev)
+	if hazards == 0:
+		_hazard_free.append(idx + 1)
 	var arenas := 0
 	for n in _all(lvl):
 		if n is BattleArena:
 			arenas += 1
-	print("AUDIT %02d %-28s len=%6d enemies=%3d (1/%5d px) arenas=%d hazards=%d longest_empty=%6d ones=%d issues=%d" % [
+	print("AUDIT %02d %-28s len=%6d enemies=%3d (1/%5d px) arenas=%d hazards=%d %s longest_empty=%6d ones=%d issues=%d" % [
 		idx + 1, lvl.get("display_name"), right - left, enemies.size(),
-		int((right - left) / maxf(enemies.size(), 1)), arenas, hazards, longest, ones.size(), issues.size()])
+		int((right - left) / maxf(enemies.size(), 1)), arenas, hazards, str(hz_kinds), longest, ones.size(), issues.size()])
 	for s in issues:
 		print("   ", s)
 

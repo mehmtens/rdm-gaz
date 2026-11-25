@@ -7,6 +7,13 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 447 denetim aracı düzeltmesi) **Bölüm 20 "Samatya Taş Depoları" gerçekte tehlikesiz:** eski `level_audit` sayacı
+  hareketli platformları tehlike sayıp saksı/kablo/kovalama/alev/çürük tahtayı atlıyordu; tur 304–311 kararları "20=1"
+  okumasıyla verilmişti. Düzeltilmiş sayaçla 20'de 0 çevresel tehlike (komşular 19 = 4 alev, 21 = 2 saksı → ardışık şerit
+  yok). Profili tur 311'de kasıtlı bırakılan 4/5/10 ile aynı (2 hareketli platform: kanal paleti + vinç kirişi; 3 tüfekli)
+  → **onaysız eklenmedi.** İnsan testi "Samatya düz/tehlikesiz" derse en temaya uygun aday: deniz kapısı kayık iskelesine
+  (x 3350–3700, y 60) iki telegraflı çürük tahta (Bölüm 29 rıhtım kalıbı) — saksı Kitap 2'de zaten 7 bölümde, tekrarlanmasın.
+
 - (Tur 436 denetimi, Bölüm 2 + 35) **Düşman/kahraman gece okunurluğu:** kilitli arena kalabalıklarında (Bölüm 2 pazar
   x~5200, Bölüm 35 kale kapısı x~9500) kahraman ve düşmanların hepsi koyu silüet; ayrım büyük ölçüde kahramanın beyaz
   ayakkabısı + ince kenar konturuna kalıyor. DTM'de oyuncu paleti belirgin kontrast taşır. **İnsan-verisi gerekli:** test
@@ -11992,3 +11999,32 @@ istinat (coin tahtanın altında okunur) — scratchpad, commit edilmedi.
 **Sonraki adım:** bu tur, eski denetim aracının hâlâ gerçek defekt bulduğunu gösterdi; sonraki denetim turları bot +
 çekime ek olarak `level_audit` (rc) koşmalı. İnsan testinde "arena iskelesine çıkınca dövüş kolaylaşıyor mu" gözlenmeli;
 kolaylaşıyorsa iskele genişliği (200–240 px) daraltılır.
+
+### 2026-11-25 — Denetim aracı: tehlike sayacı yanlış sayıyordu, düzeltildi; Bölüm 20 gerçekte tehlikesiz (tur 447)
+
+**Neden şimdi:** stil listesi, iki yol haritası ve P1'ler kapalı; birikim insan verisi bekliyor → (d) denetim. Tur 446'nın
+önerisiyle `level_audit` 36 bölümde koşuldu; ham çıktıda Bölüm 18'in "hazards=0" görünmesi (tur 306'da iki saksı
+eklenmişti) sayacın kendisinden şüphelendirdi.
+
+**Bulgu (ölçüldü):** sayaç `AnimatableBody2D`'nin hepsini tehlike sayıyordu → **hareketli platformlar** tehlike diye
+geçiyordu; buna karşılık `_FallingPot` (saksı/kiremit), `_LiveWire` (kablo), `_Chaser` (kovalama), `FlameVent` (alev) ve
+`CollapsingPlatform` (çürük tahta) hiç sayılmıyordu. Yalnız diken (`hazard` grubu) ve pres doğru sayılıyordu. Tur
+304–311'in "tehlikesiz bölüm" taraması bu sayaçla yapılmıştı. Düzeltilmiş döküm (tür başına) tehlikesiz bölümleri
+**1, 4, 5, 10, 20** olarak veriyor (eski sayaçla 3, 4, 8, 9, 10, 12, 15, 19, 20... karışık ve yanlış). 1 öğretici, 4/5/10
+tur 311'de kasıtlı; **20 yeni bulgu** — eski sayaç onu iki hareketli platformu yüzünden "tehlikeli" gösteriyordu.
+
+**Karar:** Bölüm 20'ye onaysız tehlike eklenmedi. Gerekçe: tur 311 ölçütü (çevresel tehlike yerine tüfekli + zamanlı
+platform baskısı) 20'de de birebir sağlanıyor (2 hareketli, 3 tüfekli, 3 arena); komşuları (19 alev ×4, 21 saksı ×2)
+ardışık düz şerit oluşturmuyor. Aday düzeltme (kayık iskelesine iki çürük tahta) birikime yazıldı. Diğer 31 bölümün
+tehlike sayısı 1–11 arası; en yoğun 6 (11) ve 8 (11 çürük tahta).
+
+**Değişiklik:** `tests/level_audit.gd` — tehlike sayacı tür bazında (pres/diken/alev/çürük/saksı/kablo/kovalama),
+hareketli platform artık sayılmıyor; satır sonunda tür dökümü; bitişte `AUDIT HAZARD-FREE: [...]` özet satırı (çıkış
+kodunu etkilemez, ödül-mahsur kontrolü aynen). Oyun kodu değişmedi.
+
+**Test:** `level_audit.tscn` rc=0, `AUDIT HAZARD-FREE: [1, 4, 5, 10, 20]`, `STRANDED ITEMS: 0`, SCRIPT ERROR yok.
+Oyun kodu değişmediği için smoke/bot ayrıca koşulmadı (tur 442 emsali).
+
+**Sonraki adım:** otonom iş yine tükendi. Bölüm 20 kararı insan testine bağlı; denetim turları `AUDIT HAZARD-FREE`
+satırını bundan sonra referans almalı (eski günlük kayıtlarındaki "hazards=N" sayıları güvenilir değil).
+
