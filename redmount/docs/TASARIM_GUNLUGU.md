@@ -963,7 +963,7 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
-### 2026-11-25 (435) — Görsel denetim: tur 431–433'te yeniden işlenen Bölüm 5, 7, 9 oyun içinde doğrulandı; hepsi temiz, kod değişikliği yok
+### 2026-11-25 (435) — Görsel denetim: tur 426–433'te yeniden işlenen Bölüm 5, 7, 8, 9, 10 oyun içinde doğrulandı; hepsi temiz, kod değişikliği yok
 
 **Neden şimdi:** stil listesi, YOL_HARITASI ve OYNANIS-KALITE P1 tümü kapalı; birikimdeki her madde "insan testi/onayı
 gelmeden dokunma" ile parked (tur 434 "otonom iş kalmadı" dedi). Son üç tur (431–433) üç bölümün arka planını yeni
@@ -980,10 +980,16 @@ non-gated iş: SANAT KURALI'nın "sahneye ait mi yoksa yapıştırılmış gibi 
   silüeti/günbatımı), dökümhane çayocağı finali. Beş mekân tek atlasın yerini almış; ergimiş metal akıntıları, boru
   tesisatı, sarı-siyah ikaz bandı stil içi; İstanbul silüeti dramatik.
 
-**Sonuç:** üç bölümün post-rework görsel durumu temiz; kod/sanat değişikliği gerekmedi (tur 421/422/423 deseni). Yalnız
-tek düşük öncelikli gözlem birikime eklendi (Bölüm 9 orta kesit açık deniz panoraması). Bir sonraki adım: birikim ve
-yol haritaları tümüyle parked olduğundan, insan testi verisi gelene kadar yeni denetim turları kalan bölümleri (4, 6, 8,
-10, 11 — Kitap 1'de henüz post-rework in-game doğrulanmamış olanlar) aynı yöntemle tarayabilir.
+Denetim aynı turda Bölüm 8 ve 10'a da genişletildi (ikisi de son turlarda yeniden işlenmişti):
+- **Bölüm 8 (Yeraltı Sevkiyatı, tur 429):** kemerli taş yeraltı tüneli, geriye doğru kaçan demiryolu, gaz fenerleri, taş
+  platformlar — atmosferik, stil içi; yeni yeraltı atlası dikişsiz oturuyor.
+- **Bölüm 10 (Kuzey Surları, tur 426):** kırmızı çatılı nöbet kuleli kale duvarları, selviler, günbatımı tepelerde uzak kale
+  kuleleri, fenerler, sancaklar — zengin ve tutarlı; kuzey surları atlası stil içi.
+
+**Sonuç:** son de-dup/atlas kampanyasında yeniden işlenen beş Kitap 1 bölümünün (5, 7, 8, 9, 10) post-rework görsel durumu
+oyun içinde doğrulandı — hepsi temiz, ChatGPT kalitesinde, dikişsiz; kod/sanat değişikliği gerekmedi (tur 421/422/423 deseni).
+Yalnız tek düşük öncelikli gözlem birikime eklendi (Bölüm 9 orta kesit açık deniz panoraması, parked). Bütün listeler ve
+birikim parked/kapalı, denetim yeni actionable iş çıkarmadı → tur 434'teki gibi otonom iş yok; insan testi verisi beklenir.
 
 ### 2026-11-25 (434) — `level05_throne_hall` bekletildi; otonom iş kalmadı, otomasyon durdu
 
