@@ -988,6 +988,26 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-25 (445) — Denetim: Bölüm 13 + 33 temiz (adlı denetimi en eski iki bölüm)
+
+**Neden şimdi:** stil listesi, YOL_HARITASI ve OYNANIS-KALITE P1 kapalı; birikimin tamamı insan (telefon) testi verisi/onayı
+bekliyor → (d) denetimi. Başlıklara göre en uzun süredir denetlenmeyen bölümler: 1 (kullanıcı onaylı örnek, dokunulmaz),
+13 (indeks 12, son tur 397) ve 33 (indeks 32, son tur 398). Bot pencereli 1280×720, 15 sn'de bir kare.
+**Bölüm 13:** CLEARED @9559 / 68,8 sn / 0 dönüş, isabet heals=1. Can eğrisi 115→87 (6300 arenası, 8 sn takılma) → can →
+115 → dip 69 final arenasında; baskı hafif ama bölüme yayılmış (Bölüm 17 "baskı düşük" maddesiyle aynı sınıf, ayrı madde
+açılmadı). Görsel: Haliç rıhtımı (vapur, kayıklar, gün batımı yansıması, ahşap iskele platformu, kalkanlı muhafız telegrafı
+okunur); KAYIKÇI ERZAKI iç mekân ambarı (denk yığınları, asılı fenerler, zincirli palanga platformları, pencereden cami
+silüeti). Film rulosu gizli toplama bildirimi + afişi çakışmadan okunuyor.
+**Bölüm 33:** CLEARED @9757 / 85,5 sn / 0 dönüş. Can 105→63 (2900–3700 sahil kesimi) → can → 93 → dip 47 final arenası
+(10 sn takılma @8156); ritim geçiş→dövüş→nefes→final DTM'ye uygun. Görsel: gece Vaniköy yalıları (begonvil, sarmaşık,
+fenerler, sandık merdiveni üst rotası), kemerli taş iskele hangarı + parmaklıklı kapıdan Boğaz/cami silüeti; DALGA 1/2
+afişi, combo sayacı, Gazelle diyaloğu HUD ile çakışmıyor. Prop'lar atlasla aynı mor-gölge/turuncu-ışık paletinde.
+**Yeni birikim maddesi çıkmadı;** zorla madde uydurulmadı.
+**Test:** iki pencereli bot koşusu CLEARED rc=0 (kareler scratchpad'de, commit edilmedi). Oyun kodu değişmedi;
+smoke/import koşulmadı.
+**Sonraki adım:** otonom iş yok; durma koşulu sağlandı. Anlamlı sonraki iş insan (telefon) testi verisi veya yeni yol
+haritası maddesi.
+
 ### 2026-11-25 (444) — Denetim: Bölüm 25 + 30 temiz (Bölüm 25'teki tek ölüm tekrarda görülmedi)
 
 **Neden şimdi:** stil listesi, YOL_HARITASI ve OYNANIS-KALITE P1 kapalı; birikimin tamamı insan testi verisi/onayı bekliyor →
