@@ -2490,6 +2490,7 @@ class _Chaser extends Node2D:
 	var _spr: Sprite2D
 
 	func _ready() -> void:
+		add_to_group(&"chase")  # ekran görüntüsü aracı kovalamacayı kaldırabilsin (tur 440)
 		z_index = 3
 		_spr = Sprite2D.new()
 		_spr.texture = BUS

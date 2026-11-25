@@ -11821,3 +11821,30 @@ yük vagonu platformu, lokomotifli peron, Galata rıhtımı vinci, GALATA kapıs
 **Değişiklik:** yalnız belge. **Test:** kod değişmediği için smoke/import koşulmadı; bot ×2 ve çekim ×11 rc=0.
 
 **Sonraki adım:** otonom iş kalmadı; birikim insan testi (telefon) verisi bekliyor.
+
+### 2026-11-25 — Denetim aracı düzeltildi: kovalamaca ekran çekimlerini kirletiyordu (tur 440)
+
+**Neden şimdi:** otonom iş haritada bitmiş, birikim insan testi bekliyor → öncelik (d) tasarım denetimi. Bölüm 13
+(Kitap 2 açılışı) seçildi; `capture_level.tscn` ile beş noktadan 1280×720 pencereli çekim alındı (x=1500/23000/42600/
+65200/83400). Sonuç: giriş karesi (kale çıkışı, Boğaz, selvi, ChatGPT atlası) DTM kalitesinde temiz; ama diğer **dört**
+kare aynı han avlusu + minibüsü ve üst üste binmiş "MİNİBÜS! KOŞ!" plakası ile Gazelle diyaloğunu gösteriyordu —
+bölüm boyu farklı olması gereken arka planlar tek sahneye donmuş görünüyordu.
+
+**Teşhis:** gerçek oyunda sorun yok. `_Chaser` (minibüs/polis set-piece, `_chase`, Bölüm 13 x=1560–3350 ve Bölüm 29)
+oyuncunun konumundan bağımsız, `p.x >= x0` olunca tetiklenir ve HUD `show_place` plakasını (~6 sn) gösterir. Çekim aracı
+oyuncuyu x=23000+'e ışınlayınca kovalamaca yine doğuyor, araç + plaka kareyi örtüyor; `capture_level.gd` yalnız
+`battle_arena` grubunu temizliyordu, kovalamacayı değil. Açılış Gazelle sahnesi (x≈0) ile kovalamaca (x=1560) gerçek
+oynanışta ardışık; yalnız ışınlanmış çekimde çakışıyorlar. Yani görsel defekt yok, **denetim aracı defekti** vardı.
+
+**Değişiklik:** `_Chaser._ready()` artık `&"chase"` grubuna girer; `capture_level.gd` arena temizliğinden sonra
+`chase` ve `place_banner` gruplarını da `queue_free` eder. Yeniden çekimde dört nokta artık ayrı, zengin sahneler
+gösteriyor: x=23000 GÜMRÜK kapısı (ahşap kapı, kırmızı kemer, varil/sandık), x=65200 kubbeli şadırvanlı han avlusu
+(baskıhane çarkı, çini, saksılar) — hepsi atlasla aynı palet/ışıkta, yapıştırılmış öğe yok. Bundan sonra Bölüm 13/29
+gibi kovalamaca bölümlerinin denetim çekimleri güvenilir.
+
+**Test:** `--import` rc=0 (SCRIPT ERROR yok); `dtm_gaps` PASS; `campaign_smoke` rc=0 (36 sahne, çıkış sızıntı uyarıları
+normal); bot Bölüm 13 → CLEARED @9556 t=66,8s respawns=0 (kovalamaca gerçek oynanışta hâlâ çalışıyor). Yeniden çekim
+×3 temiz (scratchpad, commit edilmedi).
+
+**Sonraki adım:** denetim aracı güvenilir; sıradaki turda başka bir kovalamaca/geç bölüm (29, ya da Kitap 3) temiz
+çekimle yeniden denetlenebilir. Oynanış birikimi hâlâ insan testi (telefon) verisi bekliyor.

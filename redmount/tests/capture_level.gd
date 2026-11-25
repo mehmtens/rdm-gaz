@@ -27,6 +27,12 @@ func _ready() -> void:
 	var player: Node2D = main.get_node(^"Redmount")
 	for a in get_tree().get_nodes_in_group(&"battle_arena"):
 		a.queue_free()
+	# Kovalamaca (minibüs/polis) ışınlanan oyuncunun konumundan bağımsız tetiklenir ve
+	# üst bantta "KOŞ!" plakası + arac sahneyi örtüyordu (tur 440). Çekimde kaldır.
+	for c in get_tree().get_nodes_in_group(&"chase"):
+		c.queue_free()
+	for b in get_tree().get_nodes_in_group(&"place_banner"):
+		b.queue_free()
 	# İlk nokta ısınma çekimi: açılış başlık kartı ve ilk telsiz ilk kareyi örtüyordu
 	# (Tur 298/299). Kaydedilmeyen ısınma noktası onları tüketir.
 	var specs := Array(OS.get_environment("REDMOUNT_SHOTS").split(";", false))
