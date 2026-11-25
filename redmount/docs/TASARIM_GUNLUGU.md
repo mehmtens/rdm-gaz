@@ -52,7 +52,7 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 - (Tur 421 denetimi, Bölüm 26 (indeks 25) ve 29 (indeks 28)) **Orta kesit hasarsız bant:** Bölüm 29'da bot x~4700–8300
   (≈3600 px, 16 sn) hiç hasar almıyor, baskı 8450 arenasında toplanıyor (115→45, 21 sn takılma); Bölüm 26'da x~5900–8000
-  aynı. Bölüm 17/19/23/33 notlarıyla aynı "arka/ön yüklü" desen (Bölüm 19 tur 422: bot bütün bölüm 115'te, tek düşüş
+  aynı; Bölüm 34'te (tur 443) bot t=0–48 sn boyunca 109 canda, tek düşüş final arenasında (109→64). Bölüm 17/19/23/33 notlarıyla aynı "arka/ön yüklü" desen (Bölüm 19 tur 422: bot bütün bölüm 115'te, tek düşüş
   final arenasında 115→62). İnsan testi "ortası boş" derse bölüm başına tek elle konmuş düşman çifti düşünülsün; veri
   gelmeden dokunma.
 
@@ -987,6 +987,21 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-25 (443) — Denetim: Bölüm 22 + 34 temiz (en uzun süredir denetlenmeyen iki bölüm)
+
+**Neden şimdi:** stil listesi, YOL_HARITASI ve OYNANIS-KALITE P1 kapalı; birikimin tamamı insan (telefon) testi verisi
+bekliyor → (d) denetimi. Günlükte son adlı denetimi en eski iki bölüm seçildi: Bölüm 22 (indeks 21, son tur 273) ve
+Bölüm 34 (indeks 33, son tur 296). Bot pencereli, 1280×720, 15 sn'de bir kare (6 + 5 kare).
+**Bölüm 22:** CLEARED @10109, 77,2 sn, 0 dönüş, heals 1. Can eğrisi yayılmış (115→105→95→79, final 79→89); takılma
+18s@9961 final kilitli arenası. Görsel: Aksaray pompa istasyonu cephesi (çeşme madalyonu, kemer kapı), "SU ERZAKÇISI"
+dükkânı + vana/borulu çini duvar, SARAÇHANE kapısı + su bendi şelalesi — ChatGPT paletinde, dikişsiz, yapıştırılmış öğe yok.
+**Bölüm 34:** CLEARED @9908, 63,9 sn, 0 dönüş, heals 0. Görsel: çiçekli bahçe sokağı (bugenvil, portakal ağacı, fenerler),
+rıhtım çatısı + gece Boğaz yansıması, verici vinci + "ANADOLU" kapısı — stil içi, temiz. **Tek gözlem:** bot t=0–48 sn
+(x~80→8400) 109 canda; baskının tamamı final arenasında (109→64). Bu, birikimdeki "orta kesit hasarsız bant" deseninin aynısı;
+yeni madde açılmadı, mevcut maddeye Bölüm 34 eklendi. İnsan verisi gelmeden düşman eklenmez (bot ustalığı insanı temsil etmez).
+**Test:** iki bot koşusu CLEARED rc=0. Oyun kodu değişmedi; smoke/import ayrıca koşulmadı.
+**Sonraki adım:** otonom iş yok; durma koşulu sağlandı. Sıradaki anlamlı iş insan testi verisi veya yeni yol haritası maddesi.
 
 ### 2026-11-25 (439) — Formül iskele sıraları 8 bölümde elle diziye çevrildi (4, 7, 11, 17, 18, 19, 22, 23)
 
