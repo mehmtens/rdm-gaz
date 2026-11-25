@@ -99,10 +99,11 @@ func _build() -> void:
 	_tower(5950, -300)
 	_enemy(RIFLE, 5950, -300)
 	# Kuleler arası tahta köprü (tek yön); altta kuru hendek.
-	for k in 5:
-		_scaffold(6130.0 + k * 170.0, -300, 150)
-		_pickup(COIN, 6130.0 + k * 170.0, -350)
-	_pickup(ARMOR, 6470, -395)
+	## Tur 438: eş tahta sırası yerine elle dizi (kuleler arası köprü ortada sarkar); giriş tahtası yerinde, boşluk ≤60, basamak ≤70 px.
+	for p in [[6130.0, -300.0, 150], [6300.0, -287.0, 150], [6470.0, -278.0, 150], [6640.0, -287.0, 150], [6810.0, -300.0, 150]]:
+		_scaffold(p[0], p[1], p[2])
+		_pickup(COIN, p[0], p[1] - 50.0)
+	_pickup(ARMOR, 6470, -373)
 	_terrain(6200, 6600, 110)
 	_terrain(6550, 6600, 55)
 	_terrain(6600, 9600, 0)

@@ -109,11 +109,12 @@ func _build() -> void:
 	_flame(7150, 0.9)
 	_enemy(KNIFE, 7400, 0)
 	_enemy(BRUISER, 7600, 0)
-	for k in 5:
-		_scaffold(6560.0 + k * 200.0, -260.0, 150)
-		_pickup(COIN, 6560.0 + k * 200.0, -310.0)
+	## Tur 438: eş tahta sırası yerine elle dizi (pres kirişinin üstünden kavis çizen podyum); giriş tahtası yerinde, boşluk ≤60, basamak ≤70 px.
+	for p in [[6560.0, -260.0, 150], [6760.0, -310.0, 130], [6960.0, -335.0, 160], [7160.0, -290.0, 140], [7360.0, -245.0, 150]]:
+		_scaffold(p[0], p[1], p[2])
+		_pickup(COIN, p[0], p[1] - 50.0)
 	_crates(6400, 1, 1)
-	_pickup(ARMOR, 7360, -305)
+	_pickup(ARMOR, 7360, -290)
 	_prop("varil", 7800)
 
 	# --- 6. Verici: kır, yayını kes ------------------------------------------------

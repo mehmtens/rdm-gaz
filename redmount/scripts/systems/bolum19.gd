@@ -80,10 +80,11 @@ func _build() -> void:
 	add_child(aw)
 	# Soyunmalık: hamamın ahşap galerili büyük salonu.
 	_interior(5000, 5700, -400, [], 1)
-	for k in 4:
-		_scaffold(5080.0 + k * 160.0, -270.0, 140)
-		_pickup(COIN, 5080.0 + k * 160.0, -320.0)
-	_pickup(RIFLE_PICKUP, 5560, -315)
+	## Tur 438: eş tahta sırası yerine elle dizi (soyunmalık galerisi, tavan -400); giriş tahtası yerinde, boşluk ≤60, basamak ≤70 px.
+	for p in [[5080.0, -270.0, 140], [5240.0, -230.0, 120], [5400.0, -300.0, 140], [5560.0, -255.0, 130]]:
+		_scaffold(p[0], p[1], p[2])
+		_pickup(COIN, p[0], p[1] - 50.0)
+	_pickup(RIFLE_PICKUP, 5560, -300)
 	var soy: BattleArena = ARENA.instantiate()
 	soy.position = Vector2(5350, 0)
 	soy.gate_left_x = 5050

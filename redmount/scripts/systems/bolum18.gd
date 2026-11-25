@@ -112,10 +112,11 @@ func _build() -> void:
 	aw2.height = 60
 	aw2.position = Vector2(6320, 0)
 	add_child(aw2)
-	for k in 4:
-		_scaffold(6500.0 + k * 170.0, -260.0, 150)
-		_pickup(COIN, 6500.0 + k * 170.0, -310.0)
-	_pickup(ARMOR, 7010, -305)
+	## Tur 438: eş tahta sırası yerine elle dizi (tente sıçrayışından tırmanan çatı saçağı); giriş tahtası yerinde, boşluk ≤60, basamak ≤70 px.
+	for p in [[6500.0, -260.0, 150], [6670.0, -300.0, 130], [6840.0, -325.0, 150], [7010.0, -270.0, 140]]:
+		_scaffold(p[0], p[1], p[2])
+		_pickup(COIN, p[0], p[1] - 50.0)
+	_pickup(ARMOR, 7010, -315)
 	_enemy(ASSASSIN, 6700, 0)
 	_prop("vazo", 6900)
 

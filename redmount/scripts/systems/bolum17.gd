@@ -103,12 +103,14 @@ func _build() -> void:
 	_story(6350, _sahne_tasnif)
 	# Tasnif salonu: posta binasının içi; galeriler tavana yakın.
 	_interior(6420, 7300, -345, [], 0)
-	for k in 4:
-		_scaffold(6600.0 + k * 170.0, -200.0, 150)
-		_pickup(COIN, 6600.0 + k * 170.0, -250.0)
+	## Tur 438: eş tahta sırası yerine elle dizi (tavan -345 altında galeri, inişli çıkışlı); giriş tahtası yerinde, boşluk ≤60, basamak ≤70 px.
+	for p in [[6600.0, -200.0, 150], [6770.0, -235.0, 140], [6940.0, -205.0, 130], [7110.0, -175.0, 150]]:
+		_scaffold(p[0], p[1], p[2])
+		_pickup(COIN, p[0], p[1] - 50.0)
+
 	_crates(6450, 1, 1)
 	_scaffold(6520, -110, 90)
-	_pickup(ARMOR, 7110, -245)
+	_pickup(ARMOR, 7110, -220)
 	_prop("sandik", 6800, 0, AMMO)
 	_enemy(ASSASSIN, 7000, 0)
 

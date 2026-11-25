@@ -94,9 +94,10 @@ func _build() -> void:
 	_press(7050, 0.0, 3.0)
 	_coin_line(6420, 6, 105, -60)
 	_crates(6300, 1, 1)
-	for k in 4:
-		_scaffold(6450.0 + k * 175.0, -300.0, 150)
-	_pickup(ARMOR, 6975, -345)
+	## Tur 438: eş tahta sırası yerine elle dizi (pres kollarının arasından dalgalanan bakım yolu); giriş tahtası yerinde, boşluk ≤60, basamak ≤70 px.
+	for p in [[6450.0, -300.0, 150], [6625.0, -325.0, 130], [6800.0, -305.0, 150], [6975.0, -330.0, 140]]:
+		_scaffold(p[0], p[1], p[2])
+	_pickup(ARMOR, 6975, -375)
 	_enemy(ASSASSIN, 7250, 0)
 
 	# --- 6. Bakım şaftı: yakın/menzilli arena; gramofon -------------------------

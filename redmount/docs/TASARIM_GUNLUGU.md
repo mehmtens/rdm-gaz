@@ -7,9 +7,6 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
-- (Tur 438) **Formül platform sıraları taraması:** `scripts/systems/*.gd` içinde döngüyle (eşit aralık + aynı y) dizilen
-  iskele/balkon sıralarını bul; görünür bir "tekdüze sıra" oluşturanları (≥3 eş tahta) Bölüm 15 çarkı gibi elle yaya/basamağa çevir.
-
 - (Tur 436 denetimi, Bölüm 2 + 35) **Düşman/kahraman gece okunurluğu:** kilitli arena kalabalıklarında (Bölüm 2 pazar
   x~5200, Bölüm 35 kale kapısı x~9500) kahraman ve düşmanların hepsi koyu silüet; ayrım büyük ölçüde kahramanın beyaz
   ayakkabısı + ince kenar konturuna kalıyor. DTM'de oyuncu paleti belirgin kontrast taşır. **İnsan-verisi gerekli:** test
@@ -990,6 +987,21 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-25 (439) — Formül iskele sıraları 8 bölümde elle diziye çevrildi (4, 7, 11, 17, 18, 19, 22, 23)
+
+**Neden şimdi:** tur 438'in birikime yazdığı tarama. `for k in N` + sabit y + eşit aralıklı `_scaffold` sıraları arandı;
+düz (aynı yükseklik) olan 8 sıra bulundu — hepsi "üst yol + zırh/can/tüfek ödülü" kalıbının aynısı, bölümler arasında
+tekrar eden şablon gibi okunuyordu. Zigzag (`k % 2`) ve dikey merdiven döngüleri bilerek bırakıldı (zaten değişken).
+**Değişiklik (bölüme özgü fikir):** 4 — kuleler arası köprü ortada sarkar (-300→-278→-300); 7 — pres kirişi üstünde kavis
+podyum (tepe -335); 11 — tente sıçrayışından iniş, çukur, sondaki can için tırmanış; 17 — tasnif salonu galerisi tavan
+(-345) altında inişli çıkışlı; 18 — tente sıçrayışından tırmanan saçak, zırh tepede; 19 — soyunmalık galerisi (tavan -400);
+22 — pres kolları arasında dalgalanan bakım yolu; 23 — ana vanaya inen basamaklar. Kurallar: giriş tahtası yerinde (erişim
+değişmez), boşluk ≤60 px, basamak ≤70 px yükseliş (zıplama ~125); ödül hâlâ bir tahtanın üstünde, sikke sayıları aynı.
+**Test:** `--import` SCRIPT ERROR 0; DTM GAPS PASS; campaign_smoke çıkış 0; bot CLEARED: B4 110,0 sn / 0, B7 99,7 / 0,
+B11 96,5 / 0, B17 78,9 / 0, B18 93,3 / 0, B19 90,9 / 0, B22 74,0 / 0, B23 100,2 / 1 (final arenası ~9900, değişen kesimden
+uzak) → tekrar 91,8 / 0. Sekiz kesim pencereli çekildi: basamaklar okunur, taşma/çakışma yok, sahneye ait.
+**Sonraki adım:** otonom liste yine boş; zigzag sıralar (3, 6, 17, 18, 21, 24, 25, 31) değişken olduğundan dokunulmadı.
 
 ### 2026-11-25 (438) — Denetim Bölüm 28 + 15 → Bölüm 15 su çarkı üst yolu formül sıradan elle yaya çevrildi
 

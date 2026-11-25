@@ -92,12 +92,14 @@ func _build() -> void:
 	_story(6280, _sahne_vana)
 	# Ana vana salonu: kubbeli makine dairesi; vana salonun sonunda.
 	_interior(6300, 7250, -345, [], 0)
-	for k in 3:
-		_scaffold(6450.0 + k * 175.0, -250.0, 150)
-		_pickup(COIN, 6450.0 + k * 175.0, -300.0)
+	## Tur 438: eş tahta sırası yerine elle dizi (vanaya doğru inen basamaklar, tavan -345); giriş tahtası yerinde, boşluk ≤60, basamak ≤70 px.
+	for p in [[6450.0, -250.0, 150], [6625.0, -225.0, 120], [6800.0, -195.0, 140]]:
+		_scaffold(p[0], p[1], p[2])
+		_pickup(COIN, p[0], p[1] - 50.0)
+
 	_crates(6330, 1, 1)
 	_scaffold(6390, -150, 80)
-	_pickup(ARMOR, 6800, -295)
+	_pickup(ARMOR, 6800, -240)
 	_enemy(ELITE, 6700, 0)
 	var vana := BREAKABLE_WALL.instantiate()
 	vana.set("hits_to_break", 6)
