@@ -7,6 +7,13 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 449 denetimi, Bölüm 10 (indeks 9)) **Sur Ağası finali tutarlı tek bot ölümü:** üç koşunun üçünde de CLEARED ama
+  final patron arenasında (x~8332) 1 ölüm + 30–35 sn takılma; bot bölümün ilk 60 sn'sini (x~80→7222) hasarsız geçiyor, bütün
+  gerilim Sur Ağası'nda toplanıyor ("arka yüklü" desenin en keskin örneği). Bu Kitap 1 finali patronu olduğundan kasıtlı zorluk
+  olabilir; bot ustalığı insanı temsil etmez. **İnsan-verisi gated:** test "Sur Ağası'nda duvara tosladım / çok öldüm" derse en
+  ucuz çözüm önce patron öncesi kontrol noktasına (x~7900 civarı) gevşek HEALTH, dalgalara/patron canına dokunmadan; "ortası
+  boş" derse orta kesite tek elle konmuş düşman çifti. Veri gelmeden dokunma.
+
 - (Tur 447 denetim aracı düzeltmesi) **Bölüm 20 "Samatya Taş Depoları" gerçekte tehlikesiz:** eski `level_audit` sayacı
   hareketli platformları tehlike sayıp saksı/kablo/kovalama/alev/çürük tahtayı atlıyordu; tur 304–311 kararları "20=1"
   okumasıyla verilmişti. Düzeltilmiş sayaçla 20'de 0 çevresel tehlike (komşular 19 = 4 alev, 21 = 2 saksı → ardışık şerit
@@ -994,6 +1001,28 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-26 (449) — Denetim: Bölüm 3 + 10 (adlı denetimi en eski iki bölüm) — Bölüm 3 temiz, Bölüm 10 Sur Ağası finali tutarlı tek ölüm (bilinen baskı zirvesi, parked)
+
+**Neden şimdi:** stil listesi, YOL_HARITASI ve OYNANIS-KALITE P1 kapalı; birikimin tamamı insan (telefon) testi verisi/onayı
+bekliyor → (d) denetimi. Adlı denetim başlıklarına göre en uzun süredir denetlenmeyen iki bölüm: Bölüm 3 (indeks 2, son tur 410)
+ve Bölüm 10 (indeks 9, son tur 408/412). Bot pencereli 1280×720, 12 sn'de bir kare.
+**Bölüm 3:** CLEARED @9006 / 84,0 sn / 0 dönüş, takılma 18s@5150 (Pusucu Kemal kilitli arenası). Can eğrisi ön/orta kesit
+hasarsız (x~80→4795 109'da), baskı final yarısında (6227→39 can, ölüm yok) — "arka yüklü" deseniyle aynı sınıf, ayrı madde
+açılmadı. Görsel: Balat avlusu (kemerli revaklar, çeşme, sarmaşıklı cumba, tenteli sahaf, bayrak) + fener/bugenvil; balık
+pazarı iskelesi (demirli kayıklar, direk/halat, asılı fener, Boğaz alacakaranlığı); DALGA 3/3 · 2 DÜŞMAN sayacı, EFSANE x10
+combo, Film Rulosu toast çakışmadan okunuyor. Prop'lar ChatGPT atlas paletinde, dikişsiz, yapıştırılmış öğe yok.
+**Bölüm 10 (Sur Ağası, Kitap 1 finali):** üç koşu (1 pencereli + 2 başsız) üçünde de CLEARED @~9206 / 114–123 sn / **1 ölüm**,
+takılma **30–35s@8332** (Sur Ağası patron arenası, 45 sn eşiğinin altında). boss_evades 4–8/0 (patron savunma mekaniği çalışıyor).
+Ölüm ve takılma güvenilir şekilde aynı yerde: kasıtlı Kitap 1 finali patronunun baskı zirvesi; bot t=0–60 sn (x~80→7222)
+hasarsız, bütün gerilim final patronunda toplanıyor. Görsel: dağ kalesi suru (burçlar, meşaleler, sancaklar, selvi, projektör
+huzmesi, "level04_mountain_fortress" atlası) — stil içi, zengin, dikişsiz; SUR AĞASI kırmızı pelerinli patron, DALGA 2/3,
+combo HUD çakışmasız. **İnsan verisi gerekli:** bot tutarlı 1 ölüm ≠ insan zorluğu; düşman/can düzenine dokunulmadı, birikime
+anchor madde eklendi.
+**Test:** dört bot koşusu (B3 ×1 pencereli, B10 ×1 pencereli + ×2 başsız) CLEARED rc=0; kareler scratchpad'de, commit edilmedi.
+Oyun kodu değişmedi; smoke/import koşulmadı (kod değişmediğinden).
+**Sonraki adım:** otonom iş yok; durma koşulu sağlandı. Sıradaki anlamlı iş insan (telefon) testi verisi veya yeni yol
+haritası maddesi.
 
 ### 2026-11-25 (445) — Denetim: Bölüm 13 + 33 temiz (adlı denetimi en eski iki bölüm)
 
