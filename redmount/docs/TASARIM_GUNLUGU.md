@@ -7,6 +7,31 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 436 denetimi, Bölüm 2 + 35) **Düşman/kahraman gece okunurluğu:** kilitli arena kalabalıklarında (Bölüm 2 pazar
+  x~5200, Bölüm 35 kale kapısı x~9500) kahraman ve düşmanların hepsi koyu silüet; ayrım büyük ölçüde kahramanın beyaz
+  ayakkabısı + ince kenar konturuna kalıyor. DTM'de oyuncu paleti belirgin kontrast taşır. **İnsan-verisi gerekli:** test
+  "kalabalıkta kimi vuruyorum belli değil" demeden kahraman/düşman paletine dokunulmaz (onaylı sanat); veri gelirse en ucuz
+  çözüm önce düşman kenar konturu rengini kahramanınkinden ayırmak (düşman soğuk mavi-mor, kahraman sıcak altın).
+
+- (Tur 436 denetimi) **"Günün dalgası/Survival" tanıtım toast'ı süresi (düşük öncelik):** mekân/dalga tanıtımı 5,5 sn kalıyor;
+  survival'da dalga arası sık geldiğinden bu uzun gelebilir. Tur 436'da `show_place`'e `hold` parametresi eklendi — survival
+  çağrılarını (`survival.gd` 157/294) 3,5–4 sn'ye indirmek tek satırlık, ama DTM survival ritmini insan testiyle görmeden
+  ayarlamak erken; veri gelince ölç.
+
+- (Tur 436 denetimi, genel kod sağlığı) **Ölü prototip sanat-kuralı ihlali:** `scenes/levels/Level01.tscn` (eski `level.gd`
+  mimarisi, kampanyada değil — kampanya `Bolum01.tscn` kullanıyor) `level01_dressing.gd` (24) + `level01_long_route.gd` (77)
+  = 101 `draw_rect`/`draw_colored_polygon` ile geometrik prop çiziyor (sanat kuralı "kodla geometrik çizim yasak" ihlali).
+  Oyunda görünmediği için düşük risk, AMA kullanıcı eski varlıkları kasıtlı tutuyor (backgrounds notu) → **onaysız silinmez**;
+  kullanıcı "eski Level01 prototipini at" derse Level01.tscn + iki script + yetim `tests/level01_play` kaldırılır.
+
+- (Tur 436 denetimi, Bölüm 2/35) **Açılış karartması bot karesinde ~0 sn tam siyah:** t0000 karesi neredeyse tamamen siyah
+  (HUD zor okunuyor). Bu büyük olasılıkla sahne-geçişi fade-in'in bot t=0'da yakalanması; gerçek bir "ölü siyah" gecikmesi
+  mi yoksa normal ~0,3 sn fade mi, `MainMenu`/geçiş fade süresine bakılıp ölçülmeli. Ölç: fade >0,8 sn ise DTM tarzı keskin
+  girişe (~0,35 sn) indir; değilse kapat. Düşük maliyet, önce ölçüm gerek.
+
+- (Tur 436 denetimi) **Gizli alan toast'ı artık 2,6 sn (uygulandı):** bu turda yapıldı; insan testi "toplama bildirimini
+  göremedim/çok kısa" derse 2,6 → 3,2 sn aralığında ayarlanır (tek sayı, `main.gd` `_on_secret_found`).
+
 - (Tur 435 görsel denetimi, Bölüm 9 (indeks 8)) **Orta kesit (hücre 1–2, x~1620–4500) tematik:** bölüm "dağ geçidini kapatan
   zırhlı üs" diye kurgulanmış ve giriş panoraması (`level04_mountain_fortress`) doğru şekilde karlı dağ kalesi gösteriyor; ama
   köprü/nehir yatağı kesimi `level04_fortress_atlas` hücre 1–2 ile açık deniz Boğaz panoraması (yelkenli gemiler + şehir
@@ -963,7 +988,38 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
-### 2026-11-25 (435) — Görsel denetim: tur 426–433'te yeniden işlenen Bölüm 5, 7, 8, 9, 10 oyun içinde doğrulandı; hepsi temiz, kod değişikliği yok
+### 2026-11-25 (436) — Tasarım denetimi (Bölüm 2 + 35, DTM karşılaştırması) + "bulundu" toast'ı DTM tarzı kısaltıldı (5,5 → 2,6 sn)
+
+**Neden şimdi:** stil listesi (33/33), YOL_HARITASI ve OYNANIS-KALITE P1 tümü kapalı; birikimdeki her madde "insan testi/onayı
+gelmeden dokunma" ile parked. Önceliğe göre (d) tasarım denetimi: iki bölümü botla pencereli oynatıp (1280×720, `bolum_play`
+dahili `REDMOUNT_SNAP_DIR`) 4–7 kare çekip DTM'ye göre kıyasladım, actionable + güvenli + insan-verisi-gerektirmeyen tek iş
+çıkarıp uyguladım.
+
+**Denetim bulgusu:** **Bölüm 2 (Balat arka sokakları)** ve **Bölüm 35 (Anadoluhisarı Kale İçi)** görsel olarak tamamen temiz —
+zengin ChatGPT-tarzı arka planlar (Balat damları/Boğaz, minibüs garajı, kale duvarları + sarmaşık + Boğaz yansıması), mor-gölge/
+altın-ışık rampası, kilitli arena kafesleri perçinli ve stil içi; kahraman gece konturu okunuyor. İkisi de CLEARED 0 ölüm (74 sn /
+104 sn). Takılmalar (11s@5269, 15s@7093) kilitli arena dövüş süresi, navigasyon hatası değil. "GÖKSU" tabelası doğru (düşük
+çözünürlükte "BÖKSU" sanmıştım). Yani iki bölümde shipped görsel defekt yok.
+
+**Uygulanan iş (güvenli, no-human-data, DTM uyumlu his):** `_PlaceBanner` (`hud.gd`) hem mekân/dalga tanıtımı hem dövüş sırasında
+tetiklenen "bulundu" toast'ları için kullanılıyordu, ikisi de sabit `HOLD = 5,5 sn`. DTM'de toplama/ipucu bildirimi ~2 sn'lik
+keskin bir pop; gizli alan ("FİLM RULOSU n/3 · +10 coin · Kanıt Arşivine eklendi", 3 satır) ve ipucu toast'ı aksiyon ortasında
+üst-merkezde 5 sn tam opaklıkta durup dövüş görüşünü kapatıyordu. `_PlaceBanner`'a geriye uyumlu `_hold` alanı + `present(...,hold)`
+ve `show_place(...,hold := HOLD)` eklendi; **yalnız iki mid-gameplay "bulundu" çağrısı 2,6 sn**'ye indirildi (`main.gd`
+`_on_secret_found`, `dtm_level.gd` İPUCU BULUNDU). Mekân tanıtımı (`dtm_level` 2557), survival/günün dalgası (`survival` 157/294)
+5,5 sn'de kaldı — tanıtımın yavaşlığı doğru. Fade formülü birebir korundu (`_hold` yerine konuldu): 2,6 sn'de ~1,8 sn tam + 0,5 sn
+sönüş. Kayıt formatı ve sanat dokunulmadı.
+
+**Test:** `--import` temiz (0 script error); `dtm_gaps` PASS; 36 sahne smoke exit 0; bot CLEARED 0 respawn — Bölüm 1 (76,7s),
+Bölüm 3 (72,2s; gizli toast tetiklenir), Bölüm 13 (69,7s), Bölüm 25 (77,4s). hud.gd ortak sistem olduğundan 0/12/24 + 2 koşuldu.
+Süre değişikliği statik karede görünmez; render/layout yolu değişmedi, ayrı görsel çekim gereksiz.
+
+**Birikime eklenen 5 somut aday** (etki/maliyet sırası, denetimden): aşağıdaki birikim listesinin başına yazıldı.
+
+**Sonraki önerilen adım:** birikimin yeni üstündeki "düşman gece okunurluğu" maddesi — ama kahraman/düşman paletine dokunmak
+onaylı sanatı etkiler, insan testi "kalabalıkta kimi vuruyorum belli değil" demeden yapılmamalı; o gelene dek denetim sürdürülür.
+
+
 
 **Neden şimdi:** stil listesi, YOL_HARITASI ve OYNANIS-KALITE P1 tümü kapalı; birikimdeki her madde "insan testi/onayı
 gelmeden dokunma" ile parked (tur 434 "otonom iş kalmadı" dedi). Son üç tur (431–433) üç bölümün arka planını yeni

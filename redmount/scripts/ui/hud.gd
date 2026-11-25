@@ -545,13 +545,14 @@ func set_stage(current: int, total: int, display_name: String) -> void:
 
 
 ## Mekâna varış pankartı: piksel tabela + hikâyedeki yerini anlatan tek cümle.
-func show_place(title: String, story: String, accent: Color = Color("ffc857")) -> void:
+func show_place(title: String, story: String, accent: Color = Color("ffc857"),
+		hold: float = _PlaceBanner.HOLD) -> void:
 	if _place == null:
 		_place = _PlaceBanner.new()
 		add_child(_place)
 		_top_band[_place] = Vector2(_place.offset_top, _place.offset_bottom)
 		_top_inset = -1.0  # yeni öğe de hemen yerini alsın
-	_place.present(title, story, accent)
+	_place.present(title, story, accent, hold)
 
 
 ## Görev tamamlandı tabelası (Achievements): yıldız + ad + ödül; arka arkaya gelenler sıraya
@@ -938,6 +939,9 @@ class _PlaceBanner extends Control:
 	var _accent := Color("ffc857")
 	var _story: Label
 	var _t := 0.0
+	## Mekân/dalga tanıtımı 5.5 sn kalır; dövüş sırasında tetiklenen "bulundu"
+	## toast'ları (gizli alan, ipucu) daha kısa süre verilerek aksiyonu kapatmaz.
+	var _hold := HOLD
 
 	func _init() -> void:
 		set_anchors_preset(Control.PRESET_CENTER_TOP)
@@ -965,9 +969,10 @@ class _PlaceBanner extends Control:
 		_story.add_theme_stylebox_override(&"normal", PixelUI.box("panel_hud", 18))
 		add_child(_story)
 
-	func present(title: String, story: String, accent: Color) -> void:
+	func present(title: String, story: String, accent: Color, hold: float = HOLD) -> void:
 		_title = title
 		_accent = accent
+		_hold = hold
 		_story.text = story
 		_fit_story()
 		# PixelUIBoot piksel yazı tipini bir kare sonra (deferred) uygular: ilk duyuruda
@@ -1005,8 +1010,8 @@ class _PlaceBanner extends Control:
 			modulate.a = 0.0
 			return
 		_t += delta
-		modulate.a = clampf(minf(_t * 3.0, (HOLD - _t) * 2.0), 0.0, 1.0)
-		if _t >= HOLD:
+		modulate.a = clampf(minf(_t * 3.0, (_hold - _t) * 2.0), 0.0, 1.0)
+		if _t >= _hold:
 			visible = false
 
 	## Ekrandaki duyurunun kapladığı alan (başlık + plaka), görünmüyorsa boş Rect2.

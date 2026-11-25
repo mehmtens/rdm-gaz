@@ -534,10 +534,12 @@ func _on_secret_found() -> void:
 	_secrets_found += 1
 	Sfx.play(&"checkpoint", 1.3)
 	GameState.add_coins(10)
+	## Gizli alan toast'ı dövüş/parkur sırasında çıkar: DTM tarzı kısa pop (2.6 sn),
+	## mekân tanıtımı gibi 5.5 sn ekranı kapatmasın.
 	_hud.show_place("FİLM RULOSU %d / %d" % [_secrets_found, _secrets_total],
 		"Gazelle'in kanıt fotoğrafı bulundu  ·  +10 coin
 Kanıt Arşivi'ne eklendi",
-		Color("ffd34e"))
+		Color("ffd34e"), 2.6)
 
 
 func _respawn_player() -> void:
