@@ -7,6 +7,14 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 435 görsel denetimi, Bölüm 9 (indeks 8)) **Orta kesit (hücre 1–2, x~1620–4500) tematik:** bölüm "dağ geçidini kapatan
+  zırhlı üs" diye kurgulanmış ve giriş panoraması (`level04_mountain_fortress`) doğru şekilde karlı dağ kalesi gösteriyor; ama
+  köprü/nehir yatağı kesimi `level04_fortress_atlas` hücre 1–2 ile açık deniz Boğaz panoraması (yelkenli gemiler + şehir
+  silüeti ışıkları) gösteriyor — "nehir yatağı" betimiyle hafif gerilim. REDMOUNT İstanbul kurgusunda dağ üssünün Boğaz'a
+  bakması olası (boğaz tepelerle çevrili), yani kesin hata değil. **Düşük öncelik, parked:** insan testi "Bölüm 9 ortası deniz
+  gibi, dağ geçidi hissi kayboluyor" derse hücre 1–2 için `level04_fortress_atlas`'ın daha dar/kara ağırlıklı bir kesimine veya
+  gemilerin kırpıldığı bir `sky_src` penceresine geçilsin; veri gelmeden dokunma.
+
 - (Tur 429 atlas taraması) **Bölüm 1 (Balat) varsayılan `book02_suleymaniye_streets` atlasını Bölüm 16 ile paylaşıyor**
   (hücre 0/2; 15 bölüm arayla, arka arkaya değil). Aday: ChatGPT `level01_turkish_locations_atlas` (tramvay deposu, inşaat
   vinci, kanal kemerleri, minibüs garajı, meyve pazarı + simit, trafo, damlar, çeşmeli avlu) — ama 2x4 ızgara (`_Sky` yalnız
@@ -954,6 +962,28 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-25 (435) — Görsel denetim: tur 431–433'te yeniden işlenen Bölüm 5, 7, 9 oyun içinde doğrulandı; hepsi temiz, kod değişikliği yok
+
+**Neden şimdi:** stil listesi, YOL_HARITASI ve OYNANIS-KALITE P1 tümü kapalı; birikimdeki her madde "insan testi/onayı
+gelmeden dokunma" ile parked (tur 434 "otonom iş kalmadı" dedi). Son üç tur (431–433) üç bölümün arka planını yeni
+ChatGPT atlaslarına taşıdı ama bu değişiklikler oyun içinde (pencereli kare) post-rework doğrulanmamıştı. En değerli
+non-gated iş: SANAT KURALI'nın "sahneye ait mi yoksa yapıştırılmış gibi mi?" testini bu üç bölüme uygulamak.
+
+**Nasıl doğrulandı:** `tests/capture_level.tscn` ile 1280×720 pencereli çekim, her bölümden 3–4 nokta, Read ile incelendi:
+- **Bölüm 9 (Zırhlı Üs, tur 433):** tünel çıkışı (dağ üssü panoraması), 1620 ızgara geçişi, nehir yatağı/ip köprü, üs kulesi.
+  Dört karede de dikiş yok; dağ kalesi, taş kemer köprü, nöbet kulesi, kırmızı çatılı kule + bayrak hepsi mor-gölge/altın-ışık
+  rampasında, ChatGPT atlasıyla aynı palet ve ışık yönünde. Yapıştırılmış öğe yok.
+- **Bölüm 5 (Demiryolu Ablukası, tur 432):** lokomotif hangarı/kömür deposu (tuğla roundhouse, kömür vagonları, vinç, buhar
+  lokomotifi), taş viyadük + istasyon büfesi + yük vagonları. Tur 432'de kaldırılan otobüs terminali gitmiş; sahne tutarlı.
+- **Bölüm 7 (Karahanlı Haddehanesi, tur 431):** giriş (tuğla fabrika + Galata silüeti), fırın (ergimiş metal + İstanbul
+  silüeti/günbatımı), dökümhane çayocağı finali. Beş mekân tek atlasın yerini almış; ergimiş metal akıntıları, boru
+  tesisatı, sarı-siyah ikaz bandı stil içi; İstanbul silüeti dramatik.
+
+**Sonuç:** üç bölümün post-rework görsel durumu temiz; kod/sanat değişikliği gerekmedi (tur 421/422/423 deseni). Yalnız
+tek düşük öncelikli gözlem birikime eklendi (Bölüm 9 orta kesit açık deniz panoraması). Bir sonraki adım: birikim ve
+yol haritaları tümüyle parked olduğundan, insan testi verisi gelene kadar yeni denetim turları kalan bölümleri (4, 6, 8,
+10, 11 — Kitap 1'de henüz post-rework in-game doğrulanmamış olanlar) aynı yöntemle tarayabilir.
 
 ### 2026-11-25 (434) — `level05_throne_hall` bekletildi; otonom iş kalmadı, otomasyon durdu
 
