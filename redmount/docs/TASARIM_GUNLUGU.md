@@ -24,10 +24,10 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   Oyunda görünmediği için düşük risk, AMA kullanıcı eski varlıkları kasıtlı tutuyor (backgrounds notu) → **onaysız silinmez**;
   kullanıcı "eski Level01 prototipini at" derse Level01.tscn + iki script + yetim `tests/level01_play` kaldırılır.
 
-- (Tur 436 denetimi, Bölüm 2/35) **Açılış karartması bot karesinde ~0 sn tam siyah:** t0000 karesi neredeyse tamamen siyah
-  (HUD zor okunuyor). Bu büyük olasılıkla sahne-geçişi fade-in'in bot t=0'da yakalanması; gerçek bir "ölü siyah" gecikmesi
-  mi yoksa normal ~0,3 sn fade mi, `MainMenu`/geçiş fade süresine bakılıp ölçülmeli. Ölç: fade >0,8 sn ise DTM tarzı keskin
-  girişe (~0,35 sn) indir; değilse kapat. Düşük maliyet, önce ölçüm gerek.
+- (Tur 436/437 denetimi, Bölüm 2/35) **Açılış karartması — ÖLÇÜLDÜ, sorun değil (kapandı):** t0000 bot karesindeki siyahlık
+  `Transition.go` fade-in'inin (autoload `transition.gd`, `DUR = 0,28 sn`) tam başında yakalanması. Geçiş zaten DTM tarzı
+  keskin (0,28 sn kapanış + 0,28 sn açılış); "ölü siyah" gecikmesi yok. Backdrop'un `SKY_FADE = 1,5 sn` gradyan geçişi sahneyi
+  ilk anda biraz karanlık başlatıyor ama bu atmosferik, kasıtlı. Dokunulmadı.
 
 - (Tur 436 denetimi) **Gizli alan toast'ı artık 2,6 sn (uygulandı):** bu turda yapıldı; insan testi "toplama bildirimini
   göremedim/çok kısa" derse 2,6 → 3,2 sn aralığında ayarlanır (tek sayı, `main.gd` `_on_secret_found`).
@@ -987,6 +987,18 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-25 (437) — Denetim sürdü (Bölüm 16 temiz) + açılış karartması ölçüldü (sorun değil, kapandı)
+
+**Neden şimdi:** tur 436 commit'inden sonra döngü sürüyor; birikimin yeni non-gated üstü "açılış karartması" ölçüm istiyordu.
+**Açılış karartması:** `transition.gd` autoload `DUR = 0,28 sn` — geçiş zaten DTM tarzı keskin (kapanış + açılış 0,28'er sn),
+"ölü siyah" gecikmesi yok; bot t0000 karesindeki siyahlık bu hızlı fade'in tam başında yakalanması. Birikim maddesi kapandı,
+kod dokunulmadı. **Bölüm 16 (Kapalıçarşı Arka Hanı, indeks 15) denetimi:** botla pencereli (7 kare), CLEARED 0 ölüm (73,1 sn).
+Ciltçi hanı iç mekânı (bez/halı balyaları, asılı fenerler, taş kemer + şehir manzarası), cami avlusu (kubbeler, selviler,
+kemerli revaklar), Boğaz panoraması + "BEYAZIT YOLU" kapısı — hepsi ChatGPT kalitesinde, dikişsiz, stil içi. Shipped görsel
+defekt yok; takılma (10s@8276) kilitli arena dövüşü. **Sonuç:** üç bölüm (2, 35, 16) bu oturumda denetlendi, hepsi temiz;
+denetim tek güvenli actionable iş (toast, tur 436) dışında yeni non-gated iş çıkarmadı. Kalan birikim tümü insan-testi-verisi
+veya kullanıcı-onayı gated. Durma koşulu: listeler + non-gated birikim tükendi.
 
 ### 2026-11-25 (436) — Tasarım denetimi (Bölüm 2 + 35, DTM karşılaştırması) + "bulundu" toast'ı DTM tarzı kısaltıldı (5,5 → 2,6 sn)
 
