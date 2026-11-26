@@ -12173,3 +12173,30 @@ değişmediği için smoke/import koşulmadı (tur 442 emsali).
 
 **Sonraki adım:** otonom iş tükendi → görev "denetim yeni iş çıkarmadı" koşuluyla durdu. Kalan birikim (Bölüm 10 Sur
 Ağası, Bölüm 20 tehlikesizliği, gece okunurluğu, arena iskelesi zorluğu) telefonda insan testi verisi bekliyor.
+
+### 2026-11-26 — Denetim (Bölüm 15 "Zeyrek", indeks 14): temiz, kod değişikliği yok; otomasyon durdu (tur 454)
+
+**Neden şimdi:** stil listesi, YOL_HARITASI ve OYNANIS-KALITE P1 kapalı; birikimin tamamı insan (telefon) testi verisi
+bekliyor → (d) denetim. Bölüm 15 son denetim penceresinde (tur 420–453) henüz taranmamış bölümlerdendi.
+
+**Bot (oynanış ritmi):** CLEARED @9739, t=79,2 sn, respawns=0, isabet heals=0, en uzun takılma 8 sn @7339. Can eğrisi
+bölüme yayılmış (105 → 93 @2600 çeşme arenası → 74 @6290 sarnıç platform rotası → 64/54/49 @7300 su değirmeni arenası →
+76/99 toparlanma → 75 final): "ortası hasarsız bant" ya da "arka yüklü" desen YOK; geçiş→dövüş→nefes→meydan okuma ritmi
+DTM'ye uygun.
+
+**Görsel (5 pencereli çekim, Read ile):** x=520 Balat yamacı taş teras + kiremit çatılı ahşap konak, asma çardağı,
+bıçaklı/tüfekli düşman telegrafı okunur; x=2600 oymalı Osmanlı çeşmesi + selvi + su kemeri arka planı, patlayıcı varil +
+sandık; x=5900 Yerebatan Sarnıcı iç mekân (sütun dizisi, su yansıması, asma fenerler, teal palet + sıcak fener ışığı),
+plank rotası + tüfek pickup; x=7300 dev ahşap su değirmeni + şelale + borular, basamaklı plank + coin dizisi; x=9400
+Süleymaniye su kemeri panoraması + "SÜLEYMANİYE YOLU" çıkış kapısı (Bölüm 16'ya köprü). Prop'lar atlasla aynı mor-gölge/
+turuncu-ışık paletinde; yapıştırılmış öğe, düz renk alan, zeminsiz çıkış yok. Tema ("Zeyrek'te sular kesiliyor" — su
+şebekesi sabotajı) çeşme→sarnıç→değirmen→su kemeri mekân dizisiyle tutarlı. **Yeni birikim maddesi çıkmadı;** zorla
+madde uydurulmadı. (Gazelle anlatı tabelası x~2600'de tetiklenip daktilo efektiyle yazılıyor; çekim ışınlaması onu üç
+karede farklı aşamada yakaladı — oyun hatası değil, tek anlatı satırı.)
+
+**Değişiklik:** yalnız belge. **Test:** bot Bölüm 15 CLEARED; çekim ×5 rc=0 (scratchpad, commit edilmedi). Oyun kodu
+değişmediği için smoke/import koşulmadı (tur 442 emsali).
+
+**Sonraki adım:** otonom iş tükendi → görev "denetim yeni iş çıkarmadı" koşuluyla durdu. Kalan birikim (Bölüm 10 Sur
+Ağası, Bölüm 20 tehlikesizliği, gece okunurluğu, arena iskelesi zorluğu, Karahanlı'ya kalan can) telefonda insan testi
+verisi bekliyor.
