@@ -1002,6 +1002,22 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-26 (451) — Denetim: Bölüm 7 (indeks 6, adlı denetimi en eski bölüm) temiz; otomasyon durdu
+
+**Neden şimdi:** stil listesi, YOL_HARITASI ve OYNANIS-KALITE P1 kapalı; birikimin tamamı insan (telefon) testi verisi/onayı
+bekliyor → (d) denetimi. Günlük başlıklarına göre adlı denetimi en eski bölüm Bölüm 7 (son tur 322). Bot pencereli 1280×720,
+15 sn'de bir kare (7 kare).
+**Sonuç:** CLEARED @9255 / 98,1 sn / 0 dönüş, boss_evades 6/0. Takılma 30s@5668 (Ağır Zırhlı arenası, DALGA 3/3; 45 sn
+eşiğinin altında), can dibi 21 bu arenada, ardından toparlanma; final kesitinde 51→29, ölüm yok — tur 3xx'teki "arena ölümü
+0/3" düzeltmesiyle tutarlı, "arka yüklü" desen sınıfında; ayrı madde açılmadı. Görsel: haddehane iç mekânı (kemerli
+fırın galerisi, kiremit damlı kulübe, sandıklar, mangal), dökümhane panoraması (akan maden potaları, Haliç alacakaranlığı,
+iskele platformları) — ChatGPT paletinde, dikişsiz; Karahanlı hoparlör diyaloğu, DALGA sayacı, COMBO x14, Ağır Zırhlı can
+çubuğu çakışmasız okunuyor.
+**Test:** bir pencereli bot koşusu CLEARED rc=0 (kareler scratchpad'de, commit edilmedi). Oyun kodu değişmedi; smoke/import
+koşulmadı.
+**Sonraki adım:** otonom iş yok; durma koşulu sağlandı. Anlamlı sonraki iş insan (telefon) testi verisi veya yeni yol
+haritası maddesi.
+
 ### 2026-11-26 (449) — Denetim: Bölüm 3 + 10 (adlı denetimi en eski iki bölüm) — Bölüm 3 temiz, Bölüm 10 Sur Ağası finali tutarlı tek ölüm (bilinen baskı zirvesi, parked)
 
 **Neden şimdi:** stil listesi, YOL_HARITASI ve OYNANIS-KALITE P1 kapalı; birikimin tamamı insan (telefon) testi verisi/onayı
