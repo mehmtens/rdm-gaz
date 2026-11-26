@@ -1002,6 +1002,35 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-26 (453) — Denetim: Bölüm 33 "Vaniköy → Kandilli" (indeks 32) temiz; otomasyon durdu
+
+**Neden şimdi:** stil listesi, YOL_HARITASI ve OYNANIS-KALITE P1 `[ ]`=0; "Tasarım birikimi"nin her maddesi insan
+(telefon) testi verisi bekliyor → (d) denetimi. Son 60 commit başlığında hiç geçmeyen bölümler 32, 33, 34; 33 seçildi.
+Bot başsız + pencereli 1280×720, 7 kare.
+
+**Bot (oynanış ritmi):** CLEARED @9759, t=84,4 sn, respawns=0, boss_evades 0/0, isabet heals=0, en uzun takılma 10 sn
+@8156 (final arena). Can eğrisi: 105 → 87 @2662 → 63 @2519 (ilk iskele arenası) → 49 @3869 (kasa kulesi) → düz 49
+x 4357–6326 → can 79 @7361 → 65 → 47 → **33 @8061 (final, en derin nokta)** → can 56 → 47. Düz bant (~2000 px) hasarsız
+ama boş değil: su çukuru/plank sıçrama dizisi + diken çukuru + "YÜKLEME KİLERİ" dükkânı = parkur ve nefes kesiti; DTM'nin
+geçiş→dövüş→nefes→meydan okuma ritmine uyuyor, "ortası boş" desen sayılmadı.
+
+**Görsel (7 kare, Read ile):** x=1250 Vaniköy yalı rıhtımı (fener, servi, karşı kıyı cami silüeti, iskele iskeleti
+üstünde iki coin sırası; tabancalı + kalkanlı düşman telegrafı okunur); x=2700 sarmaşıklı taş cephe, tek plank + patlayıcı
+varil; x=3800 kasa kulesi + sandık + tabanca pickup, Boğaz yansıması (FİLM RULOSU 1/3 burada); x=5200 kayık tersanesi,
+su çukuru üstünde basamaklı plank rotası; x=6300 "YÜKLEME KİLERİ" tenteli dükkân, açık zemin boşluğunda görünür diken
+telegrafı; x=7700 halat/zincirli depo kemeri, asma kirişte 4 coin (plank'tan ~80 px, menzilde), can paketi; x=9600
+telsiz istasyonu (verici kuleleri, lambalar) + "KANDİLLİ" çıkış kapısı, zemin önlüğü var. Prop'lar atlasla aynı
+mor-gölge/turuncu-ışık paletinde; yapıştırılmış öğe, düz renk alan, zeminsiz çıkış yok. (Kare 5200'de kahraman suda ve
+toast'lar üst üste: ışınlanma çekim artefaktı, oyun hatası değil.) **Yeni birikim maddesi çıkmadı;** zorla madde
+uydurulmadı.
+
+**Değişiklik:** yalnız belge. **Test:** bot Bölüm 33 CLEARED; çekim ×7 rc=0 (scratchpad, commit edilmedi). Oyun kodu
+değişmediği için smoke/import koşulmadı (tur 442 emsali).
+
+**Sonraki adım:** otonom iş tükendi → görev durdu. Denetlenmemiş kalan son iki bölüm 32 ve 34 (bir sonraki tetiklemede);
+asıl açık iş birikimdeki insan-testi soruları (Bölüm 10 Sur Ağası, Bölüm 20 tehlikesizliği, gece okunurluğu, arena
+iskelesi zorluğu).
+
 ### 2026-11-26 (452) — Denetim: Bölüm 22 "Aksaray Pompa İstasyonu" (indeks 21) temiz; otomasyon durdu
 
 **Neden şimdi:** stil listesi (STIL_DONUSUM_LISTESI `[ ]`=0), YOL_HARITASI (`[ ]`=0) ve OYNANIS-KALITE P1 (`[ ]`=0)
