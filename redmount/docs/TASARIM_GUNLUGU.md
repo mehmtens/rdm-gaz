@@ -1004,6 +1004,37 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-27 (460) — Denetim: Bölüm 27 "Telgraf Hattı" (indeks 26) temiz; otomasyon durdu
+
+**Neden şimdi:** STIL_DONUSUM_LISTESI `[ ]`=0, YOL_HARITASI `[ ]`=0, OYNANIS-KALITE P1 uygulanabilir madde=0,
+"Tasarım birikimi"nin her maddesi açıkça insan/telefon testi verisi bekliyor ("veri gelmeden dokunma") → (d) denetimi.
+Son denetim turlarında (22, 33, 34, 32, 25, 10) geçmeyen, görsel kaydı eski olan Bölüm 27 seçildi. Bot başsız +
+pencereli 1280×720, 9 anahtar kare (REDMOUNT_SNAP_EVERY=11).
+
+**Bot (oynanış ritmi):** CLEARED @10109, t=91,8 sn (pencereli teyit @10105, t=88,5 sn), **respawns=0**, boss_evades 0/0,
+isabet heals=1, press 0/0, en uzun takılma 10 sn @9657 (final arena, 45 sn eşiğinin çok altında). Can eğrisi: 115 →
+93 @2246 → 81→75 @2560 (giriş arena) → 65 @3684 → 59 @4535 (tırmanış) → **41 @5811 (üç katlı telgraf binası set-piece,
+orta baskı)** → 41 düz x5813–6933 → 20 @7244 → 50 @7841 (can paketi toparlama) → final rooftop arena 73 → 24 → 54.
+Baskı dağıtılmış: giriş arenası, orta set-piece (telgraf binası), final çatı dalgası — ne "ortası boş" ne saf "arka
+yüklü"; geçiş→dövüş→nefes→meydan okuma DTM ritmine uyuyor, ölüm yok.
+
+**Görsel (9 pencereli kare, Read ile):** x=2246 taş baskıhane/resmî bina cephesi (kemerli kapı, çift fener, demir
+parmaklık, taş korkuluk üstünde 4 coin + bank + patlayıcı varil, REDMOUNT bayrağı); x=5811 **üç katlı telgraf binası
+set-piece** (ahşap kat kat iç mekân, her katta tüfekli/suikastçı telegrafı, coin dizileri, can pickup, yerde patlayıcı
+varil patlaması, "Telgraf binası üç kat. İçeriden, kat kat çıkac[ak]" diyaloğu, COMBO ×5 +135 oyun hissi geri
+bildirimi); x=9383 final çatı arenası (Galata Kulesi + Haliç panoraması + yelkenliler, telgraf verici kuleleri,
+"DALGA 1/2 · 1 DÜŞMAN" dalga göstergesi, "TELGRAF HATTI" çıkış tabelası, kırmızı-sarı patlayıcı varil telegrafı,
+tabancalı muhafız). Tüm prop'lar ChatGPT atlasıyla aynı mor-gölge/turuncu-ışık paletinde; yapıştırılmış öğe, düz renk
+alan, zeminsiz çıkış, çakışan HUD yok. Gündüz/altın-saat bölümü → düşman silüetleri taş-ahşap zeminde okunur (gece
+okunurluğu birikim maddesi burada geçerli değil). **Yeni birikim maddesi çıkmadı;** zorla madde uydurulmadı.
+
+**Değişiklik:** yalnız belge. **Test:** bot Bölüm 27 CLEARED ×2 (başsız + pencereli); çekim ×9 rc=0 (scratchpad, commit
+edilmedi). Oyun kodu değişmediği için smoke/import koşulmadı (tur 442/453/458 emsali).
+
+**Sonraki adım:** otonom iş tükendi → görev durdu. Asıl açık iş birikimdeki insan-testi soruları (Bölüm 10 Sur Ağası
+baskı zirvesi, "arka yüklü" bölüm deseni, gece okunurluğu, Bölüm 20 tehlikesizliği, mobil menü çentik payı) — hepsi
+telefon testi verisi bekliyor.
+
 ### 2026-11-26 (458) — Denetim: Bölüm 25 "Cağaloğlu'nda İlk Baskın" (indeks 24, Kitap 3 açılışı) temiz; otomasyon durdu
 
 **Neden şimdi:** STIL_DONUSUM_LISTESI `[ ]`=0, YOL_HARITASI `[ ]`=0, OYNANIS-KALITE P1 uygulanabilir madde=0
