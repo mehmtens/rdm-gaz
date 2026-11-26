@@ -10,7 +10,9 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 - (Tur 449 denetimi, Bölüm 10 (indeks 9)) **Sur Ağası finali tutarlı tek bot ölümü:** üç koşunun üçünde de CLEARED ama
   final patron arenasında (x~8332) 1 ölüm + 30–35 sn takılma; bot bölümün ilk 60 sn'sini (x~80→7222) hasarsız geçiyor, bütün
   gerilim Sur Ağası'nda toplanıyor ("arka yüklü" desenin en keskin örneği). Bu Kitap 1 finali patronu olduğundan kasıtlı zorluk
-  olabilir; bot ustalığı insanı temsil etmez. **İnsan-verisi gated:** test "Sur Ağası'nda duvara tosladım / çok öldüm" derse en
+  olabilir; bot ustalığı insanı temsil etmez. **(Tur 459 teyit: desen tutarlı — yeni bot koşusu CLEARED @9205, t=128,5 sn,
+  1 ölüm yine Sur Ağası arenasında (x~8377–8746, hp 66→52→36→22→8→ölüm→respawn); ayrıca patron öncesi arenada (x=6269)
+  26 sn takılma + hp 81→35. İlk 60 sn (x~80→6269) neredeyse hasarsız. Kararı değiştirmez, gated kalır.)** **İnsan-verisi gated:** test "Sur Ağası'nda duvara tosladım / çok öldüm" derse en
   ucuz çözüm önce patron öncesi kontrol noktasına (x~7900 civarı) gevşek HEALTH, dalgalara/patron canına dokunmadan; "ortası
   boş" derse orta kesite tek elle konmuş düşman çifti. Veri gelmeden dokunma.
 
@@ -12317,3 +12319,30 @@ iş yalnızca telefonda insan testi verisi bekleyen birikim maddeleri (Bölüm 1
 tehlikesizliği, gece kalabalık okunurluğu, arena iskelesi zorluğu, Karahanlı'ya kalan can). Veri gelene kadar
 dokunulmaz. Bir sonraki otonom tetiklemede: ya insan test verisi gelmişse ilgili gated maddeyi uygula, ya da yine
 yapı sağlığı/denetim.
+
+### 2026-11-27 — Denetim (Bölüm 10 Sur Ağası, indeks 9): üst birikim maddesi teyit, kod değişmedi; otomasyon durdu (tur 459)
+
+**Neden şimdi:** STIL_DONUSUM_LISTESI, YOL_HARITASI ve OYNANIS-KALITE P1 `[ ]`=0; birikimin tamamı insan (telefon)
+testi verisi bekliyor → (d) denetim. Depoda tur 457 (yapı sağlığı: import+smoke(36)+dtm_gaps PASS) sonrası hiçbir kod
+değişmedi (`git pull` güncel, yalnız izlenmeyen `.uid`). Aynı yapı-sağlığı testini değişmemiş kodda tekrarlamak boşa
+iş olurdu; onun yerine birikimin **en üstteki** maddesini (Bölüm 10 Sur Ağası baskı zirvesi, tur 449) taze bir bot
+ölçümüyle doğruladım — insan testçisinin ihtiyaç duyduğu "desen tutarlı mı?" kanıtı.
+
+**Bot (oynanış ritmi):** `REDMOUNT_PROBE_LEVEL=9` → CLEARED @9205, t=128,5 sn, respawns=**1**, boss_evades 5/0,
+isabet heals=2, press=0/0. Can eğrisi: 105 → 89 @~3900 → **81 düz, x~5742–6269** → patron öncesi arena (x=6269):
+**26 sn takılma + hp 81→35** → kule rotası (6786–7484) hp 42→20 → final Sur Ağası arenası (x~8377–8746):
+hp 66→52→36→22→8 → **ölüm/respawn (108)** → toparlanıp CLEARED @9205. İlk ~60 sn (x~80→6269) neredeyse hasarsız.
+
+**Sonuç:** tur 449'da yazılan "arka yüklü / Sur Ağası'nda gerilim toplanıyor + tutarlı tek ölüm" deseni yeni bir
+koşuda birebir tekrarlandı (ölüm yine final patron arenasında, baskı yine patron öncesi 6269 arenasında başlıyor).
+Bu, bilinen ve **insan-verisi gated** maddedir ("veri gelmeden dokunma"): bot ustalığı insan zorluğunu temsil etmez,
+Kitap 1 finali patronunda bir dönüş kasıtlı olabilir → dalga/patron canına ya da can paketi yerleşimine
+**dokunulmadı.** Yeni birikim maddesi çıkmadı; zorla madde uydurulmadı.
+
+**Değişiklik:** yalnız belge (bu kayıt + üst birikim maddesine tur 459 teyit satırı). Oyun kodu değişmediği için
+smoke/import koşulmadı (tur 442/456 emsali).
+
+**Sonraki adım:** otonom iş tükendi → görev "tüm listeler bitti ve denetim yeni iş çıkarmadı" koşuluyla durdu. Açık
+iş yalnızca telefonda insan testi verisi bekleyen gated birikim maddeleri (Bölüm 10 Sur Ağası baskı zirvesi — bu tur
+tekrar teyit edildi —, Bölüm 20 tehlikesizliği, gece kalabalık okunurluğu, arena iskelesi zorluğu, Karahanlı'ya kalan
+can). Veri gelene kadar dokunulmaz.
