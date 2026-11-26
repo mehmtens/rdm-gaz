@@ -12232,3 +12232,29 @@ değişmediği için smoke/import koşulmadı (tur 442 emsali).
 **Sonraki adım:** otonom iş tükendi → görev "denetim yeni iş çıkarmadı" koşuluyla durdu. 36 bölümün tamamı en az bir kez
 denetlendi. Kalan birikim (Bölüm 10 Sur Ağası, Bölüm 20 tehlikesizliği, gece okunurluğu, arena iskelesi zorluğu,
 Karahanlı'ya kalan can) telefonda insan testi verisi bekliyor.
+
+### 2026-11-26 — Denetim (Bölüm 32, indeks 31): temiz, kod değişikliği yok; otomasyon durdu (tur 456)
+
+**Neden şimdi:** STIL_DONUSUM_LISTESI, YOL_HARITASI ve OYNANIS-KALITE P1 `[ ]`=0; birikimin tamamı insan (telefon)
+testi verisi bekliyor → (d) denetim. Son 90 commit başlığında geçmeyen tek bölüm 32 (tur 420–453 penceresinde
+denetlenmişti) → 32 seçildi. Bot başsız + pencereli 1280×720, 9 kare.
+
+**Bot (oynanış ritmi):** CLEARED @9858, t=80,5 sn, respawns=0, boss_evades 0/0, isabet heals=0, press 0/0, en uzun
+takılma 8 sn @9480 (final arena). Can eğrisi: 105 → 95 @1874 → 89 @3413 → **düz 83, x 4056–5981 (~1900 px)** →
+71 @6221 → 65 @7082 → 85 @8136 (can paketi) → 75 → **57 @9250 (final tepe)** → 81 toparlanma. DTM
+geçiş→dövüş→nefes→meydan okuma ritmine uyuyor; düz bant boş değil (kule/plank rotası + iç mekân atölye).
+
+**Görsel (9 pencereli çekim, 4'ü Read ile):** x=1647 katmanlı taş cephe rıhtımı (fenerler, servi, üç raf platformu,
+asma coin dizileri, bıçaklı+tüfekli düşman telegrafı okunur); x=4734 vinç/rıhtım + Boğaz yansıması, kilitli kapı
+merdiveninde iki coin, Süleymaniye silüeti; x=7940 iç mekân org/boru atölyesi (pirinç bobin, fener, bayrak, Boğaz
+penceresi), kırmızı coin + zırhlı düşman; x=9416 final arena kemer altı rıhtım — **DALGA 2/2 · 2 DÜŞMAN göstergesi
+çalışıyor**, miğferli/tüfekli/zırhlı üçlü telegraf okunur, zincir+bayrak+patlayıcı varil. Prop'lar atlasla aynı
+mor-gölge/turuncu-ışık paletinde; düz renk alan, yapıştırılmış öğe, zeminsiz çıkış yok. Dalga göstergesi (uygulama
+sırası #1) oyunda doğrulandı.
+
+**Değişiklik:** yalnız belge. **Test:** bot Bölüm 32 CLEARED (başsız ve pencereli iki koşu); çekim ×9 rc=0
+(scratchpad, commit edilmedi). Oyun kodu değişmediği için smoke/import koşulmadı (tur 442 emsali).
+
+**Sonraki adım:** otonom iş tükendi → görev "denetim yeni iş çıkarmadı" koşuluyla durdu. 36 bölümün tamamı en az bir
+kez denetlendi. Kalan birikim (Bölüm 10 Sur Ağası, Bölüm 20 tehlikesizliği, gece okunurluğu, arena iskelesi zorluğu,
+Karahanlı'ya kalan can) telefonda insan testi verisi bekliyor.
