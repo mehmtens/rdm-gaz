@@ -12070,3 +12070,26 @@ arena dahil ölçümü (temiz) geçerli. Her bölüm son iki günde bot + çekim
 **Değişiklik yapılmadı;** yeni birikim maddesi uydurulmadı.
 **Sonraki öneri:** telefonda insan oyun testi — birikimdeki sorular (Bölüm 20 tehlikesizliği, gece kalabalık okunurluğu,
 arena iskelesi zorluğu, Karahanlı'ya kalan can) orada yanıtlanmadan otomasyon anlamlı iş üretemiyor.
+
+### 2026-11-26 — Denetim (Bölüm 28 "Üsküdar", indeks 27): temiz, kod değişikliği yok; otomasyon durdu (tur 450)
+
+**Neden şimdi:** stil listesi, YOL_HARITASI ve OYNANIS-KALITE P1 kapalı; birikimin tamamı insan (telefon) testi verisi
+bekliyor → (d) denetim. Bölüm 28, tur 440'ta düzeltilen çekim aracıyla henüz taranmamış bölümlerdendi.
+
+**Bot (oynanış ritmi):** CLEARED @10105, t=94,0 sn, respawns=0, isabet heals=2, en uzun takılma 9 sn @7314. Can eğrisi
+bölüme yayılmış (115 → 75 @2600 ilk arena → 63 @5889 çatı rotası → can → 59 @7119 orta arena → can → 70 @9633 final →
+100): "ortası hasarsız bant" ya da "arka yüklü" desen YOK; geçiş→dövüş→nefes→meydan okuma ritmi DTM'ye uygun.
+
+**Görsel (5 pencereli çekim, Read ile):** x=1300 vapur iskelesi + Kız Kulesi/vapur arka planı, su boşluğunda iki sal
+platform, sopa+bıçaklı düşman telegrafı okunur; x=2600 Mihrimah çeşmesi/cami meydanı, tek iskele + patlayıcı varil;
+x=5850 "ÜSKÜDAR ERZAKI" tenteli dükkân, iskele kulesinde tüfekli zırhlı düşman (fener ışığı huzmesi okunur), basamaklı
+plank rotası + coin dizisi; x=7250 iç mekân atölye (kemerli pencereden Tarihi Yarımada), can paketi, coin kirişi;
+x=9700 Kız Kulesi panoraması + "KUZGUNCUK" çıkış kapısı (Bölüm 29'a doğru köprü). Prop'lar atlasla aynı mor-gölge/
+turuncu-ışık paletinde; yapıştırılmış öğe, düz renk alan, zeminsiz çıkış yok. **Yeni birikim maddesi çıkmadı;** zorla
+madde uydurulmadı.
+
+**Değişiklik:** yalnız belge. **Test:** bot Bölüm 28 CLEARED; çekim ×5 rc=0 (scratchpad, commit edilmedi). Oyun kodu
+değişmediği için smoke/import koşulmadı (tur 442 emsali).
+
+**Sonraki adım:** otonom iş tükendi → görev "denetim yeni iş çıkarmadı" koşuluyla durdu. Kalan birikim (Bölüm 10 Sur
+Ağası, Bölüm 20 tehlikesizliği, gece okunurluğu, arena iskelesi zorluğu) telefonda insan testi verisi bekliyor.
