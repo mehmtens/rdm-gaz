@@ -12258,3 +12258,29 @@ sırası #1) oyunda doğrulandı.
 **Sonraki adım:** otonom iş tükendi → görev "denetim yeni iş çıkarmadı" koşuluyla durdu. 36 bölümün tamamı en az bir
 kez denetlendi. Kalan birikim (Bölüm 10 Sur Ağası, Bölüm 20 tehlikesizliği, gece okunurluğu, arena iskelesi zorluğu,
 Karahanlı'ya kalan can) telefonda insan testi verisi bekliyor.
+
+### 2026-11-26 — Yapı sağlığı denetimi: import + smoke(36) + dtm_gaps tümü PASS; otomasyon durdu (tur 457)
+
+**Neden şimdi:** STIL_DONUSUM_LISTESI, YOL_HARITASI ve OYNANIS-KALITE P1 `[ ]`=0; birikimin tamamı insan (telefon)
+testi verisi bekliyor ("veri gelmeden dokunma"); 36 bölümün hepsi en az bir kez (çoğu birden çok) adlı denetimden
+geçti ve son ~8 tur yalnız "temiz" belge commit'i üretti. Dördüncü ardışık anlatısal bölüm denetimi geçmişi şişirmek
+olurdu (görev "tek satırlık cila commit'leriyle geçmişi doldurma" diyor). Bunun yerine son ~8 turun kasıtlı atladığı
+(`smoke/import koşulmadı` notu) **gerçek yapı sağlığı doğrulaması** yapıldı: kod en son değiştiğinden bu yana kampanya
+hâlâ derleniyor mu, 36 sahnenin tamamı temiz yükleniyor mu? Bu, "ekranda temiz görünüyor"dan farklı, ölçülebilir sinyal.
+
+**Test (üçü de zorunlu takımdan):**
+- `--import` (headless): SCRIPT ERROR / Parse Error **yok**, rc=0.
+- `tests/campaign_smoke.gd`: **SMOKE OK: Bolum36**'ya kadar 36/36 sahne, rc=0 (çıkıştaki RID/ObjectDB leak satırları
+  headless teardown gürültüsü, standart).
+- `tests/dtm_gaps.tscn`: **DTM GAPS: PASS** (bütün bölümlerde boşluk erişilebilirliği korunuyor).
+
+**Sonuç:** yapı sağlam; biriken denetim turlarından sonra hiçbir sahne bozulmamış, erişilebilirlik regresyonu yok.
+Yeni birikim maddesi çıkmadı; zorla madde uydurulmadı.
+
+**Değişiklik:** yalnız belge (bu kayıt). Oyun kodu değişmedi.
+
+**Sonraki adım:** otonom iş tükendi → görev "tüm listeler bitti ve denetim yeni iş çıkarmadı" koşuluyla durdu. Açık
+iş yalnızca telefonda insan testi verisi bekleyen birikim maddeleri (Bölüm 10 Sur Ağası baskı zirvesi, Bölüm 20
+tehlikesizliği, gece kalabalık okunurluğu, arena iskelesi zorluğu, Karahanlı'ya kalan can). Veri gelene kadar
+dokunulmaz. Bir sonraki otonom tetiklemede: ya insan test verisi gelmişse ilgili gated maddeyi uygula, ya da yine
+yapı sağlığı/denetim.
