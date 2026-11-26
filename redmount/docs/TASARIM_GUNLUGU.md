@@ -12200,3 +12200,35 @@ değişmediği için smoke/import koşulmadı (tur 442 emsali).
 **Sonraki adım:** otonom iş tükendi → görev "denetim yeni iş çıkarmadı" koşuluyla durdu. Kalan birikim (Bölüm 10 Sur
 Ağası, Bölüm 20 tehlikesizliği, gece okunurluğu, arena iskelesi zorluğu, Karahanlı'ya kalan can) telefonda insan testi
 verisi bekliyor.
+
+### 2026-11-26 — Denetim (Bölüm 34, indeks 33): temiz, kod değişikliği yok; otomasyon durdu (tur 455)
+
+**Neden şimdi:** stil listesi, YOL_HARITASI ve OYNANIS-KALITE P1 kapalı; birikimin tamamı insan (telefon) testi verisi
+bekliyor → (d) denetim. Son 80 commit başlığında hiç geçmeyen bölümler 32 ve 34; 32 tur 420–453 penceresinde
+denetlenmişti → 34 seçildi. Bot başsız + pencereli 1280×720, 6 kare.
+
+**Bot (oynanış ritmi):** CLEARED @9910, t=76,3 sn, respawns=0, isabet heals=0, press 3/0, en uzun takılma 8 sn @9537
+(final arena). Can eğrisi: 115 → 109/99 @2150–2536 (giriş arenası) → 94 @2726 → **düz 94, x 2726–7065 (~4300 px, ~28 sn)**
+→ 89/84 @7065–7706 → düz 84 → **61/54/47 @9364–9569 (final)** → 77 toparlanma. Hasarsız bant tur 433'teki ~2000 px'in iki
+katı olduğu için ayrıca çekimle incelendi.
+
+**Görsel (6 pencereli çekim, Read ile):** x=3300 su kemeri altı rıhtım, taş set üstünde iskele kirişi, bıçaklı + kapüşonlu
+düşman telegrafı okunur; x=4300 kemer altı sandık yığınları + çelik kafes direk + tüfekli zırhlı gözcülü iskele kulesi
+(fener huzmesi telegrafı), basamaklı plank rotası; x=5400 kiremitli taş kulübe + sandık basamakları, çatı üstünde 4 coin,
+zırhlı düşman; x=6300 "SIRT KANTİNİ" tenteli dükkân + **elektrikli zemin kablosu** (kıvılcım telegrafı görünür) + yükseltilmiş
+coin dizisi; x=7200 iç mekân makine atölyesi (Boğaz manzaralı pencere, bakır bobin), **üç pres (crusher)** + raf üstünde
+iki sıra coin + tabancalı düşman; x=9400 vinç/rıhtım + yelkenli silüetleri + "ANADOLUHİSARI" çıkış kapısı (Bölüm 35'e
+köprü). Prop'lar atlasla aynı mor-gölge/turuncu-ışık paletinde; yapıştırılmış öğe, düz renk alan, zeminsiz çıkış yok.
+
+**Değerlendirme:** düz can bandı "ortası boş" değil — kule rotası, elektrikli zemin ve pres dizisi parkur/tehlike kesiti;
+bot zamanlama ustalığıyla hasarsız geçiyor, insan oyuncu burada büyük olasılıkla can kaybeder. DTM'nin
+geçiş→dövüş→nefes→meydan okuma ritmine uyuyor. Final arenası can düşüşü (84→47) bölümün gerilim tepesi olarak yerinde,
+45 sn takılma eşiğinin çok altında. **Yeni birikim maddesi çıkmadı;** zorla madde uydurulmadı. (Çekimlerde 115→74 can
+düşüşü ve preste yatan oyuncu ışınlamanın yan etkisi — oyun hatası değil.)
+
+**Değişiklik:** yalnız belge. **Test:** bot Bölüm 34 CLEARED; çekim ×6 rc=0 (scratchpad, commit edilmedi). Oyun kodu
+değişmediği için smoke/import koşulmadı (tur 442 emsali).
+
+**Sonraki adım:** otonom iş tükendi → görev "denetim yeni iş çıkarmadı" koşuluyla durdu. 36 bölümün tamamı en az bir kez
+denetlendi. Kalan birikim (Bölüm 10 Sur Ağası, Bölüm 20 tehlikesizliği, gece okunurluğu, arena iskelesi zorluğu,
+Karahanlı'ya kalan can) telefonda insan testi verisi bekliyor.
