@@ -1002,6 +1002,41 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-26 (452) — Denetim: Bölüm 22 "Aksaray Pompa İstasyonu" (indeks 21) temiz; otomasyon durdu
+
+**Neden şimdi:** stil listesi (STIL_DONUSUM_LISTESI `[ ]`=0), YOL_HARITASI (`[ ]`=0) ve OYNANIS-KALITE P1 (`[ ]`=0)
+kapalı; "Tasarım birikimi"nin her maddesi açıkça insan (telefon) testi verisi/onayı bekliyor ("veri gelmeden dokunma")
+→ (d) denetimi. Son 15 turun günlük/commit başlıklarında geçmeyen bölümlerden Bölüm 22 seçildi (son 40 tur: 1, 9, 10,
+13, 18, 19, 20, 24, 26, 28, 29, 30, 31, 32, 36 denetlendi; 22 yok). Bot başsız + pencereli 1280×720, 7 kare.
+
+**Bot (oynanış ritmi):** CLEARED @10107, t=74,0 sn, respawns=0, boss_evades 0/0, isabet heals=1, press 1/1, en uzun
+takılma 9 sn @9965 (final arena, 45 sn eşiğinin çok altında). Can eğrisi: 115 → 105 @2475 (filtre girişi) → 96 @2921 →
+86 @5032 (vana galerisi) → 70 @6841 (pompa salonu) → **38 @8269 (bakım şaftı final arenası, tek keskin düşüş)** → can →
+68 → 61 → 73 → 43 → 53. İlk ~6800 px'de kademeli ~45 can kaybı var (giriş arenası 2475'te zaten can alıyor), baskı
+yalnız finalde patlamıyor → ne "ortası boş" ne saf "arka yüklü" desen; geçiş→dövüş→nefes→meydan okuma DTM'ye uygun.
+
+**Görsel (7 pencereli kare, Read ile):** x=860 Balat gece sokağı (Ayasofya/Süleymaniye silüeti, kırmızı tramvay, fener
+yansımalı ıslak taş, bank); x=2475 filtre salonu kemerli taş cephe + FİLM RULOSU 1/3 kanıt toast'ı + coin dizisi +
+varil/gaz tüpü; x=3824 kuru havuz/boru köprüsü (su filtreleri, tabanca pickup, kalkanlı düşman sütun arkasında); x=5562
+vana galerisi (mavi çini duvar, basınç saatleri, "SU ERZAKÇISI" dükkânı, sandık, tüfekli düşman telegrafı); x=6841 pompa
+salonu (dev volan/pistonlar, asılı plank platformlar, sıçrayan düşman); x=8269 bakım şaftı (vinç kancası, demir kafes
+köprüler, kırmızı-sarı patlayıcı varil telegrafı, gece Haliç arka planı); x=9700 kontrol odası (Haliç haritası, yeşil
+bankacı lambası, zırhlı tüfekli düşman, can paketi, "SARAÇHANE" çıkış kapısı → final vanası ipucu). Tüm prop'lar atlasla
+aynı mor-gölge/turuncu-ışık paletinde; yapıştırılmış öğe, düz renk alan, zeminsiz çıkış, çakışan HUD yok. Patlayıcı varil
+kırmızı-sarı yüksek kontrastıyla doğru telegraflanıyor. **Yeni birikim maddesi çıkmadı;** zorla madde uydurulmadı.
+
+**Not (yinelenen, gated):** filtre karesinin sol-alt köşesindeki serbest düşmanlar koyu taş duvara karşı koyu silüet —
+tur 436'daki "gece okunurluğu" gözleminin aynısı. Düşman/kahraman kenar konturu zaten ayrışıyor (kahraman serbest/soğuk
+beyaz, düşman sıcak altın), bu yüzden birikimdeki aday fiks hâlâ insan "kalabalıkta kimi vuruyorum belli değil" verisine
+bağlı; onaysız palet değişikliği yapılmadı.
+
+**Değişiklik:** yalnız belge. **Test:** bot Bölüm 22 CLEARED rc=0; çekim ×7 rc=0 (scratchpad, commit edilmedi). Oyun kodu
+değişmediği için smoke/import koşulmadı (tur 442 emsali).
+
+**Sonraki adım:** otonom iş yine tükendi → görev "denetim yeni iş çıkarmadı" koşuluyla durdu. Kalan birikim (Bölüm 10 Sur
+Ağası baskı zirvesi, Bölüm 20 tehlikesizliği, gece kalabalık okunurluğu, arena iskelesi zorluğu) telefonda insan testi
+verisi bekliyor.
+
 ### 2026-11-26 (451) — Denetim: Bölüm 7 (indeks 6, adlı denetimi en eski bölüm) temiz; otomasyon durdu
 
 **Neden şimdi:** stil listesi, YOL_HARITASI ve OYNANIS-KALITE P1 kapalı; birikimin tamamı insan (telefon) testi verisi/onayı
