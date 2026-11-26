@@ -1002,6 +1002,39 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-26 (458) — Denetim: Bölüm 25 "Cağaloğlu'nda İlk Baskın" (indeks 24, Kitap 3 açılışı) temiz; otomasyon durdu
+
+**Neden şimdi:** STIL_DONUSUM_LISTESI `[ ]`=0, YOL_HARITASI `[ ]`=0, OYNANIS-KALITE P1 uygulanabilir madde=0
+(kalanlar insan/telefon testi verisi bekliyor), "Tasarım birikimi"nin her maddesi açıkça gated ("veri gelmeden
+dokunma") → (d) denetimi. Kitap 3 açılış bölümü (25) son commit sayımında az geçenlerden; bot başsız + pencereli
+1280×720, 4 anahtar kare (giriş, çatı/dükkân orta, iki katlı ciltçi atölyesi, final avlu).
+
+**Bot (oynanış ritmi):** CLEARED @10158, t=91,3 sn, **respawns=1**, boss_evades 0/0, isabet heals=0, press 0/0, en
+uzun takılma 12 sn @2851 (ilk kapı arenası, 45 sn eşiğinin altında). Can eğrisi: 115 → 89 @2871 (ilk arena) → düz
+83 x3807–4566 (çatı/plank nefesi) → 63 @5181 (orta arena) → 73 @5581 (toparlanma) → 64 @6294 → düz 64 x6300–7185 →
+50 @7650 → 32 @7671 → 21 @8351 → **15 @9479 → ölüm, respawn @9800 (109 can)** → final avlu arenası 101 → 92.
+Baskı net biçimde arka üçte birde (x7650 iki katlı ciltçi atölyesi → x9550 final avlu) toplanıyor: tüfekli+suikastçı
+çift kat ateşi + final arena. **Bu tam olarak tur 95/171/444'te zaten belgelenen "Bölüm 25 ciltçi atölyesi → depo
+(x≈7500–9000) tek ölüm" gözlemi** (tur 444: "tekrarda görülmedi", yani değişken; tur 171 düzeltilmiş sayaçla 0 ölüm).
+Bu koşuda ölüm yine görüldü ama bilinen, insan-verisi gated madde → yeni birikim maddesi çıkmadı, zorla uydurulmadı.
+
+**Görsel (4 pencereli kare, Read ile):** x=900 Cağaloğlu matbaa sokağı (altın saat, Süleymaniye silüeti, kemerli taş
+baskıhane cephesi, tente, fener, sandık, coin dizisi, tente üstünde zırh pickup + "!" ipucu); x=6300 çatı seviyesi
+Haliç gün batımı ("MATBAA ERZAKI" tedarik dükkânı kırmızı tenteli, asma çamaşır, çatılar arası plank köprüler +
+coin, suikastçı düşman); x=7650 iki katlı ciltçi atölyesi kesiti (kitaplıklar, kemerli pencereler, kırmızı kiremit,
+Haliç + kubbeli çeşme arka planı; üst katta suikastçı + tüfekli, alt katta tüfekli, sağ üstte can paketi — baskının
+kaynağı okunur); x=9550 final avlu (türbe/cami kapısı görünümü, fenerler, sandık, kereste istifi, "SİR[KECİ]" çıkış
+tabelası, yakın tüfekli muhafız, Gazelle "dağıtım defteri" repliği). Tüm prop'lar ChatGPT atlasıyla aynı
+mor-gölge/turuncu-ışık paletinde; yapıştırılmış öğe, düz renk alan, zeminsiz çıkış, çakışan HUD yok. Gündüz bölümü
+olduğundan düşman silüetleri açık taş/ahşap zeminde okunur (gece okunurluğu gözlemi burada geçerli değil).
+
+**Değişiklik:** yalnız belge. **Test:** bot Bölüm 25 CLEARED; çekim ×4 rc=0 (scratchpad, commit edilmedi). Oyun kodu
+değişmediği için smoke/import koşulmadı (tur 442/453 emsali).
+
+**Sonraki adım:** otonom iş tükendi → görev durdu. Gerçek açık iş: birikimdeki insan-testi soruları (Bölüm 10 Sur
+Ağası baskı zirvesi, Bölüm 25 dâhil "arka yüklü" bölümlerde ortası-boş/arka-yoğun deseni, gece okunurluğu, mobil menü
+çentik payı) — hepsi telefon testi verisi bekliyor.
+
 ### 2026-11-26 (453) — Denetim: Bölüm 33 "Vaniköy → Kandilli" (indeks 32) temiz; otomasyon durdu
 
 **Neden şimdi:** stil listesi, YOL_HARITASI ve OYNANIS-KALITE P1 `[ ]`=0; "Tasarım birikimi"nin her maddesi insan
