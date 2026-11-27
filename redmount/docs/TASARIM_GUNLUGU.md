@@ -112,6 +112,13 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   x~7600'e kadar hiç hasar almıyor (55'te sabit, 7599'da 85'e toparlıyor); bölümün baskısı ön yüklü, orta kesit boş.
   En uzun takılma 17s@8155 (iç mekân arenası), ölüm yok. İnsan testi "Bölüm 33'ün ortası boş" derse orta kesite (5100–
   7500) tek elle konmuş düşman çifti düşünülsün; veri gelmeden dokunma.
+  **(Tur 468 teyit: desen tutarlı — yeni bot CLEARED @9755, t=85,2 sn, respawns=0, takılma 17s@8156. Erken arena bu
+  kez daha sert ölçüldü: hp 105→95 @2935 → 51 @3116 → 45 @2656 → plank düşüşü 45→20 @3709; sonra x~3709→7684 arası
+  ~3975 px boyunca HEALTH yok, bot 20 canda parkur+tırmanış yapıp ilk paketi 7684'te alıyor (20→50). Ölüm yok ama
+  bu, günlükteki "orta kesit boş" okumasının tersi: orta kesitte düşman yok ama can tamponu da yok — uzun düşük-can
+  bandı. Bölüm 33 Kitap 3 finali öncesi olduğundan yüksek baskı kasıtlı olabilir; bot 0 ölümle geçti. İnsan testi
+  "Bölüm 33 ortasında hiç can toparlayamıyorum" derse en ucuz çözüm x~5300 civarına (plank sonrası düzlük) tek gevşek
+  HEALTH; düşman/arena dağılımına dokunma. Veri gelmeden dokunma.)**
 - (Tur 371 denetimi, Bölüm 23 (indeks 22)) **İlk %75'te baskı düşük:** iki koşuda bot x~7700'e kadar 95–99 canda
   (yalnız 6 hasar); bütün gerilim bakım geçidi (7600–8300) ve finalde toplanıyor — Yenikapı (tur 363) ile aynı arka
   yüklü ritim. İnsan testi "başı kolay" derse 3400–4750 kesitine tek ASSASSIN; veri gelmeden dokunma.
@@ -1016,6 +1023,34 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-27 (468) — Denetim: Bölüm 33 "Vaniköy Kıyısı" (indeks 32) görsel+oynanış temiz
+
+**Neden şimdi:** STIL_DONUSUM_LISTESI `[ ]`=0 (33/33), YOL_HARITASI `[ ]`=0, OYNANIS-KALITE P1 uygulanabilir madde=0,
+"Tasarım birikimi"nin üst maddeleri (Bölüm 23/19/10/20) açıkça insan-verisi gated → (d) denetimi. Günlükte en az adı
+geçen bölümler sayıldı (33=34, 32=37, 3=38 en düşük); Bölüm 33 seçildi. Bot başsız + pencereli 1280×720, 6 anahtar kare.
+
+**Bot (oynanış ritmi):** CLEARED @9755, t=85,2 sn, **respawns=0**, boss_evades 0/0, en uzun takılma 17s@8156 (iç mekân
+arenası, 45 sn eşiğinin çok altında). Can eğrisi: 105 → 95 @2935 → **51 @3116 → 45 (erken arena x~2600–3950, bölümün
+en sert kesiti)** → plank düşüşü 45→20 @3709 → **20'de sabit x3709→7684 (~3975 px, HEALTH yok)** → 50 @7684 (ilk paket)
+→ iç mekân arenası 36→22→52→82 → final 73. Desen tur 371 ile tutarlı (ön yüklü baskı), ama bu kez erken arena sonrası
+uzun düşük-can bandı ölçüldü; ölüm yok. Gated not olarak Bölüm 33 birikim maddesine eklendi.
+
+**Görsel denetim (6 pencereli kare, ChatGPT arka planı yanında):** giriş (Vaniköy yalısı + Boğaz + minareler), erken
+arena, plank tırmanışı, orta kesit (Süleymaniye silüeti mor alacakaranlık + SHIELD düşman okunur), geç arena, final
+(Kandilli vericisi + pirinç lambalar + STREET düşman trio). **Hepsi DTM kalitesinde, sahneye ait** — kahraman/düşman
+silüet kontrastı, coin okunurluğu, lamba ışığı, HUD (CAN/COIN) hepsi net. İki capture artefaktı araştırıldı ve hata
+**değil** çıktı: (1) final karesindeki "Kablolar yokuşa tı" kesik replik → kaynak string tam ("...tırmanıyor. Verici
+yukarıda.", `bolum33.gd:119`), daktilo efektinin yakalanması; (2) "FİLM RULOSU" toast'ının ön plan iskelesi arkasında
+görünmesi → HUD `show_place` CanvasLayer'da, dünya propu örtemez; dim görüntü fade-out alfası, z-order hatası değil.
+
+**Testler:** import temiz (SCRIPT ERROR yok); `campaign_smoke.gd` exit 0 (çıkıştaki ObjectDB/RID leak satırları motor
+teardown gürültüsü, test hatası değil); `dtm_gaps` → PASS; bot Bölüm 33 CLEARED.
+
+**Sonuç:** Bölüm 33 temiz, yeni oyun kodu değişmedi; yalnız günlük + gated not güncellendi. Tüm listeler bitmiş,
+birikim üst maddeleri gated, bu denetim de yeni *uygulanabilir* iş çıkarmadı (yalnız gated gözlem). **Sonraki adım:**
+sonraki tur en az denetlenen Bölüm 32 (indeks 31) veya Bölüm 3 (indeks 2) denetimi; ya da insan/telefon testi verisi
+gelirse gated birikim maddeleri açılır. İnsan testi verisi gelmeden zorluk/can dağılımına dokunulmaz.
 
 ### 2026-11-27 (460) — Denetim: Bölüm 27 "Telgraf Hattı" (indeks 26) temiz; otomasyon durdu
 
