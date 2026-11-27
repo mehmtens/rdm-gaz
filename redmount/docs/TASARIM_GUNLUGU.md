@@ -12436,3 +12436,40 @@ toplanabilir, x=9596 külhan ocağı arena (DALGA 1/2 HUD, alev, SAMATYA tabelas
 
 **Sonraki adım:** birikime "Bölüm 19 külhan alev ağırlığı" gated maddesi eklendi. Yakın zamanda denetlenmemiş: 4, 20,
 21, 23.
+
+### 2026-11-27 — Denetim (Bölüm 20 Samatya Taş Depoları, indeks 19): temiz; "tehlikesizlik" baskı eğrisiyle çürütüldü, final yumuşaklığı gated (tur 463)
+
+**Neden şimdi:** STIL_DONUSUM_LISTESI, YOL_HARITASI ve OYNANIS-KALITE P1 `[ ]`=0; birikim insan (telefon) testi verisi
+bekliyor → (d) denetim. Tur 461/462'nin bıraktığı "yakında denetlenmemiş: 4, 20, 21, 23" listesinden 20 seçildi; ayrıca
+birikimde duran **"Bölüm 20 tehlikesizliği"** hipotezini taze bir botla ölçmek için iyi fırsattı. Bot pencereli 1280×720,
+8 kare (REDMOUNT_SNAP_EVERY=11) + başsız koşu.
+
+**Bot (oynanış ritmi):** CLEARED @10110, t≈81–91 sn, **respawns=0**, boss_evades 0/0, press 0/0, en uzun takılma 12 sn
+@9882 (final avlu, 45 sn eşiğinin çok altında). Can eğrisi: 115 → 105 @2500 (pazar arenası) → düz x~2500–5200 (deniz
+kapısı/vinç paleti platformu, nefes) → 99 @5240 → **79 @5615** (taş depo tüfekli+bruiser) → 72 @8088 → 65 → **37 @8419**
+(tuzlu servis arenası: BOMBER+ELITE açılış, kesitin en sert yeri) → reward+pickup ile 67'ye toparlama → final yük avlusu
+(3 dalga, Kemal kaçar) 73→67, **bitişte can 105'e kadar dolu**.
+
+**"Tehlikesizlik" bulgusu:** birikimdeki hipotez kısmen çürüdü — kesit **düz tehlikesiz değil**; tuzlu servis arenası
+gerçek bir baskı zirvesi veriyor (hp 65→37, tek dalgada −28). Düz/yumuşak olan **yalnız final avlu**: oyuncu oraya reward
+HEALTH + pickup HEALTH ile tam canla varıyor, 3 dalga (STREET/SHIELD, RIFLE/ASSASSIN, BRUISER/ELITE) yalnız 73→67 düşürüyor.
+Bu **kasıtlı anlatısal doruk** (Kemal Bey ilk kez görünüp kayıkla kaçar — dövüş değil kovalama anı) olabilir; final canını
+ya da reward yoğunluğunu bot verisiyle kısmak tam da önceki turların haklı olarak kaçındığı şey (bot ustalığı insan
+zorluğunu temsil etmez). → **dalga/can/reward'a dokunulmadı**; "Bölüm 20 tehlikesizliği" maddesi "yalnız final avlu
+yumuşak, insan-gated" olarak daraltıldı.
+
+**Görsel (4 pencereli kare, Read ile):** x=2502 balık pazarı rıhtımı (çizgili tenteler, ağlar, sur kemeri, fenerler;
+KNIFE/ASSASSIN/STREET telegrafı okunur, DALGA 1/2 HUD); x=5231 taş depo (vinç paleti/sandık, kırmızı bayrak, SHIELD'e
+tabanca mesafesi); x=8312 tuzlu servis iç geçidi (Boğaz penceresi, raf, COMBO ×3 +45); x=9689 final yük avlusu (Haliç
+panoraması, YENİKAPI kapısı, DALGA 1/3, HARİKA ×7, tüfekli+bomber telegrafı). Hepsi ChatGPT atlas tarzıyla uyumlu —
+mor gölge/altın ışık, doku, koyu mor kontur; düz renk alan, yapıştırılmış öğe, taşma/çakışma yok; HUD net.
+
+**Sonuç:** yeni ölçülebilir, non-gated iyileştirme çıkmadı; zorla madde uydurulmadı. Bölüm 19'daki gibi somut bir birim
+hatası yok — kesit sağlam. Kod değişmediği için smoke/import koşulmadı (tur 442/456 emsali).
+
+**Değişiklik:** yalnız belge (bu kayıt). Oyun kodu değişmedi.
+
+**Sonraki adım:** otonom iş tükendi → görev "tüm listeler bitti ve denetim yeni iş çıkarmadı" koşuluyla durdu. Açık iş
+yalnızca insan testi verisi bekleyen gated birikim maddeleri (Bölüm 10 Sur Ağası baskı zirvesi, Bölüm 20 **final avlu**
+yumuşaklığı — bu tur daraltıldı —, gece kalabalık okunurluğu, arena iskelesi zorluğu, Karahanlı'ya kalan can). Yakında
+denetlenmemiş bölümler: 4, 21, 23.
