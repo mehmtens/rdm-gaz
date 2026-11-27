@@ -12473,3 +12473,39 @@ hatası yok — kesit sağlam. Kod değişmediği için smoke/import koşulmadı
 yalnızca insan testi verisi bekleyen gated birikim maddeleri (Bölüm 10 Sur Ağası baskı zirvesi, Bölüm 20 **final avlu**
 yumuşaklığı — bu tur daraltıldı —, gece kalabalık okunurluğu, arena iskelesi zorluğu, Karahanlı'ya kalan can). Yakında
 denetlenmemiş bölümler: 4, 21, 23.
+
+### 2026-11-27 — Denetim (Bölüm 12 "İç Kale / Karahanlı", indeks 11): temiz, kod değişmedi; otomasyon durdu (tur 464)
+
+**Neden şimdi:** stil listesi (`STIL_DONUSUM_LISTESI.md` 0 açık), `YOL_HARITASI.md` (0 açık) ve OYNANIS-KALITE P1'in
+tümü uygulanmış ya da insan-verisi gated; "Tasarım birikimi"nin her maddesi açıkça "veri gelmeden dokunma" → kural (d).
+Yakında denetlenmemiş aday olarak Bölüm 12 seçildi (Kitap 1 finali / boss bölümü; son denetim listesinde 10/15/19/20/
+27/28/30/32/34 vardı, 12 yoktu). Oyuncu ne hissedecek: finalin görsel ve ritim bütünlüğü ölçülecek. Nasıl doğrulanacak:
+botla tam koşu + 5 pencereli kare (giriş, geçiş, takılma noktası, rampa/gizli koleksiyon, boss-öncesi).
+
+**Araç/indeks notu:** `GameState.LEVELS[11]` = `Bolum12.tscn`, `display_name = "İç Kale / Karahanlı"` — yani Bölüm 12
+gerçekten Kitap 1 finalidir (Karahanlı iç kale). `bolum_play` (PROBE_LEVEL=11 → "Bölüm 12") ve `capture_level`
+(PROBE_LEVEL=11) **tutarlı aynı sahneyi** yüklüyor; indeks kayması yok. (Hikâye brief'i "Haliç gümrük" Bölüm 13'tür.)
+
+**Bot (oynanış ritmi):** CLEARED @7725, t=76,3 sn, **respawns=0**, boss_evades 9/2, press 0/0. Can eğrisi: 98 → 91 @929
+(açılış tüfekli) → 84 @2752 → düz → 85 @6269 (toparlama) → **71 @7628 → 58 @7723** (boss arenası yaklaşımı). En uzun
+takılma **13 sn @2748** (45 sn eşiğinin çok altında): bot x~2170–2752 arasında ~12 sn salınıp y=−144'e zıplayarak asma
+iskele/geçişi aştı, sonra x=3377'ye akıcı geçti. Ölüm yok, hp bu sırada 84'te sağlıklı → **bot-okuma artefaktı** (bot
+asma iskele zamanlamasını okumuyor; insan okur), önceki turların "bot ustalığı insanı temsil etmez" ilkesiyle aynı.
+
+**Görsel (5 pencereli kare, Read ile):** x=800 giriş (sütunlu saray koridoru, hilal bayrakları, hazine sandığı, soğuk
+kenar-ışıklı tüfekli, Boğaz silüeti); x=2550 cephanelik koridoru (miğfer rafları, kılıç rafları, asma iskele, coin
+şeridi, ikaz bantlı gaz tüpü); x=2748 takılma bölgesi (aynı koridor, düz zemin — gizli soft-lock yok); x=4500 sandık
+parkuru (**gizli "FİLM RULOSU 1/3" koleksiyonu +10 coin**, istiflenmiş sandıklar, tüfekli karşılaşma, kemerli derinlik,
+alt su); x=7600 boss-öncesi ara sahne (iç kale kapısı, kubbeli silüet, görkemli fenerler, hazine yığını, ATLA düğmesi).
+Hepsi ChatGPT atlas tarzında — mor gölge/altın ışık rampası, malzeme dokusu (taş, ahşap damarı, perçin), koyu mor
+kontur, sol-üst fener + sağ ay kenarı; düz renk alan, yapıştırılmış öğe, taşma/çakışma yok. HUD (CAN/COIN) net. Katmanlı
+rota (sandık yüksek yol + gizli koleksiyon), set-piece (boss-öncesi ara sahne) ve okunur telegraf mevcut — DTM ritmi
+tutuyor.
+
+**Sonuç:** yeni ölçülebilir, non-gated iyileştirme çıkmadı; zorla madde uydurulmadı. Bölüm 19'daki gibi somut bir birim
+hatası yok — final sağlam. Kod değişmediği için smoke/import koşulmadı (tur 442/456/463 emsali).
+
+**Değişiklik:** yalnız belge (bu kayıt). Oyun kodu değişmedi.
+
+**Sonraki adım:** otonom iş tükendi → görev "tüm listeler bitti ve denetim yeni iş çıkarmadı" koşuluyla durur. Açık iş
+yalnızca insan testi verisi bekleyen gated birikim maddeleri. Yakında denetlenmemiş bölümler: 4, 21, 23.
