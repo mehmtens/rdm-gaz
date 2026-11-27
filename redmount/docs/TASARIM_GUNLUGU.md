@@ -12571,3 +12571,25 @@ ANA VANA tabelası, çok katlı iskele); x=7900 bakım geçidi (kemerli tonoz, b
 **Değişiklik:** yalnız belge. Kod değişmediği için smoke/import koşulmadı.
 
 **Sonraki adım:** denetlenmemiş: Bölüm 4.
+
+### 2026-11-27 — Denetim (Bölüm 4 "Silahlı Kontrol Bölgesi", indeks 3): temiz, kod değişmedi; otomasyon durdu (tur 467)
+
+**Neden şimdi:** listeler boş, birikim gated → kural (d); yakında denetlenmemiş son bölüm 4. Doğrulama: bot koşusu +
+5 pencereli kare.
+
+**Bot:** CLEARED @9308, t=104,7 sn, **respawns=0**, boss_evades 4/0, isabet heals=1, en uzun takılma 17 sn @8683
+(Yüzbaşı Demir arenası — dövüş). Can eğrisi bölüme **dağılmış** (Bölüm 10/20/21'in arka yüklü deseninin tersi):
+115 → 105 (açılış) → 96/84 (kontrol büfesi, RIFLE+SHIELD) → **62 → 34** (x 4200–5100 kule/siper bölgesi, iki kule
+tüfeklisi + iskele) → HEALTH ile 64 → 61/55 → Demir 43 → **15** → bitiş. İki ayrı zirve + nefes arası: DTM ritmine uygun.
+
+**Görsel (5 kare, Read ile):** x=1500 açılış (dikenli tel, Türk bayrağı, kum torbaları, gözetleme kulesi + projektör,
+tren köprüsü panoraması); x=3300 KONTROL BÜFESİ (tüfekli + kalkanlı "!" telegrafları, telsiz); x=4700 kuleler arası
+iskele hattı (iki kule tüfeklisi projektör ışığında, coin yayı + gizli film rulosu üst hatta, alt hendekte ASSASSIN —
+katmanlı rota); x=6500 siper geçişi; x=8000 bariyer önü (arena kaldırılmış hâli). Hepsi ChatGPT atlas tarzında, mor
+gölge/altın ışık, yapıştırılmış öğe/taşma/çakışma yok, HUD/telsiz net.
+
+**Sonuç:** yeni ölçülebilir, non-gated iyileştirme çıkmadı. **Değişiklik:** yalnız belge; smoke/import koşulmadı.
+
+**Sonraki adım:** 36 bölümün tamamı en az bir kez denetlendi; otonom iş tükendi → görev durdu. Açık iş yalnız insan
+testi verisi bekleyen gated birikim maddeleri (Bölüm 23 bakım geçidi, 19 külhan alevi, 10 Sur Ağası, 20 final avlu,
+gece kalabalık okunurluğu, survival toast süresi). Bir sonraki anlamlı adım: telefonda gerçek oyun testi.
