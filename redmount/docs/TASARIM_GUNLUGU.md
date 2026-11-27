@@ -12752,3 +12752,26 @@ insanı temsil etmez" deseni içinde; yeni non-gated iş değil. Haznesi maddesi
 **Değişiklik:** yalnız belge (bu kayıt + tur 367/368 birikim maddesine "tur 472 teyit" ölçümü); oyun kodu değişmedi,
 smoke/import koşulmadı.
 **Sonraki adım:** otonom iş tükendi; anlamlı ilerleme telefonda insan testi verisine bağlı (gated birikim maddeleri).
+
+### 2026-11-28 — Denetim (Bölüm 27 "Karaköy / Telgraf Hattı", indeks 26): temiz, kod değişmedi (tur 474)
+**Neden şimdi:** STIL/YOL/OYNANIS-KALITE üç listesi de `[ ]`=0, "Tasarım birikimi"nin her maddesi açıkça insan/telefon
+testi verisi bekliyor ("veri gelmeden dokunma") → kural (d) denetim. Günlükte en az anılan bölüm 27 (52 anma, son
+tur kümesinde — 28/24/34/3/32 — taranmamıştı) → en değerli taze bakış. Doğrulama: bot koşusu + 4 pencereli kare.
+**Bot (`REDMOUNT_PROBE_LEVEL=26`, fixed-fps 60):** CLEARED @10105, t=86,3 sn, **respawns=0**, boss_evades=0/0,
+heals=1, en uzun takılma 9 sn @7373. Can eğrisi **dağılmış** (arka yüklü değil): 105 → 93/83/53 (erken arena
+x~2400–2600) → 43/37/19 (orta kule/iskele kesiti x~3500–5750) → **8 @7382** (dip) → HEALTH + heal ile 31/55 →
+78 @8945 → 68/61/47 → 77 final. İki ayrı zirve + nefes arası, DTM ritmine uygun; tek sert an x~7000–7400 dibinde
+(hp=8) ama ölümsüz toparladı. "6 resources still in use at exit" = bilinen kapanış-anı uyarısı (tur 286'da ölçüldü,
+çalışma anı sızıntısı yok).
+**Görsel (4 kare, Read ile):** x=1200 Galata Köprüsü + Boğaz (vapurlar, yamaç evleri, tenteli büfe, ikaz-bantlı
+varil, coin yayı + asılı platform rotası, sokak eşkıyası telegrafı); x=2500 taş cephe + fenerler (sword propu, "A"
+ikaz varili, coin); x=5500 çok katmanlı demir atölye iç mekânı (üst rafta hazine sandığı + coin yayı, alt katta
+tüfekli "!" + kalkanlı + asker — katmanlı rota ve okunur dövüş); x=9400 Telgraf Hattı kule geçidi + Galata Kulesi
+panoraması (sağlık kutusu, ikaz varili, Kamondo merdivenleri diyaloğu). Hepsi ChatGPT atlas tarzında (mor gölge /
+altın ışık, taş/ahşap/demir dokusu), yapıştırılmış öğe / taşma / çakışma yok, HUD net.
+**Sonuç:** yeni ölçülebilir, non-gated iyileştirme çıkmadı. **Değişiklik:** yalnız belge; oyun kodu değişmediği
+için smoke/import koşulmadı.
+**Sonraki adım:** 36 bölümün tamamı (en az denetlenmiş 27 dâhil) bu oturumda da temiz; otonom iş tükendi → görev
+durdu. Açık iş yalnız telefonda insan testi verisi bekleyen gated birikim maddeleri (Bölüm 23 bakım geçidi, 19
+külhan alevi, 10 Sur Ağası, 24 hazne mini-boss, gece kalabalık okunurluğu, survival toast süresi). 5 dakikalık
+tetikleme yalnız tekrar-denetim üretiyor; kullanıcı görevi duraklatmayı/insan testine geçmeyi düşünebilir.
