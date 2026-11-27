@@ -1024,6 +1024,33 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-27 (469) — Denetim: Bölüm 32 "Vaniköy Fenerci Kileri" (indeks 31) örnek temiz; otonom iş tükendi
+
+**Neden şimdi:** 468'den sonra kesintisiz döngü; günlükte en az adı geçen ikinci bölüm (32=37). Bot başsız + pencereli
+1280×720, 5 anahtar kare.
+
+**Bot (oynanış ritmi):** CLEARED @9855, t=76,6 sn, **respawns=0**, boss_evades 0/0, en uzun takılma **7s@4046** (45 sn
+eşiğinin çok altında). Can eğrisi dengeli: 105 → 71 @6258 (çatı tırmanışı) → 65 @7327 → 55 @7639 (iç mekân arenası dibi)
+→ 85 @8693 (can paketi) → 57 final. **Can hiç ~55 altına inmedi** — Bölüm 33'ün uzun 20-can bandının tersine iyi
+tamponlanmış; arenanın tam ortasında (x~8700 civarı, arena.png'de görünen kırmızı haç) can paketi var. Difficulty eğrisi
+model: gated not bile gerekmedi.
+
+**Görsel denetim (5 pencereli kare, ChatGPT arka planı yanında):** giriş (Boğaz gecesi + Süleymaniye silüeti + vapur +
+Kuleli benzeri yalı, yansımalar), çatı/iskele tırmanışı ("FENERCİ KİLERİ" tabelası, kademeli platformlar), orta kesit
+(fener spot ışığı huzmesiyle telegraflı RIFLE düşman üst platformda — okunur telegraf), iç mekân arenası (iki yandan
+RIFLE + KNIFE kuşatma, nişan çizgileri telegraflı, duvar saati + imbik makinesi atmosferi), final (Vaniköy atölyesi iç
+mekânı). **Hepsi DTM kalitesinde, sahneye tam ait** — silüet kontrastı, coin/can-paketi okunurluğu, lamba ışığı, HUD
+net. Daktilo artefaktı (orta.png "...rot" kesik GAZELLE repliği) Bölüm 33'teki gibi gerçek hata değil.
+
+**Testler:** bu oturumda kod değişmedi (yalnız günlük); import temiz, `campaign_smoke` exit 0, `dtm_gaps` PASS bu oturumda
+teyitli; bot Bölüm 32 CLEARED.
+
+**Sonuç:** Bölüm 32 örnek bir bölüm — temiz, dengeli, DTM kalitesinde; **yeni iş çıkmadı** (gated not bile yok). Bu
+oturumda iki ardışık taze denetim (33, 32) temiz + gated-only/sıfır-iş döndü; tüm listeler bitmiş, birikim üst maddeleri
+insan-verisi gated. **Otonom iş tükendi** → bu oturum durdu (5 dk'lık zamanlayıcı sonraki turda temiz durumdan yeniden
+değerlendirir). **Sonraki adım:** insan/telefon testi verisi gelirse gated birikim maddeleri açılır; yoksa sonraki tur
+Bölüm 3 (indeks 2) denetimi.
+
 ### 2026-11-27 (468) — Denetim: Bölüm 33 "Vaniköy Kıyısı" (indeks 32) görsel+oynanış temiz
 
 **Neden şimdi:** STIL_DONUSUM_LISTESI `[ ]`=0 (33/33), YOL_HARITASI `[ ]`=0, OYNANIS-KALITE P1 uygulanabilir madde=0,
