@@ -1026,7 +1026,42 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
-### 2026-11-27 (470) — Denetim: Bölüm 3 "Gece Pazarı" (indeks 2) temiz; otonom iş tükendi
+### 2026-11-28 (473) — Denetim: Bölüm 28 "Üsküdar Yedek Hattı" (indeks 27) temiz; otonom iş tükendi
+
+**Neden:** Stil listesi (0 açık), YOL_HARITASI (0 açık) ve OYNANIS-KALITE P1'lerin
+tamamı uygulanmış; birikimin üstündeki maddelerin hepsi "insan-verisi gated" (tur 466/462/449
+— veri gelmeden dokunma). Açık actionable iş yok → öncelik (d) tasarım denetimi. Son turlarda
+24/34/3/32/33/23/21 denetlendi; Bölüm 28 (Kitap 3, Üsküdar) uzun süredir taranmamıştı.
+
+**Yapılan ölçüm:** Bot koşusu (`REDMOUNT_PROBE_LEVEL=27 bolum_play`) → **CLEARED @10105,
+t=100,9 sn, 0 respawn, stall=9sn@7287, heals=2**. HP tabanı 38'in altına inmedi; can hiç
+kritikleşmedi. Üç arena (2100–3000 KNIFE/ASSASSIN/STREET→RIFLE/ELITE, 6900–7750 ELITE/KNIFE→
+ELITE/RIFLE/ASSASSIN, 9200–9800 KNIFE/ASSASSIN/BOMBER→BRUISER/ELITE) + gizli han (4500).
+HEALTH 6810 ve 8030'da (arena öncesi/sonrası doğru konumlanmış). En sert nokta 2. arena
+(hp 92→47, 9 sn takılma) ama 0 ölüm → dengeli; "arka yüklü" final deseni yok, gerilim bölüme
+yayılmış.
+
+**Görsel denetim (5 pencereli çekim, ChatGPT atlas arka planı yanında Read ile):**
+giriş rıhtımı (Kız Kulesi + vapur + zincirli korkuluk), 1. arena (Üsküdar cami avlusu, şadırvan,
+selvi, patlayıcı varil), gizli han (sandıklı niş, tenteli çarşı, erguvan), 2. arena (iç mekân
+atölye, kemerli pencerelerden tarihî yarımada silueti, sağlık kiti, pres/torna), son arena
+(sur boyu rıhtım, Kız Kulesi + Ayasofya/Sultanahmet/Süleymaniye panoraması). Kahraman/düşman/
+prop/para hepsi atlasla aynı palet-ışık-kontur; yapıştırılmış öğe yok, düz renk alanı yok.
+Hero beyaz ayakkabı + ince kontur ile her sahnede okunur.
+
+**İncelenen tek şüphe — temiz çıktı:** Çekimlerde GAZELLE telsiz toast'ı ("Üsküdar'a vapurla
+geçtik. Kız Kulesi bize bakıyor.") her noktada görünüyordu → çekim aracı artefaktı. `RadioPanel`
+`HOLD=2,4 + uzunluk*0,02` ile otomatik kapanıyor (~4,5 sn); `_RadioTrigger` x=2537'de bir kez
+tetiklenip `queue_free` oluyor. Gerçek oyunda (bot koşusu) takılı kalmıyor. Bug değil.
+
+**Sonuç:** Bölüm 28 oynanış ve görsel olarak temiz; kod değişikliği yok. Fabrike edilmiş
+cila commit'i yazılmadı (kullanıcı talebi). Yalnız bu günlük kaydı commit edilir. **Birikimdeki
+tüm maddeler insan-verisi gated; actionable otonom iş tükendi.** Sonraki adım: insan testi
+verisi geldiğinde gated maddeler (bakım geçidi HEALTH, külhan alev bacaları, Sur Ağası kontrol
+noktası) sırayla değerlendirilir; o gelene kadar denetim döngüsü kalan taranmamış bölümlerde
+(ör. 7, 8, 11, 12, 15, 25) sürdürülür.
+
+
 
 **Neden şimdi:** STIL_DONUSUM_LISTESI `[ ]`=0, YOL_HARITASI `[ ]`=0, OYNANIS-KALITE P1 uygulanabilir madde=0, birikim üst
 maddeleri insan-verisi gated → kural (d). Tur 469'un önerdiği sıradaki bölüm: Bölüm 3. Doğrulama: bot + 5 pencereli kare.
