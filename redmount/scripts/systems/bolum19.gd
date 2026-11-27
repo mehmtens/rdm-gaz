@@ -149,7 +149,7 @@ func _build() -> void:
 	final.reward = HEALTH
 	add_child(final)
 	_flame(9640, 0.0)
-	_flame(9760, 1.35)
+	_flame(9760, 0.5)  ## faz döngü kesridir: 0,5 = gerçek ters faz (1,35 sn sanılıp yazılmıştı)
 	_story(10050, _sahne_mektup)
 	_han_gate(10150, "SAMATYA")
 	# Telsiz: oynanışı durdurmayan bölüm içi konuşmalar.

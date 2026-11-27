@@ -7,6 +7,13 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 462 denetimi, Bölüm 19 (indeks 18)) **Külhan final arenası alev ağırlıklı:** hasar sondası (geçici
+  `_probe19`, her can düşüşünde yakın düşman + 50 px içinde alev) bot ölümlerinin büyük kısmını iki alev bacasına bağladı
+  (12'lik isabetler, yakında düşman yok); 6 koşuda 3–4 final ölümü, tur 373'ün "0/2" teyidi örnekleme şansıymış. Bacalar
+  (9640/9760) 600 px arenanın tam ortasında → dövüşün doğal merkezi alev şeridi. Bot alev telegrafını okumuyor; insan
+  okur. **İnsan-verisi gated:** test "külhanda alevden öldüm" derse en ucuz çözüm bacaları arena kenarlarına (≈9480 /
+  9920) çekmek; hasara/dalgalara dokunma. Veri gelmeden dokunma.
+
 - (Tur 449 denetimi, Bölüm 10 (indeks 9)) **Sur Ağası finali tutarlı tek bot ölümü:** üç koşunun üçünde de CLEARED ama
   final patron arenasında (x~8332) 1 ölüm + 30–35 sn takılma; bot bölümün ilk 60 sn'sini (x~80→7222) hasarsız geçiyor, bütün
   gerilim Sur Ağası'nda toplanıyor ("arka yüklü" desenin en keskin örneği). Bu Kitap 1 finali patronu olduğundan kasıtlı zorluk
@@ -12401,3 +12408,31 @@ koşulmadı (tur 442/456 emsali).
 
 **Sonraki adım:** otonom iş tükendi → görev durdu. Açık iş yalnızca insan testi verisi bekleyen gated birikim
 maddeleri. Henüz yakın zamanda denetlenmemiş bölümler: 4, 19, 20, 21, 23.
+
+### 2026-11-27 — Denetim (Bölüm 19, indeks 18): külhan alev fazı birim hatası düzeltildi; alev ağırlığı gated (tur 462)
+
+**Neden şimdi:** üç liste `[ ]`=0, birikim insan verisi bekliyor → (d) denetim; tur 461'in önerdiği yakın zamanda
+denetlenmemiş bölümlerden 19 seçildi. Bot pencereli 1280×720 8 kare + başsız 2 koşu + hasar sondası 5 koşu.
+
+**Bot:** pencereli CLEARED @10108 t=91,1 sn **respawns=1** (final Külhanbeyi arenası x~9813); başsız @10105 0 ölüm,
+@10105 1 ölüm. Tur 373 düzeltmesinden sonra "0/2" görülmüştü; burada 3 koşunun 2'sinde final ölümü → o teyit şansmış.
+İlk ~60 sn neredeyse hasarsız, baskı final arenasında toplanıyor.
+
+**Hasar kaynağı (geçici sonda, commit edilmedi):** final arenadaki can düşüşlerinin çoğu 12'lik, oyuncu alev bacasından
+<50 px, düşman 60+ px uzakta → alev. Ölümler bıçaklı/Bruiser'dan çok bacalardan.
+
+**Bulunan hata:** `FlameVent.phase_offset` döngünün kesri (`_t = phase_offset * döngü`), ama `_flame(9760, 1.35)` saniye
+sanılıp yazılmış (döngü 2,7 sn → 1,35 = yarım döngü niyeti; kesir olarak 0,35 çıkıyor). Yorum "ters fazda" diyor; gerçekte
+iki baca 0,15 sn birlikte yanıyor, 0,65 sn birlikte sönük. **Değişiklik:** `bolum19.gd` → `_flame(9760, 0.5)`: iki baca
+hiç aynı anda yanmaz, her an bir "sönük yan" var — yorumdaki tasarım. Tüm bölümlerde fazı 1'in üstünde başka çağrı yok.
+Düzeltme sonrası 3 koşu: CLEARED ×3, ölüm 0/1/1 — bot için nötr (bot telegraf okumuyor), insan için okunurluğu düzeltir.
+
+**Oyuncu ne hissedecek:** külhan ocağında bacalar düzgün nöbetleşe yanar; "hangisi sönük, oraya geç" okuması tutarlı.
+
+**Görsel (Read):** x=2181 Çemberlitaş sütunu + tramvay + Sultanahmet silüeti, x=4338 hamam cephesi + "FİLM RULOSU 1/3"
+toplanabilir, x=9596 külhan ocağı arena (DALGA 1/2 HUD, alev, SAMATYA tabelası). ChatGPT tarzıyla uyumlu, taşma yok.
+
+**Test:** `--import` SCRIPT ERROR 0; `campaign_smoke.gd` rc=0; `dtm_gaps` PASS; bot Bölüm 19 yeni kod ×3 CLEARED.
+
+**Sonraki adım:** birikime "Bölüm 19 külhan alev ağırlığı" gated maddesi eklendi. Yakın zamanda denetlenmemiş: 4, 20,
+21, 23.
