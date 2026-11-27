@@ -1024,6 +1024,30 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-27 (470) — Denetim: Bölüm 3 "Gece Pazarı" (indeks 2) temiz; otonom iş tükendi
+
+**Neden şimdi:** STIL_DONUSUM_LISTESI `[ ]`=0, YOL_HARITASI `[ ]`=0, OYNANIS-KALITE P1 uygulanabilir madde=0, birikim üst
+maddeleri insan-verisi gated → kural (d). Tur 469'un önerdiği sıradaki bölüm: Bölüm 3. Doğrulama: bot + 5 pencereli kare.
+
+**Bot:** CLEARED @9006, t=75,9 sn, **respawns=0**, boss_evades 2/1, isabet heals=1, en uzun takılma 10 sn @5138 (meydan
+pususu arenası). Can eğrisi dağılmış ve nefesli: 105 → 95 (baharat çarşısı) → 89 (çatı rotası) → **69 → 59** (meydan
+pususu, x 4900–5160) → paketle 89 → 77/55 (balık hali, x 6600–7000) → 85 → bitiş. İki zirve + iki iyileşme: DTM ritmine
+uygun; tur 310 ölçümüyle (@9006 / 79,2 sn) tutarlı.
+
+**Görsel (5 kare, Read ile):** x=1200 baharat çarşısı (fenerler, kilim, biber/sarımsak dizileri, çizgili tenteler — ChatGPT
+atlas); x=3300 han avlusu (pembe sıvalı evin çatısında tüfekli "!" telegrafı + coin yayı, PAZAR GÖZCÜSÜ telsizi);
+x=5000 meydan (çeşme, kemerli revak, simetrik tenteler, "A" fıçısı); x=6900 balık hali (çok katlı iskele, yüksek hatta
+film rulosu + HEALTH, ASSASSIN+RIFLE+STREET üçlüsü okunur); x=8600 pazar çıkışı (`_interior` cephe + PAZAR ÇIKIŞI kapısı).
+Hepsi sahneye ait, taşma/çakışma yok, HUD net. Çıkış karesinde iç mekân cephesinin arkasında yarı görünen ASSASSIN →
+çekim aracının oyuncuyu ışınlamasıyla iç mekândaki düşmanın dışarı sıçradığı an; oyunda oyuncu odaya soldan girer,
+cephe o sırada solar. Hata değil, ortak `_interior` davranışı (önceki turlarda onaylı).
+
+**Sonuç:** yeni ölçülebilir, non-gated iyileştirme çıkmadı. **Değişiklik:** yalnız belge; kod değişmediği için smoke/import
+koşulmadı (tur 442/456/463/464/467 emsali).
+
+**Sonraki adım:** 36 bölümün tamamı en az bir kez, çoğu iki kez denetlendi; otonom iş tükendi → görev durdu. Açık iş yalnız
+insan/telefon testi verisi bekleyen gated birikim maddeleri.
+
 ### 2026-11-27 (469) — Denetim: Bölüm 32 "Vaniköy Fenerci Kileri" (indeks 31) örnek temiz; otonom iş tükendi
 
 **Neden şimdi:** 468'den sonra kesintisiz döngü; günlükte en az adı geçen ikinci bölüm (32=37). Bot başsız + pencereli
