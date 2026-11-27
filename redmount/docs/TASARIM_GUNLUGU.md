@@ -130,6 +130,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   alındı** (a9 zırhı tur ~170'ten beri bilerek; tur 340/357 tek koşuda 0 ölümdü, tur 57/167'de 1–2 — kronik sınır).
   Kitap 2 finali için koşu başına bir kontrol noktası dönüşü kabul edilebilir zorluk olabilir. İnsan testi "Bölüm 24
   mini-boss'unda takıldım" derse önce 1. dalgadan KNIFE'ı çıkar (BRUISER tek), mini-boss'a dokunma.
+  **(Tur 472 teyit:** taze bot koşusu CLEARED @18660, t=199,8 sn, 2 ölüm — biri yine dağıtım haznesi arenasında
+  (hp ~104→10, respawn), diğeri final patron arenasında; ilk ~90 sn hasarsız (hp 86–115). Desen tutarlı, gated kalır.)
 
 - (Tur 366, Bölüm 7 (indeks 6)) **Fırın yolu (6320–7800) arena sonrası can marjı:** zırhlı arena hafifleyince bot
   arenadan 37–67 canla çıkıyor; pres+alev ritminde 3 koşunun 1'inde öldü (x~6960, 6320 kontrol noktası hemen önce).
@@ -12697,3 +12699,21 @@ x=6990 Boğaz gecesi vinç/iskele, ikaz bantlı kaide, bayrak; x=9120 "KANDİLL�
 **Sonuç:** yeni non-gated iş çıkmadı. **Değişiklik:** yalnız belge; oyun kodu değişmediği için smoke/import koşulmadı.
 **Sonraki adım:** otonom iş tükendi; anlamlı ilerleme telefonda insan testi verisine bağlı (gated birikim maddeleri).
 Zamanlanmış görevin 5 dakikalık tetiklemesi yalnız tekrar-denetim üretiyor; kullanıcı görevi duraklatmayı düşünebilir.
+
+### 2026-11-28 — Denetim (Bölüm 24 "Bozdoğan Kemeri / Son Kumanda", indeks 23, Kitap 2 finali): temiz, kod değişmedi (tur 472)
+**Neden şimdi:** üç liste (STIL/YOL/OYNANIS-KALITE) `[ ]`=0, "Tasarım birikimi"nin her maddesi açıkça insan/telefon
+testi verisi bekliyor ("veri gelmeden dokunma") → kural (d) denetim. Bölüm 24, tur 450+ yeniden-denetim kümesinde
+(28,15,34,32,10,30,19,20,12,21,23,4,33,3) henüz taranmamış, ayrıca birikimde açık bir gated maddesi (tur 367/368
+dağıtım haznesi mini-boss) olan bir bölümdü → taze bir bot koşusuyla o maddeyi teyit etmek en değerli iş.
+**Yöntem:** `REDMOUNT_PROBE_LEVEL=23` bot koşusu (fixed-fps 60, timeout 1100).
+**Sonuç:** CLEARED @18660, t=199,8 sn, 2 respawn (ölüm), stall=34 sn @18124 (final), boss_evades=13/2, heals=0, press=2/0.
+Baskı dağılımı klasik **arka yüklü** desen: ilk ~90 sn (x 80→12000) neredeyse hasarsız (hp 86–115 arası salınıyor);
+iki ölümün **ikisi de** son iki arenada toplanıyor —
+(1) dağıtım haznesi mini-boss arenası (x~12800–13400): hp 104→94→87→80→40→24→10→ölüm, respawn @t124 — tur 367/368
+birikim maddesinin **birebir teyidi** (bot bu arenaya ~104 canla girip mini-boss dalgasında ~10'a iniyor);
+(2) final patron arenası (x~17200–18161): hp 115→96→83→76→64→40→16→ölüm, respawn @t192, sonra 34 sn stall + CLEARED.
+Final ölümü + stall, Sur Ağası (Kitap 1 finali) notuyla aynı mantıkta kabul edilen "Kitap finali = doruk, bot ustalığı
+insanı temsil etmez" deseni içinde; yeni non-gated iş değil. Haznesi maddesi gated kalıyor, bu koşu ölçümle güçlendirildi.
+**Değişiklik:** yalnız belge (bu kayıt + tur 367/368 birikim maddesine "tur 472 teyit" ölçümü); oyun kodu değişmedi,
+smoke/import koşulmadı.
+**Sonraki adım:** otonom iş tükendi; anlamlı ilerleme telefonda insan testi verisine bağlı (gated birikim maddeleri).
