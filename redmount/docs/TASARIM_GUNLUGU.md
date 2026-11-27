@@ -12377,3 +12377,27 @@ smoke/import koşulmadı (tur 442/456 emsali).
 iş yalnızca telefonda insan testi verisi bekleyen gated birikim maddeleri (Bölüm 10 Sur Ağası baskı zirvesi — bu tur
 tekrar teyit edildi —, Bölüm 20 tehlikesizliği, gece kalabalık okunurluğu, arena iskelesi zorluğu, Karahanlı'ya kalan
 can). Veri gelene kadar dokunulmaz.
+
+### 2026-11-27 — Denetim (Bölüm 30, indeks 29): temiz, kod değişikliği yok; otomasyon durdu (tur 461)
+
+**Neden şimdi:** STIL_DONUSUM_LISTESI, YOL_HARITASI ve OYNANIS-KALITE P1 `[ ]`=0; birikimin tamamı insan (telefon)
+testi verisi bekliyor → (d) denetim. Son denetim turlarında (22, 25, 27, 32, 33, 34, 10) geçmeyen Bölüm 30 seçildi.
+Bot pencereli 1280×720, 7 anahtar kare (REDMOUNT_SNAP_EVERY=12).
+
+**Bot (oynanış ritmi):** CLEARED @10006, t=80,9 sn, **respawns=0**, boss_evades 0/0, isabet heals=0, press 0/0, en
+uzun takılma 12 sn @9608 (final arena, 45 sn eşiğinin çok altında). Can eğrisi: 115 → 105 @1166 → düz x~1166–3919
+(geçiş/nefes) → 87 @4235 → 51 @4822 → 29 @6027 (orta baskı, bahçe/alev bölümü) → 59 can paketi → 27 @7004 (arşiv
+arenası) → 45 → 65 @9306 → final iskele arenası 33 → 19 → 49. Baskı orta kesit ve finale dağıtılmış; ne "ortası boş"
+ne "arka yüklü", ölüm yok — geçiş→dövüş→nefes→meydan okuma ritmine uyuyor.
+
+**Görsel (7 pencereli kare, Read ile):** x=2498 cumbalı Boğaz yalıları + sıcak fenerler + su kenarı iskelesi; x=4236
+mor çiçekli sarmaşıklı taş bahçe teras, alev tehlikesi + üst ahşap rafta coin dizisi (katmanlı rota); x=8612 "Arşiv
+Kasası" iç mekânı (kasa kapısı, evrak masaları, Gazelle diyaloğu); x=9493 iskele arenası (Haliç panoraması, cami
+silüetleri, "DALGA 2/2" HUD, telegraflı tüfekli). Hepsi ChatGPT arka plan tarzıyla uyumlu, taşma/çakışma yok,
+HUD okunuyor.
+
+**Sonuç:** yeni ölçülebilir iyileştirme çıkmadı; zorla madde uydurulmadı. Kod değişmediği için smoke/import
+koşulmadı (tur 442/456 emsali).
+
+**Sonraki adım:** otonom iş tükendi → görev durdu. Açık iş yalnızca insan testi verisi bekleyen gated birikim
+maddeleri. Henüz yakın zamanda denetlenmemiş bölümler: 4, 19, 20, 21, 23.
