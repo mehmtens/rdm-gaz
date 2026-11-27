@@ -12679,3 +12679,21 @@ gölge/altın ışık, yapıştırılmış öğe/taşma/çakışma yok, HUD/tels
 **Sonraki adım:** 36 bölümün tamamı en az bir kez denetlendi; otonom iş tükendi → görev durdu. Açık iş yalnız insan
 testi verisi bekleyen gated birikim maddeleri (Bölüm 23 bakım geçidi, 19 külhan alevi, 10 Sur Ağası, 20 final avlu,
 gece kalabalık okunurluğu, survival toast süresi). Bir sonraki anlamlı adım: telefonda gerçek oyun testi.
+
+### 2026-11-27 (471) — Denetim: Bölüm 34 (indeks 33) teyit, temiz; otonom iş tükendi
+
+**Neden şimdi:** stil listesi, YOL_HARITASI ve OYNANIS-KALITE P1 kapalı; birikim üst maddeleri insan-verisi gated →
+(d). Günlükte en az anılan bölüm 34 (49 anma). Doğrulama: pencereli bot + 15 sn'de bir kare.
+
+**Bot:** CLEARED @9906, t=78,2 sn, respawns=0, en uzun takılma 9 sn @8569. Can eğrisi 115 → 104 (giriş) → düz 104
+x 3550–5284 → 99/94 @6758–7353 → 90 @8491 → HEALTH 115 → final 110/94 → 115. Tur 455 (CLEARED @9910, 76,3 sn, min 47)
+ile aynı yapı; bu koşuda final daha hafif geçti (örnekleme farkı, bot ustalığı). Düz bant tur 455'te elle incelenmişti
+(kule rotası, elektrikli zemin, pres dizisi — bot zamanlamasıyla hasarsız).
+
+**Görsel (3 kare, Read ile):** x=2779 çiçekli yokuş + fener + tenteli ev, kalkanlı/bıçaklı düşman telegrafı okunur;
+x=6990 Boğaz gecesi vinç/iskele, ikaz bantlı kaide, bayrak; x=9120 "KANDİLLİ VERİCİSİ" tabelası, Süleymaniye silüeti,
+"TEMİZ!" + kombo HUD net. ChatGPT atlas tarzında, yapıştırılmış öğe/taşma yok.
+
+**Sonuç:** yeni non-gated iş çıkmadı. **Değişiklik:** yalnız belge; oyun kodu değişmediği için smoke/import koşulmadı.
+**Sonraki adım:** otonom iş tükendi; anlamlı ilerleme telefonda insan testi verisine bağlı (gated birikim maddeleri).
+Zamanlanmış görevin 5 dakikalık tetiklemesi yalnız tekrar-denetim üretiyor; kullanıcı görevi duraklatmayı düşünebilir.
