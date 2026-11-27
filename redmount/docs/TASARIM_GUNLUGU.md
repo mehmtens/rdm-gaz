@@ -7,6 +7,12 @@ iyileştirme yapar; sayılar insan testi gelene kadar hipotezdir.
 
 Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o yapılır.
 
+- (Tur 466 denetimi, Bölüm 23 (indeks 22)) **Bakım geçidi arenası bölümün en sert zirvesi:** iki bot koşusunda da
+  x 7600–8300 arenası (RIFLE+KNIFE+RIFLE → ELITE+SHIELD) canı 82 → 3/10'a indirdi (0 ölüm), 3 dalgalı finalden sert.
+  7350 kontrol noktasından arenaya HEALTH yok; 7700/8200 `_fg("kolon")` yalnız süs, siper değil. **İnsan-verisi gated:**
+  test "bakım geçidinde tüfekliler eritti" derse en ucuz çözüm önce 7420 civarına gevşek HEALTH (dalgaya dokunmadan);
+  ikinci seçenek wave1'deki ikinci RIFLE'ı STREET yapmak. Veri gelmeden dokunma.
+
 - (Tur 462 denetimi, Bölüm 19 (indeks 18)) **Külhan final arenası alev ağırlıklı:** hasar sondası (geçici
   `_probe19`, her can düşüşünde yakın düşman + 50 px içinde alev) bot ölümlerinin büyük kısmını iki alev bacasına bağladı
   (12'lik isabetler, yakında düşman yok); 6 koşuda 3–4 final ölümü, tur 373'ün "0/2" teyidi örnekleme şansıymış. Bacalar
@@ -12537,3 +12543,31 @@ kapısı, HEALTH). Hepsi ChatGPT atlas tarzında — mor gölge/altın ışık, 
 koşulmadı (tur 442/456/463/464 emsali). **Değişiklik:** yalnız belge.
 
 **Sonraki adım:** yakında denetlenmemiş bölümler: 4, 23.
+
+### 2026-11-27 — Denetim (Bölüm 23 "Saraçhane Ana Vana", indeks 22): temiz, kod değişmedi; bakım geçidi baskı zirvesi gated (tur 466)
+
+**Neden şimdi:** listeler boş, birikim gated → kural (d); tur 465'in "denetlenmemiş: 4, 23" listesinden 23.
+Doğrulama: iki bot koşusu (tutarlılık için) + 6 pencereli kare.
+
+**Bot (2 koşu):** ikisi de CLEARED (@10107 t=101,6 sn / @10110 t=100,9 sn), **respawns=0**, isabet heals=1. Can eğrisi
+iki koşuda neredeyse aynı: 115 → 95 (çeşme avlusu arenası, KNIFE×2+STREET / BRUISER+RIFLE) → 82 (basınç galerisi) →
+düz (vana salonu) → **bakım geçidi arenasında 82 → 3 / 82 → 10** (x 7600–8300, RIFLE+KNIFE+RIFLE sonra ELITE+SHIELD)
+→ reward HEALTH ile 40'a → taşma avlusu finali 3 dalga 30–55 bandında salınır. En uzun takılma 10–12 sn (arena içi).
+
+**Bulgu (gated):** bakım geçidi bölümün en keskin zirvesi — tek arenada canın ~%65–70'i gidiyor, 3 dalgalı finalden
+sert. Nedenler: (1) iki tüfekli aynı dalgada, (2) 7350 kontrol noktasından arenaya HEALTH yok (yalnız 6800'de yüksek
+rotada ARMOR), (3) `_fg("kolon")` 7700/8200 sütunları yalnız ön plan süsü — siper değil, "kolon arkasından tüfekliler"
+tasarım notu oyunda mekanik karşılık bulmuyor. Bot mermi telegrafını okumuyor ve yakın dövüşle tüfekliye yürüyor;
+insan atılma/çömelme ile mermiden kaçar. Bölüm 10 Sur Ağası (3/3 koşuda 1 ölüm) emsaliyle **0 ölümlü bot verisiyle
+dalgaya/cana dokunulmadı**; birikime gated madde eklendi.
+
+**Görsel (6 kare, Read ile):** x=1900 yükseltilmiş çeşme avlusu (çini panolu çeşme, servi, kemerli revak — şafak
+ışığı); x=3700 su terazisi (havuz, basamaklı taş kule, tepede tabanca); x=5200 basınç galerisi (manometre rafı, film
+rulosu + hazine sandığı yüksek iskelede, tüfekli "!" telegrafı); x=6600 vana salonu (SARAÇHANE ERZAKI, dev vana çarkı,
+ANA VANA tabelası, çok katlı iskele); x=7900 bakım geçidi (kemerli tonoz, boru hattı, iki kolon); x=9700 taşma avlusu
+(su kapakları, BOZDOĞAN KEMERİ kapısı, iskeleden ASSASSIN baskını, HEALTH). Hepsi ChatGPT atlas tarzında, yapıştırılmış
+öğe/taşma/çakışma yok, HUD net.
+
+**Değişiklik:** yalnız belge. Kod değişmediği için smoke/import koşulmadı.
+
+**Sonraki adım:** denetlenmemiş: Bölüm 4.
