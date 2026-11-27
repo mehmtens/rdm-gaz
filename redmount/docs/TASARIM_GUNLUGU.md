@@ -19,7 +19,7 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   gerilim Sur Ağası'nda toplanıyor ("arka yüklü" desenin en keskin örneği). Bu Kitap 1 finali patronu olduğundan kasıtlı zorluk
   olabilir; bot ustalığı insanı temsil etmez. **(Tur 459 teyit: desen tutarlı — yeni bot koşusu CLEARED @9205, t=128,5 sn,
   1 ölüm yine Sur Ağası arenasında (x~8377–8746, hp 66→52→36→22→8→ölüm→respawn); ayrıca patron öncesi arenada (x=6269)
-  26 sn takılma + hp 81→35. İlk 60 sn (x~80→6269) neredeyse hasarsız. Kararı değiştirmez, gated kalır.)** **İnsan-verisi gated:** test "Sur Ağası'nda duvara tosladım / çok öldüm" derse en
+  26 sn takılma + hp 81→35. İlk 60 sn (x~80→6269) neredeyse hasarsız. Kararı değiştirmez, gated kalır.)** **(Tur 465: aynı desen Bölüm 21'de — ilk 52 sn hp 115→112, hasarın tamamı sevk bürosu arenası + gece iskelesi finalinde; 0 ölüm. Gated.)** **İnsan-verisi gated:** test "Sur Ağası'nda duvara tosladım / çok öldüm" derse en
   ucuz çözüm önce patron öncesi kontrol noktasına (x~7900 civarı) gevşek HEALTH, dalgalara/patron canına dokunmadan; "ortası
   boş" derse orta kesite tek elle konmuş düşman çifti. Veri gelmeden dokunma.
 
@@ -12509,3 +12509,31 @@ hatası yok — final sağlam. Kod değişmediği için smoke/import koşulmadı
 
 **Sonraki adım:** otonom iş tükendi → görev "tüm listeler bitti ve denetim yeni iş çıkarmadı" koşuluyla durur. Açık iş
 yalnızca insan testi verisi bekleyen gated birikim maddeleri. Yakında denetlenmemiş bölümler: 4, 21, 23.
+
+### 2026-11-27 — Denetim (Bölüm 21 "Yenikapı Gece Vardiyası", indeks 20): temiz, kod değişmedi (tur 465)
+
+**Neden şimdi:** stil listesi (0 açık), `YOL_HARITASI.md` (0 açık), OYNANIS-KALITE P1 tamam/gated, birikimin tamamı
+insan-verisi gated → kural (d). Tur 464'ün "yakında denetlenmemiş: 4, 21, 23" listesinden 21 seçildi. Oyuncu ne
+hissedecek: Kitap 2'nin Kemal Bey yakalanma bölümünde ritim ve görsel bütünlük ölçülecek. Doğrulama: botla tam koşu +
+6 pencereli kare (sokak, mezat, rıhtım, kuru havuz, sevk bürosu, gece iskelesi).
+
+**Bot:** CLEARED @10106, t=90,9 sn, **respawns=0**, en uzun takılma 12 sn @8232 (sevk bürosu arenası — kilitli dövüş,
+takılma değil). Can eğrisi: 115 → **112 @t=32** → düz → 115 (HEALTH) → 98/90 @8150–8270 (büro arenası, ELITE+BOMBER /
+ELITE+SHIELD+RIFLE) → 83 → 91 → 77 → 70 → **45 @9500** (gece iskelesi finali). İlk ~52 sn (x 80→8200) neredeyse hasarsız:
+Bölüm 10/20'de görülen "arka yüklü" desenin aynısı. Önceki turların ilkesiyle (bot ustalığı insan zorluğunu temsil
+etmez; ön yarıda KNIFE/ASSASSIN/SHIELD/BRUISER + kiremit telegrafı + mezat arenası var) **dalgalara dokunulmadı**;
+birikimdeki "arka yüklü" gözlemine Bölüm 21 eklendi, gated.
+
+**Görsel (6 pencereli kare, Read ile):** x=1000 gece sokağı (ahşap konaklar, fenerler, Ayasofya-Boğaz panoraması, taş
+kaide, ASSASSIN telegrafı); x=2420 balık mezadı iskelesi (çizgili tenteler, sandık/varil, hazine sandıkları); x=4520 dış
+rıhtım (vinç, gizli **film rulosu** + coin yayı yüksek rotada, SHIELD+ASSASSIN, Gazelle telsizi); x=6330 kuru havuz
+(RIHTIM ERZAKÇISI dükkânı, gemi gövdesi iskelesi, alt kat ASSASSIN'ler — iki katlı rota); x=8200 sevk bürosu iç mekânı
+(harita duvarı, sevk fişleri, palto askısı, iki asma iskele); x=9700 gece iskelesi (yük vagonu, zincirli balya, AKSARAY
+kapısı, HEALTH). Hepsi ChatGPT atlas tarzında — mor gölge/altın ışık, doku, koyu mor kontur; yapıştırılmış öğe, taşma/
+çakışma yok. Büro odasının pas renkli ince çerçevesi `_interior` boyalı iç mekân galerisi (tüm bölümlerde ortak, daha
+önce onaylı) — hata değil.
+
+**Sonuç:** yeni ölçülebilir, non-gated iyileştirme çıkmadı; zorla madde uydurulmadı. Kod değişmediği için smoke/import
+koşulmadı (tur 442/456/463/464 emsali). **Değişiklik:** yalnız belge.
+
+**Sonraki adım:** yakında denetlenmemiş bölümler: 4, 23.
