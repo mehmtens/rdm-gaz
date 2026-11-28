@@ -12950,3 +12950,17 @@ soğuk mavi-mora, kahramanınkini sıcak altına ayırmak (sprite paletine deği
 **Sonuç:** yeni ölçülebilir, non-gated iyileştirme çıkmadı; zorla madde uydurulmadı.
 **Sonraki adım:** otonom iş tükendi → görev durdu. Açık iş yalnız telefonda insan testi bekleyen gated birikim
 maddeleri; 5 dakikalık tetikleme yalnız tekrar-denetim üretiyor — görevi duraklatıp insan testine geçmek önerilir.
+
+### 2026-11-28 — Denetim (Bölüm 22, indeks 21, Kitap 2): temiz, kod değişmedi (tur 482)
+**Neden şimdi:** STIL/YOL/OYNANIS-KALITE listelerinde `[ ]`=0; birikimin tüm maddeleri insan/telefon verisi bekliyor →
+kural (d). Günlükte az anılan ve son denetim kümesinde (3/5/16/17/24/27/29/32/33/34) olmayan Bölüm 22 seçildi.
+**Bot (`REDMOUNT_PROBE_LEVEL=21`, headless, fixed-fps 60):** CLEARED @10110, t=82,1 sn, **respawns=0**, heals=1,
+boss_evades 0/0, en uzun takılma 8 sn @9969 (45 sn eşiğinin çok altında). Can eğrisi: 115 → 105/96 (x~2475–2921) →
+86 @5032 → 70 @6841 → 45 @~8100 (orta arena) → 75 (heal) → 68 → **39/44/19/35/25/5 (x~9350–9970 final arenası, dip 5)**
+→ CLEARED. İlk ~6800 px hafif, gerilim son 1000 px'te: Bölüm 10/21/5'teki **"arka yüklü final"** deseninin bir veri noktası
+daha (ölüm yok, dar marj). Karar değişmez: insan-verisi gated (veri gelirse önce final öncesi gevşek HEALTH, dalgalara
+dokunmadan).
+**Görsel:** pencereli çekim alınmadı (kod/sanat değişmedi).
+**Sonuç:** yeni ölçülebilir, non-gated iyileştirme çıkmadı. **Değişiklik:** yalnız belge.
+**Sonraki adım:** otonom iş tükendi → görev durdu. Açık iş yalnız telefonda insan testi bekleyen gated birikim maddeleri;
+5 dakikalık tetikleme yalnız tekrar-denetim üretiyor — görevi duraklatıp insan testine geçmek önerilir.
