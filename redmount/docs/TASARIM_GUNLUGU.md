@@ -46,7 +46,9 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   dış mekân gece sahnelerini de kapsıyor.)** **(Tur 481 teyit: 5. veri noktası — Bölüm 29 "Kuzguncuk" kıyı gecesinde de
   siyah giyimli bıçaklı/eşkıya tipler koyu rıhtım ahşabına karşı kahramana benzer tonda; ayrım beyaz ayakkabı + altın
   kontura kalıyor. Artık Kitap 1 pazar + Kitap 2 arşiv + Kitap 3 kale kapısı + Kandilli Boğaz + Kuzguncuk kıyı → desen
-  sağlam.)** **İnsan-verisi gerekli:** test
+  sağlam.)** **(Tur 486 teyit: 6. veri noktası — Bölüm 3 "Pazar Çıkışı" dış mekân gece pazarında çarşı kilitli
+  arenasında kahraman + koyu-giyimli eşkıya sıcak taş zeminine karşı benzer koyu tonda; ayrım beyaz ayakkabı + altın
+  kontur; yeşil elit ayırt ediliyor. Kitap 1 pazar deseninin aynısı → teyit, kararı değiştirmez.)** **İnsan-verisi gerekli:** test
   "kalabalıkta kimi vuruyorum belli değil" demeden kahraman/düşman paletine dokunulmaz (onaylı sanat); veri gelirse en ucuz
   çözüm önce düşman kenar konturu rengini kahramanınkinden ayırmak (düşman soğuk mavi-mor, kahraman sıcak altın) —
   sprite paletine değil, kontur katmanına dokunur.
@@ -1035,6 +1037,42 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-28 (486) — Denetim: Bölüm 3 "Pazar Çıkışı" (indeks 2) temiz; otonom iş tükendi
+
+**Neden şimdi:** STIL_DONUSUM_LISTESI `[ ]`=0 (33/33, "stil uyumu tamam"), YOL_HARITASI `[ ]`=0, OYNANIS-KALITE
+uygulanabilir P1=0, "Tasarım birikimi"nin üst maddeleri (Bölüm 23/19/10/20/silüet) açıkça insan-verisi gated
+("veri gelmeden dokunma") → (d) denetimi. Bölüm 3 son turlarda günlükte en az adı geçen, görsel kaydı eski
+bölümlerden biri; taze veri noktası için seçildi. Bot pencereli 1280×720, SNAP_EVERY=11 → 8 anahtar kare.
+
+**Bot (oynanış ritmi):** CLEARED @9006, t=78,3 sn, **respawns=0**, boss_evades 1/0, en uzun takılma 11 sn @5150
+(45 sn eşiğinin çok altında). Can eğrisi: 105 → 95 @1077 → 89 @3656 (tırmanış) → **79→69→59→79 @4700–5165 (çarşı
+kilitli arenası, DALGA 2/3, bölümün ilk baskı yoğunluğu)** → 79 @6227 → **51 @6628 (liman çarşısı, RIFLE üst
+platformda telegraflı)** → 45 @7063 düz → final 35 @8630 "PAZAR ÇIKIŞI" kapısı. Baskı dağıtılmış: çarşı arenası
+(orta) + liman dalgası (geç); ne "ortası boş" ne saf arka yüklü; geçiş→dövüş→nefes→meydan okuma DTM ritmine uyuyor,
+ölüm yok.
+
+**Görsel (pencereli kareler, ChatGPT arka planı yanında Read):** t0044 (x4816) taş mahalle akşam çarşısı — fenerler,
+çizgili tenteler, sarmaşık balkonları, kilitli arena (kahraman beyaz konturla eşkıya ile dövüş), HUD net
+(CAN/COIN/Sopa/Q); t0066 (x6894) liman çarşısı — mal sandıkları, asma fenerler, üst platformda telegraflı RIFLE
+(kırmızı), altın coin yayları okunur, Süleymaniye silüeti mor alacakaranlıkta; t0077 (x8630) "PAZAR ÇIKIŞI" tuğla
+kapısı + cami silüeti. **Hepsi DTM kalitesinde, sahneye tam ait** — lamba ışığı, coin okunurluğu, HUD hepsi net.
+t0000 karesi beklenen açılış-fade siyahlığı (Transition fade-in başı, tur 436/437'de ölçüldü, gerçek hata değil).
+
+**Gated gözlem (yeni veri noktası, yeni iş değil):** çarşı arenası (t0044) kahraman + koyu-giyimli eşkıya her ikisi
+de sıcak taş zeminine karşı koyu ton; ayrım kahraman beyaz ayakkabı + ince altın kontura kalıyor; yeşil elit ayırt
+ediliyor. Bu, birikimdeki **silüet okunurluğu** maddesinin 6. veri noktası (Kitap 1 pazar Bölüm 2 ile aynı desen) —
+Bölüm 3 de dış mekân gece pazarı olduğundan deseni teyit ediyor, değiştirmiyor. İnsan testi "kalabalıkta kimi
+vuruyorum belli değil" demeden dokunulmaz.
+
+**Testler:** import temiz (SCRIPT ERROR yok); `campaign_smoke.gd` exit 0 (çıkıştaki resource-in-use satırları motor
+teardown gürültüsü); `dtm_gaps` → PASS; bot Bölüm 3 CLEARED.
+
+**Sonuç:** Bölüm 3 temiz, DTM kalitesinde; **yeni oyun kodu değişmedi** (yalnız günlük + gated silüet maddesine 6.
+veri noktası). Tüm listeler bitmiş, birikim üst maddeleri insan-verisi gated, bu taze denetim de yeni *uygulanabilir*
+iş çıkarmadı (yalnız gated gözlem). **Otonom iş tükendi → bu oturum durdu.** **Sonraki adım:** insan/telefon testi
+verisi gelirse gated birikim maddeleri (silüet kontrastı, bakım geçidi, külhan alev, Sur Ağası) açılır; yoksa sonraki
+tur en az denetlenen bölümlerden biri (ör. Bölüm 6/8/11 civarı).
 
 ### 2026-11-28 (478) — Denetim: Bölüm 13 "Haliç'te Şafak" (indeks 12) + Bölüm 34 "Kandilli Verici Sırtı" (indeks 33) temiz; otonom iş tükendi
 
