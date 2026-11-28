@@ -12810,3 +12810,26 @@ için smoke/import koşulmadı.
 **Sonraki adım:** Kitap 2 orta bölümü de (16) temiz; otonom iş tükendi → görev durdu. Açık iş yalnız telefonda
 insan testi verisi bekleyen gated birikim maddeleri. 5 dakikalık tetikleme bu aşamada yalnız tekrar-denetim
 üretiyor; kullanıcı görevi duraklatıp insan/telefon testine geçmeyi düşünebilir.
+
+### 2026-11-28 — Denetim (Bölüm 17, indeks 16, Kitap 2 açılışı): temiz, kod değişmedi (tur 476)
+**Neden şimdi:** STIL/YOL/OYNANIS-KALITE üç listesi de `[ ]`=0; "Tasarım birikimi"nin her maddesi insan/telefon testi
+verisi bekliyor → kural (d) denetim. Bölüm 17'nin son özel denetim kaydı günlüğün çok eski kısmında (satır ~2394);
+son tur kümesi (27/28/24/34/16) onu atlamıştı → en bayat bölüm. Doğrulama: headless bot + pencereli bot (her 14 sn kare).
+**Bot (`REDMOUNT_PROBE_LEVEL=16`, fixed-fps 60):** headless CLEARED @10009, t=81,4 sn, **respawns=0**, heals=1,
+en uzun takılma 11 sn @2853; pencereli tekrar CLEARED @10008, t=85,4 sn, respawns=0, heals=2, takılma 14 sn @2853.
+Can eğrisi: 115 → 103 (x~2400–2860 Beyazıt kapısı arenası, DALGA 1/2) → 115 (iyileşme) → 107 (x~5800) → 91 (x~7800
+telgraf odası iç mekân arenası) → 84 @9620 → 115 final. Dip hp=84/115: Kitap 2 açılışı için yumuşak — DTM'de
+bölüm başı "ısınma" rolüne uygun; zorluk ayarı insan-verisi gated olduğundan dokunulmadı. "8 ObjectDB instances
+leaked at exit" = bilinen kapanış-anı uyarısı ailesi (tur 286), çalışma anı sızıntısı değil.
+**Görsel (4 kare, Read ile):** x=2445 Beyazıt kapısı kilitli arena (kemer, mukarnas, demir parmaklık, DALGA 1/2 ·
+2 DÜŞMAN, "!" telegrafı, ikaz varili, HARİKA ×8 combo); x=4989 "SAHAFLAR ERZAKI" dükkânı + taş cephe (Bıçak
+pickup ikonu, sandık istifi, üst taş blokta tüfekli → katmanlı rota); x=7689 telgraf/şifre odası iç mekânı (pirinç
+cihazlar, kâğıt şeridi, ahşap iskele üstünde ve altında tüfekliler, namlu alevi okunur); x=9843 Kapalıçarşı çıkış
+kapısı + Haliç/cami panoraması. Hepsi ChatGPT atlas tarzında; yapıştırılmış öğe, taşma, çakışma yok; HUD net.
+**Tek gözlem — gated:** x=7689 iç mekânda koyu giysili düşmanlar koyu ahşap/duvar zeminine yaklaşıyor — tur 475'te
+dördüncü veri noktası olarak beklenen "düşman/kahraman iç mekân okunurluğu" gated maddesiyle aynı desen (namlu alevi
+ve "!" telegrafı tanımayı kurtarıyor). Karar değişmez; insan testi demeden kontur katmanına dokunulmaz.
+**Sonuç:** yeni ölçülebilir, non-gated iyileştirme çıkmadı. **Değişiklik:** yalnız belge; oyun kodu değişmediği için
+smoke/import koşulmadı.
+**Sonraki adım:** otonom iş tükendi → görev durdu. Açık iş yalnız telefonda insan testi verisi bekleyen gated birikim
+maddeleri. 5 dakikalık tetikleme bu aşamada yalnız tekrar-denetim üretiyor; görevi duraklatıp insan testine geçmek önerilir.
