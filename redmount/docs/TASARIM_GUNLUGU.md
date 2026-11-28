@@ -1047,6 +1047,41 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 ## Tur kayıtları
 
+### 2026-11-28 (490) — Denetim: Bölüm 11 "Sessiz Koridor" (indeks 10) temiz; otonom iş tükendi
+
+**Neden şimdi:** STIL_DONUSUM_LISTESI `[ ]`=0, YOL_HARITASI `[ ]`=0, OYNANIS-KALITE uygulanabilir P1=0 (kalan
+P1'ler lines 39–45 insan/cihaz testi bekliyor), "Tasarım birikimi"nin her maddesi açıkça insan-verisi gated
+("veri gelmeden dokunma") → (d) denetimi. Bölüm 11 (Kitap 1 finalinden önceki iç mekân bölümü) son 30+ turda
+günlükte hiç adı geçmeyen, görsel kaydı olmayan bölümlerden biri; taze veri noktası için seçildi. Derleme temiz
+(SCRIPT ERROR yok); bot pencereli 1280×720, SNAP_EVERY=10 → 10 anahtar kare.
+
+**Bot (oynanış ritmi):** headless CLEARED @8656, t=101,5 sn, **respawns=0**, boss_evades 6/0, en uzun takılma
+20 sn @7801 (patron arenası, 45 sn eşiğinin altında); pencereli koşuda 40 sn @7794 (patron, yine eşik altında).
+Can eğrisi iki belirgin basınç zirvesi gösteriyor: **orta arena** x~4300–4760 (hp 72→58→40→26→49(iyileşme)→28,
+~16 sn) ve **patron finali** Muhafız Başı x~7800 (hp 74→60→46→32→55(iyileşme)→..., ~20 sn takılma). Girişten orta
+arenaya kadar (x80→4300) ve iki arena arası geçiş koridoru (x4760→7436) neredeyse hasarsız. Bu **dağınık/çift
+zirve** deseni, son turların "arka yüklü" (tüm basınç tek final arenasında) bulgusundan DAHA sağlıklı — Bölüm 11'de
+basınç bölümün ortasına ve sonuna iki noktaya yayılmış, DTM'nin "geçiş→dövüş→nefes→meydan okuma" ritmine uygun.
+
+**Görsel (10 kare, ChatGPT atlasıyla yan yana):** giriş (fade-in, kasıtlı karanlık), telsiz diyaloğu koridoru
+(x2212: sütunlu iç mekân, halı, fener, pres çarkı — stil içi), orta arena (x4361: "DALGA 2/3 · 3 DÜŞMAN" sayacı +
+"İYİ x3" combo + düşmanlarda kırmızı telegraf ünlemi, duvar halıları/pirinç ibrik, okunur), kütüphane geçiş
+koridoru (x6207: kitaplık, pirinç şişeler, kemerli pencere, asılı fener, sarkaç/mızrak tuzağı, coin'ler), patron
+finali (x7537: Muhafız Başı + alt "MUHAFIZ BAŞI" sağlık çubuğu, demir köprü/zincir/fener endüstriyel iç mekân).
+Palet, ışık yönü (sol üst sıcak fener + sağ soğuk ay), mor-gölge rampası ve kontur ChatGPT atlasıyla tutarlı;
+yapıştırılmış/düz-renk öğe yok.
+
+**İncelenen sahte-hata:** x2212 karesinde üst-orta kutuda bölüm adı "Sessiz k" (kesik) göründü; kaynak izlendi —
+`bolum11.gd:123` x=2175'te `_radio(..., "REDMOUNT", "Sessiz koridor...")` telsiz diyaloğu, snapshot x2212'de yazı
+makinesi (typewriter) animasyonunun ortasında yakalanmış, engellemeyen (oyuncu hareketine devam ediyor). Kesilme
+değil, canlı animasyon → **hata yok.**
+
+**Sonuç:** Bölüm 11 görsel ve oynanış olarak temiz; çift-zirve basınç deseni sağlıklı. Denetim yeni uygulanabilir
+(gated olmayan) iş çıkarmadı. STIL/YOL_HARITASI/P1 kapalı, birikim tamamen insan-verisi gated → durma koşulu
+geçerli. **Bir sonraki adım:** insan/telefon testi verisi geldiğinde birikimdeki gated maddeler (bakım geçidi
+tüfek yoğunluğu, külhan alev konumu, silüet gövde-ton kontrastı, Sur Ağası/Tünel Bekçisi arka-yük) sırayla ele
+alınır; o güne kadar denetim taze bölümlerde (sıradaki: Bölüm 30/31, indeks 29/30) ritim/görsel teyidini sürdürür.
+
 ### 2026-11-28 (486) — Denetim: Bölüm 3 "Pazar Çıkışı" (indeks 2) temiz; otonom iş tükendi
 
 **Neden şimdi:** STIL_DONUSUM_LISTESI `[ ]`=0 (33/33, "stil uyumu tamam"), YOL_HARITASI `[ ]`=0, OYNANIS-KALITE
