@@ -12911,3 +12911,15 @@ smoke/import koşulmadı.
 **Sonraki adım:** otonom iş tükendi → görev durdu. Açık iş yalnız telefonda insan testi bekleyen gated birikim maddeleri
 (Bölüm 5 finali artık 3 veri noktalı en somut aday). 5 dakikalık tetikleme yalnız tekrar-denetim üretiyor — görevi
 duraklatıp insan testine geçmek önerilir.
+
+### 2026-11-28 — Denetim (Bölüm 3, indeks 2): temiz, kod değişmedi (tur 480)
+**Neden şimdi:** STIL/YOL/OYNANIS-KALITE listelerinde `[ ]`=0; birikimin tüm maddeleri insan/telefon verisi bekliyor →
+kural (d). Günlükte en az anılan bölümlerden 3 (57 anılma) son tur kümesinde (5/13/16/17/24/27/28/32/33/34) yoktu.
+**Bot (`REDMOUNT_PROBE_LEVEL=2`, headless, fixed-fps 60):** CLEARED @9006, t=72,8 sn, **respawns=0**, heals=0,
+boss_evades 2/1, en uzun takılma 10 sn @5133 (45 sn eşiğinin çok altında). Can eğrisi: 105 → 97 (x~1200) → 91 @3640
+→ 81/71/61 (x~4750–5160 kilitli arena, bölümün dibi %58) → 91 (paket) → 79/67/57 (x~6600–8100) → bitiş 57. Kitap 1
+erken bölümü için makul baskı, ölüm yok; dengeleme insan-verisi gated, dokunulmadı.
+**Görsel:** bu tur pencereli çekim alınmadı (kod/sanat değişmedi; bölüm önceki denetimlerde stil içi doğrulanmıştı).
+**Sonuç:** yeni ölçülebilir, non-gated iyileştirme çıkmadı. **Değişiklik:** yalnız belge.
+**Sonraki adım:** otonom iş tükendi → görev durdu. Açık iş yalnız telefonda insan testi bekleyen gated birikim maddeleri;
+5 dakikalık tetikleme yalnız tekrar-denetim üretiyor — görevi duraklatıp insan testine geçmek önerilir.
