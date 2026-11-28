@@ -43,7 +43,10 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   tipler kahramanla benzer tonda; yeşil elit ayırt ediliyor. Üçüncü veri noktası → tek sahneye özgü değil.)** **(Tur 478 teyit:
   4. veri noktası — Bölüm 34 "Kandilli" gece Boğaz sırtında da kahraman + düşman koyu silüet, ayrım beyaz ayakkabı + sıcak
   altın kontura kalıyor. Artık Kitap 1 pazar + Kitap 2 arşiv + Kitap 3 kale kapısı + Kitap 3 Boğaz gecesi → sistematik,
-  dış mekân gece sahnelerini de kapsıyor.)** **İnsan-verisi gerekli:** test
+  dış mekân gece sahnelerini de kapsıyor.)** **(Tur 481 teyit: 5. veri noktası — Bölüm 29 "Kuzguncuk" kıyı gecesinde de
+  siyah giyimli bıçaklı/eşkıya tipler koyu rıhtım ahşabına karşı kahramana benzer tonda; ayrım beyaz ayakkabı + altın
+  kontura kalıyor. Artık Kitap 1 pazar + Kitap 2 arşiv + Kitap 3 kale kapısı + Kandilli Boğaz + Kuzguncuk kıyı → desen
+  sağlam.)** **İnsan-verisi gerekli:** test
   "kalabalıkta kimi vuruyorum belli değil" demeden kahraman/düşman paletine dokunulmaz (onaylı sanat); veri gelirse en ucuz
   çözüm önce düşman kenar konturu rengini kahramanınkinden ayırmak (düşman soğuk mavi-mor, kahraman sıcak altın) —
   sprite paletine değil, kontur katmanına dokunur.
@@ -12923,3 +12926,27 @@ erken bölümü için makul baskı, ölüm yok; dengeleme insan-verisi gated, do
 **Sonuç:** yeni ölçülebilir, non-gated iyileştirme çıkmadı. **Değişiklik:** yalnız belge.
 **Sonraki adım:** otonom iş tükendi → görev durdu. Açık iş yalnız telefonda insan testi bekleyen gated birikim maddeleri;
 5 dakikalık tetikleme yalnız tekrar-denetim üretiyor — görevi duraklatıp insan testine geçmek önerilir.
+
+### 2026-11-28 — Denetim (Bölüm 29 "Kuzguncuk Kıyı Deposu", indeks 28, Kitap 3): temiz, kod değişmedi (tur 481)
+**Neden şimdi:** stil listesi, YOL_HARITASI, OYNANIS-KALITE kapalı; birikimdeki her madde telefonda insan testi
+verisi bekliyor ("veri gelmeden dokunma") → kural (d) denetim. Yakında denetlenmemiş, mekanik açıdan zengin bir aday
+seçildi: Bölüm 29 — Kitap 3'ün polis/minibüs kovalama set-piece'li kıyı bölümü (son denetim kümesi 30/19/20/12/21/23/
+4/34/24/27/16/17/32/5/3'ü kapsıyordu, 29'u değil). Kovalama + çok katmanlı rıhtım iskeleti gerçek bulgu (çakışma,
+soft-lock, telegraf eksiği) ihtimali en yüksek yerlerden.
+**Ölçüm:** bot `REDMOUNT_PROBE_LEVEL=28` → **CLEARED @10109, t=70,3 sn, 0 respawn, 0 boss_evade, 1 takılma (6 sn @ x=3823,
+kovalama kesiti).** Can eğrisi sağlıklı ve dağılmış: 115 → 78 (orta dövüşler) → kovalamada geçici 93→81 geri itme →
+finalde 115'e toparlıyor. "Arka yüklü" (Bölüm 10/21) deseni YOK; gerilim bölüme yayılmış — iyi ritim.
+**Görsel:** pencereli 1280×720 çekim 5 noktada (giriş/kovalama/orta/rampa/final). Hepsi ChatGPT temel sanatıyla
+bütün: Kuzguncuk renkli evleri + yelkenli + Boğaz; sıcak fener / soğuk ay ışığı tutarlı; katmanlı rıhtım iskeleti,
+sağlık sandıkları, sandık/varil stil içi; final Boğaz gün batımı silüeti (Süleymaniye/Ayasofya) + "BEYLERBEYİ" yön
+tabelası. Kahraman beyaz ayakkabı + sıcak kontur ile zeminden ayrışıyor. "Sahneye ait mi?" → evet.
+**Tek gözlem (yeni değil, gated):** gece dış mekânda siyah giyimli bıçaklı/eşkıya tipler koyu rıhtım ahşabına karşı
+kahramana benzer tonda; ayrım yine beyaz ayakkabı + altın kontura kalıyor. Bu, tur 436'da açılan **"düşman/kahraman
+gece/iç mekân okunurluğu"** gated maddesinin **5. veri noktası** (pazar + arşiv + kale kapısı + Kandilli Boğaz gecesi +
+Kuzguncuk kıyı gecesi → sistematik, Kitap 1/2/3 dış+iç gece sahnelerini kapsıyor). İnsan testi "kalabalıkta kimi
+vuruyorum belli değil" demeden onaylı düşman paletine dokunulmaz; veri gelirse en ucuz çözüm düşman kontur rengini
+soğuk mavi-mora, kahramanınkini sıcak altına ayırmak (sprite paletine değil, kontur katmanına).
+**Test:** kod değişmedi → derleme/smoke/dtm_gaps gerekmedi; bot ×1 CLEARED (yukarıda). **Değişiklik:** yalnız belge.
+**Sonuç:** yeni ölçülebilir, non-gated iyileştirme çıkmadı; zorla madde uydurulmadı.
+**Sonraki adım:** otonom iş tükendi → görev durdu. Açık iş yalnız telefonda insan testi bekleyen gated birikim
+maddeleri; 5 dakikalık tetikleme yalnız tekrar-denetim üretiyor — görevi duraklatıp insan testine geçmek önerilir.
