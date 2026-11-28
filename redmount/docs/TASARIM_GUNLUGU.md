@@ -12964,3 +12964,18 @@ dokunmadan).
 **Sonuç:** yeni ölçülebilir, non-gated iyileştirme çıkmadı. **Değişiklik:** yalnız belge.
 **Sonraki adım:** otonom iş tükendi → görev durdu. Açık iş yalnız telefonda insan testi bekleyen gated birikim maddeleri;
 5 dakikalık tetikleme yalnız tekrar-denetim üretiyor — görevi duraklatıp insan testine geçmek önerilir.
+
+### 2026-11-28 — Denetim (Bölüm 26 "Sirkeci Sevkiyatı", indeks 25, Kitap 3): temiz, kod değişmedi (tur 483)
+**Neden şimdi:** STIL/YOL/OYNANIS-KALITE listelerinde `[ ]`=0; birikimin tüm maddeleri insan/telefon verisi bekliyor →
+kural (d). Son 25 denetimde olmayan Bölüm 26 seçildi.
+**Bot ×2 (`REDMOUNT_PROBE_LEVEL=25`, headless, fixed-fps 60):** (1) CLEARED @9756, t=92,4 sn, **respawns=2**, heals=1;
+(2) CLEARED @9755, t=79,8 sn, **respawns=0**, heals=0. Koşu 1'in iki düşüşü de yükleme çukurunda (dikenli, 6450–6610,
+160 px) hareketli palete (`_moving(6390,…)`) inip kayarak — koşu 2 ve geçmiş kayıtlar (tur 317/409/… hep 0 respawn)
+aynı yerden sorunsuz. 160 px çukur ~250 px koşu-zıplama menzilinin çok altında; vagon→çukur arası 160 px iniş payı
+(tur 341) ve iriyarı mesafesi (tur 401) yerinde. Sonuç: **bot palet zamanlaması varyansı, tasarım sorunu değil.**
+Can eğrisi: 115 → 86 (erken dövüşler) → 60 @5200 → iriyarı/vagon 109 → final arenası 73 → HEALTH 103 → CLEARED;
+tur 421'deki "orta kesit hasarsız bant" gözlemiyle tutarlı (gated, değişmedi).
+**Görsel:** pencereli çekim alınmadı (kod/sanat değişmedi; tur 409 görsel kaydı geçerli).
+**Sonuç:** yeni ölçülebilir, non-gated iyileştirme çıkmadı. **Değişiklik:** yalnız belge.
+**Sonraki adım:** otonom iş tükendi → görev durdu. Açık iş yalnız telefonda insan testi bekleyen gated birikim maddeleri;
+5 dakikalık tetikleme yalnız tekrar-denetim üretiyor — görevi duraklatıp insan testine geçmek önerilir.
