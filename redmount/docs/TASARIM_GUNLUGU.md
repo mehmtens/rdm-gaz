@@ -25,7 +25,7 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   gerilim Sur Ağası'nda toplanıyor ("arka yüklü" desenin en keskin örneği). Bu Kitap 1 finali patronu olduğundan kasıtlı zorluk
   olabilir; bot ustalığı insanı temsil etmez. **(Tur 459 teyit: desen tutarlı — yeni bot koşusu CLEARED @9205, t=128,5 sn,
   1 ölüm yine Sur Ağası arenasında (x~8377–8746, hp 66→52→36→22→8→ölüm→respawn); ayrıca patron öncesi arenada (x=6269)
-  26 sn takılma + hp 81→35. İlk 60 sn (x~80→6269) neredeyse hasarsız. Kararı değiştirmez, gated kalır.)** **(Tur 465: aynı desen Bölüm 21'de — ilk 52 sn hp 115→112, hasarın tamamı sevk bürosu arenası + gece iskelesi finalinde; 0 ölüm. Gated.)** **İnsan-verisi gated:** test "Sur Ağası'nda duvara tosladım / çok öldüm" derse en
+  26 sn takılma + hp 81→35. İlk 60 sn (x~80→6269) neredeyse hasarsız. Kararı değiştirmez, gated kalır.)** **(Tur 488: aynı desen Bölüm 8 Tünel Bekçisi'nde — ilk 64 sn (x~80→8865) hp 105→105, sonra patron arenasında (x~9069) 12 sn'de hp 105→49→27→5→ölüm, 38 sn takılma, CLEARED @9406 t=102,8 sn. Kitap 1 iki patron finali aynı desen → gated kalır.)** **(Tur 465: aynı desen Bölüm 21'de — ilk 52 sn hp 115→112, hasarın tamamı sevk bürosu arenası + gece iskelesi finalinde; 0 ölüm. Gated.)** **İnsan-verisi gated:** test "Sur Ağası'nda duvara tosladım / çok öldüm" derse en
   ucuz çözüm önce patron öncesi kontrol noktasına (x~7900 civarı) gevşek HEALTH, dalgalara/patron canına dokunmadan; "ortası
   boş" derse orta kesite tek elle konmuş düşman çifti. Veri gelmeden dokunma.
 
@@ -13115,3 +13115,22 @@ ChatGPT tarzıyla uyumlu) olarak SAĞLAM. Bugün üst üste 10. yalnız-denetim 
 tetikleme bu aşamada yalnız tekrar-denetim üretiyor; görevi duraklatıp insan telefon testine geçmek önerilir. İnsan verisi
 geldiğinde açılacak en somut gated adaylar değişmedi: (1) Bölüm 5 Makinist finali; (2) düşman/kahraman gece okunurluğu
 kontur katmanı; (3) Bölüm 10/22 arka-yüklü final HEALTH yerleşimi.
+
+### 2026-11-28 (488) — Tasarım denetimi: Bölüm 8 (indeks 7) "Tünel Bekçisi"; yeni uygulanabilir iş yok → durma
+
+**Neden şimdi:** `STIL_DONUSUM_LISTESI`/`YOL_HARITASI` `[ ]`=0, OYNANIS-KALITE P1 uygulanabilir madde yok, birikimin
+tüm maddeleri insan-verisi gated → (d). Bölüm 8'in son adanmış denetimi 2026-10-26 (tur 39); en eski verili bölümlerden.
+
+**Bot:** CLEARED @9406, t=102,8 sn, respawns=1, boss_evades 9/5, en uzun takılma 38 sn @9042 (45 sn eşiğinin altında).
+Can eğrisi: ilk 64 sn (x~80→8865) 105 → 95 → 115 (HEALTH) → 109 → 105 — neredeyse hasarsız; patron arenasında
+(x~9069) 12 sn'de 105 → 49 → 27 → 5 → ölüm → respawn 115 → 101 ile temizlik. Bu, Sur Ağası maddesindeki (Bölüm 10,
+21) "arka yüklü patron" deseninin Kitap 1'deki ikinci örneği; madde içine veri noktası olarak eklendi. Patron finali
+kasıtlı zorluk olabilir ve bot ustalığı insanı temsil etmez → **gated, dokunulmadı.**
+
+**Testler:** oyun kodu değişmedi (yalnız günlük) → import/smoke/dtm_gaps gerekmedi; bot Bölüm 8 CLEARED.
+
+**Sonuç:** Denetim yeni *uygulanabilir* iş çıkarmadı. Son 13 tur (476–488) aynı sonucu verdi: otonom iş gerçekten
+tükendi. **Durma koşulu karşılandı → oturum durdu.** **Sonraki adım:** insan/telefon testi verisi (özellikle patron
+finali zorluğu, silüet okunurluğu, bakım geçidi, külhan alevi) gelmeden yeni tur yalnız tekrar-denetim üretir; zamanlanmış
+görevin sıklığını düşürmek ya da veri gelene kadar duraklatmak önerilir.
+
