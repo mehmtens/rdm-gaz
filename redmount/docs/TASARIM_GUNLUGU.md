@@ -90,7 +90,7 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 - (Tur 421 denetimi, Bölüm 26 (indeks 25) ve 29 (indeks 28)) **Orta kesit hasarsız bant:** Bölüm 29'da bot x~4700–8300
   (≈3600 px, 16 sn) hiç hasar almıyor, baskı 8450 arenasında toplanıyor (115→45, 21 sn takılma); Bölüm 26'da x~5900–8000
-  aynı; Bölüm 34'te (tur 443) bot t=0–48 sn boyunca 109 canda, tek düşüş final arenasında (109→64). Bölüm 17/19/23/33 notlarıyla aynı "arka/ön yüklü" desen (Bölüm 19 tur 422: bot bütün bölüm 115'te, tek düşüş
+  aynı; Bölüm 34'te (tur 443) bot t=0–48 sn boyunca 109 canda, tek düşüş final arenasında (109→64). Bölüm 14 (tur 485: x~7750→9660 ~1900 px hasarsız çıkış koridoru), Bölüm 17/19/23/33 notlarıyla aynı "arka/ön yüklü" desen (Bölüm 19 tur 422: bot bütün bölüm 115'te, tek düşüş
   final arenasında 115→62). İnsan testi "ortası boş" derse bölüm başına tek elle konmuş düşman çifti düşünülsün; veri
   gelmeden dokunma.
 
@@ -13004,3 +13004,35 @@ telefonda insan testi verisi/onayı bekliyor; 36 bölümün tamamı birçok kez 
 yeni iş çıkarmadı) karşılandı → görev duruyor.** İnsan telefon testi verisi geldiğinde açılacak en somut gated adaylar:
 (1) Bölüm 5 Makinist Cemil finali (3 veri noktası, 1 ölüm); (2) düşman/kahraman gece okunurluğu kontur katmanı (5 veri
 noktası, Kitap 1/2/3); (3) Bölüm 10/22 arka-yüklü final HEALTH yerleşimi.
+
+### 2026-11-28 — Denetim (Bölüm 14 "Urgancı Atölyesi", indeks 13, Kitap 1): temiz + görsel teyit, kod değişmedi (tur 485)
+**Neden şimdi:** STIL/YOL_HARITASI/OYNANIS-KALITE üç listesinde de `[ ]`=0; birikimin her maddesi telefonda insan testi
+verisi bekliyor ("veri gelmeden dokunma") → kural (d). Tur 484 durma koşulunu ilan etmişti; bu tur onu BAĞIMSIZ doğrular
+ve son 9 turun (476–484) atladığı **pencereli görsel çekimi geri getirir** (gated olmayan tek değerli ek: görsel teyit).
+Seçim: son denetim kümesinde (3/5/16/17/18/22/26/29/32/33/34) olmayan Bölüm 14.
+**Bot (`REDMOUNT_PROBE_LEVEL=13`, headless, fixed-fps 60):** CLEARED @9660, t=91,7 sn, **respawns=0**, boss_evades=0/0,
+heals=0, en uzun takılma 12 sn @5090 (45 sn eşiğinin çok altında). Can eğrisi: 115 → 83 (x~2700 giriş kesiti) →
+71/59 @x~4950–5050 (orta arena, urgancı atölyesi — bölümün dibi, geri-itmeli dövüş) → 89 (heal @5700, +30) →
+78/57 @x~7000–7100 (Kuzguncuk yokuşu sokak dövüşü, bıçaklı+tüfekli) → **57/57/57 sabit x~7750→9660** (final kesiti,
+~1900 px hiç hasar yok). Baskı iki arenaya toplanmış (orta urgancı + yokuş sokağı), final kesiti düşük baskı.
+**Görsel (4 pencereli çekim, 1280×720, `capture_level`):**
+ (1) giriş x567 — kemer altından Süleymaniye/gün batımı silueti, taş avlu, sarmaşık, fener, kasalar, sancak; ChatGPT
+     atlasıyla uyumlu, kahraman+eşkıya net okunuyor.
+ (2) orta arena x5053 — urgancı atölyesi (ip yumakları, çarklar, ahşap platformlar, patlayıcı varil "A"); zengin malzeme
+     dokusu, mor-gölge/altın-ışık rampası tutarlı, coinler ve tüfek pickup okunur.
+ (3) yokuş x7096 — renkli Boğaziçi yokuş sokağı (begonvil, merdiven, fener, tuğla platform kulesi); gündüz kontrastı iyi,
+     bıçaklı+tüfekli (namlu parlaması) telegrafı net.
+ (4) final x9053 — sur/kale duvarı + sarmaşık + "ARŞİV" tabelası, el arabalı hamal NPC; düşman YOK → final kesiti bir
+     "nefes + arşive varış koridoru" (DTM'nin dövüş-sonrası çıkış koridoru ritmi), 0 ölümle temiz.
+ Dört kare de "sahneye ait" — yapıştırma hissi yok, taşma/çakışma yok. Geçici çekimler scratchpad'de, commit'e girmedi.
+**Final kesiti düşük-baskı gözlemi (gated):** x~7750→9660 (~1900 px) hasar yok. Bu, tur 421/468'in "ön/orta yüklü, orta/son
+kesit boş" aile desenine Bölüm 14 veri noktası; ama kasıtlı çıkış-koridoru ritmi + 0 ölüm. İnsan testi "Bölüm 14'ün sonu
+boş/yürüyüş gibi" demeden dokunulmaz; derse en ucuz çözüm 8400 civarı (sur önü düzlük) tek elle konmuş eşkıya çifti.
+**Test:** kod değişmedi → import temiz (SCRIPT ERROR yok); smoke/dtm_gaps gerekmedi; bot ×1 CLEARED (yukarıda). "5 resources
+still in use at exit" = bilinen kapanış-anı uyarı ailesi (tur 286), çalışma anı sızıntısı değil. **Değişiklik:** yalnız belge.
+**Sonuç:** yeni ölçülebilir, non-gated iyileştirme çıkmadı; Bölüm 14 mekanik (0 ölüm, tek 12 sn stall) ve görsel (4 kare
+ChatGPT tarzıyla uyumlu) olarak SAĞLAM. Bugün üst üste 10. yalnız-denetim turu (476–485), hepsi "temiz, non-gated iş yok".
+**Sonraki adım:** **Durma koşulu (tüm listeler bitti + denetim yeni iş çıkarmadı) hâlâ karşılı → görev duruyor.** 5 dakikalık
+tetikleme bu aşamada yalnız tekrar-denetim üretiyor; görevi duraklatıp insan telefon testine geçmek önerilir. İnsan verisi
+geldiğinde açılacak en somut gated adaylar değişmedi: (1) Bölüm 5 Makinist finali; (2) düşman/kahraman gece okunurluğu
+kontur katmanı; (3) Bölüm 10/22 arka-yüklü final HEALTH yerleşimi.
