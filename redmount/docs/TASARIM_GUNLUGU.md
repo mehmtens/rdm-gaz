@@ -36,11 +36,14 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   → **onaysız eklenmedi.** İnsan testi "Samatya düz/tehlikesiz" derse en temaya uygun aday: deniz kapısı kayık iskelesine
   (x 3350–3700, y 60) iki telegraflı çürük tahta (Bölüm 29 rıhtım kalıbı) — saksı Kitap 2'de zaten 7 bölümde, tekrarlanmasın.
 
-- (Tur 436 denetimi, Bölüm 2 + 35) **Düşman/kahraman gece okunurluğu:** kilitli arena kalabalıklarında (Bölüm 2 pazar
+- (Tur 436 denetimi, Bölüm 2 + 35 + 16) **Düşman/kahraman gece/iç mekân okunurluğu:** kilitli arena kalabalıklarında (Bölüm 2 pazar
   x~5200, Bölüm 35 kale kapısı x~9500) kahraman ve düşmanların hepsi koyu silüet; ayrım büyük ölçüde kahramanın beyaz
-  ayakkabısı + ince kenar konturuna kalıyor. DTM'de oyuncu paleti belirgin kontrast taşır. **İnsan-verisi gerekli:** test
+  ayakkabısı + ince kenar konturuna kalıyor. DTM'de oyuncu paleti belirgin kontrast taşır. **(Tur 475 teyit: desen
+  Kitap 2 iç mekânlarını da kapsıyor — Bölüm 16 arşiv deposu arenası x~8308'de koyu raf/çuval zeminine karşı eşkıya/bıçaklı
+  tipler kahramanla benzer tonda; yeşil elit ayırt ediliyor. Üçüncü veri noktası → tek sahneye özgü değil.)** **İnsan-verisi gerekli:** test
   "kalabalıkta kimi vuruyorum belli değil" demeden kahraman/düşman paletine dokunulmaz (onaylı sanat); veri gelirse en ucuz
-  çözüm önce düşman kenar konturu rengini kahramanınkinden ayırmak (düşman soğuk mavi-mor, kahraman sıcak altın).
+  çözüm önce düşman kenar konturu rengini kahramanınkinden ayırmak (düşman soğuk mavi-mor, kahraman sıcak altın) —
+  sprite paletine değil, kontur katmanına dokunur.
 
 - (Tur 436 denetimi) **"Günün dalgası/Survival" tanıtım toast'ı süresi (düşük öncelik):** mekân/dalga tanıtımı 5,5 sn kalıyor;
   survival'da dalga arası sık geldiğinden bu uzun gelebilir. Tur 436'da `show_place`'e `hold` parametresi eklendi — survival
@@ -12775,3 +12778,35 @@ için smoke/import koşulmadı.
 durdu. Açık iş yalnız telefonda insan testi verisi bekleyen gated birikim maddeleri (Bölüm 23 bakım geçidi, 19
 külhan alevi, 10 Sur Ağası, 24 hazne mini-boss, gece kalabalık okunurluğu, survival toast süresi). 5 dakikalık
 tetikleme yalnız tekrar-denetim üretiyor; kullanıcı görevi duraklatmayı/insan testine geçmeyi düşünebilir.
+
+### 2026-11-28 — Denetim (Bölüm 16 "Süleymaniye Arşivi", indeks 15, Kitap 2): temiz, kod değişmedi (tur 475)
+**Neden şimdi:** STIL/YOL/OYNANIS-KALITE üç listesi de `[ ]`=0; "Tasarım birikimi"nin her maddesi açıkça
+insan/telefon testi verisi bekliyor ("veri gelmeden dokunma") → kural (d) denetim. Son tur kümesi (27/28/24/34/3/32/33)
+Kitap 2'nin orta bölümlerini atlamıştı; Bölüm 16 (Ciltçiler sokağı → belge odası → arşiv mahzeni → Beyazıt posta)
+bu oturumda taze bakış. Doğrulama: bot koşusu + 5 pencereli kare (1280×720, her 7 sn).
+**Bot (`REDMOUNT_PROBE_LEVEL=15`, fixed-fps 60):** CLEARED @9956, t=76,1 sn, **respawns=0**, boss_evades=0/0,
+heals=1, en uzun takılma 10 sn @8282. Can eğrisi **iki tepe + nefes arası** (arka yüklü değil): 115 → 71 @2646
+(erken Ciltçiler sokağı arenası, DALGA 1/2, ~44 hasarın yoğunluğu) → 65 bandında koridor (hasarsız geçiş) →
+59/42/38 @8282 (arşiv deposu iç mekân arenası, DALGA 2/2 — bölümün en sert kesiti, 10 sn takılma) → HEALTH + heal
+ile 68/84 → 84 final. İki arena da 45 sn eşiğinin çok altında takıldı, ölüm yok; DTM ritmine (geçiş→dövüş→nefes→
+dövüş→final) uygun.
+**Görsel (5 kare, Read ile):** x=1338 Haliç yamacı dış mekân (Süleymaniye/kubbeler + selvi + kagir evler, taş
+teras, saksı propu, coin yayı, bıçaklı ajan telegrafı, COMBO ×5 HUD'u); x=2509 Ciltçiler sokağı kilitli arena
+(tenteli pasaj, kemer + sarmaşık, fenerler, "CİLTÇİ ERZAKI" dükkânı, Bıçak pickup, DALGA 1/2·1 DÜŞMAN göstergesi);
+x=8308 arşiv deposu iç mekânı (ahşap rafta istiflenmiş çuval/balya, asılı kandiller, Osmanlı bayrağı, "A" ikaz
+varili, sandık, DALGA 2/2 GELİYOR göstergesi, Zırh 4/6 HUD'u); x=9480 mahzen→çıkış (küpler, oyma taş, Gazelle
+"yüz yıllık kâğıt" diyaloğu, tüfekli telegrafı, "BEYAZIT YOLU" çıkış kapısı). Hepsi ChatGPT atlas tarzında (mor
+gölge / altın ışık, taş/ahşap/kumaş/demir dokusu); yapıştırılmış öğe, taşma veya çakışma yok; HUD (can, cephane,
+zırh, combo, dalga sayacı) net.
+**Tek gözlem — gated:** x=8308 iç mekân arenasında düşman silüetleri koyu raf/çuval zeminine karşı kahramanla
+benzer tonda; yeşil elit ayırt ediliyor ama koyu eşkıya/bıçaklı tipler zemine yaklaşıyor. Bu, tur 436'da Bölüm 2
+(pazar) ve Bölüm 35 (kale kapısı) için açılan "düşman/kahraman gece okunurluğu" gated maddesinin **üçüncü veri
+noktası**: desen tek sahneye özgü değil, Kitap 2 iç mekân kilitli arenalarını da kapsıyor. Karar değişmez — palet
+onaylı sanat, insan testi "kalabalıkta kimi vuruyorum belli değil" demeden dokunulmaz; veri gelirse en ucuz çözüm
+düşman kenar konturunu soğuk mavi-mora, kahramanınkini sıcak altına ayırmak (sprite paletine değil, kontur
+katmanına dokunur). Birikim maddesine bu bölüm işlendi.
+**Sonuç:** yeni ölçülebilir, non-gated iyileştirme çıkmadı. **Değişiklik:** yalnız belge; oyun kodu değişmediği
+için smoke/import koşulmadı.
+**Sonraki adım:** Kitap 2 orta bölümü de (16) temiz; otonom iş tükendi → görev durdu. Açık iş yalnız telefonda
+insan testi verisi bekleyen gated birikim maddeleri. 5 dakikalık tetikleme bu aşamada yalnız tekrar-denetim
+üretiyor; kullanıcı görevi duraklatıp insan/telefon testine geçmeyi düşünebilir.
