@@ -40,7 +40,10 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   x~5200, Bölüm 35 kale kapısı x~9500) kahraman ve düşmanların hepsi koyu silüet; ayrım büyük ölçüde kahramanın beyaz
   ayakkabısı + ince kenar konturuna kalıyor. DTM'de oyuncu paleti belirgin kontrast taşır. **(Tur 475 teyit: desen
   Kitap 2 iç mekânlarını da kapsıyor — Bölüm 16 arşiv deposu arenası x~8308'de koyu raf/çuval zeminine karşı eşkıya/bıçaklı
-  tipler kahramanla benzer tonda; yeşil elit ayırt ediliyor. Üçüncü veri noktası → tek sahneye özgü değil.)** **İnsan-verisi gerekli:** test
+  tipler kahramanla benzer tonda; yeşil elit ayırt ediliyor. Üçüncü veri noktası → tek sahneye özgü değil.)** **(Tur 478 teyit:
+  4. veri noktası — Bölüm 34 "Kandilli" gece Boğaz sırtında da kahraman + düşman koyu silüet, ayrım beyaz ayakkabı + sıcak
+  altın kontura kalıyor. Artık Kitap 1 pazar + Kitap 2 arşiv + Kitap 3 kale kapısı + Kitap 3 Boğaz gecesi → sistematik,
+  dış mekân gece sahnelerini de kapsıyor.)** **İnsan-verisi gerekli:** test
   "kalabalıkta kimi vuruyorum belli değil" demeden kahraman/düşman paletine dokunulmaz (onaylı sanat); veri gelirse en ucuz
   çözüm önce düşman kenar konturu rengini kahramanınkinden ayırmak (düşman soğuk mavi-mor, kahraman sıcak altın) —
   sprite paletine değil, kontur katmanına dokunur.
@@ -1028,6 +1031,46 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   oyuncu düğme düzenini sürükleyerek kaydedebilsin (Save'e `touch_layout`).
 
 ## Tur kayıtları
+
+### 2026-11-28 (478) — Denetim: Bölüm 13 "Haliç'te Şafak" (indeks 12) + Bölüm 34 "Kandilli Verici Sırtı" (indeks 33) temiz; otonom iş tükendi
+
+**Neden:** Stil listesi (0 açık), YOL_HARITASI (0 açık), OYNANIS-KALITE P1'lerin tamamı
+uygulanmış; birikimin üstündeki maddeler "insan-verisi gated". Açık actionable iş yok →
+öncelik (d) tasarım denetimi. Son turlar 473–477 Kitap 2/3 iç mekânlarını (28/27/16/17/32)
+taradı; Bölüm 13 (Kitap 2 açılışı) ve Bölüm 34 (Kitap 3, Boğaz gecesi) uzun süredir adlı
+denetim görmemişti — ikisi de farklı atmosfer (şafak limanı vs gece Boğaz sırtı) sunduğu için
+görsel birlik için iyi iki örnek.
+
+**Ölçüm — bot:** `REDMOUNT_PROBE_LEVEL=12` → **CLEARED @9557, t=69,7 sn, 0 respawn,
+stall=8sn@9066, heals=1**; HP tabanı 69 (final han arenası x~8600–9070). `PROBE_LEVEL=33` →
+**CLEARED @9906, t=66,0 sn, 0 respawn, stall=6sn@9525, press=3/0**; HP tabanı 81 (final
+rıhtım arenası x~9188–9569, press=3 krusher/pres tehlikesini bot temiz okudu). İkisi de
+"arka yüklü" desen (ilk ~55 sn hp 115→104 civarında düz, tüm gerilim final arenada) ama 0
+ölüm → dengeli; dengede dokunulacak non-gated bulgu yok (bot ustalığı insanı temsil etmez).
+
+**Ölçüm — görsel (6 pencereli kare, 1280×720):** Bölüm 13 giriş (sur kemeri + hilal sancağı +
+Boğaz şafağı + selvi/fener/amfora/sandık), orta (rıhtım ambarı: sandık/kum torbası/vinç +
+Sultanahmet silüeti), final (Osmanlı han avlusu: şadırvan kubbesi + İznik çini kemerler +
+asma kandil + hazine sandığı). Bölüm 34 giriş (gece yalıları: ahşap cumba + begonvil + selvi +
+Boğaz ışıkları), orta ("SIRT KANTİNİ" tenteli kantin + su yansımaları + bank), final (gece
+rıhtım: verici kuleleri + taş blok + yelkenli + "ANADOLUHİSARI" tabela). **Altı karede de
+yapıştırılmış öğe yok**: proplar, sandık, varil, iskele, para ve karakter konturu ChatGPT
+atlas arka planıyla aynı palet/ışık yönünde (sol üst sıcak fener, sağ soğuk ay/Boğaz
+yansıması, mor gölge rampası). Görsel birlik bu iki bölümde de temiz.
+
+**Tek gözlem (yeni iş değil, mevcut gated maddeyi güçlendirir):** Bölüm 34 girişinde (gece
+Boğaz sırtı) kahraman ve düşman ikisi de koyu silüet; ayrım kahramanın beyaz ayakkabısı +
+sıcak altın kenar konturuna kalıyor. Bu, tur 436/475'te kaydedilen "düşman/kahraman gece
+okunurluğu" deseninin **4. veri noktası** (artık Kitap 1 pazar, Kitap 2 arşiv, Kitap 3 kale
+kapısı ve Kitap 3 Boğaz gecesini kapsıyor → tek sahneye özgü değil, sistematik). Karar
+değişmez: kahraman/düşman paleti onaylı sanat, insan testi "kalabalıkta kimi vuruyorum belli
+değil" demeden dokunulmaz; veri gelince en ucuz çözüm düşman kenar konturunu soğuk mavi-mora
+çekmek (sprite paletine değil, kontur katmanına). Birikimdeki madde güncellendi.
+
+**Sonuç:** 2 bölüm bot-temiz + görsel-birlik temiz; denetim yeni actionable non-gated iş
+çıkarmadı (gated readability maddesi 4. veri noktasıyla güçlendi). Otonom iş tükendi.
+**Sonraki adım:** insan oynanış testi — özellikle gece/iç mekân arenalarında kahraman/düşman
+ayrımı ve "arka yüklü" final deseninin gerçek oyuncuda nasıl hissettirdiği.
 
 ### 2026-11-28 (473) — Denetim: Bölüm 28 "Üsküdar Yedek Hattı" (indeks 27) temiz; otonom iş tükendi
 
