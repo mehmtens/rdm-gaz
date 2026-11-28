@@ -12833,3 +12833,16 @@ ve "!" telegrafı tanımayı kurtarıyor). Karar değişmez; insan testi demeden
 smoke/import koşulmadı.
 **Sonraki adım:** otonom iş tükendi → görev durdu. Açık iş yalnız telefonda insan testi verisi bekleyen gated birikim
 maddeleri. 5 dakikalık tetikleme bu aşamada yalnız tekrar-denetim üretiyor; görevi duraklatıp insan testine geçmek önerilir.
+
+### 2026-11-28 — Denetim (Bölüm 32, indeks 31): temiz, kod değişmedi (tur 477)
+**Neden şimdi:** STIL/YOL/OYNANIS-KALITE listelerinde `[ ]`=0; birikimin tüm maddeleri insan/telefon verisi bekliyor →
+kural (d). Günlükte en az anılan bölümlerden 32 (53 anılma) seçildi; 34/27 son turlarda denetlenmişti.
+**Bot (`REDMOUNT_PROBE_LEVEL=31`, headless, fixed-fps 60):** CLEARED @9855, t=76,7 sn, **respawns=0**, heals=0, en uzun
+takılma 7 sn @4031 (45 sn eşiğinin çok altında). Can eğrisi: 105 → 95 @1851 → 89 @3691 → 83 (x~4000 dikey tırmanış)
+→ 71 @6257 → 55 @7633 (bölümün dibi) → 85 (paket) → 57 @9197 (final arenası) → 87. Baskı orta-geç kesitte birikiyor,
+dip %52 — Kitap 3 ortası için makul, ölüm yok; dengeleme insan-verisi gated, dokunulmadı.
+**Görsel:** bu tur pencereli çekim alınmadı (bölüm tur 336/370 iç mekân taramalarında ve önceki denetimlerde stil içi
+doğrulanmıştı; kod/sanat değişmedi).
+**Sonuç:** yeni ölçülebilir, non-gated iyileştirme çıkmadı. **Değişiklik:** yalnız belge.
+**Sonraki adım:** otonom iş tükendi → görev durdu. Açık iş yalnız telefonda insan testi bekleyen gated birikim maddeleri;
+5 dakikalık tetikleme yalnız tekrar-denetim üretiyor — görevi duraklatıp insan testine geçmek önerilir.
