@@ -52,6 +52,15 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
   "kalabalıkta kimi vuruyorum belli değil" demeden kahraman/düşman paletine dokunulmaz (onaylı sanat); veri gelirse en ucuz
   çözüm önce düşman kenar konturu rengini kahramanınkinden ayırmak (düşman soğuk mavi-mor, kahraman sıcak altın) —
   sprite paletine değil, kontur katmanına dokunur.
+  **(Tur 487 KOD DÜZELTMESİ — önerilen çözüm zaten var, hem de TERS yönde: `dtm_level.gd:91-94,369` gece sahnesinde kahramana
+  SOĞUK ay ışığı konturu verir (`HERO_NIGHT_RIM = Color(0.62,0.74,1.0,0.85)`), `enemy_base.gd:191-206` düşmana bölümün
+  SICAK fener `edge_light`ini verir (gece `Color(1.0,0.78,0.45,0.85)`). Yani hero=soğuk mavi / düşman=sıcak altın ayrımı —
+  tamamlayıcı ton, eşit alfa/genişlik (dark_rim.gdshader width=3) — zaten uygulanmış; üstelik bu maddenin önerdiği "düşman
+  soğuk, kahraman sıcak" yönünün TERSİ ve doğrusu. Auditlerin "ayrım altın kontura kalıyor" gözlemi aslında düşmanın sıcak
+  rim'ini tarif ediyor. Dolayısıyla "düşman konturunu ayır" artık yapılacak iş DEĞİL (zaten ayrı). İnsan testi gerçekten
+  "crowd'da ayırt edemiyorum" derse kalan tek gated kaldıraç gövde tonu/kontrast ikilemidir (DTM'de düşman gövde paleti daha
+  doygun): bu onaylı sprite paletine dokunur → yalnız insan verisiyle. Rim yönü düzeltildi; madde gated kalır ama "kolay rim
+  fix" seçeneği kapandı.)**
 
 - (Tur 436 denetimi) **"Günün dalgası/Survival" tanıtım toast'ı süresi (düşük öncelik):** mekân/dalga tanıtımı 5,5 sn kalıyor;
   survival'da dalga arası sık geldiğinden bu uzun gelebilir. Tur 436'da `show_place`'e `hold` parametresi eklendi — survival
@@ -1073,6 +1082,38 @@ veri noktası). Tüm listeler bitmiş, birikim üst maddeleri insan-verisi gated
 iş çıkarmadı (yalnız gated gözlem). **Otonom iş tükendi → bu oturum durdu.** **Sonraki adım:** insan/telefon testi
 verisi gelirse gated birikim maddeleri (silüet kontrastı, bakım geçidi, külhan alev, Sur Ağası) açılır; yoksa sonraki
 tur en az denetlenen bölümlerden biri (ör. Bölüm 6/8/11 civarı).
+
+### 2026-11-28 (487) — Kod denetimi: silüet-okunurluk maddesinin önerdiği rim fix ZATEN VAR (ters yönde); gated madde düzeltildi
+
+**Neden şimdi:** üç liste (`STIL_DONUSUM_LISTESI`/`YOL_HARITASI`/`OYNANIS-KALITE`) `[ ]`=0; birikimin her maddesi
+insan-verisi gated. Son 11 tur (476–486) saf tekrar-denetim olup her biri "yeni uygulanabilir iş yok" dedi. Bu tur
+farklı bir (d) açısı denedim: birikimin **en çok veri noktası biriktirmiş** maddesi olan *silüet okunurluğu* (6 denetim,
+tüm kitaplar, iç/dış/gece) için, önerilen "kolay rim fix"i **koda bakarak** doğruladım — gerçekten yapılacak iş mi, yoksa
+zaten çözülmüş mü?
+
+**Bulgu (kod):** `dtm_level.gd:91-94,369` gece sahnesinde kahramana **soğuk ay ışığı** konturu veriyor
+(`HERO_NIGHT_RIM = Color(0.62,0.74,1.0,0.85)`); `enemy_base.gd:191-206` (`_apply_dark_rim`) düşmana bölümün **sıcak
+fener** `edge_light`ini veriyor (gece `Color(1.0,0.78,0.45,0.85)`). İki kontur da aynı `dark_rim.gdshader` (width=3,
+eşit alfa). Yani **hero=soğuk mavi / düşman=sıcak altın**, tamamlayıcı-ton ayrımı **zaten uygulanmış** — üstelik birikim
+maddesinin önerdiği "düşman soğuk, kahraman sıcak" yönünün tam TERSİ ve doğrusu. Auditlerin tekrarlayan "ayrım altın
+kontura kalıyor" ifadesi aslında düşmanın sıcak rim'ini tarif ediyordu. Kaynaktaki yazılı yorum da bunu doğruluyor:
+"Gecede kahramanın konturu soğuk ay ışığı: düşmanlar bölümün sıcak fener ışığıyla [konturlanır]".
+
+**Görsel (2 pencereli çekim, 1280×720, geçici `_capture_rim`):** Bölüm 3 (Gece Pazarı) yüklendi; ikisi de bölümün çok
+satırlı açılış ara sahnesine denk geldi (arena ara sahnenin arkasında, `_activate` çağrısı ara sahne kamerası tarafından
+eziliyor — crowd karesi için ara sahneyi tam yenmek gerekiyor). Yine de iki kare de (a) gece pazarı atlasının ChatGPT
+tarzıyla tam uyumunu ve (b) kahramanın soğuk rim'inin render olduğunu doğruladı. Crowd karesi, bulgu koddan kesin
+olduğu için gereksiz görüldü; geçici çekim/dosyalar scratchpad'de, commit'e girmedi.
+
+**Değişiklik:** yalnız belge — silüet birikim maddesine "Tur 487 KOD DÜZELTMESİ" notu (önerilen rim fix zaten var + ters
+yön düzeltildi → "kolay rim fix" seçeneği kapandı; madde gated kalır, kalan tek gated kaldıraç onaylı sprite gövde
+paleti/kontrastı, yalnız insan verisiyle). Oyun kodu değişmedi → import gerekmedi.
+
+**Sonuç:** saf tekrar-denetimden farklı olarak bu tur somut, kalıcı bir **düzeltme** üretti: gelecekteki bir turun
+"kolay rim ayrımı ekle" diye yanlış/gereksiz (ve ters yönde) bir değişiklik yapmasını önledi. Oyun hâlâ SAĞLAM, yeni
+uygulanabilir iş yok. **Durma koşulu (tüm listeler bitti + denetim yeni *uygulanabilir* iş çıkarmadı) karşılı → görev
+duruyor.** **Sonraki adım:** insan/telefon testi; "crowd'da ayırt edemiyorum" verisi gelirse açılacak tek kaldıraç artık
+rim değil, onaylı düşman gövde paleti doygunluğu (DTM'de daha yüksek) — bu da yalnız insan onayıyla.
 
 ### 2026-11-28 (478) — Denetim: Bölüm 13 "Haliç'te Şafak" (indeks 12) + Bölüm 34 "Kandilli Verici Sırtı" (indeks 33) temiz; otonom iş tükendi
 
