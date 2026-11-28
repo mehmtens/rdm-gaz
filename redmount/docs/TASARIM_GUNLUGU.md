@@ -102,7 +102,8 @@ Sıradaki adaylar (üstteki önce). Yol haritasında açık madde varken önce o
 
 - (Tur 411 denetimi, Bölüm 5 (indeks 4)) **Makinist Cemil finali dar marj (bot):** iki ölçümde dip 11 ve 4, ölüm yok; bot
   7880 can sandığını kırmadan finale 47 canla giriyor. İnsan testi "Makinist'te az canla kaldım/öldüm" derse önce
-  sandığın görünürlüğüne bak (kontrol noktası 7950'nin hemen önü), sonra 3. dalga ELITE+BRUISER → ELITE; veri gelmeden dokunma.
+  sandığın görünürlüğüne bak (kontrol noktası 7950'nin hemen önü), sonra 3. dalga ELITE+BRUISER → ELITE; veri gelmeden dokunma. **(Tur 479 teyit: üçüncü ölçümde ilk kez 1 ölüm —
+  final arenası x~8550–8970, hp 61 → 33 → 15 → 1 → ölüm → respawn, CLEARED @9391 t=107,9 sn. Marj daralması tutarlı, gated kalır.)**
 
 - (Tur 407 denetimi, Bölüm 17 (indeks 16)) **Baskı düşük:** pres okuyan botla CLEARED 0 ölüm, dip 85 — bölüm boyunca ~30 can
   kaybı (2800 arenası ve 7400–7900 kesimi). Bölüm 21/23 "arka yüklü" notlarından farklı: burada gerilim hiçbir yerde
@@ -12889,3 +12890,24 @@ doğrulanmıştı; kod/sanat değişmedi).
 **Sonuç:** yeni ölçülebilir, non-gated iyileştirme çıkmadı. **Değişiklik:** yalnız belge.
 **Sonraki adım:** otonom iş tükendi → görev durdu. Açık iş yalnız telefonda insan testi bekleyen gated birikim maddeleri;
 5 dakikalık tetikleme yalnız tekrar-denetim üretiyor — görevi duraklatıp insan testine geçmek önerilir.
+
+### 2026-11-28 — Denetim (Bölüm 5 "Kömür/Demiryolu", indeks 4): temiz görsel, final marjı 3. veri noktası (tur 479)
+**Neden şimdi:** STIL/YOL/OYNANIS-KALITE listelerinde `[ ]`=0; birikimin tüm maddeleri insan/telefon verisi bekliyor →
+kural (d). Son tur kümesinde (16/17/24/27/32/33/34) geçmeyen, günlükte en az anılan bölümlerden 5 seçildi.
+**Bot (`REDMOUNT_PROBE_LEVEL=4`, pencereli 1280×720, fixed-fps 60, her 14 sn kare):** CLEARED @9391, t=107,9 sn,
+**respawns=1**, heals=1, en uzun takılma 20 sn @5139 (kömür deposu arenası DALGA 2/3, 45 sn eşiğinin altında). Can
+eğrisi: 115 → 105/95 (x~2000–2450 hareketli platform kesiti) → 89 düz x3342–4778 → 79/73/51 (x~4800–5140 kömür deposu
+kilitli arenası) → 81 (heal) → 57 → 87 → 77/71 (x~6500–7030 vagon üstü dövüş) → 61 @8577 → **33/29/15/1 → ölüm (x~8550–8970
+Makinist Cemil final arenası, DALGA 3/3)** → respawn 108 → CLEARED. Tur 411'deki "dar marj" (dip 11 ve 4) bu koşuda
+ilk kez ölüme döndü → birikim maddesine teyit eklendi; karar değişmez (insan-verisi gated: önce 7880 can sandığının
+görünürlüğü, sonra 3. dalga ELITE+BRUISER → ELITE).
+**Görsel (3 kare, Read ile):** x=4626 kömür deposu arenası (tuğla atölye + kemerli pencereler, kömür yığınları, vinç,
+Süleymaniye silüeti mor alacakaranlıkta, DALGA 2/3 göstergesi, İYİ ×4 combo); x=7553 taş viyadük altında kızıl
+yük vagonları üstünde dövüş (COMBO ×6 +150, Bıçak 12/20 HUD); x=8546 trafo/elektrik santrali final arenası (izolatör
+dizileri, tel örgü, "NEFES AL!" ipucu, DALGA 3/3 GELİYOR, EFSANE ×16). Hepsi ChatGPT atlas tarzında; yapıştırılmış öğe,
+taşma, çakışma yok; HUD net. Düşük canda CAN sayısının kırmızıya dönmesi kasıtlı uyarı, okunur.
+**Sonuç:** yeni ölçülebilir, non-gated iyileştirme çıkmadı. **Değişiklik:** yalnız belge; oyun kodu değişmediği için
+smoke/import koşulmadı.
+**Sonraki adım:** otonom iş tükendi → görev durdu. Açık iş yalnız telefonda insan testi bekleyen gated birikim maddeleri
+(Bölüm 5 finali artık 3 veri noktalı en somut aday). 5 dakikalık tetikleme yalnız tekrar-denetim üretiyor — görevi
+duraklatıp insan testine geçmek önerilir.
