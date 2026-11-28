@@ -13134,3 +13134,28 @@ tükendi. **Durma koşulu karşılandı → oturum durdu.** **Sonraki adım:** i
 finali zorluğu, silüet okunurluğu, bakım geçidi, külhan alevi) gelmeden yeni tur yalnız tekrar-denetim üretir; zamanlanmış
 görevin sıklığını düşürmek ya da veri gelene kadar duraklatmak önerilir.
 
+
+### 2026-11-28 (489) — Bağımsız regresyon sağlık teyidi: depo yeşil, durma koşulu sürüyor
+
+**Neden şimdi:** `STIL_DONUSUM_LISTESI`/`YOL_HARITASI` `[ ]`=0, OYNANIS-KALITE'de uygulanabilir P1 yok, birikimin
+tüm maddeleri insan-verisi gated → (d). Tur 476–488 üst üste 13 yalnız-denetim turu "temiz, non-gated iş yok" döndü
+ve durma koşulunu ilan etti. 14. kez bir bölüm bot denetimi tekrarlamak "zorla madde uydurma / geçmişi doldurma"
+olurdu (görev bunu yasaklıyor). Bunun yerine son 13 turun ATLADIĞI tek değerli iş yapıldı: kampanyanın hâlâ
+derlendiğini ve geçtiğini bağımsız doğrulayan tam regresyon kontrolü (o turlar "kod değişmedi → test gerekmedi"
+demişti; bu, deponun bozulmadığının bağımsız kanıtı değildi).
+
+**Testler (bu oturum, gerçek koşum):**
+- `--import`: SCRIPT ERROR yok.
+- `tests/dtm_gaps.tscn`: **DTM GAPS: PASS**.
+- `tests/campaign_smoke.gd`: **EXIT=0, 36/36 SMOKE OK** (Bolum01→Bolum36). Kapanış-anı uyarıları (RID/ObjectDB/
+  resources still in use) bilinen kapanış ailesi (tur 286'da ölçüldü, çalışma anı sızıntısı yok).
+
+**Sonuç:** Depo sağlam; son kod durumu (tur 487 silüet rim notu dâhil) regresyon üretmemiş. Yeni uygulanabilir,
+non-gated iş yok. **Durma koşulu (tüm listeler bitti + denetim yeni iş çıkarmadı) karşılandı → oturum duruyor.**
+Git çalışma alanında yalnız bana ait olmayan `.uid` + `AGENTS.md` var; dokunulmadı.
+
+**Sonraki adım:** anlamlı ilerleme artık telefonda insan testi verisine bağlı. İnsan verisi geldiğinde açılacak en
+somut gated adaylar değişmedi: (1) Bölüm 5 Makinist Cemil finali (3 veri noktası, 1 ölüm); (2) düşman/kahraman gece
+okunurluğu kontur katmanı (6 veri noktası, Kitap 1/2/3 iç+dış gece); (3) Bölüm 10/22 arka-yüklü final HEALTH
+yerleşimi. 5 dakikalık tetikleme bu aşamada yalnız tekrar-denetim/regresyon-teyit üretiyor; zamanlanmış görevi
+duraklatmak veya sıklığını düşürmek önerilir.
