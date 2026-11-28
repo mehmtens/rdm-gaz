@@ -12979,3 +12979,28 @@ tur 421'deki "orta kesit hasarsız bant" gözlemiyle tutarlı (gated, değişmed
 **Sonuç:** yeni ölçülebilir, non-gated iyileştirme çıkmadı. **Değişiklik:** yalnız belge.
 **Sonraki adım:** otonom iş tükendi → görev durdu. Açık iş yalnız telefonda insan testi bekleyen gated birikim maddeleri;
 5 dakikalık tetikleme yalnız tekrar-denetim üretiyor — görevi duraklatıp insan testine geçmek önerilir.
+
+### 2026-11-28 — Denetim (Bölüm 18, indeks 17, Kitap 2): temiz, kod değişmedi (tur 484)
+**Neden şimdi:** STIL/YOL_HARITASI/OYNANIS-KALITE üç listesinde de `[ ]`=0; birikimin her maddesi telefonda insan testi
+verisi bekliyor ("veri gelmeden dokunma") → kural (d). Son denetim kümesinde (3/5/16/17/22/26/29/32/33/34 + 11-26/27
+turları) olmayan, 11-24'ten (tur 378 toplu denetimi) beri özel denetilmemiş en bayat bölümlerden biri seçildi: Bölüm 18,
+Kitap 2 ortası — çok katmanlı rota + kilitli arenalar gerçek bulgu (çakışma, soft-lock, telegraf) ihtimali için uygun.
+**Bot (`REDMOUNT_PROBE_LEVEL=17`, headless, fixed-fps 60):** CLEARED @10056, t=92,0 sn, **respawns=0**, boss_evades=0/0,
+heals=2, en uzun takılma 9 sn @8402 (45 sn eşiğinin çok altında). Can eğrisi: 115 → 105/88/70 (x~2440–2787 erken
+kilitli arena, bölümün ilk dibi) → 100 (heal) → 94 düz x~3976–6086 → 85 @6942 (dikey/zıplama kesiti) → 72/68 (x~8177–8419
+orta arena) → 54 @9074 → **57/57/57 (x~9776–9831 final arenası, dip %50)** → CLEARED. Baskı bölüme dağılmış (erken arena +
+orta arena + final), Bölüm 10/22'deki keskin "arka yüklü final" deseni YOK; dip %47 (hp 54/115), ölüm yok → Kitap 2
+ortası için sağlıklı ritim. Dengeleme insan-verisi gated, dokunulmadı.
+**Görsel:** pencereli çekim alınmadı — kod/sanat bu bölüm için değişmedi; Bölüm 18 önceki in-style taramalarında (STIL
+listesi f0f83f41 kapanışı + tur 378 toplu denetimi) ChatGPT atlas tarzında doğrulanmıştı. Precedent: turs 477/480/482/483
+aynı koşulda pencereli çekimi atladı.
+**Test:** kod değişmedi → derleme/smoke/dtm_gaps gerekmedi; bot ×1 CLEARED (yukarıda). "5 resources still in use at exit"
+= bilinen kapanış-anı uyarısı ailesi (tur 286), çalışma anı sızıntısı değil. **Değişiklik:** yalnız belge.
+**Sonuç:** yeni ölçülebilir, non-gated iyileştirme çıkmadı; zorla madde uydurulmadı. Bu, bugün üst üste 9. yalnız-denetim
+turu (476–484), hepsi "temiz, non-gated iş yok".
+**Sonraki adım:** otonom iş GENUINE olarak tükendi. Stil listesi + iki yol haritası kapalı; birikimin her maddesi
+telefonda insan testi verisi/onayı bekliyor; 36 bölümün tamamı birçok kez denetlendi ve son 9 tur sıfır non-gated iş
+çıkardı. 5 dakikalık tetikleme bu aşamada yalnız tekrar-denetim üretiyor. **Durma koşulu (tüm listeler bitti + denetim
+yeni iş çıkarmadı) karşılandı → görev duruyor.** İnsan telefon testi verisi geldiğinde açılacak en somut gated adaylar:
+(1) Bölüm 5 Makinist Cemil finali (3 veri noktası, 1 ölüm); (2) düşman/kahraman gece okunurluğu kontur katmanı (5 veri
+noktası, Kitap 1/2/3); (3) Bölüm 10/22 arka-yüklü final HEALTH yerleşimi.
